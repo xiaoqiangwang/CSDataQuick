@@ -14,9 +14,5 @@ Rectangle {
         color: "green"
         text: pv1.value[0]
         anchors.fill: parent
-        Connections {
-            target: pv1
-            onValueChanged: console.debug(pv1.value)
-        }
     }
 }

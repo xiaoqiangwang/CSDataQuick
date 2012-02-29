@@ -3,9 +3,9 @@ folder_01.source = qml/qml2
 folder_01.target = qml
 DEPLOYMENTFOLDERS = folder_01
 
-INCLUDEPATH += /home/wang/Developement/epics/base/include/
-INCLUDEPATH += /home/wang/Developement/epics/base/include/os/Linux
-LIBS += -L/home/wang/Developement/epics/base/lib/linux-x86 -lca -lCom
+INCLUDEPATH += C:/epics/base-3.14.12.2-VC10/include/
+INCLUDEPATH += C:/epics/base-3.14.12.2-VC10/include/os/WIN32
+LIBS += -LC:/epics/base-3.14.12.2-VC10/lib/win32-x86-mingw -lca -lCom -lws2_32
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
