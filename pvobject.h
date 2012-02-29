@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QDeclarativeParserStatus>
 
 #include <cadef.h>
 
@@ -14,16 +15,26 @@
     }}
 
 
-class PvObject : public QObject
+class PvObject : public QObject, public QDeclarativeParserStatus
 {
     Q_OBJECT
-    Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(QVariantList value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(QVariant channel  READ channel  WRITE setChannel)
     Q_PROPERTY(QVariant severity READ severity)
+    Q_PROPERTY(QVariant status   READ status)
+    Q_PROPERTY(QVariant units    READ units)
+    Q_PROPERTY(QVariant prec     READ prec)
+    Q_PROPERTY(QVariant nostr   READ nostr)
+    Q_PROPERTY(QVariant strs     READ strs)
+    Q_PROPERTY(QVariant upctrllim READ upctrllim)
+    Q_PROPERTY(QVariant lostrllim READ loctrllim)
 
 public:
     explicit PvObject(QObject *parent = 0);
     ~PvObject();
+
+    void classBegin();
+    void componentComplete();
 
     /* context */
     static long init_ca()
@@ -58,13 +69,20 @@ public:
     long unmonitor();
     static void getCallback(struct event_handler_args);
 
-    void setValue(const QVariant val);
-    QVariant value();
+    void setValue(const QVariantList val);
+    QVariantList value();
 
     void setChannel(const QVariant name);
     QVariant channel();
 
     QVariant severity() {return _severity;}
+    QVariant status()   {return _status;}
+    QVariant units()    {return _units;}
+    QVariant prec()     {return _precision;}
+    QVariant nostr()   {return _nostr;}
+    QVariant strs()     {return _strs;}
+    QVariant upctrllim() {return _upctrllim;}
+    QVariant loctrllim() {return _loctrllim;}
 
 signals:
     void valueChanged();

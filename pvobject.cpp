@@ -19,13 +19,24 @@ PvObject::~PvObject()
     disconnect();
 }
 
-void PvObject::setValue(const QVariant val)
+void PvObject::classBegin()
 {
-    //_value = val;
+
+}
+
+void PvObject::componentComplete()
+{
+    connect(_name.toByteArray());
+    monitor(0);
+}
+
+void PvObject::setValue(const QVariantList val)
+{
+    _value = val;
     emit valueChanged();
 }
 
-QVariant PvObject::value()
+QVariantList PvObject::value()
 {
     return _value;
 }
@@ -33,8 +44,6 @@ QVariant PvObject::value()
 void PvObject::setChannel(const QVariant name)
 {
     _name = name;
-    connect(_name.toByteArray());
-    monitor(0);
 }
 
 QVariant PvObject::channel()
@@ -156,7 +165,7 @@ long PvObject::unmonitor()
 
 #define ConvertValue(VP,TYPE)\
     for(unsigned long i=0; i<count; i++)\
-        chan->_value.push_back((TYPE)*(&(VP.value) + i));
+        value.push_back((TYPE)*(&(VP.value) + i));
 
 typedef dbr_string_t* dbr_string_t_ptr;
 
@@ -168,6 +177,8 @@ void PvObject::getCallback(struct event_handler_args args)
         union db_access_val *val = (union db_access_val *)args.dbr;
         chtype type = args.type;
         unsigned long count  = args.count;
+        QVariantList value;
+
         switch(type)
         {
         case DBR_CTRL_STRING:
@@ -175,7 +186,7 @@ void PvObject::getCallback(struct event_handler_args args)
             ConvertSTS(val->tshrtval)
             ConvertTime(val->tshrtval)
             for(unsigned long i=0; i<count; i++)
-                chan->_value.push_back(*(dbr_string_t_ptr)(&(val->tstrval.value) + i));
+                value.push_back(*(dbr_string_t_ptr)(&(val->tstrval.value) + i));
             break;
         case DBR_TIME_INT:
             ConvertSTS(val->tshrtval)
@@ -262,9 +273,8 @@ void PvObject::getCallback(struct event_handler_args args)
             m_sdata.push_back(s);
         }
 */
-        chan->setValue(QVariant(*(dbr_double_t*)val));
+        chan->setValue(value);
     }
-
     chan->_getCallbacked = true;
 }
 
