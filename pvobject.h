@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QDeclarativeParserStatus>
+#include <QStringList>
+#include <QQmlParserStatus>
 
 #include <cadef.h>
 
@@ -15,19 +16,26 @@
     }}
 
 
-class PvObject : public QObject, public QDeclarativeParserStatus
+class PvObject : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
-    Q_PROPERTY(QVariantList value READ value WRITE setValue NOTIFY valueChanged)
-    Q_PROPERTY(QVariant channel  READ channel  WRITE setChannel)
+    Q_INTERFACES(QQmlParserStatus)
+
+    Q_PROPERTY(bool connected READ connected WRITE setConnected NOTIFY connectionChanged)
+    Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
+    Q_PROPERTY(QString channel  READ channel  WRITE setChannel)
+    Q_PROPERTY(bool asstring READ asstring WRITE setAsstring)
+
     Q_PROPERTY(QVariant severity READ severity)
     Q_PROPERTY(QVariant status   READ status)
-    Q_PROPERTY(QVariant units    READ units)
-    Q_PROPERTY(QVariant prec     READ prec)
-    Q_PROPERTY(QVariant nostr   READ nostr)
-    Q_PROPERTY(QVariant strs     READ strs)
+    Q_PROPERTY(QString units    READ units)
+    Q_PROPERTY(int prec     READ prec)
+    Q_PROPERTY(int nostr   READ nostr)
+    Q_PROPERTY(QStringList strs     READ strs)
     Q_PROPERTY(QVariant upctrllim READ upctrllim)
     Q_PROPERTY(QVariant lostrllim READ loctrllim)
+
+    Q_CLASSINFO("DefaultProperty", "value")
 
 public:
     explicit PvObject(QObject *parent = 0);
@@ -59,67 +67,79 @@ public:
         return 0;
     }
 
-
+    /* connection management */
     long connect(const char *name);
     long disconnect();
-    long ensureConnection();
-
 
     long monitor(unsigned long);
     long unmonitor();
-    static void getCallback(struct event_handler_args);
 
-    void setValue(const QVariantList val);
-    QVariantList value();
+    /* channel access callbacks */
+    void connectCallback(struct connection_handler_args args);
+    void getCallback(struct event_handler_args);
+    void monitorCallback(struct event_handler_args);
 
-    void setChannel(const QVariant name);
-    QVariant channel();
+    /* property access functions */
+    void setValue(const QVariant val);
+    QVariant value() {return _value;}
+
+    void setChannel(const QString name) {_name = name;}
+    QString channel() {return _name;}
+
+    bool asstring() {return _asstring;}
+    void setAsstring(bool asstring) {_asstring = asstring;}
+
+    bool connected() {return _connected;}
+    void setConnected(bool connected) {_connected = connected;}
 
     QVariant severity() {return _severity;}
     QVariant status()   {return _status;}
-    QVariant units()    {return _units;}
-    QVariant prec()     {return _precision;}
-    QVariant nostr()   {return _nostr;}
-    QVariant strs()     {return _strs;}
-    QVariant upctrllim() {return _upctrllim;}
-    QVariant loctrllim() {return _loctrllim;}
+    QString units()    {return _units;}
+    int prec()     {return _precision;}
+    int nostr()    {return _nostr;}
+    QStringList strs()     {return _strs;}
+    QVariant upctrllim(){return _upctrllim;}
+    QVariant loctrllim(){return _loctrllim;}
 
 signals:
     void valueChanged();
+    void connectionChanged();
 
 public slots:
 
 
 private:
-    QVariantList _value;
-    QVariant _name;
+    bool _asstring;
+    bool _connected;
+
+    QVariant _value;
+    QString _name;
 
     // pv alarm info
-    QVariant _status;			// alarm status
-    QVariant _severity;			// alarm severity
-    QVariant _sec;				// time stamp - seconds since Midnight Jan.1, 1990
-    QVariant _nsec;			// time stamp - nano seconds within second
+    QVariant _status;       // alarm status
+    QVariant _severity;		// alarm severity
+    int _sec;               // time stamp - seconds since Midnight Jan.1, 1990
+    int _nsec;              // time stamp - nano seconds within second
 
     // pv control info
-    QVariant _units; // units
+    QString _units;         // units
 
-    QVariant _nostr;		// no. of state strings
-    QVariantList _strs;     // state strings separated by ;
+    int _nostr;             // no. of state strings
+    QStringList _strs;      // state strings separated by ;
 
-    QVariant _precision;	// precision for float and double type
+    int _precision;         // precision for float and double type
 
-    QVariant _updisplim;  // upper display limit
-    QVariant _lodisplim;  // lower display limit
+    QVariant _updisplim;    // upper display limit
+    QVariant _lodisplim;    // lower display limit
 
-    QVariant _upalrmlim;  // upper alarm   limit
-    QVariant _loalrmlim;  // lower alarm   limit
+    QVariant _upalrmlim;    // upper alarm   limit
+    QVariant _loalrmlim;    // lower alarm   limit
 
-    QVariant _upwarnlim;  // upper warn    limit
-    QVariant _lowarnlim;	 // lower warn    limit
+    QVariant _upwarnlim;    // upper warn    limit
+    QVariant _lowarnlim;	// lower warn    limit
 
-    QVariant _upctrllim;  // upper control limit
-    QVariant _loctrllim;  // lower control limit
-
+    QVariant _upctrllim;    // upper control limit
+    QVariant _loctrllim;    // lower control limit
 
     chid _chid;
     evid _evid;
