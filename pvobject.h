@@ -7,6 +7,7 @@
 #include <QQmlParserStatus>
 
 #include <cadef.h>
+#include <alarm.h>
 
 #define ENTER_CA \
     if(m_cac)\
@@ -26,16 +27,16 @@ class PvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(QString channel  READ channel  WRITE setChannel)
     Q_PROPERTY(bool asstring READ asstring WRITE setAsstring)
 
-    Q_PROPERTY(QVariant severity READ severity)
-    Q_PROPERTY(QVariant status   READ status)
+    Q_PROPERTY(QVariant severity READ severity NOTIFY statusChanged)
+    Q_PROPERTY(QVariant status   READ status NOTIFY statusChanged)
     Q_PROPERTY(QString units    READ units)
     Q_PROPERTY(int prec     READ prec)
     Q_PROPERTY(int nostr   READ nostr)
     Q_PROPERTY(QStringList strs     READ strs)
     Q_PROPERTY(QVariant upctrllim READ upctrllim)
-    Q_PROPERTY(QVariant lostrllim READ loctrllim)
-
-    Q_CLASSINFO("DefaultProperty", "value")
+    Q_PROPERTY(QVariant loctrllim READ loctrllim)
+    Q_PROPERTY(QVariant updisplim READ updisplim)
+    Q_PROPERTY(QVariant lodisplim READ lodisplim)
 
 public:
     explicit PvObject(QObject *parent = 0);
@@ -100,10 +101,13 @@ public:
     QStringList strs()     {return _strs;}
     QVariant upctrllim(){return _upctrllim;}
     QVariant loctrllim(){return _loctrllim;}
+    QVariant updisplim(){return _updisplim;}
+    QVariant lodisplim(){return _lodisplim;}
 
 signals:
     void valueChanged();
     void connectionChanged();
+    void statusChanged();
 
 public slots:
 
@@ -116,8 +120,8 @@ private:
     QString _name;
 
     // pv alarm info
-    QVariant _status;       // alarm status
-    QVariant _severity;		// alarm severity
+    int _status;            // alarm status
+    int _severity;          // alarm severity
     int _sec;               // time stamp - seconds since Midnight Jan.1, 1990
     int _nsec;              // time stamp - nano seconds within second
 

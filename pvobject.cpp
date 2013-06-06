@@ -17,6 +17,8 @@ PvObject::PvObject(QObject *parent):
     _chid = NULL;
     _evid = NULL;
     _connected = false;
+    _status = NO_ALARM;
+    _severity = NO_ALARM;
 }
 
 PvObject::~PvObject()
@@ -120,7 +122,7 @@ long PvObject::monitor(unsigned long count)
     if(_chid && !_evid)
     {
         chtype reqtype = dbf_type_to_DBR_TIME(ca_field_type(_chid));
-        if (_asstring)
+        if (_asstring && ca_field_type(_chid) == DBF_ENUM)
             reqtype = dbf_type_to_DBR_TIME(DBF_STRING);
 
         ENTER_CA{
@@ -156,8 +158,8 @@ long PvObject::unmonitor()
 }
 
 #define ConvertSTS(VP) \
-    _status	= VP.status;\
-    _severity	= VP.severity;
+    status      = VP.status;\
+    severity	= VP.severity;
 
 #define ConvertTime(VP) \
     _sec		= VP.stamp.secPastEpoch;\
@@ -228,6 +230,7 @@ void PvObject::getCallback(struct event_handler_args args)
     chtype type = args.type;
     unsigned long count  = args.count;
 
+    int status, severity;
     QVariant value;
     QStringList strList;
 
@@ -280,6 +283,12 @@ void PvObject::getCallback(struct event_handler_args args)
     // Set connected after first get succeeds
     _connected = true;
     emit connectionChanged();
+    // Signal status/severity change if any
+    if (_status != status || _severity != severity) {
+        _status = status;
+        _severity = severity;
+        emit statusChanged();
+    }
 }
 
 //
@@ -298,6 +307,7 @@ void PvObject::monitorCallback(struct event_handler_args args)
     chtype type = args.type;
     unsigned long count  = args.count;
 
+    int status, severity;
     QVariant value;
     QStringList strList;
 
@@ -344,4 +354,10 @@ void PvObject::monitorCallback(struct event_handler_args args)
     // Signal value change
     _value.setValue(value);
     emit valueChanged();
+    // Signal status/severity change if any
+    if (_status != status || _severity != severity) {
+        _status = status;
+        _severity = severity;
+        emit statusChanged();
+    }
 }

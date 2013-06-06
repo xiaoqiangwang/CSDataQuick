@@ -29,3 +29,6 @@ qtcAddDeployment()
 
 HEADERS += \
     pvobject.h
+
+OTHER_FILES += \
+    qml/qml2/CaTextEntry.qml
