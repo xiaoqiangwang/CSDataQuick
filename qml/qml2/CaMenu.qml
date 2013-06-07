@@ -4,7 +4,7 @@ import PvLibrary 1.0
 
 ComboBox {
     property alias channel: pv.channel
-
+    property bool __first: true
     PvObject {
         id: pv
     }
@@ -23,6 +23,7 @@ ComboBox {
         }
     }
     onCurrentIndexChanged: {
-        pv.value = currentIndex
+        if (__first) __first = false
+        else pv.setValue(currentIndex)
     }
 }
