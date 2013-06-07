@@ -7,15 +7,25 @@ Label {
     property bool alarmColor: false
     property bool withUnits: false
 
-    text: pv.value + withUnits ? ' ' + pv.units : ''
+    text: pv.value
 
     PvObject {
         id: pv
         asstring: true
     }
 
+    Label {
+        id: units
+        anchors.right: parent.right
+        visible: withUnits
+    }
+
     Connections {
         target: pv
+        onConnectionChanged: {
+            units.text = pv.units;
+        }
+
         onStatusChanged: {
             if (alarmColor) {
                 switch (pv.severity) {
