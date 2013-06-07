@@ -27,8 +27,8 @@ class PvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(QString channel  READ channel  WRITE setChannel)
     Q_PROPERTY(bool asstring READ asstring WRITE setAsstring)
 
-    Q_PROPERTY(QVariant severity READ severity NOTIFY statusChanged)
-    Q_PROPERTY(QVariant status   READ status NOTIFY statusChanged)
+    Q_PROPERTY(int severity READ severity NOTIFY statusChanged)
+    Q_PROPERTY(int status   READ status NOTIFY statusChanged)
     Q_PROPERTY(QString units    READ units)
     Q_PROPERTY(int prec     READ prec)
     Q_PROPERTY(int nostr   READ nostr)
@@ -81,7 +81,7 @@ public:
     void monitorCallback(struct event_handler_args);
 
     /* property access functions */
-    void setValue(const QVariant val);
+    Q_INVOKABLE void setValue(const QVariant val);
     QVariant value() {return _value;}
 
     void setChannel(const QString name) {_name = name;}
@@ -93,8 +93,8 @@ public:
     bool connected() {return _connected;}
     void setConnected(bool connected) {_connected = connected;}
 
-    QVariant severity() {return _severity;}
-    QVariant status()   {return _status;}
+    int severity() {return _severity;}
+    int status()   {return _status;}
     QString units()    {return _units;}
     int prec()     {return _precision;}
     int nostr()    {return _nostr;}
