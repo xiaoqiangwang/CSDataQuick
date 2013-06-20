@@ -40,12 +40,12 @@ Rectangle {
             // create layout based on orientation
             var cmd = ''
             if (orientation == 0) {
-                cmd = 'import QtQuick 2.0;
+                cmd = 'import QtQuick 2.1;
                                     Row {
                                         id: layout
                                     }'
             } else {
-                cmd = 'import QtQuick 2.0;
+                cmd = 'import QtQuick 2.1;
                                     Column {
                                         id: layout
                                     }'
@@ -57,7 +57,8 @@ Rectangle {
                                             Button {
                                                     checkable:true;
                                                     exclusiveGroup: radioInputGroup
-                                            }', layout, name)
+                                                    onClicked: pv.putValue(%1)
+                                            }'.arg(i), layout, name)
                 btn.text = pv.strs[i]
                 btnList.push(btn)
             }
