@@ -57,7 +57,7 @@ Rectangle {
                                             Button {
                                                     checkable:true;
                                                     exclusiveGroup: radioInputGroup
-                                                    onClicked: pv.putValue(%1)
+                                                    onClicked: pv.setValue(%1)
                                             }'.arg(i), layout, name)
                 btn.text = pv.strs[i]
                 btnList.push(btn)
