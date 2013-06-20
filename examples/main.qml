@@ -2,7 +2,7 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
-import PvLibrary 1.0
+import PvComponents 1.0
 
 Rectangle {
     width: 360
@@ -14,6 +14,7 @@ Rectangle {
         y: 100
 
 
+       
         CaMessageButton {
             width: 100
             height: 24
@@ -58,7 +59,11 @@ Rectangle {
             height: 20
             channel: 'calc.SCAN'
         }
-
+        CaChoiceButton {
+            orientation: 0
+            channel: 'calc.SCAN'
+        }
+ 
         CaOval {
             id: pv1_oval
             width: 100
