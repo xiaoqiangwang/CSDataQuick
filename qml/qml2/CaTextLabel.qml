@@ -27,21 +27,21 @@ Label {
         }
 
         onStatusChanged: {
-            if (alarmColor) {
-                switch (pv.severity) {
-                case 0: // NO_ALARM
-                    color = 'green'
-                    break;
-                case 1: // MINOR_ALARM
-                    color = 'yellow'
-                    break;
-                case 2: // MAJOR_ALARM
-                    color = 'red'
-                    break;
-                case 3: // INVALID_ALARM
-                    color = 'white'
-                    break;
-                }
+            if (!alarmColor)
+                return
+            switch (pv.severity) {
+            case 0: // NO_ALARM
+                color = 'green'
+                break;
+            case 1: // MINOR_ALARM
+                color = 'yellow'
+                break;
+            case 2: // MAJOR_ALARM
+                color = 'red'
+                break;
+            case 3: // INVALID_ALARM
+                color = 'white'
+                break;
             }
         }
     }
