@@ -33,5 +33,5 @@ OTHER_FILES += \
     PvComponents/CaOval.qml \
     PvComponents/CaSlider.qml \
     PvComponents/CaTextEntry.qml \
-    PvComponents/CaTextLable.qml \
+    PvComponents/CaTextLabel.qml \
     PvComponents/qmldir
