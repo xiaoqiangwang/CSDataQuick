@@ -1,0 +1,11 @@
+module PvComponents
+plugin PvObject
+CaBar           1.0 CaBar.qml 
+CaChoiceButton  1.0 CaChoiceButton.qml 
+CaMenu          1.0 CaMenu.qml 
+CaMessageButton 1.0 CaMessageButton.qml 
+CaOval          1.0 CaOval.qml 
+CaSlider        1.0 CaSlider.qml 
+CaTextEntry     1.0 CaTextEntry.qml 
+CaTextLable     1.0 CaTextLable.qml 
+
