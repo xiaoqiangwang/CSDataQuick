@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import PvLibrary 1.0
+
+import PvComponents 1.0
+
 
 ProgressBar {
     property alias channel: pv.channel

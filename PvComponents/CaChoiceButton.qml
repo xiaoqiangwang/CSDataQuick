@@ -1,7 +1,8 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
-import PvLibrary 1.0
+import PvComponents 1.0
+
 
 Rectangle {
     property alias channel: pv.channel
