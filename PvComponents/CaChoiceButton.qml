@@ -6,11 +6,12 @@ import PvComponents 1.0
 
 Rectangle {
     property alias channel: pv.channel
-    property int orientation: 1
-    id: choiceButtons
+    property int orientation: 0
 
     property var btnList: new Array()
     property var layout: null
+    
+    id: choiceButtons
 
     PvObject {
         id: pv
@@ -51,6 +52,7 @@ Rectangle {
                                     }'
             }
             layout = Qt.createQmlObject(cmd, choiceButtons, 'layout')
+            var w = 0, h = 0;
             for(i = 0; i < pv.nostr; i++) {
                 var name = 'btn'+i
                 var btn = Qt.createQmlObject('import QtQuick.Controls 1.0;
@@ -61,7 +63,17 @@ Rectangle {
                                             }'.arg(i), layout, name)
                 btn.text = pv.strs[i]
                 btnList.push(btn)
+                if (orientation == 0) {
+                    w += btn.width
+                    h = Math.max(h, btn.height)
+                }
+                else {
+                    h += btn.height
+                    w = Math.max(w, btn.width)
+                }
             }
+            width = w
+            height = h
         }
     }
 }
