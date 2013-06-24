@@ -17,6 +17,8 @@ PvObject::PvObject(QObject *parent):
     _chid = NULL;
     _evid = NULL;
     _connected = false;
+    _asstring  = false;
+    _monitor   = true;
     _status = NO_ALARM;
     _severity = NO_ALARM;
 }
@@ -36,6 +38,17 @@ void PvObject::componentComplete()
 {
     connect(_name.toLatin1());
 }
+
+/*
+void PvObject::getValue()
+{
+    chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
+    int status = ca_array_get_callback(reqtype, 0, _chid, getCallbackC, this);
+    if (status != ECA_NORMAL)
+        return;
+    ca_flush_io();
+}
+*/
 
 void PvObject::setValue(const QVariant val)
 {
@@ -222,7 +235,8 @@ void getCallbackC(struct event_handler_args args)
         return;
     PvObject *chan = (PvObject *)args.usr;
     chan->getCallback(args);
-    chan->monitor(0);
+    if (chan->monitor())
+        chan->monitor(0);
 }
 void PvObject::getCallback(struct event_handler_args args)
 {
