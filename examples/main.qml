@@ -13,7 +13,10 @@ Rectangle {
         x: 48
         y: 100
 
-
+    
+        //Text {
+        //    PvObject {id: pv; channel: castrs}
+        //}
        
         CaMessageButton {
             width: 100
@@ -53,13 +56,19 @@ Rectangle {
             alarmColor: true
         }
 
+        CaTextLabel {
+            channel: 'calc'
+        }
+
         CaMenu {
             id: pv1_combo
             width: 100
             height: 20
             channel: 'calc.SCAN'
         }
+
         CaChoiceButton {
+            width: 100
             orientation: 0
             channel: 'calc.SCAN'
         }

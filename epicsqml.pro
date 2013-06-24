@@ -21,11 +21,15 @@ macx {
 }
 
 SOURCES += pvobject.cpp \
-    pvobject_plugin.cpp
+    pvobject_plugin.cpp \
+    adimageprovider.cpp \
+    adimageprovider_plugin.cpp
 
 HEADERS += \
     pvobject.h \
-    pvobject_plugin.h
+    pvobject_plugin.h \
+    adimageprovider.h \
+    adimageprovider_plugin.h
 
 OTHER_FILES += \
     PvComponents/CaBar.qml \
@@ -39,17 +43,17 @@ OTHER_FILES += \
     PvComponents/qmldir
 
 # Copy qml files post build
-win32 {
-    DESTDIR_WIN = $${DESTDIR}
-    DESTDIR_WIN ~= s,/,\\,g
-    PWD_WIN = $${PWD}
-    PWD_WIN ~= s,/,\\,g
-    for(FILE, OTHER_FILES){
-        QMAKE_POST_LINK += $$quote(cmd /c copy /y $${PWD_WIN}\\$${FILE} $${DESTDIR_WIN}$$escape_expand(\\n\\t))
-    }
-}
-unix {
-    for(FILE, OTHER_FILES){
-        QMAKE_POST_LINK += $$quote(cp $${PWD}/$${FILE} $${DESTDIR}$$escape_expand(\\n\\t))
-    }
-}
+#win32 {
+#    DESTDIR_WIN = $${DESTDIR}
+#    DESTDIR_WIN ~= s,/,\\,g
+#    PWD_WIN = $${PWD}
+#    PWD_WIN ~= s,/,\\,g
+#    for(FILE, OTHER_FILES){
+#        QMAKE_POST_LINK += $$quote(cmd /c copy /y $${PWD_WIN}\\$${FILE} $${DESTDIR_WIN}$$escape_expand(\\n\\t))
+#    }
+#}
+#unix {
+#    for(FILE, OTHER_FILES){
+#        QMAKE_POST_LINK += $$quote(cp $${PWD}/$${FILE} $${DESTDIR}$$escape_expand(\\n\\t))
+#    }
+#}

@@ -26,6 +26,7 @@ class PvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(QString channel  READ channel  WRITE setChannel)
     Q_PROPERTY(bool asstring READ asstring WRITE setAsstring)
+    Q_PROPERTY(bool monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
 
     Q_PROPERTY(int severity READ severity NOTIFY statusChanged)
     Q_PROPERTY(int status   READ status NOTIFY statusChanged)
@@ -90,6 +91,9 @@ public:
     bool asstring() {return _asstring;}
     void setAsstring(bool asstring) {_asstring = asstring;}
 
+    bool monitor() {return _monitor;}
+    void setMonitor(bool monitor) {_monitor = monitor;}
+
     bool connected() {return _connected;}
     void setConnected(bool connected) {_connected = connected;}
 
@@ -108,11 +112,13 @@ signals:
     void valueChanged();
     void connectionChanged();
     void statusChanged();
+    void monitorChanged();
 
 public slots:
 
 
 private:
+    bool _monitor;
     bool _asstring;
     bool _connected;
 
