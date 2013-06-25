@@ -2,6 +2,7 @@
 
 #include <QtDebug>
 #include <QStringList>
+#include <string.h>
 
 struct ca_client_context * PvObject::m_cac = NULL;
 
@@ -21,6 +22,7 @@ PvObject::PvObject(QObject *parent):
     _monitor   = true;
     _status = NO_ALARM;
     _severity = NO_ALARM;
+    _array = NULL;
 }
 
 PvObject::~PvObject()
@@ -195,6 +197,8 @@ long PvObject::unmonitor()
         value.setValue((TYPE)(VP.value));\
     } else {\
         QList<qreal> list;\
+        _array = realloc(_array, count * sizeof(TYPE)); \
+        _array = memcpy(_array, (void *)&(VP.value), count * sizeof(TYPE)); \
         for(unsigned long i=0; i<count; i++) {\
             TYPE v = (TYPE)*(&(VP.value) + i); \
             list.append(v);\

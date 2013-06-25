@@ -4,13 +4,12 @@
 ADImageProvider::ADImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image)
 {
-    first = false;
+    first = true;
 }
 
 QImage ADImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QString prefix = id;
-    qWarning() << prefix;
 
     if (first) {
         // connect channels for the first time
@@ -21,13 +20,15 @@ QImage ADImageProvider::requestImage(const QString &id, QSize *size, const QSize
         pvSize2.connect(prefix.toLatin1() + "ArraySize0_RBV");
         pvColor.connect(prefix.toLatin1() + "ColorMode_RBV");
         pvUniqueId.connect(prefix.toLatin1() + "UniqueId_RBV");
+        first = false;
     }
 
     if (!pvData.connected())
-        return QImage();
+        return QImage(requestedSize, QImage::Format_Indexed8);
 
     static int prev_uid = 0;
     int uid = pvUniqueId.value().toInt();
+
     if (uid != prev_uid) {
         int width = 0, height = 0, depth = 0, size = 0;
         QImage::Format format;
@@ -44,7 +45,7 @@ QImage ADImageProvider::requestImage(const QString &id, QSize *size, const QSize
         }
         size = width * height * depth;
 
-        QImage image(width, height, format);
+        QImage image((uchar *)pvData.arrayValue(), width, height, format);
         return image;
     }
 }

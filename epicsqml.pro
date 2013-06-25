@@ -1,35 +1,8 @@
 
-TEMPLATE = lib
-CONFIG += plugin
-QT += quick
+TEMPLATE = subdirs
 
-TARGET = pvobjectplugin
-DESTDIR = PvComponents
 
-# EPICS related
-INCLUDEPATH += $$(EPICS_BASE)/include/
-LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
-win32 {
-    INCLUDEPATH += $$(EPICS_BASE)/include//os/WIN32
-    LIBS += ws2_32
-}
-linux {
-    INCLUDEPATH += $$(EPICS_BASE)/include/os/Linux
-}
-macx {
-    INCLUDEPATH += $$(EPICS_BASE)/include/os/Darwin
-}
-
-SOURCES += pvobject.cpp \
-    pvobject_plugin.cpp \
-    adimageprovider.cpp \
-    adimageprovider_plugin.cpp
-
-HEADERS += \
-    pvobject.h \
-    pvobject_plugin.h \
-    adimageprovider.h \
-    adimageprovider_plugin.h
+SUBDIRS += src/pvobject src/adimageprovider
 
 OTHER_FILES += \
     PvComponents/CaBar.qml \
