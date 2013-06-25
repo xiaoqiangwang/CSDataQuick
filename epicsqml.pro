@@ -2,7 +2,7 @@
 TEMPLATE = subdirs
 
 
-SUBDIRS += src/
+SUBDIRS += src/plugin.pro
 
 OTHER_FILES += \
     PvComponents/CaBar.qml \
