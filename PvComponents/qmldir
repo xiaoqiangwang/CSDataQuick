@@ -7,5 +7,4 @@ CaOval          1.0 CaOval.qml
 CaSlider        1.0 CaSlider.qml 
 CaTextEntry     1.0 CaTextEntry.qml 
 CaTextLabel     1.0 CaTextLabel.qml 
-#plugin pvobjectplugin
-plugin adimageproviderplugin
+plugin pvcomponentsplugin
