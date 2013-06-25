@@ -2,7 +2,7 @@
 TEMPLATE = subdirs
 
 
-SUBDIRS += src/pvobject src/adimageprovider
+SUBDIRS += src/
 
 OTHER_FILES += \
     PvComponents/CaBar.qml \
