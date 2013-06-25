@@ -1,4 +1,5 @@
 module PvComponents
+CaADImage       1.0 CaADImage.qml
 CaBar           1.0 CaBar.qml 
 CaChoiceButton  1.0 CaChoiceButton.qml 
 CaMenu          1.0 CaMenu.qml 
