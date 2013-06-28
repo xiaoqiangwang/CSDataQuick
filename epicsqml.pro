@@ -1,10 +1,12 @@
 
 TEMPLATE = subdirs
 
-
 SUBDIRS += src/plugin.pro
 
+QML_IMPORT_PATH = .
+
 OTHER_FILES += \
+    PvComponents/CaADImage.qml \
     PvComponents/CaBar.qml \
     PvComponents/CaChoiceButton.qml \
     PvComponents/CaMenu.qml \
@@ -13,7 +15,9 @@ OTHER_FILES += \
     PvComponents/CaSlider.qml \
     PvComponents/CaTextEntry.qml \
     PvComponents/CaTextLabel.qml \
-    PvComponents/qmldir
+    PvComponents/qmldir \
+    examples/image.qml \
+    examples/widgets.qml
 
 # Copy qml files post build
 #win32 {

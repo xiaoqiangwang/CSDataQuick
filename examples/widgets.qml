@@ -13,11 +13,6 @@ Rectangle {
         x: 48
         y: 100
 
-    
-        //Text {
-        //    PvObject {id: pv; channel: castrs}
-        //}
-       
         CaMessageButton {
             width: 100
             height: 24
