@@ -85,7 +85,7 @@ public:
     Q_INVOKABLE void setValue(const QVariant val);
     QVariant value() {return _value;}
 
-    void *arrayValue() {return _array; }
+    void * getArrayValue(unsigned long count);
 
     void setChannel(const QString name) {_name = name;}
     QString channel() {return _name;}
@@ -124,8 +124,8 @@ private:
     bool _asstring;
     bool _connected;
 
+    void * _array;
     QVariant _value;
-    void *_array;
     QString _name;
 
     // pv alarm info
