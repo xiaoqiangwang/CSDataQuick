@@ -29,6 +29,8 @@ PvObject::~PvObject()
 {
     unmonitor();
     disconnect();
+    if (_array)
+        free(_array);
 }
 
 void PvObject::classBegin()
@@ -41,16 +43,19 @@ void PvObject::componentComplete()
     connect(_name.toLatin1());
 }
 
-/*
-void PvObject::getValue()
+
+void * PvObject::getArrayValue(unsigned long count)
 {
+    count  = qMin<unsigned long>(count, ca_element_count(_chid));
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
-    int status = ca_array_get_callback(reqtype, 0, _chid, getCallbackC, this);
+    _array = realloc(_array, sizeof(reqtype) * count);
+    int status = ca_array_get(reqtype, count, _chid, _array);
+    status = ca_pend_io(1);
     if (status != ECA_NORMAL)
-        return;
-    ca_flush_io();
+        return NULL;
+    return _array;
 }
-*/
+
 
 void PvObject::setValue(const QVariant val)
 {
@@ -197,8 +202,6 @@ long PvObject::unmonitor()
         value.setValue((TYPE)(VP.value));\
     } else {\
         QList<qreal> list;\
-        _array = realloc(_array, count * sizeof(TYPE)); \
-        _array = memcpy(_array, (void *)&(VP.value), count * sizeof(TYPE)); \
         for(unsigned long i=0; i<count; i++) {\
             TYPE v = (TYPE)*(&(VP.value) + i); \
             list.append(v);\
