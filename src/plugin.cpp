@@ -6,6 +6,7 @@
 
 void PvComponentsPlugin::registerTypes(const char *uri)
 {
+    // @uri PvComponents
     qmlRegisterType<PvObject>(uri, 1, 0, "PvObject");
 }
 

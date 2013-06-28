@@ -6,6 +6,9 @@ Image {
     property alias interval: timer.interval
     property string channel
 
+    cache: false
+    fillMode: Image.PreserveAspectCrop
+
     Timer {
         id: timer
         running: true

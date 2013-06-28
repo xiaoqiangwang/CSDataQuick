@@ -13,7 +13,15 @@ Rectangle {
             }
         }
         CaADImage {
+            width: 200
+            height: 200
             interval: 100
+            channel: '13SIM1:image1:'
+        }
+        CaADImage {
+            width: 200
+            height: 200
+            interval: 800
             channel: '13SIM1:image1:'
         }
     }
