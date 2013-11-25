@@ -18,6 +18,7 @@ QtObject {
     property var _arg: [0,0,0,0,0,0,0,0,0,0,0,0]
 
     signal statusChanged
+    signal update
 
     function calcPerform() {
         if (chanList[0] != null) {
@@ -47,6 +48,7 @@ QtObject {
             visibility = (arg[0] != 1)
         else
             visibility = true
+        update()
     }
 
     function createChannels () {

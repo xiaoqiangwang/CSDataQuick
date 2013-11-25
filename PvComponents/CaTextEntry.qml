@@ -18,6 +18,7 @@ CaControl {
         textColor: entry.foreground
         style: TextFieldStyle {
             background: Rectangle {
+                border.width: 1
                 color: entry.background
             }
         }

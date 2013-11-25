@@ -12,6 +12,7 @@ CaGraphics {
         Text {
             id: text_control
             color: foreground
+            anchors.fill: parent
         }
     }
 }

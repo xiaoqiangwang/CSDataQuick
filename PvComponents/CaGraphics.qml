@@ -5,7 +5,7 @@ import PvComponents 1.0
 Item {
     // graphics basic attributes
     property color foreground: 'black'
-    property color background: 'white'
+    property color background: 'transparent'
     property int fill: FillStyle.Outline
     property int edge: EdgeStyle.Solid
 
@@ -20,7 +20,7 @@ Item {
     property alias channelC: da.channelC
     property alias channelD: da.channelD
     visible: da.visibility
-    DynamicAttr { id: da }
+    property var da: DynamicAttr { id: da }
 
     Connections {
         target: da
