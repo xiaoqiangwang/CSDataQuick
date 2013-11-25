@@ -4,6 +4,7 @@ CaArc           1.0 CaArc.qml
 CaBar           1.0 CaBar.qml 
 CaByte          1.0 CaByte.qml
 CaChoiceButton  1.0 CaChoiceButton.qml 
+CaImage         1.0 CaImage.qml
 CaMenu          1.0 CaMenu.qml 
 CaMessageButton 1.0 CaMessageButton.qml
 CaMeter         1.0 CaMeter.qml

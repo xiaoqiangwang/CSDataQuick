@@ -105,6 +105,14 @@ ApplicationWindow {
                     return pts
                 }
             }
+
+            CaImage {
+                width: 150
+                height: 200
+                source: 'LED.gif'
+                channel: 'catest'
+                imageCalc: 'A * 10'
+            }
         }
         Text {text: 'Control'}
         Flow {
