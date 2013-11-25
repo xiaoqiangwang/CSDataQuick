@@ -6,13 +6,15 @@ This project brings EPICS integration to QML programming. By its essense, the PV
 
 Install
 -------
+::
 
-$ qmake epicsqml.pro
-$ make
+    $ qmake epicsqml.pro
+    $ make
 
 
 Demos
 -----
+::
 
-$ qmlscene -I . example/widgets.qml
+    $ qmlscene -I . example/widgets.qml
 

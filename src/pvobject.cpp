@@ -23,6 +23,8 @@ PvObject::PvObject(QObject *parent):
     _status = NO_ALARM;
     _severity = NO_ALARM;
     _array = NULL;
+    _value = "";
+    _name = "";
 }
 
 PvObject::~PvObject()
@@ -40,6 +42,8 @@ void PvObject::classBegin()
 
 void PvObject::componentComplete()
 {
+    if (_name.isEmpty())
+        return;
     connect(_name.toLatin1());
 }
 
@@ -304,12 +308,10 @@ void PvObject::getCallback(struct event_handler_args args)
     // Set connected after first get succeeds
     _connected = true;
     emit connectionChanged();
-    // Signal status/severity change if any
-    if (_status != status || _severity != severity) {
-        _status = status;
-        _severity = severity;
-        emit statusChanged();
-    }
+    // Signal status/severity
+    _status = status;
+    _severity = severity;
+    emit statusChanged();
 }
 
 //

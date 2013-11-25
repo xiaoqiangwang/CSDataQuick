@@ -3,28 +3,27 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
-
-ProgressBar {
-    property alias channel: pv.channel
+CaControl {
     property bool usePVLimits: true
 
-    PvObject {
-        id: pv
-        channel: 'catest'
-    }
+    ProgressBar {
+        id: bar_control
+        minimumValue: 0
+        maximumValue: 1
 
-    Connections {
-        target: pv
-        onConnectionChanged: {
-            if (pv.connected && usePVLimits) {
-                if (pv.lodisplim < pv.updisplim) {
-                    minimumValue = pv.lodisplim
-                    maximumValue = pv.updisplim
+        Connections {
+            target: pv
+            onConnectionChanged: {
+                if (pv.connected && usePVLimits) {
+                    if (pv.lodisplim < pv.updisplim) {
+                        bar_control.minimumValue = pv.lodisplim
+                        bar_control.maximumValue = pv.updisplim
+                    }
                 }
             }
-        }
-        onValueChanged: {
-            value = pv.value
+            onValueChanged: {
+                bar_control.value = pv.value
+            }
         }
     }
 }

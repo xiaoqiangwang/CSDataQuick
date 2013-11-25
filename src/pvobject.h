@@ -57,6 +57,8 @@ public:
 
         m_cac = ca_current_context();
 
+        ca_add_exception_event(exception_handler, 0);
+
         return 0;
     }
     static long exit_ca()
@@ -67,6 +69,11 @@ public:
         }LEAVE_CA
 
         return 0;
+    }
+
+    static void exception_handler(exception_handler_args args)
+    {
+
     }
 
     /* connection management */

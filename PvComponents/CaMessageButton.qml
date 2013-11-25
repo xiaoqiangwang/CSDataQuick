@@ -4,19 +4,24 @@ import QtQuick.Controls 1.0
 import PvComponents 1.0
 
 
-Button {
-    property alias channel: pv.channel
+CaControl {
+    id: messageButton
+
+    property alias text: btn.text
+
     property var onMessage
     property var offMessage
 
-    PvObject {
-        id: pv
-    }
+    StyledButton {
+        id: btn
+        background: messageButton.background
+        foreground: messageButton.foreground
 
-    onPressedChanged: {
-        if (pressed)
-            pv.value = onMessage
-        else
-            pv.value = offMessage
+        onPressedChanged: {
+            if (pressed)
+                pv.value = onMessage
+            else
+                pv.value = offMessage
+        }
     }
 }

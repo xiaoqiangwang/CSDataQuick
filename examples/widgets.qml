@@ -1,77 +1,177 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
-Rectangle {
-    width: 360
-    height: 360
+ApplicationWindow {
+    id: app
+    width: 800
+    height: 400
 
+    menuBar: MenuBar {
+        Menu {
+            title: 'File'
+            MenuItem {
+                text: 'Exit'
+                onTriggered: app.close()
+            }
+        }
+        Menu {
+            title: 'Help'
+            MenuItem {
+                text: 'About'
+                onTriggered: console.log('A demo of qml pv components')
+            }
+        }
+    }
 
     Column {
-        x: 48
-        y: 100
+        anchors.fill: parent
 
-        CaMessageButton {
-            width: 100
-            height: 24
-            text: 'Click Me!'
-            channel: 'catest'
-            onMessage: 45
-            offMessage: 34
-        }
+        Text {text: 'Graphics'}
+        Flow {
+            x: 10
+            spacing: 10
 
-        CaSlider {
-            id: pv2_slider
-            width: 100
-            height: 24
-            channel: 'catest'
-        }
+            CaText {
+                width: 100
+                height: 20
+                text: 'A static label'
+            }
 
-        CaBar {
-            id: pv2_bar
-            width: 100
-            height: 24
-            channel: 'catest'
-        }
+            CaRect {
+                width: 100
+                height: 70
+                foreground: 'blue'
+                fill: FillStyle.Solid
+            }
 
-        CaTextEntry {
-            id: pv1_edit
-            width:100
-            height:24
-            channel: 'catest'
-        }
+            CaOval {
+                channel: 'bo'
+                colorMode: ColorMode.Alarm
+                width: 100
+                height: 70
+                fill: FillStyle.Solid
+                lineWidth: 2
+            }
 
-        CaTextLabel {
-            id: pv1_display
-            width: 100
-            height: 20
-            channel: 'catest'
-            alarmColor: true
-        }
+            CaArc {
+                PvObject {
+                    id: pv
+                    channel: 'catest'
+                }
+                width: 100
+                height: 100
+                start: 0
+                end: pv.value * 360
+            }
 
-        CaTextLabel {
-            channel: 'calc'
-        }
+            CaPolygon {
+                width: 100
+                height: 50
+                lineWidth: 2
+                foreground: 'pink'
+                fill: FillStyle.Solid
 
-        CaMenu {
-            id: pv1_combo
-            width: 100
-            height: 20
-            channel: 'calc.SCAN'
-        }
+                Component.onCompleted: {
+                    points = create_sin()
+                }
+                function create_sin() {
+                    var pts = []
+                    for (var i=0; i<20; i++) {
+                        x = width / 20 * i
+                        y = height / 2.5 *Math.sin(i / 20. * 2 * Math.PI) + height / 2
+                        pts.push(Qt.point(x, y))
+                    }
+                    return pts
+                }
+            }
 
-        CaChoiceButton {
-            width: 100
-            orientation: 0
-            channel: 'calc.SCAN'
+            CaPolyline {
+                width: 100
+                height: 50
+                lineWidth: 2
+                foreground: 'black'
+                Component.onCompleted: {
+                    points = create_sin()
+                }
+                function create_sin() {
+                    var pts = []
+                    for (var i=0; i<20; i++) {
+                        x = width / 20 * i
+                        y = height / 2.5 *Math.sin(i / 20. * 4 * Math.PI) + height / 2
+                        pts.push(Qt.point(x, y))
+                    }
+                    return pts
+                }
+            }
         }
- 
-        CaOval {
-            id: pv1_oval
-            width: 100
-            height: 70
+        Text {text: 'Control'}
+        Flow {
+            x: 10
+            spacing: 10
+            CaMessageButton {
+                width: 100
+                height: 24
+                text: 'Click Me!'
+                channel: 'catest'
+                foreground: 'yellow'
+                background: 'steelblue'
+                onMessage: 0.1
+                offMessage: 0.5
+            }
+
+            CaSlider {
+                width: 100
+                height: 24
+                channel: 'catest'
+            }
+
+            CaTextEntry {
+                width:100
+                height:24
+                channel: 'catest'
+                colorMode: 'alarm'
+            }
+            CaMenu {
+                width: 100
+                height: 20
+                channel: 'calc.SCAN'
+            }
+
+            CaChoiceButton {
+                width: 100
+                orientation: 0
+                channel: 'bo'
+                background: 'lightsteelblue'
+            }
         }
+        Text {text: 'Monitor'}
+        Flow {
+            x: 10
+            spacing: 10
+            width: parent.width
+
+            CaTextLabel {
+                channel: 'calc'
+                width: 100
+                height: 20
+            }
+            CaByte {
+                width: 320
+                height: 10
+                channel: 'calc'
+            }
+            CaBar {
+                width: 100
+                height: 20
+                channel: 'catest'
+            }
+            CaMeter {
+                width: 100
+                height: 100
+                channel: 'catest'
+            }
+       }
     }
 }

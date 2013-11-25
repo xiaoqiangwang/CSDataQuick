@@ -1,7 +1,7 @@
 
 file {
-	name="/afs/psi.ch/user/w/wang_x1/xxx/X/X07MA/ES1/App/config/medm/X_X07MA_ES1_ADC8401.adl"
-	version=030105
+	name="/Users/wang/Development/epicsqml/tests/example.adl"
+	version=030107
 }
 display {
 	object {
@@ -549,6 +549,7 @@ text {
 		clr=14
 		bclr=51
 	}
+	format="compact"
 	limits {
 	}
 }

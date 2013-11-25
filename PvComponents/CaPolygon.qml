@@ -4,24 +4,30 @@ import PvComponents 1.0
 
 CaGraphics {
     property int lineWidth: 1
+    property var points: []
 
-    onForegroundChanged: canvas.requestPaint()
-
+    onPointsChanged: canvas.requestPaint()
     Canvas {
         id: canvas
-
         anchors.fill: parent
+
         onPaint: {
+            if (points.length == 0)
+                return
             var ctx = getContext('2d')
             ctx.save()
             ctx.beginPath()
 
-            ctx.ellipse(lineWidth, lineWidth, width - 2 * lineWidth, height - 2 * lineWidth)
+            ctx.moveTo(points[0].x, points[0].y)
+            for(var i=1; i<points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y)
+            }
+            ctx.closePath()
+            ctx.lineWidth = lineWidth
             if (fill == FillStyle.Solid) {
                 ctx.fillStyle = foreground
                 ctx.fill()
             }
-            ctx.lineWidth = lineWidth
             ctx.stroke()
             ctx.restore()
         }
