@@ -1,11 +1,4 @@
 
-TEMPLATE = lib
-CONFIG += plugin
-QT += quick
-
-TARGET = pvcomponentsplugin
-DESTDIR = ../PvComponents
-
 # EPICS related
 INCLUDEPATH += $$(EPICS_BASE)/include/
 LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
@@ -21,13 +14,13 @@ macx {
 }
 
 SOURCES += \
-    pvobject.cpp \
-    adimageprovider.cpp \
-    plugin.cpp \
-    utils.cpp
+    $$PWD/pvobject.cpp \
+    $$PWD/adimageprovider.cpp \
+    $$PWD/plugin.cpp \
+    $$PWD/utils.cpp
 
 HEADERS += \
-    pvobject.h \
-    adimageprovider.h \
-    plugin.h \
-    utils.h
+    $$PWD/pvobject.h \
+    $$PWD/adimageprovider.h \
+    $$PWD/plugin.h \
+    $$PWD/utils.h
