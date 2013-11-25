@@ -1,4 +1,6 @@
 #include "adimageprovider.h"
+#include "pvobject.h"
+
 #include <QtDebug>
 
 ADImageProvider::ADImageProvider()

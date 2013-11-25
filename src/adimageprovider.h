@@ -2,7 +2,8 @@
 #define ADIMAGEPROVIDER_H
 
 #include <QQuickImageProvider>
-#include <pvobject.h>
+
+class PvObject;
 
 class ADImageProvider : public QQuickImageProvider
 {
