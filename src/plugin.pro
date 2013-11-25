@@ -23,9 +23,11 @@ macx {
 SOURCES += \
     pvobject.cpp \
     adimageprovider.cpp \
-    plugin.cpp
+    plugin.cpp \
+    utils.cpp
 
 HEADERS += \
     pvobject.h \
     adimageprovider.h \
-    plugin.h
+    plugin.h \
+    utils.h

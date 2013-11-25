@@ -4,28 +4,27 @@ import QtQuick.Controls 1.0
 import PvComponents 1.0
 
 
-ComboBox {
-    property alias channel: pv.channel
-    property bool __first: true
-    PvObject {
-        id: pv
+CaControl {
+    ComboBox {
+        id: combo
+        property bool __first: true
+        anchors.fill: parent
+        onCurrentIndexChanged: {
+            if (__first) __first = false
+            else pv.setValue(currentIndex)
+        }
     }
-
     Connections {
         target: pv
         onConnectionChanged: {
             if (pv.connected) {
-                model = pv.strs
+                combo.model = pv.strs
             } else {
-                model = []
+                combo.model = []
             }
         }
         onValueChanged: {
-            currentIndex = pv.value
+            combo.currentIndex = pv.value
         }
-    }
-    onCurrentIndexChanged: {
-        if (__first) __first = false
-        else pv.setValue(currentIndex)
     }
 }

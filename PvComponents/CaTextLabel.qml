@@ -3,48 +3,52 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
-
-Label {
-    property alias channel: pv.channel
-    property bool alarmColor: false
+CaControl {
+    id: label
+    property alias align: label_control.horizontalAlignment
+    property int format: TextFormat.Decimal
     property bool withUnits: false
+    // limits
+    property int precision: 2
+    property string limits: ''
 
-    text: pv.value
-
-    PvObject {
-        id: pv
-        asstring: true
-    }
-
-    Label {
-        id: units
-        anchors.right: parent.right
-        visible: withUnits
-    }
-
-    Connections {
-        target: pv
-        onConnectionChanged: {
-            units.text = pv.units;
-        }
-
-        onStatusChanged: {
-            if (!alarmColor)
-                return
-            switch (pv.severity) {
-            case 0: // NO_ALARM
-                color = 'green'
-                break;
-            case 1: // MINOR_ALARM
-                color = 'yellow'
-                break;
-            case 2: // MAJOR_ALARM
-                color = 'red'
-                break;
-            case 3: // INVALID_ALARM
-                color = 'white'
-                break;
+    Rectangle {
+        id: panel
+        color: label.background
+        anchors.fill: parent
+        Text {
+            id: label_control
+            text: formatString(format, pv.value)
+            color: label.foreground
+            anchors.left: parent.left
+            Connections {
+                target: pv
+                onConnectionChanged: {
+                    units.text = pv.units;
+                }
             }
         }
+        Text {
+            id: units
+            anchors.left: label_control.right
+            anchors.right: parent.right
+            visible: withUnits
+        }
+    }
+
+    function formatString(format, value) {
+        var result = value
+        if (format == TextFormat.Decimal)
+            result = Number(value).toFixed(precision)
+        else if (format === TextFormat.Exponential)
+            result = Number(value).toExponential(precision)
+        else if (format === TextFormat.Hexadecimal) {
+            result = '0x' + Number(value).toFixed(0).toString(16)
+        } else if (format == TextFormat.Octal)
+            result = '0' + Number(value).toString(8)
+        else
+            console.log('unsupported format')
+        return result
     }
 }
+

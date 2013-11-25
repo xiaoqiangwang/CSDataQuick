@@ -3,21 +3,33 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 CaGraphics {
-    property int lineWidth: 1
+    property int start
+    property int end
 
     onForegroundChanged: canvas.requestPaint()
+    onStartChanged: canvas.requestPaint()
+    onEndChanged: canvas.requestPaint()
 
     Canvas {
         id: canvas
 
         anchors.fill: parent
         onPaint: {
+            var centery = height /2
+            var centerx = width /2
+            var radius = Math.min(width/2, height) * 0.85
+
             var ctx = getContext('2d')
+            ctx.clearRect(0, 0, width, height)
+
             ctx.save()
             ctx.beginPath()
 
-            ctx.ellipse(lineWidth, lineWidth, width - 2 * lineWidth, height - 2 * lineWidth)
+            ctx.translate(centerx, centery)
+            ctx.arc(0, 0, radius, -start / 180 * Math.PI, -end / 180 * Math.PI, true)
+
             if (fill == FillStyle.Solid) {
+                ctx.endPath()
                 ctx.fillStyle = foreground
                 ctx.fill()
             }
