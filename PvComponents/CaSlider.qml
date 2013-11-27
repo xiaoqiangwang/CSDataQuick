@@ -7,7 +7,6 @@ import PvComponents 1.0
 
 CaControl {
     id: slider
-    background: 'darkgray'
     property bool usePVLimits: true
     property alias orientation: slider_control.orientation
 
@@ -20,6 +19,12 @@ CaControl {
                 implicitHeight: 8
                 color: slider.background
                 radius: 8
+            }
+            handle: Rectangle {
+                implicitHeight: 20
+                implicitWidth: 10
+                color: Qt.darker(slider.background)
+                radius: 5
             }
         }
 
