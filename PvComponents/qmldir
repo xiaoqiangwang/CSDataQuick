@@ -8,6 +8,7 @@ CaImage         1.0 CaImage.qml
 CaMenu          1.0 CaMenu.qml 
 CaMessageButton 1.0 CaMessageButton.qml
 CaMeter         1.0 CaMeter.qml
+CaMonitor       1.0 CaMonitor.qml
 CaOval          1.0 CaOval.qml 
 CaPolygon       1.0 CaPolygon.qml
 CaPolyline      1.0 CaPolyline.qml

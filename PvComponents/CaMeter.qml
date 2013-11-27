@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 import PvComponents 1.0
 
-CaControl {
+CaMonitor {
     property int lineWidth: 1
     property real minimum: 0.0
     property real maximum: 1.0

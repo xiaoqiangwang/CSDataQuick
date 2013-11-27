@@ -3,27 +3,39 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
-CaControl {
+CaMonitor {
     property bool usePVLimits: true
+    property real value: 0.0
+    property real minimum: 0.0
+    property real maximum: 1.0
 
-    ProgressBar {
-        id: bar_control
-        minimumValue: 0
-        maximumValue: 1
+    Rectangle {
+        id: panel
+        color: background
+        anchors.fill: parent
+        border.width: 1
+    }
 
-        Connections {
-            target: pv
-            onConnectionChanged: {
-                if (pv.connected && usePVLimits) {
-                    if (pv.lodisplim < pv.updisplim) {
-                        bar_control.minimumValue = pv.lodisplim
-                        bar_control.maximumValue = pv.updisplim
-                    }
+    Rectangle {
+        color: foreground
+        height: parent.height
+        anchors.left: parent.left
+        width: parent.width * (value)
+    }
+
+
+    Connections {
+        target: pv
+        onConnectionChanged: {
+            if (pv.connected && usePVLimits) {
+                if (pv.lodisplim < pv.updisplim) {
+                    minimumValue = pv.lodisplim
+                    maximumValue = pv.updisplim
                 }
             }
-            onValueChanged: {
-                bar_control.value = pv.value
-            }
+        }
+        onValueChanged: {
+            value = pv.value
         }
     }
 }

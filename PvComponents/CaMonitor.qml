@@ -2,7 +2,7 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 Item {
-    property color background: '#73dfff' // '#bbbbbb' is the actual default
+    property color background: '#bbbbbb'
     property color foreground: '#000000'
     property string colorMode: 'static'
 
