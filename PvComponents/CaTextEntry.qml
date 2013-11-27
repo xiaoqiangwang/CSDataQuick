@@ -18,7 +18,26 @@ CaControl {
         textColor: entry.foreground
         style: TextFieldStyle {
             background: Rectangle {
-                border.width: 1
+                anchors.fill: parent
+                BorderImage {
+                    anchors.fill: parent
+                    source: 'images/button_down.png'
+                    border {left: 3; right: 3; top: 3; bottom: 3;}
+                    width: parent.width
+                    height: parent.height
+
+                    BorderImage {
+                        anchors.fill: parent
+                        source: 'images/focusframe.png'
+                        anchors.leftMargin: -1
+                        anchors.topMargin: -2
+                        anchors.rightMargin: 0
+                        anchors.bottomMargin: -1
+                        border {left: 3; right: 3; top: 3; bottom: 3;}
+                        visible: control.activeFocus
+                    }
+
+                }
                 color: entry.background
             }
         }

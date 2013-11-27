@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.0
 
 import PvComponents 1.0
 
-CaControl {
+CaMonitor {
     property int orientation: Qt.Horizontal
     property int start: 0
     property int end: 31

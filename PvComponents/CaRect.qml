@@ -7,7 +7,7 @@ CaGraphics {
         id: rect
         border.width: lineWidth
         border.color: foreground
-        color: fill == FillStyle.Solid ? foreground : null
+        color: fill == FillStyle.Solid ? foreground : "transparent"
         anchors.fill: parent
     }
 }

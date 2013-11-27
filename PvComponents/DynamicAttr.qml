@@ -43,9 +43,9 @@ QtObject {
             var res = Utils.calculate(visibilityCalc, _arg)
             visibility = (res != 0)
         } else if (visibilityMode == VisibilityMode.IfZero)
-            visibility = (arg[0] == 0)
+            visibility = (_arg[0] == 0)
         else if (visibilityMode == VisibilityMode.IfNotZero)
-            visibility = (arg[0] != 1)
+            visibility = (_arg[0] != 1)
         else
             visibility = true
         update()

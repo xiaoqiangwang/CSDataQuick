@@ -3,7 +3,7 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
-CaControl {
+CaMonitor {
     id: label
     property alias align: label_control.horizontalAlignment
     property int format: TextFormat.Decimal
