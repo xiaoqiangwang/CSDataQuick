@@ -76,7 +76,7 @@ def calcBestFont(height):
         family = '"Helvetica"'
 
     fsize = [(8,8), (9,9), (10,10), (13,13), (14,14), (15,15), (16,16), (20,20), (22,22), (24,22),
-             (26,22), (30,34), (40, 34)]
+             (26,22), (30,34)]
     font = fsize[-1][1]
     for i,s in enumerate(fsize):
         if height < s[0]:
