@@ -63,6 +63,8 @@ void * PvObject::getArrayValue(unsigned long count)
 
 void PvObject::setValue(const QVariant val)
 {
+    if (!connected())
+        return;
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
     int status = ECA_NORMAL;
     bool ok = false;
