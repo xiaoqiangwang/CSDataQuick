@@ -5,6 +5,8 @@ Item {
     property color background: '#bbbbbb'
     property color foreground: '#000000'
     property string colorMode: 'static'
+    property int fontSize: 11
+    property string fontFamily: fontSize <= 22 ?'Dejavu Sans Mono' : 'Helvetica'
 
     // control channel
     property alias channel: pv.channel

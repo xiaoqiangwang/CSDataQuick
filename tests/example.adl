@@ -126,6 +126,7 @@ oval {
 		vis="if not zero"
 		calc="A"
 		chan="$(P)$(SLOT)$(IP):BUSY"
+		chanB="catest"
 	}
 }
 "message button" {
@@ -524,35 +525,6 @@ composite {
 		}
 	}
 }
-text {
-	object {
-		x=16
-		y=218
-		width=150
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Buffer size"
-	align="horiz. right"
-}
-"text entry" {
-	object {
-		x=188
-		y=212
-		width=101
-		height=27
-	}
-	control {
-		chan="$(P)$(SLOT)$(IP):SAMPLE"
-		clr=14
-		bclr=51
-	}
-	format="compact"
-	limits {
-	}
-}
 composite {
 	object {
 		x=16
@@ -644,40 +616,69 @@ composite {
 		}
 	}
 }
-composite {
+text {
 	object {
 		x=16
+		y=185
+		width=150
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Sample Frequency"
+	align="horiz. right"
+}
+menu {
+	object {
+		x=188
 		y=177
-		width=272
+		width=100
 		height=30
 	}
-	"composite name"=""
-	children {
-		text {
-			object {
-				x=16
-				y=185
-				width=150
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Sample Frequency"
-			align="horiz. right"
-		}
-		menu {
-			object {
-				x=188
-				y=177
-				width=100
-				height=30
-			}
-			control {
-				chan="$(P)$(SLOT)$(IP):FREQ"
-				clr=14
-				bclr=51
-			}
-		}
+	control {
+		chan="$(P)$(SLOT)$(IP):FREQ"
+		clr=14
+		bclr=51
+	}
+}
+rectangle {
+	object {
+		x=321
+		y=6
+		width=61
+		height=32
+	}
+	"basic attribute" {
+		clr=14
+	}
+}
+text {
+	object {
+		x=16
+		y=218
+		width=150
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Buffer size"
+	align="horiz. right"
+}
+"text entry" {
+	object {
+		x=188
+		y=212
+		width=101
+		height=27
+	}
+	control {
+		chan="$(P)$(SLOT)$(IP):SAMPLE"
+		clr=14
+		bclr=51
+	}
+	format="compact"
+	limits {
 	}
 }

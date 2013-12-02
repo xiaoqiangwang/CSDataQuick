@@ -7,6 +7,7 @@ import PvComponents 1.0
 
 CaControl {
     id: combo
+
     ComboBox {
         id: combo_control
         property bool __first: true
@@ -17,6 +18,8 @@ CaControl {
                 text: combo_control.currentText
                 anchors.verticalCenter: parent.verticalCenter
                 color: combo.foreground
+                font.pixelSize: combo.fontSize
+                font.family: combo.fontFamily
             }
             background: Rectangle {
                 anchors.fill: parent

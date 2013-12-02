@@ -18,6 +18,8 @@ CaMonitor {
         anchors.fill: parent
         Text {
             id: label_control
+            font.pixelSize: label.fontSize
+            font.family: label.fontFamily
             text: formatString(format, pv.value)
             color: label.foreground
             anchors.left: parent.left
@@ -30,8 +32,11 @@ CaMonitor {
         }
         Text {
             id: units
+            font.pixelSize: label.fontSize
+            font.family: label.fontFamily
             anchors.left: label_control.right
             anchors.right: parent.right
+            verticalAlignment: Text.AlignVCenter
             visible: withUnits
         }
     }

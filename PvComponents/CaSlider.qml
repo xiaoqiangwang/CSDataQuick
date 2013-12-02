@@ -7,8 +7,11 @@ import PvComponents 1.0
 
 CaControl {
     id: slider
-    property bool usePVLimits: true
+    property alias minimumValue: slider_control.minimumValue
+    property alias maximumValue: slider_control.maximumValue
     property alias orientation: slider_control.orientation
+    property alias stepSize: slider_control.stepSize
+    property bool usePVLimits: true
 
     Slider {
         id: slider_control
@@ -23,7 +26,7 @@ CaControl {
             handle: Rectangle {
                 implicitHeight: 20
                 implicitWidth: 10
-                color: Qt.darker(slider.background)
+                color: Qt.darker(slider.background, control.pressed ? 1.3 : 1.1)
                 radius: 5
             }
         }

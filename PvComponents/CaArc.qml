@@ -3,11 +3,11 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 CaGraphics {
-    property int start
+    property int begin
     property int end
 
     onForegroundChanged: canvas.requestPaint()
-    onStartChanged: canvas.requestPaint()
+    onBeginChanged: canvas.requestPaint()
     onEndChanged: canvas.requestPaint()
 
     Canvas {
@@ -26,7 +26,7 @@ CaGraphics {
             ctx.beginPath()
 
             ctx.translate(centerx, centery)
-            ctx.arc(0, 0, radius, -start / 180 * Math.PI, -end / 180 * Math.PI, true)
+            ctx.arc(0, 0, radius, -begin / 180 * Math.PI, -end / 180 * Math.PI, true)
 
             if (fill == FillStyle.Solid) {
                 ctx.endPath()

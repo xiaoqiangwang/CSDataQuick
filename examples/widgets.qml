@@ -5,8 +5,9 @@ import PvComponents 1.0
 
 ApplicationWindow {
     id: app
-    width: 800
+    width: 900
     height: 400
+    color: '#bbbbbb'
 
     menuBar: MenuBar {
         Menu {
@@ -36,7 +37,7 @@ ApplicationWindow {
             CaText {
                 width: 100
                 height: 20
-                text: 'A static label'
+                text: 'Oh, A static label'
             }
 
             CaRect {
@@ -62,7 +63,7 @@ ApplicationWindow {
                 }
                 width: 100
                 height: 100
-                start: 0
+                begin: 0
                 end: pv.value * 360
             }
 
@@ -88,8 +89,9 @@ ApplicationWindow {
             }
 
             CaPolyline {
-                width: 100
-                height: 50
+                width: 200
+                height: 80
+                channelC: ""
                 lineWidth: 2
                 foreground: 'black'
                 Component.onCompleted: {
@@ -107,8 +109,8 @@ ApplicationWindow {
             }
 
             CaImage {
-                width: 150
-                height: 200
+                width: 100
+                height: 100
                 source: 'LED.gif'
                 channel: 'catest'
                 imageCalc: 'A * 10'
@@ -118,13 +120,14 @@ ApplicationWindow {
         Flow {
             x: 10
             spacing: 10
+            width: parent.width
+
             CaMessageButton {
                 width: 100
                 height: 24
                 text: 'Click Me!'
                 channel: 'catest'
                 foreground: 'yellow'
-                background: 'steelblue'
                 onMessage: 0.1
                 offMessage: 0.5
             }
@@ -133,6 +136,7 @@ ApplicationWindow {
                 width: 100
                 height: 24
                 channel: 'catest'
+                stepSize: 0.01
             }
 
             CaTextEntry {
@@ -140,10 +144,12 @@ ApplicationWindow {
                 height:24
                 channel: 'catest'
                 colorMode: 'alarm'
+                background: '#73dfff'
             }
+
             CaMenu {
                 width: 100
-                height: 20
+                height: 50
                 channel: 'calc.SCAN'
             }
 
@@ -151,7 +157,21 @@ ApplicationWindow {
                 width: 100
                 orientation: 0
                 channel: 'bo'
-                background: 'lightsteelblue'
+            }
+
+            CaRelatedDisplay {
+                width: 100
+                height: 20
+                label: 'More'
+            }
+
+            CaShellCommand {
+                width: 100
+                height: 20
+                label: 'list'
+                model: ListModel {
+                    ListElement {label: 'List Directory'; command: 'ls'; args: '-l'; }
+                }
             }
         }
         Text {text: 'Monitor'}
@@ -168,6 +188,7 @@ ApplicationWindow {
             CaByte {
                 width: 320
                 height: 10
+                visibilityCalc: ""
                 channel: 'calc'
             }
             CaBar {
@@ -178,6 +199,11 @@ ApplicationWindow {
             CaMeter {
                 width: 100
                 height: 100
+                channel: 'catest'
+            }
+            CaStripChart {
+                width: 500
+                height: 300
                 channel: 'catest'
             }
        }

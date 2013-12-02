@@ -56,6 +56,8 @@ CaControl {
                                             StyledButton {
                                                     foreground: choiceButtons.foreground
                                                     background: choiceButtons.background
+                                                    pixelSize: choiceButtons.fontSize
+                                                    fontFamily: choiceButtons.fontFamily
                                                     checkable:true;
                                                     exclusiveGroup: radioInputGroup
                                                     onClicked: pv.setValue(%1)
