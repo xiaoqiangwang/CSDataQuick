@@ -3,8 +3,6 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 CaGraphics {
-    property int lineWidth: 1
-
     onForegroundChanged: canvas.requestPaint()
 
     Canvas {
@@ -22,6 +20,7 @@ CaGraphics {
                 ctx.fill()
             }
             ctx.lineWidth = lineWidth
+            ctx.strokeStyle = foreground
             ctx.stroke()
             ctx.restore()
         }

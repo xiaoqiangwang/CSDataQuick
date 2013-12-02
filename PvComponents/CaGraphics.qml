@@ -8,6 +8,8 @@ Item {
     property color background: 'transparent'
     property int fill: FillStyle.Outline
     property int edge: EdgeStyle.Solid
+    property int fontSize: 12
+    property string fontFamily: fontSize <= 22 ? 'Dejavu Sans Mono' : 'Helvetica'
 
     property int lineWidth: 1
     property int colorMode: ColorMode.Static

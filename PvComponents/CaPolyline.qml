@@ -3,7 +3,6 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 CaGraphics {
-    property int lineWidth: 1
     property var points: []
 
     onPointsChanged: canvas.requestPaint()
@@ -23,6 +22,7 @@ CaGraphics {
                 ctx.lineTo(points[i].x, points[i].y)
             }
             ctx.lineWidth = lineWidth
+            ctx.strokeStyle = foreground
             ctx.stroke()
             ctx.restore()
         }

@@ -16,6 +16,9 @@ CaControl {
         id: btn
         background: messageButton.background
         foreground: messageButton.foreground
+        pixelSize: messageButton.fontSize
+        fontFamily: messageButton.fontFamily
+        anchors.fill: parent
 
         onPressedChanged: {
             if (pressed)

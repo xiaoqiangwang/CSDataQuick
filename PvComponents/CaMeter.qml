@@ -3,9 +3,8 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 CaMonitor {
-    property int lineWidth: 1
-    property real minimum: 0.0
-    property real maximum: 1.0
+    property real minimumValue: 0.0
+    property real maximumValue: 1.0
     property real value: 0.0
 
     // limits
@@ -30,6 +29,7 @@ CaMonitor {
             var centery = height * 0.95
             var centerx = width /2
             var radius = Math.min(width/2, height) * 0.85
+            var lineWidth = 1
 
             // dial panel
             ctx.save()
@@ -52,7 +52,7 @@ CaMonitor {
             ctx.beginPath()
             ctx.save()
             ctx.translate(centerx, centery)
-            ctx.rotate(Math.PI * (value - minimum) / (maximum - minimum))
+            ctx.rotate(Math.PI * (value - minimumValue) / (maximumValue - minimumValue))
             ctx.moveTo(-radius, 0)
             ctx.lineTo(0, 0)
             ctx.lineWidth = lineWidth * 3

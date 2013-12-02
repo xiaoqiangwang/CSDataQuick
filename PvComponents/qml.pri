@@ -26,5 +26,6 @@ OTHER_FILES += \
     $$PWD/utils.js \
     $$PWD/CaArc.qml \
     PvComponents/CaImage.qml \
-    PvComponents/CaMonitor.qml
+    PvComponents/CaMonitor.qml \
+    PvComponents/CaStripChart.qml
 

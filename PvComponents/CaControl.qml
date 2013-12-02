@@ -5,6 +5,8 @@ Item {
     property color background: '#73dfff' // '#bbbbbb' is the actual default
     property color foreground: '#000000'
     property string colorMode: 'static'
+    property int fontSize: 12
+    property string fontFamily: fontSize <= 22 ? 'Courier' : 'Helvetica'
 
     // control channel
     property alias channel: pv.channel

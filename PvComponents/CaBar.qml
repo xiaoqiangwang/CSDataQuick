@@ -6,8 +6,9 @@ import PvComponents 1.0
 CaMonitor {
     property bool usePVLimits: true
     property real value: 0.0
-    property real minimum: 0.0
-    property real maximum: 1.0
+    property real minimumValue: 0.0
+    property real maximumValue: 1.0
+    property int  direction: 1 // up right down left
 
     Rectangle {
         id: panel
@@ -18,11 +19,13 @@ CaMonitor {
 
     Rectangle {
         color: foreground
-        height: parent.height
-        anchors.left: parent.left
-        width: parent.width * (value)
+        width: direction == 0 || direction == 2 ? parent.width : parent.width * (value - minimumValue) / (maximumValue - minimumValue)
+        height: direction == 1 || direction == 3 ? parent.height : parent.height * (value - minimumValue) / (maximumValue - minimumValue)
+        anchors.left: direction == 1 ? parent.left : undefined
+        anchors.right: direction == 3 ? parent.right : undefined
+        anchors.top: direction == 2 ? parent.top : undefined
+        anchors.bottom: direction == 0 ? parent.bottom : undefined
     }
-
 
     Connections {
         target: pv
