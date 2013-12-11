@@ -3,26 +3,14 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 CaGraphics {
-    onForegroundChanged: canvas.requestPaint()
+    id: control
 
-    Canvas {
-        id: canvas
-
+    Oval {
+        id: oval
         anchors.fill: parent
-        onPaint: {
-            var ctx = getContext('2d')
-            ctx.save()
-            ctx.beginPath()
-
-            ctx.ellipse(lineWidth, lineWidth, width - 2 * lineWidth, height - 2 * lineWidth)
-            if (fill == FillStyle.Solid) {
-                ctx.fillStyle = foreground
-                ctx.fill()
-            }
-            ctx.lineWidth = lineWidth
-            ctx.strokeStyle = foreground
-            ctx.stroke()
-            ctx.restore()
-        }
+        foreground: control.foreground
+        lineWidth: control.lineWidth
+        fillStyle: control.fill
+        edgeStyle: control.edge
     }
 }

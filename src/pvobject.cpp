@@ -106,7 +106,7 @@ void PvObject::setValue(const QVariant val)
     }
     if (status != ECA_NORMAL)
         qDebug() << ca_message(status);
-    ca_pend_io(0.000001);
+    ca_flush_io();
 }
 
 long PvObject::connect(const char* name)

@@ -34,6 +34,7 @@ CaMonitor {
             id: units
             font.pixelSize: label.fontSize
             font.family: label.fontFamily
+            color: label.foreground
             anchors.left: label_control.right
             anchors.right: parent.right
             verticalAlignment: Text.AlignVCenter
@@ -43,6 +44,8 @@ CaMonitor {
 
     function formatString(format, value) {
         var result = value
+        if (value instanceof Array)
+            return value
         if (format == TextFormat.Decimal)
             result = Number(value).toFixed(precision)
         else if (format === TextFormat.Exponential)

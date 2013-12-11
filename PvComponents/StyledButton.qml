@@ -20,9 +20,10 @@ Button {
             Image {
                 id: icon
                 source: control.iconSource
-                anchors.leftMargin: 2
-                width: Math.min(control.height, control.width) * 0.8
-                height: Math.min(control.height, control.width) * 0.8
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                width: Math.min(control.height, control.width)
+                height: Math.min(control.height, control.width)
             }
 
             BorderImage {
@@ -39,7 +40,7 @@ Button {
         label: Text {
             text: control.text
             anchors.fill: parent
-            anchors.leftMargin: control.iconSource == '' ? 0 : Math.min(control.height, control.width) * 0.8
+            anchors.leftMargin: control.iconSource == '' ? 0 : Math.min(control.height, control.width)
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             color: control.foreground

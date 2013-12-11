@@ -45,7 +45,7 @@ QtObject {
         } else if (visibilityMode == VisibilityMode.IfZero)
             visibility = (_arg[0] == 0)
         else if (visibilityMode == VisibilityMode.IfNotZero)
-            visibility = (_arg[0] != 1)
+            visibility = (_arg[0] != 0)
         else
             visibility = true
         update()

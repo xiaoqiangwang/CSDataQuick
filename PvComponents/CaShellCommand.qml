@@ -10,6 +10,7 @@ CaControl {
     }
 
     function runCommand(command) {
+        console.log('dscds')
         if (!Utils.execute(command))
             console.error('Error happend when run command: `%1`'.arg(command))
     }
@@ -23,25 +24,23 @@ CaControl {
             btnLabel = '! ' + shell.label
 
         // Create button
-        var btn = Qt.createQmlObject('import QtQuick 2.1;' +
+        var btnCmd = 'import QtQuick 2.1;' +
                                      'import QtQuick.Controls 1.0;' +
                                      'import PvComponents 1.0;' +
                                      'StyledButton {' +
                                          'anchors.fill: parent;' +
                                          'text: "%1";'.arg(btnLabel) +
-                                         'menu: Menu {}\n' +
+                                         '%1\n' +
                                          'foreground: shell.foreground;' +
                                          'background: shell.background;' +
                                          'pixelSize: shell.fontSize;' +
-                                         'fontFamily: shell.fontFamily;}',
-                                     shell, 'button')
-
+                                         'fontFamily: shell.fontFamily;}'
+        // Single entry, direct action on button click
         if (model.count == 1) {
-            var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; import PvComponents 1.0; Action{onTriggered: runCommand("%1 %2")}'
-                                        .arg(model.get(0).command).arg(model.get(0).args), shell, 'action')
-
-            btn.action = action
+            Qt.createQmlObject(btnCmd.arg('onClicked: runCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), shell, 'button')
+        // Multiple entries, popup menu on button click
         } else {
+            var btn = Qt.createQmlObject(btnCmd.arg('menu: Menu{}'), shell, 'button')
             var label, command, args
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label

@@ -14,12 +14,12 @@ CaMonitor {
         target: pv
         onValueChanged: {
             value  = Number(pv.value).toFixed(precision)
-            canvas.requestPaint()
+            needle.requestPaint()
         }
     }
 
     Canvas {
-        id: canvas
+        id: panel
         anchors.fill: parent
 
         onPaint: {
@@ -30,6 +30,8 @@ CaMonitor {
             var centerx = width /2
             var radius = Math.min(width/2, height) * 0.85
             var lineWidth = 1
+            var angle = Math.PI * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue))
+            console.log(angle)
 
             // dial panel
             ctx.save()
@@ -47,12 +49,28 @@ CaMonitor {
             ctx.lineWidth = lineWidth
             ctx.stroke()
             ctx.restore()
+        }
+    }
+
+    Canvas {
+        id: needle
+        anchors.fill: parent
+
+        onPaint: {
+            var ctx = getContext('2d')
+            ctx.clearRect(0, 0, width, height)
+
+            var centery = height * 0.95
+            var centerx = width /2
+            var radius = Math.min(width/2, height) * 0.85
+            var lineWidth = 1
+            var angle = Math.PI * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue))
 
             // needle
             ctx.beginPath()
             ctx.save()
             ctx.translate(centerx, centery)
-            ctx.rotate(Math.PI * (value - minimumValue) / (maximumValue - minimumValue))
+            ctx.rotate(angle)
             ctx.moveTo(-radius, 0)
             ctx.lineTo(0, 0)
             ctx.lineWidth = lineWidth * 3

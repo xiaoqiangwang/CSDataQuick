@@ -128,9 +128,11 @@ Text {
     Slide {
         title: "QtQuick"
         content: [
-            "QML: Qt Meta Language",
             "QtQuick: Declarative way of building dynamic GUI",
-            "  Scene graph based rendering. Non-imperative, allows optimization, rendering in separate threads",
+            "  QML: Qt Meta Language",
+            "    Javascript alike, JIT optimized",
+            "    Extensible with C++",
+            "  Scene graph based rendering. Non-imperative.",
         ]
     }
 
@@ -140,6 +142,19 @@ Text {
 
     Slide {
         title: "WebKit"
+    }
+
+    Slide {
+        title: "MVC"
+    }
+
+    Slide {
+        centeredText: "E P I C S ?"
+    }
+
+    Slide {
+        title: "Double Slit"
+
     }
 
     Slide {

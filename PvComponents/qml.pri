@@ -25,7 +25,9 @@ OTHER_FILES += \
     $$PWD/CaRect.qml \
     $$PWD/utils.js \
     $$PWD/CaArc.qml \
-    PvComponents/CaImage.qml \
-    PvComponents/CaMonitor.qml \
-    PvComponents/CaStripChart.qml
+    $$PWD/CaImage.qml \
+    $$PWD/CaMonitor.qml \
+    $$PWD/CaStripChart.qml \
+    $$PWD/WheelSwitch.qml \
+    $$PWD/WheelDigit.qml
 

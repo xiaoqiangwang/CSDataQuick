@@ -12,6 +12,7 @@ public:
 
     Q_INVOKABLE double calculate(QString expr, QVariantList input);
     Q_INVOKABLE bool execute(QString program);
+    Q_INVOKABLE QString format(QString format, double number);
 signals:
 
 public slots:

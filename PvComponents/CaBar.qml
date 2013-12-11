@@ -19,8 +19,8 @@ CaMonitor {
 
     Rectangle {
         color: foreground
-        width: direction == 0 || direction == 2 ? parent.width : parent.width * (value - minimumValue) / (maximumValue - minimumValue)
-        height: direction == 1 || direction == 3 ? parent.height : parent.height * (value - minimumValue) / (maximumValue - minimumValue)
+        width: direction == 0 || direction == 2 ? parent.width : parent.width * Math.min(1.0, (value - minimumValue) / (maximumValue - minimumValue))
+        height: direction == 1 || direction == 3 ? parent.height : parent.height * Math.min(1.0, (value - minimumValue) / (maximumValue - minimumValue))
         anchors.left: direction == 1 ? parent.left : undefined
         anchors.right: direction == 3 ? parent.right : undefined
         anchors.top: direction == 2 ? parent.top : undefined

@@ -22,6 +22,21 @@ Item {
     visible: da.visibility
     DynamicAttr { id: da }
 
+    Rectangle {
+        z: 1
+        anchors.fill: parent
+        color: 'white'
+        visible: channel != '' && !pv.connected
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton | Qt.MiddleButton
+        onPressAndHold: {
+            console.log('sdcdscsd')
+        }
+    }
+
     Connections {
         target: pv
 

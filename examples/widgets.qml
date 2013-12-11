@@ -61,10 +61,12 @@ ApplicationWindow {
                     id: pv
                     channel: 'catest'
                 }
+
                 width: 100
                 height: 100
-                begin: 0
-                end: pv.value * 360
+                begin: 90
+                span: pv.value * 360
+                fill: FillStyle.Solid
             }
 
             CaPolygon {
@@ -73,19 +75,8 @@ ApplicationWindow {
                 lineWidth: 2
                 foreground: 'pink'
                 fill: FillStyle.Solid
-
-                Component.onCompleted: {
-                    points = create_sin()
-                }
-                function create_sin() {
-                    var pts = []
-                    for (var i=0; i<20; i++) {
-                        x = width / 20 * i
-                        y = height / 2.5 *Math.sin(i / 20. * 2 * Math.PI) + height / 2
-                        pts.push(Qt.point(x, y))
-                    }
-                    return pts
-                }
+                edge: EdgeStyle.Solid
+                points: [Qt.point(50, 5), Qt.point(20, 40), Qt.point(80, 40)]
             }
 
             CaPolyline {
@@ -94,18 +85,10 @@ ApplicationWindow {
                 channelC: ""
                 lineWidth: 2
                 foreground: 'black'
-                Component.onCompleted: {
-                    points = create_sin()
-                }
-                function create_sin() {
-                    var pts = []
-                    for (var i=0; i<20; i++) {
-                        x = width / 20 * i
-                        y = height / 2.5 *Math.sin(i / 20. * 4 * Math.PI) + height / 2
-                        pts.push(Qt.point(x, y))
-                    }
-                    return pts
-                }
+                background: 'black'
+                edge: EdgeStyle.Solid
+                points: [Qt.point(10,10), Qt.point(100, 30),
+                    Qt.point(100, 70), Qt.point(50, 80)]
             }
 
             CaImage {
@@ -117,7 +100,7 @@ ApplicationWindow {
             }
         }
         Text {text: 'Control'}
-        Flow {
+        Row {
             x: 10
             spacing: 10
             width: parent.width
@@ -126,27 +109,27 @@ ApplicationWindow {
                 width: 100
                 height: 24
                 text: 'Click Me!'
-                channel: 'catest'
+                channel: 'calc'
                 foreground: 'yellow'
                 onMessage: 0.1
                 offMessage: 0.5
             }
 
             CaSlider {
-                width: 100
+                width: 200
                 height: 24
                 channel: 'catest'
+                minimumValue: 0.0
+                maximumValue: 1.0
                 stepSize: 0.01
             }
-
             CaTextEntry {
                 width:100
                 height:24
-                channel: 'catest'
+                channel: 'calc'
                 colorMode: 'alarm'
                 background: '#73dfff'
             }
-
             CaMenu {
                 width: 100
                 height: 50
@@ -155,6 +138,7 @@ ApplicationWindow {
 
             CaChoiceButton {
                 width: 100
+                height: 30
                 orientation: 0
                 channel: 'bo'
             }
@@ -163,6 +147,9 @@ ApplicationWindow {
                 width: 100
                 height: 20
                 label: 'More'
+                model: ListModel {
+                    ListElement {label: 'test'; fname: '../examples/widgets.qml'; args: ''; remove: false}
+                }
             }
 
             CaShellCommand {
@@ -173,6 +160,7 @@ ApplicationWindow {
                     ListElement {label: 'List Directory'; command: 'ls'; args: '-l'; }
                 }
             }
+
         }
         Text {text: 'Monitor'}
         Flow {

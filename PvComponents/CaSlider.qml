@@ -16,6 +16,7 @@ CaControl {
     Slider {
         id: slider_control
         anchors.fill: parent
+
         style:SliderStyle {
             groove: Rectangle {
                 implicitWidth: 200
@@ -45,6 +46,9 @@ CaControl {
                 slider_control.value = pv.value
             }
         }
-        onValueChanged: pv.setValue(value)
+
+        onValueChanged: {
+            pv.setValue(value)
+        }
     }
 }
