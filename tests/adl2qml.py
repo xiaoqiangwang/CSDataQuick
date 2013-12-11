@@ -55,6 +55,11 @@ FillStyle = {
     '"outline"' : 'FillStyle.Outline',
 }
 
+EdgeStyle = {
+    '"solid"' : 'EdgeStyle.Solid',
+    '"dash"'  : 'EdgeStyle.Dash',
+}
+
 Visual = {
     'menu' : 0,
     '"a row of buttons"' : 1,
@@ -67,6 +72,11 @@ Direction = {
     '"right"': '1',
     '"down"' : '2',
     '"left"' : '3',
+}
+
+Stacking = {
+    '"row"' : 1,
+    '"column"': 0
 }
 
 def calcBestFont(height):
@@ -149,11 +159,11 @@ import QtQuick.Window 2.0
 
 import PvComponents 1.0
 
-Window {
+Rectangle {
     visible: true
 
-    x: %s
-    y: %s
+    //x: %s
+    //y: %s
     width: %s
     height: %s
     color: "%s"
@@ -178,10 +188,10 @@ class MEDMControl(MEDMObject):
 
     def toQML(self):
         s = """
-    channel: %s
     foreground: %s
     background: %s
-""" % (self.channel, self.foreground, self.background)
+    channel: %s
+""" % (self.foreground, self.background, self.channel)
 
         return super(MEDMControl, self).toQML() + s
 
@@ -232,15 +242,17 @@ class MEDMButton(MEDMControl):
 class MEDMChoiceButton(MEDMControl):
     def __init__(self, d, parent=None):
         super(MEDMChoiceButton, self).__init__(d, parent)
+        self.stacking = Stacking[d.get('stacking', '"row"')]
 
     def toQML(self):
         s = """CaChoiceButton {
         %s
+        orientation: %s
 }
-""" % (super(MEDMChoiceButton, self).toQML())
+""" % (super(MEDMChoiceButton, self).toQML(), self.stacking)
         return s
 
-class MEDMMenu(MEDMObject):
+class MEDMMenu(MEDMControl):
     def __init__(self, d, parent=None):
         super(MEDMMenu, self).__init__(d, parent)
         self.channel = d['control']['chan']
@@ -249,15 +261,9 @@ class MEDMMenu(MEDMObject):
 
     def toQML(self):
         s = """CaMenu {
-    x: %s
-    y: %s
-    width: %s
-    height: %s
-    foreground: %s
-    background: %s
-    channel: %s
+    %s
 }
-""" % (self.x, self.y, self.width, self.height, self.color, self.background, self.channel)
+""" % (super(MEDMMenu, self).toQML())
         return s
 
 
@@ -459,6 +465,7 @@ class MEDMGraphics(MEDMObject):
         super(MEDMGraphics, self).__init__(d, parent)
         self.foreground  =  '"#%s"' % color_map[int(d['"basic attribute"']['clr'])]
         self.fill = d['"basic attribute"'].get('fill', '"solid"')
+        self.edge = d['"basic attribute"'].get('style', '"solid"')
         self.lineWidth = d['"basic attribute"'].get('width', '1')
         if self.lineWidth == '0':
             self.lineWidth = '1'
@@ -475,9 +482,7 @@ class MEDMGraphics(MEDMObject):
         s = """
     %s
     foreground: %s
-    fill: %s
-    lineWidth: %s
-""" % (super(MEDMGraphics, self).toQML(), self.foreground, FillStyle[self.fill], self.lineWidth)
+""" % (super(MEDMGraphics, self).toQML(), self.foreground)
 
         q = ''
         if hasattr(self, 'channel'):
@@ -495,14 +500,13 @@ class MEDMGraphics(MEDMObject):
 class MEDMText(MEDMGraphics):
     def __init__(self, d, parent=None):
         super(MEDMText, self).__init__(d, parent)
-        self.text = d['textix']
+        self.text = d.get('textix', '""')
         self.align =  '%s' % TextAlign[d.get('align', '"horiz. left"')]
 
     def toQML(self):
         size, family = calcBestFont(self.height)
         s = """CaText {
     %s
-    background: 'green'
     align: %s
     text: %s
     fontSize: %s
@@ -528,15 +532,18 @@ class MEDMArc(MEDMGraphics):
     def __init__(self, d, parent=None):
         super(MEDMArc, self).__init__(d, parent)
         self.begin = int(d['begin']) / 64.
-        self.end = int(d['path']) / 64. + self.begin
+        self.span = int(d['path']) / 64.
 
     def toQML(self):
         s = """CaArc {
     %s
+    fill: %s
+    edge: %s
+    lineWidth: %s
     begin: %s
-    end: %s
+    span: %s
 }
-""" % (super(MEDMArc, self).toQML(), self.begin, self.end)
+""" % (super(MEDMArc, self).toQML(), FillStyle[self.fill], EdgeStyle[self.edge], self.lineWidth, self.begin, self.span)
         return s
 
 class MEDMOval(MEDMGraphics):
@@ -545,9 +552,12 @@ class MEDMOval(MEDMGraphics):
 
     def toQML(self):
         s = """CaOval {
-        %s
-}
-""" % (super(MEDMOval, self).toQML())
+    %s
+    fill: %s
+    edge: %s
+    lineWidth: %s
+ }
+""" % (super(MEDMOval, self).toQML(), FillStyle[self.fill], EdgeStyle[self.edge], self.lineWidth,)
         return s
 
 class MEDMRect(MEDMGraphics):
@@ -557,8 +567,11 @@ class MEDMRect(MEDMGraphics):
     def toQML(self):
         s = """CaRect {
     %s
+    fill: %s
+    edge: %s
+    lineWidth: %s
 }
-""" % (super(MEDMRect, self).toQML())
+""" % (super(MEDMRect, self).toQML(), FillStyle[self.fill], EdgeStyle[self.edge], self.lineWidth,)
         return s
 
 
@@ -575,9 +588,11 @@ class MEDMPolyline(MEDMGraphics):
         p += ']'
         s = """CaPolyline {
     %s
+    edge: %s
+    lineWidth: %s
     points: %s
 }
-""" % (super(MEDMPolyline, self).toQML(), p)
+""" % (super(MEDMPolyline, self).toQML(), EdgeStyle[self.edge], self.lineWidth, p)
         return s
 
 class MEDMPolygon(MEDMGraphics):
@@ -595,9 +610,12 @@ class MEDMPolygon(MEDMGraphics):
         p += ']'
         s = """CaPolygon {
     %s
+    fill: %s
+    edge: %s
+    lineWidth: %s
     points: %s
 }
-""" % (super(MEDMPolygon, self).toQML(), p)
+""" % (super(MEDMPolygon, self).toQML(), FillStyle[self.fill], EdgeStyle[self.edge], self.lineWidth, p)
         return s
 
 class MEDMComposite(MEDMObject):
@@ -614,23 +632,27 @@ class MEDMComposite(MEDMObject):
 
     def toQML(self):
         s = ''
+        if self.file:
+            s = """ Loader {
+    %s
+    source: %s
+}
+ """ % (super(MEDMComposite, self).toQML(), self.file)
+            return s
+
         for c in self.children:
             qml = c.toQML()
+            # incomplete types
             if '{' not in qml:
                 qml = 'Item {\n' + qml + '}\n'
             s += qml
 
-        return """ GroupBox {
-        x: %s
-        y: %s
-        width: %s
-        height: %s
-        flat: true
-
+        return """ Item {
+        %s
         %s
 
 }
-""" % (int(self.x) - 8, int(self.y) - 8, self.width, self.height, s)
+""" % (super(MEDMComposite, self).toQML(), s)
 
 def parseADL(lines):
     objects = []

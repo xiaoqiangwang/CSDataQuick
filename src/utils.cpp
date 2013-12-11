@@ -10,6 +10,11 @@ Utils::Utils(QObject *parent) :
 {
 }
 
+QString Utils::format(QString format, double number)
+{
+    return QString("").sprintf(format.toLatin1(), number);
+}
+
 double Utils::calculate(QString expr, QVariantList input)
 {
     double result = 0.0;

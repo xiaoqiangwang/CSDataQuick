@@ -1,9 +1,3 @@
-TEMPLATE = lib
-CONFIG += plugin
-QT += quick
-
-TARGET = pvcomponentsplugin
-DESTDIR = PvComponents
-
-include(src/plugin.pri)
-include(PvComponents/qml.pri)
+TEMPLATE = subdirs
+SUBDIRS = src/plugin.pro #viewer/viewer.pro
+include (PvComponents/qml.pri)

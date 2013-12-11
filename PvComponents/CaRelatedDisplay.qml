@@ -4,8 +4,12 @@ import QtQuick.Controls 1.0
 import PvComponents 1.0
 
 
-CaControl {
+Rectangle {
     id: display
+    property color foreground: '#000000'
+    property color background: '#73dfff' // '#bbbbbb' is the actual default
+    property string fontFamily
+    property int fontSize
     property string label: ''
     property int visual: 0
 
