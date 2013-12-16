@@ -196,6 +196,14 @@ ApplicationWindow {
                 channel: 'catest'
                 colorMode: ColorMode.Alarm
             }
+            CaBar {
+                width: 40
+                height: 100
+                direction: 1
+                channel: 'catest'
+                colorMode: ColorMode.Alarm
+            }
+
             CaMeter {
                 width: 80
                 height: 60
