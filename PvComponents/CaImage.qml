@@ -11,7 +11,7 @@ CaGraphics {
         onUpdate: {
             if (imageCalc != '') {
                 var frame = Utils.calculate(imageCalc, da._arg)
-                animation.currentFrame = frame
+                animation.currentFrame = frame % animation.frameCount
             }
         }
     }

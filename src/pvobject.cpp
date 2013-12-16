@@ -60,6 +60,20 @@ void * PvObject::getArrayValue(unsigned long count)
     return _array;
 }
 
+void PvObject::updateValue(const QVariant value)
+{
+    _value.setValue(value);
+    emit valueChanged();
+}
+
+void PvObject::updateStatus(int severity, int status)
+{
+    if (_status != status || _severity != severity) {
+        _status = status;
+        _severity = severity;
+        emit statusChanged();
+    }
+}
 
 void PvObject::setValue(const QVariant val)
 {
@@ -236,8 +250,7 @@ void PvObject::connectCallback(struct connection_handler_args args)
             return;
         ca_flush_io();
     } else {
-        _connected = false;
-        emit connectionChanged();
+        setConnected(false);
     }
 }
 
@@ -308,12 +321,9 @@ void PvObject::getCallback(struct event_handler_args args)
     }
 
     // Set connected after first get succeeds
-    _connected = true;
-    emit connectionChanged();
+    setConnected(true);
     // Signal status/severity
-    _status = status;
-    _severity = severity;
-    emit statusChanged();
+    updateStatus(severity, status);
 }
 
 //
@@ -377,12 +387,7 @@ void PvObject::monitorCallback(struct event_handler_args args)
         break;
     }
     // Signal value change
-    _value.setValue(value);
-    emit valueChanged();
+    updateValue(value);
     // Signal status/severity change if any
-    if (_status != status || _severity != severity) {
-        _status = status;
-        _severity = severity;
-        emit statusChanged();
-    }
+    updateStatus(severity, status);
 }

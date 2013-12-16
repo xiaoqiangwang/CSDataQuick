@@ -4,21 +4,6 @@
 #include <QObject>
 #include <QVariant>
 
-class Utils : public QObject
-{
-    Q_OBJECT
-public:
-    explicit Utils(QObject *parent = 0);
-
-    Q_INVOKABLE double calculate(QString expr, QVariantList input);
-    Q_INVOKABLE bool execute(QString program);
-    Q_INVOKABLE QString format(QString format, double number);
-signals:
-
-public slots:
-
-};
-
 class TextFormat : public QObject
 {
     Q_OBJECT
@@ -111,4 +96,46 @@ private:
     VisibilityMode& operator=(const VisibilityMode&);
 };
 
+class LimitsSource : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(LimitsSourceEnum)
+public:
+    enum LimitsSourceEnum {
+        Channel = 0,
+        Default,
+        User
+    };
+};
+
+class LabelStyle : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(LabelStyleEnum)
+public:
+    enum LabelStyleEnum {
+        Frame = 0,
+        None,
+        Outline,
+        Limits,
+        Channel
+    };
+};
+
+class Utils : public QObject
+{
+    Q_OBJECT
+public:
+    explicit Utils(QObject *parent = 0);
+
+    Q_INVOKABLE double calculate(QString expr, QVariantList input);
+    Q_INVOKABLE bool execute(QString program);
+    Q_INVOKABLE QString format(QString format, double number);
+    Q_INVOKABLE QString convert(int format, QVariant value, int precision);
+
+signals:
+
+public slots:
+
+};
 #endif // UTILS_H

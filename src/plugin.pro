@@ -7,15 +7,15 @@ DESTDIR = $$PWD/../PvComponents
 
 # EPICS related
 INCLUDEPATH += $$(EPICS_BASE)/include/
-LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH)  -lca -lCom
+LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
+
 win32 {
-    INCLUDEPATH += $$(EPICS_BASE)/include//os/WIN32
-    #LIBS += ws2_32
+    INCLUDEPATH += $$(EPICS_BASE)/include/os/WIN32
+    QMAKE_CXXFLAGS += -D_MINGW
 }
 linux {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/Linux
     LIBS += -Wl,-rpath=$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH)
-
 }
 macx {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/Darwin
@@ -26,7 +26,8 @@ SOURCES += \
     $$PWD/adimageprovider.cpp \
     $$PWD/plugin.cpp \
     $$PWD/utils.cpp \
-    $$PWD/shapes.cpp
+    $$PWD/shapes.cpp \
+    $$PWD/conversion.c
 
 HEADERS += \
     $$PWD/pvobject.h \

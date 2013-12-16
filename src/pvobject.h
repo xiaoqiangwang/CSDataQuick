@@ -22,6 +22,8 @@ class PvObject : public QObject, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
+    Q_ENUMS(FieldType)
+
     Q_PROPERTY(bool connected READ connected WRITE setConnected NOTIFY connectionChanged)
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(QString channel  READ channel  WRITE setChannel)
@@ -38,7 +40,7 @@ class PvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant loctrllim READ loctrllim)
     Q_PROPERTY(QVariant updisplim READ updisplim)
     Q_PROPERTY(QVariant lodisplim READ lodisplim)
-
+    Q_PROPERTY(int type READ type)
 public:
     explicit PvObject(QObject *parent = 0);
     ~PvObject();
@@ -73,8 +75,20 @@ public:
 
     static void exception_handler(exception_handler_args args)
     {
-
+        Q_UNUSED(args);
     }
+
+    enum FieldType {
+        String = 0,
+        Integer = 1,
+        Short = 1,
+        Float = 2,
+        Enum = 3,
+        Char = 4,
+        Long = 5,
+        Double = 6,
+        Invalid = 7,
+    };
 
     /* connection management */
     long connect(const char *name);
@@ -91,6 +105,7 @@ public:
     /* property access functions */
     Q_INVOKABLE void setValue(const QVariant val);
     QVariant value() {return _value;}
+    void updateValue(const QVariant val);
 
     void * getArrayValue(unsigned long count);
 
@@ -104,8 +119,9 @@ public:
     void setMonitor(bool monitor) {_monitor = monitor;}
 
     bool connected() {return _connected;}
-    void setConnected(bool connected) {_connected = connected;}
+    void setConnected(bool connected) {_connected = connected; emit connectionChanged();}
 
+    void updateStatus(int severity, int status);
     int severity() {return _severity;}
     int status()   {return _status;}
     QString units()    {return _units;}
@@ -116,6 +132,7 @@ public:
     QVariant loctrllim(){return _loctrllim;}
     QVariant updisplim(){return _updisplim;}
     QVariant lodisplim(){return _lodisplim;}
+    int type() {return _chid ? ca_field_type(_chid) : Invalid; }
 
 signals:
     void valueChanged();
