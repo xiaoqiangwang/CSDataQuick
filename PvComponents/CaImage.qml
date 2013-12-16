@@ -19,7 +19,7 @@ CaGraphics {
     AnimatedImage {
         id: animation;
         anchors.fill: parent
-        fillMode: Image.PreserveAspectFit
+        fillMode: Image.Stretch
         // play animation unless calculation is used
         playing: imageCalc == ''
     }
