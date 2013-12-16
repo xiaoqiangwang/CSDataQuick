@@ -9,18 +9,57 @@ Item {
     property alias foreground : progress.color
     property int  direction: 0 // right up left down
     property int fillMode: 0 // edge center
+    property bool showRange: false
+
+    Item {
+        id: range
+        width: (direction == 0 || direction == 2) ? root.width : root.width / 3
+        height: (direction == 0 || direction == 2) ? root.height / 3 : root.height
+        anchors.top: (direction == 0 || direction == 2) ? root.top : undefined
+        anchors.left: (direction == 0 || direction == 2) ? undefined : root.left
+
+        visible: root.showRange
+        Text {
+            height: (direction == 0 || direction == 2) ? range.height : 8
+            width:  (direction == 0 || direction == 2) ? 10 : range.width
+            text: minimumValue
+            font.pixelSize: height
+            anchors.left: (direction == 0 || direction == 2) ? range.left : undefined
+            anchors.top: (direction == 1 || direction == 3) ? range.top : undefined
+        }
+        Text {
+            height: (direction == 0 || direction == 2) ? range.height : 8
+            width:  (direction == 0 || direction == 2) ? 10 : range.width
+            text: value
+            font.pixelSize: height
+            anchors.horizontalCenter: (direction == 0 || direction == 2) ? range.horizontalCenter : undefined
+            anchors.verticalCenter: (direction == 1 || direction == 3) ? range.verticalCenter : undefined
+        }
+        Text {
+            height: (direction == 0 || direction == 2) ? range.height : 8
+            width:  (direction == 0 || direction == 2) ? 10 : range.width
+            text: maximumValue
+            font.pixelSize: height
+            anchors.right: (direction == 0 || direction == 2) ? range.right : undefined
+            anchors.bottom: (direction == 1 || direction == 3) ? range.bottom : undefined
+        }
+    }
 
     Rectangle {
         id: panel
-        anchors.fill: parent
+        anchors.top: (direction == 0 || direction == 2) ? range.bottom : undefined
+        anchors.left: (direction == 0 || direction == 2) ? undefined : range.right
+        //width: root.width
+        //height: root.height * 0.5
+        width: (direction == 0 || direction == 2) ? root.width : root.width / 2
+        height: (direction == 0 || direction == 2) ? root.height / 2 : root.height
         border.width: 1
     }
 
     Rectangle {
         id: progress
-        anchors.margins: panel.border.width
-        width: direction == 1 || direction == 3 ? parent.width : parent.width * calcPercentage()
-        height: direction == 0 || direction == 2 ? parent.height : parent.height * calcPercentage()
+        width: direction == 1 || direction == 3 ? panel.width : panel.width * calcPercentage()
+        height: direction == 0 || direction == 2 ? panel.height : panel.height * calcPercentage()
     }
 
     onValueChanged: defineAnchors()
@@ -32,58 +71,62 @@ Item {
             if (fillMode == 1)
                 if (value > middle) {
                     progress.anchors.right = undefined
-                    progress.anchors.left = root.horizontalCenter
+                    progress.anchors.left = panel.horizontalCenter
                 }
                 else {
                     progress.anchors.left = undefined
-                    progress.anchors.right = root.horizontalCenter
+                    progress.anchors.right = panel.horizontalCenter
                 }
             else {
                 progress.anchors.right = undefined
-                progress.anchors.left = root.left
+                progress.anchors.left = panel.left
             }
+            progress.anchors.top = panel.top
             break;
         case 2:
             if (fillMode == 1)
                 if (value > middle) {
                     progress.anchors.left = undefined
-                    progress.anchors.right = root.horizontalCenter
+                    progress.anchors.right = panel.horizontalCenter
                 } else {
                     progress.anchors.right = undefined
-                    progress.anchors.left = root.horizontalCenter
+                    progress.anchors.left = panel.horizontalCenter
                 }
             else {
                 progress.anchors.left = undefined
-                progress.anchors.right = root.right
+                progress.anchors.right = panel.right
             }
+            progress.anchors.top = panel.top
             break;
         case 1:
             if (fillMode == 1)
                 if (value > middle) {
                     progress.anchors.top = undefined
-                    progress.anchors.bottom = root.verticalCenter
+                    progress.anchors.bottom = panel.verticalCenter
                 } else {
                     progress.anchors.bottom = undefined
-                    progress.anchors.top = root.verticalCenter
+                    progress.anchors.top = panel.verticalCenter
                 }
             else {
                 progress.anchors.top = undefined
-                progress.anchors.bottom = root.bottom
+                progress.anchors.bottom = panel.bottom
             }
+            progress.anchors.left = panel.left
            break;
         case 3:
             if (fillMode == 1)
                 if (value > middle) {
                     progress.anchors.bottom = undefined
-                    progress.anchors.top = root.verticalCenter
+                    progress.anchors.top = panel.verticalCenter
                 } else {
                     progress.anchors.top = undefined
-                    progress.anchors.bottom = root.verticalCenter
+                    progress.anchors.bottom = panel.verticalCenter
                 }
             else {
                 progress.anchors.bottom = undefined
-                progress.anchors.top = root.bottom
+                progress.anchors.top = panel.bottom
             }
+            progress.anchors.left = panel.left
            break;
         }
     }
