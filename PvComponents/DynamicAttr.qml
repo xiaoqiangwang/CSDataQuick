@@ -58,7 +58,8 @@ QtObject {
             chan.valueChanged.connect(calcPerform)
             chan.statusChanged.connect(calcPerform)
             chan.statusChanged.connect(statusChanged)
-            chanList[0] = chan
+            da.chanList[0] = chan
+
         }
         if (channelB != '') {
             chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelB), da, 'channelB')
@@ -77,8 +78,7 @@ QtObject {
         }
     }
 
-    onChannelChanged: createChannels()
-    onChannelBChanged: createChannels()
-    onChannelCChanged: createChannels()
-    onChannelDChanged: createChannels()
+    Component.onCompleted: {
+        createChannels()
+    }
 }

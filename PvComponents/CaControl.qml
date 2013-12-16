@@ -2,9 +2,10 @@ import QtQuick 2.0
 import PvComponents 1.0
 
 Item {
+    // appearance
     property color background: '#73dfff' // '#bbbbbb' is the actual default
     property color foreground: '#000000'
-    property string colorMode: 'static'
+    property int colorMode: ColorMode.Static
     property int fontSize: 12
     property string fontFamily: fontSize <= 22 ? 'Courier' : 'Helvetica'
 
@@ -13,15 +14,11 @@ Item {
     property var pv: PvObject { id: pv; }
 
     // dynamic attributes
-    property alias visibilityMode: da.visibilityMode
-    property alias visibilityCalc: da.visibilityCalc
-    property alias channelA: da.channel
-    property alias channelB: da.channelB
-    property alias channelC: da.channelC
-    property alias channelD: da.channelD
-    visible: da.visibility
-    DynamicAttr { id: da }
+    property var dynamicAttr: DynamicAttr { id: da }
 
+    visible: da.visibility
+
+    // Mask when PV disconnected
     Rectangle {
         z: 1
         anchors.fill: parent
@@ -33,15 +30,14 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
         onPressAndHold: {
-            console.log('sdcdscsd')
+            console.log('TODO: Popup tooltip/context menu')
         }
     }
 
     Connections {
         target: pv
-
         onStatusChanged: {
-            if (colorMode == 'static')
+            if (colorMode == ColorMode.Static)
                 return
             switch (pv.severity) {
                 case 0: // NO_ALARM

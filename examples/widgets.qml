@@ -55,7 +55,6 @@ ApplicationWindow {
                 fill: FillStyle.Solid
                 lineWidth: 2
             }
-
             CaArc {
                 PvObject {
                     id: pv
@@ -68,7 +67,6 @@ ApplicationWindow {
                 span: pv.value * 360
                 fill: FillStyle.Solid
             }
-
             CaPolygon {
                 width: 100
                 height: 50
@@ -96,7 +94,7 @@ ApplicationWindow {
                 height: 100
                 source: 'LED.gif'
                 channel: 'catest'
-                imageCalc: 'A * 10'
+                imageCalc: 'A*10'
             }
         }
         Text {text: 'Control'}
@@ -104,6 +102,15 @@ ApplicationWindow {
             x: 10
             spacing: 10
             width: parent.width
+
+            CaSlider {
+                width: 200
+                height: 24
+                channel: 'catest'
+                minimumValue: 0.0
+                maximumValue: 1.0
+                stepSize: 0.01
+            }
 
             CaMessageButton {
                 width: 100
@@ -115,24 +122,21 @@ ApplicationWindow {
                 offMessage: 0.5
             }
 
-            CaSlider {
-                width: 200
-                height: 24
-                channel: 'catest'
-                minimumValue: 0.0
-                maximumValue: 1.0
-                stepSize: 0.01
-            }
             CaTextEntry {
                 width:100
                 height:24
-                channel: 'calc'
-                colorMode: 'alarm'
-                background: '#73dfff'
+                channel: 'catest'
+                colorMode: ColorMode.Alarm
             }
+            CaTextEntry {
+                width: 200
+                height: 20
+                channel: 'calc.SCAN'
+            }
+
             CaMenu {
                 width: 100
-                height: 50
+                height: 20
                 channel: 'calc.SCAN'
             }
 
@@ -173,6 +177,13 @@ ApplicationWindow {
                 width: 100
                 height: 20
             }
+
+            CaTextLabel {
+                channel: 'calc.SCAN'
+                width: 150
+                height: 20
+            }
+
             CaByte {
                 width: 320
                 height: 10
@@ -183,10 +194,11 @@ ApplicationWindow {
                 width: 100
                 height: 20
                 channel: 'catest'
+                colorMode: ColorMode.Alarm
             }
             CaMeter {
-                width: 100
-                height: 100
+                width: 80
+                height: 60
                 channel: 'catest'
             }
             CaStripChart {

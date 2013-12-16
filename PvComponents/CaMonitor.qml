@@ -4,7 +4,7 @@ import PvComponents 1.0
 Item {
     property color background: '#bbbbbb'
     property color foreground: '#000000'
-    property string colorMode: 'static'
+    property int colorMode: ColorMode.Static
     property int fontSize: 11
     property string fontFamily: fontSize <= 22 ?'Dejavu Sans Mono' : 'Helvetica'
 
@@ -13,6 +13,8 @@ Item {
     property var pv: PvObject { id: pv; }
 
     // dynamic attributes
+    property var dynamicAttr: DynamicAttr { id: da }
+
     property alias visibilityMode: da.visibilityMode
     property alias visibilityCalc: da.visibilityCalc
     property alias channelA: da.channel
@@ -20,7 +22,6 @@ Item {
     property alias channelC: da.channelC
     property alias channelD: da.channelD
     visible: da.visibility
-    DynamicAttr { id: da }
 
     Rectangle {
         z: 1
@@ -55,7 +56,7 @@ Item {
         target: pv
 
         onStatusChanged: {
-            if (colorMode == 'static')
+            if (colorMode == ColorMode.Static)
                 return
             switch (pv.severity) {
                 case 0: // NO_ALARM

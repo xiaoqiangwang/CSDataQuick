@@ -9,8 +9,7 @@ CaMonitor {
     property int format: TextFormat.Decimal
     property bool withUnits: false
     // limits
-    property int precision: 2
-    property string limits: ''
+    property Limits limits: Limits {id: limits}
 
     Rectangle {
         id: panel
@@ -23,12 +22,6 @@ CaMonitor {
             text: formatString(format, pv.value)
             color: label.foreground
             anchors.left: parent.left
-            Connections {
-                target: pv
-                onConnectionChanged: {
-                    units.text = pv.units;
-                }
-            }
         }
         Text {
             id: units
@@ -42,20 +35,25 @@ CaMonitor {
         }
     }
 
+    Connections {
+        target: pv
+        onConnectionChanged: {
+            if (pv.connected) {
+                units.text = pv.units;
+                limits.prec = pv.prec
+            }
+        }
+    }
+
     function formatString(format, value) {
-        var result = value
-        if (value instanceof Array)
-            return value
-        if (format == TextFormat.Decimal)
-            result = Number(value).toFixed(precision)
-        else if (format === TextFormat.Exponential)
-            result = Number(value).toExponential(precision)
-        else if (format === TextFormat.Hexadecimal) {
-            result = '0x' + Number(value).toFixed(0).toString(16)
-        } else if (format == TextFormat.Octal)
-            result = '0' + Number(value).toString(8)
-        else
-            console.log('unsupported format')
+        //if (pv.type == pv.Enum) {
+        //    return pv.nostr[pv.value]
+        //}
+
+        if (value instanceof Array) {
+            return value.toString()
+        }
+        var result = Utils.convert(format, value, limits.prec)
         return result
     }
 }

@@ -1,13 +1,16 @@
 record(ao, "catest")
 {
-    field (HIHI, "0.5")
+    field (HIHI, "0.8")
     field (HHSV, "MAJOR")
-    field (HIGH, "0.4")
+    field (HIGH, "0.6")
     field (HSV,  "MINOR")
-    field (LOW,  "0.3")
+    field (LOW,  "0.4")
     field (LSV,  "MINOR")
     field (LOLO, "0.2")
     field (LLSV, "MAJOR")
+    field (HOPR, "1.0")
+    field (LOPR, "0.0")
+    field (PREC, "2")
 }
 record(calc, "calc")
 {
@@ -22,4 +25,10 @@ record(bo, "bo")
     field (ZSV,  "MINOR")
     field (ONAM, "ON")
     field (OSV,  "NO_ALARM")
+}
+
+record(waveform, "waves")
+{
+    field (FTVL, "UCHAR")
+    field (NELM, "128")
 }

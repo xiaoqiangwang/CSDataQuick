@@ -29,5 +29,8 @@ OTHER_FILES += \
     $$PWD/CaMonitor.qml \
     $$PWD/CaStripChart.qml \
     $$PWD/WheelSwitch.qml \
-    $$PWD/WheelDigit.qml
+    $$PWD/WheelDigit.qml \
+    $$PWD/Limits.qml \
+    $$PWD/StyledBar.qml \
+    $$PWD/Meter.qml
 

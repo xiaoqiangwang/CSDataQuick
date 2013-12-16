@@ -10,7 +10,6 @@ CaControl {
     }
 
     function runCommand(command) {
-        console.log('dscds')
         if (!Utils.execute(command))
             console.error('Error happend when run command: `%1`'.arg(command))
     }
