@@ -15,14 +15,9 @@ Item {
     property int colorMode: ColorMode.Static
 
     // dynamic attributes
-    property alias visibilityMode: da.visibilityMode
-    property alias visibilityCalc: da.visibilityCalc
-    property alias channel: da.channel
-    property alias channelB: da.channelB
-    property alias channelC: da.channelC
-    property alias channelD: da.channelD
+    property DynamicAttr dynamicAttr: DynamicAttr { id: da }
+
     visible: da.visibility
-    property var da: DynamicAttr { id: da }
 
     Connections {
         target: da

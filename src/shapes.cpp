@@ -14,8 +14,7 @@ Shape::Shape(QQuickItem *parent)
 
 void Shape::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry)
 {
-    Q_UNUSED(newGeometry);
-    Q_UNUSED(oldGeometry);
+    QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
     _path = buildPath();
     update();
 }

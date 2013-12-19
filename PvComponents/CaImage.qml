@@ -7,10 +7,10 @@ CaGraphics {
     property string imageCalc: ''
 
     Connections {
-        target: da
+        target: dynamicAttr
         onUpdate: {
             if (imageCalc != '') {
-                var frame = Utils.calculate(imageCalc, da._arg)
+                var frame = Utils.calculate(imageCalc, dynamicAttr._arg)
                 animation.currentFrame = frame % animation.frameCount
             }
         }

@@ -15,12 +15,6 @@ Item {
     // dynamic attributes
     property var dynamicAttr: DynamicAttr { id: da }
 
-    property alias visibilityMode: da.visibilityMode
-    property alias visibilityCalc: da.visibilityCalc
-    property alias channelA: da.channel
-    property alias channelB: da.channelB
-    property alias channelC: da.channelC
-    property alias channelD: da.channelD
     visible: da.visibility
 
     Rectangle {

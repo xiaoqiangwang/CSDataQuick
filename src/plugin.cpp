@@ -3,6 +3,7 @@
 #include "shapes.h"
 #include "utils.h"
 #include "adimageprovider.h"
+#include "plotitem.h"
 
 #include <qqml.h>
 
@@ -23,7 +24,8 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<Arc>(uri, 1, 0, "Arc");
     qmlRegisterType<PaintedRectangle>(uri, 1, 0, "PaintedRectangle");
     qmlRegisterType<Oval>(uri, 1, 0, "Oval");
-
+    qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
+    qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterSingletonType<Utils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");
