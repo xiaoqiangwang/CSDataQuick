@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 A module to parse adl display file created by MEDM.
 
@@ -77,6 +78,12 @@ Direction = {
 Stacking = {
     '"row"' : 1,
     '"column"': 0
+}
+
+LimitsSource = {
+    '"channel"' : 'LimitsSource.Channel',
+    '"default"' : 'LimitsSource.Default',
+    '"user"' : 'LimitsSource.User'
 }
 
 def calcBestFont(height):
@@ -200,7 +207,7 @@ class MEDMTextEntry(MEDMControl):
         super(MEDMTextEntry, self).__init__(d, parent)
         self.align =  '%s' % TextAlign[d.get('align', '"horiz. left"')]
         self.color_mode =  d.get('clrmod', '"static"')
-        self.prec_src = d['limits'].get('precSrc', 'channel')
+        self.prec_src = d['limits'].get('precSrc', '"channel"')
         self.prec_default = d['limits'].get('precDefault', 0)
         self.format = d.get('format', 'decimal')
 
@@ -213,9 +220,10 @@ class MEDMTextEntry(MEDMControl):
     fontSize: %s
     fontFamily: %s
     colorMode: %s
-    precision: "%s"
+    limits.precSrc: %s
+    limits.precDefault: %s
 }
-""" % (super(MEDMTextEntry, self).toQML(), self.align, size, family, ColorMode[self.color_mode], self.prec_default)
+""" % (super(MEDMTextEntry, self).toQML(), self.align, size, family, ColorMode[self.color_mode], LimitsSource[self.prec_src], self.prec_default)
         return s
 
 class MEDMButton(MEDMControl):
@@ -396,7 +404,7 @@ class MEDMTextUpdate(MEDMMonitor):
         super(MEDMTextUpdate, self).__init__(d, parent)
         self.align =  '%s' % TextAlign[d.get('align', '"horiz. left"')]
         self.color_mode = d.get('clrmod', '"static"')
-        self.prec_src = d['limits'].get('precSrc', 'channel')
+        self.prec_src = d['limits'].get('precSrc', '"channel"')
         self.prec_default = d['limits'].get('precDefault', 0)
         self.format = d.get('format', '"decimal"')
 
@@ -409,8 +417,10 @@ class MEDMTextUpdate(MEDMMonitor):
     colorMode: %s
     fontSize: %s
     fontFamily: %s
+    limits.precSrc: %s
+    limits.precDefault: %s
 }
-""" % (super(MEDMTextUpdate, self).toQML(), self.align, TextFormat[self.format], ColorMode[self.color_mode], size, family)
+""" % (super(MEDMTextUpdate, self).toQML(), self.align, TextFormat[self.format], ColorMode[self.color_mode], size, family, LimitsSource[self.prec_src], self.prec_default)
         return s
 
 class MEDMBar(MEDMMonitor):
@@ -477,6 +487,7 @@ class MEDMGraphics(MEDMObject):
             self.channelD = d['"dynamic attribute"'].get('chanD', '""')
             self.visMode = d['"dynamic attribute"'].get('vis', 'static')
             self.visCalc = d['"dynamic attribute"'].get('calc', '""')
+            self.colorMode = d['"dynamic attribute"'].get('clr', '"static"')
 
     def toQML(self):
         s = """
@@ -487,13 +498,14 @@ class MEDMGraphics(MEDMObject):
         q = ''
         if hasattr(self, 'channel'):
             q = """
+    colorMode: %s
     channel: %s
     channelB: %s
     channelC: %s
     channelD: %s
     visibilityMode: %s
     visibilityCalc: %s
-""" % (self.channel, self.channelB, self.channelC, self.channelD, VisMode[self.visMode], self.visCalc)
+""" % (ColorMode[self.colorMode], self.channel, self.channelB, self.channelC, self.channelD, VisMode[self.visMode], self.visCalc)
 
         return s + q
 
