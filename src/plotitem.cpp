@@ -224,6 +224,8 @@ void GraphItem::setData(QVariantList data)
         y.append(pt.y());
     }
     mGraph->setData(x, y);
+    mGraph->parentPlot()->xAxis->rescale();
+    mGraph->parentPlot()->yAxis->rescale(true);
 }
 
 void GraphItem::addData(double x, double y)
