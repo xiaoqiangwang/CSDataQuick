@@ -1,6 +1,6 @@
 TEMPLATE = lib
 CONFIG += plugin
-QT += quick
+QT += quick printsupport
 -
 TARGET = pvcomponentsplugin
 DESTDIR = $$PWD/../PvComponents
@@ -27,11 +27,15 @@ SOURCES += \
     $$PWD/plugin.cpp \
     $$PWD/utils.cpp \
     $$PWD/shapes.cpp \
-    $$PWD/conversion.c
+    $$PWD/conversion.c \
+    $$PWD/qcustomplot.cpp \
+    $$PWD/plotitem.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
     $$PWD/adimageprovider.h \
     $$PWD/plugin.h \
     $$PWD/utils.h \
-    $$PWD/shapes.h
+    $$PWD/shapes.h \
+    $$PWD/qcustomplot.h \
+    $$PWD/plotitem.h

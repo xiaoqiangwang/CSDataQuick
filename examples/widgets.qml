@@ -6,7 +6,7 @@ import PvComponents 1.0
 ApplicationWindow {
     id: app
     width: 900
-    height: 400
+    height: 600
     color: '#bbbbbb'
 
     menuBar: MenuBar {
@@ -48,7 +48,7 @@ ApplicationWindow {
             }
 
             CaOval {
-                channel: 'bo'
+                dynamicAttr.channel: 'bo'
                 colorMode: ColorMode.Alarm
                 width: 100
                 height: 70
@@ -80,7 +80,6 @@ ApplicationWindow {
             CaPolyline {
                 width: 200
                 height: 80
-                channelC: ""
                 lineWidth: 2
                 foreground: 'black'
                 background: 'black'
@@ -93,7 +92,7 @@ ApplicationWindow {
                 width: 100
                 height: 100
                 source: 'LED.gif'
-                channel: 'catest'
+                dynamicAttr.channel: 'catest'
                 imageCalc: 'A*10'
             }
         }
@@ -187,7 +186,6 @@ ApplicationWindow {
             CaByte {
                 width: 320
                 height: 10
-                visibilityCalc: ""
                 channel: 'calc'
             }
             CaBar {
@@ -209,11 +207,37 @@ ApplicationWindow {
                 height: 60
                 channel: 'catest'
             }
+
             CaStripChart {
                 width: 500
                 height: 300
-                channel: 'catest'
             }
+
+            /*
+            Plot {
+                id: plot
+                width: 400
+                height: 200
+                title: 'A Simple Demo'
+                xLabel: 'X'
+                yLabel: 'Y'
+
+                graphs: [
+                    Graph {
+                        color: 'red'
+                        data: [Qt.point(0,1), Qt.point(1, 2), Qt.point(2, 3)]
+                    },
+                    Graph {
+                        color: 'green'
+                        data: [Qt.point(0,2.5), Qt.point(1, 3.5), Qt.point(3, 4.5)]
+                    }
+                ]
+
+                Component.onCompleted: {
+                    plot.initPlot()
+                }
+           }
+           */
        }
     }
 }
