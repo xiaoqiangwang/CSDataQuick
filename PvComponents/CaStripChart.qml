@@ -44,15 +44,17 @@ Item {
         repeat: true
         interval: 1000
         onTriggered: {
-            var date = Date.valueOf();
+            var d = new Date()
+            var date = d.valueOf();
+            console.log(date)
             for(var i=0; i<_pvs.length; i++) {
                 if (_time.length > numPoints) {
                     _time.pop()
                     _data.pop()
                 }
-                console.log(date, pv.value)
-                _time.push()
-                _graphs[i].data = models.get(i).data
+                _time.push(date)
+                _data.push(Qt.point(date, pv.value))
+                _graphs[i].data = _data
             }
             plot.replot()
         }
