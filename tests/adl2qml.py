@@ -45,7 +45,7 @@ ColorMode = {
 }
 
 VisMode = {
-    'static' : 'VisibilityMode.Static',
+    '"static"' : 'VisibilityMode.Static',
     '"calc"' : 'VisibilityMode.Calc',
     '"if not zero"' : 'VisibilityMode.IfNotZero',
     '"if zero"' : 'VisibilityMode.IfZero',
@@ -62,17 +62,17 @@ EdgeStyle = {
 }
 
 Visual = {
-    'menu' : 0,
+    '"menu"' : 0,
     '"a row of buttons"' : 1,
     '"a column of buttons"' : 2,
-    'invisible' : 3,
+    '"invisible"' : 3,
 }
 
 Direction = {
-    '"up"' : '0',
-    '"right"': '1',
-    '"down"' : '2',
-    '"left"' : '3',
+    '"right"': '0',
+    '"up"' : '1',
+    '"left"' : '2',
+    '"down"' : '3',
 }
 
 Stacking = {
@@ -86,24 +86,26 @@ LimitsSource = {
     '"user"' : 'LimitsSource.User'
 }
 
-def calcBestFont(height):
-    if height <= 24:
-        family = '"Dejavu Sans Mono"'
-    else:
-        family = '"Helvetica"'
-
+def calcBestFont(height, framed):
     fsize = [(8,8), (9,9), (10,10), (13,13), (14,14), (15,15), (16,16), (20,20), (22,22), (24,22),
              (26,22), (30,34)]
+    fsize_label = [( 8,8), ( 9,9), (10,10), (13,11), (14,12), (15,13), (16,14), (20,16), (21,18), (26,22), (27, 28), (35,32)]
+    fsize_frame = [(14,8), (15,9), (16,10), (20,11), (21,12), (22,13), (23,14), (27,16), (32,18), (34,22),
+              (44,30)]
+    if framed:
+        fsize = fsize_frame
+    else:
+        fsize = fsize_label
     font = fsize[-1][1]
     for i,s in enumerate(fsize):
         if height < s[0]:
             font = fsize[i - 1][1]
             break
+    if height <= 20:
+        family = '"Dejavu Sans Mono"'
+    else:
+        family = '"Helvetica"'
 
-    if font in [13, 14]:
-        font -= 2
-    elif font in [16, 20]:
-        font -= 3
     return font, family
 
 class MEDMObject(object):
@@ -195,6 +197,7 @@ class MEDMControl(MEDMObject):
 
     def toQML(self):
         s = """
+    z: 1
     foreground: %s
     background: %s
     channel: %s
@@ -207,12 +210,12 @@ class MEDMTextEntry(MEDMControl):
         super(MEDMTextEntry, self).__init__(d, parent)
         self.align =  '%s' % TextAlign[d.get('align', '"horiz. left"')]
         self.color_mode =  d.get('clrmod', '"static"')
-        self.prec_src = d['limits'].get('precSrc', '"channel"')
-        self.prec_default = d['limits'].get('precDefault', 0)
+        self.prec_src = d.get('limits', {}).get('precSrc', '"channel"')
+        self.prec_default = d.get('limits', {}).get('precDefault', 0)
         self.format = d.get('format', 'decimal')
 
     def toQML(self):
-        size, family = calcBestFont(self.height - 4)
+        size, family = calcBestFont(self.height, True )
 
         s = """CaTextEntry {
      %s
@@ -234,7 +237,7 @@ class MEDMButton(MEDMControl):
         self.off = d.get('release_msg', '""')
 
     def toQML(self):
-        size, family = calcBestFont(self.height - 4)
+        size, family = calcBestFont(self.height, True)
         s = """CaMessageButton {
     %s
     text: %s
@@ -278,12 +281,14 @@ class MEDMMenu(MEDMControl):
 class MEDMSlider(MEDMControl):
     def __init__(self, d, parent=None):
         super(MEDMSlider, self).__init__(d, parent)
+        self.direction = Direction[d.get('direction', '"right"')]
 
     def toQML(self):
         s = """CaSlider {
     %s
+    direction: %s
 }
-""" % (super(MEDMSlider, self).toQML())
+""" % (super(MEDMSlider, self).toQML(), self.direction)
         return s
 
 class MEDMRelatedDisplay(MEDMObject):
@@ -292,15 +297,17 @@ class MEDMRelatedDisplay(MEDMObject):
         self.foreground = '"#%s"' % color_map[int(d['clr'])]
         self.background = '"#%s"' % color_map[int(d['bclr'])]
         self.label = d.get('label', '""')
-        self.visual = Visual[d.get('visual', 'menu')]
+        self.visual = Visual[d.get('visual', '"menu"')]
         self.displays = []
         for i in range(16):
             name = 'display[%d]' % i
             if name not in d:
-                break
+                continue
             label = d[name].get('label', '""')
             fname = d[name].get('name', '""')
             args = d[name].get('args', '""')
+            if (label == '""' or fname == '""'):
+                continue
             if d[name].get('policy') == '"replace display"':
                 remove = True
             else:
@@ -320,7 +327,7 @@ class MEDMRelatedDisplay(MEDMObject):
 """ % (label, fname, args, str(remove).lower())
         d += '}'
 
-        size, family = calcBestFont(self.height - 4)
+        size, family = calcBestFont(self.height, True)
 
         s = """CaRelatedDisplay {
         %s
@@ -345,10 +352,12 @@ class MEDMShellCommand(MEDMObject):
         for i in range(16):
             name = 'command[%d]' % i
             if name not in d:
-                break
+                continue
             label = d[name].get('label', '""')
             command = d[name].get('name', '""')
             args = d[name].get('args', '""')
+            if (label == '""' or command == '""'):
+                continue
             self.commands.append((label, command, args))
 
     def toQML(self):
@@ -363,7 +372,7 @@ class MEDMShellCommand(MEDMObject):
 """ % (label, command, args)
         d += '}'
 
-        size, family = calcBestFont(self.height - 4)
+        size, family = calcBestFont(self.height, True)
 
         s = """CaShellCommand {
         %s
@@ -404,12 +413,12 @@ class MEDMTextUpdate(MEDMMonitor):
         super(MEDMTextUpdate, self).__init__(d, parent)
         self.align =  '%s' % TextAlign[d.get('align', '"horiz. left"')]
         self.color_mode = d.get('clrmod', '"static"')
-        self.prec_src = d['limits'].get('precSrc', '"channel"')
-        self.prec_default = d['limits'].get('precDefault', 0)
+        self.prec_src = d.get('limits', {}).get('precSrc', '"channel"')
+        self.prec_default = d.get('limits', {}).get('precDefault', 0)
         self.format = d.get('format', '"decimal"')
 
     def toQML(self):
-        size, family = calcBestFont(self.height)
+        size, family = calcBestFont(self.height, False)
         s = """CaTextLabel {
     %s
     align: %s
@@ -485,7 +494,7 @@ class MEDMGraphics(MEDMObject):
             self.channelB = d['"dynamic attribute"'].get('chanB', '""')
             self.channelC = d['"dynamic attribute"'].get('chanC', '""')
             self.channelD = d['"dynamic attribute"'].get('chanD', '""')
-            self.visMode = d['"dynamic attribute"'].get('vis', 'static')
+            self.visMode = d['"dynamic attribute"'].get('vis', '"static"')
             self.visCalc = d['"dynamic attribute"'].get('calc', '""')
             self.colorMode = d['"dynamic attribute"'].get('clr', '"static"')
 
@@ -499,12 +508,12 @@ class MEDMGraphics(MEDMObject):
         if hasattr(self, 'channel'):
             q = """
     colorMode: %s
-    channel: %s
-    channelB: %s
-    channelC: %s
-    channelD: %s
-    visibilityMode: %s
-    visibilityCalc: %s
+    dynamicAttr.channel: %s
+    dynamicAttr.channelB: %s
+    dynamicAttr.channelC: %s
+    dynamicAttr.channelD: %s
+    dynamicAttr.visibilityMode: %s
+    dynamicAttr.visibilityCalc: %s
 """ % (ColorMode[self.colorMode], self.channel, self.channelB, self.channelC, self.channelD, VisMode[self.visMode], self.visCalc)
 
         return s + q
@@ -516,7 +525,7 @@ class MEDMText(MEDMGraphics):
         self.align =  '%s' % TextAlign[d.get('align', '"horiz. left"')]
 
     def toQML(self):
-        size, family = calcBestFont(self.height)
+        size, family = calcBestFont(self.height, False)
         s = """CaText {
     %s
     align: %s
@@ -545,6 +554,10 @@ class MEDMArc(MEDMGraphics):
         super(MEDMArc, self).__init__(d, parent)
         self.begin = int(d['begin']) / 64.
         self.span = int(d['path']) / 64.
+        # count for the line width
+        self.width += 1
+        self.height += 1
+
 
     def toQML(self):
         s = """CaArc {
@@ -561,6 +574,9 @@ class MEDMArc(MEDMGraphics):
 class MEDMOval(MEDMGraphics):
     def __init__(self, d, parent=None):
         super(MEDMOval, self).__init__(d, parent)
+        # count for the line width
+        self.width += 1
+        self.height += 1
 
     def toQML(self):
         s = """CaOval {
@@ -591,6 +607,9 @@ class MEDMPolyline(MEDMGraphics):
     def __init__(self, d, parent=None):
         super(MEDMPolyline, self).__init__(d, parent)
         self.points = d['points']
+        # count for the line width
+        self.width += 1
+        self.height += 1
 
     def toQML(self):
         p = '['
@@ -613,7 +632,9 @@ class MEDMPolygon(MEDMGraphics):
         # line width is always drawn as 1
         self.lineWidth = 1
         self.points = d['points']
-        # find the collective width,height
+        # count for the line width
+        self.width += 1
+        self.height += 1
 
     def toQML(self):
         p = '['
@@ -642,7 +663,28 @@ class MEDMComposite(MEDMObject):
                 child = convertObject(c, self)
                 self.children.append(child)
 
+        if '"dynamic attribute"' in d:
+            self.channel = d['"dynamic attribute"'].get('chan', '""')
+            self.channelB = d['"dynamic attribute"'].get('chanB', '""')
+            self.channelC = d['"dynamic attribute"'].get('chanC', '""')
+            self.channelD = d['"dynamic attribute"'].get('chanD', '""')
+            self.visMode = d['"dynamic attribute"'].get('vis', '"static"')
+            self.visCalc = d['"dynamic attribute"'].get('calc', '""')
+            self.colorMode = d['"dynamic attribute"'].get('clr', '"static"')
+
     def toQML(self):
+        q = ""
+        if hasattr(self, 'channel'):
+            q = """
+    colorMode: %s
+    dynamicAttr.channel: %s
+    dynamicAttr.channelB: %s
+    dynamicAttr.channelC: %s
+    dynamicAttr.channelD: %s
+    dynamicAttr.visibilityMode: %s
+    dynamicAttr.visibilityCalc: %s
+""" % (ColorMode[self.colorMode], self.channel, self.channelB, self.channelC, self.channelD, VisMode[self.visMode], self.visCalc)
+
         s = ''
         if self.file:
             s = """ Loader {
@@ -659,12 +701,12 @@ class MEDMComposite(MEDMObject):
                 qml = 'Item {\n' + qml + '}\n'
             s += qml
 
-        return """ Item {
+        return """ CaComposite {
         %s
         %s
-
+        %s
 }
-""" % (super(MEDMComposite, self).toQML(), s)
+""" % (super(MEDMComposite, self).toQML(), q, s)
 
 def parseADL(lines):
     objects = []
@@ -701,7 +743,7 @@ def parseADL(lines):
             color = m.groups()[0]
             current.append(color)
         # (x,y) point pair
-        m = re.match('\(([0-9]+),([0-9]+)\)', line)
+        m = re.match('\((-?[0-9]+),(-?[0-9]+)\)', line)
         if m:
             x = m.groups()[0]
             y = m.groups()[1]

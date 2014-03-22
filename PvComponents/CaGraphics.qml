@@ -21,13 +21,12 @@ Item {
 
     Connections {
         target: da
-
         onStatusChanged: {
             if (colorMode == ColorMode.Static)
                 return
             switch (da.chanList[0].severity) {
                 case 0: // NO_ALARM
-                foreground = 'green'
+                foreground = '#00C000'
                 break;
                 case 1: // MINOR_ALARM
                 foreground = 'yellow'

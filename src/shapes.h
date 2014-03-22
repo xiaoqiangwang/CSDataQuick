@@ -43,7 +43,7 @@ protected:
 
     QRectF getDrawArea() {
         QRectF boundingRect = contentsBoundingRect();
-        int margin = _lineWidth;
+        int margin = 0; //_lineWidth;
         QRectF rect = QRectF(boundingRect.x() + margin,
                           boundingRect.y() + margin,
                           boundingRect.width() - 2*margin,

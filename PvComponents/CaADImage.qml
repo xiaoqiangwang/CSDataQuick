@@ -7,7 +7,7 @@ Image {
     property string channel
 
     cache: false
-    fillMode: Image.PreserveAspectCrop
+    fillMode: Image.PreserveAspectFit
 
     Timer {
         id: timer

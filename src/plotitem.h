@@ -14,6 +14,8 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QString xLabel READ xLabel WRITE setXLabel)
     Q_PROPERTY(QString yLabel READ yLabel WRITE setYLabel)
+    Q_PROPERTY(QColor foreground READ foreground WRITE setForeground NOTIFY foregroundChanged)
+    Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
     Q_PROPERTY(QQmlListProperty<GraphItem> graphs READ graphs)
 
 public:
@@ -31,6 +33,10 @@ public:
     void setXLabel(QString label);
     QString yLabel();
     void setYLabel(QString label);
+    QColor foreground();
+    void setForeground(QColor color);
+    QColor background();
+    void setBackground(QColor color);
 
     // graphs
     QQmlListProperty<GraphItem> graphs();
@@ -52,6 +58,10 @@ public:
 
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
     void paint( QPainter* painter );
+
+signals:
+    void foregroundChanged();
+    void backgroundChanged();
 
 protected slots:
     void onCustomReplot();

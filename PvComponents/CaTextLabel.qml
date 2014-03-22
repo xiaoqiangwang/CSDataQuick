@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 
 import PvComponents 1.0
 
@@ -15,23 +16,26 @@ CaMonitor {
         id: panel
         color: label.background
         anchors.fill: parent
-        Text {
-            id: label_control
-            font.pixelSize: label.fontSize
-            font.family: label.fontFamily
-            text: formatString(format, pv.value)
-            color: label.foreground
-            anchors.left: parent.left
-        }
-        Text {
-            id: units
-            font.pixelSize: label.fontSize
-            font.family: label.fontFamily
-            color: label.foreground
-            anchors.left: label_control.right
-            anchors.right: parent.right
-            verticalAlignment: Text.AlignVCenter
-            visible: withUnits
+        RowLayout {
+            anchors.fill: parent
+            Text {
+                id: label_control
+                font.pixelSize: label.fontSize
+                font.family: label.fontFamily
+                //text: formatString(format, pv.value)
+                color: label.foreground
+                clip: true
+                Layout.fillWidth: true
+            }
+            Text {
+                id: units
+                font.pixelSize: label.fontSize
+                font.family: label.fontFamily
+                color: label.foreground
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
+                visible: withUnits && text != ''
+            }
         }
     }
 
@@ -40,21 +44,40 @@ CaMonitor {
         onConnectionChanged: {
             if (pv.connected) {
                 units.text = pv.units;
-                limits.prec = pv.prec
+                limits.precChannel = pv.prec
+            }
+        }
+        onValueChanged: {
+            label_control.text = formatString(format, pv.value)
+            // automatic adjust font size only if it is not left aligned
+            if (align == Text.AlignLeft)
+                return
+            while(fontSize > 8 && label_control.paintedWidth > label_control.width) {
+                fontSize -= 1
             }
         }
     }
 
     function formatString(format, value) {
-        //if (pv.type == pv.Enum) {
-        //    return pv.nostr[pv.value]
-        //}
-
-        if (value instanceof Array) {
-            return value.toString()
-        }
+        if (pv.type == PvObject.Enum)
+            return pv.strs[value]
+        if (pv.type == PvObject.String)
+            return value
+        if (pv.type == PvObject.Char && value instanceof Array)
+            return arrayToString(value)
         var result = Utils.convert(format, value, limits.prec)
         return result
+    }
+
+    function arrayToString(array) {
+        var s = ''
+        for(var i = 0; i < array.length; i++) {
+            var v = array[i]
+            if (v == 0)
+                break
+            s += String.fromCharCode(v)
+        }
+        return s
     }
 }
 

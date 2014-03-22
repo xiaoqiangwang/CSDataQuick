@@ -9,13 +9,25 @@ CaControl {
     id: slider
     property alias minimumValue: slider_control.minimumValue
     property alias maximumValue: slider_control.maximumValue
-    property alias orientation: slider_control.orientation
+    property int  direction: 0 // right up left down
     property alias stepSize: slider_control.stepSize
-    property bool usePVLimits: true
+    property Limits limits: Limits {}
 
+    property bool __disconnect: false
     Slider {
         id: slider_control
-        anchors.fill: parent
+        width: (direction == 0 || direction == 2) ? slider.width : slider.height
+        height: (direction == 0 || direction == 2) ? slider.height : slider.width
+
+        transform: Rotation {
+            origin.x: (direction == 0 || direction == 2) ? width / 2 : direction == 1 ? height / 2 : width / 2
+            origin.y: (direction == 0 || direction == 2) ? height / 2 :direction == 1 ? height / 2 : width / 2
+            angle: direction == 0 ? 0 : direction == 1 ? -90 : direction == 2 ? -180 : -270
+        }
+
+        //anchors.fill: parent
+        minimumValue: limits.lopr
+        maximumValue: limits.hopr
 
         style:SliderStyle {
             groove: Rectangle {
@@ -35,19 +47,22 @@ CaControl {
         Connections {
             target: pv
             onConnectionChanged: {
-                if (pv.connected && usePVLimits) {
+                if (pv.connected) {
                     if (pv.lodisplim < pv.updisplim) {
-                        minimumValue = pv.lodisplim
-                        maximumValue = pv.updisplim
+                        limits.lopr = pv.lodisplim
+                        limits.hopr = pv.updisplim
                     }
                 }
             }
             onValueChanged: {
+                __disconnect = true
                 slider_control.value = pv.value
+                __disconnect = false
             }
         }
 
         onValueChanged: {
+            if(__disconnect) return
             pv.setValue(value)
         }
     }

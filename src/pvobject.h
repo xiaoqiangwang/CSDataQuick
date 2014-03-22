@@ -32,15 +32,19 @@ class PvObject : public QObject, public QQmlParserStatus
 
     Q_PROPERTY(int severity READ severity NOTIFY statusChanged)
     Q_PROPERTY(int status   READ status NOTIFY statusChanged)
-    Q_PROPERTY(QString units    READ units)
-    Q_PROPERTY(int prec     READ prec)
-    Q_PROPERTY(int nostr   READ nostr)
-    Q_PROPERTY(QStringList strs     READ strs)
-    Q_PROPERTY(QVariant upctrllim READ upctrllim)
-    Q_PROPERTY(QVariant loctrllim READ loctrllim)
-    Q_PROPERTY(QVariant updisplim READ updisplim)
-    Q_PROPERTY(QVariant lodisplim READ lodisplim)
-    Q_PROPERTY(int type READ type)
+
+    Q_PROPERTY(bool readable READ readable NOTIFY readableChanged)
+    Q_PROPERTY(bool writable READ writable WRITE setWritable NOTIFY writableChanged)
+
+    Q_PROPERTY(QString units    READ units CONSTANT)
+    Q_PROPERTY(int prec     READ prec CONSTANT)
+    Q_PROPERTY(int nostr   READ nostr CONSTANT)
+    Q_PROPERTY(QStringList strs     READ strs CONSTANT)
+    Q_PROPERTY(QVariant upctrllim READ upctrllim CONSTANT)
+    Q_PROPERTY(QVariant loctrllim READ loctrllim CONSTANT)
+    Q_PROPERTY(QVariant updisplim READ updisplim CONSTANT)
+    Q_PROPERTY(QVariant lodisplim READ lodisplim CONSTANT)
+    Q_PROPERTY(int type READ type CONSTANT)
 public:
     explicit PvObject(QObject *parent = 0);
     ~PvObject();
@@ -134,11 +138,19 @@ public:
     QVariant lodisplim(){return _lodisplim;}
     int type() {return _chid ? ca_field_type(_chid) : Invalid; }
 
+    bool readable() {if (connected()) return ca_read_access(_chid); else return false;}
+    void setReadable(bool read) {Q_UNUSED(read); emit readableChanged();}
+
+    bool writable() {if (connected()) return ca_write_access(_chid); else return false;}
+    void setWritable(bool write) {Q_UNUSED(write); emit writableChanged();}
+
 signals:
     void valueChanged();
     void connectionChanged();
     void statusChanged();
     void monitorChanged();
+    void readableChanged();
+    void writableChanged();
 
 public slots:
 
@@ -147,6 +159,7 @@ private:
     bool _monitor;
     bool _asstring;
     bool _connected;
+    double _period;
 
     void * _array;
     QVariant _value;

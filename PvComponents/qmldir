@@ -3,7 +3,9 @@ CaADImage       1.0 CaADImage.qml
 CaArc           1.0 CaArc.qml
 CaBar           1.0 CaBar.qml 
 CaByte          1.0 CaByte.qml
+CaCartesianPlot 1.0 CaCartesianPlot.qml
 CaChoiceButton  1.0 CaChoiceButton.qml 
+CaComposite     1.0 CaComposite.qml
 CaImage         1.0 CaImage.qml
 CaMenu          1.0 CaMenu.qml 
 CaMessageButton 1.0 CaMessageButton.qml

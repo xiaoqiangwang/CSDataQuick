@@ -4,6 +4,7 @@
 #include "utils.h"
 #include "adimageprovider.h"
 #include "plotitem.h"
+#include "baseitem.h"
 
 #include <qqml.h>
 
@@ -19,6 +20,7 @@ void PvComponentsPlugin::registerTypes(const char *uri)
 {
     // @uri PvComponents
     qmlRegisterType<PvObject>(uri, 1, 0, "PvObject");
+    qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
     qmlRegisterType<Polyline>(uri, 1, 0, "Polyline");
     qmlRegisterType<Polygon>(uri, 1, 0, "Polygon");
     qmlRegisterType<Arc>(uri, 1, 0, "Arc");

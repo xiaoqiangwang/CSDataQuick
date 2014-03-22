@@ -2,6 +2,7 @@
 
 #include <QtDebug>
 #include <QStringList>
+#include <QTime>
 #include <string.h>
 
 struct ca_client_context * PvObject::m_cac = NULL;
@@ -9,6 +10,8 @@ struct ca_client_context * PvObject::m_cac = NULL;
 static void connectCallbackC(struct connection_handler_args args);
 static void getCallbackC(struct event_handler_args);
 static void monitorCallbackC(struct event_handler_args);
+static void accessCallbackC(struct access_rights_handler_args args);
+
 
 PvObject::PvObject(QObject *parent):
     QObject(parent)
@@ -20,8 +23,8 @@ PvObject::PvObject(QObject *parent):
     _connected = false;
     _asstring  = false;
     _monitor   = true;
-    _status = NO_ALARM;
-    _severity = NO_ALARM;
+    _status = -1;
+    _severity = -1;
     _array = NULL;
     _value = "";
     _name = "";
@@ -79,6 +82,7 @@ void PvObject::setValue(const QVariant val)
 {
     if (!connected())
         return;
+
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
     int status = ECA_NORMAL;
     bool ok = false;
@@ -91,6 +95,12 @@ void PvObject::setValue(const QVariant val)
             status = ca_array_put(DBR_LONG, 1, _chid, &value);
         else
             status = ca_array_put(DBR_STRING, 1, _chid, val.toString().toLatin1());
+    }
+    break;
+    case DBF_CHAR:
+    {
+        QByteArray ba = val.toByteArray();
+        ca_array_put(DBR_CHAR, ba.length(), _chid, ba);
     }
     break;
     case DBF_INT:
@@ -248,13 +258,26 @@ void PvObject::connectCallback(struct connection_handler_args args)
         int status = ca_array_get_callback(reqtype, 0, _chid, getCallbackC, this);
         if (status != ECA_NORMAL)
             return;
+        // Add access right handler
+        status = ca_replace_access_rights_event(_chid, accessCallbackC);
+        if (status != ECA_NORMAL)
+            return;
         ca_flush_io();
     } else {
         setConnected(false);
     }
 }
 
+void accessCallbackC(struct access_rights_handler_args args)
+{
+    PvObject *chan = (PvObject *)ca_puser(args.chid);
+    chan->setReadable(args.ar.read_access);
+    chan->setWritable(args.ar.write_access);
+}
 
+//
+// Connection Callback
+//
 void getCallbackC(struct event_handler_args args)
 {
     if (args.status != ECA_NORMAL)
@@ -322,6 +345,7 @@ void PvObject::getCallback(struct event_handler_args args)
 
     // Set connected after first get succeeds
     setConnected(true);
+    updateValue(value);
     // Signal status/severity
     updateStatus(severity, status);
 }

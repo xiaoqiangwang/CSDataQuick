@@ -4,6 +4,7 @@ OTHER_FILES += \
     $$PWD/DynamicAttr.qml \
     $$PWD/CaADImage.qml \
     $$PWD/CaBar.qml \
+    $$PWD/CaComposite.qml \
     $$PWD/CaChoiceButton.qml \
     $$PWD/CaMenu.qml \
     $$PWD/CaMessageButton.qml \
@@ -32,5 +33,14 @@ OTHER_FILES += \
     $$PWD/WheelDigit.qml \
     $$PWD/Limits.qml \
     $$PWD/StyledBar.qml \
-    $$PWD/Meter.qml
+    $$PWD/Meter.qml \
+    $$PWD/CaCartesianPlot.qml \
+    $$PWD/images/arrow-down.png \
+    $$PWD/images/arrow-up.png \
+    $$PWD/images/button_down.png \
+    $$PWD/images/button_up.png \
+    $$PWD/images/doubleect.png \
+    $$PWD/images/focusframe.png
+
+
 
