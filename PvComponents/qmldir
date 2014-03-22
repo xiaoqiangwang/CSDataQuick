@@ -1,0 +1,25 @@
+module PvComponents
+CaADImage       1.0 CaADImage.qml
+CaArc           1.0 CaArc.qml
+CaBar           1.0 CaBar.qml 
+CaByte          1.0 CaByte.qml
+CaChoiceButton  1.0 CaChoiceButton.qml 
+CaImage         1.0 CaImage.qml
+CaMenu          1.0 CaMenu.qml 
+CaMessageButton 1.0 CaMessageButton.qml
+CaMeter         1.0 CaMeter.qml
+CaMonitor       1.0 CaMonitor.qml
+CaOval          1.0 CaOval.qml 
+CaPolygon       1.0 CaPolygon.qml
+CaPolyline      1.0 CaPolyline.qml
+CaRect          1.0 CaRect.qml
+CaRelatedDisplay 1.0 CaRelatedDisplay.qml
+CaShellCommand  1.0 CaShellCommand.qml
+CaSlider        1.0 CaSlider.qml 
+CaStripChart    1.0 CaStripChart.qml
+CaText          1.0 CaText.qml
+CaTextEntry     1.0 CaTextEntry.qml 
+CaTextLabel     1.0 CaTextLabel.qml 
+DynamicAttr     1.0 DynamicAttr.qml
+StyledButton    1.0 StyledButton.qml
+plugin pvcomponentsplugin
