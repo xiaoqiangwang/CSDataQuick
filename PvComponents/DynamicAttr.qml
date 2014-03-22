@@ -51,13 +51,17 @@ QtObject {
         update()
     }
 
+    function updateStatus() {
+        calcPerform()
+        statusChanged()
+    }
+
     function createChannels () {
         var chan
         if (channel != '') {
             chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channel), da, 'channel')
             chan.valueChanged.connect(calcPerform)
-            chan.statusChanged.connect(calcPerform)
-            chan.statusChanged.connect(statusChanged)
+            chan.statusChanged.connect(updateStatus)
             da.chanList[0] = chan
 
         }

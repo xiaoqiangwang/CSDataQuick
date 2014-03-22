@@ -36,10 +36,12 @@ CaControl {
                                          'fontFamily: shell.fontFamily;}'
         // Single entry, direct action on button click
         if (model.count == 1) {
-            Qt.createQmlObject(btnCmd.arg('onClicked: runCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), shell, 'button')
+            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: runCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), shell, 'button')
+            btn.align = Text.AlignHCenter
         // Multiple entries, popup menu on button click
         } else {
             var btn = Qt.createQmlObject(btnCmd.arg('menu: Menu{}'), shell, 'button')
+            btn.align = Text.AlignLeft
             var label, command, args
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label

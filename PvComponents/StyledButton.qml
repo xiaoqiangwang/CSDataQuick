@@ -3,10 +3,12 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 
 Button {
+    id: root
     property color background: __pallete.button
     property color foreground: __pallete.buttonText
     property int pixelSize: 12
-    property string  fontFamily//: fontSize <= 22 ? 'Dejavu Sans Mono' : 'Helvetica'
+    property string  fontFamily
+    property int align: Text.AlignHCenter
 
     SystemPalette {
         id: __pallete
@@ -20,13 +22,14 @@ Button {
             Image {
                 id: icon
                 source: control.iconSource
-                anchors.left: parent.left
+                anchors.leftMargin: - 4
                 anchors.verticalCenter: parent.verticalCenter
-                width: Math.min(control.height, control.width)
-                height: Math.min(control.height, control.width)
+                width: Math.min(control.height, control.width) - 6
+                height: width
             }
 
             BorderImage {
+                id: border
                 source: control.pressed || control.checked ? 'images/button_down.png' : 'images/button_up.png'
                 border {left: 3; right: 3; top: 3; bottom: 3;}
                 horizontalTileMode: BorderImage.Stretch
@@ -38,11 +41,13 @@ Button {
         }
 
         label: Text {
+            id: text
             text: control.text
             anchors.fill: parent
-            anchors.leftMargin: control.iconSource == '' ? 0 : Math.min(control.height, control.width)
+            clip: true
+            anchors.leftMargin: control.iconSource == '' ? 0 : Math.min(control.height, control.width) - 8
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+            horizontalAlignment: root.align
             color: control.foreground
             font.pixelSize: control.pixelSize
             font.family: control.fontFamily

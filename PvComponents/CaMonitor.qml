@@ -54,7 +54,7 @@ Item {
                 return
             switch (pv.severity) {
                 case 0: // NO_ALARM
-                foreground = 'green'
+                foreground = '#00C000'
                 break;
                 case 1: // MINOR_ALARM
                 foreground = 'yellow'

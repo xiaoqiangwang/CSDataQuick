@@ -67,8 +67,9 @@ QImage ADImageProvider::requestImage(const QString &id, QSize *size, const QSize
 
     QImage image((uchar *)detectors[prefix]["data"]->getArrayValue(bytesize), width, height, format);
 
-    if (size)
-        *size = QSize(width, height);
+
+    size->setWidth(width);
+    size->setHeight(height);
 
     // cache the image
     uids[prefix] = uid;

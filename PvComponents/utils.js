@@ -1,5 +1,7 @@
 .pragma library
 
+.import PvComponents 1.0 as PvComponents
+
 function getBestFontSize(h) {
     var height = [8, 9, 10, 13, 14, 15, 16, 20, 22, 24, 26, 30];
     var size =   [8, 9, 10, 13, 14, 15, 16, 20, 22, 22, 22, 34];

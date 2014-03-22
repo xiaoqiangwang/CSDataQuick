@@ -11,10 +11,9 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     mPlot = new QCustomPlot(this);
     mPlot->setFont(QFont("Courier", 10));
 
-    mPlot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
-    mPlot->xAxis->setDateTimeFormat("hh:mm:ss");
-
-    mPlot->legend->setVisible(true);
+    mPlot->plotLayout()->clear();
+    mPlot->plotLayout()->addElement(0, 0, new QCPAxisRect(mPlot, false));
+    //mPlot->legend->setVisible(true);
 
     connect(mPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
 
@@ -99,6 +98,24 @@ void CustomPlotItem::setYLabel(QString label)
     mPlot->yAxis->setLabel(label);
 }
 
+QColor CustomPlotItem::foreground()
+{
+    return mTitle->textColor();
+}
+
+void CustomPlotItem::setForeground(QColor color)
+{
+    mTitle->setTextColor(color);
+}
+
+QColor CustomPlotItem::background()
+{
+}
+
+void CustomPlotItem::setBackground(QColor color)
+{
+    mPlot->setBackground(color);
+}
 
 QQmlListProperty<GraphItem> CustomPlotItem::graphs()
 {
@@ -138,7 +155,19 @@ void CustomPlotItem::clearGraphs(QQmlListProperty<GraphItem> *list)
  */
 GraphItem* CustomPlotItem::addGraph()
 {
-    QCPGraph * graph = mPlot->addGraph();
+    QCPAxisRect *wideAxisRect = mPlot->axisRect();
+    QCPAxis *valueAxis = wideAxisRect->addAxis(QCPAxis::atLeft);
+
+    QCPAxis *keyAxis = 0;
+    if (wideAxisRect->axisCount(QCPAxis::atBottom) < 1)
+        keyAxis = wideAxisRect->addAxis(QCPAxis::atBottom);
+    else
+        keyAxis = wideAxisRect->axis(QCPAxis::atBottom, 0);
+
+    QCPGraph * graph = mPlot->addGraph(keyAxis, valueAxis);
+    graph->keyAxis()->setTickLabelType(QCPAxis::ltDateTime);
+    graph->keyAxis()->setDateTimeFormat("hh:mm:ss");
+
     GraphItem *item = new GraphItem(this);
     item->mGraph = graph;
     mGraphs.append(item);
@@ -202,6 +231,7 @@ QColor GraphItem::color()
 void GraphItem::setColor(QColor color)
 {
     mGraph->setPen(color);
+    mGraph->valueAxis()->setBasePen(color);
 }
 
 QVariantList GraphItem::data()
@@ -224,14 +254,12 @@ void GraphItem::setData(QVariantList data)
         y.append(pt.y());
     }
     mGraph->setData(x, y);
-    mGraph->parentPlot()->xAxis->rescale();
-    mGraph->parentPlot()->yAxis->rescale(true);
+    mGraph->keyAxis()->rescale();
+    mGraph->valueAxis()->rescale(true);
 }
 
 void GraphItem::addData(double x, double y)
 {
     mGraph->addData(x, y);
-    mGraph->parentPlot()->xAxis->rescale();
-    mGraph->parentPlot()->yAxis->rescale(true);
-    //mGraph->parentPlot()->xAxis->setRange(x + 0.25, 8, Qt::AlignRight);
+    mGraph->keyAxis()->rescale();
 }

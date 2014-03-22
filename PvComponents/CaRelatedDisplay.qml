@@ -35,6 +35,8 @@ Rectangle {
     }
 
     Component.onCompleted: {
+        if (visual == 3)
+            visible = false
         var label, fname, args, remove;
         var imp ='import QtQuick 2.1; import QtQuick.Controls 1.0; import PvComponents 1.0;'
 
@@ -70,6 +72,7 @@ Rectangle {
                             .arg(display.model.get(0).remove)
             qmlCmd += '}'
             var btn = Qt.createQmlObject(qmlCmd, display, 'button')
+            btn.align = Text.AlignHCenter
             return
         }
 
@@ -84,9 +87,11 @@ Rectangle {
                             'fontFamily: display.fontFamily;' +
                             'menu: Menu{}\n' +
                             'background: parent.background;' +
-                            'foreground: parent.foreground;}'
+                            'foreground: parent.foreground;' +
+                            icon + '}'
             // Create button and pulldown menu
             var btn = Qt.createQmlObject(btnCmd.arg(btnLabel), display, 'button')
+            btn.align = Text.AlignLeft
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label
                 fname = model.get(i).fname
