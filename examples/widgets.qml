@@ -213,6 +213,11 @@ ApplicationWindow {
                 height: 300
             }
 
+            CaCartesianPlot {
+                width: 500
+                height: 300
+            }
+
             /*
             Plot {
                 id: plot
