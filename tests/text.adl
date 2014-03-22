@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=237
-		y=284
-		width=730
-		height=296
+		x=59
+		y=22
+		width=1016
+		height=365
 	}
 	clr=14
 	bclr=4
@@ -89,157 +89,811 @@ display {
 }
 text {
 	object {
-		x=20
-		y=40
-		width=35
+		x=27
+		y=71
+		width=20
 		height=8
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="8 label"
+	textix="Text"
 }
 text {
 	object {
-		x=21
-		y=65
-		width=40
+		x=69
+		y=71
+		width=22
 		height=9
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="9 label"
+	textix="Text"
 }
 text {
 	object {
-		x=155
-		y=40
-		width=50
+		x=126
+		y=70
+		width=23
 		height=10
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="10 label"
+	textix="Text"
 }
 text {
 	object {
-		x=235
-		y=40
-		width=55
+		x=185
+		y=69
+		width=26
 		height=13
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="13 label"
+	textix="Text"
 }
 text {
 	object {
-		x=250
-		y=64
-		width=55
+		x=251
+		y=68
+		width=28
 		height=14
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="14 label"
+	textix="Text"
 }
 text {
 	object {
-		x=360
-		y=28
-		width=72
+		x=325
+		y=68
+		width=35
 		height=15
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="15 label"
+	textix="Text"
 }
 text {
 	object {
-		x=429
-		y=53
-		width=64
+		x=419
+		y=67
+		width=32
 		height=16
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="16 label"
+	textix="Text"
 }
 text {
 	object {
-		x=491
-		y=28
-		width=80
+		x=493
+		y=65
+		width=40
 		height=20
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="20 label"
+	textix="Text"
 }
 text {
 	object {
-		x=16
-		y=121
-		width=80
+		x=583
+		y=66
+		width=46
+		height=21
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Text"
+}
+text {
+	object {
+		x=669
+		y=62
+		width=48
 		height=26
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="26 label"
+	textix="Text"
 }
 text {
 	object {
-		x=555
-		y=60
-		width=96
+		x=757
+		y=62
+		width=68
+		height=27
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Text"
+}
+text {
+	object {
+		x=874
+		y=58
+		width=68
+		height=35
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Text"
+}
+text {
+	object {
+		x=26
+		y=34
+		width=20
+		height=8
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="8"
+}
+text {
+	object {
+		x=68
+		y=34
+		width=22
+		height=9
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="9"
+}
+text {
+	object {
+		x=125
+		y=33
+		width=23
+		height=10
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="10"
+}
+text {
+	object {
+		x=184
+		y=32
+		width=26
+		height=13
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="13"
+}
+text {
+	object {
+		x=250
+		y=31
+		width=28
+		height=14
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="14"
+}
+text {
+	object {
+		x=324
+		y=31
+		width=35
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="15"
+}
+text {
+	object {
+		x=418
+		y=30
+		width=32
+		height=16
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="16"
+}
+text {
+	object {
+		x=492
+		y=28
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="20"
+}
+text {
+	object {
+		x=582
+		y=29
+		width=46
+		height=21
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="21"
+}
+text {
+	object {
+		x=668
+		y=25
+		width=48
+		height=26
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="26"
+}
+text {
+	object {
+		x=753
+		y=25
+		width=68
+		height=27
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="27"
+}
+text {
+	object {
+		x=879
+		y=21
+		width=68
+		height=35
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="35"
+}
+"text update" {
+	object {
+		x=22
+		y=118
+		width=20
+		height=8
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=874
+		y=105
+		width=72
+		height=35
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=755
+		y=109
+		width=68
+		height=27
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=667
+		y=109
+		width=50
+		height=26
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=582
+		y=113
+		width=48
+		height=21
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=492
+		y=112
+		width=40
+		height=20
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=417
+		y=114
+		width=32
+		height=16
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=323
+		y=115
+		width=35
+		height=15
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=249
+		y=115
+		width=28
+		height=14
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=184
+		y=116
+		width=26
+		height=13
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=125
+		y=117
+		width=23
+		height=10
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=67
+		y=118
+		width=22
+		height=9
+	}
+	monitor {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=870
+		y=147
+		width=84
+		height=44
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=671
+		y=148
+		width=65
+		height=34
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=580
+		y=149
+		width=60
+		height=32
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=487
+		y=152
+		width=48
+		height=27
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=410
+		y=154
+		width=40
+		height=23
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=320
+		y=154
+		width=42
 		height=22
 	}
-	"basic attribute" {
+	control {
+		chan="waves"
 		clr=14
+		bclr=4
 	}
-	textix="22 label"
+	format="string"
+	limits {
+	}
 }
-text {
+"text entry" {
+	object {
+		x=244
+		y=153
+		width=38
+		height=21
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=177
+		y=153
+		width=34
+		height=20
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
 	object {
 		x=117
-		y=73
-		width=115
-		height=28
+		y=153
+		width=34
+		height=16
 	}
-	"basic attribute" {
+	control {
+		chan="waves"
 		clr=14
+		bclr=4
 	}
-	textix="28 label"
+	format="string"
+	limits {
+	}
 }
-text {
+"message button" {
 	object {
-		x=223
-		y=123
-		width=115
-		height=30
+		x=871
+		y=217
+		width=80
+		height=44
 	}
-	"basic attribute" {
+	control {
+		chan="waves"
 		clr=14
+		bclr=4
 	}
-	textix="30 label"
+	label="Text"
 }
-text {
+"message button" {
 	object {
-		x=330
-		y=75
-		width=120
-		height=36
+		x=670
+		y=218
+		width=60
+		height=34
 	}
-	"basic attribute" {
+	control {
+		chan="waves"
 		clr=14
+		bclr=4
 	}
-	textix="36 label"
+	label="Text"
+}
+"message button" {
+	object {
+		x=577
+		y=218
+		width=60
+		height=32
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=487
+		y=220
+		width=54
+		height=27
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=415
+		y=219
+		width=40
+		height=23
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=320
+		y=217
+		width=40
+		height=22
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=248
+		y=217
+		width=32
+		height=21
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=182
+		y=215
+		width=35
+		height=19
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=118
+		y=218
+		width=30
+		height=16
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"message button" {
+	object {
+		x=64
+		y=215
+		width=30
+		height=15
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
+}
+"text entry" {
+	object {
+		x=63
+		y=155
+		width=34
+		height=15
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=13
+		y=154
+		width=34
+		height=14
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	format="string"
+	limits {
+	}
+}
+"message button" {
+	object {
+		x=17
+		y=214
+		width=30
+		height=14
+	}
+	control {
+		chan="waves"
+		clr=14
+		bclr=4
+	}
+	label="Text"
 }
