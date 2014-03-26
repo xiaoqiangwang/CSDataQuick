@@ -3,7 +3,6 @@
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 int localCvtLongToHexString (epicsInt32 source, char *pdest);
 void localCvtDoubleToString (double flt_value, char  *pstr_value, unsigned short precision);
@@ -64,7 +63,7 @@ void localCvtDoubleToExpNotationString(double value, char *textField,
   unsigned short precision)
 {
     double absVal, newVal;
-    bool minus;
+    int minus;
     int exp, k, l;
     char TF[128];
 
@@ -73,7 +72,7 @@ void localCvtDoubleToExpNotationString(double value, char *textField,
    *   in localCvtDoubleToString. */
 
     absVal = fabs(value);
-    minus = (value < 0.0 ? true : false);
+    minus = (value < 0.0 ? 1 : 0);
     newVal = absVal;
 
     if(absVal < 1.) {
