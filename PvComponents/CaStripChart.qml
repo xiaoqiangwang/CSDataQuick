@@ -5,6 +5,7 @@ import PvComponents 1.0
 Item {
     id: control
 
+    property string title
     property color foreground: 'black'
     property color background:  '#bbbbbb'
 
@@ -15,33 +16,51 @@ Item {
     property var _data: []
 
     property int maxSeconds: 60
-    property ListModel models: ListModel {
-        ListElement {
-            property Limits limits
-            channel: 'catest'
-            foreground: 'red'
-        }
-        ListElement {
-            property Limits limits
-            channel: 'calc'
-            foreground: 'blue'
-        }
-    }
+    property ListModel models
 
     Plot {
         id: plot
         anchors.fill: parent
+        title: control.title
         foreground: control.foreground
         background: control.background
+        Axis {
+            id: xAxis
+            type: Axis.Bottom
+            scale: Axis.DateTime
+        }
+        Axis {
+            id: yAxis
+            type: Axis.Left
+        }
+        Axis {
+            id: xAxis2
+            type: Axis.Top
+            tickVisible: false
+        }
+        Axis {
+            id: yAxis2
+            type: Axis.Right
+            tickVisible: false
+        }
+
+        Repeater {
+            model: control.models
+            Graph {
+                //x: modelData.x
+                //y: modelData.y
+            }
+        }
     }
 
     Component.onCompleted: {
+        /*
         for(var i=0; i<models.count; i++) {
             if (models.get(i).channel == '')
                 continue
             _time.push([])
             _data.push([])
-            var graph = plot.addGraph()
+
             graph.color = models.get(i).foreground
             var pv = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(models.get(i).channel), control, 'pv'+i)
             _pvs.push(pv)
@@ -49,6 +68,7 @@ Item {
             pv.valueChanged.connect(update);
         }
         plot.replot()
+        */
     }
     Timer {
         id: timer

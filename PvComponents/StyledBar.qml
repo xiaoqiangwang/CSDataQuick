@@ -47,12 +47,12 @@ Item {
 
     Rectangle {
         id: panel
-        anchors.top: (direction == 0 || direction == 2) ? range.bottom : undefined
-        anchors.left: (direction == 0 || direction == 2) ? undefined : range.right
+        anchors.top: (direction == 0 || direction == 2) ? (range.visible ? range.bottom : root.top) : undefined
+        anchors.left: (direction == 0 || direction == 2) ? undefined : (range.visible ? range.right : root.left)
         //width: root.width
         //height: root.height * 0.5
-        width: (direction == 0 || direction == 2) ? root.width : root.width / 2
-        height: (direction == 0 || direction == 2) ? root.height / 2 : root.height
+        width: (direction == 0 || direction == 2) ? root.width : range.visible ? root.width / 2 : root.width
+        height: (direction == 1 || direction == 3) ? root.height : range.visible ? root.height / 2 : root.height
         border.width: 1
     }
 

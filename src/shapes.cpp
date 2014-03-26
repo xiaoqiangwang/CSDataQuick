@@ -86,7 +86,10 @@ PaintedRectangle::PaintedRectangle(QQuickItem *parent)
 QPainterPath PaintedRectangle::buildPath()
 {
     QPainterPath path;
-    path.addRect(getDrawArea());
+    QRectF rc = getDrawArea();
+    rc.setWidth(rc.width() - lineWidth());
+    rc.setHeight(rc.height() - lineWidth());
+    path.addRect(rc);
     return path;
 }
 

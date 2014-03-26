@@ -1,6 +1,58 @@
 #include "plotitem.h"
 #include "qcustomplot.h"
 
+static int calcLabelFontSize(QRect size)
+{
+    int fontHeight;
+    int width;
+
+    width = qMin(size.width(), size.height());
+    if(width > 1000) {
+        fontHeight = 18;
+    } else if(width > 900) {
+        fontHeight = 16;
+    } else if(width > 750) {
+        fontHeight = 14;
+    } else if(width > 600) {
+        fontHeight = 12;
+    } else if(width > 400) {
+        fontHeight = 10;
+    } else {
+        fontHeight = 8;
+    }
+    return fontHeight;
+}
+
+static int calcTitleFontSize(QRect size)
+{
+    int fontHeight;
+    int width;
+
+    width = qMin(size.width(), size.height());
+    if(width > 1000) {
+        fontHeight = 26;
+    } else if(width > 900) {
+        fontHeight = 24;
+    } else if(width > 750) {
+        fontHeight = 22;
+    } else if(width > 600) {
+        fontHeight = 20;
+    } else if(width > 500) {
+        fontHeight = 18;
+    } else if(width > 400) {
+        fontHeight = 16;
+    } else if(width > 300) {
+        fontHeight = 14;
+    } else if(width > 250) {
+        fontHeight = 12;
+    } else if(width > 200) {
+        fontHeight = 10;
+    } else {
+        fontHeight = 8;
+    }
+    return fontHeight;
+}
+
 CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     : QQuickPaintedItem( parent ),
       mPlot(0),mTitle(0)
@@ -9,20 +61,16 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     setAcceptedMouseButtons( Qt::AllButtons );
 
     mPlot = new QCustomPlot(this);
-    mPlot->setFont(QFont("Courier", 10));
-
     mPlot->plotLayout()->clear();
     mPlot->plotLayout()->addElement(0, 0, new QCPAxisRect(mPlot, false));
-    //mPlot->legend->setVisible(true);
+    mPlot->plotLayout()->setRowSpacing(0);
 
     connect(mPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
 
     mPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
 
-    // create and insert title
+    // create title but leave it out until it has content
     mTitle = new QCPPlotTitle(mPlot);
-    mPlot->plotLayout()->insertRow(0);
-    mPlot->plotLayout()->addElement(0, 0, mTitle);
 }
 
 CustomPlotItem::~CustomPlotItem()
@@ -31,40 +79,17 @@ CustomPlotItem::~CustomPlotItem()
     delete mPlot;
 }
 
-void CustomPlotItem::onComponentCompleted()
+void CustomPlotItem::componentComplete()
 {
-    qDebug() << "here i am";
-}
+    QQuickPaintedItem::componentComplete();
 
-void CustomPlotItem::initPlot()
-{
     foreach(QObject *child, children()) {
         if (qobject_cast<GraphItem*>(child)) {
-            GraphItem *item = qobject_cast<GraphItem*>(child);
-            mGraphs.append(item);
-            QCPGraph *graph = mPlot->addGraph();
-            QVector<double> x;
-            QVector<double> y;
-            foreach (QPointF pt, item->mData) {
-                x.append(pt.x());
-                y.append(pt.y());
-            }
-            graph->setData(x, y);
-            graph->setPen(item->color());
-            connect(item, SIGNAL(dataChanged(GraphItem*)), this, SLOT(onDataChanged(GraphItem*)));
+            GraphItem *graph = qobject_cast<GraphItem*>(child);
+            graph->init();
         }
     }
-}
-
-void CustomPlotItem::onDataChanged(GraphItem* item)
-{
-    QVector<double> x;
-    QVector<double> y;
-    foreach (QPointF pt, item->mData) {
-        x.append(pt.x());
-        y.append(pt.y());
-    }
-    item->mGraph->setData(x, y);
+    replot();
 }
 
 QString CustomPlotItem::title()
@@ -75,27 +100,13 @@ QString CustomPlotItem::title()
 void CustomPlotItem::setTitle(QString title)
 {
     mTitle->setText(title);
+    if (title.isEmpty())
+        mPlot->plotLayout()->take(mTitle);
+    else {
+        mPlot->plotLayout()->insertRow(0);
+        mPlot->plotLayout()->addElement(0, 0, mTitle);
+    }
     mPlot->replot();
-}
-
-QString CustomPlotItem::xLabel()
-{
-    return mPlot->xAxis->label();
-}
-
-void CustomPlotItem::setXLabel(QString label)
-{
-    mPlot->xAxis->setLabel(label);
-}
-
-QString CustomPlotItem::yLabel()
-{
-    return mPlot->yAxis->label();
-}
-
-void CustomPlotItem::setYLabel(QString label)
-{
-    mPlot->yAxis->setLabel(label);
 }
 
 QColor CustomPlotItem::foreground()
@@ -150,30 +161,6 @@ void CustomPlotItem::clearGraphs(QQmlListProperty<GraphItem> *list)
     item->mGraphs.clear();
 }
 
-/*
- *  Public methods
- */
-GraphItem* CustomPlotItem::addGraph()
-{
-    QCPAxisRect *wideAxisRect = mPlot->axisRect();
-    QCPAxis *valueAxis = wideAxisRect->addAxis(QCPAxis::atLeft);
-
-    QCPAxis *keyAxis = 0;
-    if (wideAxisRect->axisCount(QCPAxis::atBottom) < 1)
-        keyAxis = wideAxisRect->addAxis(QCPAxis::atBottom);
-    else
-        keyAxis = wideAxisRect->axis(QCPAxis::atBottom, 0);
-
-    QCPGraph * graph = mPlot->addGraph(keyAxis, valueAxis);
-    graph->keyAxis()->setTickLabelType(QCPAxis::ltDateTime);
-    graph->keyAxis()->setDateTimeFormat("hh:mm:ss");
-
-    GraphItem *item = new GraphItem(this);
-    item->mGraph = graph;
-    mGraphs.append(item);
-    return item;
-}
-
 void CustomPlotItem::replot()
 {
     mPlot->replot();
@@ -181,15 +168,23 @@ void CustomPlotItem::replot()
 
 void CustomPlotItem::paint(QPainter *painter)
 {
-    if (mPlot)
-        mPlot->paint(painter);
+    mPlot->paint(painter);
 }
 
 void CustomPlotItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
+    int titleFont = calcTitleFontSize(newGeometry.toRect());
+    mTitle->setFont(QFont("Courier", titleFont));
+
+    int labelFont = calcLabelFontSize(newGeometry.toRect());
+    foreach (QCPAxis *axis, mPlot->axisRect()->axes()) {
+        axis->setLabelFont(QFont("Courier", labelFont));
+        axis->setTickLabelFont(QFont("Courier", labelFont));
+    }
     QResizeEvent re(newGeometry.size().toSize(), oldGeometry.size().toSize());
     mPlot->setRect(QRect(0, 0, newGeometry.width(), newGeometry.height()));
     mPlot->resizeEvent(&re);
+    mPlot->replot();
 }
 
 void CustomPlotItem::mousePressEvent(QMouseEvent *event)
@@ -218,48 +213,191 @@ void CustomPlotItem::onCustomReplot()
     update();
 }
 
+/*
+ * Graph Item
+ */
+
 GraphItem::GraphItem(QObject *parent)
-    : QObject(parent)
+    : QObject(parent), mGraph(0)
 {
+}
+
+void GraphItem::init()
+{
+    CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
+    if (plot == 0)
+        return;
+    mGraph = plot->plot()->addGraph(mXAxis->axis(), mYAxis->axis());
+    setColor(_color);
+    setData(mData);
 }
 
 QColor GraphItem::color()
 {
-    return mGraph->pen().color();
+    return _color;
 }
-
 void GraphItem::setColor(QColor color)
 {
-    mGraph->setPen(color);
-    mGraph->valueAxis()->setBasePen(color);
+    _color = color;
+    if (mGraph) {
+        mGraph->setPen(color);
+        mGraph->valueAxis()->setBasePen(color);
+    }
 }
 
 QVariantList GraphItem::data()
 {
     QVariantList list;
-    foreach(QPointF pt, mData) {
-        list.append(pt.toPoint());
+    for (int i=0; i<mX.length(); i++) {
+        list.append(QPointF(mX[i], mY[i]));
     }
     return list;
 }
 
 void GraphItem::setData(QVariantList data)
 {
-    mData.clear();
-    QVector<double> x, y;
+    mData = data;
+    mX.clear();mY.clear();
     foreach(QVariant v, data) {
         QPointF pt = v.toPointF();
-        mData.append(pt);
-        x.append(pt.x());
-        y.append(pt.y());
+        mX.append(pt.x());
+        mY.append(pt.y());
     }
-    mGraph->setData(x, y);
-    mGraph->keyAxis()->rescale();
-    mGraph->valueAxis()->rescale(true);
+    if (mGraph) {
+        mGraph->setData(mX, mY);
+        mGraph->keyAxis()->rescale();
+        mGraph->valueAxis()->rescale(true);
+    }
 }
 
 void GraphItem::addData(double x, double y)
 {
     mGraph->addData(x, y);
     mGraph->keyAxis()->rescale();
+}
+
+AxisItem::AxisItem(QObject *parent)
+    : QObject(parent), mAxis(0)
+{
+    _type = Left;
+    _scale = Linear;
+    _dateFormat = "hh:mm:ss";
+    _visible = true;
+    _label = "";
+    _lower = 0;
+    _upper = 1;
+    _tickCount = 3;
+    _tickVisible = true;
+}
+
+void AxisItem::componentComplete()
+{
+    CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
+    if (plot == 0)
+        return;
+    mAxis = plot->plot()->axisRect()->addAxis(QCPAxis::AxisType(_type));
+    mAxis->setAutoTicks(true);
+    mAxis->setAutoTickLabels(true);
+
+    setScale(_scale);
+    setDateFormat(_dateFormat);
+    setTickCount(_tickCount);
+    setTickVisible(_tickVisible);
+    setVisible(_visible);
+    setLabel(_label);
+    setRangeLower(_lower);
+    setRangeUpper(_upper);
+}
+
+bool AxisItem::visible()
+{
+    return _visible;
+}
+void AxisItem::setVisible(bool visible)
+{
+    _visible = visible;
+    if (mAxis)
+        mAxis->setVisible(visible);
+}
+
+void AxisItem::setTickVisible(bool visible)
+{
+    _tickVisible = visible;
+    if (mAxis) {
+        mAxis->setTicks(visible);
+        mAxis->setTickLabels(visible);
+    }
+}
+
+QString AxisItem::label()
+{
+    return _label;
+}
+void AxisItem::setLabel(QString label)
+{
+    _label = label;
+    if (mAxis)
+        mAxis->setLabel(label);
+    emit labelChanged();
+}
+
+double AxisItem::rangeLower()
+{
+    return _lower;
+}
+void AxisItem::setRangeLower(double lower)
+{
+    _lower = lower;
+    if (mAxis)
+        mAxis->setRangeLower(lower);
+    emit rangeLowerChanged();
+}
+
+double AxisItem::rangeUpper()
+{
+    return _upper;
+}
+void AxisItem::setRangeUpper(double upper)
+{
+    _upper = upper;
+    if (mAxis)
+        mAxis->setRangeUpper(upper);
+    emit rangeUpperChanged();
+}
+
+void AxisItem::setScale(AxisScale scale)
+{
+    _scale = scale;
+    if (mAxis) {
+        switch(scale) {
+        case Linear:
+            mAxis->setTickLabelType(QCPAxis::ltNumber);
+            mAxis->setScaleType(QCPAxis::stLinear);
+            break;
+        case Logrithmic:
+            mAxis->setTickLabelType(QCPAxis::ltNumber);
+            mAxis->setScaleType(QCPAxis::stLinear);
+            break;
+        case DateTime:
+            mAxis->setTickLabelType(QCPAxis::ltDateTime);
+            break;
+        }
+    }
+    emit scaleChanged();
+}
+
+void AxisItem::setDateFormat(QString format)
+{
+    _dateFormat = format;
+    if (mAxis) {
+        mAxis->setDateTimeFormat(format);
+    }
+}
+
+void AxisItem::setTickCount(int count)
+{
+    _tickCount = count;
+    if (mAxis) {
+        mAxis->setAutoTickCount(count);
+    }
 }
