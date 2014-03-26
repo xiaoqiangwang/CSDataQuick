@@ -11,7 +11,8 @@ LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
 
 win32 {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/WIN32
-    QMAKE_CXXFLAGS += -D_MINGW
+    LIBS += -lws2_32
+    QMAKE_CXXFLAGS += -D_MINGW -DEPICS_DLL_NO
 }
 linux {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/Linux
