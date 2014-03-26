@@ -108,6 +108,32 @@ def calcBestFont(height, framed):
 
     return font, family
 
+
+class MEDMLimits(object):
+    def __init__(self, d):
+        self.loprSrc = d.get('loprSrc', '"channel"')
+        self.loprDefault = d.get('loprDefault', 0)
+        self.hoprSrc = d.get('hoprSrc', '"channel"')
+        self.hoprDefault = d.get('hoprDefault', 1)
+        self.precSrc = d.get('hoprSrc', '"channel"')
+        self.precDefault = d.get('hoprDefault', 0)
+
+    def toQML(self):
+        s = """
+Limits {
+    loprSrc: %s
+    loprDefault: %s
+    hoprSrc: %s
+    hoprDefault: %s
+    precSrc: %s
+    precDefault: %s
+}
+""" % (LimitsSource[self.loprSrc], self.loprDefault,
+       LimitsSource[self.hoprSrc], self.hoprDefault,
+       LimitsSource[self.precSrc], self.precDefault)
+
+        return s
+
 class MEDMObject(object):
     """
     Base class of MEDM objects
@@ -708,6 +734,46 @@ class MEDMComposite(MEDMObject):
 }
 """ % (super(MEDMComposite, self).toQML(), q, s)
 
+class MEDMStripChart(MEDMObject):
+    def __init__(self, d, parent=None):
+        super(MEDMStripChart, self).__init__(d, parent)
+        self.title = d['plotcom']['title']
+        self.foreground = '"#%s"' % color_map[int(d['plotcom']['clr'])]
+        self.background = '"#%s"' % color_map[int(d['plotcom']['bclr'])]
+        self.pens = []
+        for i in range(16):
+            pen = d.get('pen[%d]'%i, None)
+            if pen is None:
+                continue
+            limits = MEDMLimits(pen['limits'])
+            channel = pen['chan']
+            color = '"#%s"' % color_map[int(pen['clr'])]
+            self.pens.append((channel, color, limits))
+
+    def toQML(self):
+        q = ""
+        for pen in self.pens:
+            q += """
+    ListElement {
+        channel: %s
+        foreground: %s
+    }
+""" % (pen[0], pen[1])
+
+        s = """
+CaStripChart {
+    %s
+    title: %s
+    foreground: %s
+    background: %s
+    models: ListModel {
+%s
+    }
+}
+""" % (super(MEDMStripChart, self).toQML(), self.title, self.foreground, self.background, q)
+
+        return s
+
 def parseADL(lines):
     objects = []
     parent_object = [objects]
@@ -819,6 +885,8 @@ def convertObject(o, parent=None):
         return MEDMPolygon(o, parent)
     elif o['object_type'] == 'composite':
         return MEDMComposite(o, parent)
+    elif o['object_type'] == '"strip chart"':
+        return MEDMStripChart(o, parent)
     else:
         print 'Not implemented object type', o['object_type']
         return MEDMObject(o, parent)
