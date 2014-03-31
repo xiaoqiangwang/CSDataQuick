@@ -2,11 +2,16 @@ import QtQuick 2.0
 
 import "utils.js" as UtilsJS
 
-Rectangle {
-    property int value: 0
+Item {
+    id: root
+    property color foreground
+    property string digit: '0'
     property real order: 1
+    property bool plusVisible: true
+    property bool minusVisible: true
 
-    border.width: focus ? 1 : 0
+    signal plus;
+    signal minus;
 
     Column {
         anchors.fill: parent
@@ -14,34 +19,37 @@ Rectangle {
             x: parent.width / 4
             width: parent.width / 2
             height: parent.height / 4
-            source: 'images/arrow-up.png'
+            source: root.plusVisible ? (mau.pressed ? 'images/arrow-up-focus.png':'images/arrow-up.png') : ''
             fillMode: Image.Stretch
-            visible: text.text != ' '
             MouseArea {
+                id: mau
                 anchors.fill: parent
-                onClicked: console.log(index, 'plus')
+                onClicked: plus()
+                enabled: root.plusVisible
             }
         }
         Text {
             id: text
             width: parent.width
             height: parent.height / 2
+            color: root.foreground
             font.family: 'Courier'
             font.pixelSize: UtilsJS.getBestFontSize(height)
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            text: value
+            text: digit
         }
         Image {
             x: parent.width / 4
             width: parent.width / 2
             height: parent.height / 4
-            source: 'images/arrow-down.png'
+            source: root.minusVisible ? (mad.pressed ? 'images/arrow-down-focus.png':'images/arrow-down.png') : ''
             fillMode: Image.Stretch
-            visible: text.text != ' '
             MouseArea {
+                id: mad
                 anchors.fill: parent
-                onClicked: console.log(index, 'minus')
+                onClicked: minus()
+                enabled: root.minusVisible
             }
         }
     }
