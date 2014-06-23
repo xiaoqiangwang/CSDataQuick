@@ -36,6 +36,7 @@ class PvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool readable READ readable NOTIFY readableChanged)
     Q_PROPERTY(bool writable READ writable WRITE setWritable NOTIFY writableChanged)
 
+    Q_PROPERTY(int count READ count CONSTANT)
     Q_PROPERTY(QString units    READ units CONSTANT)
     Q_PROPERTY(int prec     READ prec CONSTANT)
     Q_PROPERTY(int nostr   READ nostr CONSTANT)
@@ -125,6 +126,7 @@ public:
     bool connected() {return _connected;}
     void setConnected(bool connected) {_connected = connected; emit connectionChanged();}
 
+    int count() {return _count;}
     void updateStatus(int severity, int status);
     int severity() {return _severity;}
     int status()   {return _status;}
@@ -172,6 +174,8 @@ private:
     int _nsec;              // time stamp - nano seconds within second
 
     // pv control info
+    unsigned long _count;   // number of element
+
     QString _units;         // units
 
     int _nostr;             // no. of state strings

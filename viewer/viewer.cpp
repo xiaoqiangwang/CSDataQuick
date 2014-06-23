@@ -41,5 +41,5 @@ void Viewer::on_actionAbout_triggered()
 {
     QMessageBox::about(this,
                        tr("About ADL Viewer"),
-                       tr("A ADL display file viewer in QML."));
+                       tr("An ADL display file viewer in QML."));
 }

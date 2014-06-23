@@ -17,6 +17,29 @@ record(calc, "calc")
     field (INPA, "calc")
     field (CALC, "A+1")
     field (SCAN, "1 second")
+    field (FLNK, "x")
+}
+record(compress, "x")
+{
+    field (INP, "calc")
+    field (ALG, "Circular Buffer")
+    field (NSAM,"100")
+    field (N,   "1")
+}
+
+record(calc, "sin")
+{
+    field (INPA, "calc CP")
+    field (CALC, "sin(A/10*PI)")
+    field (PREC, "3")
+    field (FLNK, "y")
+}
+record(compress, "y")
+{
+    field (INP, "sin")
+    field (ALG, "Circular Buffer")
+    field (NSAM,"100")
+    field (N,   "1")
 }
 
 record(bo, "bo")

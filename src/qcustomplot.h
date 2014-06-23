@@ -2028,6 +2028,7 @@ public:
   QList<QCPAbstractItem*> items() const;
   
   // read-only interface imitating a QRect:
+  QRect toRect() const {return mRect;}
   int left() const { return mRect.left(); }
   int right() const { return mRect.right(); }
   int top() const { return mRect.top(); }

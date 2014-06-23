@@ -22,6 +22,7 @@ CaStripChart    1.0 CaStripChart.qml
 CaText          1.0 CaText.qml
 CaTextEntry     1.0 CaTextEntry.qml 
 CaTextLabel     1.0 CaTextLabel.qml 
+CaWheelSwitch   1.0 CaWheelSwitch.qml
 DynamicAttr     1.0 DynamicAttr.qml
 StyledButton    1.0 StyledButton.qml
 plugin pvcomponentsplugin

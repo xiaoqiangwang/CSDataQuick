@@ -92,6 +92,15 @@ void CustomPlotItem::componentComplete()
     replot();
 }
 
+GraphItem *CustomPlotItem::addGraph(AxisItem *xAxis, AxisItem *yAxis)
+{
+    GraphItem *graph = new GraphItem(this);
+    graph->setX(xAxis);
+    graph->setY(yAxis);
+    graph->init();
+    return graph;
+}
+
 QString CustomPlotItem::title()
 {
     return mTitle->text();
@@ -121,6 +130,7 @@ void CustomPlotItem::setForeground(QColor color)
 
 QColor CustomPlotItem::background()
 {
+    return QColor();
 }
 
 void CustomPlotItem::setBackground(QColor color)
@@ -229,7 +239,7 @@ void GraphItem::init()
         return;
     mGraph = plot->plot()->addGraph(mXAxis->axis(), mYAxis->axis());
     setColor(_color);
-    setData(mData);
+    mGraph->setData(mX, mY);
 }
 
 QColor GraphItem::color()
@@ -254,14 +264,42 @@ QVariantList GraphItem::data()
     return list;
 }
 
-void GraphItem::setData(QVariantList data)
+void GraphItem::setData(QVariant x, QVariant y)
 {
-    mData = data;
-    mX.clear();mY.clear();
-    foreach(QVariant v, data) {
-        QPointF pt = v.toPointF();
-        mX.append(pt.x());
-        mY.append(pt.y());
+    mX.clear(); mY.clear();
+    if (x.canConvert<QVariantList>())  {
+        foreach(QVariant v, x.value<QSequentialIterable>()) {
+            mX.append(v.toDouble());
+        }
+    }
+
+    if (y.canConvert<QVariantList>())  {
+        foreach(QVariant v, y.value<QSequentialIterable>()) {
+            mY.append(v.toDouble());
+        }
+    }
+
+    if (mX.isEmpty())
+        for(int i=0; i<=mY.length(); i++)
+            mX.append(i);
+
+    if (mY.isEmpty())
+        for(int i=0; i<=mX.length(); i++)
+            mY.append(i);
+
+    if (mGraph) {
+        mGraph->setData(mX, mY);
+        mGraph->keyAxis()->rescale();
+        mGraph->valueAxis()->rescale(true);
+    }
+}
+
+void GraphItem::setData(QVariantList x, QVariantList y)
+{
+    mX.clear(); mY.clear();
+    for (int i=0; i<qMin(x.length(), y.length()); i++) {
+        mX.append(x[i].toDouble());
+        mY.append(y[i].toDouble());
     }
     if (mGraph) {
         mGraph->setData(mX, mY);
@@ -270,10 +308,19 @@ void GraphItem::setData(QVariantList data)
     }
 }
 
-void GraphItem::addData(double x, double y)
+void GraphItem::setData(QVariantList data)
 {
-    mGraph->addData(x, y);
-    mGraph->keyAxis()->rescale();
+    mX.clear();mY.clear();
+    foreach(QVariant v, data) {
+        QPointF pt = v.toPointF();
+        mX.append(pt.x());
+        mY.append(pt.y());
+    }
+    if (mGraph) {
+        mGraph->setData(mX, mY);
+        //mGraph->keyAxis()->rescale();
+        //mGraph->valueAxis()->rescale(true);
+    }
 }
 
 AxisItem::AxisItem(QObject *parent)
@@ -298,6 +345,10 @@ void AxisItem::componentComplete()
     mAxis = plot->plot()->axisRect()->addAxis(QCPAxis::AxisType(_type));
     mAxis->setAutoTicks(true);
     mAxis->setAutoTickLabels(true);
+
+    int labelFont = calcLabelFontSize(mAxis->axisRect()->toRect());
+    mAxis->setLabelFont(QFont("Courier", labelFont));
+    mAxis->setTickLabelFont(QFont("Courier", labelFont));
 
     setScale(_scale);
     setDateFormat(_dateFormat);

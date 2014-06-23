@@ -42,6 +42,7 @@ public:
     static void clearGraphs(QQmlListProperty<GraphItem> *list);
 
     // methods
+    Q_INVOKABLE GraphItem* addGraph(AxisItem* xAxis, AxisItem* yAxis);
     Q_INVOKABLE void replot();
 
     // implemented virtual functions
@@ -99,14 +100,14 @@ public:
     void setY(AxisItem *y) {mYAxis = y;}
 
     //methods
-    Q_INVOKABLE void addData(double x, double y);
+    Q_INVOKABLE void setData(QVariantList x, QVariantList y);
+    Q_INVOKABLE void setData(QVariant x, QVariant y);
 signals:
     void dataChanged(GraphItem *item);
     void colorChanged();
 
 private:
     QCPGraph *mGraph;
-    QVariantList mData;
     QVector<double> mX;
     QVector<double> mY;
     QColor _color;
