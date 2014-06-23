@@ -29,6 +29,7 @@ OTHER_FILES += \
     $$PWD/CaImage.qml \
     $$PWD/CaMonitor.qml \
     $$PWD/CaStripChart.qml \
+    $$PWD/CaWheelSwitch.qml \
     $$PWD/WheelSwitch.qml \
     $$PWD/WheelDigit.qml \
     $$PWD/Limits.qml \

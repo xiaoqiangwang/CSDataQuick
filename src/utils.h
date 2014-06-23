@@ -122,6 +122,30 @@ public:
     };
 };
 
+class TimeUnit : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(TimeUnitEnum)
+public:
+    enum TimeUnitEnum {
+        MilliSecond = 0,
+        Second,
+        Minute,
+    };
+};
+
+class PlotStyle : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(PlotStyleEnum)
+public:
+    enum PlotStyleEnum {
+        Point = 0,
+        Line,
+        FillUnder
+    };
+};
+
 class Utils : public QObject
 {
     Q_OBJECT

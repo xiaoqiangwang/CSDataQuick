@@ -292,6 +292,7 @@ void PvObject::getCallback(struct event_handler_args args)
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
     unsigned long count  = args.count;
+    _count = count;
 
     int status, severity;
     QVariant value;

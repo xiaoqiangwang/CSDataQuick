@@ -86,6 +86,13 @@ LimitsSource = {
     '"user"' : 'LimitsSource.User'
 }
 
+TimeUnit = {
+    '"milli second"' : 'TimeUnit.MilliSecond',
+    '"milli-second"' : 'TimeUnit.MilliSecond',
+    '"second"' : 'TimeUnit.Second',
+    '"minute"' : 'TimeUnit.Minute',
+}
+
 def calcBestFont(height, framed):
     fsize = [(8,8), (9,9), (10,10), (13,13), (14,14), (15,15), (16,16), (20,20), (22,22), (24,22),
              (26,22), (30,34)]
@@ -315,6 +322,19 @@ class MEDMSlider(MEDMControl):
     direction: %s
 }
 """ % (super(MEDMSlider, self).toQML(), self.direction)
+        return s
+
+class MEDMWheelSwitch(MEDMControl):
+    def __init__(self, d, parent=None):
+        super(MEDMWheelSwitch, self).__init__(d, parent)
+        self.format = d.get('format', '""')
+
+    def toQML(self):
+        s = """CaWheelSwitch {
+    %s
+    format: %s
+}
+""" % (super(MEDMWheelSwitch, self).toQML(), self.format)
         return s
 
 class MEDMRelatedDisplay(MEDMObject):
@@ -737,9 +757,11 @@ class MEDMComposite(MEDMObject):
 class MEDMStripChart(MEDMObject):
     def __init__(self, d, parent=None):
         super(MEDMStripChart, self).__init__(d, parent)
-        self.title = d['plotcom']['title']
+        self.title = d['plotcom'].get('title', '""')
         self.foreground = '"#%s"' % color_map[int(d['plotcom']['clr'])]
         self.background = '"#%s"' % color_map[int(d['plotcom']['bclr'])]
+        self.unit = d.get('units', '"second"')
+        self.period = float(d.get('period', '60'))
         self.pens = []
         for i in range(16):
             pen = d.get('pen[%d]'%i, None)
@@ -757,8 +779,12 @@ class MEDMStripChart(MEDMObject):
     ListElement {
         channel: %s
         foreground: %s
+        loprSrc: %s
+        loprDefault: %s
+        hoprSrc: %s
+        hoprDefault: %s
     }
-""" % (pen[0], pen[1])
+""" % (pen[0], pen[1], LimitsSource[pen[2].loprSrc], pen[2].loprDefault, LimitsSource[pen[2].hoprSrc], pen[2].hoprDefault)
 
         s = """
 CaStripChart {
@@ -766,12 +792,59 @@ CaStripChart {
     title: %s
     foreground: %s
     background: %s
+    units: %s
+    period: %s
     models: ListModel {
 %s
     }
 }
-""" % (super(MEDMStripChart, self).toQML(), self.title, self.foreground, self.background, q)
+""" % (super(MEDMStripChart, self).toQML(), self.title, self.foreground, self.background, TimeUnit[self.unit], self.period, q)
 
+        return s
+
+class MEDMCartesianPlot(MEDMObject):
+    def __init__(self, d, parent=None):
+        super(MEDMCartesianPlot, self).__init__(d, parent)
+        self.title = d['plotcom'].get('title', '""')
+        self.foreground = '"#%s"' % color_map[int(d['plotcom']['clr'])]
+        self.background = '"#%s"' % color_map[int(d['plotcom']['bclr'])]
+        self.style = d.get('style', '"point"')
+        self.count = int(d.get('count', '""').strip('"'))
+        self.countPvName = d.get('countPvName', '""').strip('"')
+        if self.countPvName and self.countPvName[0].isdigit():
+            self.countPvName = ''
+
+        self.traces = []
+        for i in range(16):
+            trace = d.get('trace[%d]'%i, None)
+            if trace is None:
+                return
+            xdata = trace.get('xdata', '""')
+            ydata = trace.get('ydata', '""')
+            color = '"#%s"' % color_map[int(trace['data_clr'])]
+            self.traces.append((xdata, ydata, color))
+
+    def toQML(self):
+        q = ''
+        for trace in self.traces:
+            q += """
+        ListElement {
+            xchannel: %s
+            ychannel: %s
+            foreground: %s
+        }
+""" % (trace[0], trace[1], trace[2])
+        s = """
+CaCartesianPlot {
+    %s
+    title: %s
+    foreground: %s
+    background: %s
+    models: ListModel {
+    %s
+    }
+}
+""" % (super(MEDMCartesianPlot, self).toQML(), self.title, self.foreground, self.background, q)
         return s
 
 def parseADL(lines):
@@ -865,6 +938,8 @@ def convertObject(o, parent=None):
         return MEDMMenu(o, parent)
     elif o['object_type'] == '"choice button"':
         return MEDMChoiceButton(o, parent)
+    elif o['object_type'] == '"wheel switch"':
+        return MEDMWheelSwitch(o, parent)
     elif o['object_type'] == '"related display"':
         return MEDMRelatedDisplay(o, parent)
     elif o['object_type'] == '"shell command"':
@@ -887,6 +962,8 @@ def convertObject(o, parent=None):
         return MEDMComposite(o, parent)
     elif o['object_type'] == '"strip chart"':
         return MEDMStripChart(o, parent)
+    elif o['object_type'] == '"cartesian plot"':
+        return MEDMCartesianPlot(o, parent)
     else:
         print 'Not implemented object type', o['object_type']
         return MEDMObject(o, parent)
