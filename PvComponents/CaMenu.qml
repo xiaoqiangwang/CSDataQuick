@@ -4,6 +4,11 @@ import QtQuick.Controls.Styles 1.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaMenu
+    \inqmlmodule PvComponents
+    \brief Displays PV's enumerate in drop-down menu
+*/
 
 CaControl {
     id: combo

@@ -5,7 +5,146 @@
 #include <QTime>
 #include <string.h>
 
-struct ca_client_context * PvObject::m_cac = NULL;
+
+/*!
+    \qmltype PvObject
+    \instantiates QQuickPvObject
+    \inqmlmodule PvComponents
+    \brief Object provides access to EPICS Process Variables.
+
+    Example:
+    \qml
+        PvObject {
+            id: voltagePV
+            channel: 'MTEST:Voltage'
+        }
+    \endqml
+*/
+
+/*!
+    \qmlproperty string PvObject::channel
+
+    Name of the PV.
+*/
+
+/*!
+    \qmlproperty var PvObject::value
+    This property holds the PV's value.
+*/
+
+
+/*!
+    \class QQuickPvObject
+    \inmodule PvComponents
+    \brief The QQuickPvObject class provides access to EPICS Process Variables.
+
+    QQuickPvObject derives from QObject and encapsulate the PV access methods.
+*/
+/*!
+    \enum QQuickPvObject::FieldType
+        \value String
+               Fixed length string of 40 charactors.
+        \value Integer
+               16 bit integer number
+        \value Short
+               Same as QQuickPvObject::Integer
+        \value Float
+               32 bit float number
+        \value Enum
+               An enumeration of choices
+        \value Char
+               8 bit char
+        \value Long
+               32 bit integer number
+        \value Double
+               64 but float number
+        \value Invalid
+               Invalid or disconnected PV object
+*/
+/*!
+    \enum QQuickPvObject::Severity
+        \value NoAlarm
+               Normal state
+        \value MinorAlarm
+               Lowest alarm severity
+        \value MajorAlarm
+               Highest alarm severity
+        \value InvalidAlarm
+               Invalid data or no communication.
+*/
+/*!
+    \property QQuickPvObject::value
+    This property holds the PV's value.
+*/
+
+/*!
+    \property QQuickPvObject::connected
+    This property indicates wether the PV is connected to server.
+*/
+
+/*!
+    \qmlproperty enumeration PvObject::severity
+
+    Severity of the PV.
+*/
+
+/*!
+    \property QQuickPvObject::readable
+    This property indicates wether the PV is readable
+*/
+/*!
+    \qmlproperty bool PvObject::readable
+
+    The read access to the PV.
+*/
+
+/*!
+    \property QQuickPvObject::writable
+    This property indicates wether the PV is writable
+*/
+/*!
+    \qmlproperty bool PvObject::writable
+
+    The write access to the PV.
+*/
+
+/*!
+    \qmlproperty bool PvObject::count
+
+    Element count of the PV.
+*/
+
+/*!
+    \qmlproperty bool PvObject::units
+
+    Units of the PV.
+*/
+
+/*!
+    \qmlproperty bool PvObject::prec
+
+    Precision of the PV.
+*/
+
+/*!
+    \qmlproperty bool PvObject::nostr
+
+    Number of choices of the PV.
+*/
+
+/*!
+    \qmlproperty bool PvObject::strs
+
+    Choices list of the PV.
+*/
+
+/*!
+    \qmlmethod PvComponents::PvObject::setValue(var value)
+
+    Set new value to the PV.
+*/
+
+struct ca_client_context * QQuickPvObject::m_cac = NULL;
 
 static void connectCallbackC(struct connection_handler_args args);
 static void getCallbackC(struct event_handler_args);
@@ -13,7 +152,41 @@ static void monitorCallbackC(struct event_handler_args);
 static void accessCallbackC(struct access_rights_handler_args args);
 
 
-PvObject::PvObject(QObject *parent):
+/*! \internal */
+long QQuickPvObject::init_ca()
+{
+    int status;
+
+    status = ca_context_create(ca_enable_preemptive_callback);
+    if(status != ECA_NORMAL)
+        return(CA_EXTRACT_MSG_NO(status));
+
+    m_cac = ca_current_context();
+
+    ca_add_exception_event(exception_handler, 0);
+
+    return 0;
+}
+/*! \internal */
+long QQuickPvObject::exit_ca()
+{
+    ENTER_CA{
+        ca_context_destroy();
+        m_cac = NULL;
+    }LEAVE_CA
+
+    return 0;
+}
+
+void QQuickPvObject::exception_handler(exception_handler_args args)
+{
+    Q_UNUSED(args);
+}
+
+/*!
+    Construct a QQuickPvObject with the given \a parent.
+ */
+QQuickPvObject::QQuickPvObject(QObject *parent):
     QObject(parent)
 {
     if (m_cac == NULL)
@@ -21,8 +194,6 @@ PvObject::PvObject(QObject *parent):
     _chid = NULL;
     _evid = NULL;
     _connected = false;
-    _asstring  = false;
-    _monitor   = true;
     _status = -1;
     _severity = -1;
     _array = NULL;
@@ -30,20 +201,24 @@ PvObject::PvObject(QObject *parent):
     _name = "";
 }
 
-PvObject::~PvObject()
+/*!
+    \brief Destroy the QQuickPvObject.
+    This also disconnects the channel access connections.
+*/
+QQuickPvObject::~QQuickPvObject()
 {
-    unmonitor();
+    unsubscribe();
     disconnect();
     if (_array)
         free(_array);
 }
-
-void PvObject::classBegin()
+/*! \reimp */
+void QQuickPvObject::classBegin()
 {
 
 }
-
-void PvObject::componentComplete()
+/*! \reimp */
+void QQuickPvObject::componentComplete()
 {
     if (_name.isEmpty())
         return;
@@ -51,7 +226,7 @@ void PvObject::componentComplete()
 }
 
 
-void * PvObject::getArrayValue(unsigned long count)
+void * QQuickPvObject::getArrayValue(unsigned long count)
 {
     count  = qMin<unsigned long>(count, ca_element_count(_chid));
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
@@ -63,13 +238,13 @@ void * PvObject::getArrayValue(unsigned long count)
     return _array;
 }
 
-void PvObject::updateValue(const QVariant value)
+void QQuickPvObject::updateValue(const QVariant value)
 {
     _value.setValue(value);
     emit valueChanged();
 }
 
-void PvObject::updateStatus(int severity, int status)
+void QQuickPvObject::updateStatus(int severity, int status)
 {
     if (_status != status || _severity != severity) {
         _status = status;
@@ -78,9 +253,20 @@ void PvObject::updateStatus(int severity, int status)
     }
 }
 
-void PvObject::setValue(const QVariant val)
+/*!
+*/
+
+QVariant QQuickPvObject::value()
 {
-    if (!connected())
+    return _value;
+}
+
+/*!
+ * \brief QQuickPvObject::setValue
+ */
+void QQuickPvObject::setValue(const QVariant val)
+{
+    if (!_connected)
         return;
 
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
@@ -133,7 +319,15 @@ void PvObject::setValue(const QVariant val)
     ca_flush_io();
 }
 
-long PvObject::connect(const char* name)
+/*! \internal */
+void QQuickPvObject::updateAccess(bool read, bool write)
+{
+    _readable = read;
+    _writable = write;
+}
+
+/*! \internal */
+long QQuickPvObject::connect(const char* name)
 {
     int status;
 
@@ -150,8 +344,8 @@ long PvObject::connect(const char* name)
 
     return 0;
 }
-
-long PvObject::disconnect()
+/*! \internal */
+long QQuickPvObject::disconnect()
 {
     if(_chid)
     {
@@ -165,16 +359,14 @@ long PvObject::disconnect()
     return 0;
 }
 
-long PvObject::monitor(unsigned long count)
+/*! \internal */
+long QQuickPvObject::subscribe(unsigned long count)
 {
     int status;
 
     if(_chid && !_evid)
     {
         chtype reqtype = dbf_type_to_DBR_TIME(ca_field_type(_chid));
-        if (_asstring && ca_field_type(_chid) == DBF_ENUM)
-            reqtype = dbf_type_to_DBR_TIME(DBF_STRING);
-
         ENTER_CA{
             status = ca_create_subscription(reqtype,
                 count,
@@ -191,7 +383,8 @@ long PvObject::monitor(unsigned long count)
     return 0;
 }
 
-long PvObject::unmonitor()
+/*! \internal */
+long QQuickPvObject::unsubscribe()
 {
     int status;
 
@@ -246,10 +439,10 @@ typedef dbr_string_t* dbr_string_t_ptr;
 //
 void connectCallbackC(struct connection_handler_args args)
 {
-    PvObject *chan = (PvObject *)ca_puser(args.chid);
+    QQuickPvObject *chan = (QQuickPvObject *)ca_puser(args.chid);
     chan->connectCallback(args);
 }
-void PvObject::connectCallback(struct connection_handler_args args)
+void QQuickPvObject::connectCallback(struct connection_handler_args args)
 {
     // Do a get when a channel gets connected
     if (args.op == CA_OP_CONN_UP) {
@@ -264,15 +457,15 @@ void PvObject::connectCallback(struct connection_handler_args args)
             return;
         ca_flush_io();
     } else {
-        setConnected(false);
+        _connected = false;
+        emit connectionChanged();
     }
 }
 
 void accessCallbackC(struct access_rights_handler_args args)
 {
-    PvObject *chan = (PvObject *)ca_puser(args.chid);
-    chan->setReadable(args.ar.read_access);
-    chan->setWritable(args.ar.write_access);
+    QQuickPvObject *chan = (QQuickPvObject *)ca_puser(args.chid);
+    chan->updateAccess(args.ar.read_access, args.ar.write_access);
 }
 
 //
@@ -282,12 +475,12 @@ void getCallbackC(struct event_handler_args args)
 {
     if (args.status != ECA_NORMAL)
         return;
-    PvObject *chan = (PvObject *)args.usr;
+    QQuickPvObject *chan = (QQuickPvObject *)args.usr;
     chan->getCallback(args);
     if (chan->monitor())
-        chan->monitor(0);
+        chan->subscribe();
 }
-void PvObject::getCallback(struct event_handler_args args)
+void QQuickPvObject::getCallback(struct event_handler_args args)
 {
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
@@ -345,7 +538,8 @@ void PvObject::getCallback(struct event_handler_args args)
     }
 
     // Set connected after first get succeeds
-    setConnected(true);
+    _connected = true;
+    emit connectionChanged();
     updateValue(value);
     // Signal status/severity
     updateStatus(severity, status);
@@ -358,10 +552,10 @@ void monitorCallbackC(struct event_handler_args args)
 {
     if (args.status != ECA_NORMAL)
         return;
-    PvObject *chan = (PvObject *)args.usr;
+    QQuickPvObject *chan = (QQuickPvObject *)args.usr;
     chan->monitorCallback(args);
 }
-void PvObject::monitorCallback(struct event_handler_args args)
+void QQuickPvObject::monitorCallback(struct event_handler_args args)
 {
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;

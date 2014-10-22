@@ -2,35 +2,89 @@ import QtQuick 2.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaCartesianPlot
+    \inqmlmodule PvComponents
+    \brief Display XY Plot
+
+*/
+
 Item {
     id: control
 
+    /*! Graph title */
     property string title
+    /*! X axis label */
     property string xLabel
+    /*! Y axis label */
     property string yLabel
+    /*! foreground color */
     property color foreground: 'black'
+    /*! background color */
     property color background:  '#bbbbbb'
 
+    /*!
+        \qmlproperty enumeration mode
+        \list
+            \li 0: Plot n points corresponding to the first n changes
+                of the process variable, then do not plot any more points.
+            \li 1: Plot n points corresponding to the last n changes
+                of the process variable, overwriting previous points.
+        \endlist
+    */
     property int mode: 0
+    /*!
+        \qmlproperty enumeration style
+        \list
+            \li 0: Plot the data as points.
+            \li 1: Plot the data as lines.
+            \li 2: Plot the data as lines which are filled under (or over)
+                from the line to the axis.
+        \endlist
+    */
     property int style: PlotStyle.Line
 
+    /*! Number of points */
     property int count: 10
+    /*! Name of the PV from where to get number of points */
     property string countPvName
 
+    /*! Name of the trigger PV. If configured, whenever the value of the trigger PV
+    changes, the entire plot will be updated. */
     property string triggerPvName
+    /*!
+    The Erase Channel is a process variable that causes erasing of the plot.
+    If there is an Erase Channel, the plot erases when the process variable
+    turns either zero or non-zero, depending on the Erase Mode.
+    */
     property string erasePvName
+    /*!
+    \list
+        \li 0: Erase the plot if the erase-channel process variable is not zero.
+        \li 1: Erase the plot if the erase-channel process variable is zero.
+    \endlist
+    */
     property int eraseMode: 0
 
+    /*! \internal */
     property real xRangeLower: 5100.0
+    /*! \internal */
     property real xRangeUpper: 5400.0
-    property int  xRangeMode: 0
+     /*! \internal */
+   property int  xRangeMode: 0
 
+    /*! \internal */
     property real yRangeLower:-1.0
+    /*! \internal */
     property real yRangeUpper: 1.0
+    /*! \internal */
     property int  yRangeMode: 0
 
+     /*! \internal */
     property real y2RangeLower: 0.0
+    /*! \internal */
     property real y2RangeUpper: 1.0
+    /*! \internal */
     property int  y2RangeMode: 0
 
     QtObject {
@@ -44,6 +98,9 @@ Item {
         property var ydata: []
     }
 
+    /*!
+        Trace list model.
+    */
     property ListModel models: ListModel {
         ListElement {
             xchannel: 'x'
@@ -125,10 +182,12 @@ Item {
         }
     }
 
+    /*! \internal */
     function updateCount() {
         count = d.pvCount.value
     }
 
+    /*! internal */
     function updateData() {
         for (var i=0; i<d.pvs.length; i++) {
             var xpv = d.pvs[i][0]

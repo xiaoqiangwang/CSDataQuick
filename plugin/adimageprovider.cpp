@@ -12,11 +12,11 @@ ADImageProvider::ADImageProvider()
 
 ADImageProvider::~ADImageProvider()
 {
-    QMapIterator<QString, QMap<QString, PvObject*> > detector(detectors);
+    QMapIterator<QString, QMap<QString, QQuickPvObject*> > detector(detectors);
     while (detector.hasNext()) {
         detector.next();
-        QMap<QString, PvObject*> pvs = detector.value();
-        foreach(PvObject *pv, pvs) {
+        QMap<QString, QQuickPvObject*> pvs = detector.value();
+        foreach(QQuickPvObject *pv, pvs) {
             delete pv;
         }
     }
@@ -86,38 +86,38 @@ void ADImageProvider::connectChannels(const QString &prefix)
     uids[prefix] = 0;
     images[prefix] = blankimage;
 
-    PvObject * pv;
+    QQuickPvObject * pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->setMonitor(false); // disable monitor to avoid excessive traffic
     pv->connect(prefix.toLatin1() + "ArrayData");
     detectors[prefix]["data"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "NDimensions_RBV");
     detectors[prefix]["ndims"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "ArraySize0_RBV");
     detectors[prefix]["size0"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "ArraySize1_RBV");
     detectors[prefix]["size1"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "ArraySize2_RBV");
     detectors[prefix]["size2"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "DataType_RBV");
     detectors[prefix]["dtype"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "ColorMode_RBV");
     detectors[prefix]["color"] = pv;
 
-    pv = new PvObject();
+    pv = new QQuickPvObject();
     pv->connect(prefix.toLatin1() + "UniqueId_RBV");
     detectors[prefix]["uid"] = pv;
 }

@@ -4,11 +4,27 @@ import QtQuick.Controls.Styles 1.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaByte
+    \inqmlmodule PvComponents
+    \brief Display bits of an unsigned integer.
+
+*/
 CaMonitor {
+    /*!
+      \qmlproperty enumeration orientation
+      \list
+        \li Qt.Horizontal: Start Bit at the left and End Bit at the right
+        \li Qt.Vertical: Start Bit at the top and End Bit at the bottom
+      \endlist
+    */
     property int orientation: Qt.Horizontal
+    /*! The starting bits */
     property int start: 0
+    /*! The ending bits */
     property int end: 31
 
+    /*! \internal */
     property var _comp;
 
     Component {

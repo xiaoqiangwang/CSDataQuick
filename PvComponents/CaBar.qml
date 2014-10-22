@@ -3,12 +3,31 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaBar
+    \inqmlmodule PvComponents
+    \brief Display a bar that expands or contracts when value changes
+
+*/
+
 CaMonitor {
     id: control
-
+    /*!
+        \qmlproperty enumeration label
+        The decoration mode.
+    */
     property int label: LabelStyle.Frame
+    /*!
+        \qmlproperty enumeration direction
+        The expanding direction.
+    */
     property alias direction: bar.direction
+    /*!
+        \qmlproperty enumeration fillMode
+        Either Edge or Center.
+    */
     property alias fillMode: bar.fillMode
+    /*! Operation limits range and precision */
     property Limits limits : Limits{}
 
     StyledBar {

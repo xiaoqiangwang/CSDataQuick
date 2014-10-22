@@ -577,7 +577,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -593,7 +593,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -609,7 +609,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -625,7 +625,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -641,7 +641,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -657,7 +657,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -673,7 +673,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -689,7 +689,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -705,7 +705,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -721,7 +721,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -735,7 +735,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -749,7 +749,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -763,7 +763,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -777,7 +777,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -791,7 +791,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -805,7 +805,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -819,7 +819,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -833,7 +833,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -847,7 +847,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }
@@ -861,7 +861,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -877,7 +877,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	format="string"
 	limits {
@@ -893,7 +893,7 @@ text {
 	control {
 		chan="waves"
 		clr=14
-		bclr=4
+		bclr=51
 	}
 	label="Text"
 }

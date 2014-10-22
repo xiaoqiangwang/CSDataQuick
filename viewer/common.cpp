@@ -1,12 +1,18 @@
 #define ALLOCATE_STORAGE
 #include "common.h"
 
+#ifdef _WIN32
+#include <io.h>
+#else
+#include <unistd.h>
+#endif
+
 #include <cstdio>
+#include <string>
 #include <map>
+#include <vector>
 
-static bool parsingCompositeFile = false;
 static std::map<std::string, std::string> nameValueTable;
-
 
 /* A lexical analyzer (as a state machine), based upon ideas from
   *   "Advanced Unix Programming" by Marc J. Rochkind, with
@@ -16,7 +22,7 @@ static std::map<std::string, std::string> nameValueTable;
 TOKEN getToken(std::istream &fstream, char *word)
 {
     enum {NEUTRAL,INQUOTE,INWORD,INMACRO} state = NEUTRAL, savedState = NEUTRAL;
-    int c;
+    char c;
     char *w;
     char *m, macro[MAX_TOKEN_LENGTH];
     int j;
@@ -36,7 +42,7 @@ TOKEN getToken(std::istream &fstream, char *word)
             case '$' : c=fstream.get();
                 /* only do macro substitution if in execute mode or
            * parsing a composite file */
-                if(parsingCompositeFile && c == '(' ) {
+                if( c == '(' ) {
                     state = INMACRO;
                 } else {
                     *w++ = '$';
@@ -62,8 +68,8 @@ TOKEN getToken(std::istream &fstream, char *word)
             switch(c) {
             case '"' : *w = '\0'; return(T_WORD);
             case '$' : c=fstream.get();
-                /* only do macro substitution if in execute mode */
-                if((parsingCompositeFile) && c == '(' ) {
+                /* do macro substitution */
+                if( c == '(' ) {
                     savedState = INQUOTE;
                     state = INMACRO;
                 } else {
@@ -118,3 +124,26 @@ TOKEN getToken(std::istream &fstream, char *word)
     }
     return(T_EOF);
 }
+
+void parseAndSkip(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+  /* Just read and look for braces until we return to the same level */
+    do {
+        switch( (tokenType=getToken(fstream,token)) ) {
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+        }
+    } while( (tokenType != T_RIGHT_BRACE || nestingLevel > 0) &&
+      (nestingLevel > 0) && (tokenType != T_EOF) );
+}
+

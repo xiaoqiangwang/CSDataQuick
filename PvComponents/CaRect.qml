@@ -2,6 +2,12 @@ import QtQuick 2.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaRect
+    \inqmlmodule PvComponents
+    \brief Display a rectangle
+*/
+
 CaGraphics {
     id: control
     PaintedRectangle {

@@ -19,7 +19,7 @@ static QObject *utils_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 void PvComponentsPlugin::registerTypes(const char *uri)
 {
     // @uri PvComponents
-    qmlRegisterType<PvObject>(uri, 1, 0, "PvObject");
+    qmlRegisterType<QQuickPvObject>(uri, 1, 0, "PvObject");
     qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
     qmlRegisterType<Polyline>(uri, 1, 0, "Polyline");
     qmlRegisterType<Polygon>(uri, 1, 0, "Polygon");
@@ -32,10 +32,12 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterSingletonType<Utils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");
+    qmlRegisterUncreatableType<Direction>(uri, 1, 0, "Direction", "Direction Enum");
     qmlRegisterUncreatableType<EdgeStyle>(uri, 1, 0, "EdgeStyle", "EdgeStyle Enum");
     qmlRegisterUncreatableType<FillStyle>(uri, 1, 0, "FillStyle", "FillStyle Enum");
     qmlRegisterUncreatableType<VisibilityMode>(uri, 1, 0, "VisibilityMode", "VisibilityMode Enum");
     qmlRegisterUncreatableType<LimitsSource>(uri, 1, 0, "LimitsSource", "LimitsSource Enum");
+    qmlRegisterUncreatableType<RelatedDisplayVisual>(uri, 1, 0, "RelatedDisplayVisual", "RelatedDisplayVisual Enum");
     qmlRegisterUncreatableType<LabelStyle>(uri, 1, 0, "LabelStyle", "LabelStyle Enum");
     qmlRegisterUncreatableType<TimeUnit>(uri, 1, 0, "TimeUnit", "TimeUnit Enum");
     qmlRegisterUncreatableType<PlotStyle>(uri, 1, 0, "PlotStyle", "PlotStyle Enum");

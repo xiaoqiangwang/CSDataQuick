@@ -228,7 +228,7 @@ void CustomPlotItem::onCustomReplot()
  */
 
 GraphItem::GraphItem(QObject *parent)
-    : QObject(parent), mGraph(0)
+    : QObject(parent), mGraph(0),mXAxis(0),mYAxis(0)
 {
 }
 

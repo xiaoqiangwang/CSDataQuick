@@ -7,6 +7,14 @@
 #define EXTERN extern
 #endif
 
+    #define MIN(a,b)  ((a)<(b)?(a):(b))
+    #define MAX(a,b)  ((a)>(b)?(a):(b))
+
+    /* Define these to set the number of menu items in the Related Display
+     * and Shell Command. */
+    #define MAX_RELATED_DISPLAYS    16
+    #define MAX_SHELL_COMMANDS      16
+
     #define MAX_TOKEN_LENGTH        256     /* max size of strings in adl    */
     #define MAX_PENS                8       /* max # of pens on strip chart  */
     #define MAX_TRACES              8       /* max # of traces on cart. plot */
@@ -328,6 +336,7 @@
      *********************************************************************/
     #ifndef ALLOCATE_STORAGE
     extern char *stringValueTable[NUMBER_STRING_VALUES];
+    extern char *qmlValueTable[NUMBER_STRING_VALUES];
     #else
     const char *stringValueTable[NUMBER_STRING_VALUES] = {
         "execute", "edit",
@@ -359,6 +368,35 @@
         "Y", "Y2",
     };
 
+    const char *qmlValueTable[NUMBER_STRING_VALUES] = {
+        "execute", "edit",
+        "LabelStyle.Frame", "LabelStyle.None", "LabelStyle.Outline", "LabelStyle.Limits", "LabelStyle.Channel",
+        "ColorMode.Static", "ColorMode.Alarm", "ColorMode.Discrete",
+        "VisibilityMode.Static", "VisibilityMode.IfNotZero", "VisibilityMode.IfZero", "VisibilityMode.Calc",
+        "Direction.Up", "Direction.Right", "Direction.Down", "Direction.Left",
+        "EdgeStyle.Solid", "EdgeStyle.Dash",
+        "FillStyle.Solid", "FillStyle.Outline",
+        "TextFormat.Decimal", "TextFormat.Exponential", "TextFormat.EngNotation", "TextFormat.Compact", "TextFormat.Truncated",
+        "TextFormat.Hexadecimal", "TextFormat.Octal", "TextFormat.String",
+        "TextFormat.Sexagesimal", "TextFormat.SexagesimalHMS", "TextFormat.SexagesimalDMS",
+        "Text.AlignLeft", "Text.AlignHCenter", "Text.AlignRight",
+        "column", "row", "row column",
+        "from edge", "from center",
+        "milli-second", "second", "minute",
+        "PlotStyle.Point", "PlotStyle.Line", "PlotStyle.FillUnder",
+        "plot n pts & stop", "plot last n pts",
+        "no image", "gif", "tiff",
+        "linear", "log10", "time",
+        "from channel", "user-specified", "auto-scale",
+        "if not zero", "if zero",
+        "create new display", "replace display",
+        "RelatedDisplayVisual.Menu", "RelatedDisplayVisual.Row", "RelatedDisplayVisual.Column", "RelatedDisplayVisual.Hidden",
+        "hh:mm:ss", "hh:mm", "hh:00", "MMM DD YYYY", "MMM DD", "MMM DD hh:00",
+        "wd hh:00",
+        "false", "true",
+        "LimitsSource.Channel", "LimitsSource.Default", "LimitsSource.User", "LimitsSource.Unused",
+        "Y", "Y2",
+    };
     #endif
 
     /**********************************************************************
@@ -417,4 +455,5 @@
     { T_WORD, T_EQUAL, T_QUOTE, T_LEFT_BRACE, T_RIGHT_BRACE, T_EOF} TOKEN;
 
     EXTERN TOKEN getToken(std::istream &fstream, char *word);
+    EXTERN void parseAndSkip(std::istream &fstream);
 #endif // COMMON_H

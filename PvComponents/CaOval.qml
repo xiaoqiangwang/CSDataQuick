@@ -2,6 +2,13 @@ import QtQuick 2.0
 
 import PvComponents 1.0
 
+
+/*!
+    \qmltype CaOval
+    \inqmlmodule PvComponents
+    \brief Display a circle or ellipse
+*/
+
 CaGraphics {
     id: control
 

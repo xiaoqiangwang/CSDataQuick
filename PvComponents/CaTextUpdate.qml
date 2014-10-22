@@ -3,6 +3,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 CaMonitor {
     id: label
@@ -56,6 +57,12 @@ CaMonitor {
                 fontSize -= 1
             }
         }
+    }
+
+    onHeightChanged: {
+        var font = UtilsJS.getBestFontSize(height)
+        fontSize = font.size
+        fontFamily = font.family
     }
 
     function formatString(format, value) {

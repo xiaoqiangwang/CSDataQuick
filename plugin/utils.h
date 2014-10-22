@@ -46,6 +46,24 @@ private:
     ColorMode& operator=(const ColorMode&);
 };
 
+class Direction : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(DirectionEnum)
+public:
+    enum DirectionEnum {
+        Up = 0,
+        Right,
+        Down,
+        Left
+    };
+private:
+    Direction(QObject*);
+    Direction();
+    Direction(const Direction&);
+    Direction& operator=(const Direction&);
+};
+
 class EdgeStyle : public QObject
 {
     Q_OBJECT
@@ -104,7 +122,21 @@ public:
     enum LimitsSourceEnum {
         Channel = 0,
         Default,
-        User
+        User,
+        Unused
+    };
+};
+
+class RelatedDisplayVisual : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(RelatedDisplayVisualEnum)
+public:
+    enum RelatedDisplayVisualEnum {
+        Menu = 0,
+        Row,
+        Column,
+        Hidden
     };
 };
 

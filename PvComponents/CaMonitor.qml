@@ -1,18 +1,33 @@
 import QtQuick 2.0
 import PvComponents 1.0
 
-Item {
+
+/*!
+    \qmltype CaMonitor
+    \inqmlmodule PvComponents
+    \brief Basic type to all PV monitors
+
+*/
+
+BaseItem {
+    /*! foreground color */
     property color background: '#bbbbbb'
+    /*! background color */
     property color foreground: '#000000'
+    /*! qmlproperty enumeration CaGraphics::colorMode
+    */
     property int colorMode: ColorMode.Static
+    /*! font size */
     property int fontSize: 11
+    /*! font family */
     property string fontFamily: fontSize <= 22 ?'Dejavu Sans Mono' : 'Helvetica'
 
-    // control channel
+    /*! control pv name */
     property alias channel: pv.channel
+    /*! control pv object */
     property var pv: PvObject { id: pv; }
 
-    // dynamic attributes
+    /*! dynamic attributes */
     property var dynamicAttr: DynamicAttr { id: da }
 
     visible: da.visibility
