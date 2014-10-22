@@ -2,9 +2,15 @@ import QtQuick 2.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaMeter
+    \inqmlmodule PvComponents
+    \brief Displays a dial indicator
+*/
+
 CaMonitor {
     id: control
-
+    /*! The operation limits */
     property Limits limits : Limits{}
 
     Meter {

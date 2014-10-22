@@ -3,12 +3,24 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
+
+/*!
+    \qmltype CaShellCommand
+    \inqmlmodule PvComponents
+    \brief Runs shell commands
+*/
+
 CaControl {
     id: shell
+    /*! text on button */
     property string label: ''
+    /*! command list model */
     property ListModel model: ListModel {
     }
 
+    /*!
+        \internal
+    */
     function runCommand(command) {
         if (!Utils.execute(command))
             console.error('Error happend when run command: `%1`'.arg(command))

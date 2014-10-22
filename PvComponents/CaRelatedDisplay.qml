@@ -3,20 +3,41 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaRelatedDisplay
+    \inqmlmodule PvComponents
+    \brief Brings up more displays
+*/
 
 Rectangle {
     id: display
+    /*! foreground color */
     property color foreground: '#000000'
+    /*! background color */
     property color background: '#73dfff' // '#bbbbbb' is the actual default
+    /*! font family */
     property string fontFamily
+    /*! font size */
     property int fontSize
+    /*! text displayed on button */
     property string label: ''
+    /*!
+        \qmlproperty enumeration visual
+        \list
+            \li 0: Use a pull down menu for the choices.
+            \li 1: Use a row of buttons for the choices.
+            \li 2: Use a column of buttons for the choices.
+        \endlist
+    */
     property int visual: 0
 
-    // related display list model
+    /*! related display list model */
     property ListModel model: ListModel {
     }
 
+    /*!
+        \internal
+    */
     function load(fname, args, remove) {
         // TODO: substitue "name=values"
         // TODO: Handel both adl and qml

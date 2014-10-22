@@ -4,27 +4,64 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <list>
 #include <vector>
 
-using namespace std;
-
 #include "common.h"
+
+/* Auxilary Classes */
+typedef struct {
+    double x;
+    double y;
+} Point;
+
+typedef struct {
+    int x;
+    int y;
+    int width;
+    int height;
+} Rect;
+
+class ColorMap
+{
+public:
+    ColorMap();
+    void parse(std::istream &fstream);
+    void dump();
+
+    std::string value(int index) {return colormap[index];}
+
+protected:
+    void parseColors(std::istream &fstream);
+private:
+    int ncolors;
+    std::vector<std::string> colormap;
+};
+
+class Element;
 
 /* Widget Common Attributes */
 class Attribute
 {
 public:
-    Attribute () {}
-    virtual void parse(istream& fstream) = 0;
-    virtual string write() = 0;
+    Attribute(Element *parent) {_parent = parent;}
+    virtual void parse(std::istream& fstream) = 0;
+    virtual void toQML(std::ostream& fstream) = 0;
+
+    Element *parent() { return _parent;}
+
+protected:
+    /* to which Element this attribute is belonging to */
+    Element *_parent;
 };
 
 class BasicAttribute : public Attribute
 {
 public:
-    BasicAttribute();
-    void parse(istream &fstream);
-
+    BasicAttribute(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
 private:
     int clr;
     EdgeStyle style;
@@ -35,80 +72,79 @@ private:
 class DynamicAttribute : public Attribute
 {
 public:
-    DynamicAttribute();
-    void parse(istream &fstream);
-
-protected:
-    void parseMode(istream &fstream);
-    void parseParam(istream &fstream);
+    DynamicAttribute(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
 
 private:
     ColorMode clr;
     VisibilityMode vis;
-    string chan[MAX_CALC_RECORDS];
-    string calc;
-    string post;
+    std::string chan[MAX_CALC_RECORDS];
+    std::string calc;
+    std::string post;
     bool validCalc;
-};
-
-class Object : public Attribute
-{
-public:
-    Object();
-    void parse(istream &fstream);
-
-private:
-    int x, y;
-    unsigned int width, height;
 };
 
 class Monitor : public Attribute
 {
 public:
-    Monitor();
+    Monitor(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+    void dump();
+
 private:
-    string rdbk;
+    std::string rdbk;
     int clr, bclr;
 };
 
 class Control : public Attribute
 {
 public:
-    Control();
+    Control(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+    void dump();
 private:
-    string control;
+    std::string control;
     int clr, bclr;
 };
 
 class Limits : public Attribute
 {
 public:
-    Limits();
+    Limits(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+    void dump();
+
 private:
-    PvLimitsSrc_t lopr;
+    PvLimitsSrc_t loprSrc;
     double loprDefault;
-    PvLimitsSrc_t hopr;
+    PvLimitsSrc_t hoprSrc;
     double hoprDefault;
-    PvLimitsSrc_t prec;
+    PvLimitsSrc_t precSrc;
     short precDefault;
 };
 
 class Plotcom : public Attribute
 {
 public:
-    Plotcom();
+    Plotcom(Element *parent);
 private:
-    string title;
-    string xlablel;
-    string ylabel;
+    std::string title;
+    std::string xlablel;
+    std::string ylabel;
     int clr, bclr;
-    string package;
+    std::string package;
 };
 
 class PlotAxisDefinition : public Attribute
 {
 public:
-    PlotAxisDefinition();
+    PlotAxisDefinition(Element *parent);
 private:
     CartesianPlotAxisStyle axisStyle;
     CartesianPlotRangeStyle rangeStyle;
@@ -119,72 +155,330 @@ private:
 class RelatedDisplayEntry : public Attribute
 {
 public:
-    RelatedDisplayEntry();
+    RelatedDisplayEntry(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+    void dump();
+
 private:
-    string label;
-    string name;
-    string args;
+    std::string label;
+    std::string name;
+    std::string args;
     relatedDisplayMode_t mode;
 };
 
 class ShellCommandEntry : public Attribute
 {
 public:
-    ShellCommandEntry();
+    ShellCommandEntry(Element *parent);
 private:
-    string label;
-    string command;
-    string args;
+    std::string label;
+    std::string command;
+    std::string args;
+};
+
+class Pen : public Attribute
+{
+public:
+    Pen(Element *parent);
+private:
+    std::string chan;
+    int clr;
+    Limits limits;
+};
+
+class Trace : public Attribute
+{
+public:
+    Trace(Element *parent);
+private:
+    std::string xdata;
+    std::string ydata;
+    int clr;
+    int yaxis;
 };
 
 /*
  * Top level
  */
 
-class DisplayInfo
+/* Widget Base Types */
+class Display;
+class Element
 {
 public:
-    DisplayInfo();
+    Element(Element *parent) {
+        _level = 0;
+        _parent = parent;
+        _type = DL_Element;
+        /* find out the depth in the element tree */
+        Element *p = parent;
+        if (p == 0) _display = (Display *)this;
+        while (p) {
+            _level ++;
+            if (p->parent() == 0)
+                _display = (Display *)p;
+            p = p->parent();
+        }
+    }
+    virtual ~Element() {};
 
-    void parse(istream &fstream);
+    DlElementType type() {return _type;}
+    Element *parent() {return _parent;}
+    Display *display() {return _display;}
+
+    int level() {return _level;}
+
+    Rect rect() {return _rect; }
+    void setRect(Rect rect) { this->_rect = rect;}
+
+    virtual void parse(std::istream& fstream) = 0;
+    void parseObject(std::istream& fstream);
+    virtual void toQML(std::ostream& ostream) = 0;
+    virtual void dump() =0;
+
+    /* access object */
+protected:
+    Display *_display;
+    Element *_parent;
+    DlElementType _type;
+    int _level;
+    Rect _rect;
+};
+
+class Display : public Element
+{
+public:
+    Display(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
+
+    std::string color(int index) {return colormap.value(index); }
+
+    void setFileName(std::string filename) { file = filename;}
+    std::string fileName() { return file; }
+
+    void setMacros(std::map<std::string, std::string> macros) {nameValueTable = macros;}
+    std::map<std::string, std::string> macros() {return nameValueTable;}
+
+protected:
+    void parseFile(std::istream &fstream);
+    void parseDisplay(std::istream &fstream);
+
 private:
+    std::map<std::string, std::string> nameValueTable;
+    std::list<Element *> widgets;
+
     /* file */
-    string file;
+    std::string file;
     int version;
+
     /* display */
-    //Object object;
     int clr, bclr;
-    string cmap;
-    vector<unsigned int> colormap;
-    /* grid */
+
+    std::string cmap;
+    ColorMap colormap;
+
     int gridSpacing;
     bool gridOn;
     bool snapToGrid;
-    /* macr,value */
-    map<string, string> nameValueTable;
 };
 
-/* Widget Types */
-class Element {
+class Composite : public Element
+{
 public:
-    Element () {
-        this->_type = DL_Element;
-    }
+    Composite(Element *parent);
 
-    DlElementType type() {return _type;}
-
-    virtual bool parse(istream& fstream) = 0;
-    virtual string write() = 0;
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
 
 protected:
-    DlElementType _type;
+    void parseChildren(std::istream &fstream);
+    void parseCompositeFile(const char *filename);
+    void moveChildren(int offsetX, int offsetY);
+
+private:
+    DynamicAttribute dynamic_attr;
+    std::string name;
+    std::string file;
+    std::list<Element *> widgets;
 };
 
-class Arc : public Element {
+/* Graphic Widgets */
+
+class Rectangle : public Element
+{
 public:
-    Arc () {
-        this->_type = DL_Arc;
-    }
+    Rectangle(Element *parent);
+
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+};
+
+class Oval : public Element
+{
+public:
+    Oval(Element *parent);
+
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+};
+
+class Arc : public Element
+{
+public:
+    Arc (Element *parent);
+
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+    int begin;
+    int path;
+};
+
+class Polyline : public Element
+{
+public:
+    Polyline(Element *parent);
+
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+    std::vector<Point> points;
+};
+
+class Polygon : public Element
+{
+public:
+    Polygon(Element *parent);
+
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+    std::vector<Point> points;
+};
+
+class Text : public Element
+{
+public:
+    Text(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+    TextAlign align;
+    std::string label;
+};
+
+/* Control Widegts */
+class TextEntry : public Element
+{
+public:
+    TextEntry(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
+
+private:
+    Control control;
+    Limits limits;
+    TextFormat format;
+    ColorMode clrmod;
+};
+
+class Menu : public Element
+{
+public:
+    Menu(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &ostream);
+    void dump();
+
+private:
+    Control control;
+    ColorMode clrmod;
+};
+
+class MessageButton : public Element
+{
+public:
+    MessageButton(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &ostream);
+    void dump();
+
+private:
+    Control control;
+    ColorMode clrmod;
+    std::string onMessage;
+    std::string offMessage;
+    std::string label;
+};
+
+/* Monitor Widgets */
+class TextUpdate : public Element {
+public:
+    TextUpdate (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
+
+private:
+    Monitor monitor;
+    Limits limits;
+    TextFormat format;
+    TextAlign align;
+    ColorMode clrmod;
+};
+
+/* Misc Widgets */
+class RelatedDisplay : public Element {
+public:
+    RelatedDisplay(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
+
+protected:
+    void parseEntry(std::istream);
+
+private:
+    int clr;
+    int bclr;
+    std::string label;
+    relatedDisplayVisual_t visual;
+    std::vector<RelatedDisplayEntry*> entries;
 };
 
 #endif // ELEMENT_H

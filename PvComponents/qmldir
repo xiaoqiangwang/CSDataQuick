@@ -6,6 +6,8 @@ CaByte          1.0 CaByte.qml
 CaCartesianPlot 1.0 CaCartesianPlot.qml
 CaChoiceButton  1.0 CaChoiceButton.qml 
 CaComposite     1.0 CaComposite.qml
+CaControl       1.0 CaControl.qml
+CaGraphics      1.0 CaGraphics.qml
 CaImage         1.0 CaImage.qml
 CaMenu          1.0 CaMenu.qml 
 CaMessageButton 1.0 CaMessageButton.qml
@@ -21,8 +23,14 @@ CaSlider        1.0 CaSlider.qml
 CaStripChart    1.0 CaStripChart.qml
 CaText          1.0 CaText.qml
 CaTextEntry     1.0 CaTextEntry.qml 
-CaTextLabel     1.0 CaTextLabel.qml 
+CaTextUpdate    1.0 CaTextUpdate.qml
 CaWheelSwitch   1.0 CaWheelSwitch.qml
 DynamicAttr     1.0 DynamicAttr.qml
-StyledButton    1.0 StyledButton.qml
+Limits          1.0 Limits.qml
+internal Meter         Meter.qml
+internal StyledBar     StyledBar.qml
+internal StyledButton  StyledButton.qml
+internal WheelDigit    WheelDigit.qml
+internal WheelSwitch   WheelSwitch.qml
 plugin pvcomponentsplugin
+typeinfo plugins.qmltype

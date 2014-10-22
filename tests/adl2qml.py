@@ -465,7 +465,7 @@ class MEDMTextUpdate(MEDMMonitor):
 
     def toQML(self):
         size, family = calcBestFont(self.height, False)
-        s = """CaTextLabel {
+        s = """CaTextUpdate {
     %s
     align: %s
     format: %s

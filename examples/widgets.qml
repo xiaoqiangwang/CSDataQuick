@@ -171,13 +171,13 @@ ApplicationWindow {
             spacing: 10
             width: parent.width
 
-            CaTextLabel {
+            CaTextUpdate {
                 channel: 'calc'
                 width: 100
                 height: 20
             }
 
-            CaTextLabel {
+            CaTextUpdate {
                 channel: 'calc.SCAN'
                 width: 150
                 height: 20

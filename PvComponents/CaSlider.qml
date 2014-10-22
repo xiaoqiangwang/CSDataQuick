@@ -4,16 +4,21 @@ import QtQuick.Controls.Styles 1.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaSlider
+    \inqmlmodule PvComponents
+    \brief Display a slider to control a PV
+*/
 
 CaControl {
     id: slider
-    property alias minimumValue: slider_control.minimumValue
-    property alias maximumValue: slider_control.maximumValue
+    /*! The incremental direction */
     property int  direction: 0 // right up left down
-    property alias stepSize: slider_control.stepSize
+    /*! The low high operation limit and precision */
     property Limits limits: Limits {}
-
+    /*! \internal */
     property bool __disconnect: false
+
     Slider {
         id: slider_control
         width: (direction == 0 || direction == 2) ? slider.width : slider.height
@@ -28,6 +33,7 @@ CaControl {
         //anchors.fill: parent
         minimumValue: limits.lopr
         maximumValue: limits.hopr
+        stepSize: limits.prec
 
         style:SliderStyle {
             groove: Rectangle {

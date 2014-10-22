@@ -3,7 +3,7 @@
 
 #include <QQuickImageProvider>
 
-class PvObject;
+class QQuickPvObject;
 
 class ADImageProvider : public QQuickImageProvider
 {
@@ -15,7 +15,7 @@ public:
 
     void connectChannels(const QString &id);
 private:
-    QMap<QString, QMap<QString, PvObject *> > detectors;
+    QMap<QString, QMap<QString, QQuickPvObject *> > detectors;
     QMap<QString, QImage> images;
     QMap<QString, int> uids;
 

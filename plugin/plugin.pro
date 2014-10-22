@@ -31,7 +31,7 @@ SOURCES += \
     $$PWD/conversion.c \
     $$PWD/qcustomplot.cpp \
     $$PWD/plotitem.cpp \
-    baseitem.cpp
+    $$PWD/baseitem.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -41,4 +41,4 @@ HEADERS += \
     $$PWD/shapes.h \
     $$PWD/qcustomplot.h \
     $$PWD/plotitem.h \
-    baseitem.h
+    $$PWD/baseitem.h

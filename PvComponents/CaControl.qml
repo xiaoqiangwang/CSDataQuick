@@ -1,19 +1,43 @@
 import QtQuick 2.0
 import PvComponents 1.0
 
-Item {
+/*!
+    \qmltype CaControl
+    \inqmlmodule PvComponents
+    \brief Basic type to all PV controls
+
+    CaControl is the base type for all control types.
+    It defines all the attributes that are common across PV controls.
+
+
+*/
+BaseItem {
     // appearance
+    /*! The foreground color. */
     property color background: '#73dfff' // '#bbbbbb' is the actual default
+
+    /*! The background color. */
     property color foreground: '#000000'
+
+    /*! qmlproperty enumeration CaControl::colorMode
+    */
     property int colorMode: ColorMode.Static
+
+    /*! The font size for text display */
     property int fontSize: 12
+    /*! The font family for text display */
     property string fontFamily: fontSize <= 22 ? 'Courier' : 'Helvetica'
 
-    // control channel
+    /*! \qmlproperty string CaControl::channel
+        The PV channel name.
+    */
     property alias channel: pv.channel
+
+    /*! internal */
     property var pv: PvObject { id: pv; }
 
     // dynamic attributes
+    /*! internal */
     property DynamicAttr dynamicAttr: DynamicAttr { id: da }
 
     visible: da.visibility

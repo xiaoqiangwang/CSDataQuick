@@ -2,21 +2,35 @@
 
 .import PvComponents 1.0 as PvComponents
 
-function getBestFontSize(h) {
-    var height = [8, 9, 10, 13, 14, 15, 16, 20, 22, 24, 26, 30];
-    var size =   [8, 9, 10, 13, 14, 15, 16, 20, 22, 22, 22, 34];
-    var font = 34
-    for(var i=1; i<height.length; i++) {
-        if(h < height[i]) {
-            font = size[i - 1]
+/*!
+    \qmltype UtilsJS
+    \inqmlmodule PvComponents
+    \brief Javascript Utility Functions
+*/
+
+
+/*!
+    \qmlmethod UtilsJS::getBestFontSize(widget_height, with_frame)
+*/
+function getBestFontSize(widget_height, with_frame) {
+    var fsize_label = [[ 8,8], [ 9,9], [10,10], [13,11], [14,12], [15,13], [16,14], [20,16], [21,18], [26,22], [27, 28],[35,32]]
+    var fsize_frame = [[14,8], [15,9], [16,10], [20,11], [21,12], [22,13], [23,14], [27,16], [32,18], [34,22]]
+
+    var fsize = fsize_label
+    if (with_frame)
+        fsize = fsize_frame
+
+    var font_size = fsize[fsize.length - 1][1]
+    for(var i=1; i<fsize.length; i++) {
+        if(widget_height < fsize[i][0]) {
+            font_size = fsize[i - 1][1]
             break
         }
     }
-    if(!font)
-        font == 34
-    if (font == 13 || font == 14)
-        font -= 2
-    else if (font == 16 || font == 20)
-        font -= 3
-    return font
+
+    var font_family = "Dejavu Sans Mono"
+    if (font_size > 20)
+        font_family = "Helvetica"
+
+    return {"family" : font_family, "size" : font_size}
 }

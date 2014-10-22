@@ -1,6 +1,7 @@
+TEMPLATE = aux
 
 QML_IMPORT_PATH = .
-OTHER_FILES += \
+QML_FILES += \
     $$PWD/DynamicAttr.qml \
     $$PWD/CaADImage.qml \
     $$PWD/CaBar.qml \
@@ -12,7 +13,7 @@ OTHER_FILES += \
     $$PWD/CaPolyline.qml \
     $$PWD/CaSlider.qml \
     $$PWD/CaTextEntry.qml \
-    $$PWD/CaTextLabel.qml \
+    $$PWD/CaTextUpdate.qml \
     $$PWD/CaText.qml \
     $$PWD/qmldir \
     $$PWD/CaPolygon.qml \
@@ -43,5 +44,5 @@ OTHER_FILES += \
     $$PWD/images/doubleect.png \
     $$PWD/images/focusframe.png
 
-
-
+OTHER_FILES = $$QML_FILES
+QML_FILES.TARGET = $$PWD/../PvComponents

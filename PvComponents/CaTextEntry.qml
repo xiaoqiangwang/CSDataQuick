@@ -3,15 +3,29 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 
 import PvComponents 1.0
-import "utils.js" as JSUtils
+import "utils.js" as UtilsJS
+
+/*!
+    \qmltype CaTextEntry
+    \inqmlmodule PvComponents
+    \brief Display an editable text
+*/
 
 CaControl {
     id: root
-    // text format
+    /*!
+        \qmlproperty enumeration align
+        Sets the horizontal alignment of the text within the item width.
+
+        The font used depends on the item height using function \l UtilsJS::getBestFontSize.
+    */
     property alias align: textField.horizontalAlignment
+    /*!
+        \qmlproperty TextFormat format
+    */
     property int format: TextFormat.Decimal
 
-    // limits
+    /*! The low high operation range and precision */
     property Limits limits: Limits {id: limits}
 
     Rectangle {
@@ -77,6 +91,16 @@ CaControl {
         }
     }
 
+    onHeightChanged: {
+        var font = UtilsJS.getBestFontSize(height, true)
+        fontSize = font.size
+        fontFamily = font.family
+    }
+
+    /*!
+        \internal
+        Format the value based on PV type.
+    */
     function formatString(format, value) {
         if (pv.type == PvObject.Enum)
             return pv.strs[value]
@@ -88,6 +112,10 @@ CaControl {
         return result
     }
 
+    /*!
+      \internal
+      Format char array to string.
+    */
     function arrayToString(array) {
         var s = ''
         for(var i = 0; i < array.length; i++) {

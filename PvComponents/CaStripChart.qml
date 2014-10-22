@@ -2,14 +2,29 @@ import QtQuick 2.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype CaStripChart
+    \inqmlmodule PvComponents
+    \brief Display a strip chart
+*/
+
 Item {
     id: control
 
+    /*! graph title */
     property string title
+    /*! foreground color */
     property color foreground: 'black'
+    /*! background color */
     property color background:  '#bbbbbb'
+    /*!
+        \qmlproperty enumeration units
+        The time axis units.
+    */
     property int units: TimeUnit.Second
+    /*! The period is the time between updates */
     property int period: 60
+    /*! The PV list model */
     property ListModel models
 
     // list of created pvs and their corresponding graph and time,data
@@ -106,6 +121,7 @@ Item {
         }
     }
 
+    /*! \internal */
     function getTimeLabel(units)
     {
         switch (units) {
@@ -120,7 +136,7 @@ Item {
                return "s";
         }
     }
-
+    /*! \internal */
     function getInterval()
     {
         switch (units) {
@@ -135,7 +151,7 @@ Item {
                return 1;
         }
     }
-
+    /*! \internal */
     function update() {
         for(var i=0; i<d.pvs.length; i++) {
             d.pvs[i].data.shift()
