@@ -10,3 +10,4 @@ moc_*.cpp
 *.dll
 *.app
 .idea
+docs/html
