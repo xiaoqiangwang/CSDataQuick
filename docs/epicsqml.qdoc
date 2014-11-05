@@ -1,0 +1,28 @@
+/*!
+
+\qmlmodule PvComponents 1.0
+\title QtQuick EPICS Components
+\brief A set of components to integrate EPICS with QtQuick
+
+\section1 EPICS
+
+EPICS is a set of software tools and applications which provide a software infrastructure
+for use in building distributed control systems to operate devices
+such as Particle Accelerators, Large Experiments and major Telescopes.
+
+EPICS uses Client/Server and Publish/Subscribe techniques to communicate
+between the various computers. Most servers (called Input/Output Controllers or IOCs)
+perform real-world I/O and local control tasks, and publish this information to clients
+using the Channel Access (CA) network protocol. The information being published
+is called a Process Variable (PV), which comprises a set of attributes (e.g. value, units, limits)
+and is indentified by a unique name.
+
+The graphical representation of PVs is called Display Manager.
+They normally consist of a set of widgets(e.g. text entry, text label, push button, choice menu)
+based on certain toolkits (e.g. Motif, Tk, Qt).
+
+\section1 QtQuick and PV
+
+The access to PV is implemented in \l QQuickPvObject.
+
+*/
