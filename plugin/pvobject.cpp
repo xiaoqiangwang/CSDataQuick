@@ -5,7 +5,13 @@
 #include <QTime>
 #include <string.h>
 
+/*!
+    \class QQuickPvObject
+    \inmodule PvComponents
+    \brief The QQuickPvObject class provides access to EPICS Process Variables.
 
+    QQuickPvObject derives from QObject and encapsulate the PV access methods.
+*/
 /*!
     \qmltype PvObject
     \instantiates QQuickPvObject
@@ -22,9 +28,22 @@
 */
 
 /*!
-    \qmlproperty string PvObject::channel
+    \property QQuickPvObject::channel
+    This property holds the PV's name.
 
-    Name of the PV.
+*/
+/*!
+    \qmlproperty string PvObject::channel
+    This property holds the PV's name.
+*/
+
+/*!
+    \property QQuickPvObject::count
+    This property holds the number of elements of the PV.
+*/
+/*!
+    \qmlproperty bool PvObject::count
+    This property holds the number of elements of the PV.
 */
 
 /*!
@@ -32,14 +51,21 @@
     This property holds the PV's value.
 */
 
-
 /*!
-    \class QQuickPvObject
-    \inmodule PvComponents
-    \brief The QQuickPvObject class provides access to EPICS Process Variables.
-
-    QQuickPvObject derives from QObject and encapsulate the PV access methods.
+    \property QQuickPvObject::value
+    This property holds the PV's value.
 */
+
+
+QString QQuickPvObject::channel()
+{
+    return _name;
+}
+void QQuickPvObject::setChannel(const QString name)
+{
+    _name = name;
+}
+
 /*!
     \enum QQuickPvObject::FieldType
         \value String
@@ -72,71 +98,146 @@
         \value InvalidAlarm
                Invalid data or no communication.
 */
-/*!
-    \property QQuickPvObject::value
-    This property holds the PV's value.
-*/
 
 /*!
     \property QQuickPvObject::connected
     This property indicates wether the PV is connected to server.
 */
+/*!
+    \qmlproperty bool PvObject::connected
+    This property indicates wether the PV is connected to server.
+*/
 
 /*!
-    \qmlproperty enumeration PvObject::severity
+    \property QQuickPvObject::type
+    This property holds the PV's native data type.
+*/
+/*!
+    \qmlproperty enumeration PvObject::type
+    This property holds the PV's native data type.
+*/
 
-    Severity of the PV.
+/*!
+    \property QQuickPvObject::severity
+    This property holds the PV's alarm severity.
+
+    \sa QQuickPvObject::Severity
+*/
+/*!
+    \qmlproperty enumeration PvObject::severity
+    This property holds the PV's alarm severity.
+*/
+
+/*!
+    \property QQuickPvObject::status
+    This property holds the PV's alarm status.
+*/
+/*!
+    \qmlproperty enumeration PvObject::status
+    This property holds the PV's alarm status.
 */
 
 /*!
     \property QQuickPvObject::readable
-    This property indicates wether the PV is readable
+    This property indicates wether the PV is readable.
 */
+
 /*!
     \qmlproperty bool PvObject::readable
-
-    The read access to the PV.
+    This property indicates wether the PV is readable.
 */
 
 /*!
     \property QQuickPvObject::writable
-    This property indicates wether the PV is writable
+    This property indicates wether the PV is writable.
 */
 /*!
     \qmlproperty bool PvObject::writable
+    This property indicates wether the PV is writable.
+*/
 
-    The write access to the PV.
+
+/*!
+    \property QQuickPvObject::units
+    This property holds the units meaning of the PV.
+*/
+/*!
+    \qmlproperty str PvObject::units
+    This property holds the units meaning of the PV.
 */
 
 /*!
-    \qmlproperty bool PvObject::count
-
-    Element count of the PV.
+    \property QQuickPvObject::prec
+    Precision of the PV.
 */
-
 /*!
-    \qmlproperty bool PvObject::units
-
-    Units of the PV.
-*/
-
-/*!
-    \qmlproperty bool PvObject::prec
-
+    \qmlproperty int PvObject::prec
     Precision of the PV.
 */
 
 /*!
-    \qmlproperty bool PvObject::nostr
-
+    \property QQuickPvObject::nostr
+    Number of choices of the PV.
+*/
+/*!
+    \qmlproperty int PvObject::nostr
     Number of choices of the PV.
 */
 
 /*!
-    \qmlproperty bool PvObject::strs
-
+    \property QQuickPvObject::strs
     Choices list of the PV.
 */
+/*!
+    \qmlproperty list PvObject::strs
+    Choices list of the PV.
+*/
+
+/*!
+    \property QQuickPvObject::loctrllim
+    Lower control limit.
+*/
+/*!
+    \qmlproperty list PvObject::loctrllim
+    Lower control limit.
+*/
+
+/*!
+    \property QQuickPvObject::upctrllim
+    Upper control limit.
+*/
+/*!
+    \qmlproperty list PvObject::upctrllim
+    Upper control limit.
+*/
+
+/*!
+    \property QQuickPvObject::lodisplim
+    Lower display limit.
+*/
+/*!
+    \qmlproperty list PvObject::lodisplim
+    Lower display limit.
+*/
+
+/*!
+    \property QQuickPvObject::updisplim
+    Upper display limit.
+*/
+/*!
+    \qmlproperty list PvObject::updisplim
+    Upper display limit.
+*/
+
+/*!
+    \property QQuickPvObject::monitor
+    This property indicates wether the PV is monitored for changes.
+*/
+/*!
+    \qmlproperty bool PvObject::monitor
+    This property indicates wether the PV is monitored for changes.
+*/
+
 
 /*!
     \qmlmethod PvComponents::PvObject::setValue(var value)
@@ -152,7 +253,10 @@ static void monitorCallbackC(struct event_handler_args);
 static void accessCallbackC(struct access_rights_handler_args args);
 
 
-/*! \internal */
+/*!
+    \internal
+    \brief Creates a preemptive channel access context.
+*/
 long QQuickPvObject::init_ca()
 {
     int status;
@@ -167,7 +271,11 @@ long QQuickPvObject::init_ca()
 
     return 0;
 }
-/*! \internal */
+
+/*!
+    \internal
+    \brief Destroy the current channel access context.
+*/
 long QQuickPvObject::exit_ca()
 {
     ENTER_CA{
@@ -178,14 +286,21 @@ long QQuickPvObject::exit_ca()
     return 0;
 }
 
+/*!
+    \internal
+    \brief Callback function on channel access exceptions.
+ */
 void QQuickPvObject::exception_handler(exception_handler_args args)
 {
     Q_UNUSED(args);
 }
 
 /*!
-    Construct a QQuickPvObject with the given \a parent.
- */
+    \brief Construct a QQuickPvObject with the given \a parent.
+
+    This does not cause channel access operations.
+    But it will create the channel access context if none exists.
+*/
 QQuickPvObject::QQuickPvObject(QObject *parent):
     QObject(parent)
 {
@@ -225,7 +340,13 @@ void QQuickPvObject::componentComplete()
     connect(_name.toLatin1());
 }
 
+/*!
+    \brief Get the first \a count number of elements from the PV.
 
+    This function does a synchronous get of the PV plain value and returns
+    the pointer to the memory block. The caller should then cast it to the proper data type.
+    Upon failure it returns NULL pointer.
+ */
 void * QQuickPvObject::getArrayValue(unsigned long count)
 {
     count  = qMin<unsigned long>(count, ca_element_count(_chid));
@@ -238,12 +359,18 @@ void * QQuickPvObject::getArrayValue(unsigned long count)
     return _array;
 }
 
+/*!
+  \internal
+*/
 void QQuickPvObject::updateValue(const QVariant value)
 {
     _value.setValue(value);
     emit valueChanged();
 }
 
+/*!
+  \internal
+*/
 void QQuickPvObject::updateStatus(int severity, int status)
 {
     if (_status != status || _severity != severity) {
@@ -253,17 +380,12 @@ void QQuickPvObject::updateStatus(int severity, int status)
     }
 }
 
-/*!
-*/
 
 QVariant QQuickPvObject::value()
 {
     return _value;
 }
 
-/*!
- * \brief QQuickPvObject::setValue
- */
 void QQuickPvObject::setValue(const QVariant val)
 {
     if (!_connected)
@@ -324,6 +446,7 @@ void QQuickPvObject::updateAccess(bool read, bool write)
 {
     _readable = read;
     _writable = write;
+    emit accessChanged(read, write);
 }
 
 /*! \internal */
@@ -442,10 +565,17 @@ void connectCallbackC(struct connection_handler_args args)
     QQuickPvObject *chan = (QQuickPvObject *)ca_puser(args.chid);
     chan->connectCallback(args);
 }
+
+/*!
+    \fn void QQuickPvObject::connectCallback()
+    \internal
+    Called when connection status changes.
+*/
 void QQuickPvObject::connectCallback(struct connection_handler_args args)
 {
     // Do a get when a channel gets connected
     if (args.op == CA_OP_CONN_UP) {
+        _type = (FieldType) ca_field_type(_chid);
         // Initialize PV info by CA  get
         chtype reqtype = dbf_type_to_DBR_CTRL(ca_field_type(_chid));
         int status = ca_array_get_callback(reqtype, 0, _chid, getCallbackC, this);
@@ -458,6 +588,7 @@ void QQuickPvObject::connectCallback(struct connection_handler_args args)
         ca_flush_io();
     } else {
         _connected = false;
+        _type = Invalid;
         emit connectionChanged();
     }
 }
@@ -480,6 +611,11 @@ void getCallbackC(struct event_handler_args args)
     if (chan->monitor())
         chan->subscribe();
 }
+/*!
+    \internal
+    \fn void QQuickPvObject::getCallback()
+    Called when ca_array_get_callback operation finishes.
+*/
 void QQuickPvObject::getCallback(struct event_handler_args args)
 {
     union db_access_val *val = (union db_access_val *)args.dbr;
@@ -555,6 +691,11 @@ void monitorCallbackC(struct event_handler_args args)
     QQuickPvObject *chan = (QQuickPvObject *)args.usr;
     chan->monitorCallback(args);
 }
+/*!
+    \fn void QQuickPvObject::monitorCallback()
+    \internal
+    Called when PV's value/status changes.
+*/
 void QQuickPvObject::monitorCallback(struct event_handler_args args)
 {
     union db_access_val *val = (union db_access_val *)args.dbr;

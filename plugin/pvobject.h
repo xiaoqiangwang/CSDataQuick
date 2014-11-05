@@ -16,6 +16,7 @@
 #define LEAVE_CA \
     }}
 
+
 class QQuickLimitRange : public QObject
 {
     Q_OBJECT
@@ -23,6 +24,7 @@ class QQuickLimitRange : public QObject
     Q_PROPERTY(double lower MEMBER _lower NOTIFY rangeChanged)
     Q_PROPERTY(double upper MEMBER _upper NOTIFY rangeChanged)
 
+    void setRange(double lower, double upper) {_lower=lower; _upper=upper; emit rangeChanged();}
 signals:
     void rangeChanged();
 
@@ -30,6 +32,7 @@ private:
     double _lower;
     double _upper;
 };
+
 
 class QQuickPvObject : public QObject, public QQmlParserStatus
 {
@@ -41,28 +44,31 @@ class QQuickPvObject : public QObject, public QQmlParserStatus
 
     // Configuration
     Q_PROPERTY(QString channel READ channel WRITE setChannel)
-    Q_PROPERTY(bool monitor MEMBER _monitor NOTIFY monitorChanged)
+    Q_PROPERTY(bool monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
     // Information
     Q_PROPERTY(QVariant value   READ value WRITE setValue NOTIFY valueChanged DESIGNABLE false)
 
-    Q_PROPERTY(bool connected   MEMBER  _connected READ connected NOTIFY connectionChanged DESIGNABLE false)
+    Q_PROPERTY(bool connected   MEMBER  _connected NOTIFY connectionChanged DESIGNABLE false)
 
     Q_PROPERTY(int severity     MEMBER _severity NOTIFY statusChanged DESIGNABLE false)
     Q_PROPERTY(int status       MEMBER _status NOTIFY statusChanged DESIGNABLE false)
 
-    Q_PROPERTY(bool readable    MEMBER _readable NOTIFY readableChanged DESIGNABLE false)
-    Q_PROPERTY(bool writable    MEMBER _writable NOTIFY writableChanged DESIGNABLE false)
+    Q_PROPERTY(bool readable    MEMBER _readable NOTIFY accessChanged DESIGNABLE false)
+    Q_PROPERTY(bool writable    MEMBER _writable NOTIFY accessChanged DESIGNABLE false)
 
     Q_PROPERTY(int count        MEMBER _count CONSTANT DESIGNABLE false)
     Q_PROPERTY(QString units    MEMBER _units CONSTANT DESIGNABLE false)
     Q_PROPERTY(int prec         MEMBER _precision CONSTANT DESIGNABLE false)
     Q_PROPERTY(int nostr        MEMBER _nostr CONSTANT DESIGNABLE false)
     Q_PROPERTY(QStringList strs MEMBER _strs CONSTANT DESIGNABLE false)
+    Q_PROPERTY(QQuickLimitRange controlLimit MEMBER _ctrllim NOTIFY controlLimitChanged)
+    Q_PROPERTY(QQuickLimitRange displayLimit MEMBER _displim NOTIFY displayLimitChanged)
+    Q_PROPERTY(int type         MEMBER _type CONSTANT DESIGNABLE false)
+
     Q_PROPERTY(QVariant upctrllim MEMBER _upctrllim CONSTANT DESIGNABLE false)
     Q_PROPERTY(QVariant loctrllim MEMBER _loctrllim CONSTANT DESIGNABLE false)
     Q_PROPERTY(QVariant updisplim MEMBER _updisplim CONSTANT DESIGNABLE false)
     Q_PROPERTY(QVariant lodisplim MEMBER _lodisplim CONSTANT DESIGNABLE false)
-    Q_PROPERTY(int type         READ type CONSTANT DESIGNABLE false)
 public:
     explicit QQuickPvObject(QObject *parent = 0);
     ~QQuickPvObject();
@@ -89,17 +95,15 @@ public:
         InvalidAlarm,
     };
 
-    /* context */
-    static long init_ca();
-    static long exit_ca();
-    static void exception_handler(exception_handler_args args);
 
     /* connection management */
     long connect(const char *name);
     long disconnect();
+
     /* subscription management */
     long subscribe(unsigned long = 0);
     long unsubscribe();
+
     /* channel access callbacks */
     void connectCallback(struct connection_handler_args args);
     void getCallback(struct event_handler_args);
@@ -112,8 +116,8 @@ public:
 
     void * getArrayValue(unsigned long count);
 
-    void setChannel(const QString name) {_name = name;}
-    QString channel() {return _name;}
+    void setChannel(const QString name);
+    QString channel();
 
     void setMonitor(bool monitor) {_monitor = monitor;}
     bool monitor() {return _monitor;}
@@ -121,19 +125,21 @@ public:
     void updateStatus(int severity, int status);
     void updateAccess(bool read, bool write);
 
-    bool connected() {return _connected;}
-    int type() {return _connected ? ca_field_type(_chid) : Invalid; }
-
 signals:
     void valueChanged();
     void connectionChanged();
     void statusChanged();
     void monitorChanged();
-    void readableChanged();
-    void writableChanged();
+    void accessChanged(bool readable, bool writable);
 
 public slots:
 
+
+protected:
+    /* context */
+    static long init_ca();
+    static long exit_ca();
+    static void exception_handler(exception_handler_args args);
 
 private:
     bool _monitor;
@@ -149,6 +155,7 @@ private:
     int _sec;               // time stamp - seconds since Midnight Jan.1, 1990
     int _nsec;              // time stamp - nano seconds within second
     // pv display info
+    FieldType _type;        // field type
     QString _units;         // units
     int _precision;         // precision for float and double type
     int _nostr;             // no. of state strings
@@ -161,6 +168,8 @@ private:
     QVariant _lowarnlim;	// lower warn    limit
     QVariant _upctrllim;    // upper control limit
     QVariant _loctrllim;    // lower control limit
+    QQuickLimitRange _ctrllim; // control limit
+    QQuickLimitRange _displim; // display limit
 
     unsigned long _count;   // number of element
 
