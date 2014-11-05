@@ -125,6 +125,11 @@ public:
         User,
         Unused
     };
+private:
+    LimitsSource(QObject*);
+    LimitsSource();
+    LimitsSource(const LimitsSource&);
+    LimitsSource& operator=(const LimitsSource&);
 };
 
 class RelatedDisplayVisual : public QObject
@@ -138,6 +143,11 @@ public:
         Column,
         Hidden
     };
+private:
+    RelatedDisplayVisual(QObject*);
+    RelatedDisplayVisual();
+    RelatedDisplayVisual(const RelatedDisplayVisual&);
+    RelatedDisplayVisual& operator=(const RelatedDisplayVisual&);
 };
 
 class LabelStyle : public QObject
@@ -152,6 +162,11 @@ public:
         Limits,
         Channel
     };
+private:
+    LabelStyle(QObject*);
+    LabelStyle();
+    LabelStyle(const LabelStyle&);
+    LabelStyle& operator=(const LabelStyle&);
 };
 
 class TimeUnit : public QObject
@@ -164,6 +179,11 @@ public:
         Second,
         Minute,
     };
+private:
+    TimeUnit(QObject*);
+    TimeUnit();
+    TimeUnit(const TimeUnit&);
+    TimeUnit& operator=(const TimeUnit&);
 };
 
 class PlotStyle : public QObject
@@ -176,14 +196,17 @@ public:
         Line,
         FillUnder
     };
+private:
+    PlotStyle(QObject*);
+    PlotStyle();
+    PlotStyle(const PlotStyle&);
+    PlotStyle& operator=(const PlotStyle&);
 };
 
 class Utils : public QObject
 {
     Q_OBJECT
 public:
-    explicit Utils(QObject *parent = 0);
-
     Q_INVOKABLE double calculate(QString expr, QVariantList input);
     Q_INVOKABLE bool execute(QString program);
     Q_INVOKABLE QString format(QString format, double number);
@@ -193,5 +216,7 @@ signals:
 
 public slots:
 
+private:
+    Utils(QObject *parent);
 };
 #endif // UTILS_H

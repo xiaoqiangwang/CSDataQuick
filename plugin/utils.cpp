@@ -192,6 +192,30 @@
     This is a group of helper functions, which are called by QML components.
 */
 
+/*!
+    \qmlmethod string Utils::format(string format, real number)
+
+    Format a number with given format, \sa QString::sprintf()
+*/
+
+/*!
+    \qmlmethod real Utils::calculate(string expr, array input)
+
+    Evalute an expression based on given input.
+*/
+
+/*!
+    \qmlmethod bool Utils::execute(string program)
+
+    Execute a program, \sa QProcess::startDetached()
+*/
+
+/*!
+    \qmlmethod string Utils::convert(TextFormat format, real value, int precision)
+
+    Convert a number with given format.
+*/
+
 #define M_PI 3.14159265358979323846
 
 // conversion functions from conversion.c
@@ -203,26 +227,11 @@ extern void medmLocalCvtDoubleToSexaStr (double value,  char *string, unsigned s
                                  double hopr, double lopr, int *status);
 }
 
-Utils::Utils(QObject *parent) :
-    QObject(parent)
-{
-}
-
-/*!
-    \qmlmethod string Utils::format(string format, real number)
-
-    Format a number with given format, \l QtCore::QString::sprintf.
-*/
 QString Utils::format(QString format, double number)
 {
     return QString("").sprintf(format.toLatin1(), number);
 }
 
-/*!
-    \qmlmethod real Utils::calculate(string expr, array input)
-
-    Evalute an expression based on given input.
-*/
 double Utils::calculate(QString expr, QVariantList input)
 {
     double result = 0.0;
@@ -240,21 +249,11 @@ double Utils::calculate(QString expr, QVariantList input)
     return result;
 }
 
-/*!
-    \qmlmethod bool Utils::execute(string program)
-
-    Execute a program, \sa QtCore::QProcess::startDetached
-*/
 bool Utils::execute(QString program)
 {
     return QProcess::startDetached(program);
 }
 
-/*!
-    \qmlmethod string Utils::convert(TextFormat format, real value, int precision)
-
-    Convert a number with given format.
-*/
 QString Utils::convert(int format, QVariant value, int precision)
 {
     char textField[128];

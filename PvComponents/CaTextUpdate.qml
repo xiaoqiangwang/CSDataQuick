@@ -9,7 +9,7 @@ CaMonitor {
     id: label
     property alias align: label_control.horizontalAlignment
     property int format: TextFormat.Decimal
-    property bool withUnits: false
+    property bool showUnits: false
     // limits
     property Limits limits: Limits {id: limits}
 
@@ -35,7 +35,7 @@ CaMonitor {
                 color: label.foreground
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignRight
-                visible: withUnits && text != ''
+                visible: showUnits && text != ''
             }
         }
     }
@@ -50,7 +50,7 @@ CaMonitor {
         }
         onValueChanged: {
             label_control.text = formatString(format, pv.value)
-            // automatic adjust font size only if it is not left aligned
+            // MEDM Compat: automatic adjust font size only if it is not left aligned
             if (align == Text.AlignLeft)
                 return
             while(fontSize > 8 && label_control.paintedWidth > label_control.width) {

@@ -27,7 +27,7 @@ public:
     void setEdgeStyle(EdgeStyle::EdgeStyleEnum style) {_edgeStyle = style;update();}
 
     FillStyle::FillStyleEnum fillStyle() { return _fillStyle; }
-    void setFillStyle(FillStyle::FillStyleEnum style) {_fillStyle = style;update();}
+    void setFillStyle(FillStyle::FillStyleEnum style) {_fillStyle = style; rebuildPath(); update();}
 
     int lineWidth() { return _lineWidth;}
     void setLineWidth(int width) {_lineWidth = width;update();}
