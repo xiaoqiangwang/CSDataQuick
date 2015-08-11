@@ -6,6 +6,7 @@
 #include <QPoint>
 #include <QPainterPath>
 
+#include "enums.h"
 #include "utils.h"
 
 class Shape : public QQuickPaintedItem

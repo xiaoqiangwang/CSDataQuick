@@ -1,6 +1,7 @@
 #include "plugin.h"
 #include "pvobject.h"
 #include "shapes.h"
+#include "enums.h"
 #include "utils.h"
 #include "adimageprovider.h"
 #include "plotitem.h"
