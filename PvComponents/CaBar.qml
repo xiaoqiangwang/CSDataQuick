@@ -11,7 +11,7 @@ import PvComponents 1.0
 */
 
 CaMonitor {
-    id: control
+    id: root
     /*!
         \qmlproperty enumeration label
         The decoration mode.
@@ -33,8 +33,8 @@ CaMonitor {
     StyledBar {
         id: bar
         anchors.fill: parent
-        foreground: control.foreground
-        background: control.background
+        foreground: root.foreground
+        background: root.background
         minimumValue: limits.lopr
         maximumValue: limits.hopr
     }
