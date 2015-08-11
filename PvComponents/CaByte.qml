@@ -24,9 +24,6 @@ CaMonitor {
     /*! The ending bits */
     property int end: 31
 
-    /*! \internal */
-    property var _comp;
-
     Component {
         id: horz
         Row {
@@ -34,8 +31,8 @@ CaMonitor {
                 id: rptr
                 model: Math.abs(end - start) + 1
                 Rectangle{
-                    width: parent.width / rptr.count
-                    height: parent.height
+                    width: loader.width / rptr.count
+                    height: loader.height
                     border.width: 1
                 }
             }
@@ -49,8 +46,8 @@ CaMonitor {
                 id: rptr
                 model: Math.abs(end - start) + 1
                 Rectangle {
-                    width: parent.width
-                    height: parent.height / rptr.count
+                    width: loader.width
+                    height: loader.height / rptr.count
                     border.width: 1
                 }
             }
@@ -59,24 +56,15 @@ CaMonitor {
     Loader {
         id: loader
         anchors.fill: parent
+        sourceComponent: orientation == Qt.Horizontal ? horz : vert
     }
 
     Connections {
         target: pv
         onValueChanged: {
             var sign = start < end ? 1 : -1;
-            for (var i=0; i<Math.abs(end - start) + 1; i++)
+            for (var i=0; i<Math.abs(end - start) + 1 && i<loader.item.children.length; i++)
                 loader.item.children[i].color = (pv.value & Math.pow(2, start+i*sign)) ? foreground : background
         }
-        onConnectionChanged: {
-            if (!pv.connected)
-                return
-            if (orientation == Qt.Horizontal)
-                _comp = horz
-            else if (orientation == Qt.Vertical)
-                _comp = vert
-            loader.sourceComponent = _comp
-        }
-
     }
 }

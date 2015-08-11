@@ -31,7 +31,10 @@ SOURCES += \
     $$PWD/conversion.c \
     $$PWD/qcustomplot.cpp \
     $$PWD/plotitem.cpp \
-    $$PWD/baseitem.cpp
+    $$PWD/baseitem.cpp \
+    enums.cpp \
+    csdatasource.cpp \
+    csdata.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -41,4 +44,7 @@ HEADERS += \
     $$PWD/shapes.h \
     $$PWD/qcustomplot.h \
     $$PWD/plotitem.h \
-    $$PWD/baseitem.h
+    $$PWD/baseitem.h \
+    enums.h \
+    csdatasource.h \
+    csdata.h
