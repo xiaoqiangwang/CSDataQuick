@@ -106,9 +106,6 @@ ApplicationWindow {
                 width: 200
                 height: 24
                 channel: 'catest'
-                minimumValue: 0.0
-                maximumValue: 1.0
-                stepSize: 0.01
             }
 
             CaMessageButton {
@@ -138,14 +135,14 @@ ApplicationWindow {
                 height: 20
                 channel: 'calc.SCAN'
             }
-
+/*
             CaChoiceButton {
                 width: 100
                 height: 30
-                orientation: 0
+                stacking: 2
                 channel: 'bo'
             }
-
+            */
             CaRelatedDisplay {
                 width: 100
                 height: 20
@@ -207,7 +204,7 @@ ApplicationWindow {
                 height: 60
                 channel: 'catest'
             }
-
+/*
             CaStripChart {
                 width: 500
                 height: 300
@@ -217,7 +214,7 @@ ApplicationWindow {
                 width: 500
                 height: 300
             }
-
+            */
             /*
             Plot {
                 id: plot

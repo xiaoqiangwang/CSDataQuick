@@ -28,7 +28,7 @@ QImage ADImageProvider::requestImage(const QString &id, QSize *size, const QSize
 
     QString prefix = id;
     connectChannels(prefix);
-    if (!detectors[prefix]["data"]->connected())
+    if (!detectors[prefix]["data"]->property("connected").toBool())
         return blankimage;
 
     // return cached image if areaDetector source not updating
