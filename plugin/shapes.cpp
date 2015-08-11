@@ -105,3 +105,23 @@ QPainterPath Oval::buildPath()
     path.addEllipse(getDrawArea());
     return path;
 }
+
+DoubleRect::DoubleRect(QQuickItem *parent)
+    : Shape(parent)
+{
+
+}
+
+QPainterPath DoubleRect::buildPath()
+{
+    QPainterPath path;
+    QRectF rect = getDrawArea();
+    double length = qMin(rect.width(), rect.height()) * 0.4;
+
+    QRectF rc1(3, rect.height() - length - 3, length, length);
+    QRectF rc2(3 + length / 2, rect.height() - 3*length/2 - 3, length, length);
+
+    path.addRect(rc1);
+    path.addRect(rc2);
+    return path;
+}

@@ -167,4 +167,14 @@ protected:
     QPainterPath buildPath();
 };
 
+class DoubleRect : public Shape
+{
+    Q_OBJECT
+public:
+    DoubleRect(QQuickItem *parent=0);
+
+protected:
+    QPainterPath buildPath();
+};
+
 #endif // SHAPES_H
