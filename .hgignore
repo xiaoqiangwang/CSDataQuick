@@ -1,0 +1,12 @@
+syntax: glob
+Makefile
+Makefile.*
+.DS_Store
+epicsqml.pro.user*
+moc_*.cpp
+*.o
+*.dylib
+*.so
+*.dll
+*.app
+.idea

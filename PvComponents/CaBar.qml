@@ -1,0 +1,56 @@
+import QtQuick 2.0
+import QtQuick.Controls 1.0
+
+import PvComponents 1.0
+
+/*!
+    \qmltype CaBar
+    \inqmlmodule PvComponents
+    \brief Display a bar that expands or contracts when value changes
+
+*/
+
+CaMonitor {
+    id: control
+    /*!
+        \qmlproperty enumeration label
+        The decoration mode.
+    */
+    property int label: LabelStyle.Frame
+    /*!
+        \qmlproperty enumeration direction
+        The expanding direction.
+    */
+    property alias direction: bar.direction
+    /*!
+        \qmlproperty enumeration fillMode
+        Either Edge or Center.
+    */
+    property alias fillMode: bar.fillMode
+    /*! Operation limits range and precision */
+    property Limits limits : Limits{}
+
+    StyledBar {
+        id: bar
+        anchors.fill: parent
+        foreground: control.foreground
+        background: control.background
+        minimumValue: limits.lopr
+        maximumValue: limits.hopr
+    }
+
+    Connections {
+        target: pv
+        onConnectionChanged: {
+            if (pv.connected) {
+                if (pv.lodisplim < pv.updisplim) {
+                    limits.loprChannel = pv.lodisplim
+                    limits.hoprChannel = pv.updisplim
+                }
+            }
+        }
+        onValueChanged: {
+            bar.value = pv.value
+        }
+    }
+}
