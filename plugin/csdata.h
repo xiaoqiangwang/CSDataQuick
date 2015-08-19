@@ -1,6 +1,9 @@
 #ifndef CSDATA_H
 #define CSDATA_H
 
+#include <QFlags>
+#include <QVariant>
+
 class CSData
 {
 public:
@@ -11,8 +14,7 @@ public:
         Read = 0x01,
         Write= 0x02,
     };
-    Q_DECLARE_FLAGS(AccessFlags, AccessFlag);
-    Q_FLAGS(AccessFlags)
+    Q_DECLARE_FLAGS(AccessFlags, AccessFlag)
 
     Q_PROPERTY(QVariant value READ value WRITE setValue NOTIFY valueChanged)
     Q_PROPERTY(QString units READ units WRITE setUnits NOTIFY unitsChanged)

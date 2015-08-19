@@ -6,7 +6,7 @@ CSDataSource::CSDataSource(QObject *parent) :
 {
 }
 
-QString CSDataSource::source()
+QString CSDataSource::source() const
 {
     return _source;
 }
@@ -20,4 +20,7 @@ void CSDataSource::setSource(const QString source)
         ;
     else (url.scheme() == "sim")
         ;
+
+    emit sourceChanged();
 }
+

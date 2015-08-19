@@ -8,6 +8,7 @@
 #endif
 
 #include <cstdio>
+#include <cstring>
 #include <string>
 #include <map>
 #include <vector>

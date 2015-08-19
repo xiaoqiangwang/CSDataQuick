@@ -53,18 +53,18 @@ extern void medmLocalCvtDoubleToSexaStr (double value,  char *string, unsigned s
                                  double hopr, double lopr, int *status);
 }
 
-Utils::Utils(QObject *parent)
+QCSUtils::QCSUtils(QObject *parent)
     : QObject(parent)
 {
 
 }
 
-QString Utils::format(QString format, double number)
+QString QCSUtils::format(QString format, double number)
 {
     return QString("").sprintf(format.toLatin1(), number);
 }
 
-double Utils::calculate(QString expr, QVariantList input)
+double QCSUtils::calculate(QString expr, QVariantList input)
 {
     double result = 0.0;
     short error;
@@ -81,12 +81,12 @@ double Utils::calculate(QString expr, QVariantList input)
     return result;
 }
 
-bool Utils::execute(QString program)
+bool QCSUtils::execute(QString program)
 {
     return QProcess::startDetached(program);
 }
 
-QString Utils::convert(int format, QVariant value, int precision)
+QString QCSUtils::convert(int format, QVariant value, int precision)
 {
     char textField[128];
     int status;

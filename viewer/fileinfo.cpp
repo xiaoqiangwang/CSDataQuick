@@ -1,10 +1,13 @@
 #include "fileinfo.h"
 
+#include <cstdlib>
+
 #if _WIN32
 #include <io.h>
     const char path_sep = '\\';
     const char path_del = ';';
 #else
+#include <limits.h>
 #include <unistd.h>
     const char path_sep = '/';
     const char path_del = ':';
