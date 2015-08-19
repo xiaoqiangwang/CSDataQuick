@@ -27,8 +27,10 @@ CaTextUpdate    1.0 CaTextUpdate.qml
 CaWheelSwitch   1.0 CaWheelSwitch.qml
 DynamicAttr     1.0 DynamicAttr.qml
 Limits          1.0 Limits.qml
+internal StyledAxis    StyledAxis.qml
 internal Meter         Meter.qml
 internal StyledBar     StyledBar.qml
+internal StyledBar2     StyledBar2.qml
 internal StyledButton  StyledButton.qml
 internal WheelDigit    WheelDigit.qml
 internal WheelSwitch   WheelSwitch.qml

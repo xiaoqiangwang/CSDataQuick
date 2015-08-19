@@ -44,5 +44,7 @@ QML_FILES += \
     $$PWD/images/doubleect.png \
     $$PWD/images/focusframe.png
 
-OTHER_FILES = $$QML_FILES
+OTHER_FILES = $$QML_FILES \
+    StyledBar2.qml \
+    StyledAxis.qml
 QML_FILES.TARGET = $$PWD/../PvComponents
