@@ -30,7 +30,7 @@ CaMonitor {
     /*! Operation limits range and precision */
     property Limits limits : Limits{}
 
-    StyledBar {
+    StyledBar2 {
         id: bar
         anchors.fill: parent
         foreground: root.foreground

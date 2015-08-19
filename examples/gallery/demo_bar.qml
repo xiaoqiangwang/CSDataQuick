@@ -5,12 +5,17 @@ import QtQuick.Controls 1.0
 import PvComponents 1.0
 
 
-Column {
+Rectangle {
+ColumnLayout {
+    anchors.fill: parent
     CaBar {
+        width: 100
+        height: 50
         channel: 'catest'
+        direction: directionGroup.direction
     }
     DirectionGroup {
-        
+        id: directionGroup
     }
 }
- 
+}
