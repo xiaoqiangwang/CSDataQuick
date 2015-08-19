@@ -55,3 +55,7 @@ record(waveform, "waves")
     field (FTVL, "UCHAR")
     field (NELM, "128")
 }
+
+record(stringout, "castr")
+{
+}
