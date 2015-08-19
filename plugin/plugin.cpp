@@ -14,7 +14,7 @@ static QObject *utils_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(engine);
     Q_UNUSED(scriptEngine);
 
-    return new Utils();
+    return new QCSUtils();
 }
 
 void PvComponentsPlugin::registerTypes(const char *uri)
@@ -31,7 +31,7 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
-    qmlRegisterSingletonType<Utils>(uri, 1, 0, "Utils", utils_provider);
+    qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");
     qmlRegisterUncreatableType<Direction>(uri, 1, 0, "Direction", "Direction Enum");

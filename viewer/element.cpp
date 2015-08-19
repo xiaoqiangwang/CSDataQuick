@@ -1,5 +1,8 @@
 #include "element.h"
 #include "fileinfo.h"
+#include <cstdlib>
+#include <climits>
+#include <cstring>
 #include <fstream>
 
 /*******************************************************************************
