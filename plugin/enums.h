@@ -202,4 +202,21 @@ private:
     PlotStyle& operator=(const PlotStyle&);
 };
 
+class Stacking : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(StackingEnum)
+public:
+    enum StackingEnum {
+        Column = 0,
+        Row,
+        RowColumn
+    };
+private:
+    Stacking(QObject*);
+    Stacking();
+    Stacking(const Stacking&);
+    Stacking& operator=(const Stacking&);
+};
+
 #endif // ENUMS_H
