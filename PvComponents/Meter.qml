@@ -4,6 +4,7 @@ Item {
     id: root
 
     property real value: 0
+    property int precision: 0
     property real minimumValue: 0.0
     property real maximumValue: 1.0
     property color foreground
@@ -12,11 +13,13 @@ Item {
 
     property bool showTitle: false
     property bool showRange: false
+    property bool showValue: false
 
     onValueChanged:  {
         needle.requestPaint()
     }
 
+    // rectangle filling the whole area with background color
     Rectangle {
         id: background
         anchors.fill: parent
@@ -82,6 +85,8 @@ Item {
 
         onPaint: {
             var ctx = getContext('2d')
+            ctx.save()
+
             ctx.clearRect(0, 0, width, height)
 
             var lineWidth = 3
@@ -92,7 +97,6 @@ Item {
 
             // needle
             ctx.beginPath()
-            ctx.save()
             ctx.translate(centerx, centery)
             ctx.rotate(angle)
             ctx.moveTo(-radius, 0)
@@ -100,11 +104,8 @@ Item {
             ctx.strokeStyle = foreground
             ctx.lineWidth = lineWidth
             ctx.stroke()
-            ctx.restore()
 
-            // text
-            ctx.textAlign = 'center'
-            ctx.fillText(value, centerx, centery * 0.9)
+            ctx.restore()
         }
     }
 
@@ -118,15 +119,30 @@ Item {
         visible: root.showRange
         Text {
             height: range.height
-            text: minimumValue
+            text: minimumValue.toFixed(precision)
             font.pixelSize: height
             anchors.left: range.left
         }
         Text {
             height: range.height
-            text: maximumValue
+            text: maximumValue.toFixed(precision)
             font.pixelSize: height
             anchors.right: range.right
+        }
+    }
+
+    Item {
+        anchors.bottom: root.bottom
+        anchors.horizontalCenter: root.horizontalCenter
+        width: panel.width
+        height: root.height * 0.15
+
+        visible: root.showValue
+        Text {
+            anchors.fill: parent
+            text: value.toFixed(precision)
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: height
         }
     }
 }
