@@ -60,7 +60,7 @@ CaControl {
             pv.value = text
         }
     }
-
+/*
     MouseArea {
         id: ma
         anchors.fill: textField
@@ -76,7 +76,7 @@ CaControl {
             textField.focus = false
         }
     }
-
+*/
     Connections {
         target: pv
         onConnectionChanged: {
