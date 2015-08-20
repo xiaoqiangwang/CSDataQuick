@@ -11,6 +11,7 @@ OTHER_FILES += gallery/demo_meter.qml
 OTHER_FILES += gallery/demo_oval.qml
 OTHER_FILES += gallery/demo_polygon.qml
 OTHER_FILES += gallery/demo_polyline.qml
+OTHER_FILES += gallery/demo_rect.qml
 OTHER_FILES += gallery/demo_text.qml
 OTHER_FILES += gallery/demo_textentry.qml
 OTHER_FILES += gallery/demo_textupdate.qml
