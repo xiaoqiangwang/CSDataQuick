@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Layouts 1.0
 
 import PvComponents 1.0
 
@@ -9,17 +10,33 @@ import PvComponents 1.0
 */
 
 CaMonitor {
-    id: control
+    id: root
+
+    /*!
+        \qmlproperty enumeration label
+        The decoration mode.
+    */
+    property int label: LabelStyle.Frame
+
+    /*!
+
     /*! The operation limits */
     property Limits limits : Limits{}
 
     Meter {
         id: meter
         anchors.fill: parent
-        foreground: control.foreground
-        background: control.background
+
+        foreground: root.foreground
+        background: root.background
         minimumValue: limits.lopr
         maximumValue: limits.hopr
+        precision: limits.prec
+
+        title: channel
+        showTitle: label == LabelStyle.Channel
+        showRange: true
+        showValue: label == LabelStyle.Limits || label == LabelStyle.Channel
     }
 
     Connections {
