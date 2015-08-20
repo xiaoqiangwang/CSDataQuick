@@ -48,7 +48,7 @@ CaControl {
         font.family: root.fontFamily
         color: root.foreground
         verticalAlignment: TextInput.AlignBottom
-        activeFocusOnPress: false
+        activeFocusOnPress: true
         clip: true
         selectByMouse: true
         anchors.topMargin: 4
