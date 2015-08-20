@@ -96,7 +96,6 @@ CaControl {
                     }\n'.arg(pv.strs[i]).arg(i).arg(size)
         }
         cmd += '}'
-        console.log(cmd)
         d.layout = Qt.createQmlObject(cmd, choiceButtons, 'layout')
     }
 }
