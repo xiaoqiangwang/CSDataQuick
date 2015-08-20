@@ -8,7 +8,7 @@ class TextFormat : public QObject
     Q_OBJECT
     Q_ENUMS(TextFormatEnum)
 public:
-    enum Enum {
+    enum TextFormatEnum {
         Decimal = 0,
         Exponential,
         EngNotation,
