@@ -13,9 +13,13 @@ ColumnLayout {
         height: 50
         channel: 'catest'
         direction: directionGroup.direction
+        label: labelStyleGroup.labelStyle
     }
     DirectionGroup {
         id: directionGroup
+    }
+    LabelStyleGroup {
+        id: labelStyleGroup
     }
 }
 }
