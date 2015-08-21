@@ -37,6 +37,9 @@ QML_FILES += \
     $$PWD/StyledBar.qml \
     $$PWD/Meter.qml \
     $$PWD/CaCartesianPlot.qml \
+    $$PWD/StyledBar2.qml \
+    $$PWD/StyledAxis.qml \
+    $$PWD/ColorMap.qml \
     $$PWD/images/arrow-down.png \
     $$PWD/images/arrow-up.png \
     $$PWD/images/button_down.png \
@@ -44,7 +47,6 @@ QML_FILES += \
     $$PWD/images/doubleect.png \
     $$PWD/images/focusframe.png
 
-OTHER_FILES = $$QML_FILES \
-    StyledBar2.qml \
-    StyledAxis.qml
+OTHER_FILES = $$QML_FILES
+
 QML_FILES.TARGET = $$PWD/../PvComponents

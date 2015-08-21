@@ -14,10 +14,10 @@ import PvComponents 1.0
 BaseItem {
     // appearance
     /*! The foreground color. */
-    property color background: '#73dfff' // '#bbbbbb' is the actual default
+    property color background: ColorMap.color51 // '#bbbbbb' is the actual default
 
     /*! The background color. */
-    property color foreground: '#000000'
+    property color foreground: ColorMap.color14
 
     /*! qmlproperty enumeration CaControl::colorMode
     */

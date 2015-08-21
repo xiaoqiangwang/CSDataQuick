@@ -19,9 +19,9 @@ Item {
     /*! Y axis label */
     property string yLabel
     /*! foreground color */
-    property color foreground: 'black'
+    property color foreground: ColorMap.color14
     /*! background color */
-    property color background:  '#bbbbbb'
+    property color background: ColorMap.color4
 
     /*!
         \qmlproperty enumeration mode
