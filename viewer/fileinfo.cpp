@@ -48,7 +48,16 @@ bool FileInfo::exists()
 /* Concantenate path */
 std::string FileInfo::createFilePath(std::string pathname, std::string filename)
 {
-    return pathname + path_sep + filename;
+    std::string filepath;
+    if (pathname.empty())
+        filepath = filename;
+    else {
+        filepath = pathname;
+        if (filepath.at(filepath.size()-1) != path_sep)
+            filepath += path_sep;
+        filepath += filename;
+    }
+    return filepath;
 }
 
 bool FileInfo::isAbsolutePath()
@@ -78,7 +87,33 @@ std::string FileInfo::absolutePath()
 std::string FileInfo::dirName()
 {
     size_t pos = filename.find_last_of(path_sep);
-    return filename.substr(0, pos + 1);
+    if (pos == std::string::npos)
+        return std::string("");
+    else
+        return filename.substr(0, pos + 1);
+}
+
+std::string FileInfo::baseName(bool strip_ext)
+{
+    size_t bpos = filename.find_last_of(path_sep);
+    if (bpos == std::string::npos)
+        bpos = 0;
+    else
+        bpos += 1;
+    std::string basename = filename.substr(bpos);
+
+    if (!strip_ext)
+        return basename;
+
+    size_t spos = basename.find_last_of('.');
+    return basename.substr(0, spos);
+}
+
+std::string FileInfo::extName()
+{
+    size_t pos = filename.find_last_of('.');
+    return filename.substr(pos);
+
 }
 
 FileInfo FileInfo::getFile(std::string filename)
