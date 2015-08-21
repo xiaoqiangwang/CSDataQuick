@@ -312,6 +312,7 @@ QQuickPvObject::QQuickPvObject(QObject *parent):
 {
     if (m_cac == NULL)
         init_ca();
+    _monitor = true;
     _chid = NULL;
     _evid = NULL;
     _connected = false;
