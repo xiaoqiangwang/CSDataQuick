@@ -45,7 +45,7 @@ bool FileInfo::exists()
     return access(this->filename.c_str(), R_OK) == 0;
 }
 
-/* Conenate path */
+/* Concantenate path */
 std::string FileInfo::createFilePath(std::string pathname, std::string filename)
 {
     return pathname + path_sep + filename;
