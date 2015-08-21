@@ -219,4 +219,20 @@ private:
     Stacking& operator=(const Stacking&);
 };
 
+class FillMode : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(FillModeEnum)
+public:
+    enum FillModeEnum {
+        FromEdge = 0,
+        FromCenter
+    };
+private:
+    FillMode(QObject*);
+    FillMode();
+    FillMode(const FillMode&);
+    FillMode& operator=(const FillMode&);
+};
+
 #endif // ENUMS_H
