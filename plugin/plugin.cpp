@@ -40,11 +40,17 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<VisibilityMode>(uri, 1, 0, "VisibilityMode", "VisibilityMode Enum");
     qmlRegisterUncreatableType<LimitsSource>(uri, 1, 0, "LimitsSource", "LimitsSource Enum");
     qmlRegisterUncreatableType<RelatedDisplayVisual>(uri, 1, 0, "RelatedDisplayVisual", "RelatedDisplayVisual Enum");
+    qmlRegisterUncreatableType<RelatedDisplayMode>(uri, 1, 0, "RelatedDisplayMode", "RelatedDisplayMode Enum");
     qmlRegisterUncreatableType<LabelStyle>(uri, 1, 0, "LabelStyle", "LabelStyle Enum");
     qmlRegisterUncreatableType<TimeUnit>(uri, 1, 0, "TimeUnit", "TimeUnit Enum");
     qmlRegisterUncreatableType<PlotStyle>(uri, 1, 0, "PlotStyle", "PlotStyle Enum");
     qmlRegisterUncreatableType<Stacking>(uri, 1, 0, "Stacking", "Stacking Enum");
     qmlRegisterUncreatableType<FillMode>(uri, 1, 0, "FillMode", "FillMode Enum");
+    qmlRegisterUncreatableType<EraseMode>(uri, 1, 0, "EraseMode", "EraseMode Enum");
+    qmlRegisterUncreatableType<CartesianPlotTimeFormat>(uri, 1, 0, "CartesianPlotTimeFormat", "CartesianPlotTimeFormat Enum");
+    qmlRegisterUncreatableType<CartesianPlotRangeStyle>(uri, 1, 0, "CartesianPlotRangeStyle", "CartesianPlotRangeStyle Enum");
+    qmlRegisterUncreatableType<CartesianPlotYAxis>(uri, 1, 0, "CartesianPlotYAxis", "CartesianPlotYAxis Enum");
+    qmlRegisterUncreatableType<CartesianPlotAxisStyle>(uri, 1, 0, "CartesianPlotAxisStyle", "CartesianPlotAxisStyle Enum");
 }
 
 void PvComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)

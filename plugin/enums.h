@@ -149,6 +149,22 @@ private:
     RelatedDisplayVisual& operator=(const RelatedDisplayVisual&);
 };
 
+class RelatedDisplayMode : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(RelatedDisplayModeEnum)
+public:
+    enum RelatedDisplayModeEnum {
+        New = 0,
+        Replace
+    };
+private:
+    RelatedDisplayMode(QObject*);
+    RelatedDisplayMode();
+    RelatedDisplayMode(const RelatedDisplayMode&);
+    RelatedDisplayMode& operator=(const RelatedDisplayMode&);
+};
+
 class LabelStyle : public QObject
 {
     Q_OBJECT
@@ -233,6 +249,93 @@ private:
     FillMode();
     FillMode(const FillMode&);
     FillMode& operator=(const FillMode&);
+};
+
+class EraseMode : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(EraseModeEnum)
+public:
+    enum EraseModeEnum {
+        IfNotZero = 0,
+        IfZero
+    };
+private:
+    EraseMode(QObject*);
+    EraseMode();
+    EraseMode(const EraseMode&);
+    EraseMode& operator=(const EraseMode&);
+};
+
+class CartesianPlotTimeFormat : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(CartesianPlotTimeFormatEnum)
+public:
+    enum CartesianPlotTimeFormatEnum {
+        HHMMSS = 0,
+        HHMM,
+        HH00,
+        MMMDDYYYY,
+        MMMDD,
+        MMDDHH00,
+        WDHH00
+    };
+private:
+    CartesianPlotTimeFormat(QObject*);
+    CartesianPlotTimeFormat();
+    CartesianPlotTimeFormat(const CartesianPlotTimeFormat&);
+    CartesianPlotTimeFormat& operator=(const CartesianPlotTimeFormat&);
+};
+
+class CartesianPlotRangeStyle : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(CartesianPlotRangeStyleEnum)
+public:
+    enum CartesianPlotRangeStyleEnum {
+        Channel = 0,
+        User,
+        Auto
+    };
+private:
+    CartesianPlotRangeStyle(QObject*);
+    CartesianPlotRangeStyle();
+    CartesianPlotRangeStyle(const CartesianPlotRangeStyle&);
+    CartesianPlotRangeStyle& operator=(const CartesianPlotRangeStyle&);
+};
+
+class CartesianPlotYAxis : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(CartesianPlotYAxisEnum)
+public:
+    enum CartesianPlotYAxisEnum {
+        Y = 0,
+        Y2
+    };
+private:
+    CartesianPlotYAxis(QObject*);
+    CartesianPlotYAxis();
+    CartesianPlotYAxis(const CartesianPlotYAxis&);
+    CartesianPlotYAxis& operator=(const CartesianPlotYAxis&);
+};
+
+class CartesianPlotAxisStyle : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(CartesianPlotAxisStyleEnum)
+public:
+    enum CartesianPlotAxisStyleEnum {
+        Linear = 0,
+        Log10,
+        Time
+    };
+private:
+    CartesianPlotAxisStyle(QObject*);
+    CartesianPlotAxisStyle();
+    CartesianPlotAxisStyle(const CartesianPlotAxisStyle&);
+    CartesianPlotAxisStyle& operator=(const CartesianPlotAxisStyle&);
 };
 
 #endif // ENUMS_H
