@@ -13,7 +13,7 @@ public:
     explicit BaseItem(QQuickItem *parent = 0);
 
     Qt::CursorShape cursorType() {return cursor().shape();}
-    void setCursorType(Qt::CursorShape cursor) {setCursor(cursor); qDebug() << cursor; emit cursorTypeChanged();}
+    void setCursorType(Qt::CursorShape cursor) {setCursor(cursor); emit cursorTypeChanged();}
 
     QFont font() {}
     void setFont(const QFont font) {}
