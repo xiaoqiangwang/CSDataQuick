@@ -12,9 +12,9 @@ import PvComponents 1.0
 Item {
     // appearance
     /*! background color */
-    property color background: '#73dfff' // '#bbbbbb' is the actual default
+    property color background: ColorMap.color51 // color4 is the actual default
     /*! foreground color */
-    property color foreground: '#000000'
+    property color foreground: ColorMap.color14
     /*!
         \qmlproperty enumeration colorMode
 

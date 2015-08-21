@@ -12,9 +12,9 @@ import PvComponents 1.0
 Rectangle {
     id: display
     /*! foreground color */
-    property color foreground: '#000000'
+    property color foreground: ColorMap.color14
     /*! background color */
-    property color background: '#73dfff' // '#bbbbbb' is the actual default
+    property color background: ColorMap.color51 // color4 is the actual default
     /*! font family */
     property string fontFamily
     /*! font size */

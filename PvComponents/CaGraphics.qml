@@ -15,7 +15,7 @@ import PvComponents 1.0
 Item {
     // graphics basic attributes
     /*! foreground color */
-    property color foreground: 'black'
+    property color foreground: ColorMap.color14
     /*! background color */
     property color background: 'transparent'
     /*! Draw outline only or fill the shape */

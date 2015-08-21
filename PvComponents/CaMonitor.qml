@@ -11,9 +11,9 @@ import PvComponents 1.0
 
 BaseItem {
     /*! foreground color */
-    property color background: '#bbbbbb'
+    property color background: ColorMap.color4
     /*! background color */
-    property color foreground: '#000000'
+    property color foreground: ColorMap.color14
     /*! qmlproperty enumeration CaGraphics::colorMode
     */
     property int colorMode: ColorMode.Static
