@@ -36,6 +36,7 @@ int main(int argc, char **argv)
 
     QQmlComponent component(&engine);
     component.setData(osstream.str().c_str(), QUrl());
+    while(!component.isReady()) ;
     QWindow * window = qobject_cast<QQuickWindow *>(component.create());
     window->show();
 
