@@ -309,11 +309,10 @@ private:
 };
 
 /* Graphic Widgets */
-
-class Rectangle : public Element
+class Arc : public Element
 {
 public:
-    Rectangle(Element *parent);
+    Arc (Element *parent);
 
     void parse(std::istream &fstream);
     void dump();
@@ -322,7 +321,26 @@ public:
 private:
     BasicAttribute basic_attr;
     DynamicAttribute dynamic_attr;
+    double begin;
+    double path;
 };
+
+class Image : public Element
+{
+public:
+    Image(Element *parent);
+
+    void parse(std::istream &fstream);
+    void dump();
+    void toQML(std::ostream &ostream);
+
+private:
+    BasicAttribute basic_attr;
+    DynamicAttribute dynamic_attr;
+    std::string imageName;
+    std::string calc;
+};
+
 
 class Oval : public Element
 {
@@ -338,20 +356,22 @@ private:
     DynamicAttribute dynamic_attr;
 };
 
-class Arc : public Element
+class Polygon : public Element
 {
 public:
-    Arc (Element *parent);
+    Polygon(Element *parent);
 
     void parse(std::istream &fstream);
     void dump();
     void toQML(std::ostream &ostream);
 
+protected:
+    void parsePoints(std::istream &fstream);
+
 private:
     BasicAttribute basic_attr;
     DynamicAttribute dynamic_attr;
-    int begin;
-    int path;
+    std::vector<Point> points;
 };
 
 class Polyline : public Element
@@ -363,16 +383,19 @@ public:
     void dump();
     void toQML(std::ostream &ostream);
 
+protected:
+    void parsePoints(std::istream &fstream);
+
 private:
     BasicAttribute basic_attr;
     DynamicAttribute dynamic_attr;
     std::vector<Point> points;
 };
 
-class Polygon : public Element
+class Rectangle : public Element
 {
 public:
-    Polygon(Element *parent);
+    Rectangle(Element *parent);
 
     void parse(std::istream &fstream);
     void dump();
@@ -381,7 +404,6 @@ public:
 private:
     BasicAttribute basic_attr;
     DynamicAttribute dynamic_attr;
-    std::vector<Point> points;
 };
 
 class Text : public Element
