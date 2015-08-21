@@ -67,16 +67,16 @@ BaseItem {
                 return
             switch (pv.severity) {
                 case 0: // NO_ALARM
-                foreground = '#00C000'
+                foreground = ColorMap.no_alarm
                 break;
                 case 1: // MINOR_ALARM
-                foreground = 'yellow'
+                foreground = ColorMap.minor_alarm
                 break;
                 case 2: // MAJOR_ALARM
-                foreground = 'red'
+                foreground = ColorMap.major_alarm
                 break;
                 case 3: // INVALID_ALARM
-                foreground = 'white'
+                foreground = ColorMap.invalid_alarm
                 break;
             }
         }
