@@ -4,6 +4,10 @@ import QtQuick 2.0
 
 QtObject {
 
+    property string no_alarm: "#00C000"
+    property string minor_alarm: "#FFFF00"
+    property string major_alarm: "#FF0000"
+    property string invalid_alarm: "#FFFFFF"
 
     property string color0: "#ffffff"
     property string color1: "#ececec"
