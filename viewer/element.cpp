@@ -22,17 +22,22 @@ struct {
     CreateElement function;
 } ElementTable [] = {
 /* graphics */
-{"rectangle", create_element<Rectangle>},
-{"text", create_element<Text>},
+    {"arc", create_element<Arc>},
+    {"image", create_element<Image>},
+    {"oval", create_element<Oval>},
+    {"polygon", create_element<Polygon>},
+    {"polyline", create_element<Polyline>},
+    {"rectangle", create_element<Rectangle>},
+    {"text", create_element<Text>},
 /* monitor */
-{"text update", create_element<TextUpdate>},
+    {"text update", create_element<TextUpdate>},
 /* control*/
-{"text entry", create_element<TextEntry>},
-{"menu", create_element<Menu>},
-{"message button", create_element<MessageButton>},
+    {"text entry", create_element<TextEntry>},
+    {"menu", create_element<Menu>},
+    {"message button", create_element<MessageButton>},
 /* misc */
-{"composite", create_element<Composite>},
-{"related display", create_element<RelatedDisplay>}
+    {"composite", create_element<Composite>},
+    {"related display", create_element<RelatedDisplay>}
 };
 #define NUM_ELEMENTS sizeof(ElementTable) / sizeof(ElementTable[0])
 
@@ -980,7 +985,7 @@ void Composite::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "Item {" << std::endl;
+    ostream << indent << "CaComposite {" << std::endl;
     Element::toQML(ostream);
     this->dynamic_attr.toQML(ostream);
 
@@ -995,6 +1000,388 @@ void Composite::dump()
 
 }
 
+/******************************************************
+ *                   Graphics
+ *
+ ******************************************************/
+Arc::Arc (Element *parent)
+    : Element(parent),
+      basic_attr(this),
+      dynamic_attr(this)
+{
+
+}
+
+void Arc::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"basic attribute")) {
+            this->basic_attr.parse(fstream);
+        } else if (!strcmp(token,"dynamic attribute")) {
+            this->dynamic_attr.parse(fstream);
+        }  else if (!strcmp(token, "begin")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->begin = atoi(token) / 64.;
+        }  else if (!strcmp(token, "path")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->path = atoi(token) / 64.;
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Arc::dump()
+{
+
+}
+
+void Arc::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaArc {" << std::endl;
+    Element::toQML(ostream);
+    this->basic_attr.toQML(ostream);
+    this->dynamic_attr.toQML(ostream);
+    ostream << indent << "    begin: " << this->begin << std::endl;
+    ostream << indent << "    span: " << this->path << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+
+Image::Image (Element *parent)
+    : Element(parent),
+      basic_attr(this),
+      dynamic_attr(this)
+{
+
+}
+
+void Image::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"basic attribute")) {
+            this->basic_attr.parse(fstream);
+        } else if (!strcmp(token,"dynamic attribute")) {
+            this->dynamic_attr.parse(fstream);
+        }  else if (!strcmp(token, "type")) {
+            /* type is not ncessary and will be derived from image file */
+            getToken(fstream,token);
+            getToken(fstream,token);
+        }  else if (!strcmp(token, "image name")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->imageName = token;
+        } else if (!strcmp(token, "calc")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->calc = token;
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Image::dump()
+{
+
+}
+
+void Image::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaImage {" << std::endl;
+    Element::toQML(ostream);
+    this->basic_attr.toQML(ostream);
+    this->dynamic_attr.toQML(ostream);
+    ostream << indent << "    source: " << this->imageName << std::endl;
+    ostream << indent << "    imageCalc: " << this->calc << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+Oval::Oval (Element *parent)
+    : Element(parent),
+      basic_attr(this),
+      dynamic_attr(this)
+{
+
+}
+
+void Oval::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"basic attribute")) {
+            this->basic_attr.parse(fstream);
+        } else if (!strcmp(token,"dynamic attribute")) {
+            this->dynamic_attr.parse(fstream);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Oval::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaOval {" << std::endl;
+    Element::toQML(ostream);
+    this->basic_attr.toQML(ostream);
+    this->dynamic_attr.toQML(ostream);
+    ostream << indent << "}" << std::endl;
+}
+
+void Oval::dump()
+{
+
+}
+
+Polygon::Polygon (Element *parent)
+    : Element(parent),
+      basic_attr(this),
+      dynamic_attr(this)
+{
+
+}
+
+void Polygon::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"basic attribute")) {
+            this->basic_attr.parse(fstream);
+        } else if (!strcmp(token,"dynamic attribute")) {
+            this->dynamic_attr.parse(fstream);
+        }  else if (!strcmp(token,"points")) {
+            this->parsePoints(fstream);
+        }
+
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Polygon::parsePoints(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+    Point point;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"(")) {
+            getToken(fstream,token);
+            point.x = atoi(token) - this->_rect.x;
+            getToken(fstream,token); // separator
+            getToken(fstream,token);
+            point.y = atoi(token) - this->_rect.y;
+            getToken(fstream,token); // ")"
+            this->points.push_back(point);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+
+}
+
+void Polygon::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaPolygon {" << std::endl;
+    Element::toQML(ostream);
+    this->basic_attr.toQML(ostream);
+    this->dynamic_attr.toQML(ostream);
+    ostream << indent << "    points: [";
+    for (std::vector<Point>::iterator it = this->points.begin(); it != this->points.end(); it ++) {
+        ostream << "Qt.point(" << (*it).x << "," << (*it).y << "),";
+    }
+    ostream << "]" << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+void Polygon::dump()
+{
+
+}
+
+Polyline::Polyline (Element *parent)
+    : Element(parent),
+      basic_attr(this),
+      dynamic_attr(this)
+{
+
+}
+
+void Polyline::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"basic attribute")) {
+            this->basic_attr.parse(fstream);
+        } else if (!strcmp(token,"dynamic attribute")) {
+            this->dynamic_attr.parse(fstream);
+        }  else if (!strcmp(token,"points")) {
+            this->parsePoints(fstream);
+        }
+
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Polyline::parsePoints(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+    Point point;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"(")) {
+            getToken(fstream,token);
+            point.x = atoi(token) - this->_rect.x;
+            getToken(fstream,token); // separator
+            getToken(fstream,token);
+            point.y = atoi(token) - this->_rect.y;
+            getToken(fstream,token); // ")"
+            this->points.push_back(point);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+
+}
+
+void Polyline::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaPolyline {" << std::endl;
+    Element::toQML(ostream);
+    this->basic_attr.toQML(ostream);
+    this->dynamic_attr.toQML(ostream);
+    ostream << indent << "    points: [";
+    for (std::vector<Point>::iterator it = this->points.begin(); it != this->points.end(); it ++) {
+        ostream << "Qt.point(" << (*it).x << "," << (*it).y << "),";
+    }
+    ostream << indent << "]";
+    ostream << indent << "}" << std::endl;
+}
+
+void Polyline::dump()
+{
+
+}
 
 Rectangle::Rectangle (Element *parent)
     : Element(parent),
@@ -1034,11 +1421,6 @@ void Rectangle::parse(std::istream &fstream)
              && (tokenType != T_EOF) );
 }
 
-void Rectangle::dump()
-{
-
-}
-
 void Rectangle::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
@@ -1048,6 +1430,11 @@ void Rectangle::toQML(std::ostream &ostream)
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
     ostream << indent << "}" << std::endl;
+}
+
+void Rectangle::dump()
+{
+
 }
 
 Text::Text (Element *parent)
