@@ -44,6 +44,7 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<TimeUnit>(uri, 1, 0, "TimeUnit", "TimeUnit Enum");
     qmlRegisterUncreatableType<PlotStyle>(uri, 1, 0, "PlotStyle", "PlotStyle Enum");
     qmlRegisterUncreatableType<Stacking>(uri, 1, 0, "Stacking", "Stacking Enum");
+    qmlRegisterUncreatableType<FillMode>(uri, 1, 0, "FillMode", "FillMode Enum");
 }
 
 void PvComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
