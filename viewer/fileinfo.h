@@ -17,7 +17,7 @@ public:
     std::string absolutePath();
 
     std::string dirName();
-    std::string baseName();
+    std::string baseName(bool strip_ext=false);
     std::string extName();
 
     FileInfo getFile(std::string filename);
