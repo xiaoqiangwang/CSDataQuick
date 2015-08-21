@@ -2,17 +2,18 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Window 2.0
 import PvComponents 1.0
-Window {
+Rectangle {
     x: 59
     y: 22
     width: 1016
     height: 365
+    color: "#bbbbbb"
     CaText {
         x: 27
         y: 71
         width: 20
         height: 8
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -20,7 +21,7 @@ Window {
         y: 71
         width: 22
         height: 9
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -28,7 +29,7 @@ Window {
         y: 70
         width: 23
         height: 10
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -36,7 +37,7 @@ Window {
         y: 69
         width: 26
         height: 13
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -44,7 +45,7 @@ Window {
         y: 68
         width: 28
         height: 14
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -52,7 +53,7 @@ Window {
         y: 68
         width: 35
         height: 15
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -60,7 +61,7 @@ Window {
         y: 67
         width: 32
         height: 16
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -68,7 +69,7 @@ Window {
         y: 65
         width: 40
         height: 20
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -76,7 +77,7 @@ Window {
         y: 66
         width: 46
         height: 21
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -84,7 +85,7 @@ Window {
         y: 62
         width: 48
         height: 26
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -92,7 +93,7 @@ Window {
         y: 62
         width: 68
         height: 27
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -100,7 +101,7 @@ Window {
         y: 58
         width: 68
         height: 35
-        foreground: 14
+        foreground: "#000000"
         text: "Text"
     }
     CaText {
@@ -108,7 +109,7 @@ Window {
         y: 34
         width: 20
         height: 8
-        foreground: 14
+        foreground: "#000000"
         text: "8"
     }
     CaText {
@@ -116,7 +117,7 @@ Window {
         y: 34
         width: 22
         height: 9
-        foreground: 14
+        foreground: "#000000"
         text: "9"
     }
     CaText {
@@ -124,7 +125,7 @@ Window {
         y: 33
         width: 23
         height: 10
-        foreground: 14
+        foreground: "#000000"
         text: "10"
     }
     CaText {
@@ -132,7 +133,7 @@ Window {
         y: 32
         width: 26
         height: 13
-        foreground: 14
+        foreground: "#000000"
         text: "13"
     }
     CaText {
@@ -140,7 +141,7 @@ Window {
         y: 31
         width: 28
         height: 14
-        foreground: 14
+        foreground: "#000000"
         text: "14"
     }
     CaText {
@@ -148,7 +149,7 @@ Window {
         y: 31
         width: 35
         height: 15
-        foreground: 14
+        foreground: "#000000"
         text: "15"
     }
     CaText {
@@ -156,7 +157,7 @@ Window {
         y: 30
         width: 32
         height: 16
-        foreground: 14
+        foreground: "#000000"
         text: "16"
     }
     CaText {
@@ -164,7 +165,7 @@ Window {
         y: 28
         width: 40
         height: 20
-        foreground: 14
+        foreground: "#000000"
         text: "20"
     }
     CaText {
@@ -172,7 +173,7 @@ Window {
         y: 29
         width: 46
         height: 21
-        foreground: 14
+        foreground: "#000000"
         text: "21"
     }
     CaText {
@@ -180,7 +181,7 @@ Window {
         y: 25
         width: 48
         height: 26
-        foreground: 14
+        foreground: "#000000"
         text: "26"
     }
     CaText {
@@ -188,7 +189,7 @@ Window {
         y: 25
         width: 68
         height: 27
-        foreground: 14
+        foreground: "#000000"
         text: "27"
     }
     CaText {
@@ -196,127 +197,127 @@ Window {
         y: 21
         width: 68
         height: 35
-        foreground: 14
+        foreground: "#000000"
         text: "35"
     }
-    CaText {
+    CaTextUpdate {
         x: 22
         y: 118
         width: 20
         height: 8
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 874
         y: 105
         width: 72
         height: 35
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 755
         y: 109
         width: 68
         height: 27
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 667
         y: 109
         width: 50
         height: 26
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 582
         y: 113
         width: 48
         height: 21
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 492
         y: 112
         width: 40
         height: 20
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 417
         y: 114
         width: 32
         height: 16
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 323
         y: 115
         width: 35
         height: 15
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 249
         y: 115
         width: 28
         height: 14
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 184
         y: 116
         width: 26
         height: 13
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 125
         y: 117
         width: 23
         height: 10
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
-    CaText {
+    CaTextUpdate {
         x: 67
         y: 118
         width: 22
         height: 9
         channel: "waves"
-        foreground: 14
-        background: 4
+        foreground: "#000000"
+        background: "#bbbbbb"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -325,8 +326,8 @@ Window {
         width: 84
         height: 44
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -335,8 +336,8 @@ Window {
         width: 65
         height: 34
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -345,8 +346,8 @@ Window {
         width: 60
         height: 32
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -355,8 +356,8 @@ Window {
         width: 48
         height: 27
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -365,8 +366,8 @@ Window {
         width: 40
         height: 23
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -375,8 +376,8 @@ Window {
         width: 42
         height: 22
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -385,8 +386,8 @@ Window {
         width: 38
         height: 21
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -395,8 +396,8 @@ Window {
         width: 34
         height: 20
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -405,9 +406,99 @@ Window {
         width: 34
         height: 16
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
+    }
+    CaMessageButton {
+        x: 871
+        y: 217
+        width: 80
+        height: 44
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 670
+        y: 218
+        width: 60
+        height: 34
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 577
+        y: 218
+        width: 60
+        height: 32
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 487
+        y: 220
+        width: 54
+        height: 27
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 415
+        y: 219
+        width: 40
+        height: 23
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 320
+        y: 217
+        width: 40
+        height: 22
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 248
+        y: 217
+        width: 32
+        height: 21
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 182
+        y: 215
+        width: 35
+        height: 19
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 118
+        y: 218
+        width: 30
+        height: 16
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
+    CaMessageButton {
+        x: 64
+        y: 215
+        width: 30
+        height: 15
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
     }
     CaTextEntry {
         x: 63
@@ -415,8 +506,8 @@ Window {
         width: 34
         height: 15
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
     CaTextEntry {
@@ -425,8 +516,18 @@ Window {
         width: 34
         height: 14
         channel: "waves"
-        foreground: 14
-        background: 51
+        foreground: "#000000"
+        background: "#73dfff"
         format: TextFormat.String
     }
+    CaMessageButton {
+        x: 17
+        y: 214
+        width: 30
+        height: 14
+        channel: "waves"
+        foreground: "#000000"
+        background: "#73dfff"
+    }
 }
+
