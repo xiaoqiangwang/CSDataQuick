@@ -8,8 +8,8 @@ Item {
     property real value: 0
     property real minimumValue: 0.0
     property real maximumValue: 1.0
-    property alias background: panel.color
-    property alias foreground : progress.color
+    property color background: 'white'
+    property color foreground : 'black'
     property int  direction: Direction.Right
     property int fillMode: 0 // edge center
     property bool showRange: true
@@ -26,7 +26,8 @@ Item {
         height: (direction == Direction.Up || direction == Direction.Down) ? root.height : (range.visible ? root.height / 2 : 0)
         minimumValue: root.minimumValue
         maximumValue: root.maximumValue
-
+        background: root.background
+        foreground: root.foreground
     }
     Rectangle {
         id: panel
@@ -35,12 +36,14 @@ Item {
         width: (direction == Direction.Left || direction == Direction.Right) ? root.width : range.visible ? root.width / 2 : root.width
         height: (direction == Direction.Up || direction == Direction.Down) ? root.height : range.visible ? root.height / 2 : root.height
         border.width: 2
+        color: root.background
     }
 
     Rectangle {
         id: progress
         width: direction == Direction.Up || direction == Direction.Down ? panel.width : panel.width * calcPercentage()
         height: direction == Direction.Left || direction == Direction.Right ? panel.height : panel.height * calcPercentage()
+        color: root.foreground
     }
 
     onDirectionChanged: defineAnchors()

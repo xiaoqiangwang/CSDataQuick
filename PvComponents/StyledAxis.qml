@@ -10,6 +10,8 @@ Rectangle {
     property int precision: 3
     property string font: '12px monospace'
     property int direction: Direction.Right
+    property color foreground
+    property color background
 
     QtObject {
         id: d
@@ -19,6 +21,13 @@ Rectangle {
     }
 
     onDirectionChanged: canvas.requestPaint()
+
+    // rectangle filling the whole area with background color
+    Rectangle {
+        id: background
+        anchors.fill: parent
+        color: root.background
+    }
 
     Canvas {
         id: canvas
@@ -30,6 +39,7 @@ Rectangle {
             ctx.save()
 
             ctx.clearRect(0, 0, width, height)
+            ctx.strokeStyle = foreground
 
             // calculate the label width
             ctx.font = font;
