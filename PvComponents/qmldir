@@ -9,6 +9,7 @@ CaComposite     1.0 CaComposite.qml
 CaControl       1.0 CaControl.qml
 CaGraphics      1.0 CaGraphics.qml
 CaImage         1.0 CaImage.qml
+CaIndicator     1.0 CaIndicator.qml
 CaMenu          1.0 CaMenu.qml 
 CaMessageButton 1.0 CaMessageButton.qml
 CaMeter         1.0 CaMeter.qml
