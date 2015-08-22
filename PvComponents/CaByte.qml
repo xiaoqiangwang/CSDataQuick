@@ -22,7 +22,7 @@ CaMonitor {
     /*! The starting bits */
     property int start: 0
     /*! The ending bits */
-    property int end: 31
+    property int end: 15
 
     Component {
         id: horz
