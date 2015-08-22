@@ -40,6 +40,7 @@ QML_FILES += \
     $$PWD/StyledBar2.qml \
     $$PWD/StyledAxis.qml \
     $$PWD/ColorMap.qml \
+    $$PWD/CaIndicator.qml \
     $$PWD/images/arrow-down.png \
     $$PWD/images/arrow-up.png \
     $$PWD/images/button_down.png \
