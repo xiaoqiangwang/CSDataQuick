@@ -30,6 +30,12 @@ struct {
     {"rectangle", create_element<Rectangle>},
     {"text", create_element<Text>},
 /* monitor */
+    {"bar", create_element<Bar>},
+    {"byte", create_element<Byte>},
+    {"cartesian plot", create_element<CartesianPlot>},
+    {"indicator", create_element<Indicator>},
+    {"meter", create_element<Meter>},
+    {"strip chart", create_element<StripChart>},
     {"text update", create_element<TextUpdate>},
 /* control*/
     {"text entry", create_element<TextEntry>},
@@ -311,6 +317,150 @@ void Limits::toQML(std::ostream &fstream)
 }
 
 void Limits::dump()
+{
+
+}
+
+Plotcom::Plotcom(Element *parent)
+    : Attribute(parent)
+{
+    clr = 14;
+    bclr = 3;
+}
+
+void Plotcom::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if(!strcmp(token,"title")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->title = token;
+        } else if(!strcmp(token,"xlabel")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->xlabel = token;
+        } else if (!strcmp(token,"ylabel")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->ylabel = token;
+        } else if (!strcmp(token,"package")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->package = token;
+        } else if (!strcmp(token,"clr")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->clr = atoi(token);
+        } else if (!strcmp(token,"bclr")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->bclr = atoi(token);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+      && (tokenType != T_EOF) );
+}
+
+void Plotcom::toQML(std::ostream &fstream)
+{
+    int indent_level = parent()->level() + 1;
+    std::string indent(indent_level * 4, ' ');
+
+    if (!title.empty())
+        fstream << indent << "title: " << title << std::endl;
+    if (!xlabel.empty())
+        fstream << indent << "xlabel: " << xlabel << std::endl;
+    if (!ylabel.empty())
+        fstream << indent << "ylabel: " << ylabel << std::endl;
+    fstream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
+    fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
+}
+
+PlotAxisDefinition::PlotAxisDefinition(Element *parent)
+    : Attribute(parent)
+{
+    axisStyle = LINEAR_AXIS;
+    rangeStyle = CHANNEL_RANGE;
+    minimum = 0.0;
+    maximum = 1.0;
+    timeFormat = HHMMSS;
+}
+
+void PlotAxisDefinition::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if(!strcmp(token,"axisStyle")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            for(int i=FIRST_CARTESIAN_PLOT_AXIS_STYLE;i<FIRST_CARTESIAN_PLOT_AXIS_STYLE+NUM_CARTESIAN_PLOT_AXIS_STYLES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->axisStyle = (CartesianPlotAxisStyle)i;
+                    break;
+                }
+            }
+        } else if(!strcmp(token,"rangeStyle")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            for(int i=FIRST_CARTESIAN_PLOT_RANGE_STYLE;i<FIRST_CARTESIAN_PLOT_RANGE_STYLE+NUM_CARTESIAN_PLOT_RANGE_STYLES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->rangeStyle = (CartesianPlotRangeStyle)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"timeFormat")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            for(int i=FIRST_CP_TIME_FORMAT;i<FIRST_CP_TIME_FORMAT+NUM_CP_TIME_FORMAT;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->timeFormat = (CartesianPlotTimeFormat_t)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"minRange")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->minimum = atof(token);
+        } else if (!strcmp(token,"maxRange")) {
+            getToken(fstream, token);
+            getToken(fstream, token);
+            this->maximum = atof(token);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+      && (tokenType != T_EOF) );
+}
+
+void PlotAxisDefinition::toQML(std::ostream &fstream)
 {
 
 }
@@ -1746,6 +1896,533 @@ void TextEntry::dump()
 
     this->control.dump();
     this->limits.dump();
+}
+/******************************************************
+ *                   Monitors
+ *
+ ******************************************************/
+Bar::Bar (Element *parent)
+    : Element(parent),
+      monitor(this),
+      limits(this)
+{
+    this->_type = DL_TextUpdate;
+    this->clrmod = STATIC;
+
+    this->label = LABEL_NONE;
+    this->direction = RIGHT;
+    this->fillmod = FROM_EDGE;
+}
+
+void Bar::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"monitor")) {
+            this->monitor.parse(fstream);
+        } else if (!strcmp(token,"limits")) {
+            this->limits.parse(fstream);
+        } else if(!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"label")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_LABEL_TYPE;i<FIRST_LABEL_TYPE+NUM_LABEL_TYPES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->label = (LabelType)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"direction")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_DIRECTION;i<FIRST_DIRECTION+NUM_DIRECTIONS;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->direction = (Direction)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"fillmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_FILL_MODE;i<FIRST_FILL_MODE+NUM_FILL_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->fillmod = (FillMode)i;
+                    break;
+                }
+            }
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Bar::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaBar {" << std::endl;
+    Element::toQML(ostream);
+    this->monitor.toQML(ostream);
+    this->limits.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    if (this->label !=  LABEL_NONE)
+        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+    if (this->direction != RIGHT)
+        ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
+    if (this->fillmod != FROM_EDGE)
+        ostream << indent << "    fillMode: " << qmlValueTable[this->fillmod] << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+Byte::Byte (Element *parent)
+    : Element(parent),
+      monitor(this),
+      limits(this)
+{
+    this->_type = DL_TextUpdate;
+    this->clrmod = STATIC;
+
+    this->label = LABEL_NONE;
+    this->direction = RIGHT;
+    sbit = 0;
+    ebit = 15;
+}
+
+void Byte::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"monitor")) {
+            this->monitor.parse(fstream);
+        } else if (!strcmp(token,"limits")) {
+            this->limits.parse(fstream);
+        } else if(!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"direction")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_DIRECTION;i<FIRST_DIRECTION+NUM_DIRECTIONS;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->direction = (Direction)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"sbit")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->sbit = atoi(token);
+        } else if (!strcmp(token,"ebit")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->ebit = atoi(token);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Byte::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaByte {" << std::endl;
+    Element::toQML(ostream);
+    this->monitor.toQML(ostream);
+    this->limits.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    if (this->direction != RIGHT)
+        ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
+    if (this->sbit != 0)
+        ostream << indent << "    start: " << this->sbit << std::endl;
+    if (this->ebit != 15)
+        ostream << indent << "    end: " << this->ebit << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+CartesianPlot::CartesianPlot (Element *parent)
+    : Element(parent),
+      plotcom(this),
+      x(this),y(this),y2(this)
+{
+    this->_type = DL_CartesianPlot;
+
+    count = 1;
+    style = POINT_PLOT;
+    erase_oldest = ERASE_OLDEST_OFF;
+    eraseMode = ERASE_IF_NOT_ZERO;
+}
+
+void CartesianPlot::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"plotcom")) {
+            this->plotcom.parse(fstream);
+        } else if(!strcmp(token,"count")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->count = atoi(token);
+            this->countPvName = token;
+        } else if(!strcmp(token,"countPvName")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->count = atoi(token);
+            this->countPvName = token;
+        } else if(!strcmp(token,"trigger")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->trigger = token;
+        } else if(!strcmp(token,"erase")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->erase = token;
+        } else if (!strcmp(token,"eraseMode")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_ERASE_MODE;i<FIRST_ERASE_MODE+NUM_ERASE_MODES; i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->eraseMode = (eraseMode_t)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"erase_oldest")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            if(!strcmp(token,"on"))
+                this->erase_oldest = ERASE_OLDEST_ON;
+            else if (!strcmp(token,"off"))
+                this->erase_oldest = ERASE_OLDEST_OFF;
+            else if (!strcmp(token,"plot last n pts"))
+                this->erase_oldest = ERASE_OLDEST_ON;
+            else if (!strcmp(token,"plot n pts & stop"))
+                this->erase_oldest = ERASE_OLDEST_OFF;
+        } else if (!strcmp(token,"style")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            if(!strcmp(token,"point plot"))
+                this->style = POINT_PLOT;
+            else if(!strcmp(token,"point"))
+                this->style = POINT_PLOT;
+            else if(!strcmp(token,"line plot"))
+                this->style = LINE_PLOT;
+            else if(!strcmp(token,"line"))
+                this->style = LINE_PLOT;
+            else if(!strcmp(token,"fill under"))
+                this->style = FILL_UNDER_PLOT;
+            else if(!strcmp(token,"fill-under"))
+                this->style = FILL_UNDER_PLOT;
+        } else if (!strcmp(token,"x_axis")) {
+            this->x.parse(fstream);
+        } else if (!strcmp(token,"y1_axis")) {
+            this->y.parse(fstream);
+        } else if (!strcmp(token,"y2_axis")) {
+            this->y2.parse(fstream);
+        } else if (!strncmp(token,"trace", 5)) {
+            int traceNumber = MIN(token[6] - '0', MAX_TRACES - 1);
+            Trace *trace = new Trace(this);
+            trace->parse(fstream);
+            this->traces.push_back(trace);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void CartesianPlot::toQML(std::ostream &fstream)
+{
+
+}
+
+Trace::Trace(Element *parent)
+    : Attribute(parent)
+{
+
+}
+
+void Trace::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"xdata")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->xdata = token;
+        } else if (!strcmp(token,"ydata")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->ydata = token;
+        } else if (!strcmp(token,"data_clr")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->clr = atoi(token);
+        } else if (!strcmp(token,"yaxis")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->yaxis = atoi(token);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Trace::toQML(std::ostream &fstream)
+{
+
+}
+
+Indicator::Indicator (Element *parent)
+    : Element(parent),
+      monitor(this),
+      limits(this)
+{
+    this->_type = DL_Indicator;
+
+    this->clrmod = STATIC;
+    this->label = LABEL_NONE;
+    this->direction = RIGHT;
+}
+
+void Indicator::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"monitor")) {
+            this->monitor.parse(fstream);
+        } else if (!strcmp(token,"limits")) {
+            this->limits.parse(fstream);
+        } else if(!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"label")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_LABEL_TYPE;i<FIRST_LABEL_TYPE+NUM_LABEL_TYPES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->label = (LabelType)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"direction")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_DIRECTION;i<FIRST_DIRECTION+NUM_DIRECTIONS;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->direction = (Direction)i;
+                    break;
+                }
+            }
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Indicator::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaIndicator {" << std::endl;
+    Element::toQML(ostream);
+    this->monitor.toQML(ostream);
+    this->limits.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    if (this->label !=  LABEL_NONE)
+        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+    if (this->direction != RIGHT)
+        ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+Meter::Meter (Element *parent)
+    : Element(parent),
+      monitor(this),
+      limits(this)
+{
+    this->_type = DL_Indicator;
+
+    this->clrmod = STATIC;
+    this->label = LABEL_NONE;
+}
+
+void Meter::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"monitor")) {
+            this->monitor.parse(fstream);
+        } else if (!strcmp(token,"limits")) {
+            this->limits.parse(fstream);
+        } else if(!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"label")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_LABEL_TYPE;i<FIRST_LABEL_TYPE+NUM_LABEL_TYPES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->label = (LabelType)i;
+                    break;
+                }
+            }
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Meter::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaMeter {" << std::endl;
+    Element::toQML(ostream);
+    this->monitor.toQML(ostream);
+    this->limits.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    if (this->label !=  LABEL_NONE)
+        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+StripChart::StripChart(Element *parent)
+    : Element(parent)
+{
+
+}
+
+void StripChart::parse(std::istream &fstream)
+{
+
+}
+
+void StripChart::toQML(std::ostream &ostream)
+{
+
 }
 
 TextUpdate::TextUpdate (Element *parent)

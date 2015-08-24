@@ -133,9 +133,12 @@ class Plotcom : public Attribute
 {
 public:
     Plotcom(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+
 private:
     std::string title;
-    std::string xlablel;
+    std::string xlabel;
     std::string ylabel;
     int clr, bclr;
     std::string package;
@@ -145,6 +148,9 @@ class PlotAxisDefinition : public Attribute
 {
 public:
     PlotAxisDefinition(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+
 private:
     CartesianPlotAxisStyle axisStyle;
     CartesianPlotRangeStyle rangeStyle;
@@ -192,6 +198,10 @@ class Trace : public Attribute
 {
 public:
     Trace(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+
 private:
     std::string xdata;
     std::string ydata;
@@ -236,7 +246,7 @@ public:
     virtual void parse(std::istream& fstream) = 0;
     void parseObject(std::istream& fstream);
     virtual void toQML(std::ostream& ostream) = 0;
-    virtual void dump() =0;
+    virtual void dump() {};
 
     /* access object */
 protected:
@@ -469,6 +479,100 @@ private:
 };
 
 /* Monitor Widgets */
+class Bar : public Element {
+public:
+    Bar (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+    Monitor monitor;
+    Limits limits;
+    ColorMode clrmod;
+
+    LabelType label;
+    Direction direction;
+    FillMode fillmod;
+};
+
+class Byte : public Element {
+public:
+    Byte (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+    Monitor monitor;
+    Limits limits;
+    ColorMode clrmod;
+
+    LabelType label;
+    Direction direction;
+    int sbit;
+    int ebit;
+};
+
+class CartesianPlot : public Element {
+public:
+    CartesianPlot (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+    Plotcom plotcom;
+    PlotAxisDefinition x;
+    PlotAxisDefinition y;
+    PlotAxisDefinition y2;
+    std::vector<Trace*> traces;
+
+    std::string countPvName;
+    int count;
+    CartesianPlotStyle style;
+    EraseOldest erase_oldest;
+    std::string trigger;
+    std::string erase;
+    eraseMode_t eraseMode;
+};
+
+class Indicator : public Element {
+public:
+    Indicator (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+    Monitor monitor;
+    Limits limits;
+    ColorMode clrmod;
+
+    Direction direction;
+    LabelType label;
+};
+
+class Meter : public Element {
+public:
+    Meter (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+    Monitor monitor;
+    Limits limits;
+    ColorMode clrmod;
+
+    LabelType label;
+};
+
+class StripChart : public Element {
+public:
+    StripChart (Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+
+};
+
 class TextUpdate : public Element {
 public:
     TextUpdate (Element *parent);
