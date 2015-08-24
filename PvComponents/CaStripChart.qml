@@ -25,7 +25,7 @@ Item {
     /*! The period is the time between updates */
     property int period: 60
     /*! The PV list model */
-    property ListModel models
+    property ListModel model
 
     // list of created pvs and their corresponding graph and time,data
     QtObject {
@@ -66,25 +66,25 @@ Item {
         for (var i=1; i<=length; i++) {
             d.time.push((i - length) / getInterval())
         }
-        for(var i=0; i<models.count; i++) {
-            if (models.get(i).channel == '')
+        for(var i=0; i<model.count; i++) {
+            if (model.get(i).channel == '')
                 continue
             // create graph with its own left axis
             var axis = Qt.createQmlObject('import PvComponents 1.0; Axis {type: Axis.Left}', plot, 'axis' + i)
             var graph = plot.addGraph(plot.xAxis, axis)
-            graph.color = models.get(i).foreground
+            graph.color = model.get(i).foreground
             d.graphs.push(graph)
             // create pv object
             var cmd =
                     'import PvComponents 1.0\n' +
                     'PvObject {\n' +
-                    '    channel: "%1"\n'.arg(models.get(i).channel) +
+                    '    channel: "%1"\n'.arg(model.get(i).channel) +
                     '    property var data\n' +
                     '    property Limits limits : Limits {\n' +
-                    '        loprSrc: %1\n'.arg(models.get(i).loprSrc) +
-                    '        loprDefault: %1\n'.arg(models.get(i).loprDefault) +
-                    '        hoprSrc: %1\n'.arg(models.get(i).hoprSrc) +
-                    '        hoprDefault: %1\n'.arg(models.get(i).hoprDefault) +
+                    '        loprSrc: %1\n'.arg(model.get(i).loprSrc) +
+                    '        loprDefault: %1\n'.arg(model.get(i).loprDefault) +
+                    '        hoprSrc: %1\n'.arg(model.get(i).hoprSrc) +
+                    '        hoprDefault: %1\n'.arg(model.get(i).hoprDefault) +
                     '    }\n' +
                     '    onConnectionChanged: {\n' +
                     '        if (connected) {\n' +
