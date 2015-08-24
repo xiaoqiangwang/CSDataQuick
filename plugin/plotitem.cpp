@@ -289,8 +289,6 @@ void GraphItem::setData(QVariant x, QVariant y)
 
     if (mGraph) {
         mGraph->setData(mX, mY);
-        mGraph->keyAxis()->rescale();
-        mGraph->valueAxis()->rescale(true);
     }
 }
 
@@ -303,8 +301,6 @@ void GraphItem::setData(QVariantList x, QVariantList y)
     }
     if (mGraph) {
         mGraph->setData(mX, mY);
-        mGraph->keyAxis()->rescale();
-        mGraph->valueAxis()->rescale(true);
     }
 }
 
@@ -318,8 +314,6 @@ void GraphItem::setData(QVariantList data)
     }
     if (mGraph) {
         mGraph->setData(mX, mY);
-        //mGraph->keyAxis()->rescale();
-        //mGraph->valueAxis()->rescale(true);
     }
 }
 
