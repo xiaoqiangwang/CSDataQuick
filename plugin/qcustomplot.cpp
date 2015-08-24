@@ -9012,8 +9012,8 @@ QCP::Interaction QCPAbstractItem::selectionCategory() const
 /*!
   Constructs a QCustomPlot and sets reasonable default values.
 */
-QCustomPlot::QCustomPlot(QWidget *parent) :
-  QWidget(parent),
+QCustomPlot::QCustomPlot(QObject *parent) : // XW: Derive from QObject instead of QObject
+  QObject(parent),
   xAxis(0),
   yAxis(0),
   xAxis2(0),
@@ -9036,9 +9036,10 @@ QCustomPlot::QCustomPlot(QWidget *parent) :
   mMouseEventElement(0),
   mReplotting(false)
 {
-  setAttribute(Qt::WA_NoMousePropagation);
-  setAttribute(Qt::WA_OpaquePaintEvent);
-  setMouseTracking(true);
+  // XW: incompatible QWidget methods
+  //setAttribute(Qt::WA_NoMousePropagation);
+  //setAttribute(Qt::WA_OpaquePaintEvent);
+  //setMouseTracking(true);
   QLocale currentLocale = locale();
   currentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
   setLocale(currentLocale);
@@ -10648,13 +10649,14 @@ QSize QCustomPlot::sizeHint() const
   Event handler for when the QCustomPlot widget needs repainting. This does not cause a \ref replot, but
   draws the internal buffer on the widget surface.
 */
+/* XW: incomaptible QWidget methods
 void QCustomPlot::paintEvent(QPaintEvent *event)
 {
   Q_UNUSED(event);
   QPainter painter(this);
   painter.drawPixmap(0, 0, mPaintBuffer);
 }
-
+*/
 /*! \internal
   
   Event handler for a resize of the QCustomPlot widget. Causes the internal buffer to be resized to
@@ -10730,7 +10732,8 @@ void QCustomPlot::mousePressEvent(QMouseEvent *event)
   if (mMouseEventElement)
     mMouseEventElement->mousePressEvent(event);
   
-  QWidget::mousePressEvent(event);
+  // XW: incompatible QWidget methods
+  //QWidget::mousePressEvent(event);
 }
 
 /*! \internal
@@ -10749,8 +10752,9 @@ void QCustomPlot::mouseMoveEvent(QMouseEvent *event)
   // call event of affected layout element:
   if (mMouseEventElement)
     mMouseEventElement->mouseMoveEvent(event);
-  
-  QWidget::mouseMoveEvent(event);
+
+  // XW: incompatible QWidget methods
+  //QWidget::mouseMoveEvent(event);
 }
 
 /*! \internal
@@ -10838,7 +10842,8 @@ void QCustomPlot::mouseReleaseEvent(QMouseEvent *event)
   if (doReplot || noAntialiasingOnDrag())
     replot();
   
-  QWidget::mouseReleaseEvent(event);
+  // XW: incompatible QWidget methods
+  //QWidget::mouseReleaseEvent(event);
 }
 
 /*! \internal
@@ -10854,8 +10859,9 @@ void QCustomPlot::wheelEvent(QWheelEvent *event)
   // call event of affected layout element:
   if (QCPLayoutElement *el = layoutElementAt(event->pos()))
     el->wheelEvent(event);
-  
-  QWidget::wheelEvent(event);
+
+  // XW: incompatible QWidget methods
+  //QWidget::wheelEvent(event);
 }
 
 /*! \internal

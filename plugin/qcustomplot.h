@@ -73,7 +73,7 @@ class QCPAbstractLegendItem;
 class QCPColorMap;
 class QCPColorScale;
 class QCPBars;
-
+class CustomPlotItem; // XW: QQuickItem to operate QCustomPlot
 
 /*! \file */
 
@@ -1677,7 +1677,7 @@ private:
 };
 
 
-class QCP_LIB_DECL QCustomPlot : public QWidget
+class QCP_LIB_DECL QCustomPlot : public QObject // XW: Derive from QObject instead of QWidget to be QtQuick2 compatible
 {
   Q_OBJECT
   /// \cond INCLUDE_QPROPERTIES
@@ -1712,7 +1712,7 @@ public:
                          ,rpHint     ///< Whether to use immediate repaint or queued update depends on whether the plotting hint \ref QCP::phForceRepaint is set, see \ref setPlottingHints.
                        };
   
-  explicit QCustomPlot(QWidget *parent = 0);
+  explicit QCustomPlot(QObject *parent = 0);
   virtual ~QCustomPlot();
   
   // getters:
@@ -1751,6 +1751,36 @@ public:
   void setMultiSelectModifier(Qt::KeyboardModifier modifier);
   
   // non-property methods:
+
+  // XW: QWidget compatible interface
+  /* Begine modification */
+  QLocale locale() {return QLocale::system();}
+  void setLocale(QLocale locale) {Q_UNUSED(locale);}
+
+  void setFont(const QFont& font) {mFont = font;}
+  QFont font() {return mFont;}
+
+  int width() {return mSize.width();}
+  int height() {return mSize.height();}
+
+  QSize size() {return mSize; }
+  void setSize(QSize size) {mSize = size;}
+
+  QRect rect() {return mRect;}
+  void setRect(QRect rect) {mRect = rect;}
+
+  void updateGeometry() {}
+  void repaint() {}
+  void update() {}
+  void paint(QPainter *painter) {
+      painter->drawPixmap(0, 0, mPaintBuffer);
+  }
+private:
+  QFont mFont;
+  QRect mRect;
+  QSize mSize;
+/* End modification */
+public:
   // plottable interface:
   QCPAbstractPlottable *plottable(int index);
   QCPAbstractPlottable *plottable();
@@ -1872,7 +1902,7 @@ protected:
   // reimplemented virtual methods:
   virtual QSize minimumSizeHint() const;
   virtual QSize sizeHint() const;
-  virtual void paintEvent(QPaintEvent *event);
+  //virtual void paintEvent(QPaintEvent *event); // XW: incompaitble QWidget method
   virtual void resizeEvent(QResizeEvent *event);
   virtual void mouseDoubleClickEvent(QMouseEvent *event);
   virtual void mousePressEvent(QMouseEvent *event);
@@ -1894,6 +1924,7 @@ protected:
   friend class QCPAxis;
   friend class QCPLayer;
   friend class QCPAxisRect;
+  friend class CustomPlotItem; // XW: QQuickItem to operate QCustomPlot
 };
 
 
@@ -2022,6 +2053,7 @@ public:
   QList<QCPAbstractItem*> items() const;
   
   // read-only interface imitating a QRect:
+  QRect toRect() const {return mRect;} // XW: convenient method to QRect
   int left() const { return mRect.left(); }
   int right() const { return mRect.right(); }
   int top() const { return mRect.top(); }
