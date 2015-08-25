@@ -382,11 +382,11 @@ void Plotcom::toQML(std::ostream &fstream)
     std::string indent(indent_level * 4, ' ');
 
     if (!title.empty())
-        fstream << indent << "title: " << title << std::endl;
+        fstream << indent << "title: \"" << title << "\"" << std::endl;
     if (!xlabel.empty())
-        fstream << indent << "xlabel: " << xlabel << std::endl;
+        fstream << indent << "xlabel: \"" << xlabel << "\"" << std::endl;
     if (!ylabel.empty())
-        fstream << indent << "ylabel: " << ylabel << std::endl;
+        fstream << indent << "ylabel: \"" << ylabel << "\"" << std::endl;
     fstream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
     fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
 }
@@ -2410,19 +2410,139 @@ void Meter::toQML(std::ostream &ostream)
 }
 
 StripChart::StripChart(Element *parent)
-    : Element(parent)
+    : Element(parent),
+      plotcom(this)
 {
+    this->_type = DL_StripChart;
 
+    this->delay = -1;
+    this->period = 60.0;
+    this->units = SECONDS;
 }
 
 void StripChart::parse(std::istream &fstream)
 {
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
 
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"plotcom")) {
+            this->plotcom.parse(fstream);
+        } else if(!strcmp(token,"period")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->period = atof(token);
+        } else if(!strcmp(token,"delay")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->delay = atoi(token);
+        } else if (!strcmp(token,"units")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            if(!strcmp(token,"minute"))
+                this->units = MINUTES;
+            else if(!strcmp(token,"second"))
+                this->units = SECONDS;
+            else if(!strcmp(token,"milli second"))
+                this->units= MILLISECONDS;
+            else if(!strcmp(token,"milli-second"))
+                this->units = MILLISECONDS;
+        } else if (!strncmp(token,"pen", 3)) {
+            int penNumber = MIN(token[4] - '0', MAX_PENS - 1);
+            Pen *pen = new Pen(this);
+            pen->parse(fstream);
+            this->pens.push_back(pen);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
 }
 
 void StripChart::toQML(std::ostream &ostream)
 {
+    std::string indent(level() * 4, ' ');
 
+    ostream << indent << "CaStripChart {" << std::endl;
+    Element::toQML(ostream);
+    this->plotcom.toQML(ostream);
+    ostream << indent << "    period: " << this->period << std::endl;
+    if (this->units != SECONDS)
+        ostream << indent << "    units: " << qmlValueTable[this->units] << std::endl;
+    if (pens.size() > 0) {
+        ostream << indent << "    model: ListModel {" << std::endl;
+        for (std::vector<Pen*>::iterator it=pens.begin(); it != pens.end(); ++it) {
+            (*it)->toQML(ostream);
+        }
+        ostream << indent << "    }" << std::endl;
+    }
+    ostream << indent << "}" << std::endl;
+}
+
+Pen::Pen(Element *parent)
+    : Attribute(parent),
+      limits(parent)
+{
+    this->clr = 14;
+}
+
+void Pen::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"chan")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->chan = token;
+        } else if (!strcmp(token,"clr")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->clr = atoi(token);
+        } else if (!strcmp(token,"limits")) {
+            this->limits.parse(fstream);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Pen::toQML(std::ostream &fstream)
+{
+    int indent_level = parent()->level() + 1;
+    std::string indent(indent_level * 4, ' ');
+
+    fstream << indent << "    ListElement {" << std::endl;
+    fstream << indent << "        channel: \"" << this->chan << '"' << std::endl;
+    fstream << indent << "        foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
+    this->limits.toQML(fstream);
+    fstream << indent << "    }" << std::endl;
 }
 
 TextUpdate::TextUpdate (Element *parent)

@@ -188,6 +188,9 @@ class Pen : public Attribute
 {
 public:
     Pen(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+
 private:
     std::string chan;
     int clr;
@@ -570,7 +573,11 @@ public:
     void toQML(std::ostream& ostream);
 
 private:
-
+    Plotcom plotcom;
+    double period;
+    int delay;
+    TimeUnits units;
+    std::vector<Pen*> pens;
 };
 
 class TextUpdate : public Element {
