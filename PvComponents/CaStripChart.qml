@@ -13,6 +13,10 @@ Item {
 
     /*! graph title */
     property string title
+    /*! x axis label */
+    property string xlabel
+    /*! y axis label */
+    property string ylabel
     /*! foreground color */
     property color foreground: ColorMap.color14
     /*! background color */
@@ -45,7 +49,7 @@ Item {
         background: control.background
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: "Time (%1)".arg(getTimeLabel(control.units))
+            label: xlabel ? xlabel : "Time (%1)".arg(getTimeLabel(control.units))
             rangeLower: -period
             rangeUpper: 0
         }
@@ -67,25 +71,31 @@ Item {
             d.time.push((i - length) / getInterval())
         }
         for(var i=0; i<model.count; i++) {
-            if (model.get(i).channel == '')
+            var pen = model.get(i);
+
+            if (pen.channel == '')
                 continue
             // create graph with its own left axis
             var axis = Qt.createQmlObject('import PvComponents 1.0; Axis {type: Axis.Left}', plot, 'axis' + i)
             var graph = plot.addGraph(plot.xAxis, axis)
-            graph.color = model.get(i).foreground
+            graph.color = pen.foreground
             d.graphs.push(graph)
             // create pv object
             var cmd =
                     'import PvComponents 1.0\n' +
                     'PvObject {\n' +
-                    '    channel: "%1"\n'.arg(model.get(i).channel) +
+                    '    channel: "%1"\n'.arg(pen.channel) +
                     '    property var data\n' +
-                    '    property Limits limits : Limits {\n' +
-                    '        loprSrc: %1\n'.arg(model.get(i).loprSrc) +
-                    '        loprDefault: %1\n'.arg(model.get(i).loprDefault) +
-                    '        hoprSrc: %1\n'.arg(model.get(i).hoprSrc) +
-                    '        hoprDefault: %1\n'.arg(model.get(i).hoprDefault) +
-                    '    }\n' +
+                    '    property Limits limits : Limits {\n';
+            if (pen.loprSrc)
+              cmd +='        loprSrc: %1\n'.arg(pen.loprSrc)
+            if (pen.loprDefault)
+              cmd +='        loprDefault: %1\n'.arg(pen.loprDefault)
+            if (pen.hoprSrc)
+              cmd +='        hoprSrc: %1\n'.arg(pen.hoprSrc)
+            if (pen.hoprSrc)
+              cmd +='        hoprDefault: %1\n'.arg(pen.hoprDefault)
+              cmd +='    }\n' +
                     '    onConnectionChanged: {\n' +
                     '        if (connected) {\n' +
                     '            if (lodisplim < updisplim) {\n' +
