@@ -17,6 +17,7 @@ OTHER_FILES += gallery/demo_textentry.qml
 OTHER_FILES += gallery/demo_textupdate.qml
 OTHER_FILES += gallery/DirectionGroup.qml
 OTHER_FILES += gallery/EdgeStyleGroup.qml
+OTHER_FILES += gallery/FillModeGroup.qml
 OTHER_FILES += gallery/FillStyleGroup.qml
 OTHER_FILES += gallery/OrientationGroup.qml
 OTHER_FILES += gallery/StackingGroup.qml

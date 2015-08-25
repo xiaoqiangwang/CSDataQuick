@@ -14,12 +14,16 @@ ColumnLayout {
         channel: 'catest'
         direction: directionGroup.direction
         label: labelStyleGroup.labelStyle
+        fillMode: fillModeGroup.fillMode
     }
     DirectionGroup {
         id: directionGroup
     }
     LabelStyleGroup {
         id: labelStyleGroup
+    }
+    FillModeGroup {
+        id: fillModeGroup
     }
 }
 }
