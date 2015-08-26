@@ -204,12 +204,20 @@ ApplicationWindow {
                 height: 60
                 channel: 'catest'
             }
-/*
+
             CaStripChart {
                 width: 500
                 height: 300
-            }
+                model: ListModel {
+                    ListElement {
+                        channel: 'catest'
+                    }
+                    ListElement {
 
+                    }
+                }
+            }
+/*
             CaCartesianPlot {
                 width: 500
                 height: 300
