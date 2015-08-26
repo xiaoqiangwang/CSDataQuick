@@ -32,7 +32,7 @@ CaMonitor {
     /*! Operation limits range and precision */
     property Limits limits : Limits{}
 
-    readonly property var font: UtilsJS.getBestFontSize(height / 11, 0)
+    readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
     Text {
         id: title
