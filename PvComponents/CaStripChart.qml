@@ -73,12 +73,13 @@ Item {
         for(var i=0; i<model.count; i++) {
             var pen = model.get(i);
 
-            if (pen.channel == '')
+            if (!pen.channel)
                 continue
             // create graph with its own left axis
             var axis = Qt.createQmlObject('import PvComponents 1.0; Axis {type: Axis.Left}', plot, 'axis' + i)
             var graph = plot.addGraph(plot.xAxis, axis)
-            graph.color = pen.foreground
+            if (pen.foreground)
+                graph.color = pen.foreground
             d.graphs.push(graph)
             // create pv object
             var cmd =
