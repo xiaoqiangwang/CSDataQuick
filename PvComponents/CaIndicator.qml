@@ -53,6 +53,8 @@ CaMonitor {
         width: root.width
         anchors.top: title.visible ? title.bottom : root.top
 
+        direction: root.direction
+
         foreground: root.foreground
         background: root.background
         indicatorColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground

@@ -57,37 +57,56 @@ Item {
 
         border.width: 1
         color: root.background
-    }
 
-    Rectangle {
-        id: progress
-        x: orientation == Qt.Horizontal ? panel.x + panel.width * calcPercentage() - width / 2: undefined
-        anchors.horizontalCenter: orientation == Qt.Horizontal ? undefined : panel.horizontalCenter
-        y: orientation == Qt.Horizontal ? undefined: panel.y + panel.height * calcPercentage() - height / 2
-        anchors.verticalCenter: orientation == Qt.Horizontal ? panel.verticalCenter : undefined
-        width: Math.min(panel.width, panel.height) / Math.sqrt(2)
-        height: width
+        // clip indicator when it is near the edge
+        clip: true
 
-        transform: [
+        Rectangle {
+            id: indicator
 
-            Rotation {
-                origin.x: progress.width / 2
-                origin.y: progress.height / 2
-                angle: 45
-            },
-
-            Scale {
-                origin.x: progress.width / 2
-                origin.y: progress.height / 2
-                xScale: orientation == Qt.Horizontal ? 0.5 : 1
-                yScale: orientation == Qt.Horizontal ? 1 : 0.5
+            x: {
+                switch(direction) {
+                case Direction.Right:
+                    return panel.width * calcPercentage() - width / 2;
+                case Direction.Left:
+                    return panel.width * (1 - calcPercentage()) - width / 2
+                default:
+                    return panel.width / 2 - width / 2
+                }
             }
-        ]
 
-        border.width: 2
-        color: root.indicatorColor
+            y: {
+                switch(direction) {
+                case Direction.Up:
+                    return panel.height * (1 - calcPercentage()) - height / 2
+                case Direction.Down:
+                    return panel.height * calcPercentage() - height / 2
+                default:
+                    return panel.height / 2 - height / 2
+                }
+            }
+
+            width: (orientation == Qt.Horizontal ? panel.height : panel.width) / Math.sqrt(2)
+            height: width
+
+            transform: [
+
+                Rotation {
+                    origin.x: indicator.width / 2
+                    origin.y: indicator.height / 2
+                    angle: 45
+                },
+
+                Scale {
+                    origin.x: indicator.width / 2
+                    origin.y: indicator.height / 2
+                    xScale: orientation == Qt.Horizontal ? Math.max(5, panel.width / 10) / indicator.width : 1
+                    yScale: orientation == Qt.Horizontal ? 1 : Math.max(5, panel.height / 10) / indicator.height
+                }
+            ]
+            color: root.indicatorColor
+        }
     }
-
     function calcPercentage() {
         return Math.min(1.0, (value - minimumValue) / (maximumValue - minimumValue))
     }
