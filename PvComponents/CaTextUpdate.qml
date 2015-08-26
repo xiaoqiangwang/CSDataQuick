@@ -24,7 +24,7 @@ CaMonitor {
                 font.pixelSize: label.fontSize
                 font.family: label.fontFamily
                 //text: formatString(format, pv.value)
-                color: label.foreground
+                color: colorMode == ColorMode.Alarm ? label.alarmColor : label.foreground
                 clip: true
                 Layout.fillWidth: true
             }
