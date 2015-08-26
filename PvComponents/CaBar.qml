@@ -3,6 +3,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaBar
@@ -31,42 +32,67 @@ CaMonitor {
     /*! Operation limits range and precision */
     property Limits limits : Limits{}
 
-    ColumnLayout {
-        anchors.fill: parent
+    readonly property var font: UtilsJS.getBestFontSize(height / 11, 0)
 
-        Text {
-            Layout.fillWidth: true
-            Layout.minimumHeight: 10
+    Text {
+        id: title
 
-            id: title
-            text: root.channel
-            horizontalAlignment: Text.AlignHCenter
+        height: root.font.size
+        anchors.top: root.top
+        anchors.horizontalCenter: root.horizontalCenter
 
-            visible: label == LabelStyle.Channel
-        }
+        text: root.channel
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignBottom
 
-        StyledBar2 {
-            id: bar
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        font.family: root.font.family
+        font.pixelSize: root.font.size
 
-            foreground: root.foreground
-            background: root.background
-            minimumValue: limits.lopr
-            maximumValue: limits.hopr
-            showRange: label == LabelStyle.Outline || label == LabelStyle.Limits || label == LabelStyle.Channel
-        }
+        visible: label == LabelStyle.Channel
+    }
 
-        Text {
-            id: value
-            Layout.minimumHeight: 10
-            Layout.fillWidth: true
+    StyledBar2 {
+        id: bar
 
-            text: pv.value
-            horizontalAlignment: Text.AlignHCenter
-            visible: label == LabelStyle.Limits || label == LabelStyle.Channel
+        height: root.height - (title.visible ? title.height : 0) - (value_text.visible ? value_text.height : 0)
+        width: root.width
+        anchors.top: title.visible ? title.bottom : root.top
+
+        foreground: root.foreground
+        background: root.background
+
+        minimumValue: limits.lopr
+        maximumValue: limits.hopr
+        precision: limits.prec
+
+        showRange: label == LabelStyle.Outline || label == LabelStyle.Limits || label == LabelStyle.Channel
+
+        font.family: root.font.family
+        font.pixelSize: root.font.size
+    }
+
+    Text {
+        id: value_text
+
+        height: root.font.size
+        anchors.bottom: root.bottom
+        anchors.horizontalCenter: root.horizontalCenter
+
+        text: Utils.convert(TextFormat.Decimal, pv.value, limits.prec)
+        horizontalAlignment: Text.AlignHCenter
+
+        font.family: root.font.family
+        font.pixelSize: root.font.size
+
+        visible: label == LabelStyle.Limits ||  label == LabelStyle.Channel
+
+        Rectangle {
+            anchors.fill: parent
+            color: 'white'
+            z: -1
         }
     }
+
     Connections {
         target: pv
         onConnectionChanged: {
@@ -74,21 +100,12 @@ CaMonitor {
                 if (pv.lodisplim < pv.updisplim) {
                     limits.loprChannel = pv.lodisplim
                     limits.hoprChannel = pv.updisplim
+                    limits.precChannel = pv.prec
                 }
             }
         }
         onValueChanged: {
             bar.value = pv.value
         }
-    }
-    function formatString(format, value) {
-        if (pv.type == PvObject.Enum)
-            return pv.strs[value]
-        if (pv.type == PvObject.String)
-            return value
-        if (pv.type == PvObject.Char && value instanceof Array)
-            return arrayToString(value)
-        var result = Utils.convert(format, value, limits.prec)
-        return result
     }
 }
