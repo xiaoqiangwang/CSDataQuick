@@ -30,6 +30,8 @@ BaseItem {
     /*! dynamic attributes */
     property var dynamicAttr: DynamicAttr { id: da }
 
+    property color alarmColor: ColorMap.invalid_alarm
+
     visible: da.visibility
 
     Rectangle {
@@ -70,20 +72,18 @@ BaseItem {
         target: pv
 
         onStatusChanged: {
-            if (colorMode == ColorMode.Static)
-                return
             switch (pv.severity) {
                 case 0: // NO_ALARM
-                foreground = ColorMap.no_alarm
+                alarmColor = ColorMap.no_alarm
                 break;
                 case 1: // MINOR_ALARM
-                foreground = ColorMap.minor_alarm
+                alarmColor = ColorMap.minor_alarm
                 break;
                 case 2: // MAJOR_ALARM
-                foreground = ColorMap.major_alarm
+                alarmColor = ColorMap.major_alarm
                 break;
                 case 3: // INVALID_ALARM
-                foreground = ColorMap.invalid_alarm
+                alarmColor = ColorMap.invalid_alarm
                 break;
             }
         }
