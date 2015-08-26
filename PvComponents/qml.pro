@@ -35,6 +35,7 @@ QML_FILES += \
     $$PWD/WheelDigit.qml \
     $$PWD/Limits.qml \
     $$PWD/StyledBar.qml \
+    $$PWD/Frame.qml \
     $$PWD/Meter.qml \
     $$PWD/CaCartesianPlot.qml \
     $$PWD/StyledBar2.qml \
