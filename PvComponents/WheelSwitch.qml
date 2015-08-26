@@ -13,6 +13,11 @@ Item {
     property int prec: 0
     property color foreground: 'black'
     property color background: 'white'
+    property alias font: hiddenText.font
+
+    Text {
+        id: hiddenText
+    }
 
     QtObject {
         id: d
@@ -105,14 +110,15 @@ Item {
 
     Row {
         id: wheel
-        anchors.fill: parent
-        anchors.margins: 4
+        width: digits.count * font.pixelSize * 0.7
+        height: parent.height
+        anchors.centerIn: parent
         Repeater {
             id: digits
             model: d.width
             WheelDigit {
-                width: wheel.width / digits.count
                 height: wheel.height
+                font: root.font
                 foreground: root.foreground
                 order: d.order[index]
                 digit: getDigit(index)

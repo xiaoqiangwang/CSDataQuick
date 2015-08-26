@@ -9,9 +9,12 @@ Item {
     property real order: 1
     property bool plusVisible: true
     property bool minusVisible: true
+    property alias font: text.font
 
     signal plus;
     signal minus;
+
+    implicitWidth: font.pixelSize * 0.6
 
     Column {
         anchors.fill: parent
@@ -33,8 +36,6 @@ Item {
             width: parent.width
             height: parent.height / 2
             color: root.foreground
-            font.family: 'Courier'
-            font.pixelSize: UtilsJS.getBestFontSize(height)
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: digit
