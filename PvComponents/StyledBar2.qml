@@ -2,28 +2,42 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 Item {
     id: root
     property real value: 0
+    property int precision: 0
     property real minimumValue: 0.0
     property real maximumValue: 1.0
+
     property color background: 'white'
     property color foreground : 'black'
+
     property int  direction: Direction.Right
-    property int fillMode: 0 // edge center
+    property int fillMode: FillMode.FromEdge
     property bool showRange: true
+    property alias font: range.font
 
+    readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
+    Rectangle {
+        anchors.fill: parent
+        color: background
+    }
 
     StyledAxis {
         id: range
+        anchors.top: root.top
+        anchors.left: root.left
+        width: orientation == Qt.Horizontal ? root.width : Math.max(root.width / 10, implicitWidth)
+        height: orientation == Qt.Horizontal ? Math.max(root.height / 10, implicitHeight) : root.height
+
+        font: root.font
         direction: root.direction
-        visible: showRange
-        anchors.top: (direction == Direction.Left || direction == Direction.Right) ? root.top : undefined
-        anchors.left: (direction ==  Direction.Left || direction == Direction.Right) ? undefined : root.left
-        width: (direction == Direction.Left || direction == Direction.Right) ? root.width : (range.visible ? root.width / 2 : 0)
-        height: (direction == Direction.Up || direction == Direction.Down) ? root.height : (range.visible ? root.height / 2 : 0)
+        precision: root.precision
+        visible: root.showRange
+
         minimumValue: root.minimumValue
         maximumValue: root.maximumValue
         background: root.background
@@ -31,29 +45,36 @@ Item {
     }
     Rectangle {
         id: panel
-        anchors.top: (direction == Direction.Left || direction == Direction.Right) ? (range.visible ? range.bottom : root.top) : root.top
-        anchors.left: (direction == Direction.Left || direction == Direction.Right) ? root.left : (range.visible ? range.right : root.left)
-        width: (direction == Direction.Left || direction == Direction.Right) ? root.width : range.visible ? root.width / 2 : root.width
-        height: (direction == Direction.Up || direction == Direction.Down) ? root.height : range.visible ? root.height / 2 : root.height
-        border.width: 2
+        anchors.top: (orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
+        anchors.left: (orientation == Qt.Vertical && range.visible) ? range.right : root.left
+        anchors.right: root.right
+        anchors.bottom: root.bottom
+
+        anchors.leftMargin: (orientation == Qt.Horizontal && range.visible) ? range.sidemargin - 1 : 0
+        anchors.rightMargin: anchors.leftMargin
+        anchors.topMargin: (orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
+        anchors.bottomMargin: anchors.topMargin
+
+        border.width: 1
         color: root.background
     }
 
     Rectangle {
         id: progress
-        width: direction == Direction.Up || direction == Direction.Down ? panel.width : panel.width * calcPercentage()
-        height: direction == Direction.Left || direction == Direction.Right ? panel.height : panel.height * calcPercentage()
+        width: orientation == Qt.Vertical ? panel.width : panel.width * calcPercentage()
+        height: orientation == Qt.Horizontal ? panel.height : panel.height * calcPercentage()
         color: root.foreground
     }
 
     onDirectionChanged: defineAnchors()
+    onFillModeChanged: defineAnchors()
     onValueChanged: defineAnchors()
 
     function defineAnchors() {
         var middle = (maximumValue - minimumValue) /2
         switch (direction) {
         case Direction.Right:
-            if (fillMode == 1)
+            if (fillMode == FillMode.FromCenter)
                 if (value > middle) {
                     progress.anchors.right = undefined
                     progress.anchors.left = panel.horizontalCenter
@@ -69,7 +90,7 @@ Item {
             progress.anchors.top = panel.top
             break;
         case Direction.Left:
-            if (fillMode == 1)
+            if (fillMode == FillMode.FromCenter)
                 if (value > middle) {
                     progress.anchors.left = undefined
                     progress.anchors.right = panel.horizontalCenter
@@ -84,7 +105,7 @@ Item {
             progress.anchors.top = panel.top
             break;
         case Direction.Up:
-            if (fillMode == 1)
+            if (fillMode == FillMode.FromCenter)
                 if (value > middle) {
                     progress.anchors.top = undefined
                     progress.anchors.bottom = panel.verticalCenter
@@ -99,7 +120,7 @@ Item {
             progress.anchors.left = panel.left
            break;
         case Direction.Down:
-            if (fillMode == 1)
+            if (fillMode == FillMode.FromCenter)
                 if (value > middle) {
                     progress.anchors.bottom = undefined
                     progress.anchors.top = panel.verticalCenter
@@ -117,7 +138,7 @@ Item {
     }
 
     function calcPercentage() {
-        if (fillMode == 0)
+        if (fillMode == FillMode.FromEdge)
             return Math.min(1.0, (value - minimumValue) / (maximumValue - minimumValue))
         else {
             var middle = (maximumValue - minimumValue) / 2
