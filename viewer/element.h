@@ -178,6 +178,9 @@ class ShellCommandEntry : public Attribute
 {
 public:
     ShellCommandEntry(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream);
+
 private:
     std::string label;
     std::string command;
@@ -435,19 +438,18 @@ private:
 };
 
 /* Control Widegts */
-class TextEntry : public Element
+class ChoiceButton : public Element
 {
 public:
-    TextEntry(Element *parent);
+    ChoiceButton(Element *parent);
+
     void parse(std::istream &fstream);
-    void toQML(std::ostream& ostream);
-    void dump();
+    void toQML(std::ostream &ostream);
 
 private:
     Control control;
-    Limits limits;
-    TextFormat format;
     ColorMode clrmod;
+    Stacking stacking;
 };
 
 class Menu : public Element
@@ -479,6 +481,67 @@ private:
     std::string onMessage;
     std::string offMessage;
     std::string label;
+};
+
+class ShellCommand : public Element {
+public:
+    ShellCommand(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+protected:
+    void parseCommand(std::istream);
+
+private:
+    int clr;
+    int bclr;
+    std::string label;
+    std::vector<ShellCommandEntry*> commands;
+};
+
+class Slider : public Element
+{
+public:
+    Slider(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+
+private:
+    Control control;
+    Limits limits;
+    ColorMode clrmod;
+    Direction direction;
+    LabelType label;
+    double dPrecision;
+};
+
+class TextEntry : public Element
+{
+public:
+    TextEntry(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream& ostream);
+    void dump();
+
+private:
+    Control control;
+    Limits limits;
+    TextFormat format;
+    ColorMode clrmod;
+};
+
+class WheelSwitch : public Element
+{
+public:
+    WheelSwitch(Element *parent);
+
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &ostream);
+
+private:
+    Control control;
+    Limits limits;
+    ColorMode clrmod;
 };
 
 /* Monitor Widgets */
