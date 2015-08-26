@@ -9,8 +9,9 @@ Item {
     property real maximumValue: 1.0
     property color foreground
     property color background
-    property string title: 'Meter'
+    property color indicatorColor
 
+    property string title: 'Meter'
     property bool showTitle: false
     property bool showRange: false
     property bool showValue: false
@@ -54,6 +55,7 @@ Item {
             var radius = panel.height - lineWidth
             var angle = Math.PI * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue))
 
+            ctx.strokeStyle = foreground
             // dial panel
             ctx.save()
             ctx.clearRect(0, 0, panel.width, panel.height)
@@ -95,14 +97,15 @@ Item {
             var radius = panel.height - lineWidth
             var angle = Math.PI * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue))
 
+            ctx.strokeStyle = indicatorColor
+            ctx.lineWidth = lineWidth
+
             // needle
             ctx.beginPath()
             ctx.translate(centerx, centery)
             ctx.rotate(angle)
             ctx.moveTo(-radius, 0)
-            ctx.lineTo(0, 0)
-            ctx.strokeStyle = foreground
-            ctx.lineWidth = lineWidth
+            ctx.lineTo(0, 0)            
             ctx.stroke()
 
             ctx.restore()
@@ -122,12 +125,14 @@ Item {
             text: minimumValue.toFixed(precision)
             font.pixelSize: height
             anchors.left: range.left
+            color: foreground
         }
         Text {
             height: range.height
             text: maximumValue.toFixed(precision)
             font.pixelSize: height
             anchors.right: range.right
+            color: foreground
         }
     }
 
@@ -143,6 +148,7 @@ Item {
             text: value.toFixed(precision)
             horizontalAlignment: Text.AlignHCenter
             font.pixelSize: height
+            color: foreground
         }
     }
 }

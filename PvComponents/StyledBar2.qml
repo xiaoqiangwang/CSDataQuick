@@ -13,6 +13,7 @@ Item {
 
     property color background: 'white'
     property color foreground : 'black'
+    property color indicatorColor: 'black'
 
     property int  direction: Direction.Right
     property int fillMode: FillMode.FromEdge
@@ -63,7 +64,7 @@ Item {
         id: progress
         width: orientation == Qt.Vertical ? panel.width : panel.width * calcPercentage()
         height: orientation == Qt.Horizontal ? panel.height : panel.height * calcPercentage()
-        color: root.foreground
+        color: root.indicatorColor
     }
 
     onDirectionChanged: defineAnchors()
