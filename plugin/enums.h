@@ -3,6 +3,23 @@
 
 #include <QObject>
 
+class FrameShadow : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(FrameShadowEnum)
+public:
+    enum FrameShadowEnum {
+        Flat = 0,
+        Raise,
+        Sunken
+    };
+private:
+    FrameShadow(QObject*);
+    FrameShadow();
+    FrameShadow(const FrameShadow&);
+    FrameShadow& operator=(const FrameShadow&);
+};
+
 class TextFormat : public QObject
 {
     Q_OBJECT

@@ -32,6 +32,7 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
+    qmlRegisterUncreatableType<FrameShadow>(uri, 1, 0, "FrameShadow", "FrameShadow Enum");
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");
     qmlRegisterUncreatableType<Direction>(uri, 1, 0, "Direction", "Direction Enum");
