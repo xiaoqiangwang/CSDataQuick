@@ -33,6 +33,11 @@ BaseItem {
     visible: da.visibility
 
     Rectangle {
+        anchors.fill: parent
+        color: background
+    }
+
+    Rectangle {
         z: 1
         anchors.fill: parent
         color: 'white'
