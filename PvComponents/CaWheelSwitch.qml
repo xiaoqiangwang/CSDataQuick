@@ -1,12 +1,15 @@
 import QtQuick 2.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 CaControl {
     id: root
 
     property alias format: wheel.format
     property Limits limits: Limits {}
+
+    readonly property var font: UtilsJS.getBestFontSize(height, 1)
 
     WheelSwitch {
         id: wheel
