@@ -16,6 +16,10 @@ CaControl {
     property int  direction: 0 // right up left down
     /*! The low high operation limit and precision */
     property Limits limits: Limits {}
+    /*! The step size */
+    property real stepSize: 1.0
+    /*! The label style */
+    property int label: LabelStyle.Frame
     /*! \internal */
     property bool __disconnect: false
 
@@ -33,7 +37,7 @@ CaControl {
         //anchors.fill: parent
         minimumValue: limits.lopr
         maximumValue: limits.hopr
-        stepSize: limits.prec
+        stepSize: slider.stepSize
 
         style:SliderStyle {
             groove: Rectangle {
