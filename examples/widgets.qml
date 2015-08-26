@@ -191,7 +191,14 @@ ApplicationWindow {
                 channel: 'catest'
                 colorMode: ColorMode.Alarm
             }
-            CaBar {
+            CaIndicator {
+                width: 100
+                height: 40
+                channel: 'catest'
+                colorMode: ColorMode.Alarm
+                label: LabelStyle.Channel
+            }
+             CaBar {
                 width: 40
                 height: 100
                 direction: 1
