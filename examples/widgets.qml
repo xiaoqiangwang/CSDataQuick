@@ -135,14 +135,14 @@ ApplicationWindow {
                 height: 20
                 channel: 'calc.SCAN'
             }
-/*
+
             CaChoiceButton {
                 width: 100
                 height: 30
-                stacking: 2
+                stacking: Stacking.Row
                 channel: 'bo'
             }
-            */
+
             CaRelatedDisplay {
                 width: 100
                 height: 20
