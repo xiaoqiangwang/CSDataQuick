@@ -38,9 +38,13 @@ struct {
     {"strip chart", create_element<StripChart>},
     {"text update", create_element<TextUpdate>},
 /* control*/
-    {"text entry", create_element<TextEntry>},
+    {"choice button", create_element<ChoiceButton>},
     {"menu", create_element<Menu>},
     {"message button", create_element<MessageButton>},
+    {"shell command", create_element<ShellCommand>},
+    {"valuator", create_element<Slider>},
+    {"text entry", create_element<TextEntry>},
+    {"wheel switch", create_element<WheelSwitch>},
 /* misc */
     {"composite", create_element<Composite>},
     {"related display", create_element<RelatedDisplay>}
@@ -1674,6 +1678,75 @@ void Text::dump()
 
 }
 
+ChoiceButton::ChoiceButton (Element *parent)
+    : Element(parent),
+      control(this)
+{
+    this->_type = DL_ChoiceButton;
+    this->clrmod = STATIC;
+    this->stacking = ROW;
+}
+
+void ChoiceButton::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"control")) {
+            this->control.parse(fstream);
+        } else if (!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"stacking")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_STACKING;i<FIRST_STACKING+NUM_STACKINGS;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->stacking = (Stacking)i;
+                    break;
+                }
+            }
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void ChoiceButton::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaChoiceButton {" << std::endl;
+    Element::toQML(ostream);
+    this->control.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    if (this->stacking != ROW)
+        ostream << indent << "    stacking: " << qmlValueTable[this->stacking] << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
 Menu::Menu (Element *parent)
     : Element(parent),
       control(this)
@@ -1805,12 +1878,227 @@ void MessageButton::toQML(std::ostream &ostream)
     ostream << indent << "CaMessageButton {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
+
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (!this->onMessage.empty())
         ostream << indent << "    onMessage: " << this->onMessage << std::endl;
     if (!this->offMessage.empty())
         ostream << indent << "    offMessage: " << this->offMessage << std::endl;
+    ostream << indent << "    text: " << '"' << this->label << '"' << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+ShellCommandEntry::ShellCommandEntry(Element *parent)
+    : Attribute(parent)
+{
+}
+
+void ShellCommandEntry::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if(!strcmp(token,"label")) {
+        getToken(fstream,token);
+        getToken(fstream,token);
+        this->label = token;
+        } else if(!strcmp(token,"name")) {
+        getToken(fstream,token);
+        getToken(fstream,token);
+        this->command = token;
+        } else if(!strcmp(token,"args")) {
+        getToken(fstream,token);
+        getToken(fstream,token);
+        this->args = token;
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+      && (tokenType != T_EOF) );
+}
+
+void ShellCommandEntry::toQML(std::ostream &ostream)
+{
+    int indent_level = parent()->level() + 1;
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "    ListElement {" << std::endl;
+    ostream << indent << "        label: \"" << this->label << '"' << std::endl;
+    ostream << indent << "        command: \"" << this->command << '"' << std::endl;
+    ostream << indent << "        args: \"" << this->args << '"' << std::endl;
+    ostream << indent << "    }" << std::endl;
+}
+
+ShellCommand::ShellCommand(Element *parent)
+    : Element(parent)
+{
+    clr = 14;
+    bclr = 51;
+}
+
+void ShellCommand::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"clr")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->clr = atoi(token) % DL_MAX_COLORS;
+        } else if (!strcmp(token,"bclr")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->bclr = atoi(token) % DL_MAX_COLORS;
+        } else if (!strcmp(token,"label")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->label = token;
+        } else if (!strncmp(token,"command",7)) {
+            ShellCommandEntry *command = new ShellCommandEntry(this);
+            command->parse(fstream);
+            this->commands.push_back(command);
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void ShellCommand::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaShellCommand {" << std::endl;
+    Element::toQML(ostream);
+    ostream << indent << "    foreground: \"" << display()->color(this->clr) << '"' << std::endl;
+    ostream << indent << "    background: \"" << display()->color(this->bclr) << '"' << std::endl;
+    ostream << indent << "    label: \"" << this->label << '"' << std::endl;
+    if (commands.size() > 0) {
+        ostream << indent << "    model: ListModel {" << std::endl;
+        for (std::vector<ShellCommandEntry*>::iterator it=commands.begin(); it != commands.end(); ++it) {
+            (*it)->toQML(ostream);
+        }
+        ostream << indent << "    }" << std::endl;
+    }
+    ostream << indent << "}" << std::endl;
+}
+
+Slider::Slider (Element *parent)
+    : Element(parent),
+      control(this),
+      limits(this)
+{
+    this->_type = DL_Valuator;
+    this->clrmod = STATIC;
+    this->label = LABEL_NONE;
+    this->direction = RIGHT;
+    this->dPrecision = 1.0;
+}
+
+void Slider::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"control")) {
+            this->control.parse(fstream);
+        } else if (!strcmp(token, "limits")) {
+            this->limits.parse(fstream);
+        } else if (!strcmp(token,"dPrecision")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->dPrecision = atof(token);
+        } else if (!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"label")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_LABEL_TYPE;i<FIRST_LABEL_TYPE+NUM_LABEL_TYPES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->label = (LabelType)i;
+                    break;
+                }
+            }
+        } else if (!strcmp(token,"direction")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_DIRECTION;i<FIRST_DIRECTION+NUM_DIRECTIONS;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->direction = (Direction)i;
+                    break;
+                }
+            }
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void Slider::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaSlider {" << std::endl;
+    Element::toQML(ostream);
+    this->control.toQML(ostream);
+    this->limits.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    if (this->label !=  LABEL_NONE)
+        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+    if (this->direction != RIGHT)
+        ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
+    if (this->dPrecision != 1.0)
+        ostream << indent << "    stepSize: " << this->dPrecision << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -1897,6 +2185,69 @@ void TextEntry::dump()
     this->control.dump();
     this->limits.dump();
 }
+
+WheelSwitch::WheelSwitch (Element *parent)
+    : Element(parent),
+      control(this),
+      limits(this)
+{
+    this->_type = DL_WheelSwitch;
+    this->clrmod = STATIC;
+}
+
+void WheelSwitch::parse(std::istream &fstream)
+{
+    char token[MAX_TOKEN_LENGTH];
+    TOKEN tokenType;
+    int nestingLevel = 0;
+
+    do {
+    switch( (tokenType=getToken(fstream,token)) ) {
+    case T_WORD:
+        if (!strcmp(token,"object")) {
+            this->parseObject(fstream);
+        } else if (!strcmp(token,"control")) {
+            this->control.parse(fstream);
+        } else if (!strcmp(token, "limits")) {
+            this->limits.parse(fstream);
+        } else if (!strcmp(token,"clrmod")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            for(int i=FIRST_COLOR_MODE;i<FIRST_COLOR_MODE+NUM_COLOR_MODES;i++) {
+                if(!strcmp(token,stringValueTable[i])) {
+                    this->clrmod = (ColorMode)i;
+                    break;
+                }
+            }
+        }
+        break;
+    case T_LEFT_BRACE:
+        nestingLevel++;
+        break;
+    case T_RIGHT_BRACE:
+        nestingLevel--;
+        break;
+    default:
+        break;
+    }
+    } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
+             && (tokenType != T_EOF) );
+}
+
+void WheelSwitch::toQML(std::ostream &ostream)
+{
+    std::string indent(level() * 4, ' ');
+
+    ostream << indent << "CaWheelSwitch {" << std::endl;
+    Element::toQML(ostream);
+    this->control.toQML(ostream);
+    this->limits.toQML(ostream);
+    if (this->clrmod != STATIC)
+        ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
 /******************************************************
  *                   Monitors
  *
