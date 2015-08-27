@@ -13,7 +13,7 @@ import PvComponents 1.0
 CaControl {
     id: slider
     /*! The incremental direction */
-    property int  direction: 0 // right up left down
+    property int  direction: Direction.Right
     /*! The low high operation limit and precision */
     property Limits limits: Limits {}
     /*! The step size */
@@ -23,34 +23,47 @@ CaControl {
     /*! \internal */
     property bool __disconnect: false
 
+    readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
+
     Slider {
         id: slider_control
-        width: (direction == 0 || direction == 2) ? slider.width : slider.height
-        height: (direction == 0 || direction == 2) ? slider.height : slider.width
+        width: orientation == Qt.Horizontal ? slider.width : slider.height
+        height: orientation == Qt.Horizontal ? slider.height : slider.width
 
         transform: Rotation {
-            origin.x: (direction == 0 || direction == 2) ? width / 2 : direction == 1 ? height / 2 : width / 2
-            origin.y: (direction == 0 || direction == 2) ? height / 2 :direction == 1 ? height / 2 : width / 2
-            angle: direction == 0 ? 0 : direction == 1 ? -90 : direction == 2 ? -180 : -270
+            origin.x: (direction == Direction.Right || direction == Direction.Left)
+                      ? width / 2
+                      : (direction == Direction.Up) ? height / 2 : width / 2
+            origin.y: (direction == Direction.Right || direction == Direction.Left)
+                      ? height / 2
+                      : (direction == Direction.Up ? height / 2 : width / 2)
+            angle: direction == Direction.Right ? 0 : direction == Direction.Up ? -90 : direction == Direction.Left ? -180 : -270
         }
 
-        //anchors.fill: parent
         minimumValue: limits.lopr
         maximumValue: limits.hopr
         stepSize: slider.stepSize
+        updateValueWhileDragging: true
 
         style:SliderStyle {
             groove: Rectangle {
                 implicitWidth: 200
-                implicitHeight: 8
+                implicitHeight: 10
                 color: slider.background
-                radius: 8
+                radius: 2
             }
             handle: Rectangle {
                 implicitHeight: 20
-                implicitWidth: 10
+                implicitWidth: 8
                 color: Qt.darker(slider.background, control.pressed ? 1.3 : 1.1)
-                radius: 5
+                radius: 1
+                Rectangle {
+                    width: 2
+                    height: parent.height * 2 / 3
+                    anchors.centerIn: parent
+                    color: Qt.darker(slider.background, 2)
+
+                }
             }
         }
 
@@ -61,6 +74,7 @@ CaControl {
                     if (pv.lodisplim < pv.updisplim) {
                         limits.lopr = pv.lodisplim
                         limits.hopr = pv.updisplim
+                        limits.prec = pv.prec
                     }
                 }
             }
