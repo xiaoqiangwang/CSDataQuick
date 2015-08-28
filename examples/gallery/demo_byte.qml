@@ -8,7 +8,7 @@ import PvComponents 1.0
 Column {
     CaByte {
         width:300
-        height: 300
+        height: 50
         channel: 'calc'
         start: start.value
         end: end.value
@@ -35,7 +35,7 @@ Column {
         }
         Slider {
             id: end
-            value: 31
+            value: 15
             minimumValue: 0
             maximumValue: 31
             stepSize: 1
