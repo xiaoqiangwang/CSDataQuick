@@ -4,7 +4,7 @@ import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 
-Rectangle {
+Item {
     ColumnLayout {
         anchors.fill: parent
         CaArc {
@@ -14,6 +14,17 @@ Rectangle {
             begin: beginSlider.value
             span: spanSlider.value
             fill: fillStyleGroup.fillStyle
+            foreground: fgColorPalette.color
+        }
+        RowLayout {
+            Text {
+                text: 'Foreground'
+            }
+            ColorPalette {
+                id: fgColorPalette
+                width: 100
+                height: 20
+            }
         }
         RowLayout {
             Text {
