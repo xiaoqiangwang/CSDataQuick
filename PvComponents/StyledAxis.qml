@@ -24,6 +24,7 @@ Rectangle {
 
     color: background
 
+    onForegroundChanged: canvas.requestPaint()
     onDirectionChanged: canvas.requestPaint()
     onVisibleChanged: canvas.requestPaint()
 
