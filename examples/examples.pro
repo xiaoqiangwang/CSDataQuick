@@ -21,4 +21,5 @@ OTHER_FILES += gallery/FillModeGroup.qml
 OTHER_FILES += gallery/FillStyleGroup.qml
 OTHER_FILES += gallery/OrientationGroup.qml
 OTHER_FILES += gallery/StackingGroup.qml
+OTHER_FILES += gallery/ColorPalette.qml
 OTHER_FILES += gallery/main.qml
