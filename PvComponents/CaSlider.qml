@@ -1,8 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaSlider
@@ -11,7 +11,7 @@ import PvComponents 1.0
 */
 
 CaControl {
-    id: slider
+    id: root
     /*! The incremental direction */
     property int  direction: Direction.Right
     /*! The low high operation limit and precision */
@@ -23,49 +23,54 @@ CaControl {
     /*! \internal */
     property bool __disconnect: false
 
+    readonly property var font: UtilsJS.getBestFontSize(height / (orientation == Qt.Horizontal ? 4 : 20), 0)
+
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
-    Slider {
-        id: slider_control
-        width: orientation == Qt.Horizontal ? slider.width : slider.height
-        height: orientation == Qt.Horizontal ? slider.height : slider.width
 
-        transform: Rotation {
-            origin.x: (direction == Direction.Right || direction == Direction.Left)
-                      ? width / 2
-                      : (direction == Direction.Up) ? height / 2 : width / 2
-            origin.y: (direction == Direction.Right || direction == Direction.Left)
-                      ? height / 2
-                      : (direction == Direction.Up ? height / 2 : width / 2)
-            angle: direction == Direction.Right ? 0 : direction == Direction.Up ? -90 : direction == Direction.Left ? -180 : -270
-        }
+    Rectangle {
+        anchors.fill: parent
+        color: background
+    }
+
+    Text {
+        id: title
+
+        height: root.font.size
+        anchors.top: root.top
+        anchors.left: root.left
+        z: 1
+
+        text: root.channel
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignBottom
+
+        font.family: root.font.family
+        font.pixelSize: root.font.size
+
+        visible: label == LabelStyle.Channel
+    }
+
+    Slider2 {
+        id: slider
+
+        height: root.height - (orientation == Qt.Horizontal && title.visible ? title.height : 0)
+        width: root.width
+        anchors.top: (orientation == Qt.Horizontal && title.visible) ? title.bottom : root.top
+
+        foreground: root.foreground
+        background: root.background
+
+        font.family: root.font.family
+        font.pixelSize: root.font.size
 
         minimumValue: limits.lopr
         maximumValue: limits.hopr
-        stepSize: slider.stepSize
-        updateValueWhileDragging: true
+        stepSize: root.stepSize
+        direction: root.direction
 
-        style:SliderStyle {
-            groove: Rectangle {
-                implicitWidth: 200
-                implicitHeight: 10
-                color: slider.background
-                radius: 2
-            }
-            handle: Rectangle {
-                implicitHeight: 20
-                implicitWidth: 8
-                color: Qt.darker(slider.background, control.pressed ? 1.3 : 1.1)
-                radius: 1
-                Rectangle {
-                    width: 2
-                    height: parent.height * 2 / 3
-                    anchors.centerIn: parent
-                    color: Qt.darker(slider.background, 2)
-
-                }
-            }
-        }
+        showValueText: label == LabelStyle.Limits ||  label == LabelStyle.Channel
+        valueTextColor: root.foreground
 
         Connections {
             target: pv
@@ -80,7 +85,7 @@ CaControl {
             }
             onValueChanged: {
                 __disconnect = true
-                slider_control.value = pv.value
+                slider.value = pv.value
                 __disconnect = false
             }
         }
