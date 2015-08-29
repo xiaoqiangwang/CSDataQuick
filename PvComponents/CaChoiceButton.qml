@@ -24,7 +24,7 @@ CaControl {
         \li 2: The buttons are automatically arranged in rows and columns
       \endlist
     */
-    property int stacking: Stacking.Row
+    property int stacking: Stacking.Column
 
     /*! \internal */
     QtObject {
