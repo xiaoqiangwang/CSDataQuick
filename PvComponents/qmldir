@@ -32,8 +32,10 @@ singleton ColorMap 1.0 ColorMap.qml
 internal Frame         Frame.qml
 internal StyledAxis    StyledAxis.qml
 internal Meter         Meter.qml
+internal Slider        Slider.qml
+internal Slider2       Slider2.qml
 internal StyledBar     StyledBar.qml
-internal StyledBar2     StyledBar2.qml
+internal StyledBar2    StyledBar2.qml
 internal StyledButton  StyledButton.qml
 internal WheelDigit    WheelDigit.qml
 internal WheelSwitch   WheelSwitch.qml
