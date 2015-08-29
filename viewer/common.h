@@ -380,7 +380,7 @@
         "TextFormat.Hexadecimal", "TextFormat.Octal", "TextFormat.String",
         "TextFormat.Sexagesimal", "TextFormat.SexagesimalHMS", "TextFormat.SexagesimalDMS",
         "Text.AlignLeft", "Text.AlignHCenter", "Text.AlignRight",
-        "Stacking.Column", "Stacking.Row", "Stacking.RowColumn",
+        "Stacking.Row", "Stacking.Column", "Stacking.RowColumn",
         "FillMode.FromEdge", "FillMode.FromCenter",
         "TimeUnit.MilliSecond", "TimeUnit.Second", "TimeUnit.Minute",
         "PlotStyle.Point", "PlotStyle.Line", "PlotStyle.FillUnder",
