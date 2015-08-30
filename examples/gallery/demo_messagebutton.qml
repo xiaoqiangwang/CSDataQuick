@@ -16,8 +16,12 @@ Rectangle {
             width: 80
             height: 20
             channel: 'calc'
+            colorMode: colorModeGroup.colorMode
             onMessage: 0
             offMessage: 0
+        }
+        ColorModeGroup {
+            id: colorModeGroup
         }
     }
 }

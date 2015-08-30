@@ -12,9 +12,13 @@ ColumnLayout {
         width: 100
         height: 50
         channel: 'catest'
+        colorMode: colorModeGroup.colorMode
         direction: directionGroup.direction
         label: labelStyleGroup.labelStyle
         fillMode: fillModeGroup.fillMode
+    }
+    ColorModeGroup {
+        id: colorModeGroup
     }
     DirectionGroup {
         id: directionGroup

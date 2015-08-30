@@ -11,7 +11,11 @@ Rectangle {
             channel: 'bo'
             width: 100
             height: 40
+            colorMode: colorModeGroup.colorMode
             stacking: stackingGroup.stacking
+        }
+        ColorModeGroup {
+            id: colorModeGroup
         }
         StackingGroup {
             id: stackingGroup

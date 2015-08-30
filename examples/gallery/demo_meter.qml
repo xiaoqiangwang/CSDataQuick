@@ -12,10 +12,14 @@ ColumnLayout {
         width: 100
         height:150
         channel: 'catest'
+        colorMode: colorModeGroup.colorMode
         label: labelStyleGroup.labelStyle
     }
     LabelStyleGroup {
         id: labelStyleGroup
+    }
+    ColorModeGroup {
+        id: colorModeGroup
     }
 }
 }
