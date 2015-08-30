@@ -122,17 +122,6 @@ void BasicAttribute::toQML(std::ostream &ostream)
         ostream << indent << "edge: " << qmlValueTable[this->style] << std::endl;
 }
 
-void BasicAttribute::dump()
-{
-    int indent_level = this->parent()->level();
-    std::string indent = std::string(indent_level * 4, ' ');
-    std::cout << indent << "Basic Attribute" << std::endl;
-    std::cout << indent << "    clr: " << this->clr << std::endl;
-    std::cout << indent << "    width: " << this->clr << std::endl;
-    std::cout << indent << "    fill: " << this->fill << std::endl;
-    std::cout << indent << "    style: " << this->style << std::endl;
-}
-
 DynamicAttribute::DynamicAttribute (Element *parent)
         : Attribute(parent)
 {
@@ -318,11 +307,6 @@ void Limits::toQML(std::ostream &fstream)
     fstream << indent << "limits.hoprDefault: " << this->hoprDefault << "\n";
     if (this->precDefault != 0)
     fstream << indent << "limits.precDefault: " << this->precDefault << "\n";
-}
-
-void Limits::dump()
-{
-
 }
 
 Plotcom::Plotcom(Element *parent)
@@ -523,11 +507,6 @@ void Control::toQML(std::ostream &fstream)
     fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
 }
 
-void Control::dump()
-{
-
-}
-
 Monitor::Monitor(Element *parent)
     : Attribute(parent)
 {
@@ -582,16 +561,6 @@ void Monitor::toQML(std::ostream &fstream)
     fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
 }
 
-void Monitor::dump()
-{
-    int indent_level = parent()->level();
-    std::string indent(indent_level * 4, ' ');
-    std::cout << indent << "Monitor" << std::endl;
-    std::cout << indent << "    clr: " << this->clr << std::endl;
-    std::cout << indent << "    bclr: " << this->bclr << std::endl;
-    std::cout << indent << "    readback: " << this->rdbk << std::endl;
-}
-
 RelatedDisplayEntry::RelatedDisplayEntry(Element *parent)
     : Attribute(parent)
 {
@@ -637,11 +606,6 @@ void RelatedDisplayEntry::parse(std::istream &fstream)
     }
     } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
       && (tokenType != T_EOF) );
-}
-
-void RelatedDisplayEntry::dump()
-{
-
 }
 
 void RelatedDisplayEntry::toQML(std::ostream &ostream)
@@ -931,14 +895,6 @@ void ColorMap::parse(std::istream &fstream)
              && (tokenType != T_EOF) );
 }
 
-void ColorMap::dump()
-{
-    std::cout << "Color Map " << colormap.size() << std::endl;
-    for (std::vector<std::string>::iterator it=colormap.begin(); it != colormap.end(); ++it)
-        std::cout << *it << ",";
-    std::cout << std::endl;
-}
-
 void Display::toQML(std::ostream &ostream)
 {
     ostream << "import QtQuick 2.0\n";
@@ -953,22 +909,6 @@ void Display::toQML(std::ostream &ostream)
         (*it)->toQML(ostream);
 
     ostream << "}\n";
-}
-
-void Display::dump()
-{
-    std::cout << "File" << std::endl;
-    std::cout << "    name: " << this->file << std::endl;
-    std::cout << "    version: " << this->version << std::endl;
-
-    std::cout << "Display" << std::endl;
-    std::cout << "    clr: " << this->clr << std::endl;
-    std::cout << "    bclr: " << this->bclr << std::endl;
-
-    this->colormap.dump();
-
-    for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
-        (*it)->dump();
 }
 
 Composite::Composite(Element *parent)
@@ -1149,11 +1089,6 @@ void Composite::toQML(std::ostream &ostream)
     ostream << indent << "}" << std::endl;
 }
 
-void Composite::dump()
-{
-
-}
-
 /******************************************************
  *                   Graphics
  *
@@ -1202,11 +1137,6 @@ void Arc::parse(std::istream &fstream)
     }
     } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
              && (tokenType != T_EOF) );
-}
-
-void Arc::dump()
-{
-
 }
 
 void Arc::toQML(std::ostream &ostream)
@@ -1273,11 +1203,6 @@ void Image::parse(std::istream &fstream)
              && (tokenType != T_EOF) );
 }
 
-void Image::dump()
-{
-
-}
-
 void Image::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
@@ -1338,11 +1263,6 @@ void Oval::toQML(std::ostream &ostream)
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
     ostream << indent << "}" << std::endl;
-}
-
-void Oval::dump()
-{
-
 }
 
 Polygon::Polygon (Element *parent)
@@ -1436,11 +1356,6 @@ void Polygon::toQML(std::ostream &ostream)
     ostream << indent << "}" << std::endl;
 }
 
-void Polygon::dump()
-{
-
-}
-
 Polyline::Polyline (Element *parent)
     : Element(parent),
       basic_attr(this),
@@ -1532,11 +1447,6 @@ void Polyline::toQML(std::ostream &ostream)
     ostream << indent << "}" << std::endl;
 }
 
-void Polyline::dump()
-{
-
-}
-
 Rectangle::Rectangle (Element *parent)
     : Element(parent),
       basic_attr(this),
@@ -1584,11 +1494,6 @@ void Rectangle::toQML(std::ostream &ostream)
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
     ostream << indent << "}" << std::endl;
-}
-
-void Rectangle::dump()
-{
-
 }
 
 Text::Text (Element *parent)
@@ -1667,15 +1572,6 @@ void Text::toQML(std::ostream &ostream)
         ostream << indent << "    align: " << qmlValueTable[this->align] << std::endl;
     ostream << indent << "    text: " << '"' << this->label << '"' << std::endl;
     ostream << indent << "}" << std::endl;
-}
-
-void Text::dump()
-{ 
-    int indent_level = level() - 1;
-    std::string indent(indent_level * 4, ' ');
-    std::cout << indent << "Text" << std::endl;
-    this->basic_attr.dump();
-
 }
 
 ChoiceButton::ChoiceButton (Element *parent)
@@ -1792,11 +1688,6 @@ void Menu::parse(std::istream &fstream)
              && (tokenType != T_EOF) );
 }
 
-void Menu::dump()
-{
-
-}
-
 void Menu::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
@@ -1864,11 +1755,6 @@ void MessageButton::parse(std::istream &fstream)
     }
     } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
              && (tokenType != T_EOF) );
-}
-
-void MessageButton::dump()
-{
-
 }
 
 void MessageButton::toQML(std::ostream &ostream)
@@ -2175,16 +2061,6 @@ void TextEntry::toQML(std::ostream &ostream)
     if (this->format != MEDM_DECIMAL)
         ostream << indent << "    format: " << qmlValueTable[this->format] << std::endl;
     ostream << indent << "}" << std::endl;
-}
-
-void TextEntry::dump()
-{
-    int indent_level = level() - 1;
-    std::string indent(indent_level * 4, ' ');
-    std::cout << indent << "Text Entry" << std::endl;
-
-    this->control.dump();
-    this->limits.dump();
 }
 
 WheelSwitch::WheelSwitch (Element *parent)
@@ -3019,15 +2895,6 @@ void TextUpdate::toQML(std::ostream &ostream)
     ostream << indent << "}" << std::endl;
 }
 
-void TextUpdate::dump()
-{
-    int indent_level = level() - 1;
-    std::string indent(indent_level * 4, ' ');
-    std::cout << indent << "Text Update" << std::endl;
-    this->monitor.dump();
-    this->limits.dump();
-}
-
 RelatedDisplay::RelatedDisplay(Element *parent)
     : Element(parent)
 {
@@ -3086,11 +2953,6 @@ void RelatedDisplay::parse(std::istream &fstream)
     }
     } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
              && (tokenType != T_EOF) );
-}
-
-void RelatedDisplay::dump()
-{
-
 }
 
 void RelatedDisplay::toQML(std::ostream &ostream)

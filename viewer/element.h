@@ -27,7 +27,6 @@ class ColorMap
 public:
     ColorMap();
     void parse(std::istream &fstream);
-    void dump();
 
     std::string value(int index) {return colormap[index];}
 
@@ -61,7 +60,7 @@ public:
     BasicAttribute(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    void dump();
+
 private:
     int clr;
     EdgeStyle style;
@@ -91,7 +90,6 @@ public:
     Monitor(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream &fstream);
-    void dump();
 
 private:
     std::string rdbk;
@@ -105,7 +103,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &fstream);
-    void dump();
+
 private:
     std::string control;
     int clr, bclr;
@@ -118,7 +116,6 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &fstream);
-    void dump();
 
 private:
     PvLimitsSrc_t loprSrc;
@@ -165,7 +162,6 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &fstream);
-    void dump();
 
 private:
     std::string label;
@@ -252,7 +248,6 @@ public:
     virtual void parse(std::istream& fstream) = 0;
     void parseObject(std::istream& fstream);
     virtual void toQML(std::ostream& ostream) = 0;
-    virtual void dump() {};
 
     /* access object */
 protected:
@@ -270,7 +265,6 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    void dump();
 
     std::string color(int index) {return colormap.value(index); }
 
@@ -309,7 +303,6 @@ public:
     Composite(Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 protected:
@@ -331,7 +324,6 @@ public:
     Arc (Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 private:
@@ -347,7 +339,6 @@ public:
     Image(Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 private:
@@ -364,7 +355,6 @@ public:
     Oval(Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 private:
@@ -378,7 +368,6 @@ public:
     Polygon(Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 protected:
@@ -396,7 +385,6 @@ public:
     Polyline(Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 protected:
@@ -414,7 +402,6 @@ public:
     Rectangle(Element *parent);
 
     void parse(std::istream &fstream);
-    void dump();
     void toQML(std::ostream &ostream);
 
 private:
@@ -428,7 +415,6 @@ public:
     Text(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    void dump();
 
 private:
     BasicAttribute basic_attr;
@@ -459,7 +445,6 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    void dump();
 
 private:
     Control control;
@@ -473,7 +458,6 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    void dump();
 
 private:
     Control control;
@@ -521,7 +505,6 @@ public:
     TextEntry(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    void dump();
 
 private:
     Control control;
@@ -648,7 +631,6 @@ public:
     TextUpdate (Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    void dump();
 
 private:
     Monitor monitor;
@@ -664,7 +646,6 @@ public:
     RelatedDisplay(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    void dump();
 
 protected:
     void parseEntry(std::istream);
