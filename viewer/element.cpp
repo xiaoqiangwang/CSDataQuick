@@ -1163,7 +1163,7 @@ Arc::Arc (Element *parent)
       basic_attr(this),
       dynamic_attr(this)
 {
-
+    this->_type = DL_Arc;
 }
 
 void Arc::parse(std::istream &fstream)
@@ -1228,7 +1228,7 @@ Image::Image (Element *parent)
       basic_attr(this),
       dynamic_attr(this)
 {
-
+    this->_type = DL_Image;
 }
 
 void Image::parse(std::istream &fstream)
@@ -1296,7 +1296,7 @@ Oval::Oval (Element *parent)
       basic_attr(this),
       dynamic_attr(this)
 {
-
+    this->_type = DL_Oval;
 }
 
 void Oval::parse(std::istream &fstream)
@@ -1350,7 +1350,7 @@ Polygon::Polygon (Element *parent)
       basic_attr(this),
       dynamic_attr(this)
 {
-
+    this->_type = DL_Polygon;
 }
 
 void Polygon::parse(std::istream &fstream)
@@ -1446,7 +1446,7 @@ Polyline::Polyline (Element *parent)
       basic_attr(this),
       dynamic_attr(this)
 {
-
+    this->_type = DL_Polyline;
 }
 
 void Polyline::parse(std::istream &fstream)
@@ -1542,7 +1542,7 @@ Rectangle::Rectangle (Element *parent)
       basic_attr(this),
       dynamic_attr(this)
 {
-
+    this->_type = DL_Rectangle;
 }
 
 void Rectangle::parse(std::istream &fstream)
@@ -1751,7 +1751,7 @@ Menu::Menu (Element *parent)
     : Element(parent),
       control(this)
 {
-    this->_type = DL_TextEntry;
+    this->_type = DL_Menu;
     this->clrmod = STATIC;
 }
 
@@ -1813,7 +1813,7 @@ MessageButton::MessageButton (Element *parent)
     : Element(parent),
       control(this)
 {
-    this->_type = DL_TextEntry;
+    this->_type = DL_MessageButton;
     this->clrmod = STATIC;
 }
 
@@ -1945,6 +1945,7 @@ void ShellCommandEntry::toQML(std::ostream &ostream)
 ShellCommand::ShellCommand(Element *parent)
     : Element(parent)
 {
+    this->_type = DL_ShellCommand;
     clr = 14;
     bclr = 51;
 }
@@ -2257,7 +2258,7 @@ Bar::Bar (Element *parent)
       monitor(this),
       limits(this)
 {
-    this->_type = DL_TextUpdate;
+    this->_type = DL_Bar;
     this->clrmod = STATIC;
 
     this->label = LABEL_NONE;
@@ -2355,7 +2356,7 @@ Byte::Byte (Element *parent)
       monitor(this),
       limits(this)
 {
-    this->_type = DL_TextUpdate;
+    this->_type = DL_Byte;
     this->clrmod = STATIC;
 
     this->label = LABEL_NONE;
@@ -2691,7 +2692,7 @@ Meter::Meter (Element *parent)
       monitor(this),
       limits(this)
 {
-    this->_type = DL_Indicator;
+    this->_type = DL_Meter;
 
     this->clrmod = STATIC;
     this->label = LABEL_NONE;
@@ -3030,6 +3031,7 @@ void TextUpdate::dump()
 RelatedDisplay::RelatedDisplay(Element *parent)
     : Element(parent)
 {
+    this->_type = DL_RelatedDisplay;
     clr = 14;
     bclr = 51;
     visual = RD_MENU;
