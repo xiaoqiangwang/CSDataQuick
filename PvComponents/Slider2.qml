@@ -96,6 +96,8 @@ Item {
         color: valueTextColor
         font: root.font
         text: value.toFixed(precision)
+        anchors.top: orientation == Qt.Horizontal ? range.top : undefined
+        anchors.left: orientation == Qt.Horizontal ? undefined : range.left
         anchors.horizontalCenter: orientation == Qt.Horizontal ? range.horizontalCenter : undefined
         anchors.verticalCenter: orientation == Qt.Horizontal ? undefined : range.verticalCenter
         visible: showValueText
