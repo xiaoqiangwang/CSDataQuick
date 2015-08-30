@@ -25,7 +25,7 @@ CaControl {
     StyledButton {
         id: btn
         background: messageButton.background
-        foreground: messageButton.foreground
+        foreground: colorMode == ColorMode.Alarm ? messageButton.alarmColor : messageButton.foreground
         pixelSize: messageButton.fontSize
         fontFamily: messageButton.fontFamily
         anchors.fill: parent

@@ -22,7 +22,7 @@ CaControl {
             label: Text {
                 text: combo_control.currentText
                 anchors.verticalCenter: parent.verticalCenter
-                color: combo.foreground
+                color: colorMode == ColorMode.Alarm ? combo.alarmColor : combo.foreground
                 font.pixelSize: combo.fontSize
                 font.family: combo.fontFamily
             }

@@ -46,7 +46,7 @@ CaControl {
         id: textField
         font.pixelSize: root.fontSize
         font.family: root.fontFamily
-        color: root.foreground
+        color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         verticalAlignment: TextInput.AlignBottom
         activeFocusOnPress: true
         clip: true
