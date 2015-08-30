@@ -8,8 +8,12 @@ Rectangle {
     ColumnLayout {
         anchors.fill: parent
         CaTextUpdate {
-            channel: 'catest'
             width: 100
+            channel: 'catest'
+            colorMode: colorModeGroup.colorMode
+        }
+        ColorModeGroup {
+            id: colorModeGroup
         }
     }
 }
