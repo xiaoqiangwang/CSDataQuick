@@ -56,8 +56,6 @@ Item {
         }
     }
 
-    onValueChanged: console.log('value %1'.arg(value))
-
     function posForValue(value) {
         return (value - minimumValue) * factor * (direction == Direction.Up || direction == Direction.Left ? -1 : 1) + posAtMinimum
     }
