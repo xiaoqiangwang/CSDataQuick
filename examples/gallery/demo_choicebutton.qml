@@ -8,11 +8,10 @@ Rectangle {
     ColumnLayout {
         anchors.fill: parent
         CaChoiceButton {
-            id: cb
-            width: 100
-            height: 20
-            stacking: stackingGroup.stacking
             channel: 'bo'
+            width: 100
+            height: 40
+            stacking: stackingGroup.stacking
         }
         StackingGroup {
             id: stackingGroup
