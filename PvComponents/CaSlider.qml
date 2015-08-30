@@ -70,7 +70,7 @@ CaControl {
         direction: root.direction
 
         showValueText: label == LabelStyle.Limits ||  label == LabelStyle.Channel
-        valueTextColor: root.foreground
+        valueTextColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
 
         Connections {
             target: pv

@@ -84,7 +84,7 @@ CaControl {
             cmd += '
                     StyledButton {
                         text: "%1";
-                        foreground: choiceButtons.foreground;
+                        foreground: colorMode == ColorMode.Alarm ? choiceButtons.alarmColor : choiceButtons.foreground;
                         background: choiceButtons.background;
                         pixelSize: %3;
                         fontFamily: choiceButtons.fontFamily;

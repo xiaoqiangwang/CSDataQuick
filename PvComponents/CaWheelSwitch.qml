@@ -18,7 +18,7 @@ CaControl {
         hilim: limits.hopr
         prec: limits.prec
         value: pv.value
-        foreground: root.foreground
+        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         background: root.background
         onNewValueChanged: pv.value = newValue
     }
