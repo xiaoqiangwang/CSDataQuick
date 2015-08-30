@@ -5,21 +5,20 @@ import PvComponents 1.0
 
 GroupBox {
     property int stacking: stackingGroup.current.stackingOption
-    
+
     title: "Stacking"
 
     Column {
         ExclusiveGroup { id: stackingGroup }
         RadioButton {
-            property int stackingOption: Stacking.Row
-            text: "Row"
-            exclusiveGroup: stackingGroup
-
-            checked: true
-        }
-        RadioButton {
             property int stackingOption: Stacking.Column
             text: "Column"
+            checked: true
+            exclusiveGroup: stackingGroup
+        }
+        RadioButton {
+            property int stackingOption: Stacking.Row
+            text: "Row"
             exclusiveGroup: stackingGroup
         }
         RadioButton {
