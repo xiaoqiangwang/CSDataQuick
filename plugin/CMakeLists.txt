@@ -1,6 +1,7 @@
 set(SOURCES
     pvobject.cpp
     adimageprovider.cpp
+    enums.cpp
     plugin.cpp
     utils.cpp
     shapes.cpp
@@ -13,6 +14,7 @@ set(SOURCES
 set(HEADERS
     pvobject.h
     adimageprovider.h
+    enums.h
     plugin.h
     utils.h
     shapes.h
