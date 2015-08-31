@@ -1570,7 +1570,7 @@ void Text::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
     if (this->align != HORIZ_LEFT)
         ostream << indent << "    align: " << qmlValueTable[this->align] << std::endl;
-    ostream << indent << "    text: " << '"' << this->label << '"' << std::endl;
+    ostream << indent << "    text: \"" << this->label << '"' << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1768,10 +1768,10 @@ void MessageButton::toQML(std::ostream &ostream)
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (!this->onMessage.empty())
-        ostream << indent << "    onMessage: " << this->onMessage << std::endl;
+        ostream << indent << "    onMessage: \"" << this->onMessage << '"' << std::endl;
     if (!this->offMessage.empty())
-        ostream << indent << "    offMessage: " << this->offMessage << std::endl;
-    ostream << indent << "    text: " << '"' << this->label << '"' << std::endl;
+        ostream << indent << "    offMessage: \"" << this->offMessage << '"' << std::endl;
+    ostream << indent << "    text: \"" << this->label << '"' << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
