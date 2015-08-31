@@ -7,9 +7,9 @@ Item {
     property int precision: 0
     property real minimumValue: 0.0
     property real maximumValue: 1.0
-    property color foreground
-    property color background
-    property color indicatorColor
+    property color foreground: 'black'
+    property color background: 'white'
+    property color indicatorColor: 'black'
 
     property string title: 'Meter'
     property bool showTitle: false
