@@ -13,7 +13,7 @@ import "utils.js" as UtilsJS
     The sensitivity with which values can be selected this way depends on the range of the slider.
 
     The left and right arrow keys are operational when \l direction is Direction.Left or Direction.Right,
-    and the up and down arrow keys are operational when \ direction is Direction.Up or Direction.Down.
+    and the up and down arrow keys are operational when \l direction is Direction.Up or Direction.Down.
     The arrow keys only function when the focus is on the slider button or the space on either side of it.
 
 */
