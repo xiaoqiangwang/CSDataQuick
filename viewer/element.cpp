@@ -1211,8 +1211,8 @@ void Image::toQML(std::ostream &ostream)
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
-    ostream << indent << "    source: " << this->imageName << std::endl;
-    ostream << indent << "    imageCalc: " << this->calc << std::endl;
+    ostream << indent << "    source: \"" << this->imageName << "\"" << std::endl;
+    ostream << indent << "    imageCalc: \"" << this->calc << "\"" <<std::endl;
     ostream << indent << "}" << std::endl;
 }
 
