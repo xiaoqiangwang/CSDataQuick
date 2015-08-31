@@ -42,7 +42,6 @@ Item {
         minimumValue: root.minimumValue
         maximumValue: root.maximumValue
         background: root.background
-        foreground: root.foreground
     }
     Rectangle {
         id: panel
