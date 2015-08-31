@@ -1,6 +1,5 @@
 set (EXAMPLES
     widgets.qml
-    image.qml
     LED.gif
     example.db    
 )
