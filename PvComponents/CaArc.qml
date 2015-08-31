@@ -8,7 +8,7 @@ import PvComponents 1.0
     \brief Display an arc curve
 
     The arc is drawn beginning at \l begin and extending \l span degrees
-    counter clockwise.
+    counter clockwise. Negative \l span will effectively draw in clockwise.
 
     \qml
         CaArc {
