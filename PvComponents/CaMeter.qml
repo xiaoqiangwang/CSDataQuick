@@ -27,7 +27,6 @@ CaMonitor {
         id: meter
         anchors.fill: parent
 
-        foreground: root.foreground
         background: root.background
         indicatorColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
 
