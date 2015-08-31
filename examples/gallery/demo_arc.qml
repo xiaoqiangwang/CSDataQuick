@@ -44,7 +44,7 @@ Item {
             Slider {
                 id: spanSlider
                 width: 200
-                minimumValue: 0
+                minimumValue: -360
                 maximumValue: 360
                 value: 60
             }
