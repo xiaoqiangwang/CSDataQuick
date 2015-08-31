@@ -48,7 +48,10 @@ CaControl {
         }
     }
 
-    onStackingChanged: createLayout()
+    onStackingChanged: {
+        if (pv.connected)
+            createLayout()
+    }
 
     /*! \internal */
     function createLayout() {
