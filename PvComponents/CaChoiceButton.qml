@@ -19,9 +19,9 @@ CaControl {
     id: choiceButtons
     /*!
       \list
-        \li 0: The buttons are arranged in a row
-        \li 1: The buttons are arranged in a column
-        \li 2: The buttons are automatically arranged in rows and columns
+        \li Stacking.Row: The buttons are arranged in a row
+        \li Stacking.Column: The buttons are arranged in a column
+        \li Stacking.RowColumn: The buttons are automatically arranged in rows and columns
       \endlist
     */
     property int stacking: Stacking.Column
@@ -50,6 +50,7 @@ CaControl {
 
     onStackingChanged: createLayout()
 
+    /*! \internal */
     function createLayout() {
         // destroy any previous buttons/layout
         if (d.layout) {

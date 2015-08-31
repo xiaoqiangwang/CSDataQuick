@@ -7,6 +7,20 @@ import PvComponents 1.0
     \qmltype CaRelatedDisplay
     \inqmlmodule PvComponents
     \brief Brings up more displays
+
+    The Related Display provides a means of bringing up more displays.
+    It is a menu button that usually has a graphic consisting of two overlapping squares and a label.
+    See the paragraph above for other options for the graphic and label.
+    The menu items denote the related displays that can be displayed.
+    If there is only one related display specified in the menu,
+    then the two overlapping squares and/or label appear in the middle of the button,
+    and the related display is activated immediately without bringing up a menu.
+    It is not activated until the button is released, so you can depress the button to check
+    if there is more than one menu item or not, then abort by releasing the button away from the Related Display.
+    If there is more than one item on the menu, the squares and/or label are at the left of the button.
+    If Ctrl-Btn1 is used in place of Btn1 to select the new display,
+    then the parent display goes away and is replaced by the new display.
+    The new display can also be configured by "replace" property to always replace the parent.
 */
 
 Rectangle {
@@ -19,7 +33,12 @@ Rectangle {
     property string fontFamily
     /*! font size */
     property int fontSize
-    /*! text displayed on button */
+    /*!
+        text displayed on button
+
+        Normally there are two overlapping squares on the button to denote a Related Display control.
+        However, if the label text begins with  "-" (for example "-My Label"), the overlapping squares will not appear.
+    */
     property string label: ''
     /*!
         \qmlproperty enumeration visual

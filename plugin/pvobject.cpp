@@ -194,6 +194,11 @@ void QQuickPvObject::setChannel(const QString name)
 */
 
 /*!
+    \property QQuickPvObject::controlLimit
+    Control range.
+*/
+
+/*!
     \property QQuickPvObject::loctrllim
     Lower control limit.
 */
@@ -209,6 +214,11 @@ void QQuickPvObject::setChannel(const QString name)
 /*!
     \qmlproperty list PvObject::upctrllim
     Upper control limit.
+*/
+
+/*!
+    \property QQuickPvObject::displayLimit
+    Display range.
 */
 
 /*!

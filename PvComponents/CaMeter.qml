@@ -6,7 +6,9 @@ import PvComponents 1.0
 /*!
     \qmltype CaMeter
     \inqmlmodule PvComponents
-    \brief Displays a dial indicator
+    \brief Displays the value on a cirular dial panel.
+
+    The value of the process variable is displayed by a needle within an arc.
 */
 
 CaMonitor {
@@ -17,8 +19,6 @@ CaMonitor {
         The decoration mode.
     */
     property int label: LabelStyle.Frame
-
-    /*!
 
     /*! The operation limits */
     property Limits limits : Limits{}

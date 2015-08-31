@@ -2,24 +2,46 @@ import QtQuick 2.1
 
 import PvComponents 1.0
 
+/*!
+    \qmltype DynamicAttr
+    \inqmlmodule PvComponents
+    \brief Specifies items visibility.
+
+    Fours process variables can be speficied for the calculation.
+*/
 
 QtObject {
     id: da
+    /*! Name of the main process variable */
     property string channel
+    /*! Name of the second process variable */
     property string channelB
+    /*! Name of the third process variable */
     property string channelC
+    /*! Name of the forth process variable */
     property string channelD
 
+    /*!
+        \qmlproperty enumeration visibilityMode
+    */
     property int visibilityMode : VisibilityMode.Static
+    /*!
+        An expression that determines whether the object is displayed or not.
+        The expression should return 0 for false and anything else for true.
+    */
     property string visibilityCalc : 'A'
+    /*! The visibility as determend from visiblityMode */
     property bool visibility: true
 
+    /*! \internal */
     property var chanList: new Array(4)
+    /*! \internal */
     property var _arg: [0,0,0,0,0,0,0,0,0,0,0,0]
 
+    /*! This signal is emitted when the severity of the main process variable changes. */
     signal statusChanged
-    signal update
 
+    /*! \internal */
     function calcPerform() {
         if (chanList[0] != null) {
             _arg[0] = chanList[0].value
@@ -48,14 +70,15 @@ QtObject {
             visibility = (_arg[0] != 0)
         else
             visibility = true
-        update()
     }
 
+    /*! \internal */
     function updateStatus() {
         calcPerform()
         statusChanged()
     }
 
+    /*! \internal */
     function createChannels () {
         var chan
         if (channel != '') {
