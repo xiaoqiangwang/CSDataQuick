@@ -3,7 +3,6 @@ set (EXAMPLES
     image.qml
     LED.gif
     example.db    
-    GraphicsDemo.qml
 )
 
 add_custom_target (Examples ALL 
