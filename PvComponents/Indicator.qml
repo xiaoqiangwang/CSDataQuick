@@ -42,8 +42,10 @@ Item {
         maximumValue: root.maximumValue
         background: root.background
     }
-    Rectangle {
+    Frame {
         id: panel
+        shadow: FrameShadow.Sunken
+
         anchors.top: (orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
         anchors.left: (orientation == Qt.Vertical && range.visible) ? range.right : root.left
         anchors.right: root.right
@@ -54,7 +56,6 @@ Item {
         anchors.topMargin: (orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
         anchors.bottomMargin: anchors.topMargin
 
-        border.width: 1
         color: root.background
 
         // clip indicator when it is near the edge
