@@ -68,15 +68,20 @@ double QCSUtils::calculate(QString expr, QVariantList input)
 {
     double result = 0.0;
     short error;
+    long status;
     char infix[INFIX_TO_POSTFIX_SIZE(80)];
     
     QVector<double> d;
     foreach(QVariant v, input)
         d.push_back(v.toDouble());
     
-    postfix(expr.toLatin1().constData(), infix, &error);
+    status = postfix(expr.toLatin1().constData(), infix, &error);
+    if (status != 0)
+        return qQNaN();
     
-    calcPerform(d.data(), &result, infix);
+    status = calcPerform(d.data(), &result, infix);
+    if (status != 0)
+        return qQNaN();
 
     return result;
 }
