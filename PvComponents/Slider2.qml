@@ -27,7 +27,7 @@ Item {
 
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
-    readonly property real markerWidth: 40
+    readonly property real markerWidth: 30
     readonly property real effectiveLength: (orientation == Qt.Horizontal ? width : height) - Math.max(range.sidemargin * 2, markerWidth)
 
     readonly property real posAtMinimum: {
@@ -151,11 +151,11 @@ Item {
     Rectangle {
         id: handle
 
-        x: orientation == Qt.Horizontal ? posForValue(root.value) : 0
-        y: orientation == Qt.Horizontal ? 0: posForValue(root.value)
+        x: orientation == Qt.Horizontal ? posForValue(root.value) : 2
+        y: orientation == Qt.Horizontal ? 2: posForValue(root.value)
 
-        width: orientation == Qt.Horizontal ? markerWidth : groove.width - 6
-        height: orientation == Qt.Horizontal ? groove.height - 6 : markerWidth
+        width: orientation == Qt.Horizontal ? markerWidth : groove.width - 4
+        height: orientation == Qt.Horizontal ? groove.height - 4 : markerWidth
 
         anchors.horizontalCenter: orientation == Qt.Horizontal ? undefined : groove.horizontalCenter
         anchors.verticalCenter: orientation == Qt.Horizontal ? groove.verticalCenter : undefined
@@ -189,7 +189,7 @@ Item {
                 if (overThreshold || force)
                     value = valueForPos(pos)
                 root.value = Math.min(maximumValue, Math.max(minimumValue, value))
-            } else if (!orientation == Qt.Horizontal) {
+            } else if (orientation == Qt.Vertical) {
                 pos = mouse.y
                 overThreshold = Math.abs(mouse.y - pressY) >= 2
                 if (overThreshold || force)
