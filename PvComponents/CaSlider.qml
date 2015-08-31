@@ -76,9 +76,10 @@ CaControl {
     Slider2 {
         id: slider
 
-        height: root.height - (orientation == Qt.Horizontal && title.visible ? title.height : 0)
-        width: root.width
-        anchors.top: (orientation == Qt.Horizontal && title.visible) ? title.bottom : root.top
+        x: 1
+        width: root.width - 2
+        y: (orientation == Qt.Horizontal && title.visible) ? title.height : 1
+        height: root.height - (orientation == Qt.Horizontal && title.visible ? title.height : 2)
 
         foreground: root.foreground
         background: root.background
