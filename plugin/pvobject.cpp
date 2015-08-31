@@ -697,9 +697,14 @@ void QQuickPvObject::getCallback(struct event_handler_args args)
     // Set connected after first get succeeds
     _connected = true;
     emit connectionChanged();
-    updateValue(value);
-    // Signal status/severity
-    updateStatus(severity, status);
+
+    // Signal value change only if this is not monitored.
+    // Otherwise the value/status will receive update immedietely after subscription.
+    if (!this->monitor()) {
+        updateValue(value);
+        // Signal status/severity
+        updateStatus(severity, status);
+    }
 }
 
 //
