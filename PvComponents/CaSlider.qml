@@ -8,23 +8,45 @@ import "utils.js" as UtilsJS
     \qmltype CaSlider
     \inqmlmodule PvComponents
     \brief Display a slider to control a PV
+
+    Dragging the Slider handle with Btn1 transmits values.
+    The sensitivity with which values can be selected this way depends on the range of the slider.
+
+    The left and right arrow keys are operational when \l direction is Direction.Left or Direction.Right,
+    and the up and down arrow keys are operational when \ direction is Direction.Up or Direction.Down.
+    The arrow keys only function when the focus is on the slider button or the space on either side of it.
+
 */
 
 CaControl {
     id: root
-    /*! The incremental direction */
+    /*!
+        \qmlproperty enumeration direction
+        The incremental direction.
+    */
     property int  direction: Direction.Right
     /*! The low high operation limit and precision */
     property Limits limits: Limits {}
-    /*! The step size */
+    /*!
+        The amount of vaue to increament or decrement.
+
+        Clicking Btn1 in the space on either side of the slider button increments or decrements
+        the value by an amount equal to the \l stepSize.
+
+        Clicking Ctrl-Btn1 in the space on either side increments or decrements
+        the value by an amount equal to 10 times \l stepSize
+
+        In addition, the arrow keys increment or decrement the value by an amount equal to \l stepSize,
+        and the Ctrl-Arrow keys increment or decrement the value by an amount equal to 10 times \l stepSize.
+    */
     property real stepSize: 1.0
     /*! The label style */
     property int label: LabelStyle.Frame
     /*! \internal */
     property bool __disconnect: false
-
+    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height / (orientation == Qt.Horizontal ? 4 : 20), 0)
-
+    /*! \internal */
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
 

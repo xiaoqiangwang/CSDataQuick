@@ -9,6 +9,9 @@ import PvComponents 1.0
     \inqmlmodule PvComponents
     \brief Display bits of an unsigned integer.
 
+    It display values in binary.  It masks off the lower 32 bits and treats them as an unsigned integer.
+    The bit set is filled with foreground color, and the unset bit is filled with background color.
+
 */
 CaMonitor {
     /*!
@@ -19,9 +22,15 @@ CaMonitor {
       \endlist
     */
     property int orientation: Qt.Horizontal
-    /*! The starting bits */
+    /*!
+        The integer is in the range 0-31, specifying the starting bit to be displayed.
+    */
+
     property int start: 0
-    /*! The ending bits */
+    /*!
+        The integer is in the range 0-31, specifying the ending bit to be displayed.
+        The ending bit can be smaller than starting bit, which cause the direction to appear reversed.
+    */
     property int end: 15
 
     Component {

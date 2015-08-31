@@ -7,13 +7,11 @@ import PvComponents 1.0
     \inqmlmodule PvComponents
     \brief Display an image from areaDetector
 
-    \l{http://cars9.uchicago.edu/software/epics/areaDetector.html}
-    {areaDetector} is a generic EPICS framework to integrate detectors.
-    The detector data is internally represented as a \l
-    {http://cars9.uchicago.edu/software/epics/areaDetectorDoc.html#NDArray}
-    {NDArray} structure. The plugin \l
-    {http://cars9.uchicago.edu/software/epics/NDPluginStdArrays.html}
-    {NDPluginStdArrays} makes it available as EPICS PVs.
+    \l {http://cars9.uchicago.edu/software/epics/areaDetector.html}{areaDetector} is a generic EPICS framework to integrate detectors.
+    The detector data is internally represented as a
+    \l { http://cars9.uchicago.edu/software/epics/areaDetectorDoc.html#NDArray }{NDArray} structure.
+    The plugin \l {http://cars9.uchicago.edu/software/epics/NDPluginStdArrays.html}{ NDPluginStdArrays }
+    makes it available as EPICS PVs.
 
     Because EPICS PV only supports 1-D waveform. To reconstruct the image.
     The following PVs are relavent:
@@ -51,7 +49,9 @@ Image {
         Set the interval between image refresh, in milliseconds.
     */
     property alias interval: timer.interval
-    /*! Set the NDPluginStdArrays prefix. */
+    /*!
+        Set the NDPluginStdArrays prefix. e.g. 13SIM1:image1:
+    */
     property string channel
 
     cache: false

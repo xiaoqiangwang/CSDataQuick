@@ -6,29 +6,49 @@ import PvComponents 1.0
     \qmltype CaStripChart
     \inqmlmodule PvComponents
     \brief Display a strip chart
+
 */
 
 Item {
     id: control
 
-    /*! graph title */
+    /*!
+        The title of the plot, displayed on top.
+    */
     property string title
-    /*! x axis label */
+    /*!
+        The lable of x axis, shown below the axis.
+    */
     property string xlabel
-    /*! y axis label */
+    /*!
+        The label of y axis, show next to the axis.
+    */
     property string ylabel
-    /*! foreground color */
+    /*!
+        The color of title, axis and their labels.
+    */
     property color foreground: ColorMap.color14
-    /*! background color */
+    /*!
+        The color of the plot area.
+    */
     property color background:  ColorMap.color4
     /*!
         \qmlproperty enumeration units
         The time axis units.
     */
     property int units: TimeUnit.Second
-    /*! The period is the time between updates */
+    /*!
+        The period is the time between updates
+    */
     property int period: 60
-    /*! The PV list model */
+    /*!
+        The PV list model
+
+        Each ListElement contains properties "channel", "foreground" and "limits".
+        "channel" is the process variable to monitor.
+        "foreground" is the color of the line for that channel,
+        "limits" specifies the source for the Low Limit, the Low Limit.
+    */
     property ListModel model
 
     // list of created pvs and their corresponding graph and time,data

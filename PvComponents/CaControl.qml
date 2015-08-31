@@ -36,10 +36,9 @@ BaseItem {
     /*! internal */
     property var pv: PvObject { id: pv; }
 
-    // dynamic attributes
-    /*! internal */
+    /*! dynamic attributes */
     property DynamicAttr dynamicAttr: DynamicAttr { id: da }
-
+    /*! color based on the severity of the process variable */
     property color alarmColor: ColorMap.invalid_alarm
 
     visible: da.visibility

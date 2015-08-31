@@ -8,8 +8,12 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CaIndicator
     \inqmlmodule PvComponents
-    \brief Display a scale that indicates when value changes
+    \brief The Indicator displays the value on a scale.
 
+    The Indicator can have several decorations as specified by the \l label.
+    It can go up, down, left, or right, as specified by the \l direction property.
+
+    \sa CaBar
 */
 
 CaMonitor {
@@ -24,9 +28,11 @@ CaMonitor {
         The expanding direction.
     */
     property int direction: Direction.Right
-    /*! Operation limits range and precision */
+    /*!
+        Operation limits range and precision
+    */
     property Limits limits : Limits{}
-
+    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
     Text {

@@ -10,6 +10,10 @@ import "utils.js" as UtilsJS
     \inqmlmodule PvComponents
     \brief Display a bar that expands or contracts when value changes
 
+    The Bar Monitor can have several decorations as specified by the \l label.
+    It can go up, down, left, or right, as specified by the \l direction property.
+    It can start from the edge or from the center, as specified by the \l fillMode property.
+    The Bar Monitor with the \l label set to LabelStyle.None can be used to make bar graphs.
 */
 
 CaMonitor {
@@ -32,6 +36,10 @@ CaMonitor {
     /*! Operation limits range and precision */
     property Limits limits : Limits{}
 
+    /*!
+        \internal
+        Determine the font based item total height, indepent of the orientation.
+    */
     readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
     Text {
