@@ -41,6 +41,9 @@ QtObject {
     /*! This signal is emitted when the severity of the main process variable changes. */
     signal statusChanged
 
+    /*! This signal is emitted when the expression gets evaluated. */
+    signal update
+
     /*! \internal */
     function calcPerform() {
         if (chanList[0] != null) {
@@ -70,6 +73,7 @@ QtObject {
             visibility = (_arg[0] != 0)
         else
             visibility = true
+        update();
     }
 
     /*! \internal */
