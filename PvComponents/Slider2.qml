@@ -113,7 +113,39 @@ Item {
         height: orientation == Qt.Horizontal ? root.height - range.height : effectiveLength + markerWidth
 
         border.width: focus ? 1 : 0
-        color: Qt.darker(root.background)
+        color: Qt.darker(root.background, 1.2)
+
+        Keys.onLeftPressed: {
+            if (orientation == Qt.Vertical)
+                return
+            var inc = (direction == Direction.Left ? 1 : -1)
+            inc *= (event.modifiers & Qt.ControlModifier) ? 10 : 1
+            value = Math.max(minimumValue, Math.min(maximumValue, value + inc * stepSize))
+        }
+
+        Keys.onRightPressed: {
+            if (orientation == Qt.Vertical)
+                return
+            var inc = (direction == Direction.Right ? 1 : -1)
+            inc *= (event.modifiers & Qt.ControlModifier) ? 10 : 1
+            value = Math.max(minimumValue, Math.min(maximumValue, value + inc * stepSize))
+        }
+
+        Keys.onUpPressed: {
+            if (orientation == Qt.Horizontal)
+                return
+            var inc = (direction == Direction.Up ? 1 : -1)
+            inc *= (event.modifiers & Qt.ControlModifier) ? 10 : 1
+            value = Math.max(minimumValue, Math.min(maximumValue, value + inc * stepSize))
+        }
+
+        Keys.onDownPressed: {
+            if (orientation == Qt.Horizontal)
+                return
+            var inc = (direction == Direction.Down ? 1 : -1)
+            inc *= (event.modifiers & Qt.ControlModifier) ? 10 : 1
+            value = Math.max(minimumValue, Math.min(maximumValue, value + inc * stepSize))
+        }
     }
 
     Rectangle {
@@ -142,6 +174,7 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: groove
+        hoverEnabled: true
 
         property int clickOffset: 0
         property real pressX: 0
@@ -171,7 +204,7 @@ Item {
         }
 
         onPressed: {
-            root.forceActiveFocus();
+            groove.forceActiveFocus();
             // Item::contains incorrectly convert QPointF
             // See https://bugreports.qt.io/browse/QTBUG-41452
             var ptToHandle = mapToItem(handle, mouse.x, mouse.y);
@@ -194,10 +227,13 @@ Item {
                     inc = ptToHandle.x < 0 ? 1 : -1
                     break;
                 }
+                if (mouse.modifiers & Qt.ControlModifier)
+                    inc *= 10
                 value = Math.max(minimumValue, Math.min(maximumValue, value + inc * stepSize))
             }
         }
 
-        onExited: root.parent.forceActiveFocus()
+        onEntered: groove.forceActiveFocus()
+        onExited: root.forceActiveFocus()
     }
 }
