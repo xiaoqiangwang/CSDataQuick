@@ -22,7 +22,7 @@ GroupBox {
             exclusiveGroup: textAlignmentGroup
         }
         RadioButton {
-            property int textAlignmentOption: Text.AlignCenter
+            property int textAlignmentOption: Text.AlignHCenter
             text: "Center"
             exclusiveGroup: textAlignmentGroup
         }
