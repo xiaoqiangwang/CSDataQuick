@@ -103,8 +103,9 @@ Item {
         visible: showValueText
     }
 
-    Rectangle {
+    Frame {
         id: groove
+        shadow: FrameShadow.Sunken
 
         x: orientation == Qt.Horizontal ?  Math.max(0, range.sidemargin - markerWidth / 2) : (range.visible ? range.width : 0)
         y: orientation == Qt.Horizontal ? (range.visible ? range.height : 0) : Math.max(0, range.sidemargin - markerWidth / 2)
