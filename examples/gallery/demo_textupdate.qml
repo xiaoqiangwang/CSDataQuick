@@ -15,6 +15,7 @@ Rectangle {
             background: bgColorPalette.color
             colorMode: colorModeGroup.colorMode
             align: textAlignmentGroup.textAlignment
+            format: textFormatGroup.textFormat
         }
 
         Row {
@@ -48,6 +49,9 @@ Rectangle {
         }
         TextAlignmentGroup {
             id: textAlignmentGroup
+        }
+        TextFormatGroup {
+            id: textFormatGroup
         }
     }
 }

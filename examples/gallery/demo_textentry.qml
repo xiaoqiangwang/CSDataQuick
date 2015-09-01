@@ -14,6 +14,7 @@ Rectangle {
             foreground: fgColorPalette.color
             background: bgColorPalette.color
             align: textAlignmentGroup.textAlignment
+            format: textFormatGroup.textFormat
         }
         CaTextEntry {
             channel: 'castr'
@@ -51,6 +52,9 @@ Rectangle {
         }
         TextAlignmentGroup {
             id: textAlignmentGroup
+        }
+        TextFormatGroup {
+            id: textFormatGroup
         }
     }
 }

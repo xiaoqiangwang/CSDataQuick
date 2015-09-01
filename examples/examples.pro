@@ -28,4 +28,5 @@ OTHER_FILES += gallery/LabelStyleGroup.qml
 OTHER_FILES += gallery/OrientationGroup.qml
 OTHER_FILES += gallery/StackingGroup.qml
 OTHER_FILES += gallery/TextAlignmentGroup.qml
+OTHER_FILES += gallery/TextFormatGroup.qml
 OTHER_FILES += gallery/main.qml
