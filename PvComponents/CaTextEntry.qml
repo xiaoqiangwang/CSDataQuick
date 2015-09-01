@@ -91,6 +91,10 @@ CaControl {
         }
     }
 
+    onFormatChanged: {
+        textField.text = formatString(format, pv.value)
+    }
+
     onHeightChanged: {
         var font = UtilsJS.getBestFontSize(height, true)
         fontSize = font.size

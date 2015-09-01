@@ -54,6 +54,10 @@ CaMonitor {
         }
     }
 
+    onFormatChanged: {
+        label_control.text = formatString(format, pv.value)
+    }
+
     onHeightChanged: {
         var font = UtilsJS.getBestFontSize(height)
         fontSize = font.size
