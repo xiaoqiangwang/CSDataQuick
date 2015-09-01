@@ -86,7 +86,7 @@ Item {
                 }
             }
 
-            width: (orientation == Qt.Horizontal ? panel.height : panel.width) / Math.sqrt(2)
+            width: (orientation == Qt.Horizontal ? (panel.height - 4): (panel.width - 4)) / Math.sqrt(2)
             height: width
 
             transform: [
