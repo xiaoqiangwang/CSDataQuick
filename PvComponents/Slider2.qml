@@ -186,22 +186,24 @@ Item {
             var pos, overThreshold, value
             if (orientation == Qt.Horizontal) {
                 pos = mouse.x
-                overThreshold = Math.abs(mouse.x - pressX) >= 2
-                if (overThreshold || force)
+                overThreshold = (Math.abs(mouse.x - pressX) >= 2)
+                if (overThreshold || force) {
                     value = valueForPos(pos)
-                root.value = Math.min(maximumValue, Math.max(minimumValue, value))
+                    root.value = Math.min(maximumValue, Math.max(minimumValue, value))
+                }
             } else if (orientation == Qt.Vertical) {
                 pos = mouse.y
                 overThreshold = Math.abs(mouse.y - pressY) >= 2
-                if (overThreshold || force)
+                if (overThreshold || force) {
                     value = valueForPos(pos)
-                root.value = Math.min(maximumValue, Math.max(minimumValue, value))
+                    root.value = Math.min(maximumValue, Math.max(minimumValue, value))
+                }
             }
         }
 
         onPositionChanged: {
             if (pressed)
-                updateHandlePosition(mouse, preventStealing)
+                updateHandlePosition(mouse, false)
         }
 
         onPressed: {
