@@ -57,6 +57,7 @@ Item {
     }
 
     function posForValue(value) {
+        value = Math.max(minimumValue, Math.min(maximumValue, value))
         return (value - minimumValue) * factor * (direction == Direction.Up || direction == Direction.Left ? -1 : 1) + posAtMinimum
     }
 
