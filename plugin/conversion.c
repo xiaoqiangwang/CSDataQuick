@@ -360,8 +360,6 @@ static double strtosd(char *string, char delim, int *sign, char **rptr,
    Parameters:   (">" input, "!" modified, "W" workspace, "<" output)
 
    (>) string    (char *)    The string to interpret.
-   (>) hopr      (double)    The high operating range
-   (>) lopr      (double)    The low operating range
    (<) rptr      (char **)   If not NULL, a pointer to the next non-blank
                              character after the sexagesimal number.
    (<) status    (integer *) The status value
@@ -372,12 +370,12 @@ static double strtosd(char *string, char delim, int *sign, char **rptr,
                               4 => Conflicting signs in the fields
                               5 => Minutes or seconds greater than 60
 */
-double strtos(char *string, double hopr, double lopr, char **rptr, int *status)
+double strtos(char *string, char **rptr, int *status)
 {
     int sign, new_sign;
     char *ptr=string;
     char delim=':';
-    double range, retval = 0.0, minutes = 0.0, seconds = 0.0;
+    double retval = 0.0, minutes = 0.0, seconds = 0.0;
 
     *status = 0;
 
@@ -422,11 +420,6 @@ double strtos(char *string, double hopr, double lopr, char **rptr, int *status)
 
     if(sign < 0) retval = -retval;
 
-  /* Normalise the value to within the range [hopr,lopr), if required. */
-    range = (hopr-lopr);
-    if(range == 360.0 || range == 24.0) {
-        retval = retval - floor((retval-lopr)/range)*range;
-    }
     if(rptr != NULL) *rptr = ptr;
     return retval;
 }
