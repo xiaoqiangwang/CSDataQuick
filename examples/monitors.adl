@@ -161,7 +161,6 @@ indicator {
 	}
 	label="channel"
 	clrmod="alarm"
-        direction="left"
 	limits {
 	}
 }
