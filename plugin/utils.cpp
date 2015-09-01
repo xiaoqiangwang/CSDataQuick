@@ -51,6 +51,7 @@ extern void localCvtDoubleToString(double flt_value, char  *pstr_value, unsigned
 extern void localCvtDoubleToExpNotationString(double value, char *textField, unsigned short precision);
 extern void medmLocalCvtDoubleToSexaStr (double value,  char *string, unsigned short prec,
                                  double hopr, double lopr, int *status);
+double strtos(char *string, char **rptr, int *status);
 }
 
 QCSUtils::QCSUtils(QObject *parent)
@@ -135,4 +136,45 @@ QString QCSUtils::convert(int format, QVariant value, int precision)
         break;
     }
     return QString::fromLatin1(textField);
+}
+
+double QCSUtils::parse(int format, QString textValue)
+{
+    char textField[128];
+    double value = 0;
+    char *end;
+    int status;
+
+    strncpy(textField, textValue.toLatin1().constData(), sizeof(textField));
+    textField[sizeof(textField) - 1] = '\0';
+
+    switch (format) {
+    case TextFormat::Octal:
+        value = (double)strtoul(textField, &end, 8);
+        break;
+    case TextFormat::Hexadecimal:
+        value = (double)strtoul(textField, &end, 16);
+        break;
+    case TextFormat::Sexagesimal:
+        value = strtos(textField, &end, &status);
+        break;
+    case TextFormat::SexagesimalHMS:
+        value = strtos(textField, &end, &status);
+        value *= M_PI / 12.0;
+        break;
+    case TextFormat::SexagesimalDMS:
+        value = strtos(textField, &end, &status);
+        value *= M_PI / 180.0;
+        break;
+    default:
+        if (textValue.startsWith("0x", Qt::CaseInsensitive))
+            value = (double)strtoul(textField, &end, 16);
+        else
+            value = (double)strtod(textField, &end);
+        break;
+    }
+    if (*end == '\0' && end != textField)
+        return value;
+    else
+        return qSNaN();
 }
