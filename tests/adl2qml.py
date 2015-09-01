@@ -62,22 +62,22 @@ EdgeStyle = {
 }
 
 Visual = {
-    '"menu"' : 0,
-    '"a row of buttons"' : 1,
-    '"a column of buttons"' : 2,
-    '"invisible"' : 3,
+    '"menu"' : 'RelatedDisplayVisual.Menu',
+    '"a row of buttons"' : 'RelatedDisplayVisual.Row',
+    '"a column of buttons"' : 'RelatedDisplayVisual.Column',
+    '"invisible"' : 'RelatedDisplayVisual.Hidden',
 }
 
 Direction = {
-    '"right"': '0',
-    '"up"' : '1',
-    '"left"' : '2',
-    '"down"' : '3',
+    '"right"': 'Direction.Right',
+    '"up"' : 'Direction.Up',
+    '"left"' : 'Direction.Left',
+    '"down"' : 'Direction.Down',
 }
 
 Stacking = {
-    '"row"' : 1,
-    '"column"': 0
+    '"row"' : 'Stacking.Column',
+    '"column"': 'Stacking.Row'
 }
 
 LimitsSource = {
@@ -291,7 +291,7 @@ class MEDMChoiceButton(MEDMControl):
     def toQML(self):
         s = """CaChoiceButton {
         %s
-        orientation: %s
+        stacking: %s
 }
 """ % (super(MEDMChoiceButton, self).toQML(), self.stacking)
         return s
@@ -794,7 +794,7 @@ CaStripChart {
     background: %s
     units: %s
     period: %s
-    models: ListModel {
+    model: ListModel {
 %s
     }
 }
