@@ -7,10 +7,10 @@ import "utils.js" as UtilsJS
 Item {
     id: root
     property real value: 0.4
-    property int precision: 2
+    property int precision: 0
     property real minimumValue: 0.0
     property real maximumValue: 1.0
-    property real stepSize: 0.1
+    property real stepSize: 1.0
 
     property color background: 'white'
     property color foreground : 'black'
