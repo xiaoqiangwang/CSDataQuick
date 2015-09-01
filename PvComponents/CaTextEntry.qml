@@ -99,21 +99,14 @@ CaControl {
     }
 
     MouseArea {
-        id: ma
         anchors.fill: textField
-        acceptedButtons: Qt.LeftButton
+        acceptedButtons: Qt.NoButton
         hoverEnabled: true
-        propagateComposedEvents: true
-        onPressed: mouse.accepted = false
-        onReleased: mouse.accepted = false
-        onEntered: {
-            textField.focus = true
-        }
+        onEntered: textField.focus = true
         onExited: {
             textField.focus = false
             textField.text = formatString(format, pv.value)
         }
-        cursorShape: pv.writable ? Qt.ArrowCursor : Qt.ForbiddenCursor
     }
 
     Connections {

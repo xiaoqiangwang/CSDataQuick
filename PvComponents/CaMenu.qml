@@ -21,6 +21,7 @@ CaControl {
         id: combo_control
         property bool __first: true
         anchors.fill: parent
+        enabled: pv.writable
 
         style: ComboBoxStyle {
             label: Text {
@@ -64,8 +65,10 @@ CaControl {
         }
 
         onCurrentIndexChanged: {
-            if (__first) __first = false
-            else pv.setValue(currentIndex)
+            if (__first)
+                __first = false
+            else if (pv.writable)
+                pv.setValue(currentIndex)
         }
     }
     Connections {
