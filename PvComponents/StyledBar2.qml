@@ -43,8 +43,10 @@ Item {
         maximumValue: root.maximumValue
         background: root.background
     }
-    Rectangle {
+    Frame {
         id: panel
+        shadow: FrameShadow.Sunken
+
         anchors.top: (orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
         anchors.left: (orientation == Qt.Vertical && range.visible) ? range.right : root.left
         anchors.right: root.right
@@ -55,14 +57,14 @@ Item {
         anchors.topMargin: (orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
         anchors.bottomMargin: anchors.topMargin
 
-        border.width: 1
         color: root.background
     }
 
     Rectangle {
         id: progress
-        width: orientation == Qt.Vertical ? panel.width : panel.width * calcPercentage()
-        height: orientation == Qt.Horizontal ? panel.height : panel.height * calcPercentage()
+        width: orientation == Qt.Vertical ? panel.width - 4 : (panel.width - 4) * calcPercentage()
+        height: orientation == Qt.Horizontal ? panel.height - 4 : (panel.height - 4) * calcPercentage()
+        anchors.margins: 2
         color: root.indicatorColor
     }
 
