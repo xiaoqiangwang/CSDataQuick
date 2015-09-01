@@ -1,4 +1,4 @@
-import Image
+from PIL import Image
 im = Image.new("RGBA", (8, 8))
 
 # top
