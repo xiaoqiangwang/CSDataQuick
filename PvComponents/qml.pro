@@ -45,6 +45,7 @@ QML_FILES += \
     $$PWD/ColorMap.qml \
     $$PWD/CaIndicator.qml \
     $$PWD/Indicator.qml \
+    $$PWD/PvInfoDialog.qml \
     $$PWD/images/arrow-down.png \
     $$PWD/images/arrow-up.png \
     $$PWD/images/button_down.png \
