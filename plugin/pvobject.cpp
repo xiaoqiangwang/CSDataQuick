@@ -781,4 +781,6 @@ void QQuickPvObject::monitorCallback(struct event_handler_args args)
     updateValue(value);
     // Signal status/severity change if any
     updateStatus(severity, status);
+    // Signal time stamp change
+    setStamp(QDateTime::fromMSecsSinceEpoch(qint64(_sec + POSIX_TIME_AT_EPICS_EPOCH) * 1000 + qint64(_sec) / 1000));
 }

@@ -5,6 +5,7 @@
 #include <QVariant>
 #include <QStringList>
 #include <QQmlParserStatus>
+#include <QDateTime>
 
 #include <cadef.h>
 #include <alarm.h>
@@ -73,6 +74,8 @@ class QQuickPvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(QVariant loctrllim MEMBER _loctrllim CONSTANT DESIGNABLE false)
     Q_PROPERTY(QVariant updisplim MEMBER _updisplim CONSTANT DESIGNABLE false)
     Q_PROPERTY(QVariant lodisplim MEMBER _lodisplim CONSTANT DESIGNABLE false)
+
+    Q_PROPERTY(QDateTime stamp READ stamp WRITE setStamp NOTIFY stampChanged DESIGNABLE false)
 public:
     explicit QQuickPvObject(QObject *parent = 0);
     ~QQuickPvObject();
@@ -126,6 +129,9 @@ public:
     void setMonitor(bool monitor) {_monitor = monitor;}
     bool monitor() {return _monitor;}
 
+    QDateTime stamp() { return _stamp; }
+    void setStamp(QDateTime date) { _stamp = date; emit stampChanged(); }
+
     void updateStatus(int severity, int status);
     void updateAccess(bool read, bool write);
 
@@ -137,6 +143,7 @@ signals:
     void accessChanged(bool readable, bool writable);
     void controlLimitChanged();
     void displayLimitChanged();
+    void stampChanged();
 
 public slots:
 
@@ -160,6 +167,7 @@ private:
     // pv time stamp
     int _sec;               // time stamp - seconds since Midnight Jan.1, 1990
     int _nsec;              // time stamp - nano seconds within second
+    QDateTime _stamp;            // date time object
     // pv display info
     FieldType _type;        // field type
     QString _units;         // units
