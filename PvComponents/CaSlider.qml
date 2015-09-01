@@ -94,6 +94,7 @@ CaControl {
         stepSize: root.stepSize
         direction: root.direction
 
+        showRange: label == LabelStyle.Outline || label == LabelStyle.Limits ||  label == LabelStyle.Channel
         showValueText: label == LabelStyle.Limits ||  label == LabelStyle.Channel
         valueTextColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
 
