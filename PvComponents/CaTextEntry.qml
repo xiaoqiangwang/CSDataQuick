@@ -94,7 +94,7 @@ CaControl {
             }
         }
     }
-/*
+
     MouseArea {
         id: ma
         anchors.fill: textField
@@ -103,14 +103,15 @@ CaControl {
         propagateComposedEvents: true
         onPressed: mouse.accepted = false
         onReleased: mouse.accepted = false
-        onEntered:{
+        onEntered: {
             textField.focus = true
         }
         onExited: {
             textField.focus = false
+            textField.text = formatString(format, pv.value)
         }
     }
-*/
+
     Connections {
         target: pv
         onConnectionChanged: {
