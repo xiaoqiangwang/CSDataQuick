@@ -331,6 +331,11 @@ QQuickPvObject::QQuickPvObject(QObject *parent):
     _array = NULL;
     _value = "";
     _name = "";
+    _nostr = 0;
+    _loalrmlim = 0; _upalrmlim = 0;
+    _lodisplim = 0; _updisplim = 0;
+    _lowarnlim = 0; _upwarnlim = 0;
+    _loctrllim = 0; _upctrllim = 0;
     _displim = new QQuickLimitRange(this);
     _ctrllim = new QQuickLimitRange(this);
 }
