@@ -49,6 +49,7 @@ CaControl {
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         verticalAlignment: TextInput.AlignBottom
         activeFocusOnPress: true
+        readOnly: !pv.writable
         clip: true
         selectByMouse: true
         anchors.topMargin: 4
@@ -57,6 +58,8 @@ CaControl {
         anchors.rightMargin: 2
         anchors.fill: parent
         onAccepted: {
+            if (!pv.writable)
+                return
             var value;
             switch (pv.type) {
             case PvObject.String:
@@ -110,6 +113,7 @@ CaControl {
             textField.focus = false
             textField.text = formatString(format, pv.value)
         }
+        cursorShape: pv.writable ? Qt.ArrowCursor : Qt.ForbiddenCursor
     }
 
     Connections {
