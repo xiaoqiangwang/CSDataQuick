@@ -57,7 +57,34 @@ CaControl {
         anchors.rightMargin: 2
         anchors.fill: parent
         onAccepted: {
-            pv.value = text
+            var value;
+            switch (pv.type) {
+            case PvObject.String:
+                pv.value = text
+                break
+            case PvObject.Enum:
+                if (text in pv.strs)
+                    pv.value = text
+                else {
+                    value = Utils.parse(format, text)
+                    if (!isNaN(value))
+                        pv.value = value
+                }
+                break
+            case PvObject.Integer:
+            case PvObject.Long:
+                value = Utils.parse(format, text)
+                if (!isNaN(value))
+                    pv.value = value
+                break
+            case PvObject.Char:
+                pv.value = text
+                break
+            default:
+                value = Utils.parse(format, text)
+                if (!isNaN(value))
+                    pv.value = value
+            }
         }
     }
 /*
