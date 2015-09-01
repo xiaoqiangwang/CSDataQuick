@@ -110,8 +110,8 @@ Item {
         x: orientation == Qt.Horizontal ?  Math.max(0, range.sidemargin - markerWidth / 2) : (range.visible ? range.width : 0)
         y: orientation == Qt.Horizontal ? (range.visible ? range.height : 0) : Math.max(0, range.sidemargin - markerWidth / 2)
 
-        width: orientation == Qt.Horizontal ? effectiveLength + markerWidth : root.width - range.width
-        height: orientation == Qt.Horizontal ? root.height - range.height : effectiveLength + markerWidth
+        width: orientation == Qt.Horizontal ? effectiveLength + markerWidth : root.width - range.visible * range.width
+        height: orientation == Qt.Horizontal ? root.height - range.visible * range.height : effectiveLength + markerWidth
 
         border.width: focus ? 1 : 0
         color: Qt.darker(root.background, 1.2)
