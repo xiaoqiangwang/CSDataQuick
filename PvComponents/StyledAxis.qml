@@ -7,7 +7,7 @@ Rectangle {
 
     property real minimumValue: 0.0
     property real maximumValue: 1.0
-    property int precision: 1
+    property int precision: 0
     property alias font: hiddenText.font
     property int direction: Direction.Right
     property color foreground
