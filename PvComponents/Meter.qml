@@ -1,5 +1,7 @@
 import QtQuick 2.0
 
+import PvComponents 1.0
+
 Item {
     id: root
 
@@ -11,31 +13,30 @@ Item {
     property color background: 'white'
     property color indicatorColor: 'black'
 
+    property alias font: title.font
     property string title: 'Meter'
     property bool showTitle: false
     property bool showRange: false
     property bool showValue: false
 
-    onValueChanged:  {
-        needle.requestPaint()
-    }
+    readonly property real radius: Math.min(root.width / 2, (root.height  - font.pixelSize * (showTitle + showRange + showValue)))
 
     // rectangle filling the whole area with background color
     Rectangle {
         id: background
         anchors.fill: parent
         color: root.background
+        border.width: 1
     }
 
     Text {
         id: title
         text: root.title
         width: root.width
-        height: root.height * 0.15
+        height: font.pixelSize
         anchors.top: root.top
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignTop
-        font.pixelSize: height
         visible: root.showTitle
     }
 
@@ -43,8 +44,8 @@ Item {
         id: panel
         anchors.top: title.bottom
         anchors.horizontalCenter: root.horizontalCenter
-        width: Math.min(root.width, root.height * (1 - 0.15 * showTitle - 0.15 * showRange) * 2)
-        height: Math.min(root.width, root.height * (1 - 0.15 * showTitle - 0.15 * showRange) * 2) / 2
+        width: radius * 2
+        height: radius
 
         onPaint: {
             var ctx = getContext('2d')
@@ -78,44 +79,26 @@ Item {
             ctx.restore()
         }
     }
-    Canvas {
+
+    Rectangle {
         id: needle
-        anchors.top: title.bottom
-        anchors.horizontalCenter: root.horizontalCenter
-        width: panel.width
-        height: panel.height
+        color: indicatorColor
 
-        onPaint: {
-            var ctx = getContext('2d')
-            ctx.save()
+        anchors.bottom: panel.bottom
+        height: panel.height * 0.7
 
-            ctx.clearRect(0, 0, width, height)
+        anchors.horizontalCenter: panel.horizontalCenter
+        width: 2
 
-            var lineWidth = 3
-            var centery = panel.height
-            var centerx = panel.width / 2
-            var radius = panel.height - lineWidth
-            var angle = Math.PI * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue))
+        rotation: 180 * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue)) - 90
+        transformOrigin: Item.Bottom
 
-            ctx.strokeStyle = indicatorColor
-            ctx.lineWidth = lineWidth
-
-            // needle
-            ctx.beginPath()
-            ctx.translate(centerx, centery)
-            ctx.rotate(angle)
-            ctx.moveTo(-radius, 0)
-            ctx.lineTo(0, 0)            
-            ctx.stroke()
-
-            ctx.restore()
-        }
     }
 
     Item {
         id: range
         width: panel.width
-        height: root.height * 0.15
+        height: font.pixelSize
         anchors.top: panel.bottom
         anchors.horizontalCenter: root.horizontalCenter
 
@@ -123,32 +106,38 @@ Item {
         Text {
             height: range.height
             text: minimumValue.toFixed(precision)
-            font.pixelSize: height
+            font: root.font
             anchors.left: range.left
             color: foreground
         }
         Text {
             height: range.height
             text: maximumValue.toFixed(precision)
-            font.pixelSize: height
+            font: root.font
             anchors.right: range.right
             color: foreground
         }
     }
 
     Item {
+        id: value_text
         anchors.bottom: root.bottom
         anchors.horizontalCenter: root.horizontalCenter
         width: panel.width
-        height: root.height * 0.15
+        height: font.pixelSize
 
         visible: root.showValue
         Text {
             anchors.fill: parent
             text: value.toFixed(precision)
             horizontalAlignment: Text.AlignHCenter
-            font.pixelSize: height
+            font: root.font
             color: foreground
+            Rectangle {
+                anchors.fill: parent
+                color: 'white'
+                z: -1
+            }
         }
     }
 }
