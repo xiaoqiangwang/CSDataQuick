@@ -10,9 +10,10 @@ Rectangle {
     BorderImage {
         id: border
         source: shadow == FrameShadow.Sunken ? 'images/button_down.png' : 'images/button_up.png'
-        border {left: 3; right: 3; top: 3; bottom: 3;}
+        border {left: 2; right: 2; top: 2; bottom: 2;}
         horizontalTileMode: BorderImage.Stretch
         verticalTileMode: BorderImage.Stretch
+        smooth: false
         width: parent.width
         height: parent.height
     }
