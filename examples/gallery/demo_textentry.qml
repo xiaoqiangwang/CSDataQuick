@@ -13,11 +13,15 @@ Rectangle {
             height: 20
             foreground: fgColorPalette.color
             background: bgColorPalette.color
+            align: textAlignmentGroup.textAlignment
         }
         CaTextEntry {
             channel: 'castr'
             width: 100
             height: 20
+            foreground: fgColorPalette.color
+            background: bgColorPalette.color
+            align: textAlignmentGroup.textAlignment
         }
         Row {
             spacing: 10
@@ -44,6 +48,9 @@ Rectangle {
                 height: 20
                 currentIndex: 51
             }
+        }
+        TextAlignmentGroup {
+            id: textAlignmentGroup
         }
     }
 }

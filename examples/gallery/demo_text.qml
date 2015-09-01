@@ -12,6 +12,7 @@ Rectangle {
             width: 200
             height: textHeight.value
             foreground: fgColorPalette.color
+            align: textAlignmentGroup.textAlignment
         }
         TextField {
             id: input
@@ -40,6 +41,9 @@ Rectangle {
                 minimumValue: 8
                 maximumValue: 50
             }
+        }
+        TextAlignmentGroup {
+            id: textAlignmentGroup
         }
     }
 }

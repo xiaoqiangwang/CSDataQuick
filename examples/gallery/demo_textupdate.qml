@@ -14,6 +14,7 @@ Rectangle {
             foreground: fgColorPalette.color
             background: bgColorPalette.color
             colorMode: colorModeGroup.colorMode
+            align: textAlignmentGroup.textAlignment
         }
 
         Row {
@@ -44,6 +45,9 @@ Rectangle {
         }
         ColorModeGroup {
             id: colorModeGroup
+        }
+        TextAlignmentGroup {
+            id: textAlignmentGroup
         }
     }
 }
