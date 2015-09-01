@@ -89,6 +89,7 @@ CaControl {
 
         minimumValue: limits.lopr
         maximumValue: limits.hopr
+        precision: limits.prec
         stepSize: root.stepSize
         direction: root.direction
 
