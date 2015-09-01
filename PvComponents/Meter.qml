@@ -26,7 +26,6 @@ Item {
         id: background
         anchors.fill: parent
         color: root.background
-        border.width: 1
     }
 
     Text {
@@ -42,7 +41,7 @@ Item {
 
     Canvas {
         id: panel
-        anchors.top: title.bottom
+        anchors.top: showTitle ? title.bottom : root.top
         anchors.horizontalCenter: root.horizontalCenter
         width: radius * 2
         height: radius

@@ -121,7 +121,7 @@ bar {
 	object {
 		x=540
 		y=39
-		width=73
+		width=120
 		height=300
 	}
 	monitor {
@@ -161,7 +161,7 @@ indicator {
 	}
 	label="channel"
 	clrmod="alarm"
-        direction="right"
+        direction="left"
 	limits {
 	}
 }
