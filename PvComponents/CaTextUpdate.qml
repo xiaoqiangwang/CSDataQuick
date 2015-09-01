@@ -13,30 +13,25 @@ CaMonitor {
     // limits
     property Limits limits: Limits {id: limits}
 
-    Rectangle {
-        id: panel
-        color: label.background
+    RowLayout {
         anchors.fill: parent
-        RowLayout {
-            anchors.fill: parent
-            Text {
-                id: label_control
-                font.pixelSize: label.fontSize
-                font.family: label.fontFamily
-                //text: formatString(format, pv.value)
-                color: colorMode == ColorMode.Alarm ? label.alarmColor : label.foreground
-                clip: true
-                Layout.fillWidth: true
-            }
-            Text {
-                id: units
-                font.pixelSize: label.fontSize
-                font.family: label.fontFamily
-                color: label.foreground
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignRight
-                visible: showUnits && text != ''
-            }
+        Text {
+            id: label_control
+            font.pixelSize: label.fontSize
+            font.family: label.fontFamily
+            //text: formatString(format, pv.value)
+            color: colorMode == ColorMode.Alarm ? label.alarmColor : label.foreground
+            clip: true
+            Layout.fillWidth: true
+        }
+        Text {
+            id: units
+            font.pixelSize: label.fontSize
+            font.family: label.fontFamily
+            color: label.foreground
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignRight
+            visible: showUnits && text != ''
         }
     }
 
