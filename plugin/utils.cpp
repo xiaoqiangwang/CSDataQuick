@@ -119,7 +119,7 @@ QString QCSUtils::convert(int format, QVariant value, int precision)
     case TextFormat::Octal:
         cvtLongToOctalString(value.toInt(), textField);
         break;
-    case TextFormat::Sexagesiaml:
+    case TextFormat::Sexagesimal:
         medmLocalCvtDoubleToSexaStr(value.toDouble(), textField, precision,
           0.0, 0.0, &status);
         break;
