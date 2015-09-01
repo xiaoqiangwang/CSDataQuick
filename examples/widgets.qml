@@ -5,8 +5,8 @@ import PvComponents 1.0
 
 ApplicationWindow {
     id: app
-    width: 900
-    height: 600
+    width: 800
+    height: 800
     color: '#bbbbbb'
 
     menuBar: MenuBar {
@@ -28,6 +28,7 @@ ApplicationWindow {
 
     Column {
         anchors.fill: parent
+        spacing: 20
 
         Text {text: 'Graphics'}
         Flow {
@@ -35,7 +36,7 @@ ApplicationWindow {
             spacing: 10
 
             CaText {
-                width: 100
+                width: 200
                 height: 20
                 text: 'Oh, A static label'
             }
@@ -48,7 +49,9 @@ ApplicationWindow {
             }
 
             CaOval {
-                dynamicAttr.channel: 'bo'
+                dynamicAttr {
+                    channel: 'bo'
+                }
                 colorMode: ColorMode.Alarm
                 width: 100
                 height: 70
@@ -97,15 +100,17 @@ ApplicationWindow {
             }
         }
         Text {text: 'Control'}
-        Row {
+        Flow {
             x: 10
             spacing: 10
             width: parent.width
 
             CaSlider {
                 width: 200
-                height: 24
+                height: 50
                 channel: 'catest'
+                stepSize: 0.1
+                label: LabelStyle.Channel
             }
 
             CaMessageButton {
@@ -182,28 +187,30 @@ ApplicationWindow {
 
             CaByte {
                 width: 320
-                height: 10
+                height: 15
                 channel: 'calc'
             }
             CaBar {
                 width: 100
-                height: 20
-                channel: 'catest'
-                colorMode: ColorMode.Alarm
-            }
-            CaIndicator {
-                width: 100
                 height: 40
                 channel: 'catest'
                 colorMode: ColorMode.Alarm
-                label: LabelStyle.Channel
+                label: LabelStyle.Limits
             }
-             CaBar {
-                width: 40
-                height: 100
-                direction: 1
+            CaBar {
+               width: 50
+               height: 100
+               direction: Direction.Down
+               label: LabelStyle.Outline
+               channel: 'catest'
+               colorMode: ColorMode.Alarm
+           }
+            CaIndicator {
+                width: 100
+                height: 50
                 channel: 'catest'
                 colorMode: ColorMode.Alarm
+                label: LabelStyle.Channel
             }
 
             CaMeter {
