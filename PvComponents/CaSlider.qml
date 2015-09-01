@@ -45,7 +45,8 @@ CaControl {
     /*! \internal */
     property bool __disconnect: false
     /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height / (orientation == Qt.Horizontal ? 4 : 20), 0)
+    readonly property var font: UtilsJS.getBestFontSize(
+                                     (orientation == Qt.Horizontal ? height / 4 : width / 4), 0)
     /*! \internal */
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
