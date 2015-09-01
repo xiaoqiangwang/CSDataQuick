@@ -43,8 +43,6 @@ BaseItem {
 
     visible: da.visibility
 
-    enabled: pv.writable
-
     // Mask when PV disconnected
     Rectangle {
         z: 1
