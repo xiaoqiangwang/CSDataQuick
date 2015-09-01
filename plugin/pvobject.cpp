@@ -601,6 +601,7 @@ void QQuickPvObject::connectCallback(struct connection_handler_args args)
 {
     // Do a get when a channel gets connected
     if (args.op == CA_OP_CONN_UP) {
+        _host = ca_host_name(_chid);
         _type = (FieldType) ca_field_type(_chid);
         // Initialize PV info by CA  get
         chtype reqtype = dbf_type_to_DBR_CTRL(ca_field_type(_chid));

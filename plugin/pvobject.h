@@ -52,6 +52,7 @@ class QQuickPvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
     // Information
     Q_PROPERTY(QVariant value   READ value WRITE setValue NOTIFY valueChanged DESIGNABLE false)
+    Q_PROPERTY(QString host    MEMBER _host CONSTANT DESIGNABLE false)
 
     Q_PROPERTY(bool connected   MEMBER  _connected NOTIFY connectionChanged DESIGNABLE false)
 
@@ -160,6 +161,7 @@ private:
     void * _array;
     QVariant _value;
     QString _name;
+    QString _host;
 
     // pv alarm info
     int _status;            // alarm status
