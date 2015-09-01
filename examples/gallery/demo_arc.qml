@@ -24,6 +24,7 @@ Item {
                 id: fgColorPalette
                 width: 100
                 height: 20
+                currentIndex: 14
             }
         }
         RowLayout {

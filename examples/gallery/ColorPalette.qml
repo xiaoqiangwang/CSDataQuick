@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import PvComponents 1.0
 
 Rectangle {
+    property int currentIndex: 1
     color: colorButtonGroup.current.color
 
     MouseArea {
@@ -41,7 +42,7 @@ Rectangle {
                         }
                     }
                     checkable: true
-                    checked: index == 14
+                    checked: index == currentIndex
                     exclusiveGroup: colorButtonGroup
                     property color color: ColorMap['color%1'.arg(index)]
                 }
