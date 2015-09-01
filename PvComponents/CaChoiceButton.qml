@@ -70,17 +70,19 @@ CaControl {
                         id: layout;
                         anchors.fill: parent;
                         spacing: 0;
-                    '
+                        enabled: pv.writable;'
         } else if (stacking == Stacking.Column) {
             cmd += '
                     ColumnLayout {
                         id: layout;
                         anchors.fill: parent;
-                        spacing: 0;'
+                        spacing: 0;
+                        enabled: pv.writable;'
         } else {
             cmd += '
                     Flow {
-                        id: layout;'
+                        id: layout;
+                        enabled: pv.writable;'
         }
         // create buttons
         for(var i = 0; i < pv.nostr; i++) {

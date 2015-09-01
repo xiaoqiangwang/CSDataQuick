@@ -43,6 +43,8 @@ CaControl {
         anchors.fill: parent
 
         onPressedChanged: {
+            if (!pv.writable)
+                return
             if (pressed)
                 pv.value = onMessage
             else

@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.0
+
 import PvComponents 1.0
 
 /*!
@@ -52,11 +54,10 @@ BaseItem {
     }
 
     MouseArea {
+        z: 1
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
-        onPressAndHold: {
-            console.log('TODO: Popup tooltip/context menu')
-        }
+        cursorShape: pv.writable ? Qt.ArrowCursor : Qt.ForbiddenCursor
     }
 
     Connections {

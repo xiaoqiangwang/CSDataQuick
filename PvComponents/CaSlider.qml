@@ -98,6 +98,8 @@ CaControl {
         showValueText: label == LabelStyle.Limits ||  label == LabelStyle.Channel
         valueTextColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
 
+        enabled: pv.writable
+
         Connections {
             target: pv
             onConnectionChanged: {
