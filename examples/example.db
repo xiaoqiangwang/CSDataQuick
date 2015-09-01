@@ -11,6 +11,7 @@ record(ao, "catest")
     field (HOPR, "1.0")
     field (LOPR, "0.0")
     field (PREC, "2")
+    field (ASG,  "limit")
 }
 record(calc, "calc")
 {
@@ -18,6 +19,7 @@ record(calc, "calc")
     field (CALC, "A+1")
     field (SCAN, "1 second")
     field (FLNK, "x")
+    field (ASG,  "limit")
 }
 record(compress, "x")
 {
@@ -48,6 +50,7 @@ record(bo, "bo")
     field (ZSV,  "MINOR")
     field (ONAM, "ON")
     field (OSV,  "NO_ALARM")
+    field (ASG,  "limit")
 }
 
 record(waveform, "waves")
@@ -58,4 +61,10 @@ record(waveform, "waves")
 
 record(stringout, "castr")
 {
+}
+
+record(bo, "writable")
+{
+    field (ZNAM, "No Write")
+    field (ONAM, "Writable")
 }
