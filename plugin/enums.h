@@ -34,7 +34,7 @@ public:
         Hexadecimal,
         Octal,
         String,
-        Sexagesiaml,
+        Sexagesimal,
         SexagesimalDMS,
         SexagesimalHMS
     };
