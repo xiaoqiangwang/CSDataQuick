@@ -63,7 +63,14 @@ CaControl {
                 pv.value = text
                 break
             case PvObject.Enum:
-                if (text in pv.strs)
+                var found = false
+                for(var i=0; i<pv.strs.length; i++) {
+                    if (text == pv.strs[i]) {
+                        found = true
+                        break
+                    }
+                }
+                if (found)
                     pv.value = text
                 else {
                     value = Utils.parse(format, text)
