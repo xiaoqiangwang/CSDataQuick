@@ -53,11 +53,23 @@ BaseItem {
         visible: channel != '' && !pv.connected
     }
 
+    Menu {
+        id: contextMenu
+        MenuItem {
+            text: 'PV Info'
+            onTriggered: {
+                PvInfoDialog.info = dumpPvInfo()
+                PvInfoDialog.open()
+            }
+        }
+    }
+
     MouseArea {
         z: 1
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
         cursorShape: pv.writable ? Qt.ArrowCursor : Qt.ForbiddenCursor
+        onReleased: contextMenu.popup()
     }
 
     Connections {
@@ -78,5 +90,38 @@ BaseItem {
                 break;
             }
         }
+    }
+
+    function dumpPvInfo() {
+        var date = new Date()
+        var text
+        text = '\tPV Infomation\n\n'
+        text += date + '\n\n'
+        text += pv.channel + '\n'
+        text += '======================================\n'
+        text += 'TYPE: %1\n'.arg(pv.type)
+        text += 'COUNT: %1\n'.arg(pv.count)
+        text += 'ACCESS: '
+        if (pv.readable)
+            text += 'R'
+        if (pv.writable)
+            text += 'W'
+        text += '\n'
+        text += 'HOST: %1\n'.arg(pv.host)
+        text += 'VALUE: %1\n'.arg(pv.value)
+        text += 'STAMP: %1\n'.arg(pv.stamp)
+        // PV type specific information
+        text += '\n'
+        if (pv.type == PvObject.Float || pv.type == PvObject.Double)
+            text += 'PRECISION: %1\n'.arg(pv.prec)
+        if (pv.loctrllim != pv.upctrllim)
+            text += 'HOPR: %1  LOPR %2\n'.arg(pv.upctrllim).arg(pv.loctrllim)
+
+        if (pv.nostr != 0)
+            text += 'STATES: %1\n'.arg(pv.nostr)
+        for(var i=0; i<pv.strs.length; i++) {
+            text += 'STATE %1: %2\n'.arg(i).arg(pv.strs[i])
+        }
+        return text
     }
 }
