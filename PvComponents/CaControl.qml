@@ -1,7 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaControl
@@ -14,6 +16,8 @@ import PvComponents 1.0
 
 */
 BaseItem {
+    id: root
+
     // appearance
     /*! The foreground color. */
     property color background: ColorMap.color51 // '#bbbbbb' is the actual default
@@ -60,6 +64,13 @@ BaseItem {
             onTriggered: {
                 PvInfoDialog.info = dumpPvInfo()
                 PvInfoDialog.open()
+            }
+        }
+        MenuItem {
+            text: 'PV Limits'
+            visible: root['limits'] ? true : false
+            onTriggered: {
+                UtilsJS.popupPvLimitsDialog(root)
             }
         }
     }

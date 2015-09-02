@@ -46,6 +46,7 @@ QML_FILES += \
     $$PWD/CaIndicator.qml \
     $$PWD/Indicator.qml \
     $$PWD/PvInfoDialog.qml \
+    $$PWD/PvLimitsDialog.qml \
     $$PWD/images/arrow-down.png \
     $$PWD/images/arrow-up.png \
     $$PWD/images/button_down.png \

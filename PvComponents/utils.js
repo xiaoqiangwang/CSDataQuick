@@ -34,3 +34,42 @@ function getBestFontSize(widget_height, with_frame) {
 
     return {"family" : font_family, "size" : font_size}
 }
+
+/*!
+    \qmlmethod UtilsJS::popupPvLimitsDialog(parent)
+*/
+function popupPvLimitsDialog(parent) {
+    var cmd = 'import PvComponents 1.0; PvLimitsDialog {}'
+    var dialog = Qt.createQmlObject(cmd, parent, 'dialog')
+
+    dialog.channel = parent.channel
+
+    dialog.limits.loprSrc     = parent.limits.loprSrc
+    dialog.limits.loprChannel = parent.limits.loprChannel
+    dialog.limits.loprDefault = parent.limits.loprDefault
+    dialog.limits.loprUser    = parent.limits.loprUser
+
+    dialog.limits.hoprSrc     = parent.limits.hoprSrc
+    dialog.limits.hoprChannel = parent.limits.hoprChannel
+    dialog.limits.hoprDefault = parent.limits.hoprDefault
+    dialog.limits.hoprUser    = parent.limits.hoprUser
+
+    dialog.limits.precSrc     = parent.limits.precSrc
+    dialog.limits.precChannel = parent.limits.precChannel
+    dialog.limits.precDefault = parent.limits.precDefault
+    dialog.limits.precUser    = parent.limits.precUser
+
+    dialog.accepted.connect(function() {
+        // only user values can be modified
+        // so copy them only
+        parent.limits.loprSrc  = dialog.limits.loprSrc
+        parent.limits.loprUser = dialog.limits.loprUser
+
+        parent.limits.hoprSrc  = dialog.limits.hoprSrc
+        parent.limits.hoprUser = dialog.limits.hoprUser
+
+        parent.limits.precSrc  = dialog.limits.precSrc
+        parent.limits.precUser = dialog.limits.precUser
+    })
+    dialog.open()
+}
