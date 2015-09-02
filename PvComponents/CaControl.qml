@@ -95,10 +95,15 @@ BaseItem {
     function dumpPvInfo() {
         var date = new Date()
         var text
-        text = '\tPV Infomation\n\n'
+        text = '           PV Infomation\n\n'
         text += date + '\n\n'
         text += pv.channel + '\n'
         text += '======================================\n'
+        if (!pv.connected) {
+            text += 'diconnected'
+            return text
+        }
+
         text += 'TYPE: %1\n'.arg(pv.type)
         text += 'COUNT: %1\n'.arg(pv.count)
         text += 'ACCESS: '
