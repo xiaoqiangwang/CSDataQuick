@@ -119,8 +119,8 @@ BaseItem {
         text += '\n'
         if (pv.type == PvObject.Float || pv.type == PvObject.Double)
             text += 'PRECISION: %1\n'.arg(pv.prec)
-        if (pv.loctrllim != pv.upctrllim)
-            text += 'HOPR: %1  LOPR %2\n'.arg(pv.upctrllim).arg(pv.loctrllim)
+        if (pv.lodisplim != pv.updisplim)
+            text += 'HOPR: %1  LOPR %2\n'.arg(pv.updisplim).arg(pv.lodisplim)
 
         if (pv.nostr != 0)
             text += 'STATES: %1\n'.arg(pv.nostr)
