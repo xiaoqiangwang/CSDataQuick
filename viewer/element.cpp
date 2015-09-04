@@ -692,7 +692,6 @@ TOKEN Element :: getToken(std::istream &fstream, char *word)
         case INMACRO:
             switch(c) {
             case ')' : *m = '\0';
-                std::cout << "Found macro " << macro << std::endl;
                 if (display()->macros().find(macro) != display()->macros().end()) {
                     std::string v = display()->macros()[macro];
                     strncpy(w,  v.c_str(), v.size());
