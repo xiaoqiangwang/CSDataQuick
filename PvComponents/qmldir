@@ -1,0 +1,45 @@
+module PvComponents
+CaADImage       1.0 CaADImage.qml
+CaArc           1.0 CaArc.qml
+CaBar           1.0 CaBar.qml 
+CaByte          1.0 CaByte.qml
+CaCartesianPlot 1.0 CaCartesianPlot.qml
+CaChoiceButton  1.0 CaChoiceButton.qml 
+CaComposite     1.0 CaComposite.qml
+CaControl       1.0 CaControl.qml
+CaGraphics      1.0 CaGraphics.qml
+CaImage         1.0 CaImage.qml
+CaIndicator     1.0 CaIndicator.qml
+CaMenu          1.0 CaMenu.qml 
+CaMessageButton 1.0 CaMessageButton.qml
+CaMeter         1.0 CaMeter.qml
+CaMonitor       1.0 CaMonitor.qml
+CaOval          1.0 CaOval.qml 
+CaPolygon       1.0 CaPolygon.qml
+CaPolyline      1.0 CaPolyline.qml
+CaRect          1.0 CaRect.qml
+CaRelatedDisplay 1.0 CaRelatedDisplay.qml
+CaShellCommand  1.0 CaShellCommand.qml
+CaSlider        1.0 CaSlider.qml 
+CaStripChart    1.0 CaStripChart.qml
+CaText          1.0 CaText.qml
+CaTextEntry     1.0 CaTextEntry.qml 
+CaTextUpdate    1.0 CaTextUpdate.qml
+CaWheelSwitch   1.0 CaWheelSwitch.qml
+DynamicAttr     1.0 DynamicAttr.qml
+Limits          1.0 Limits.qml
+PvLimitsDialog  1.0 PvLimitsDialog.qml
+singleton ColorMap 1.0 ColorMap.qml
+singleton PvInfoDialog  1.0 PvInfoDialog.qml
+internal Frame         Frame.qml
+internal StyledAxis    StyledAxis.qml
+internal Meter         Meter.qml
+internal Slider        Slider.qml
+internal Slider2       Slider2.qml
+internal StyledBar     StyledBar.qml
+internal StyledBar2    StyledBar2.qml
+internal StyledButton  StyledButton.qml
+internal WheelDigit    WheelDigit.qml
+internal WheelSwitch   WheelSwitch.qml
+plugin pvcomponentsplugin
+typeinfo plugins.qmltype

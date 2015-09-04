@@ -1,0 +1,42 @@
+project = EPICS QML
+description = EPICS QML Documentation
+url = http://bitbucket.org/xwang/epicsqml
+version = 1.0
+
+Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
+
+sourcedirs = . ../PvComponents
+sources.fileextensions += "*.qdoc *.qml *.js"
+headers += ../plugin/utils.h \
+           ../plugin/pvobject.h \
+           ../plugin/shapes.h \
+           ../plugin/plotitem.h \
+           ../plugin/adimageprovider.h
+
+sources += ../plugin/utils.cpp \
+           ../plugin/pvobject.cpp \
+           ../plugin/shapes.cpp \
+           ../plugin/plotitem.cpp \
+           ../plugin/adimageprovider.cpp
+
+headers.fileextensions = "*.h"
+
+imagedirs   = ./images
+
+# include qt indexes to create cross reference
+indexes =  /Users/wang/Qt/Docs/Qt-5.3/qtcore/qtcore.index \
+           /Users/wang/Qt/Docs/Qt-5.3/qtgui/qtgui.index \
+           /Users/wang/Qt/Docs/Qt-5.3/qtqml/qtqml.index \
+           /Users/wang/Qt/Docs/Qt-5.3/qtquick/qtquick.index
+
+outputdir = html
+outputformats = HTML
+syntaxhighlighting = true
+
+HTML.templatedir = .
+HTML.nobreadcrumbs = true
+HTML.stylesheets = offline.css
+HTML.headerstyles = \
+  "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
+HTML.endheader = "</head>\n"
+HTML.footer = "<div class=\"footer\">Copyright (C) 2014 Xiaoqiang Wang.</div>\n"
