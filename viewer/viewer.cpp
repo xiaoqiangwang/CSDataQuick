@@ -25,6 +25,8 @@ Viewer::Viewer(QWidget *parent) :
     actionOpen->setObjectName("actionOpen");
     QAction *actionExit = new QAction(tr("Exit"), this);
     actionExit->setObjectName("actionExit");
+    QAction *actionDisplayList = new QAction(tr("Display List"), this);
+    actionDisplayList->setObjectName("actionDisplayList");
     QAction *actionAbout = new QAction(tr("About..."), this);
     actionAbout->setObjectName("actionAbout");
 
@@ -34,6 +36,7 @@ Viewer::Viewer(QWidget *parent) :
     menuBar()->addMenu(menuFile);
 
     QMenu *menuView = new QMenu(tr("View"));
+    menuView->addAction(actionDisplayList);
     menuBar()->addMenu(menuView);
 
     QMenu *menuHelp = new QMenu(tr("Help"));
@@ -50,6 +53,10 @@ void Viewer::on_actionOpen_triggered()
 void Viewer::on_actionExit_triggered()
 {
     close();
+}
+
+void Viewer::on_actionDisplayList_triggered()
+{
 }
 
 void Viewer::on_actionAbout_triggered()
