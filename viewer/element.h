@@ -9,6 +9,12 @@
 
 #include "common.h"
 
+/*
+ * types for parsing
+ */
+typedef enum
+{ T_WORD, T_EQUAL, T_QUOTE, T_LEFT_BRACE, T_RIGHT_BRACE, T_EOF} TOKEN;
+
 /* Auxilary Classes */
 typedef struct {
     double x;
@@ -21,21 +27,6 @@ typedef struct {
     int width;
     int height;
 } Rect;
-
-class ColorMap
-{
-public:
-    ColorMap();
-    void parse(std::istream &fstream);
-
-    std::string value(int index) {return colormap[index];}
-
-protected:
-    void parseColors(std::istream &fstream);
-private:
-    int ncolors;
-    std::vector<std::string> colormap;
-};
 
 class Element;
 
@@ -50,8 +41,25 @@ public:
     Element *parent() { return _parent;}
 
 protected:
+    TOKEN getToken(std::istream &fstream, char *word);
     /* to which Element this attribute is belonging to */
     Element *_parent;
+};
+
+class ColorMap : public Attribute
+{
+public:
+    ColorMap(Element *parent);
+    void parse(std::istream &fstream);
+    void toQML(std::ostream &fstream) {(void)fstream;}
+
+    std::string value(int index) {return colormap[index];}
+
+protected:
+    void parseColors(std::istream &fstream);
+private:
+    int ncolors;
+    std::vector<std::string> colormap;
 };
 
 class BasicAttribute : public Attribute
@@ -249,6 +257,9 @@ public:
     void parseObject(std::istream& fstream);
     virtual void toQML(std::ostream& ostream) = 0;
 
+protected:
+    TOKEN getToken(std::istream &fstream, char *word);
+    void parseAndSkip(std::istream &fstream);
     /* access object */
 protected:
     Display *_display;
@@ -256,6 +267,8 @@ protected:
     DlElementType _type;
     int _level;
     Rect _rect;
+
+friend class Attribute;
 };
 
 class Display : public Element
