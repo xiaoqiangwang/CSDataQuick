@@ -7,8 +7,8 @@ import PvComponents 1.0
 
 ColumnLayout {
     CaByte {
-        width:300
-        height: 50
+        width: orientation == Qt.Horizontal ? 300 : 30
+        height: orientation == Qt.Vertical ? 300 : 30
         foreground: fgColorPalette.color
         background: bgColorPalette.color
         channel: 'calc'

@@ -9,8 +9,8 @@ Rectangle {
 ColumnLayout {
     anchors.fill: parent
     CaBar {
-        width: 100
-        height: 50
+        width: (direction == Direction.Left || direction == Direction.Right) ? 100 : 50
+        height: (direction == Direction.Left || direction == Direction.Right) ? 50 : 100
         channel: 'catest'
         foreground: fgColorPalette.color
         background: bgColorPalette.color
