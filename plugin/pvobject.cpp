@@ -308,7 +308,31 @@ long QQuickPvObject::exit_ca()
  */
 void QQuickPvObject::exception_handler(exception_handler_args args)
 {
-    Q_UNUSED(args);
+    qErrnoWarning(
+      "PvObject: Channel Access Exception:\n"
+      "  Channel Name: %s\n"
+      "  Native Type: %s\n"
+      "  Native Count: %hu\n"
+      "  Access: %s%s\n"
+      "  Host: %s\n"
+      "  Message: %s\n"
+      "  Context: %s\n"
+      "  Requested Type: %s\n"
+      "  Requested Count: %ld\n"
+      "  Source File: %s\n"
+      "  Line number: %u\n",
+      args.chid?ca_name(args.chid):"Unavailable",
+      args.chid?dbf_type_to_text(ca_field_type(args.chid)):"Unavailable",
+      args.chid?ca_element_count(args.chid):0,
+      args.chid?(ca_read_access(args.chid)?"R":"None"):"Unavailable",
+      args.chid?(ca_write_access(args.chid)?"W":""):"",
+      args.chid?ca_host_name(args.chid):"Unavailable",
+      ca_message(args.stat)?ca_message(args.stat):"Unavailable",
+      args.ctx?args.ctx:"Unavailable",
+      dbf_type_to_text(args.type),
+      args.count,
+      args.pFile?args.pFile:"Unavailable",
+      args.pFile?args.lineNo:0);
 }
 
 /*!
