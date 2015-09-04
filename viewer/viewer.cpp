@@ -88,12 +88,16 @@ void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> ma
 
     Display displayInfo(0);
     displayInfo.setFileName(file.fileName().toStdString());
+    std::map<std::string, std::string> macros;
+    foreach (QString macro, macroMap.keys()) {
+        macros[macro.toStdString()] = macroMap[macro].toStdString();
+    }
+    displayInfo.setMacros(macros);
     displayInfo.parse(isstream);
 
     std::ostringstream osstream;
     displayInfo.toQML(osstream);
     osstream.flush();
-
 
     QQmlComponent component(&engine);
     component.setData(osstream.str().c_str(), QUrl());
