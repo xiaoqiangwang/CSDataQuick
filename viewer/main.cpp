@@ -206,6 +206,9 @@ int main(int argc, char **argv)
             qWarning() << "Failed to start IPC server";
     }
 
+    foreach (QString fileName, args) {
+        viewer->dispatchRequestReceived(fileName, macroMap, geometry);
+    }
     viewer->show();
     return qMyApp->exec();
 }

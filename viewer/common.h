@@ -447,13 +447,4 @@
         DL_Text           =125
     } DlElementType;
 
-    /*
-     * types for parsing
-     */
-    #include <iostream>
-    typedef enum
-    { T_WORD, T_EQUAL, T_QUOTE, T_LEFT_BRACE, T_RIGHT_BRACE, T_EOF} TOKEN;
-
-    EXTERN TOKEN getToken(std::istream &fstream, char *word);
-    EXTERN void parseAndSkip(std::istream &fstream);
 #endif // COMMON_H

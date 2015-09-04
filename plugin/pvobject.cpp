@@ -332,6 +332,7 @@ QQuickPvObject::QQuickPvObject(QObject *parent):
     _value = "";
     _name = "";
     _nostr = 0;
+    _precision = 0;
     _loalrmlim = 0; _upalrmlim = 0;
     _lodisplim = 0; _updisplim = 0;
     _lowarnlim = 0; _upwarnlim = 0;

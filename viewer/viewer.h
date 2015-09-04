@@ -16,6 +16,7 @@ signals:
 public slots:
     void on_actionOpen_triggered();
     void on_actionExit_triggered();
+    void on_actionDisplayList_triggered();
     void on_actionAbout_triggered();
 
     void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QRect geometry);
