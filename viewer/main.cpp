@@ -1,6 +1,7 @@
 
 #include "common.h"
 #include "viewer.h"
+#include "ipcserver.h"
 
 #include <sstream>
 #include <iostream>
@@ -16,49 +17,7 @@
 
 #include <QtDebug>
 
-class IPCServer : public QObject
-{
-    Q_OBJECT
-public:
-    IPCServer(QObject *parent):QObject(parent) {
-        m_server = new QLocalServer(this);
-        m_server->listen("ADLViewer");
-        connect(m_server, &QLocalServer::newConnection,
-                this, &IPCServer::onNewConnection);
-    }
-
-    void requestDispatch(QString fileName, QMap<QString, QString> macro, QRect geometry) {
-        QByteArray message;
-        QDataStream stream(message);
-        stream << fileName << macro << geometry;
-
-        QLocalSocket client;
-        client.connectToServer("ADLViewer");
-        client.write(message);
-        client.flush();
-        client.close();
-    }
-
-public slots:
-    void onNewConnection() {
-        while (QLocalSocket *client = m_server->nextPendingConnection()) {
-            QByteArray message = client->readAll();
-            if (message.isEmpty())
-                continue;
-            QDataStream stream(message);
-            QString fileName;
-            QMap<QString, QString> macro;
-            QRect geometry;
-            stream >> fileName >> macro >> geometry;
-            emit dispatchRequested(fileName, macro, geometry);
-        }
-    }
-signals:
-    void dispatchRequested(QString fileName, QMap<QString, QString> macro, QRect geometry);
-
-private:
-    QLocalServer *m_server;
-};
+typedef QMap<QString, QString> MacroMap;
 
 /* From QGuiApplication.cpp */
 struct QWindowGeometrySpecification
@@ -131,6 +90,7 @@ QMap<QString, QString> parseMacro(QString macro)
 {
     QMap<QString, QString> macroMap;
     foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
         QStringList paires = m.split('=');
         if (paires.length() == 2)
             macroMap.insert(paires[0], paires[1]);
@@ -143,9 +103,11 @@ QMap<QString, QString> parseMacro(QString macro)
 
 int main(int argc, char **argv)
 {
-    QApplication a(argc, argv);
-    QApplication::setApplicationName("adl-viewer");
-    QApplication::setApplicationVersion("0.1");
+    // First create QCoreApplication to work on command  line argument parsing
+    // and dispatch request.
+    QCoreApplication *qCoreApp =  new QCoreApplication(argc, argv);
+
+    qRegisterMetaType<MacroMap>("MacroMap");
 
     QCommandLineParser parser;
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
@@ -187,10 +149,10 @@ int main(int argc, char **argv)
     parser.addOption(geometryOption);
 
     // Process the actual command line arguments given by the user
-    parser.process(a);
+    parser.process(qCoreApp->arguments());
 
     // macros
-    QMap<QString, QString> marcoMap = parseMacro(parser.value(macroOption));
+    MacroMap macroMap = parseMacro(parser.value(macroOption));
 
     // geomtry
     QRect geometry = parseGeometry(parser.value(geometryOption).toLatin1());
@@ -204,25 +166,46 @@ int main(int argc, char **argv)
 
     // adl files is in args
     const QStringList args = parser.positionalArguments();
-    foreach (QString arg, args) {
-        QFile file;
-        if (QDir::isAbsolutePath(arg))
-            file.setFileName(arg);
-        else
-            file.setFileName("displays:" + arg);
-        if (!file.open(QIODevice::ReadOnly)) {
-            qDebug() << "Unable to open " << arg;
-            continue;
-        }
-        std::string input(file.readAll().data());
-        std::istringstream isstream(input);
-        char token[MAX_TOKEN_LENGTH];
 
-        //while (getToken(isstream, token) != T_EOF)
-        //    std::cout << token << std::endl;
+    // Do remote protocol if local option is not specified
+    if (!parser.isSet(localOption)) {
+        if (parser.isSet(attachOption)) {
+            bool existing = IPCClient::checkExistence();
+            if (existing) {
+                qDebug() << "Attaching to existing ADLViewer";
+                foreach(QString arg, args) {
+                    if (IPCClient::requestDispatch(arg, macroMap, geometry))
+                        qDebug() << "  Dispatched: " << arg << macroMap << geometry;
+                    else
+                        qDebug() << "  Dispatch failed for " << arg;
+                }
+                qCoreApp->quit();
+                return 0;
+            } else {
+                qWarning() << "\nCannot connect to existing ADLViewer because it is invalid\n"
+                           << "  Continuing with this one as if -cleanup were specified\n";
+            }
+        }
+    }
+    qCoreApp->quit();
+    delete qCoreApp;
+
+    // Now start the real application
+    QApplication *qMyApp = new QApplication(argc, argv);
+    QApplication::setApplicationName("adl-viewer");
+    QApplication::setApplicationVersion("0.1");
+
+    Viewer *viewer = new Viewer();
+
+    if (!parser.isSet(localOption)) {
+        IPCServer *server = new IPCServer();
+        if (server->launchServer(true))
+            QObject::connect(server, &IPCServer::dispatchRequestReceived,
+                         viewer, &Viewer::dispatchRequestReceived);
+        else
+            qWarning() << "Failed to start IPC server";
     }
 
-    Viewer viewer;
-    viewer.show();
-    return a.exec();
+    viewer->show();
+    return qMyApp->exec();
 }

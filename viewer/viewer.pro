@@ -4,11 +4,18 @@ QT += widgets quick
 HEADERS += element.h \
     common.h \
     viewer.h \
-    fileinfo.h
+    fileinfo.h \
+    ipcserver.h
 
 SOURCES += element.cpp \
     common.cpp \
-    #main.cpp \
+    main.cpp \
     viewer.cpp \
-    test.cpp \
-    fileinfo.cpp
+    #test.cpp \
+    fileinfo.cpp \
+    ipcserver.cpp
+
+mac {
+    LIBS += -framework Security
+    #CONFIG -= app_bundle
+}
