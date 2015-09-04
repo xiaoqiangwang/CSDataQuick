@@ -25,6 +25,8 @@ Viewer::Viewer(QWidget *parent) :
     actionOpen->setObjectName("actionOpen");
     QAction *actionExit = new QAction(tr("Exit"), this);
     actionExit->setObjectName("actionExit");
+    QAction *actionDisplayList = new QAction(tr("Display List"), this);
+    actionDisplayList->setObjectName("actionDisplayList");
     QAction *actionAbout = new QAction(tr("About..."), this);
     actionAbout->setObjectName("actionAbout");
 
@@ -34,6 +36,7 @@ Viewer::Viewer(QWidget *parent) :
     menuBar()->addMenu(menuFile);
 
     QMenu *menuView = new QMenu(tr("View"));
+    menuView->addAction(actionDisplayList);
     menuBar()->addMenu(menuView);
 
     QMenu *menuHelp = new QMenu(tr("Help"));
@@ -52,6 +55,10 @@ void Viewer::on_actionExit_triggered()
     close();
 }
 
+void Viewer::on_actionDisplayList_triggered()
+{
+}
+
 void Viewer::on_actionAbout_triggered()
 {
     QMessageBox::about(this,
@@ -59,8 +66,13 @@ void Viewer::on_actionAbout_triggered()
                        tr("An ADL display file viewer in QML."));
 }
 
-void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QRect geometry)
+void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macroMap, QRect geometry)
 {
+    qDebug() << "File Dispatch Request:"
+             << "  fileName =" << fileName
+             << "  macro =" << macroMap
+             << "  geometry =" << geometry;
+
     QFile file;
     if (QDir::isAbsolutePath(fileName))
         file.setFileName(fileName);
@@ -76,12 +88,16 @@ void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> ma
 
     Display displayInfo(0);
     displayInfo.setFileName(file.fileName().toStdString());
+    std::map<std::string, std::string> macros;
+    foreach (QString macro, macroMap.keys()) {
+        macros[macro.toStdString()] = macroMap[macro].toStdString();
+    }
+    displayInfo.setMacros(macros);
     displayInfo.parse(isstream);
 
     std::ostringstream osstream;
     displayInfo.toQML(osstream);
     osstream.flush();
-
 
     QQmlComponent component(&engine);
     component.setData(osstream.str().c_str(), QUrl());

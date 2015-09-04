@@ -9,8 +9,8 @@ Rectangle {
 ColumnLayout {
     anchors.fill: parent
     CaSlider {
-        width: 150
-        height: 150
+        width:  orientation == Qt.Horizontal ? 150 : 50
+        height: orientation == Qt.Vertical ? 150 : 50
         channel: 'catest'
         foreground: fgColorPalette.color
         background: bgColorPalette.color
