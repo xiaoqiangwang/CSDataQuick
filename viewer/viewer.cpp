@@ -3,9 +3,10 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QDir>
+#include <QApplication>
 
 #include <QQmlComponent>
-#include <QQuickView>
+#include <QQuickWindow>
 
 #include <QtDebug>
 
@@ -46,6 +47,15 @@ Viewer::Viewer(QWidget *parent) :
     QMetaObject::connectSlotsByName(this);
 }
 
+void Viewer::closeEvent(QCloseEvent *event)
+{
+    /* Close all adl windows and quit applicaiton */
+    foreach (QQuickWindow *window, windows) {
+        window->close();
+    }
+    qApp->quit();
+}
+
 void Viewer::on_actionOpen_triggered()
 {
 }
@@ -63,7 +73,11 @@ void Viewer::on_actionAbout_triggered()
 {
     QMessageBox::about(this,
                        tr("About ADL Viewer"),
-                       tr("An ADL display file viewer in QML."));
+                       tr("<h2>ADL Viewer %1</h2>\n\n"
+                          "Based on Qt %2\n")
+                       .arg(QApplication::applicationVersion())
+                       .arg(QT_VERSION_STR)
+                       );
 }
 
 void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macroMap, QRect geometry)
@@ -108,6 +122,21 @@ void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> ma
             return;
         }
     }
-    QWindow * window = qobject_cast<QQuickWindow *>(component.create());
+    QQuickWindow * window = qobject_cast<QQuickWindow *>(component.create());
+    connect(window, SIGNAL(closing(QQuickCloseEvent*)), this, SLOT(childWindowClosed(QQuickCloseEvent*)));
+    windows.append(window);
+
+    window->setTitle(fileName);
     window->show();
+}
+
+
+void Viewer :: childWindowClosed(QQuickCloseEvent *event)
+{
+    Q_UNUSED(event);
+
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(sender());
+    if (window) {
+        windows.removeOne(window);
+    }
 }
