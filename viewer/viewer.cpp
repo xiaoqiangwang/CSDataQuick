@@ -66,8 +66,13 @@ void Viewer::on_actionAbout_triggered()
                        tr("An ADL display file viewer in QML."));
 }
 
-void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QRect geometry)
+void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macroMap, QRect geometry)
 {
+    qDebug() << "File Dispatch Request:"
+             << "  fileName =" << fileName
+             << "  macro =" << macroMap
+             << "  geometry =" << geometry;
+
     QFile file;
     if (QDir::isAbsolutePath(fileName))
         file.setFileName(fileName);
