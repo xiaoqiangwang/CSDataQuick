@@ -8,6 +8,7 @@
 
 class QQuickWindow;
 class QQuickCloseEvent;
+class QPlainTextEdit;
 
 class Viewer : public QMainWindow
 {
@@ -15,7 +16,10 @@ class Viewer : public QMainWindow
 public:
     explicit Viewer(QWidget *parent = 0);
 
+    void outputMessage(QtMsgType type, const QString &msg);
+
 signals:
+    void sendMessage(QString message);
 
 public slots:
     void on_actionOpen_triggered();
@@ -25,11 +29,13 @@ public slots:
 
     void childWindowClosed(QQuickCloseEvent *event);
     void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QRect geometry);
+    void openADLDisplay(QString fileName, QMap<QString, QString> macro, QRect geometry);
 
 protected:
     void closeEvent(QCloseEvent *event);
 
 private:
+    QPlainTextEdit *editor;
     QQmlEngine engine;
     QVector<QQuickWindow *> windows;
 };

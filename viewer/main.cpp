@@ -14,8 +14,19 @@
 #include <QDir>
 #include <QLocalServer>
 #include <QLocalSocket>
+#include <QPointer>
 
 #include <QtDebug>
+
+QPointer<Viewer> viewer;
+
+void myMessageOutput(QtMsgType type, const QMessageLogContext &ctx, const QString &msg)
+{
+    Q_UNUSED(ctx);
+
+    if(viewer)
+        viewer->outputMessage(type, msg );
+}
 
 typedef QMap<QString, QString> MacroMap;
 
@@ -108,6 +119,7 @@ int main(int argc, char **argv)
     QCoreApplication *qCoreApp =  new QCoreApplication(argc, argv);
 
     qRegisterMetaType<MacroMap>("MacroMap");
+    qRegisterMetaType<QtMsgType>("QtMsgType");
 
     QCommandLineParser parser;
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
@@ -192,10 +204,11 @@ int main(int argc, char **argv)
 
     // Now start the real application
     QApplication *qMyApp = new QApplication(argc, argv);
-    QApplication::setApplicationName("adl-viewer");
+    QApplication::setApplicationName("ADLViewer");
     QApplication::setApplicationVersion("0.1");
 
-    Viewer *viewer = new Viewer();
+    viewer = new Viewer();
+    qInstallMessageHandler(myMessageOutput);
 
     if (!parser.isSet(localOption)) {
         IPCServer *server = new IPCServer();
@@ -207,7 +220,8 @@ int main(int argc, char **argv)
     }
 
     foreach (QString fileName, args) {
-        viewer->dispatchRequestReceived(fileName, macroMap, geometry);
+        viewer->openADLDisplay(fileName, macroMap, geometry);
+        qDebug() << "Open display file" << fileName;
     }
     viewer->show();
     return qMyApp->exec();

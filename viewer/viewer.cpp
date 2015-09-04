@@ -7,6 +7,8 @@
 
 #include <QQmlComponent>
 #include <QQuickWindow>
+#include <QPlainTextEdit>
+#include <QDateTime>
 
 #include <QtDebug>
 
@@ -20,6 +22,7 @@
 Viewer::Viewer(QWidget *parent) :
     QMainWindow(parent)
 {
+    setWindowTitle(QApplication::applicationName()  + " " + QApplication::applicationVersion());
     engine.addImportPath("..");
 
     QAction *actionOpen = new QAction(tr("Open..."), this);
@@ -43,6 +46,12 @@ Viewer::Viewer(QWidget *parent) :
     QMenu *menuHelp = new QMenu(tr("Help"));
     menuHelp->addAction(actionAbout);
     menuBar()->addMenu(menuHelp);
+
+    editor = new QPlainTextEdit(this);
+    editor->setReadOnly(true);
+    setCentralWidget(editor);
+
+    connect(this, SIGNAL(sendMessage(QString)), editor, SLOT(appendPlainText(QString)));
 
     QMetaObject::connectSlotsByName(this);
 }
@@ -82,10 +91,32 @@ void Viewer::on_actionAbout_triggered()
 
 void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macroMap, QRect geometry)
 {
-    qDebug() << "File Dispatch Request:"
-             << "  fileName =" << fileName
-             << "  macro =" << macroMap
+    qDebug() << "File Dispatch Request:\n"
+             << "  fileName =" << fileName << "\n"
+             << "  macro =" << macroMap << "\n"
              << "  geometry =" << geometry;
+
+    openADLDisplay(fileName, macroMap, geometry);
+}
+
+void Viewer :: outputMessage(QtMsgType type, const QString &msg)
+{
+    emit sendMessage(QDateTime::currentDateTime().toString() + ":\n" + msg);
+}
+
+void Viewer :: childWindowClosed(QQuickCloseEvent *event)
+{
+    Q_UNUSED(event);
+
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(sender());
+    if (window) {
+        windows.removeOne(window);
+    }
+}
+
+
+void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap, QRect geometry)
+{
 
     QFile file;
     if (QDir::isAbsolutePath(fileName))
@@ -128,15 +159,4 @@ void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> ma
 
     window->setTitle(fileName);
     window->show();
-}
-
-
-void Viewer :: childWindowClosed(QQuickCloseEvent *event)
-{
-    Q_UNUSED(event);
-
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(sender());
-    if (window) {
-        windows.removeOne(window);
-    }
 }
