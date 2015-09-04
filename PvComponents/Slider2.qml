@@ -82,7 +82,7 @@ Item {
         width: orientation == Qt.Horizontal ? effectiveLength + 2 * sidemargin : Math.max(root.width / 10, implicitWidth)
         height: orientation == Qt.Horizontal ? Math.max(root.height / 10, implicitHeight) : effectiveLength + 2 * sidemargin
 
-        font: root.font
+        //font: root.font
         direction: root.direction
         precision: root.precision
         visible: root.showRange
