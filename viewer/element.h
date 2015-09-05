@@ -127,7 +127,7 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream &fstream);
 
-private:
+//private:
     PvLimitsSrc_t loprSrc;
     double loprDefault;
     PvLimitsSrc_t hoprSrc;

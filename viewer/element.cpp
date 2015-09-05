@@ -2940,7 +2940,20 @@ void Pen::toQML(std::ostream &fstream)
     fstream << indent << "    ListElement {" << std::endl;
     fstream << indent << "        channel: \"" << this->chan << '"' << std::endl;
     fstream << indent << "        foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
-    this->limits.toQML(fstream);
+    // Since ListElement can only contain plain types, not QtObject,
+    // the limits property has to be given explicitly.
+    // This requires acess Limits' members.
+    //this->limits.toQML(fstream);
+    if (this->limits.loprSrc != PV_LIMITS_CHANNEL)
+    fstream << indent << "    loprSrc: " << qmlValueTable[this->limits.loprSrc] << "\n";
+    if (this->limits.hoprSrc != PV_LIMITS_CHANNEL)
+    fstream << indent << "    hoprSrc: " << qmlValueTable[this->limits.hoprSrc] << "\n";
+
+    if (this->limits.loprDefault != 0)
+    fstream << indent << "        loprDefault: " << this->limits.loprDefault << "\n";
+    if (this->limits.hoprDefault != 0)
+    fstream << indent << "        hoprDefault: " << this->limits.hoprDefault << "\n";
+
     fstream << indent << "    }" << std::endl;
 }
 
