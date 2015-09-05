@@ -35,6 +35,17 @@ CaGraphics {
     */
     property string imageCalc: ''
 
+    /*!
+        \internal
+
+        This is the number of frames in the image.
+
+        The ADLViewer uses this property to decide this item's stacking order.
+        If the number of frame is less than 1, and \l dynamicAttr has no valid channel,
+        this item will be given lower stacking order.
+    */
+    readonly property int frameCount: animation.frameCount
+
     Connections {
         target: dynamicAttr
         onUpdate: {
