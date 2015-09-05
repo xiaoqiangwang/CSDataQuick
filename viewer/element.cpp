@@ -1282,6 +1282,11 @@ void Arc::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
     ostream << indent << "    begin: " << this->begin << std::endl;
     ostream << indent << "    span: " << this->path << std::endl;
+    // if no dynamic channel is defined, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    if (!this->dynamic_attr.hasChannels()) {
+        ostream << indent << "    z: -1" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
 
@@ -1346,6 +1351,9 @@ void Image::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
     ostream << indent << "    source: \"" << this->imageName << "\"" << std::endl;
     ostream << indent << "    imageCalc: \"" << this->calc << "\"" <<std::endl;
+    // if no dynamic channel is defined and image has single frame, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    ostream << indent << "    z: da.channel || frameCount > 1 ? 0 : -1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1395,6 +1403,11 @@ void Oval::toQML(std::ostream &ostream)
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
+    // if no dynamic channel is defined, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    if (!this->dynamic_attr.hasChannels()) {
+        ostream << indent << "    z: -1" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
 
@@ -1486,6 +1499,11 @@ void Polygon::toQML(std::ostream &ostream)
         ostream << "Qt.point(" << (*it).x << "," << (*it).y << "),";
     }
     ostream << "]" << std::endl;
+    // if no dynamic channel is defined, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    if (!this->dynamic_attr.hasChannels()) {
+        ostream << indent << "    z: -1" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
 
@@ -1576,7 +1594,12 @@ void Polyline::toQML(std::ostream &ostream)
     for (std::vector<Point>::iterator it = this->points.begin(); it != this->points.end(); it ++) {
         ostream << "Qt.point(" << (*it).x << "," << (*it).y << "),";
     }
-    ostream << indent << "]";
+    ostream << "]" << std::endl;
+    // if no dynamic channel is defined, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    if (!this->dynamic_attr.hasChannels()) {
+        ostream << indent << "    z: -1" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
 
@@ -1626,6 +1649,11 @@ void Rectangle::toQML(std::ostream &ostream)
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
+    // if no dynamic channel is defined, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    if (!this->dynamic_attr.hasChannels()) {
+        ostream << indent << "    z: -1" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
 
@@ -1704,8 +1732,18 @@ void Text::toQML(std::ostream &ostream)
     if (this->align != HORIZ_LEFT)
         ostream << indent << "    align: " << qmlValueTable[this->align] << std::endl;
     ostream << indent << "    text: \"" << this->label << '"' << std::endl;
+    // if no dynamic channel is defined, this is a static graphics item.
+    // lower its stacking order not to shadow other control/monitor items
+    if (!this->dynamic_attr.hasChannels()) {
+        ostream << indent << "    z: -1" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
+
+/******************************************************
+ *                   Controls
+ *
+ ******************************************************/
 
 ChoiceButton::ChoiceButton (Element *parent)
     : Element(parent),
