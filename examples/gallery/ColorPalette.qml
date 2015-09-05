@@ -42,7 +42,9 @@ Rectangle {
                         }
                     }
                     checkable: true
-                    checked: index == currentIndex
+                    //checked: index == currentIndex
+                    Binding on checked {value: index == currentIndex}
+                    onClicked: currentIndex = index
                     exclusiveGroup: colorButtonGroup
                     property color color: ColorMap['color%1'.arg(index)]
                 }
