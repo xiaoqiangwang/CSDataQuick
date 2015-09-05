@@ -23,7 +23,7 @@ public:
     void run();
 
 signals:
-    void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QRect geometry);
+    void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QString geometry);
 
 protected:
     void handleClient(QLocalSocket *client);
@@ -36,7 +36,7 @@ class IPCClient
 {
 public:
     static bool checkExistence();
-    static bool requestDispatch(QString fileName, QMap<QString, QString> macro, QRect geometry);
+    static bool requestDispatch(QString fileName, QMap<QString, QString> macro, QString geometry);
 
 protected:
     static QByteArray writeAndRead(QLocalSocket *socket, quint16 messageId, QByteArray messageOut);
@@ -50,7 +50,7 @@ public:
     bool launchServer(bool cleanup=false);
 
 signals:
-    void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QRect geometry);
+    void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QString geometry);
 
 protected:
     virtual void incomingConnection(quintptr socketDescriptor);
