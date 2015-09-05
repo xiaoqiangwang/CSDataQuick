@@ -77,7 +77,7 @@ void IPCHandler :: handleClient(QLocalSocket *client)
 
         QString fileName;
         QMap<QString, QString> macro;
-        QRect geometry;
+        QString geometry;
         ds >> fileName >> macro >> geometry;
         if (!fileName.isEmpty()) {
             // signal new request
@@ -179,7 +179,7 @@ QByteArray IPCClient :: writeAndRead(QLocalSocket *socket, quint16 messageId, QB
     return messageIn;
 }
 
-bool IPCClient :: requestDispatch(QString fileName, QMap<QString, QString> macro, QRect geometry) {
+bool IPCClient :: requestDispatch(QString fileName, QMap<QString, QString> macro, QString geometry) {
     QByteArray message;
 
     QDataStream ostream(&message, QIODevice::WriteOnly);
