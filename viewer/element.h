@@ -83,7 +83,9 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
-private:
+    bool hasChannels() {return !chan[0].empty();}
+
+protected:
     ColorMode clr;
     VisibilityMode vis;
     std::string chan[MAX_CALC_RECORDS];
