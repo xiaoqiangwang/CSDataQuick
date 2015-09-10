@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
-SUBDIRS = plugin viewer examples docs PvComponents/qml.pro
+SUBDIRS = src docs tests examples
 
 QML_IMPORT_PATH = .

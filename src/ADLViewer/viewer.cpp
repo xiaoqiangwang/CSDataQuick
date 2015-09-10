@@ -13,12 +13,7 @@
 
 #include <QtDebug>
 
-#include <fstream>
-#include <sstream>
-
-#include "common.h"
-#include "element.h"
-#include "fileinfo.h"
+#include "parser.h"
 
 /* From QGuiApplication.cpp */
 struct QWindowGeometrySpecification
@@ -185,35 +180,15 @@ void Viewer :: childWindowClosed(QQuickCloseEvent *event)
 
 void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap, QString geometry)
 {
-
-    QFile file;
-    if (QDir::isAbsolutePath(fileName))
-        file.setFileName(fileName);
-    else
-        file.setFileName("displays://" + fileName);
-
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Unable to open " << fileName;
-        return;
-    }
-    std::string input(file.readAll().data());
-    std::istringstream isstream(input);
-
-    Display displayInfo(0);
-    displayInfo.setFileName(file.fileName().toStdString());
     std::map<std::string, std::string> macros;
     foreach (QString macro, macroMap.keys()) {
         macros[macro.toStdString()] = macroMap[macro].toStdString();
     }
-    displayInfo.setMacros(macros);
-    displayInfo.parse(isstream);
 
-    std::ostringstream osstream;
-    displayInfo.toQML(osstream);
-    osstream.flush();
+    std::string qmlBody = parseADL(fileName.toStdString(), macros);
 
     QQmlComponent component(&engine);
-    component.setData(osstream.str().c_str(), QUrl());
+    component.setData(qmlBody.c_str(), QUrl());
     while(!component.isReady()) {
         if (component.isError()) {
             foreach(QQmlError error, component.errors())
