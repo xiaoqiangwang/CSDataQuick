@@ -21,7 +21,7 @@ find_package(EPICS)
 
 set(ENV{QML_IMPORT_PATH} )
 
+add_subdirectory(src)
 add_subdirectory(docs)
-add_subdirectory(PvComponents)
-add_subdirectory(plugin)
 add_subdirectory(examples)
+add_subdirectory(tests)

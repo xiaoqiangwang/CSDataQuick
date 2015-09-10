@@ -1,3 +1,14 @@
+file (GLOB QML_JS_FILES *.qml *.js qmldir)
+macro(COPY_QML_FILES)
+    foreach(file IN LISTS ARGN)
+        execute_process({CMAKE_COMMAND} -E ${file} ${CMAKE_BINARY_DIR}/PvComponents)
+    endforeach()
+endmacro()
+
+add_custom_target (PvComponents ALL 
+    COMMAND
+    SOURCES ${QML_JS_FILES}
+)
 set(SOURCES
     pvobject.cpp
     adimageprovider.cpp
@@ -21,6 +32,11 @@ set(HEADERS
     qcustomplot.h
     plotitem.h
 )
+
+# When CMake 3.0.0 is required, remove this block (see CMP0042).
+if (NOT DEFINED CMAKEMACOSX_RPATH)
+    set(CMAKE_MACOSX_RPATH 0)
+endif()
 
 add_library(pvcomponentsplugin SHARED
     ${SOURCES}

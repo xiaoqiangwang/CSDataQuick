@@ -1,5 +1,3 @@
-TEMPLATE = aux
-
 QML_IMPORT_PATH = .
 QML_FILES += \
     $$PWD/DynamicAttr.qml \
@@ -56,4 +54,4 @@ QML_FILES += \
 
 OTHER_FILES = $$QML_FILES
 
-QML_FILES.TARGET = $$PWD/../PvComponents
+QML_FILES.TARGET = $PWD/../../import/PvComponents
