@@ -1,4 +1,5 @@
 TEMPLATE = aux
 
-OTHER_FILES = adl2qml.py
-OTHER_FILES = mask.py
+OTHER_FILES = \
+    adl2qml.py \
+    mask.py
