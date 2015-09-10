@@ -49,9 +49,20 @@ QML_FILES += \
     $$PWD/images/arrow-up.png \
     $$PWD/images/button_down.png \
     $$PWD/images/button_up.png \
-    $$PWD/images/doubleect.png \
+    $$PWD/images/doublerect.png \
     $$PWD/images/focusframe.png
 
 OTHER_FILES = $$QML_FILES
 
-QML_FILES.TARGET = $PWD/../../import/PvComponents
+# These rules are to copy qml file to TARGETPATH
+defineReplace(qmlModStripSrcDir) {
+    return($$TARGETPATH/$$relative_path($$1, $$_PRO_FILE_PWD_))
+}
+
+qmlfiles2build.input = QML_FILES
+qmlfiles2build.output_function = qmlModStripSrcDir
+qmlfiles2build.commands = $$QMAKE_COPY ${QMAKE_FILE_NAME} ${QMAKE_FILE_OUT}
+qmlfiles2build.depends = $$QML_FILES
+qmlfiles2build.CONFIG = no_link target_predeps
+
+QMAKE_EXTRA_COMPILERS += qmlfiles2build

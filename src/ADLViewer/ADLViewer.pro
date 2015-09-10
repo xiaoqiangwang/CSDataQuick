@@ -1,6 +1,8 @@
 TEMPLATE = app
 QT += widgets quick
 
+DESTDIR = ../../bin/
+
 HEADERS += \
     viewer.h \
     ipcserver.h
