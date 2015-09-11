@@ -21,7 +21,7 @@ sources += ../src/PvComponents/utils.cpp \
 
 headers.fileextensions = "*.h"
 
-imagedirs   = ./images
+imagedirs   = images
 
 # include qt indexes to create cross reference
 depends = qtcore qtdoc qtgui qtwidgets qtqml qtquick
@@ -31,7 +31,8 @@ outputformats = HTML
 syntaxhighlighting = true
 
 HTML.templatedir = .
-HTML.nobreadcrumbs = true
+HTML.extraimages += images/ico_out.png
+ HTML.nobreadcrumbs = true
 HTML.stylesheets = offline.css
 HTML.headerstyles = \
   "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
