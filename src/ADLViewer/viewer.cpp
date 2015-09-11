@@ -13,6 +13,7 @@
 
 #include <QtDebug>
 
+#include <fstream>
 #include "parser.h"
 
 /* From QGuiApplication.cpp */
@@ -185,7 +186,13 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         macros[macro.toStdString()] = macroMap[macro].toStdString();
     }
 
-    std::string qmlBody = parseADL(fileName.toStdString(), macros);
+    std::ifstream ifstream(fileName.toStdString().c_str());
+    if (!ifstream.is_open()) {
+        qWarning() << "Failed to open file" << fileName;
+        return;
+    }
+
+    std::string qmlBody = parseADL(ifstream, macros);
 
     QQmlComponent component(&engine);
     component.setData(qmlBody.c_str(), QUrl());
