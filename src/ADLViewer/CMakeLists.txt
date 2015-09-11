@@ -24,17 +24,12 @@ include_directories(
     ${Qt5PrintSupport_INCLUDE_DIRS}
     ../ADLParser
 )
+target_link_libraries(ADLViewer Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::PrintSupport)
+target_link_libraries(ADLViewer ADLParser)
 if(APPLE)
     find_library(OSXSecurity Security)
+    target_link_libraries(ADLViewer ${OSXSecurity})
 endif()
 
-target_link_libraries(ADLViewer 
-    Qt5::Core 
-    Qt5::Gui 
-    Qt5::Widgets 
-    Qt5::Quick
-    Qt5::PrintSupport
-    ADLParser 
-    ${OSXSecurity}
-)
-
+SET_TARGET_PROPERTIES(ADLViewer PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
+    ${CMAKE_BINARY_DIR}/bin)
