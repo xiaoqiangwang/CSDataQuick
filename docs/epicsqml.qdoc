@@ -22,6 +22,20 @@ They normally consist of a set of widgets(e.g. text entry, text label, push butt
 based on certain toolkits (e.g. Motif, Tk, Qt).
 
 \section1 QtQuick and PV
+A PV object is identificed by its name PVData::channel. 
+\li type - data type
+\li host - host where the PV resides
+\li connected - wether it is connected
+\li value - the data it holds
+\li alarm - alarm status, severity
+\li timeStamp - time stamp of the PV change
+\li access - read or/and write access
+
+\li limits - display limits for numeric type
+\li precision - precision for numeric type
+\li units - physical units for numeric type
+
+\li stateString - state string representation for enum type
 
 The access to PV is implemented in \l QQuickPvObject.
 
