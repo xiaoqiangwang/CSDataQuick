@@ -175,6 +175,7 @@ void Viewer :: childWindowClosed(QQuickCloseEvent *event)
     QQuickWindow *window = qobject_cast<QQuickWindow *>(sender());
     if (window) {
         windows.removeOne(window);
+        window->deleteLater();
     }
 }
 
