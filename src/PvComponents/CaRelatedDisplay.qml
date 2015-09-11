@@ -81,6 +81,7 @@ Rectangle {
                         console.log(component.errorString())
                 }
         }
+        window.title = fname
         window.visible = true
     }
 
