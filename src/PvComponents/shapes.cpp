@@ -2,7 +2,7 @@
 
 #include <QPainter>
 
-Shape::Shape(QQuickItem *parent)
+ShapeItem::ShapeItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)
 {
     _foreground = "black";
@@ -12,14 +12,14 @@ Shape::Shape(QQuickItem *parent)
     _edgeStyle = EdgeStyle::Solid;
 }
 
-void Shape::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry)
+void ShapeItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry)
 {
     QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
     _path = buildPath();
     update();
 }
 
-void Shape::paint(QPainter *painter)
+void ShapeItem::paint(QPainter *painter)
 {
     if (_fillStyle == FillStyle::Solid) {
         painter->fillPath(_path, _foreground);
@@ -34,14 +34,14 @@ void Shape::paint(QPainter *painter)
     }
 }
 
-Arc::Arc(QQuickItem *parent)
-    : Shape(parent)
+ArcItem::ArcItem(QQuickItem *parent)
+    : ShapeItem(parent)
 {
     _begin = 0;
     _span = 90;
 }
 
-QPainterPath Arc::buildPath()
+QPainterPath ArcItem::buildPath()
 {
     QRectF rc = getDrawArea();
     QPainterPath path;
@@ -53,24 +53,24 @@ QPainterPath Arc::buildPath()
     return path;
 }
 
-Polyline::Polyline(QQuickItem *parent)
-    : Shape(parent)
+PolylineItem::PolylineItem(QQuickItem *parent)
+    : ShapeItem(parent)
 {
 }
 
-QPainterPath Polyline::buildPath()
+QPainterPath PolylineItem::buildPath()
 {
     QPainterPath path;
     path.addPolygon(QPolygonF(_points));
     return path;
 }
 
-Polygon::Polygon(QQuickItem *parent)
-    : Shape(parent)
+PolygonItem::PolygonItem(QQuickItem *parent)
+    : ShapeItem(parent)
 {
 }
 
-QPainterPath Polygon::buildPath()
+QPainterPath PolygonItem::buildPath()
 {
     QPainterPath path;
     path.addPolygon(QPolygonF(_points));
@@ -78,12 +78,12 @@ QPainterPath Polygon::buildPath()
     return path;
 }
 
-PaintedRectangle::PaintedRectangle(QQuickItem *parent)
-    : Shape(parent)
+PaintedRectangletem::PaintedRectangletem(QQuickItem *parent)
+    : ShapeItem(parent)
 {
 }
 
-QPainterPath PaintedRectangle::buildPath()
+QPainterPath PaintedRectangletem::buildPath()
 {
     QPainterPath path;
     QRectF rc = getDrawArea();
@@ -93,26 +93,26 @@ QPainterPath PaintedRectangle::buildPath()
     return path;
 }
 
-Oval::Oval(QQuickItem *parent)
-    : Shape(parent)
+OvalItem::OvalItem(QQuickItem *parent)
+    : ShapeItem(parent)
 {
 
 }
 
-QPainterPath Oval::buildPath()
+QPainterPath OvalItem::buildPath()
 {
     QPainterPath path;
     path.addEllipse(getDrawArea());
     return path;
 }
 
-DoubleRect::DoubleRect(QQuickItem *parent)
-    : Shape(parent)
+DoubleRectItem::DoubleRectItem(QQuickItem *parent)
+    : ShapeItem(parent)
 {
 
 }
 
-QPainterPath DoubleRect::buildPath()
+QPainterPath DoubleRectItem::buildPath()
 {
     QPainterPath path;
     QRectF rect = getDrawArea();

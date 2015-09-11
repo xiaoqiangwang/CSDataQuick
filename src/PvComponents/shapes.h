@@ -9,7 +9,7 @@
 #include "enums.h"
 #include "utils.h"
 
-class Shape : public QQuickPaintedItem
+class ShapeItem : public QQuickPaintedItem
 {
     Q_OBJECT
 
@@ -19,7 +19,7 @@ class Shape : public QQuickPaintedItem
     Q_PROPERTY(int lineWidth READ lineWidth WRITE setLineWidth)
 
 public:
-    Shape(QQuickItem *parent=0);
+    ShapeItem(QQuickItem *parent=0);
 
     QColor foreground() {return _foreground;}
     void setForeground(QColor foreground) {_foreground = foreground; update();}
@@ -61,7 +61,7 @@ private:
     QPainterPath _path;
 };
 
-class Arc : public Shape
+class ArcItem : public ShapeItem
 {
     Q_OBJECT
 
@@ -69,7 +69,7 @@ class Arc : public Shape
     Q_PROPERTY(double span READ span WRITE setSpan)
 
 public:
-    Arc(QQuickItem *parent=0);
+    ArcItem(QQuickItem *parent=0);
 
     double begin() { return _begin; }
     void setBegin(double begin) {
@@ -92,13 +92,13 @@ private:
     double _begin, _span;
 };
 
-class Polyline : public Shape
+class PolylineItem : public ShapeItem
 {
     Q_OBJECT
 
     Q_PROPERTY(QVariantList points READ points WRITE setPoints)
 public:
-    Polyline(QQuickItem *parent=0);
+    PolylineItem(QQuickItem *parent=0);
 
     QVariantList points() {
         QVariantList list;
@@ -120,13 +120,13 @@ private:
     QVector<QPoint> _points;
 };
 
-class Polygon : public Shape
+class PolygonItem : public ShapeItem
 {
     Q_OBJECT
 
     Q_PROPERTY(QVariantList points READ points WRITE setPoints)
 public:
-    Polygon(QQuickItem *parent=0);
+    PolygonItem(QQuickItem *parent=0);
 
     QVariantList points() {
         QVariantList list;
@@ -148,31 +148,31 @@ private:
     QVector<QPoint> _points;
 };
 
-class PaintedRectangle : public Shape
+class PaintedRectangletem : public ShapeItem
 {
     Q_OBJECT
 public:
-    PaintedRectangle(QQuickItem *parent=0);
+    PaintedRectangletem(QQuickItem *parent=0);
 
 protected:
     QPainterPath buildPath();
 };
 
-class Oval : public Shape
+class OvalItem : public ShapeItem
 {
     Q_OBJECT
 public:
-    Oval(QQuickItem *parent=0);
+    OvalItem(QQuickItem *parent=0);
 
 protected:
     QPainterPath buildPath();
 };
 
-class DoubleRect : public Shape
+class DoubleRectItem : public ShapeItem
 {
     Q_OBJECT
 public:
-    DoubleRect(QQuickItem *parent=0);
+    DoubleRectItem(QQuickItem *parent=0);
 
 protected:
     QPainterPath buildPath();
