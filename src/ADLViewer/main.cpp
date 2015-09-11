@@ -145,8 +145,8 @@ int main(int argc, char **argv)
     if (!parser.isSet(localOption)) {
         IPCServer *server = new IPCServer();
         if (server->launchServer(true))
-            QObject::connect(server, &IPCServer::dispatchRequestReceived,
-                         viewer, &Viewer::dispatchRequestReceived);
+            QObject::connect(server, SIGNAL(dispatchRequestReceived(QString,QMap<QString,QString>,QString)),
+                         viewer, SLOT(dispatchRequestReceived(QString,QMap<QString,QString>,QString)));
         else
             qWarning() << "Failed to start IPC server";
     }
