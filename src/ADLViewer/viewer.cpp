@@ -214,13 +214,14 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
     int xOffset = geometrySpec.xOffset < 0 ? window->x() : geometrySpec.xOffset;
     int yOffset = geometrySpec.yOffset < 0 ? window->y() : geometrySpec.yOffset;
 
-    // adjust the top left position
-    int x = xOffset;
-    int y = yOffset;
-
     // default screen size excluding taskbar, system menus, etc
     QSize screenSize = qApp->desktop()->availableGeometry().size();
+    int x, y;
     switch(geometrySpec.corner) {
+    case Qt::TopLeftCorner:
+        x = xOffset;
+        y = yOffset;
+        break;
     case Qt::TopRightCorner:
         x = screenSize.width() - width - xOffset;
         break;
