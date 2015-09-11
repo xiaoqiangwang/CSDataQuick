@@ -22,12 +22,12 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     // @uri PvComponents
     qmlRegisterType<QQuickPvObject>(uri, 1, 0, "PvObject");
     qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
-    qmlRegisterType<Polyline>(uri, 1, 0, "Polyline");
-    qmlRegisterType<Polygon>(uri, 1, 0, "Polygon");
-    qmlRegisterType<Arc>(uri, 1, 0, "Arc");
-    qmlRegisterType<PaintedRectangle>(uri, 1, 0, "PaintedRectangle");
-    qmlRegisterType<Oval>(uri, 1, 0, "Oval");
-    qmlRegisterType<DoubleRect>(uri, 1, 0, "DoubleRect");
+    qmlRegisterType<PolylineItem>(uri, 1, 0, "Polyline");
+    qmlRegisterType<PolygonItem>(uri, 1, 0, "Polygon");
+    qmlRegisterType<ArcItem>(uri, 1, 0, "Arc");
+    qmlRegisterType<PaintedRectangletem>(uri, 1, 0, "PaintedRectangle");
+    qmlRegisterType<OvalItem>(uri, 1, 0, "Oval");
+    qmlRegisterType<DoubleRectItem>(uri, 1, 0, "DoubleRect");
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
