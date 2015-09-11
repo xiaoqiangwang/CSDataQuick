@@ -5,29 +5,26 @@ version = 1.0
 
 Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
 
-sourcedirs = . ../PvComponents
+sourcedirs = . ../src/PvComponents
 sources.fileextensions += "*.qdoc *.qml *.js"
-headers += ../plugin/utils.h \
-           ../plugin/pvobject.h \
-           ../plugin/shapes.h \
-           ../plugin/plotitem.h \
-           ../plugin/adimageprovider.h
+headers += ../src/PvComponents/utils.h \
+           ../src/PvComponents/pvobject.h \
+           ../src/PvComponents/shapes.h \
+           ../src/PvComponents/plotitem.h \
+           ../src/PvComponents/adimageprovider.h
 
-sources += ../plugin/utils.cpp \
-           ../plugin/pvobject.cpp \
-           ../plugin/shapes.cpp \
-           ../plugin/plotitem.cpp \
-           ../plugin/adimageprovider.cpp
+sources += ../src/PvComponents/utils.cpp \
+           ../src/PvComponents/pvobject.cpp \
+           ../src/PvComponents/shapes.cpp \
+           ../src/PvComponents/plotitem.cpp \
+           ../src/PvComponents/adimageprovider.cpp
 
 headers.fileextensions = "*.h"
 
 imagedirs   = ./images
 
 # include qt indexes to create cross reference
-indexes =  /Users/wang/Qt/Docs/Qt-5.3/qtcore/qtcore.index \
-           /Users/wang/Qt/Docs/Qt-5.3/qtgui/qtgui.index \
-           /Users/wang/Qt/Docs/Qt-5.3/qtqml/qtqml.index \
-           /Users/wang/Qt/Docs/Qt-5.3/qtquick/qtquick.index
+depends = qtcore qtdoc qtgui qtwidgets qtqml qtquick
 
 outputdir = html
 outputformats = HTML
