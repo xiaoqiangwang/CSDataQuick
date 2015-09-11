@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <string>
+#include <istream>
 #include <map>
 
 #if defined(_WIN32)
@@ -14,6 +15,6 @@
     #define PARSER_DLLSPEC
 #endif
 
-PARSER_DLLSPEC std::string parseADL(std::string filename, std::map<std::string, std::string> macros);
+PARSER_DLLSPEC std::string parseADL(std::istream &ifstream, std::map<std::string, std::string> macros);
 
 #endif
