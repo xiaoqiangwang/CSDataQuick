@@ -224,8 +224,10 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         break;
     case Qt::TopRightCorner:
         x = screenSize.width() - width - xOffset;
+        y = yOffset;
         break;
     case Qt::BottomLeftCorner:
+        x = xOffset;
         y = screenSize.height() - height - yOffset;
         break;
     case Qt::BottomRightCorner:
