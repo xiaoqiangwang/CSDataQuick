@@ -7,6 +7,10 @@ OTHER_FILES = \
     $$PWD/epicsqml.qdocconf \
     $$PWD/epicsqml.qdoc
 
-html.commands = qdoc $$QMAKE_DOCS
+qtPrepareTool(QDOC, qdoc)
+
+QDOC_INDEXES += -indexdir $$[QT_INSTALL_DOCS/get]
+
+html.commands = $$QDOC $$QDOC_INDEXES $$QMAKE_DOCS
 
 QMAKE_EXTRA_TARGETS += html
