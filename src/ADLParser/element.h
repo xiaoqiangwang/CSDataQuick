@@ -281,6 +281,11 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
+    virtual ~Display() {
+        for (std::list<Element*>::iterator it = widgets.begin(); it != widgets.end(); ++it)
+            delete *it;
+    }
+
     std::string color(int index) {return colormap.value(index); }
 
     void setFileName(std::string filename) { file = filename;}
@@ -319,6 +324,11 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+
+    virtual ~Composite() {
+        for (std::list<Element*>::iterator it = widgets.begin(); it != widgets.end(); ++it)
+            delete *it;
+    }
 
 protected:
     void parseChildren(std::istream &fstream);
@@ -488,6 +498,11 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
+    virtual ~ShellCommand() {
+        for (std::vector<ShellCommandEntry*>::iterator it = commands.begin(); it != commands.end(); ++it)
+            delete *it;
+    }
+
 protected:
     void parseCommand(std::istream);
 
@@ -582,6 +597,11 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
+    virtual ~CartesianPlot() {
+        for (std::vector<Trace*>::iterator it = traces.begin(); it != traces.end(); ++it)
+            delete *it;
+    }
+
 private:
     Plotcom plotcom;
     PlotAxisDefinition x;
@@ -633,6 +653,11 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
+    virtual ~StripChart() {
+        for (std::vector<Pen*>::iterator it = pens.begin(); it != pens.end(); ++it)
+            delete *it;
+    }
+
 private:
     Plotcom plotcom;
     double period;
@@ -662,6 +687,10 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
+    virtual ~RelatedDisplay() {
+        for (std::vector<RelatedDisplayEntry*>::iterator it = entries.begin(); it != entries.end(); ++it)
+            delete *it;
+    }
 protected:
     void parseEntry(std::istream);
 
