@@ -53,6 +53,16 @@ record(bo, "bo")
     field (ASG,  "limit")
 }
 
+record(mbbo, "mbbo")
+{
+    field (ZRVL, "0")
+    field (ZRST, "ZERO")
+    field (ONVL, "1")
+    field (ONST, "ONE")
+    field (TWVL, "2")
+    field (TWST, "TWO")
+}
+
 record(waveform, "waves")
 {
     field (FTVL, "UCHAR")

@@ -1,10 +1,3 @@
-TEMPLATE = lib
-CONFIG += plugin
-QT += quick printsupport
--
-TARGET = pvcomponentsplugin
-DESTDIR = $$PWD/../PvComponents
-
 # EPICS related
 INCLUDEPATH += $$(EPICS_BASE)/include/
 LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
@@ -22,6 +15,10 @@ macx {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/Darwin
 }
 
+DEPENDPATH += . ../ADLParser
+INCLUDEPATH += ../ADLParser
+LIBS += -L ../ADLParser -lADLParser
+
 SOURCES += \
     $$PWD/pvobject.cpp \
     $$PWD/adimageprovider.cpp \
@@ -32,9 +29,9 @@ SOURCES += \
     $$PWD/qcustomplot.cpp \
     $$PWD/plotitem.cpp \
     $$PWD/baseitem.cpp \
-    enums.cpp \
-    csdatasource.cpp \
-    csdata.cpp
+    $$PWD/enums.cpp \
+    $$PWD/csdatasource.cpp \
+    $$PWD/csdata.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -45,6 +42,6 @@ HEADERS += \
     $$PWD/qcustomplot.h \
     $$PWD/plotitem.h \
     $$PWD/baseitem.h \
-    enums.h \
-    csdatasource.h \
-    csdata.h
+    $$PWD/enums.h \
+    $$PWD/csdatasource.h \
+    $$PWD/csdata.h
