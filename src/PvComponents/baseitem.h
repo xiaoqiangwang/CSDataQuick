@@ -15,8 +15,8 @@ public:
     Qt::CursorShape cursorType() {return cursor().shape();}
     void setCursorType(Qt::CursorShape cursor) {setCursor(cursor); emit cursorTypeChanged();}
 
-    QFont font() {}
-    void setFont(const QFont font) {}
+    QFont font() {return m_font;}
+    void setFont(const QFont font) {m_font = font; emit fontChanged();}
 
 signals:
     void cursorTypeChanged();
@@ -25,6 +25,7 @@ signals:
 public slots:
 
 private:
+    QFont m_font;
 };
 
 #endif // BASEITEM_H
