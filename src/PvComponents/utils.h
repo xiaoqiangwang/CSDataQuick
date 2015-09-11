@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE QString format(QString format, double number);
     Q_INVOKABLE QString convert(int format, QVariant value, int precision);
     Q_INVOKABLE double parse(int format, QString textValue);
+    Q_INVOKABLE QString  openADLDisplay(QString fileName, QString macro);
 
 signals:
 

@@ -9,6 +9,14 @@
 #include <QProcess>
 #include <QtDebug>
 
+#include <QApplication>
+
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQuickWindow>
+#include <QDesktopWidget>
+
+#include "parser.h"
 
 /*!
     \qmltype Utils
@@ -177,4 +185,22 @@ double QCSUtils::parse(int format, QString textValue)
         return value;
     else
         return qSNaN();
+}
+
+QString QCSUtils::openADLDisplay(QString fileName, QString macro)
+{
+    std::map<std::string, std::string> macroMap;
+
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() == 2)
+            macroMap[paires[0].toStdString()] =  paires[1].toStdString();
+        else
+            qDebug() << "macro unclear" << m;
+    }
+
+    std::string qmlBody = parseADL(fileName.toStdString(), macroMap);
+
+    return QString::fromStdString(qmlBody);
 }
