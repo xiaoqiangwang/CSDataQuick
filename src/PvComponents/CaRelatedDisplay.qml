@@ -60,19 +60,30 @@ Rectangle {
     function load(fname, args, remove) {
         // TODO: substitue "name=values"
         // TODO: Handel both adl and qml
-        var component = Qt.createComponent(fname)
-        if (component.status == Component.Ready)
-            component.createObject()
-        else if (component.status == Component.Error)
-            console.log(component.errorString())
-        else
-            component.onStatusChanged = function done(status) {
-                if (status == Component.Ready) {
-                    component.createObject()
-                } else
-                    console.log(component.errorString())
+        var window
+        if (fname.substr(-4) == '.adl') {
+            var qmlCmd = Utils.openADLDisplay(fname, args)
+            console.log(qmlCmd)
+            window = Qt.createQmlObject(qmlCmd, display, fname)
+        }
+        else {
+            var component = Qt.createComponent(fname)
+            if (component.status == Component.Ready) {
+                window = component.createObject()
             }
+            else if (component.status == Component.Error)
+                console.log(component.errorString())
+            else
+                component.onStatusChanged = function done(status) {
+                    if (status == Component.Ready) {
+                        window = component.createObject()
+                    } else
+                        console.log(component.errorString())
+                }
+        }
+        window.visible = true
     }
+
 
     Component.onCompleted: {
         if (visual == 3)
