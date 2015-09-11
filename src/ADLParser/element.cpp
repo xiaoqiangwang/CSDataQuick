@@ -2573,7 +2573,7 @@ void CartesianPlot::parse(std::istream &fstream)
         } else if (!strcmp(token,"y2_axis")) {
             this->y2.parse(fstream);
         } else if (!strncmp(token,"trace", 5)) {
-            int traceNumber = MIN(token[6] - '0', MAX_TRACES - 1);
+            //int traceNumber = MIN(token[6] - '0', MAX_TRACES - 1);
             Trace *trace = new Trace(this);
             trace->parse(fstream);
             this->traces.push_back(trace);
@@ -2594,7 +2594,21 @@ void CartesianPlot::parse(std::istream &fstream)
 
 void CartesianPlot::toQML(std::ostream &fstream)
 {
+    std::string indent(level() * 4, ' ');
 
+    fstream << indent << "CaCartesianPlot {" << std::endl;
+    Element::toQML(fstream);
+    this->plotcom.toQML(fstream);
+    fstream << indent << "    cout: " << this->count << std::endl;
+
+    if (traces.size() > 0) {
+        fstream << indent << "    model: ListModel {" << std::endl;
+        for (std::vector<Trace*>::iterator it=traces.begin(); it != traces.end(); ++it) {
+            (*it)->toQML(fstream);
+        }
+        fstream << indent << "    }" << std::endl;
+    }
+    fstream << indent << "}" << std::endl;
 }
 
 Trace::Trace(Element *parent)
@@ -2852,7 +2866,7 @@ void StripChart::parse(std::istream &fstream)
             else if(!strcmp(token,"milli-second"))
                 this->units = MILLISECONDS;
         } else if (!strncmp(token,"pen", 3)) {
-            int penNumber = MIN(token[4] - '0', MAX_PENS - 1);
+            //int penNumber = MIN(token[4] - '0', MAX_PENS - 1);
             Pen *pen = new Pen(this);
             pen->parse(fstream);
             this->pens.push_back(pen);

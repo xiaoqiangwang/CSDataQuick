@@ -37,6 +37,8 @@ public:
     Attribute(Element *parent) {_parent = parent;}
     virtual void parse(std::istream& fstream) = 0;
     virtual void toQML(std::ostream& fstream) = 0;
+    virtual ~Attribute() {
+    }
 
     Element *parent() { return _parent;}
 
