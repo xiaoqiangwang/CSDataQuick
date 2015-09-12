@@ -160,7 +160,10 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream &fstream);
 
+    void setName(std::string name) {this->name = name;}
+
 private:
+    std::string name;
     CartesianPlotAxisStyle axisStyle;
     CartesianPlotRangeStyle rangeStyle;
     CartesianPlotTimeFormat_t timeFormat;

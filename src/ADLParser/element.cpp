@@ -455,7 +455,19 @@ void PlotAxisDefinition::parse(std::istream &fstream)
 
 void PlotAxisDefinition::toQML(std::ostream &fstream)
 {
+    int indent_level = parent()->level() + 1;
+    std::string indent(indent_level * 4, ' ');
 
+    if(this->rangeStyle !=  CHANNEL_RANGE)
+        fstream << indent << this->name << "RangeStyle: " << qmlValueTable[this->rangeStyle] << std::endl;
+    if (this->minimum != 0)
+        fstream << indent << this->name << "RangeLower: " << this->minimum << std::endl;
+    if (this->maximum != 1)
+        fstream << indent << this->name << "RangeUpper: " << this->maximum << std::endl;
+    if(this->axisStyle != LINEAR_AXIS)
+        fstream << indent << this->name << "AxisStyle: " << qmlValueTable[this->axisStyle] << std::endl;
+    if(this->timeFormat != HHMMSS)
+        fstream << indent << this->name << "TimeFormat: " << qmlValueTable[this->timeFormat] << std::endl;
 }
 
 Control::Control(Element *parent)
@@ -2567,10 +2579,13 @@ void CartesianPlot::parse(std::istream &fstream)
             else if(!strcmp(token,"fill-under"))
                 this->style = FILL_UNDER_PLOT;
         } else if (!strcmp(token,"x_axis")) {
+            this->x.setName("x");
             this->x.parse(fstream);
         } else if (!strcmp(token,"y1_axis")) {
+            this->y.setName("y");
             this->y.parse(fstream);
         } else if (!strcmp(token,"y2_axis")) {
+            this->y2.setName("y2");
             this->y2.parse(fstream);
         } else if (!strncmp(token,"trace", 5)) {
             //int traceNumber = MIN(token[6] - '0', MAX_TRACES - 1);
@@ -2599,7 +2614,17 @@ void CartesianPlot::toQML(std::ostream &fstream)
     fstream << indent << "CaCartesianPlot {" << std::endl;
     Element::toQML(fstream);
     this->plotcom.toQML(fstream);
-    fstream << indent << "    cout: " << this->count << std::endl;
+    fstream << indent << "    style: " << qmlValueTable[this->style] << std::endl;
+    fstream << indent << "    count: " << this->count << std::endl;
+    fstream << indent << "    countPvName: \"" << this->countPvName << "\"" << std::endl;
+    fstream << indent << "    triggerPvName: \"" << this->trigger << "\"" << std::endl;
+    fstream << indent << "    erasePvName: \"" << this->erase << "\"" << std::endl;
+    fstream << indent << "    eraseMode: " << qmlValueTable[this->eraseMode] << std::endl;
+    fstream << indent << "    eraseOldest: " << (this->erase_oldest == ERASE_OLDEST_ON ? "true" : "false") << std::endl;
+
+    this->x.toQML(fstream);
+    this->y.toQML(fstream);
+    this->y2.toQML(fstream);
 
     if (traces.size() > 0) {
         fstream << indent << "    model: ListModel {" << std::endl;
@@ -2608,6 +2633,7 @@ void CartesianPlot::toQML(std::ostream &fstream)
         }
         fstream << indent << "    }" << std::endl;
     }
+
     fstream << indent << "}" << std::endl;
 }
 
@@ -2660,6 +2686,15 @@ void Trace::parse(std::istream &fstream)
 void Trace::toQML(std::ostream &fstream)
 {
 
+    int indent_level = parent()->level() + 1;
+    std::string indent(indent_level * 4, ' ');
+
+    fstream << indent << "    ListElement {" << std::endl;
+    fstream << indent << "        xchannel: \"" << this->xdata << '"' << std::endl;
+    fstream << indent << "        ychannel: \"" << this->ydata << '"' << std::endl;
+    fstream << indent << "        foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
+    fstream << indent << "        yaxis: " << this->yaxis << std::endl;
+    fstream << indent << "    }" << std::endl;
 }
 
 Indicator::Indicator (Element *parent)

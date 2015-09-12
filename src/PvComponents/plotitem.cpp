@@ -446,3 +446,9 @@ void AxisItem::setTickCount(int count)
         mAxis->setAutoTickCount(count);
     }
 }
+
+void AxisItem::rescale()
+{
+    if (mAxis)
+        mAxis->rescale();
+}
