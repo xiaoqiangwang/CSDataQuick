@@ -1,17 +1,17 @@
 
 file {
 	name="/Users/wang/Development/epicsqml/tests/plot.adl"
-	version=030107
+	version=030109
 }
 display {
 	object {
-		x=2059
-		y=468
+		x=10
+		y=22
 		width=827
 		height=668
 	}
 	clr=14
-	bclr=4
+	bclr=5
 	cmap=""
 	gridSpacing=5
 	gridOn=0
@@ -95,6 +95,7 @@ display {
 		height=121
 	}
 	plotcom {
+		title="plot"
 		clr=14
 		bclr=4
 	}
@@ -159,6 +160,7 @@ display {
 		height=121
 	}
 	plotcom {
+                title="y vs x"
 		clr=14
 		bclr=4
 	}
@@ -169,10 +171,6 @@ display {
 		ydata="y"
 		data_clr=14
 		yaxis=0
-	}
-	x_axis {
-		axisStyle="time"
-		maxRange=120.000000
 	}
 	countPvName="100"
 }

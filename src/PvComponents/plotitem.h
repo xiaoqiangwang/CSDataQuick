@@ -179,6 +179,8 @@ public:
     void setTickVisible(bool visible);
     bool tickVisible() {return _tickVisible;}
 
+    Q_INVOKABLE void rescale();
+
 signals:
     void typeChanged();
     void scaleChanged();
