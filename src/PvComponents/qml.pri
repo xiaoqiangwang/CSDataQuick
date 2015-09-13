@@ -46,7 +46,9 @@ QML_FILES += \
     $$PWD/PvInfoDialog.qml \
     $$PWD/PvLimitsDialog.qml \
     $$PWD/images/arrow-down.png \
+    $$PWD/images/arrow-down-focus.png \
     $$PWD/images/arrow-up.png \
+    $$PWD/images/arrow-up-focus.png \
     $$PWD/images/button_down.png \
     $$PWD/images/button_up.png \
     $$PWD/images/doublerect.png \
