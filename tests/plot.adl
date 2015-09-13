@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=10
-		y=22
-		width=827
-		height=668
+		x=44
+		y=194
+		width=570
+		height=550
 	}
 	clr=14
 	bclr=5
@@ -89,13 +89,13 @@ display {
 }
 "cartesian plot" {
 	object {
-		x=46
-		y=41
+		x=297
+		y=153
 		width=251
 		height=121
 	}
 	plotcom {
-		title="plot"
+		title="n vs "
 		clr=14
 		bclr=4
 	}
@@ -111,12 +111,13 @@ display {
 }
 "cartesian plot" {
 	object {
-		x=374
-		y=46
+		x=297
+		y=279
 		width=251
 		height=120
 	}
 	plotcom {
+		title="1 vs 1"
 		clr=14
 		bclr=4
 	}
@@ -132,42 +133,19 @@ display {
 }
 "cartesian plot" {
 	object {
-		x=45
-		y=212
+		x=20
+		y=277
 		width=251
 		height=121
 	}
 	plotcom {
+		title=" vs n"
 		clr=14
 		bclr=4
 	}
-	style="line"
 	erase_oldest="plot last n pts"
 	count="100"
 	trace[0] {
-		xdata="calc"
-		ydata="sin"
-		data_clr=14
-		yaxis=0
-	}
-	countPvName="100"
-}
-"cartesian plot" {
-	object {
-		x=367
-		y=219
-		width=251
-		height=121
-	}
-	plotcom {
-                title="y vs x"
-		clr=14
-		bclr=4
-	}
-	style="line"
-	count="100"
-	trace[0] {
-		xdata="x"
 		ydata="y"
 		data_clr=14
 		yaxis=0
@@ -176,12 +154,35 @@ display {
 }
 "cartesian plot" {
 	object {
-		x=44
-		y=367
+		x=20
+		y=25
 		width=251
 		height=121
 	}
 	plotcom {
+		title="n vs n"
+		clr=14
+		bclr=4
+	}
+	style="fill-under"
+	count=""
+	trace[0] {
+		xdata="x"
+		ydata="y"
+		data_clr=14
+		yaxis=0
+	}
+	erase="bo"
+}
+"cartesian plot" {
+	object {
+		x=297
+		y=27
+		width=251
+		height=121
+	}
+	plotcom {
+		title="n vs 1"
 		clr=14
 		bclr=4
 	}
@@ -193,20 +194,17 @@ display {
 		data_clr=14
 		yaxis=0
 	}
-	x_axis {
-		axisStyle="time"
-		maxRange=120.000000
-	}
 	countPvName="100"
 }
 "cartesian plot" {
 	object {
-		x=363
-		y=372
+		x=20
+		y=151
 		width=251
 		height=121
 	}
 	plotcom {
+		title="1 vs n"
 		clr=14
 		bclr=4
 	}
@@ -218,44 +216,17 @@ display {
 		data_clr=14
 		yaxis=0
 	}
-	x_axis {
-		axisStyle="time"
-		maxRange=120.000000
-	}
 	countPvName="100"
 }
 "cartesian plot" {
 	object {
-		x=39
-		y=513
+		x=20
+		y=403
 		width=251
 		height=121
 	}
 	plotcom {
-		clr=14
-		bclr=4
-	}
-	style="line"
-	count="100"
-	trace[0] {
-		xdata="x"
-		data_clr=14
-		yaxis=0
-	}
-	x_axis {
-		axisStyle="time"
-		maxRange=120.000000
-	}
-	countPvName="100"
-}
-"cartesian plot" {
-	object {
-		x=357
-		y=513
-		width=251
-		height=121
-	}
-	plotcom {
+		title="1 vs "
 		clr=14
 		bclr=4
 	}
@@ -266,9 +237,26 @@ display {
 		data_clr=14
 		yaxis=0
 	}
-	x_axis {
-		axisStyle="time"
-		maxRange=120.000000
+	countPvName="100"
+}
+"cartesian plot" {
+	object {
+		x=297
+		y=404
+		width=251
+		height=121
+	}
+	plotcom {
+		title=" vs 1"
+		clr=14
+		bclr=4
+	}
+	style="line"
+	count="100"
+	trace[0] {
+		ydata="calc"
+		data_clr=14
+		yaxis=0
 	}
 	countPvName="100"
 }
