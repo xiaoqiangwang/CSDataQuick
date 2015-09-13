@@ -9014,6 +9014,7 @@ QCP::Interaction QCPAbstractItem::selectionCategory() const
 */
 QCustomPlot::QCustomPlot(QObject *parent) : // XW: Derive from QObject instead of QObject
   QObject(parent),
+  mSize(320,240), //XW: avoid initial zero size
   xAxis(0),
   yAxis(0),
   xAxis2(0),
