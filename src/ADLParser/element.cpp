@@ -2614,7 +2614,7 @@ void CartesianPlot::toQML(std::ostream &fstream)
     fstream << indent << "CaCartesianPlot {" << std::endl;
     Element::toQML(fstream);
     this->plotcom.toQML(fstream);
-    fstream << indent << "    style: " << qmlValueTable[this->style] << std::endl;
+    fstream << indent << "    plotStyle: " << qmlValueTable[this->style] << std::endl;
     fstream << indent << "    count: " << this->count << std::endl;
     fstream << indent << "    countPvName: \"" << this->countPvName << "\"" << std::endl;
     fstream << indent << "    triggerPvName: \"" << this->trigger << "\"" << std::endl;

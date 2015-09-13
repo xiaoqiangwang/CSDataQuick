@@ -101,7 +101,7 @@ Item {
     */
     property bool eraseOldest: false
     /*!
-        \qmlproperty enumeration style
+        \qmlproperty enumeration plotStyle
         \list
             \li 0: Plot the data as points.
             \li 1: Plot the data as lines.
@@ -109,7 +109,7 @@ Item {
                 from the line to the axis.
         \endlist
     */
-    property int style: PlotStyle.Line
+    property int plotStyle: PlotStyle.Line
 
     /*! Number of points */
     property int count: 10
@@ -223,14 +223,22 @@ Item {
         }
     }
 
+    onCountChanged: {
+        d.range.length = 0
+        for(var j=0; j<count; j++){
+            d.range.push(j)
+        }
+    }
+
     Component.onCompleted: {
         if (countPvName != '') {
             d.pvCount = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(countPvName), control, 'pvCount')
             d.pvCount.valueChanged.connect(updateCount)
         }
 
-        for(var j=0; j<count; j++){
-            d.range.push(j)
+        if (erasePvName != '') {
+            d.pvErase = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(erasePvName), control, 'pvErase')
+            d.pvErase.valueChanged.connect(eraseGraph)
         }
 
         for(var i=0; i<model.count; i++) {
@@ -242,6 +250,7 @@ Item {
             var yAxis = model.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
             graph.color = model.get(i).foreground
+            graph.lineStyle = control.plotStyle
 
             var xpv = null, ypv = null
             if (xchannel && xchannel != '') {
@@ -281,32 +290,59 @@ Item {
     }
 
     /*! \internal */
+    function eraseGraph() {
+        if ( (d.pvErase.value && control.eraseMode == EraseMode.IfNotZero) ||
+             (d.pvErase.value == 0 && control.eraseMode == EraseMode.IfZero) ) {
+            for (var i=0; i<d.graphs.length; i++) {
+                d.graphs[i].clearData()
+            }
+            plot.replot()
+        }
+    }
+
+    /*! \internal */
     function updateData() {
         for (var i=0; i<d.pvs.length; i++) {
             var xpv = d.pvs[i][0]
             var ypv = d.pvs[i][1]
             var graph = d.graphs[i]
             var xv = null
-            if (xpv != null) {
+            if (xpv) {
                 if (xpv.count == 1) {
-                    xv = xpv.data
+                    if (ypv && ypv.count > 1)
+                        xv = xpv.value
+                    else
+                        xv = xpv.data
                 } else
                     xv = xpv.value
-            } else
+            } else {
                 xv = d.range
-
+            }
             var yv = null
-            if (ypv != null) {
+            if (ypv) {
                 if (ypv.count == 1) {
-                    yv = ypv.data
+                    if (xpv && xpv.count > 1)
+                        yv = ypv.value
+                    else
+                        yv = ypv.data
                 } else
                     yv = ypv.value
             } else
                 yv = d.range
 
             graph.setData(xv, yv)
-            plot.xAxis.rescale()
-            plot.yAxis.rescale()
+            if (xpv)
+                plot.xAxis.rescale()
+            else {
+                plot.xAxis.rangeLower = 0;
+                plot.xAxis.rangeUpper = count;
+            }
+            if (ypv)
+                plot.yAxis.rescale()
+            else {
+                 plot.yAxis.rangeLower = 0;
+                 plot.yAxis.rangeUpper = count;
+            }
         }
         plot.replot()
     }

@@ -255,6 +255,35 @@ void GraphItem::setColor(QColor color)
     }
 }
 
+GraphItem::LineStyle GraphItem::lineStyle()
+{
+    return mLineStyle;
+}
+void GraphItem::setLineStyle(LineStyle lineStyle)
+{
+    if (mLineStyle == lineStyle)
+        return;
+
+    mLineStyle = lineStyle;
+    if (mGraph) {
+        switch (lineStyle) {
+        case Point: {
+            mGraph->setLineStyle(QCPGraph::lsNone);
+            QCPScatterStyle ssStyle(QCPScatterStyle::ssDisc, 2);
+            mGraph->setScatterStyle(ssStyle);
+        }
+            break;
+        case Line:
+            mGraph->setLineStyle(QCPGraph::lsLine);
+            break;
+        case Fill:
+            mGraph->setBrush(_color);
+            break;
+        }
+    }
+    emit lineStyleChanged();
+}
+
 QVariantList GraphItem::data()
 {
     QVariantList list;
@@ -266,6 +295,7 @@ QVariantList GraphItem::data()
 
 void GraphItem::setData(QVariant x, QVariant y)
 {
+    // x and y can be either scalar or vector or empty
     mX.clear(); mY.clear();
     if (x.canConvert<QVariantList>())  {
         foreach(QVariant v, x.value<QSequentialIterable>()) {
@@ -279,10 +309,35 @@ void GraphItem::setData(QVariant x, QVariant y)
         }
     }
 
-    if (mX.isEmpty())
+    if (x.canConvert(QMetaType::Double)) {
+        mX.fill(x.toReal(), mY.size());
+    } else if (mX.isEmpty())
         for(int i=0; i<=mY.length(); i++)
             mX.append(i);
 
+
+    if (y.canConvert(QMetaType::Double)) {
+        mY.fill(y.toReal(), mX.size());
+    } else if (mY.isEmpty())
+        for(int i=0; i<=mX.length(); i++)
+            mY.append(i);
+
+    if (mGraph) {
+        mGraph->setData(mX, mY);
+    }
+}
+void GraphItem::setData(QVariantList x, QVariant y)
+{
+    mX.clear();
+    for (int i=0; i<x.length(); i++) {
+        mX.append(x[i].toDouble());
+    }
+    mY.clear();
+    if (y.canConvert<QVariantList>())  {
+        foreach(QVariant v, y.value<QSequentialIterable>()) {
+            mY.append(v.toDouble());
+        }
+    }
     if (mY.isEmpty())
         for(int i=0; i<=mX.length(); i++)
             mY.append(i);
@@ -314,6 +369,13 @@ void GraphItem::setData(QVariantList data)
     }
     if (mGraph) {
         mGraph->setData(mX, mY);
+    }
+}
+
+void GraphItem::clearData()
+{
+    if (mGraph) {
+        mGraph->clearData();
     }
 }
 
