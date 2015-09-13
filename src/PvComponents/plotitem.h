@@ -73,12 +73,20 @@ class GraphItem : public QObject, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
+    Q_ENUMS(LineStyle)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-    Q_PROPERTY(QVariantList data READ data WRITE setData NOTIFY dataChanged)
+    Q_PROPERTY(LineStyle lineStyle READ lineStyle WRITE setLineStyle NOTIFY lineStyleChanged)
+    Q_PROPERTY(QVariantList data READ data WRITE setData NOTIFY dataChanged)    
     Q_PROPERTY(AxisItem* x READ x WRITE setX)
     Q_PROPERTY(AxisItem* y READ y WRITE setY)
 
 public:
+    enum LineStyle {
+        Point = 0,
+        Line,
+        Fill
+    };
+
     explicit GraphItem(QObject *parent=0);
 
     void classBegin() {}
@@ -93,6 +101,9 @@ public:
     void setColor(QColor color);
     QColor color();
 
+    void setLineStyle(LineStyle style);
+    LineStyle lineStyle();
+
     AxisItem* x() {return mXAxis;}
     void setX(AxisItem *x) {mXAxis = x;}
 
@@ -101,16 +112,21 @@ public:
 
     //methods
     Q_INVOKABLE void setData(QVariantList x, QVariantList y);
+    Q_INVOKABLE void setData(QVariantList x, QVariant y);
     Q_INVOKABLE void setData(QVariant x, QVariant y);
+    Q_INVOKABLE void clearData();
+
 signals:
     void dataChanged(GraphItem *item);
     void colorChanged();
+    void lineStyleChanged();
 
 private:
     QCPGraph *mGraph;
     QVector<double> mX;
     QVector<double> mY;
     QColor _color;
+    LineStyle mLineStyle;
     AxisItem *mXAxis;
     AxisItem *mYAxis;
     friend class CustomPlotItem;
