@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstring>
 #include <fstream>
+#include <algorithm>
 
 /*******************************************************************************
  * Common Attributes
@@ -59,10 +60,10 @@ TOKEN Attribute :: getToken(std::istream &fstream, char *word)
 BasicAttribute::BasicAttribute (Element *parent)
         : Attribute(parent)
 {
-    clr = 0;
+    clr = 14;
     style = SOLID;
     fill = F_SOLID;
-    width = 0;
+    width = 1;
 }
 
 void BasicAttribute::parse(std::istream &fstream)
@@ -119,7 +120,7 @@ void BasicAttribute::toQML(std::ostream &ostream)
     std::string indent = std::string(indent_level * 4, ' ');
 
     ostream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
-    if (this->width > 0)
+    if (this->width > 1)
         ostream << indent << "lineWidth: " << this->width << std::endl;
     if (this->fill != F_SOLID)
         ostream << indent << "fill: " << qmlValueTable[this->fill] << std::endl;
@@ -1593,7 +1594,6 @@ void Polyline::parsePoints(std::istream &fstream)
     }
     } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
              && (tokenType != T_EOF) );
-
 }
 
 void Polyline::toQML(std::ostream &ostream)
