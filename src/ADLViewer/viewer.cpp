@@ -187,6 +187,26 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         macros[macro.toStdString()] = macroMap[macro].toStdString();
     }
 
+    QFileInfo fi(fileName);
+#ifdef Q_OS_WIN
+    char sep = ';';
+#else
+    char sep = ':';
+#endif
+    if (!fi.exists() && fi.isRelative()) {
+        QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
+        foreach (QByteArray path, paths.split(sep)) {
+            fi.setFile(QDir(path), fileName);
+            qDebug() << "Searching" << fi.absoluteFilePath();
+            if (fi.exists())
+                break;
+        }
+    }
+    if (!fi.exists()) {
+        qWarning() << "Failed to find file" << fileName;
+        return;
+    }
+
     std::ifstream ifstream(fileName.toStdString().c_str());
     if (!ifstream.is_open()) {
         qWarning() << "Failed to open file" << fileName;
@@ -237,7 +257,7 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         break;
     }
     window->setGeometry(x, y, width, height);
-
-    window->setTitle(fileName);
+    window->setProperty("fileName", fi.absoluteFilePath());
+    window->setTitle(fi.fileName());
     window->show();
 }

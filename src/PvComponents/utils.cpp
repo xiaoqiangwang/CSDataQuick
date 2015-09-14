@@ -193,7 +193,7 @@ double QCSUtils::parse(int format, QString textValue)
         return qSNaN();
 }
 
-QString QCSUtils::openADLDisplay(QString fileName, QString macro)
+QString QCSUtils::openADLDisplay(QString fileName, QString macro, QString parentFileName)
 {
     std::map<std::string, std::string> macroMap;
 
@@ -214,7 +214,9 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro)
     char sep = ':';
 #endif
     if (!fi.exists() && fi.isRelative()) {
+        QFileInfo pfi(parentFileName);
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
+        paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
         foreach (QByteArray path, paths.split(sep)) {
             fi.setFile(QDir(path), fileName);
             qDebug() << "Searching" << fi.absoluteFilePath();
