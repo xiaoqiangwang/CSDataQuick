@@ -1,6 +1,7 @@
 #include "shapes.h"
 
 #include <QPainter>
+#include <QtMath>
 
 ShapeItem::ShapeItem(QQuickItem *parent)
     : QQuickPaintedItem(parent)
@@ -21,6 +22,7 @@ void ShapeItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 
 void ShapeItem::paint(QPainter *painter)
 {
+    painter->setRenderHint(QPainter::Qt4CompatiblePainting);
     if (_fillStyle == FillStyle::Solid) {
         painter->fillPath(_path, _foreground);
     } else {
@@ -88,8 +90,9 @@ QPainterPath PaintedRectangletem::buildPath()
     QPainterPath path;
     QRectF rc = getDrawArea();
     if (_fillStyle == FillStyle::Outline) {
-        rc.setWidth(rc.width() - lineWidth());
-        rc.setHeight(rc.height() - lineWidth());
+        int offset = lineWidth()%2;
+        rc.setRect(offset, offset, rc.width() - offset, rc.height() - offset);
+        rc.adjust(lineWidth()/2, lineWidth()/2, -lineWidth()/2, -lineWidth()/2);
     }
     path.addRect(rc);
     return path;
