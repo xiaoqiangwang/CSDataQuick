@@ -92,7 +92,10 @@ QPainterPath PaintedRectangletem::buildPath()
     if (_fillStyle == FillStyle::Outline) {
         int offset = lineWidth()%2;
         rc.setRect(offset, offset, rc.width() - offset, rc.height() - offset);
-        rc.adjust(lineWidth()/2, lineWidth()/2, -lineWidth()/2, -lineWidth()/2);
+        if (lineWidth() == 1)
+            rc.adjust(0, 0, -1, -1);
+        else
+            rc.adjust(lineWidth()/2, lineWidth()/2, -lineWidth()/2, -lineWidth()/2);
     }
     path.addRect(rc);
     return path;
