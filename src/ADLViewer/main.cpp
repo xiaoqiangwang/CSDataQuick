@@ -36,7 +36,7 @@ QMap<QString, QString> parseMacro(QString macro)
         if (m.isEmpty()) continue;
         QStringList paires = m.split('=');
         if (paires.length() == 2)
-            macroMap.insert(paires[0], paires[1]);
+            macroMap.insert(paires[0].trimmed(), paires[1].trimmed());
         else
             qDebug() << "macro unclear" << m;
     }
@@ -97,6 +97,7 @@ int main(int argc, char **argv)
 
     // macros
     MacroMap macroMap = parseMacro(parser.value(macroOption));
+    qDebug() << macroMap;
 
     // geomtry
     QString geometry = parser.value(geometryOption);
