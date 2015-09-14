@@ -201,7 +201,7 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro, QString parent
         if (m.isEmpty()) continue;
         QStringList paires = m.split('=');
         if (paires.length() == 2)
-            macroMap[paires[0].toStdString()] =  paires[1].toStdString();
+            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
         else
             qDebug() << "macro unclear" << m;
     }
