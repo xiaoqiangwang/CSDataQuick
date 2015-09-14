@@ -138,7 +138,7 @@ Item {
     /*! \internal */
     property real xRangeUpper: 1.0
      /*! \internal */
-    property int  xRangStyle: CartesianPlotRangeStyle.Channel
+    property int  xRangeStyle: CartesianPlotRangeStyle.Channel
     /*! \internal */
     property int  xAxisStyle: CartesianPlotAxisStyle.Linear
     /*! \internal */
