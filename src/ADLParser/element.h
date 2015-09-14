@@ -71,6 +71,9 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
+    unsigned int lineWidth() {return width;}
+    void setLineWidth(unsigned int lineWidth) {this->width = lineWidth;}
+
 private:
     int clr;
     EdgeStyle style;
