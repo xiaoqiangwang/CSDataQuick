@@ -197,7 +197,6 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
         foreach (QByteArray path, paths.split(sep)) {
             fi.setFile(QDir(path), fileName);
-            qDebug() << "Searching" << fi.absoluteFilePath();
             if (fi.exists())
                 break;
         }
