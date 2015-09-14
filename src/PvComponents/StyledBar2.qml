@@ -18,6 +18,7 @@ Item {
     property int  direction: Direction.Right
     property int fillMode: FillMode.FromEdge
     property bool showRange: true
+    property bool showFrame: true
     property alias font: range.font
 
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
@@ -58,6 +59,7 @@ Item {
         anchors.bottomMargin: anchors.topMargin
 
         color: root.background
+        visible: showFrame
     }
 
     Rectangle {
