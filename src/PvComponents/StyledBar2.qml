@@ -46,7 +46,7 @@ Item {
     }
     Frame {
         id: panel
-        shadow: FrameShadow.Sunken
+        shadow: showFrame ? FrameShadow.Sunken : FrameShadow.Flat
 
         anchors.top: (orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
         anchors.left: (orientation == Qt.Vertical && range.visible) ? range.right : root.left
@@ -59,14 +59,13 @@ Item {
         anchors.bottomMargin: anchors.topMargin
 
         color: root.background
-        visible: showFrame
     }
 
     Rectangle {
         id: progress
-        width: orientation == Qt.Vertical ? panel.width - 4 : (panel.width - 4) * calcPercentage()
-        height: orientation == Qt.Horizontal ? panel.height - 4 : (panel.height - 4) * calcPercentage()
-        anchors.margins: 2
+        width: orientation == Qt.Vertical ? panel.contentWidth : panel.contentWidth * calcPercentage()
+        height: orientation == Qt.Horizontal ? panel.contentHeight : panel.contentHeight * calcPercentage()
+        anchors.margins: panel.innerMargin
         color: root.indicatorColor
     }
 
@@ -92,6 +91,7 @@ Item {
                 progress.anchors.left = panel.left
             }
             progress.anchors.top = panel.top
+            progress.anchors.bottom = panel.bottom
             break;
         case Direction.Left:
             if (fillMode == FillMode.FromCenter)
@@ -107,6 +107,7 @@ Item {
                 progress.anchors.right = panel.right
             }
             progress.anchors.top = panel.top
+            progress.anchors.bottom = panel.bottom
             break;
         case Direction.Up:
             if (fillMode == FillMode.FromCenter)
@@ -122,6 +123,7 @@ Item {
                 progress.anchors.bottom = panel.bottom
             }
             progress.anchors.left = panel.left
+            progress.anchors.right = panel.right
            break;
         case Direction.Down:
             if (fillMode == FillMode.FromCenter)
@@ -137,6 +139,7 @@ Item {
                 progress.anchors.top = panel.top
             }
             progress.anchors.left = panel.left
+            progress.anchors.right = panel.right
            break;
         }
     }
