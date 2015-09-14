@@ -16,6 +16,12 @@ find_package(Qt5Widgets)
 find_package(Qt5Qml)
 find_package(Qt5Quick)
 find_package(Qt5PrintSupport)
+# For an older CMake to add Qt5<Module>_EXECUTABLE_COMPILE_FLAGS to the
+# CMAKE_CXX_FLAGS so that the -fPIE flags are added to the compile flags if
+# necessary (as is the default with Qt 5).
+if (${CMAKE_MAJOR_VERSION} LESS 3)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+endif()
 
 find_package(EPICS)
 
