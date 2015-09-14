@@ -787,11 +787,11 @@ void Element::parseObject(std::istream &fstream)
         } else if(!strcmp(token,"width")) {
         getToken(fstream,token);
         getToken(fstream,token);
-        this->_rect.width = atoi(token);
+        this->_rect.width = std::max(1, atoi(token));
         } else if(!strcmp(token,"height")) {
         getToken(fstream,token);
         getToken(fstream,token);
-        this->_rect.height = atoi(token);
+        this->_rect.height = std::max(1, atoi(token));
         }
         break;
     case T_LEFT_BRACE:
