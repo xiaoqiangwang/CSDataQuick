@@ -63,7 +63,6 @@ BaseItem {
         var window
         if (fname.substr(-4) == '.adl') {
             var qmlCmd = Utils.openADLDisplay(fname, args, baseWindow.fileName)
-            console.log(qmlCmd)
             window = Qt.createQmlObject(qmlCmd, display, fname)
         }
         else {
