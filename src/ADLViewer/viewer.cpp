@@ -207,7 +207,7 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         return;
     }
 
-    std::ifstream ifstream(fileName.toStdString().c_str());
+    std::ifstream ifstream(fi.absoluteFilePath().toStdString().c_str());
     if (!ifstream.is_open()) {
         qWarning() << "Failed to open file" << fileName;
         return;
