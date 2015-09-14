@@ -31,7 +31,7 @@ public:
     void setFillStyle(FillStyle::FillStyleEnum style) {_fillStyle = style; rebuildPath(); update();}
 
     int lineWidth() { return _lineWidth;}
-    void setLineWidth(int width) {_lineWidth = width;update();}
+    void setLineWidth(int width) {_lineWidth = qMax(1, width); update();}
 
     void paint(QPainter * painter);
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -52,7 +52,7 @@ protected:
         return rect;
     }
 
-private:
+protected:
     QColor _foreground;
     QColor _background;
     EdgeStyle::EdgeStyleEnum _edgeStyle;

@@ -87,6 +87,10 @@ QPainterPath PaintedRectangletem::buildPath()
 {
     QPainterPath path;
     QRectF rc = getDrawArea();
+    if (_fillStyle == FillStyle::Outline) {
+        rc.setWidth(rc.width() - lineWidth());
+        rc.setHeight(rc.height() - lineWidth());
+    }
     path.addRect(rc);
     return path;
 }
