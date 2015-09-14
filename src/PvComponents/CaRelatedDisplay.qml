@@ -23,7 +23,7 @@ import PvComponents 1.0
     The new display can also be configured by "replace" property to always replace the parent.
 */
 
-Rectangle {
+BaseItem {
     id: display
     /*! foreground color */
     property color foreground: ColorMap.color14
@@ -62,7 +62,7 @@ Rectangle {
         // TODO: Handel both adl and qml
         var window
         if (fname.substr(-4) == '.adl') {
-            var qmlCmd = Utils.openADLDisplay(fname, args)
+            var qmlCmd = Utils.openADLDisplay(fname, args, baseWindow.fileName)
             console.log(qmlCmd)
             window = Qt.createQmlObject(qmlCmd, display, fname)
         }
