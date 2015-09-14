@@ -21,6 +21,8 @@ set(HEADERS
     shapes.h
     qcustomplot.h
     plotitem.h
+    baseitem.h
+    basewindow.h
 )
 
 # When CMake 3.0.0 is required, remove this block (see CMP0042).
