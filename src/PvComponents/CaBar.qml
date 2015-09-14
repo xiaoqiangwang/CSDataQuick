@@ -75,6 +75,7 @@ CaMonitor {
         precision: limits.prec
 
         showRange: label == LabelStyle.Outline || label == LabelStyle.Limits || label == LabelStyle.Channel
+        showFrame: label != LabelStyle.None
 
         font.family: root.font.family
         font.pixelSize: root.font.size
