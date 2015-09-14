@@ -787,11 +787,11 @@ void Element::parseObject(std::istream &fstream)
         } else if(!strcmp(token,"width")) {
         getToken(fstream,token);
         getToken(fstream,token);
-        this->_rect.width = std::max(1, atoi(token));
+        this->_rect.width = atoi(token);
         } else if(!strcmp(token,"height")) {
         getToken(fstream,token);
         getToken(fstream,token);
-        this->_rect.height = std::max(1, atoi(token));
+        this->_rect.height = atoi(token);
         }
         break;
     case T_LEFT_BRACE:
@@ -1561,6 +1561,12 @@ void Polyline::parse(std::istream &fstream)
     }
     } while( (tokenType != T_RIGHT_BRACE) && (nestingLevel > 0)
              && (tokenType != T_EOF) );
+
+    /* Fixup zero width/height for straight line */
+    if (this->_rect.width == 0)
+        this->_rect.width = this->basic_attr.lineWidth();
+    if (this->_rect.height == 0)
+        this->_rect.height = this->basic_attr.lineWidth();
 }
 
 void Polyline::parsePoints(std::istream &fstream)
