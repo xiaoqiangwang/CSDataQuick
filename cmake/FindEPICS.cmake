@@ -1,7 +1,7 @@
 IF (NOT EPICS_BASE)
     SET (EPICS_ROOT $ENV{EPICS})
     IF (EPICS_ROOT)
-        SET(EPICS_BASE "${EPICS_ROOT)/base")
+        SET(EPICS_BASE "${EPICS_ROOT}/base")
     ELSE ()
         SET(EPICS_BASE $ENV{EPICS_BASE})
     ENDIF ()
