@@ -9,6 +9,7 @@ set(SOURCES
     qcustomplot.cpp
     plotitem.cpp
     baseitem.cpp
+    basewindow.cpp
 )
 
 set(HEADERS
