@@ -249,7 +249,7 @@ public:
             p = p->parent();
         }
     }
-    virtual ~Element() {};
+    virtual ~Element() {}
 
     DlElementType type() {return _type;}
     Element *parent() {return _parent;}
