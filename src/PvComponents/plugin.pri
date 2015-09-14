@@ -29,6 +29,7 @@ SOURCES += \
     $$PWD/qcustomplot.cpp \
     $$PWD/plotitem.cpp \
     $$PWD/baseitem.cpp \
+    $$PWD/basewindow.cpp \
     $$PWD/enums.cpp \
     $$PWD/csdatasource.cpp \
     $$PWD/csdata.cpp
@@ -42,6 +43,7 @@ HEADERS += \
     $$PWD/qcustomplot.h \
     $$PWD/plotitem.h \
     $$PWD/baseitem.h \
+    $$PWD/basewindow.h \
     $$PWD/enums.h \
     $$PWD/csdatasource.h \
     $$PWD/csdata.h
