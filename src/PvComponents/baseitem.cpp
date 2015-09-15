@@ -3,4 +3,5 @@
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
+    setClip(false);
 }
