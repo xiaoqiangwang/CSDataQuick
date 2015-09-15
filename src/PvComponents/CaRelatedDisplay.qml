@@ -48,7 +48,7 @@ BaseItem {
             \li 2: Use a column of buttons for the choices.
         \endlist
     */
-    property int visual: 0
+    property int visual: RelatedDisplayVisual.Menu
 
     /*! related display list model */
     property ListModel model: ListModel {
