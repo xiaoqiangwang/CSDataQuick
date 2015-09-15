@@ -8,7 +8,7 @@ ShapeItem::ShapeItem(QQuickItem *parent)
 {
     _foreground = "black";
     _background = "transparent";
-    _lineWidth = 1;
+    _lineWidth = 0;
     _fillStyle = FillStyle::Outline;
     _edgeStyle = EdgeStyle::Solid;
 }
@@ -22,7 +22,6 @@ void ShapeItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 
 void ShapeItem::paint(QPainter *painter)
 {
-    painter->setRenderHint(QPainter::Qt4CompatiblePainting);
     if (_fillStyle == FillStyle::Solid) {
         painter->fillPath(_path, _foreground);
     } else {
@@ -33,6 +32,9 @@ void ShapeItem::paint(QPainter *painter)
         pen.setWidth(_lineWidth);
         painter->setPen(pen);
         painter->drawPath(_path);
+        if (this->boundingRect() == _path.boundingRect()) {
+            setContentsSize(_path.boundingRect().size().toSize() + QSize(1,1));
+        }
     }
 }
 
@@ -89,14 +91,6 @@ QPainterPath PaintedRectangletem::buildPath()
 {
     QPainterPath path;
     QRectF rc = getDrawArea();
-    if (_fillStyle == FillStyle::Outline) {
-        int offset = lineWidth()%2;
-        rc.setRect(offset, offset, rc.width() - offset, rc.height() - offset);
-        if (lineWidth() == 1)
-            rc.adjust(0, 0, -1, -1);
-        else
-            rc.adjust(lineWidth()/2, lineWidth()/2, -lineWidth()/2, -lineWidth()/2);
-    }
     path.addRect(rc);
     return path;
 }
