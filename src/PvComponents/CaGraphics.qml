@@ -27,7 +27,7 @@ Item {
     /*! font family */
     property string fontFamily: fontSize <= 20 ? 'Dejavu Sans Mono' : 'Helvetica'
     /*! Outline width */
-    property int lineWidth: 1
+    property int lineWidth: 0
     /*! qmlproperty enumeration CaGraphics::colorMode
     */
     property int colorMode: ColorMode.Static

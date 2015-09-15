@@ -31,7 +31,7 @@ public:
     void setFillStyle(FillStyle::FillStyleEnum style) {_fillStyle = style; rebuildPath(); update();}
 
     int lineWidth() { return _lineWidth;}
-    void setLineWidth(int width) {_lineWidth = qMax(1, width); update();}
+    void setLineWidth(int width) {_lineWidth = width; update();}
 
     void paint(QPainter * painter);
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -44,7 +44,7 @@ protected:
 
     QRectF getDrawArea() {
         QRectF boundingRect = contentsBoundingRect();
-        int margin = 0; //_lineWidth;
+        int margin = _fillStyle == FillStyle::Outline ?  (_lineWidth + 1) /2 : 0;
         QRectF rect = QRectF(boundingRect.x() + margin,
                           boundingRect.y() + margin,
                           boundingRect.width() - 2*margin,

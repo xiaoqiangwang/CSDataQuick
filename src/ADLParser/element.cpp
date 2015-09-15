@@ -63,7 +63,7 @@ BasicAttribute::BasicAttribute (Element *parent)
     clr = 14;
     style = SOLID;
     fill = F_SOLID;
-    width = 1;
+    width = 0;
 }
 
 void BasicAttribute::parse(std::istream &fstream)
@@ -120,7 +120,7 @@ void BasicAttribute::toQML(std::ostream &ostream)
     std::string indent = std::string(indent_level * 4, ' ');
 
     ostream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
-    if (this->width > 1)
+    if (this->width > 0)
         ostream << indent << "lineWidth: " << this->width << std::endl;
     if (this->fill != F_SOLID)
         ostream << indent << "fill: " << qmlValueTable[this->fill] << std::endl;
@@ -1564,9 +1564,9 @@ void Polyline::parse(std::istream &fstream)
 
     /* Fixup zero width/height for straight line */
     if (this->_rect.width == 0)
-        this->_rect.width = this->basic_attr.lineWidth();
+        this->_rect.width = std::max(unsigned(1), this->basic_attr.lineWidth());
     if (this->_rect.height == 0)
-        this->_rect.height = this->basic_attr.lineWidth();
+        this->_rect.height = std::max(unsigned(1), this->basic_attr.lineWidth());
 }
 
 void Polyline::parsePoints(std::istream &fstream)
