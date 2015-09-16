@@ -2517,7 +2517,7 @@ CartesianPlot::CartesianPlot (Element *parent)
 {
     this->_type = DL_CartesianPlot;
 
-    count = 1;
+    count = 0;
     style = POINT_PLOT;
     erase_oldest = ERASE_OLDEST_OFF;
     eraseMode = ERASE_IF_NOT_ZERO;
