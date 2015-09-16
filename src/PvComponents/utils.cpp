@@ -193,20 +193,8 @@ double QCSUtils::parse(int format, QString textValue)
         return qSNaN();
 }
 
-QString QCSUtils::openADLDisplay(QString fileName, QString macro, QString parentFileName)
+QString QCSUtils::searchADLFile(QString fileName, QString parentFileName)
 {
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qDebug() << "macro unclear" << m;
-    }
-
-
     QFileInfo fi(fileName);
 #ifdef Q_OS_WIN
     char sep = ';';
@@ -219,7 +207,6 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro, QString parent
         paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
         foreach (QByteArray path, paths.split(sep)) {
             fi.setFile(QDir(path), fileName);
-            qDebug() << "Searching" << fi.absoluteFilePath();
             if (fi.exists())
                 break;
         }
@@ -228,8 +215,23 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro, QString parent
         qWarning() << "Failed to open file" << fileName;
         return QString();
     }
+    return fi.absoluteFilePath();
+}
 
-    std::ifstream ifstream(fi.absoluteFilePath().toStdString().c_str());
+QString QCSUtils::openADLDisplay(QString fileName, QString macro)
+{
+    std::map<std::string, std::string> macroMap;
+
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() == 2)
+            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
+        else
+            qDebug() << "macro unclear" << m;
+    }
+
+    std::ifstream ifstream(fileName.toStdString().c_str());
     if (!ifstream.is_open()) {
         qWarning() << "Failed to open file" << fileName;
         return QString();
