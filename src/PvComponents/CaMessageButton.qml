@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMessageButton
@@ -33,6 +34,12 @@ CaControl {
         (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
     */
     property var offMessage
+
+    /*! \internal */
+    readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
+
+    fontFamily: font.family
+    fontSize: font.size
 
     StyledButton {
         id: btn
