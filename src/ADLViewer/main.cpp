@@ -97,7 +97,6 @@ int main(int argc, char **argv)
 
     // macros
     MacroMap macroMap = parseMacro(parser.value(macroOption));
-    qDebug() << macroMap;
 
     // geomtry
     QString geometry = parser.value(geometryOption);
