@@ -19,11 +19,11 @@ Item {
     /*!
         The lable of x axis, shown below the axis.
     */
-    property string xlabel
+    property string xLabel
     /*!
         The label of y axis, show next to the axis.
     */
-    property string ylabel
+    property string yLabel
     /*!
         The color of title, axis and their labels.
     */
