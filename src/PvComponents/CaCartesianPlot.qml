@@ -337,17 +337,21 @@ Item {
                 yv = d.range
 
             graph.setData(xv, yv)
-            if (xpv)
-                plot.xAxis.rescale()
-            else {
-                plot.xAxis.rangeLower = 0;
-                plot.xAxis.rangeUpper = count;
+            if (xpv) {
+                if (yRangeStyle == CartesianPlotRangeStyle.Auto)
+                    plot.xAxis.rescale()
             }
-            if (ypv)
-                plot.yAxis.rescale()
             else {
-                 plot.yAxis.rangeLower = 0;
-                 plot.yAxis.rangeUpper = count;
+                xRangeLower = 0;
+                xRangeUpper = count;
+            }
+            if (ypv) {
+                if (yRangeStyle == CartesianPlotRangeStyle.Auto)
+                    plot.yAxis.rescale()
+            }
+            else {
+                 yRangeLower = 0;
+                 yRangeUpper = count;
             }
         }
         plot.replot()
