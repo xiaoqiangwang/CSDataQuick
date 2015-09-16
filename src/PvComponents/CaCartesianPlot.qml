@@ -109,10 +109,10 @@ Item {
                 from the line to the axis.
         \endlist
     */
-    property int plotStyle: PlotStyle.Line
+    property int plotStyle: PlotStyle.Point
 
     /*! Number of points */
-    property int count: 10
+    property int count: 0
     /*! Name of the PV from where to get number of points */
     property string countPvName
 
@@ -286,7 +286,8 @@ Item {
 
     /*! \internal */
     function updateCount() {
-        count = d.pvCount.value
+        if (d.pvCount)
+            count = d.pvCount.value
     }
 
     /*! \internal */
@@ -313,11 +314,14 @@ Item {
                         xv = xpv.value
                     else
                         xv = xpv.data
-                } else
+                } else {
+                    if (count == 0) count = xpv.count
                     xv = xpv.value
+                }
             } else {
                 xv = d.range
             }
+
             var yv = null
             if (ypv) {
                 if (ypv.count == 1) {
@@ -325,8 +329,10 @@ Item {
                         yv = ypv.value
                     else
                         yv = ypv.data
-                } else
+                } else {
+                    if (count == 0) count = ypv.count
                     yv = ypv.value
+                }
             } else
                 yv = d.range
 
