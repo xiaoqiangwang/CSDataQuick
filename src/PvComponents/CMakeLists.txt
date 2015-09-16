@@ -76,6 +76,7 @@ set(QML_JS_FILES
     CaShellCommand.qml
     CaMeter.qml
     StyledButton.qml
+    RDButton.qml
     CaByte.qml
     CaGraphics.qml
     CaRect.qml
