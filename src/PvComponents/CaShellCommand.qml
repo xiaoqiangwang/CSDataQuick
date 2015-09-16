@@ -21,8 +21,16 @@ import "utils.js" as UtilsJS
     and a dialog box will prompt the user to complete (or otherwise edit) the command.
 */
 
-CaControl {
+BaseItem {
     id: shell
+    /*! foreground color */
+    property color foreground: ColorMap.color14
+    /*! background color */
+    property color background: ColorMap.color51 // color4 is the actual default
+    /*! font family */
+    property string fontFamily: font.family
+    /*! font size */
+    property int fontSize: font.size
     /*!
         text on button
 
@@ -44,6 +52,9 @@ CaControl {
     */
     property ListModel model: ListModel {
     }
+
+    // set font family and size
+    readonly property var font: UtilsJS.getBestFontSize(shell.height - 4, true)
 
     /*!
         \internal
