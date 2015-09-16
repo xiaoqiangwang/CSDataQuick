@@ -215,7 +215,7 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
     std::string qmlBody = parseADL(ifstream, macros);
 
     QQmlComponent component(&engine);
-    component.setData(qmlBody.c_str(), QUrl(fi.absoluteFilePath()));
+    component.setData(qmlBody.c_str(), QUrl::fromLocalFile(fi.absoluteFilePath()));
     while(!component.isReady()) {
         if (component.isError()) {
             foreach(QQmlError error, component.errors())
