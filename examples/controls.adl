@@ -1,6 +1,6 @@
 
 file {
-	name="/Users/wang/Development/epicsqml/examples/controls.adl"
+	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/examples/controls.adl"
 	version=030109
 }
 display {
@@ -165,14 +165,18 @@ valuator {
 }
 "related display" {
 	object {
-		x=295
-		y=257
+		x=200
+		y=249
 		width=105
 		height=30
 	}
 	display[0] {
 		label="Monitors"
 		name="monitors.adl"
+	}
+	display[1] {
+		label="Graphics"
+		name="graphics.adl"
 	}
 	clr=14
 	bclr=51
@@ -228,4 +232,24 @@ valuator {
 	dPrecision=0.100000
 	limits {
 	}
+}
+"related display" {
+	object {
+		x=331
+		y=234
+		width=112
+		height=53
+	}
+	display[0] {
+		label="Monitors"
+		name="monitors.adl"
+	}
+	display[1] {
+		label="Graphics"
+		name="graphics.adl"
+	}
+	clr=14
+	bclr=51
+	label="Others"
+	visual="a column of buttons"
 }
