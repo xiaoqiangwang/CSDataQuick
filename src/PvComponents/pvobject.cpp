@@ -109,6 +109,24 @@ void QQuickPvObject::setChannel(const QString name)
 */
 
 /*!
+    \property QQuickPvObject::host
+    This property holds the host name where the PV exists.
+*/
+/*!
+    \qmlproperty string PvObject::host
+    This property holds the host name where the PV exists.
+*/
+
+/*!
+    \property QQuickPvObject::stamp
+    This property holds the timestamp of PV's last change.
+*/
+/*!
+    \qmlproperty Date PvObject::stamp
+    This property holds the timestamp of PV's last change.
+*/
+
+/*!
     \property QQuickPvObject::type
     This property holds the PV's native data type.
 */
@@ -162,7 +180,7 @@ void QQuickPvObject::setChannel(const QString name)
     This property holds the units meaning of the PV.
 */
 /*!
-    \qmlproperty str PvObject::units
+    \qmlproperty string PvObject::units
     This property holds the units meaning of the PV.
 */
 

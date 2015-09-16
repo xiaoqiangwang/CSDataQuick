@@ -103,6 +103,7 @@ BaseItem {
         }
     }
 
+    /*! \internal */
     function dumpPvInfo() {
         var date = new Date()
         var text

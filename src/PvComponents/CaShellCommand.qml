@@ -53,7 +53,7 @@ BaseItem {
     property ListModel model: ListModel {
     }
 
-    // set font family and size
+    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(shell.height - 4, true)
 
     /*!
@@ -72,6 +72,9 @@ BaseItem {
             runCommand(command)
     }
 
+    /*!
+        \internal
+    */
     function runCommand(command) {
         var status = Utils.execute(command)
         if (!status)
