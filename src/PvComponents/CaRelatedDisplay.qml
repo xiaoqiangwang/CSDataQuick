@@ -66,8 +66,9 @@ BaseItem {
         // TODO: Handel both adl and qml
         var window
         if (fname.substr(-4) == '.adl') {
-            var qmlCmd = Utils.openADLDisplay(fname, args, baseWindow.fileName)
-            window = Qt.createQmlObject(qmlCmd, display, fname)
+            var absFilePath = Utils.searchADLFile(fname, baseWindow.fileName)
+            var qmlCmd = Utils.openADLDisplay(absFilePath, args)
+            window = Qt.createQmlObject(qmlCmd, display, absFilePath)
             window.fileName = fname
         }
         else if (fname.substr(-4) == '.qml') {
