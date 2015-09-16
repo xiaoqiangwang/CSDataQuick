@@ -1,6 +1,6 @@
 
 file {
-	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/examples/controls.adl"
+	name="/Users/wang/Development/epicsqml/examples/controls.adl"
 	version=030109
 }
 display {
@@ -193,6 +193,10 @@ valuator {
 		label="shell"
 		name="ls"
 		args="/"
+	}
+	command[1] {
+		label="prompt"
+		name="sdcds ?"
 	}
 	clr=14
 	bclr=51
