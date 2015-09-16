@@ -100,6 +100,7 @@ set(QML_JS_FILES
     Indicator.qml
     PvInfoDialog.qml
     PvLimitsDialog.qml
+    PromptDialog.qml
     images/arrow-down.png
     images/arrow-up.png
     images/button_down.png

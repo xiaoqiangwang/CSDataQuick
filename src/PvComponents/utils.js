@@ -73,3 +73,16 @@ function popupPvLimitsDialog(parent) {
     })
     dialog.open()
 }
+
+/*!
+    \qmlmethod UtilsJS::popupPvLimitsDialog(parent)
+*/
+function popupPromptDialog(parent, title, hint, input) {
+    var cmd = 'import PvComponents 1.0; PromptDialog {}'
+    var dialog = Qt.createQmlObject(cmd, parent, 'dialog')
+    dialog.title = title
+    dialog.hint = hint
+    dialog.input = input
+    dialog.open()
+    return dialog
+}

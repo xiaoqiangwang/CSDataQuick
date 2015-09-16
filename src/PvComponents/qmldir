@@ -29,6 +29,7 @@ CaWheelSwitch   1.0 CaWheelSwitch.qml
 DynamicAttr     1.0 DynamicAttr.qml
 Limits          1.0 Limits.qml
 PvLimitsDialog  1.0 PvLimitsDialog.qml
+PromptDialog    1.0 PromptDialog.qml
 singleton ColorMap 1.0 ColorMap.qml
 singleton PvInfoDialog  1.0 PvInfoDialog.qml
 internal Frame         Frame.qml
