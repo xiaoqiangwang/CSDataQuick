@@ -118,12 +118,24 @@ QPainterPath DoubleRectItem::buildPath()
 {
     QPainterPath path;
     QRectF rect = getDrawArea();
-    double length = qMin(rect.width(), rect.height()) * 0.4;
 
-    QRectF rc1(3, rect.height() - length - 3, length, length);
-    QRectF rc2(3 + length / 2, rect.height() - 3*length/2 - 3, length, length);
+    static QRectF rectangle((float)(4./25.), (float)(4./25.),
+                  (float)(13./25.), (float)(14./25.));
+    static QVector<QPointF> segmentData = QVector<QPointF>()
+        << QPointF((float)(17./25.),(float)(9./25.))
+        << QPointF((float)(22./25.),(float)(9./25.))
+        << QPointF((float)(22./25.),(float)(22./25.))
+        << QPointF((float)(10./25.),(float)(22./25.))
+        << QPointF((float)(10./25.),(float)(18./25.));
 
-    path.addRect(rc1);
-    path.addRect(rc2);
+    QRectF rc(rectangle.x() * rect.width(), rectangle.y() * rect.height(),
+                 rectangle.width() * rect.width(), rect.height() * rectangle.height());
+    path.addRect(rc);
+    QVector<QPointF> points;
+    foreach (QPointF point, segmentData) {
+       points << QPointF(point.x() * rect.width(), point.y() * rect.height());
+    }
+
+    path.addPolygon(QPolygonF(points));
     return path;
 }
