@@ -288,6 +288,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    void toPartialQML(std::ostream &ostream);
 
     virtual ~Display() {
         for (std::list<Element*>::iterator it = widgets.begin(); it != widgets.end(); ++it)
@@ -347,7 +348,10 @@ private:
     DynamicAttribute dynamic_attr;
     std::string name;
     std::string file;
+    std::string macro;
     std::list<Element *> widgets;
+
+    friend class Display;
 };
 
 /* Graphic Widgets */

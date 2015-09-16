@@ -241,3 +241,27 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro)
 
     return QString::fromStdString(qmlBody);
 }
+
+QString QCSUtils::openADLComposite(QString fileName, QString macro)
+{
+    std::map<std::string, std::string> macroMap;
+
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() == 2)
+            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
+        else
+            qDebug() << "macro unclear" << m;
+    }
+
+    std::ifstream ifstream(fileName.toStdString().c_str());
+    if (!ifstream.is_open()) {
+        qWarning() << "Failed to open file" << fileName;
+        return QString();
+    }
+
+    std::string qmlBody = parseCompositeADL(ifstream, macroMap);
+
+    return QString::fromStdString(qmlBody);
+}

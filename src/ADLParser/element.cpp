@@ -1056,6 +1056,41 @@ void Display::toQML(std::ostream &ostream)
     ostream << "}\n";
 }
 
+void Display::toPartialQML(std::ostream &ostream)
+{
+    /* find out the bounding rect */
+    int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
+    for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it) {
+        Element *element = (*it);
+        Rect rc = element->rect();
+        minX = MIN(rc.x, minX);
+        minY = MIN(rc.y, minY);
+        maxX = MAX(rc.x + rc.width, maxX);
+        maxY = MAX(rc.y + rc.height, maxY);
+    }
+
+    /* enlarge composite if necessary */
+    _rect.width = MAX(maxX - minX, _rect.width);
+    _rect.height = MAX(maxY - minY, _rect.height);
+
+    /* shift all components accordingly */
+    int offsetX = - minX, offsetY =  - minY;
+    for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it) {
+        Element *element = (*it);
+        Rect rc = element->rect();
+        rc.x = rc.x + offsetX;
+        rc.y = rc.y + offsetY;
+        element->setRect(rc);
+
+        if (element->type() == DL_Composite)
+            ((Composite *) element)->moveChildren(offsetX, offsetY);
+    }
+
+    /* output to QML for each component */
+    for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
+        (*it)->toQML(ostream);
+}
+
 Composite::Composite(Element *parent)
     : Element(parent),
       dynamic_attr(this)
@@ -1182,6 +1217,8 @@ void Composite::parseChildren(std::istream &fstream)
 
 void Composite::parse(std::istream &fstream)
 {
+    char filename[MAX_TOKEN_LENGTH];
+    char macroString[MAX_TOKEN_LENGTH];
     char token[MAX_TOKEN_LENGTH];
     TOKEN tokenType;
     int nestingLevel = 0;
@@ -1200,9 +1237,25 @@ void Composite::parse(std::istream &fstream)
         } else if (!strcmp(token,"composite file")) {
             getToken(fstream,token);
             getToken(fstream,token);
-            this->file = token;
-            FileInfo fi(this->display()->fileName());
-            this->parseCompositeFile(fi.getFile(token).absolutePath().c_str());
+            /* Separate filename and macros from dlComposite->compositeFile  */
+            strncpy(filename,token,MAX_TOKEN_LENGTH);
+            *macroString = '\0';
+            filename[MAX_TOKEN_LENGTH-1]='\0';
+            if(filename[0]) {
+                /* Is of the form filename;a=xxx,b=yyy,... */
+                char *ptr = NULL;
+                ptr = strchr(filename, ';');
+                if(ptr) {
+                    /* End the file name at the ; */
+                    *ptr = '\0';
+                    /* Copy the remainder to the macroString */
+                    strcpy(macroString, ++ptr);
+                }
+            }
+            this->file = filename;
+            this->macro = macroString;
+            //FileInfo fi(this->display()->fileName());
+            //this->parseCompositeFile(fi.getFile(this->file).absolutePath().c_str());
         } else if (!strcmp(token, "children")) {
             this->parseChildren(fstream);
         }
@@ -1228,9 +1281,13 @@ void Composite::toQML(std::ostream &ostream)
     Element::toQML(ostream);
     this->dynamic_attr.toQML(ostream);
 
-    for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
-        (*it)->toQML(ostream);
-
+    if (this->file.empty()) {
+        for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
+            (*it)->toQML(ostream);
+    } else {
+        ostream << indent << "    source: \"" << this->file << "\"" << std::endl;
+        ostream << indent << "    macro: \"" << this->macro << "\"" << std::endl;
+    }
     ostream << indent << "}" << std::endl;
 }
 
