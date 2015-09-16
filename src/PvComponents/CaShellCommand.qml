@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 
 import PvComponents 1.0
-
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaShellCommand
@@ -48,8 +48,22 @@ CaControl {
     /*!
         \internal
     */
+    function parseCommand(command) {
+        // if command contains '?', truncate it there and prompt for user completion
+        var c = command.indexOf('?')
+        if (c >=0) {
+            command = command.substring(0, c)
+            var dialog = UtilsJS.popupPromptDialog(shell, 'Command', 'command', command)
+            dialog.accepted.connect(function(){
+                runCommand(dialog.input)
+            })
+        } else
+            runCommand(command)
+    }
+
     function runCommand(command) {
-        if (!Utils.execute(command))
+        var status = Utils.execute(command)
+        if (!status)
             console.error('Error happend when run command: `%1`'.arg(command))
     }
 
@@ -75,7 +89,7 @@ CaControl {
                                          'fontFamily: shell.fontFamily;}'
         // Single entry, direct action on button click
         if (model.count == 1) {
-            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: runCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), shell, 'button')
+            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), shell, 'button')
             btn.align = Text.AlignHCenter
         // Multiple entries, popup menu on button click
         } else {
@@ -86,7 +100,7 @@ CaControl {
                 label = model.get(i).label
                 command = model.get(i).command
                 args = model.get(i).args
-                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; import PvComponents 1.0; Action{onTriggered: runCommand("%1 %2")}'
+                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; import PvComponents 1.0; Action{onTriggered: parseCommand("%1 %2")}'
                                             .arg(command).arg(args), shell, 'action')
                 var item = btn.menu.insertItem(i, label);
                 item.action = action
