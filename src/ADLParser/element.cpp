@@ -378,9 +378,9 @@ void Plotcom::toQML(std::ostream &fstream)
     if (!title.empty())
         fstream << indent << "title: \"" << title << "\"" << std::endl;
     if (!xlabel.empty())
-        fstream << indent << "xlabel: \"" << xlabel << "\"" << std::endl;
+        fstream << indent << "xLabel: \"" << xlabel << "\"" << std::endl;
     if (!ylabel.empty())
-        fstream << indent << "ylabel: \"" << ylabel << "\"" << std::endl;
+        fstream << indent << "yLabel: \"" << ylabel << "\"" << std::endl;
     fstream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
     fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
 }
