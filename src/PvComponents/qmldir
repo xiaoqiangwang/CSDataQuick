@@ -39,6 +39,7 @@ internal Slider2       Slider2.qml
 internal StyledBar     StyledBar.qml
 internal StyledBar2    StyledBar2.qml
 internal StyledButton  StyledButton.qml
+internal RDButton      RDButton.qml
 internal WheelDigit    WheelDigit.qml
 internal WheelSwitch   WheelSwitch.qml
 plugin pvcomponentsplugin

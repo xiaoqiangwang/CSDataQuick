@@ -22,6 +22,7 @@ QML_FILES += \
     $$PWD/CaShellCommand.qml \
     $$PWD/CaMeter.qml \
     $$PWD/StyledButton.qml \
+    $$PWD/RDButton.qml \
     $$PWD/CaByte.qml \
     $$PWD/CaGraphics.qml \
     $$PWD/CaRect.qml \
