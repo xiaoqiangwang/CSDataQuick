@@ -2,6 +2,7 @@ import QtQuick 2.1
 import QtQuick.Controls 1.0
 
 import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaRelatedDisplay
@@ -21,6 +22,9 @@ import PvComponents 1.0
     If Ctrl-Btn1 is used in place of Btn1 to select the new display,
     then the parent display goes away and is replaced by the new display.
     The new display can also be configured by "replace" property to always replace the parent.
+
+     When the parent display is replaced by the new display, its upper-left corner should be at the former position of the parent,
+     unless the new display was already in existence.  In that case the existing display is popped up, and its position is not changed.
 */
 
 BaseItem {
@@ -64,122 +68,126 @@ BaseItem {
         if (fname.substr(-4) == '.adl') {
             var qmlCmd = Utils.openADLDisplay(fname, args, baseWindow.fileName)
             window = Qt.createQmlObject(qmlCmd, display, fname)
+            window.fileName = fname
         }
-        else {
+        else if (fname.substr(-4) == '.qml') {
             var component = Qt.createComponent(fname)
             if (component.status == Component.Ready) {
                 window = component.createObject()
             }
             else if (component.status == Component.Error)
-                console.log(component.errorString())
+                console.error(component.errorString())
             else
                 component.onStatusChanged = function done(status) {
                     if (status == Component.Ready) {
                         window = component.createObject()
                     } else
-                        console.log(component.errorString())
+                        console.error(component.errorString())
                 }
         }
-        window.title = fname
-        window.visible = true
+        if (window) {
+            if (remove) {
+                window.x = baseWindow.x
+                window.y = baseWindow.y
+                baseWindow.close()
+            }
+            window.title = fname
+            window.visible = true
+        }
     }
 
-
     Component.onCompleted: {
-        if (visual == 3)
-            visible = false
-        var label, fname, args, remove;
+        var label, fname, args, remove
+        var qmlCmd
         var imp ='import QtQuick 2.1; import QtQuick.Controls 1.0; import PvComponents 1.0;'
 
-        // If button label starts with '-', remove it
-        // Otherwise attach an icon in front
-        var btnLabel
-        var icon
+        // If button label starts with '-', remove it and use normal button. Otherwise use RDButton with double rect icon
+        var btnLabel, btnType
         if (display.label.charAt(0) == '-') {
-            icon = ''
             btnLabel = display.label.substring(1)
-        } else {
-            icon = 'iconSource: "images/doublerect.png";'
+            btnType = 'StyledButton'
+        }
+        else {
             btnLabel = display.label
+            btnType = 'RDButton'
         }
 
-        // If only one display file, one push button will be used
-        if (display.model.count <= 1) {
+        // set font family and size
+        var font = UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? display.height / model.count - 4: display.height - 4, true)
+        display.fontFamily = font.family
+        display.fontSize = font.size
+
+        var btnCmdTemplate = '%1 {' +
+                    'text: "%2";'+
+                    'fontFamily: display.fontFamily;'+
+                    'pixelSize: display.fontSize;'+
+                    'background: display.background;' +
+                    'foreground: display.foreground;' +
+                    '%3}'
+
+        var btn
+        // If only one display file, one push button will be used independent of the visual style
+        if (model.count <= 1) {
             // Compose button creation statements
-            var qmlCmd = imp +
-                        'StyledButton {' +
-                            'anchors.fill: parent;' +
-                            'text: "%1";'.arg(btnLabel) +
-                            'pixelSize: display.fontSize;'+
-                            'fontFamily: display.fontFamily;' +
-                            'background: parent.background;' +
-                            'foreground: parent.foreground;' +
-                             icon
-            // If model is empty, no signal will be triggered
-            if (display.model.count == 1)
-                qmlCmd += 'onClicked:  load("%1", "%2", "%3");'
-                            .arg(display.model.get(0).fname)
-                            .arg(display.model.get(0).args)
-                            .arg(display.model.get(0).remove)
-            qmlCmd += '}'
-            var btn = Qt.createQmlObject(qmlCmd, display, 'button')
+            var triggerCmd = ''
+            if (model.count == 1)
+                triggerCmd = 'onClicked: load("%1", "%2", %3)'
+                            .arg(model.get(0).fname)
+                            .arg(model.get(0).args)
+                            .arg(model.get(0).remove ? 'true' : 'false')
+
+            qmlCmd = imp + btnCmdTemplate.arg(btnType).arg(btnLabel).arg(triggerCmd)
+            btn = Qt.createQmlObject(qmlCmd, display, 'button')
+            btn.anchors.fill = display
             btn.align = Text.AlignHCenter
             return
         }
 
-        switch (display.visual) {
-        case 0: // Button with popupmenu
-            // Compose button creation statements
-            var btnCmd = imp +
-                        'StyledButton {' +
-                            'anchors.fill: parent;' +
-                            'text: "%1";' +
-                            'pixelSize: display.fontSize;'+
-                            'fontFamily: display.fontFamily;' +
-                            'menu: Menu{}\n' +
-                            'background: parent.background;' +
-                            'foreground: parent.foreground;' +
-                            icon + '}'
-            // Create button and pulldown menu
-            var btn = Qt.createQmlObject(btnCmd.arg(btnLabel), display, 'button')
-            btn.align = Text.AlignLeft
+        switch (visual) {
+        case RelatedDisplayVisual.Menu: // Button with popupmenu
+            // Compose menu creation statements
+            var menuCmd = 'menu: Menu {\n'
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label
                 fname = model.get(i).fname
                 args = model.get(i).args
                 remove = model.get(i).remove
-                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; Action{onTriggered: load("%1", "%2", %3)}'
-                                                .arg(fname).arg(args).arg(remove), display, 'action')
-                var item = btn.menu.insertItem(i, label);
-                item.action = action
+                menuCmd += 'MenuItem {text: "%1"; onTriggered: load("%2", "%3", %4)}\n'
+                           .arg(label).arg(fname).arg(args).arg(remove ? 'true' : 'false')
             }
+            menuCmd += '}'
+            // Create button and pulldown menu
+            qmlCmd = imp + btnCmdTemplate.arg(btnType).arg(btnLabel).arg(menuCmd)
+            btn = Qt.createQmlObject(qmlCmd, display, 'button')
+            btn.anchors.fill = display
+            btn.align = Text.AlignLeft
             break;
-        case 1: // Row of button
-        case 2: // Column of buttons
+        case RelatedDisplayVisual.Row: // Row of button
+        case RelatedDisplayVisual.Column: // Column of buttons
             var layout
-            if (display.visual == 1)
+            if (visual == RelatedDisplayVisual.Row)
                 layout = 'RowLayout'
             else
                 layout = 'ColumnLayout'
-            var qmlcmd = imp + 'import QtQuick.Layouts 1.0;' + layout + ' {anchors.fill: parent; spacing: 0;'
+            qmlCmd = imp + 'import QtQuick.Layouts 1.0;' + layout + ' {anchors.fill: display; spacing: 0;'
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label
                 fname = model.get(i).fname
                 args = model.get(i).args
                 remove = model.get(i).remove
-                qmlcmd += 'StyledButton{text: "%1";'.arg(label) +
-                        'onClicked: load("%1", "%2", %3);'.arg(fname).arg(args).arg(remove)  +
-                              'background: display.background;' +
-                              'foreground: display.foreground;' +
-                              'Layout.fillWidth: true;' +
-                              'Layout.fillHeight: true' +
-                          ' }'
+                var btnCmd = 'Layout.fillWidth: true; Layout.fillHeight: true;' +
+                             'onClicked: load("%1", "%2", %3)'
+                             .arg(model.get(i).fname)
+                             .arg(model.get(i).args)
+                             .arg(model.get(i).remove ? 'true' : 'false')
+
+                qmlCmd += btnCmdTemplate.arg('StyledButton').arg(label).arg(btnCmd)
             }
-            qmlcmd += '}'
-            Qt.createQmlObject(qmlcmd, display, 'item')
+            qmlCmd += '}'
+            Qt.createQmlObject(qmlCmd, display, 'layout')
             break;
-        default:
-            console.log('CaRelatedDisplay: Unknown visual style ' + display.visual)
+        case RelatedDisplayVisual.Hidden:
+            visible = false
             break;
         }
     }
