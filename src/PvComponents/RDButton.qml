@@ -62,7 +62,6 @@ Button {
                     color: control.foreground
                     font.pixelSize: control.pixelSize
                     font.family: control.fontFamily
-                    onWidthChanged: console.log(width, height)
                 }
             }
         }
