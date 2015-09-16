@@ -9,12 +9,24 @@ import PvComponents 1.0
 
 */
 
-Item {
+BaseItem {
+    id: root
+
     // appearance
     /*! background color */
     property color background: ColorMap.color51 // color4 is the actual default
     /*! foreground color */
     property color foreground: ColorMap.color14
+
+    /*!
+        external source file to load components
+    */
+    property string source
+    /*!
+        macro substitution for external source file
+    */
+    property string macro
+
     /*!
         \qmlproperty enumeration colorMode
 
@@ -49,5 +61,22 @@ Item {
                 break;
             }
         }
+    }
+
+    Component.onCompleted: {
+        if (!source)
+            return
+        var absFilePath = Utils.searchADLFile(source, baseWindow.fileName)
+        if (!absFilePath) {
+            console.error("Failed to find file ", source)
+            return
+        }
+        var qmlBody = Utils.openADLComposite(absFilePath, macro)
+        var qmlCmd = 'import QtQuick 2.0\n' +
+                'import QtQuick.Controls 1.0\n' +
+                'import PvComponents 1.0\n' +
+                'Item { anchors.fill: parent\n' +
+                qmlBody + '\n}';
+        var item = Qt.createQmlObject(qmlCmd, root, absFilePath)
     }
 }
