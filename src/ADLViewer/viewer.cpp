@@ -127,7 +127,7 @@ void Viewer::closeEvent(QCloseEvent *event)
     foreach (QQuickWindow *window, windows) {
         window->close();
     }
-    qApp->quit();
+    event->accept();
 }
 
 void Viewer::on_actionOpen_triggered()
@@ -166,6 +166,7 @@ void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> ma
 
 void Viewer :: outputMessage(QtMsgType type, const QString &msg)
 {
+    Q_UNUSED(type)
     emit sendMessage(QDateTime::currentDateTime().toString() + ":\n" + msg);
 }
 
@@ -184,7 +185,9 @@ void Viewer :: childWindowClosed(QQuickCloseEvent *event)
 void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap, QString geometry)
 {
     std::map<std::string, std::string> macros;
+    QString macroString;
     foreach (QString macro, macroMap.keys()) {
+        macroString +=QString("%1=%2,").arg(macro, macroMap[macro]);
         macros[macro.toStdString()] = macroMap[macro].toStdString();
     }
 
@@ -207,13 +210,7 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         return;
     }
 
-    std::ifstream ifstream(fi.absoluteFilePath().toStdString().c_str());
-    if (!ifstream.is_open()) {
-        qWarning() << "Failed to open file" << fileName;
-        return;
-    }
-
-    std::string qmlBody = parseADL(ifstream, macros);
+    std::string qmlBody = parseADL(fi.absoluteFilePath().toStdString(), macros);
 
     QQmlComponent component(&engine);
     component.setData(qmlBody.c_str(), QUrl::fromLocalFile(fi.absoluteFilePath()));
@@ -258,6 +255,7 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
     }
     window->setGeometry(x, y, width, height);
     window->setFilePath(fi.absoluteFilePath());
+    window->setProperty("macro", macroString);
     window->setTitle(fi.fileName());
     window->show();
 }

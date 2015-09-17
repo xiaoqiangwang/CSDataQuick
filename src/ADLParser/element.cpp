@@ -1051,7 +1051,8 @@ void Display::toQML(std::ostream &ostream)
     ostream << "BaseWindow {\n";
     Element::toQML(ostream);
     ostream << "    color: \"" << color(this->bclr) << '"' << std::endl;
-
+    ostream << "    filePath: \"" << this->fileName() << "\"" << std::endl;
+    ostream << "    macro: \"" << this->macroString() << "\"" << std::endl;
     for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
         (*it)->toQML(ostream);
 
@@ -1256,8 +1257,8 @@ void Composite::parse(std::istream &fstream)
             }
             this->file = filename;
             this->macro = macroString;
-            //FileInfo fi(this->display()->fileName());
-            //this->parseCompositeFile(fi.getFile(this->file).absolutePath().c_str());
+            if (this->macro.empty())
+                this->macro = display()->macroString();
         } else if (!strcmp(token, "children")) {
             this->parseChildren(fstream);
         }

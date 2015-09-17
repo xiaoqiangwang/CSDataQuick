@@ -15,7 +15,7 @@
     #define PARSER_DLLSPEC
 #endif
 
-PARSER_DLLSPEC std::string parseADL(std::istream &ifstream, std::map<std::string, std::string> macros);
-PARSER_DLLSPEC std::string parseCompositeADL(std::istream &ifstream, std::map<std::string, std::string> macros);
+PARSER_DLLSPEC std::string parseADL(std::string filename, std::map<std::string, std::string> macros);
+PARSER_DLLSPEC std::string parseCompositeADL(std::string filename, std::map<std::string, std::string> macros);
 
 #endif
