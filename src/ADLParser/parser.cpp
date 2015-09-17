@@ -1,6 +1,5 @@
 #include "parser.h"
 #include "element.h"
-#include "fileinfo.h"
 
 #include <fstream>
 #include <sstream>
