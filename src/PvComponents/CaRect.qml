@@ -13,8 +13,6 @@ CaGraphics {
     PaintedRectangle {
         id: rect
         anchors.fill: parent
-        anchors.rightMargin: control.lineWidth == 0 ? 1 : 0
-        anchors.bottomMargin: control.lineWidth == 0 ? 1 : 0
         lineWidth: control.lineWidth
         foreground: control.foreground
         edgeStyle: control.edge
