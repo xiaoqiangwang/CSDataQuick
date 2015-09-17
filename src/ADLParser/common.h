@@ -1,15 +1,43 @@
+/*************************************************************************\
+ * This header file is composed from several header files from MEDM 3.1.9.
+ * The copyright belongs to the original author.
+\*************************************************************************/
+
+/*************************************************************************\
+* Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+* National Laboratory.
+* Copyright (c) 2002 The Regents of the University of California, as
+* Operator of Los Alamos National Laboratory.
+* This file is distributed subject to a Software License Agreement found
+* in the file LICENSE that is included with this distribution.
+\*************************************************************************/
+/*****************************************************************************
+ *
+ *     Original Author : Mark Anderson
+ *     Second Author   : Frederick Vong
+ *     Third Author    : Kenneth Evans, Jr.
+ *
+ *****************************************************************************
+*/
 #ifndef COMMON_H
 #define COMMON_H
 
+// medm.h (Line 50)
 #ifdef ALLOCATE_STORAGE
 #define EXTERN
 #else
 #define EXTERN extern
 #endif
 
-    #define MIN(a,b)  ((a)<(b)?(a):(b))
-    #define MAX(a,b)  ((a)>(b)?(a):(b))
+// medmWidget.h (Line 43)
+#ifndef MAX
+#define MAX(a,b)  ((a)>(b)?(a):(b))
+#endif
+#ifndef MIN
+#define MIN(a,b)  ((a)<(b)?(a):(b))
+#endif
 
+// displayList.h (Line 32)
     /* Define these to set the number of menu items in the Related Display
      * and Shell Command. */
     #define MAX_RELATED_DISPLAYS    16
@@ -367,7 +395,12 @@
         "channel", "default", "user", "unused",
         "Y", "Y2",
     };
-
+    /*********************************************************************
+     * qmlValueTable  to convert string value token to qml enumeration   *
+     * any changes of types or ordering of above must have matching      *
+     * changes in this table!                                            *
+     * Note: This isn't part of MEDM, and made for QML conversion.       *
+     *********************************************************************/
     const char *qmlValueTable[NUMBER_STRING_VALUES] = {
         "execute", "edit",
         "LabelStyle.Frame", "LabelStyle.None", "LabelStyle.Outline", "LabelStyle.Limits", "LabelStyle.Channel",
