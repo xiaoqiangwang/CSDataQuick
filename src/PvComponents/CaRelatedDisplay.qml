@@ -66,7 +66,7 @@ BaseItem {
         // TODO: Handel both adl and qml
         var window
         if (fname.substr(-4) == '.adl') {
-            var absFilePath = Utils.searchADLFile(fname, baseWindow.fileName)
+            var absFilePath = Utils.searchADLFile(fname, baseWindow.filePath)
             if(absFilePath) {
                 window = WindowManager.findWindow(absFilePath, args)
                 if (window) {
@@ -75,7 +75,7 @@ BaseItem {
                 } else {
                     var qmlCmd = Utils.openADLDisplay(absFilePath, args)
                     window = Qt.createQmlObject(qmlCmd, display, absFilePath)
-                    window.fileName = fname
+                    window.filePath = absFilePath
                 }
             } else {
                 console.error("Failed to find file ", fname)
