@@ -1,4 +1,9 @@
+/*****************************************************************************\
+ * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "plugin.h"
+
 #include "pvobject.h"
 #include "shapes.h"
 #include "enums.h"

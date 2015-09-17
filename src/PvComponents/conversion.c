@@ -1,3 +1,25 @@
+/*************************************************************************\
+ * This source file includes function to convert numeric value to various
+ * formats string. It is composed from source file updateMonitors.c of MEDM.
+ * The copyright belongs to the original author.
+\*************************************************************************/
+/*************************************************************************\
+* Copyright (c) 2002 The University of Chicago, as Operator of Argonne
+* National Laboratory.
+* Copyright (c) 2002 The Regents of the University of California, as
+* Operator of Los Alamos National Laboratory.
+* This file is distributed subject to a Software License Agreement found
+* in the file LICENSE that is included with this distribution.
+\*************************************************************************/
+/*****************************************************************************
+ *
+ *     Original Author : Mark Anderson
+ *     Second Author   : Frederick Vong
+ *     Third Author    : Kenneth Evans, Jr.
+ *
+ *****************************************************************************
+*/
+
 #include <epicsTypes.h>
 #include <math.h>
 #include <limits.h>
