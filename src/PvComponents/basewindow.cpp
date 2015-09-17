@@ -15,6 +15,7 @@ BaseWindow :: ~BaseWindow()
 
 void BaseWindow :: closeEvent(QCloseEvent *event)
 {
+    event->accept();
     deleteLater();
 }
 
