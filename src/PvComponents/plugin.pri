@@ -19,6 +19,9 @@ DEPENDPATH += . ../ADLParser
 INCLUDEPATH += ../ADLParser
 LIBS += -L ../ADLParser -lADLParser
 
+win32:!win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/ADLParser.lib
+else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/libADLParser.a
+
 SOURCES += \
     $$PWD/pvobject.cpp \
     $$PWD/adimageprovider.cpp \
