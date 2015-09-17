@@ -13,6 +13,11 @@ BaseWindow :: ~BaseWindow()
 {
 }
 
+void BaseWindow :: closeEvent(QCloseEvent *event)
+{
+    deleteLater();
+}
+
 void BaseWindow :: printWindow()
 {
     QImage snapshot = grabWindow();
