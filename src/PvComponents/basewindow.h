@@ -8,6 +8,7 @@ class BaseWindow : public QQuickWindow
     Q_OBJECT
 
     Q_PROPERTY(QString filePath READ filePath WRITE setFilePath)
+    Q_PROPERTY(QString macro MEMBER macro)
 
 public:
     explicit BaseWindow(QWindow *parent=0);
@@ -19,6 +20,8 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private:
+    QString macro;
+
     Q_DISABLE_COPY(BaseWindow)
 };
 

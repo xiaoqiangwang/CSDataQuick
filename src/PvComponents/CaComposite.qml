@@ -66,7 +66,7 @@ BaseItem {
     Component.onCompleted: {
         if (!source)
             return
-        var absFilePath = Utils.searchADLFile(source, baseWindow.filePath)
+        var absFilePath = Utils.searchADLFile(source, baseWindow.filePath ? baseWindow.filePath : baseWindow.url)
         if (!absFilePath) {
             console.error("Failed to find file ", source)
             return

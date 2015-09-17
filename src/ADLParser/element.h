@@ -300,14 +300,23 @@ public:
     void setFileName(std::string filename) { file = filename;}
     std::string fileName() { return file; }
 
-    void setMacros(std::map<std::string, std::string> macros) {nameValueTable = macros;}
+    void setMacros(std::map<std::string, std::string> macros) {
+        nameValueTable = macros;
+        // convert to macro string form
+        nameValueString.clear();
+        for (std::map<std::string,std::string>::iterator it=nameValueTable.begin(); it!=nameValueTable.end(); ++it)
+            nameValueString += it->first + '=' + it->second + ',';
+    }
     std::map<std::string, std::string> macros() {return nameValueTable;}
+
+    std::string macroString() {return nameValueString;}
 
 protected:
     void parseFile(std::istream &fstream);
     void parseDisplay(std::istream &fstream);
 
 private:
+    std::string nameValueString;
     std::map<std::string, std::string> nameValueTable;
     std::list<Element *> widgets;
 
