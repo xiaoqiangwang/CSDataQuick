@@ -28,8 +28,8 @@ public slots:
     void on_actionAbout_triggered();
 
     void childWindowClosed(QQuickCloseEvent *event);
-    void dispatchRequestReceived(QString fileName, QMap<QString, QString> macro, QString geometry);
-    void openADLDisplay(QString fileName, QMap<QString, QString> macro, QString geometry);
+    void dispatchRequestReceived(QString fileName, QString macroString, QString geometry);
+    void openADLDisplay(QString fileName, QString macroString, QString geometry);
 
 protected:
     void closeEvent(QCloseEvent *event);

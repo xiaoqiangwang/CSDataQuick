@@ -27,30 +27,12 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &ctx, const QStrin
         viewer->outputMessage(type, msg );
 }
 
-typedef QMap<QString, QString> MacroMap;
-
-QMap<QString, QString> parseMacro(QString macro)
-{
-    QMap<QString, QString> macroMap;
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap.insert(paires[0].trimmed(), paires[1].trimmed());
-        else
-            qDebug() << "macro unclear" << m;
-    }
-
-    return macroMap;
-}
-
 int main(int argc, char **argv)
 {
     // First create QCoreApplication to work on command  line argument parsing
     // and dispatch request.
     QCoreApplication *qCoreApp =  new QCoreApplication(argc, argv);
 
-    qRegisterMetaType<MacroMap>("MacroMap");
     qRegisterMetaType<QtMsgType>("QtMsgType");
 
     QCommandLineParser parser;
@@ -96,7 +78,7 @@ int main(int argc, char **argv)
     parser.process(qCoreApp->arguments());
 
     // macros
-    MacroMap macroMap = parseMacro(parser.value(macroOption));
+    QString macroString = parser.value(macroOption);
 
     // geomtry
     QString geometry = parser.value(geometryOption);
@@ -118,8 +100,8 @@ int main(int argc, char **argv)
             if (existing) {
                 qDebug() << "Attaching to existing ADLViewer";
                 foreach(QString arg, args) {
-                    if (IPCClient::requestDispatch(arg, macroMap, geometry))
-                        qDebug() << "  Dispatched: " << arg << macroMap << geometry;
+                    if (IPCClient::requestDispatch(arg, macroString, geometry))
+                        qDebug() << "  Dispatched: " << arg << macroString << geometry;
                     else
                         qDebug() << "  Dispatch failed for " << arg;
                 }
@@ -145,14 +127,14 @@ int main(int argc, char **argv)
     if (!parser.isSet(localOption)) {
         IPCServer *server = new IPCServer();
         if (server->launchServer(true))
-            QObject::connect(server, SIGNAL(dispatchRequestReceived(QString,QMap<QString,QString>,QString)),
-                         viewer, SLOT(dispatchRequestReceived(QString,QMap<QString,QString>,QString)));
+            QObject::connect(server, SIGNAL(dispatchRequestReceived(QString,QString,QString)),
+                         viewer, SLOT(dispatchRequestReceived(QString,QString,QString)));
         else
             qWarning() << "Failed to start IPC server";
     }
 
     foreach (QString fileName, args) {
-        viewer->openADLDisplay(fileName, macroMap, geometry);
+        viewer->openADLDisplay(fileName, macroString, geometry);
         qDebug() << "Open display file" << fileName;
     }
     viewer->show();

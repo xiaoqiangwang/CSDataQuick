@@ -154,14 +154,14 @@ void Viewer::on_actionAbout_triggered()
                        );
 }
 
-void Viewer::dispatchRequestReceived(QString fileName, QMap<QString, QString> macroMap, QString geometry)
+void Viewer::dispatchRequestReceived(QString fileName, QString macroString, QString geometry)
 {
     qDebug() << "File Dispatch Request:\n"
              << "  fileName =" << fileName << "\n"
-             << "  macro =" << macroMap << "\n"
+             << "  macro =" << macroString << "\n"
              << "  geometry =" << geometry;
 
-    openADLDisplay(fileName, macroMap, geometry);
+    openADLDisplay(fileName, macroString, geometry);
 }
 
 void Viewer :: outputMessage(QtMsgType type, const QString &msg)
@@ -182,13 +182,18 @@ void Viewer :: childWindowClosed(QQuickCloseEvent *event)
 }
 
 
-void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap, QString geometry)
+void Viewer :: openADLDisplay(QString fileName, QString macroString, QString geometry)
 {
     std::map<std::string, std::string> macros;
-    QString macroString;
-    foreach (QString macro, macroMap.keys()) {
-        macroString +=QString("%1=%2,").arg(macro, macroMap[macro]);
-        macros[macro.toStdString()] = macroMap[macro].toStdString();
+    foreach(QString m, macroString.split(',')) {
+        if (m.isEmpty()) continue;
+
+        QStringList paires = m.split('=');
+        if (paires.length() == 2) {
+            std::string name = paires[0].trimmed().toStdString();
+            std::string value = paires[1].trimmed().toStdString();
+            macros[name] = value;
+        }
     }
 
     QFileInfo fi(fileName);

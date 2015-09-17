@@ -76,12 +76,12 @@ void IPCHandler :: handleClient(QLocalSocket *client)
         QDataStream ds(&message, QIODevice::ReadOnly);
 
         QString fileName;
-        QMap<QString, QString> macro;
+        QString macroString;
         QString geometry;
-        ds >> fileName >> macro >> geometry;
+        ds >> fileName >> macroString >> geometry;
         if (!fileName.isEmpty()) {
             // signal new request
-            emit dispatchRequestReceived(fileName, macro, geometry);
+            emit dispatchRequestReceived(fileName, macroString, geometry);
             reply = "OK";
         } else
             reply = "ERROR";
@@ -179,11 +179,11 @@ QByteArray IPCClient :: writeAndRead(QLocalSocket *socket, quint16 messageId, QB
     return messageIn;
 }
 
-bool IPCClient :: requestDispatch(QString fileName, QMap<QString, QString> macro, QString geometry) {
+bool IPCClient :: requestDispatch(QString fileName, QString macroString, QString geometry) {
     QByteArray message;
 
     QDataStream ostream(&message, QIODevice::WriteOnly);
-    ostream << fileName << macro << geometry;
+    ostream << fileName << macroString << geometry;
 
     QString name = IPCServer::getServerName();
     QLocalSocket client;
