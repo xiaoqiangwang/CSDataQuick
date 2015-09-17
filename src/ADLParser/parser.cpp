@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-std::string parseADL(std::string filename, std::map<std::string, std::string> macros)
+std::string parseADLDisplay(std::string filename, std::map<std::string, std::string> macros)
 {
     Display displayInfo(0);
     displayInfo.setFileName(filename);
@@ -21,7 +21,7 @@ std::string parseADL(std::string filename, std::map<std::string, std::string> ma
     return osstream.str();
 }
 
-std::string parseCompositeADL(std::string filename, std::map<std::string, std::string> macros)
+std::string parseADLComposite(std::string filename, std::map<std::string, std::string> macros)
 {
     Display displayInfo(0);
     displayInfo.setFileName(filename);

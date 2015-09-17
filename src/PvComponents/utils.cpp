@@ -231,7 +231,7 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro)
             qDebug() << "macro unclear" << m;
     }
 
-    std::string qmlBody = parseADL(fileName.toStdString(), macroMap);
+    std::string qmlBody = parseADLDisplay(fileName.toStdString(), macroMap);
 
     return QString::fromStdString(qmlBody);
 }
@@ -249,7 +249,7 @@ QString QCSUtils::openADLComposite(QString fileName, QString macro)
             qDebug() << "macro unclear" << m;
     }
 
-    std::string qmlBody = parseCompositeADL(fileName.toStdString(), macroMap);
+    std::string qmlBody = parseADLComposite(fileName.toStdString(), macroMap);
 
     return QString::fromStdString(qmlBody);
 }
