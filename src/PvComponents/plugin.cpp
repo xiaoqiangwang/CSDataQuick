@@ -7,6 +7,7 @@
 #include "plotitem.h"
 #include "baseitem.h"
 #include "basewindow.h"
+#include "windowmanager.h"
 
 #include <qqml.h>
 
@@ -16,6 +17,14 @@ static QObject *utils_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
     Q_UNUSED(scriptEngine);
 
     return new QCSUtils();
+}
+
+static QObject *windowmanager_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    return new WindowManager();
 }
 
 void PvComponentsPlugin::registerTypes(const char *uri)
@@ -34,6 +43,7 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
     qmlRegisterType<BaseWindow>(uri, 1, 0, "BaseWindow");
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
+    qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);
     qmlRegisterUncreatableType<FrameShadow>(uri, 1, 0, "FrameShadow", "FrameShadow Enum");
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");

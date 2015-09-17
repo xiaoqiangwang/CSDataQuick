@@ -68,9 +68,15 @@ BaseItem {
         if (fname.substr(-4) == '.adl') {
             var absFilePath = Utils.searchADLFile(fname, baseWindow.fileName)
             if(absFilePath) {
-                var qmlCmd = Utils.openADLDisplay(absFilePath, args)
-                window = Qt.createQmlObject(qmlCmd, display, absFilePath)
-                window.fileName = fname
+                window = WindowManager.findWindow(absFilePath, args)
+                if (window) {
+                    window.raise()
+                    window.requestActivate()
+                } else {
+                    var qmlCmd = Utils.openADLDisplay(absFilePath, args)
+                    window = Qt.createQmlObject(qmlCmd, display, absFilePath)
+                    window.fileName = fname
+                }
             } else {
                 console.error("Failed to find file ", fname)
             }
@@ -96,6 +102,7 @@ BaseItem {
                 window.y = baseWindow.y
                 baseWindow.close()
             }
+            WindowManager.appendWindow(window, absFilePath, args)
             window.title = fname
             window.visible = true
         }
