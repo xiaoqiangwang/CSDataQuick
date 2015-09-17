@@ -1,3 +1,7 @@
+/*****************************************************************************\
+ * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "csdatasource.h"
 #include <QtCore/QUrl>
 

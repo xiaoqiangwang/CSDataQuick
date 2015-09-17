@@ -1,4 +1,9 @@
+/*****************************************************************************\
+ * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "windowmanager.h"
+
 #include <QWindow>
 
 WindowManager::WindowManager(QObject *parent)
