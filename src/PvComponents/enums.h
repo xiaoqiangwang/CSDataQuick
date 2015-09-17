@@ -3,6 +3,12 @@
 
 #include <QObject>
 
+#define DISABLE_CREATION(CLASSNAME) \
+    CLASSNAME();\
+    CLASSNAME(QObject*);\
+    CLASSNAME(const CLASSNAME&);\
+    CLASSNAME& operator=(const CLASSNAME&);
+
 class FrameShadow : public QObject
 {
     Q_OBJECT
@@ -14,10 +20,7 @@ public:
         Sunken
     };
 private:
-    FrameShadow(QObject*);
-    FrameShadow();
-    FrameShadow(const FrameShadow&);
-    FrameShadow& operator=(const FrameShadow&);
+    DISABLE_CREATION(FrameShadow)
 };
 
 class TextFormat : public QObject
@@ -39,10 +42,7 @@ public:
         SexagesimalHMS
     };
 private:
-    TextFormat(QObject*);
-    TextFormat();
-    TextFormat(const TextFormat&);
-    TextFormat& operator=(const TextFormat&);
+    DISABLE_CREATION(TextFormat)
 };
 
 class ColorMode : public QObject
@@ -56,10 +56,7 @@ public:
         Discrete
     };
 private:
-    ColorMode(QObject*);
-    ColorMode();
-    ColorMode(const ColorMode&);
-    ColorMode& operator=(const ColorMode&);
+    DISABLE_CREATION(ColorMode)
 };
 
 class Direction : public QObject
@@ -74,10 +71,7 @@ public:
         Left
     };
 private:
-    Direction(QObject*);
-    Direction();
-    Direction(const Direction&);
-    Direction& operator=(const Direction&);
+    DISABLE_CREATION(Direction)
 };
 
 class EdgeStyle : public QObject
@@ -90,10 +84,7 @@ public:
         Dash
     };
 private:
-    EdgeStyle(QObject*);
-    EdgeStyle();
-    EdgeStyle(const EdgeStyle&);
-    EdgeStyle& operator=(const EdgeStyle&);
+    DISABLE_CREATION(EdgeStyle)
 };
 
 class FillStyle : public QObject
@@ -106,10 +97,7 @@ public:
         Outline
     };
 private:
-    FillStyle(QObject*);
-    FillStyle();
-    FillStyle(const FillStyle&);
-    FillStyle& operator=(const FillStyle&);
+    DISABLE_CREATION(FillStyle)
 };
 
 class VisibilityMode : public QObject
@@ -124,10 +112,7 @@ public:
         Calc
     };
 private:
-    VisibilityMode(QObject*);
-    VisibilityMode();
-    VisibilityMode(const VisibilityMode&);
-    VisibilityMode& operator=(const VisibilityMode&);
+    DISABLE_CREATION(VisibilityMode)
 };
 
 class LimitsSource : public QObject
@@ -142,10 +127,7 @@ public:
         Unused
     };
 private:
-    LimitsSource(QObject*);
-    LimitsSource();
-    LimitsSource(const LimitsSource&);
-    LimitsSource& operator=(const LimitsSource&);
+    DISABLE_CREATION(LimitsSource)
 };
 
 class RelatedDisplayVisual : public QObject
@@ -160,10 +142,7 @@ public:
         Hidden
     };
 private:
-    RelatedDisplayVisual(QObject*);
-    RelatedDisplayVisual();
-    RelatedDisplayVisual(const RelatedDisplayVisual&);
-    RelatedDisplayVisual& operator=(const RelatedDisplayVisual&);
+    DISABLE_CREATION(RelatedDisplayVisual)
 };
 
 class RelatedDisplayMode : public QObject
@@ -176,10 +155,7 @@ public:
         Replace
     };
 private:
-    RelatedDisplayMode(QObject*);
-    RelatedDisplayMode();
-    RelatedDisplayMode(const RelatedDisplayMode&);
-    RelatedDisplayMode& operator=(const RelatedDisplayMode&);
+    DISABLE_CREATION(RelatedDisplayMode)
 };
 
 class LabelStyle : public QObject
@@ -195,10 +171,7 @@ public:
         Channel
     };
 private:
-    LabelStyle(QObject*);
-    LabelStyle();
-    LabelStyle(const LabelStyle&);
-    LabelStyle& operator=(const LabelStyle&);
+    DISABLE_CREATION(LabelStyle)
 };
 
 class TimeUnit : public QObject
@@ -212,10 +185,7 @@ public:
         Minute,
     };
 private:
-    TimeUnit(QObject*);
-    TimeUnit();
-    TimeUnit(const TimeUnit&);
-    TimeUnit& operator=(const TimeUnit&);
+    DISABLE_CREATION(TimeUnit)
 };
 
 class PlotStyle : public QObject
@@ -229,10 +199,7 @@ public:
         FillUnder
     };
 private:
-    PlotStyle(QObject*);
-    PlotStyle();
-    PlotStyle(const PlotStyle&);
-    PlotStyle& operator=(const PlotStyle&);
+    DISABLE_CREATION(PlotStyle)
 };
 
 class Stacking : public QObject
@@ -246,10 +213,7 @@ public:
         RowColumn
     };
 private:
-    Stacking(QObject*);
-    Stacking();
-    Stacking(const Stacking&);
-    Stacking& operator=(const Stacking&);
+    DISABLE_CREATION(Stacking)
 };
 
 class FillMode : public QObject
@@ -262,10 +226,7 @@ public:
         FromCenter
     };
 private:
-    FillMode(QObject*);
-    FillMode();
-    FillMode(const FillMode&);
-    FillMode& operator=(const FillMode&);
+    DISABLE_CREATION(FillMode)
 };
 
 class EraseMode : public QObject
@@ -278,10 +239,7 @@ public:
         IfZero
     };
 private:
-    EraseMode(QObject*);
-    EraseMode();
-    EraseMode(const EraseMode&);
-    EraseMode& operator=(const EraseMode&);
+    DISABLE_CREATION(EraseMode)
 };
 
 class CartesianPlotTimeFormat : public QObject
@@ -299,10 +257,7 @@ public:
         WDHH00
     };
 private:
-    CartesianPlotTimeFormat(QObject*);
-    CartesianPlotTimeFormat();
-    CartesianPlotTimeFormat(const CartesianPlotTimeFormat&);
-    CartesianPlotTimeFormat& operator=(const CartesianPlotTimeFormat&);
+    DISABLE_CREATION(CartesianPlotTimeFormat)
 };
 
 class CartesianPlotRangeStyle : public QObject
@@ -316,10 +271,7 @@ public:
         Auto
     };
 private:
-    CartesianPlotRangeStyle(QObject*);
-    CartesianPlotRangeStyle();
-    CartesianPlotRangeStyle(const CartesianPlotRangeStyle&);
-    CartesianPlotRangeStyle& operator=(const CartesianPlotRangeStyle&);
+    DISABLE_CREATION(CartesianPlotRangeStyle)
 };
 
 class CartesianPlotYAxis : public QObject
@@ -332,10 +284,7 @@ public:
         Y2
     };
 private:
-    CartesianPlotYAxis(QObject*);
-    CartesianPlotYAxis();
-    CartesianPlotYAxis(const CartesianPlotYAxis&);
-    CartesianPlotYAxis& operator=(const CartesianPlotYAxis&);
+    DISABLE_CREATION(CartesianPlotYAxis)
 };
 
 class CartesianPlotAxisStyle : public QObject
@@ -349,10 +298,7 @@ public:
         Time
     };
 private:
-    CartesianPlotAxisStyle(QObject*);
-    CartesianPlotAxisStyle();
-    CartesianPlotAxisStyle(const CartesianPlotAxisStyle&);
-    CartesianPlotAxisStyle& operator=(const CartesianPlotAxisStyle&);
+    DISABLE_CREATION(CartesianPlotAxisStyle)
 };
 
 #endif // ENUMS_H
