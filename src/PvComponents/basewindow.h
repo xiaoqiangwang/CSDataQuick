@@ -15,6 +15,9 @@ public:
 
     Q_INVOKABLE void printWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event);
+
 signals:
     void fileNameChanged();
 
