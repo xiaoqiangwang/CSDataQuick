@@ -628,6 +628,8 @@ void RelatedDisplayEntry::parse(std::istream &fstream)
 
 void RelatedDisplayEntry::toQML(std::ostream &ostream)
 {
+    if (this->name.empty())
+         return;
     int indent_level = parent()->level() + 1;
     std::string indent(indent_level * 4, ' ');
 
