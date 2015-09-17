@@ -10,6 +10,7 @@ set(SOURCES
     plotitem.cpp
     baseitem.cpp
     basewindow.cpp
+    windowmanager.cpp
 )
 
 set(HEADERS
@@ -23,6 +24,7 @@ set(HEADERS
     plotitem.h
     baseitem.h
     basewindow.h
+    windowmanager.h
 )
 
 # When CMake 3.0.0 is required, remove this block (see CMP0042).

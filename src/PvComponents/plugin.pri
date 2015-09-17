@@ -32,7 +32,8 @@ SOURCES += \
     $$PWD/basewindow.cpp \
     $$PWD/enums.cpp \
     $$PWD/csdatasource.cpp \
-    $$PWD/csdata.cpp
+    $$PWD/csdata.cpp \
+    $$PWD/windowmanager.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -46,4 +47,5 @@ HEADERS += \
     $$PWD/basewindow.h \
     $$PWD/enums.h \
     $$PWD/csdatasource.h \
-    $$PWD/csdata.h
+    $$PWD/csdata.h \
+    $$PWD/windowmanager.h
