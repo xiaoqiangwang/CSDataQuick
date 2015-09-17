@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QApplication>
 
+#include <QQmlContext>
 #include <QQmlComponent>
 #include <QQuickWindow>
 #include <QPlainTextEdit>
@@ -256,7 +257,7 @@ void Viewer :: openADLDisplay(QString fileName, QMap<QString, QString> macroMap,
         break;
     }
     window->setGeometry(x, y, width, height);
-    window->setProperty("fileName", fi.absoluteFilePath());
+    window->setFilePath(fi.absoluteFilePath());
     window->setTitle(fi.fileName());
     window->show();
 }
