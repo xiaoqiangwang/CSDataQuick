@@ -1,3 +1,9 @@
+/*****************************************************************************\
+ * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
+ *
+ * Note: The ADL file parsing, notably the getToken and parse methods, is
+ * derived from MEDM. The copyright belongs to the original authors.
+\*****************************************************************************/
 #include "element.h"
 #include "fileinfo.h"
 #include <cstdlib>
@@ -6,10 +12,6 @@
 #include <fstream>
 #include <algorithm>
 
-/*******************************************************************************
- * Common Attributes
- *
- */
 
 class Element;
 template <typename T>
