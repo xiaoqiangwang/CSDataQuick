@@ -1,3 +1,7 @@
+/*****************************************************************************\
+ * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "viewer.h"
 #include <QAction>
 #include <QMenuBar>
@@ -215,7 +219,7 @@ void Viewer :: openADLDisplay(QString fileName, QString macroString, QString geo
         return;
     }
 
-    std::string qmlBody = parseADL(fi.absoluteFilePath().toStdString(), macros);
+    std::string qmlBody = parseADLDisplay(fi.absoluteFilePath().toStdString(), macros);
 
     QQmlComponent component(&engine);
     component.setData(qmlBody.c_str(), QUrl::fromLocalFile(fi.absoluteFilePath()));
