@@ -5,7 +5,7 @@
  * derived from MEDM. The copyright belongs to the original authors.
 \*****************************************************************************/
 #include "element.h"
-#include "fileinfo.h"
+
 #include <cstdlib>
 #include <climits>
 #include <cstring>

@@ -1,12 +1,10 @@
 set(SOURCES
-    fileinfo.cpp
     common.cpp
     element.cpp
     parser.cpp
 )
 
 set(HEADERS
-    fileinfo.h
     common.h
     element.h
     parser.h
