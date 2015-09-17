@@ -7,7 +7,7 @@ class BaseWindow : public QQuickWindow
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString fileName MEMBER mFileName NOTIFY fileNameChanged)
+    Q_PROPERTY(QString filePath READ filePath WRITE setFilePath)
 
 public:
     explicit BaseWindow(QWindow *parent=0);
@@ -18,13 +18,8 @@ public:
 protected:
     void closeEvent(QCloseEvent *event);
 
-signals:
-    void fileNameChanged();
-
 private:
     Q_DISABLE_COPY(BaseWindow)
-
-    QString mFileName;
 };
 
 #endif
