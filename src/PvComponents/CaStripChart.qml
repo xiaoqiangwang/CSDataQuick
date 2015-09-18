@@ -69,7 +69,7 @@ Item {
         background: root.background
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: xlabel ? xlabel : "Time (%1)".arg(getTimeLabel(root.units))
+            label: xLabel ? xLabel : "Time (%1)".arg(getTimeLabel(root.units))
             rangeLower: -period
             rangeUpper: 0
         }
@@ -126,7 +126,7 @@ Item {
                     '        }\n' +
                     '    }\n' +
                     '}'
-            var pv = Qt.createQmlObject(cmd, control, 'pv'+i)
+            var pv = Qt.createQmlObject(cmd, root, 'pv'+i)
             d.pvs.push(pv)
 
             // bind pv range to y axis range
