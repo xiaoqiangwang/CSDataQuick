@@ -9,13 +9,13 @@ import PvComponents 1.0
 */
 
 CaGraphics {
-    id: control
+    id: root
     PaintedRectangle {
         id: rect
         anchors.fill: parent
-        lineWidth: control.lineWidth
-        foreground: control.foreground
-        edgeStyle: control.edge
-        fillStyle: control.fill
+        lineWidth: root.lineWidth
+        foreground: root.foreground
+        edgeStyle: root.edge
+        fillStyle: root.fill
     }
 }

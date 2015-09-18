@@ -10,7 +10,7 @@ import "utils.js" as UtilsJS
 */
 
 CaGraphics {
-    id: text
+    id: root
 
     /*!
         \qmlproperty string text
@@ -32,8 +32,8 @@ CaGraphics {
             id: text_control
             color: foreground
             anchors.fill: parent
-            font.pixelSize: text.fontSize
-            font.family: text.fontFamily
+            font.pixelSize: root.fontSize
+            font.family: root.fontFamily
         }
     }
 

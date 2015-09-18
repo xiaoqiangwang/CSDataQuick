@@ -15,7 +15,7 @@ import PvComponents 1.0
 */
 
 CaControl {
-    id: combo
+    id: root
 
     ComboBox {
         id: combo_control
@@ -29,9 +29,9 @@ CaControl {
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                color: colorMode == ColorMode.Alarm ? combo.alarmColor : combo.foreground
-                font.pixelSize: combo.fontSize
-                font.family: combo.fontFamily
+                color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+                font.pixelSize: root.fontSize
+                font.family: root.fontFamily
             }
             background: Rectangle {
                 anchors.fill: parent
@@ -60,7 +60,7 @@ CaControl {
                         opacity: control.enabled ? 0.7 : 0.5
                     }
                 }
-                color: combo.background
+                color: root.background
             }
         }
 
