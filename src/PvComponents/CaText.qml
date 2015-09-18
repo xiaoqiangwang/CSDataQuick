@@ -24,6 +24,11 @@ CaGraphics {
         The font used depends on the item height using function \l UtilsJS::getBestFontSize.
     */
     property alias align: text_control.horizontalAlignment
+    /*!
+        \qmlproperty font font
+        The font used to display the text.
+    */
+    property alias font: text_control.font
 
     Rectangle {
         color: background
@@ -32,14 +37,12 @@ CaGraphics {
             id: text_control
             color: foreground
             anchors.fill: parent
-            font.pixelSize: root.fontSize
-            font.family: root.fontFamily
         }
     }
 
     onHeightChanged: {
         var font = UtilsJS.getBestFontSize(height)
-        fontSize = font.size
-        fontFamily = font.family
+        font.pixelSize = font.size
+        font.family = font.family
     }
 }
