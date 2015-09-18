@@ -33,26 +33,26 @@ Item {
     readonly property real posAtMinimum: {
         switch (direction) {
         case Direction.Up:
-            return groove.height - markerWidth;
+            return groove.height - markerWidth - 2;
         case Direction.Right:
-            return 0;
+            return 2;
         case Direction.Down:
-            return 0;
+            return 2;
         case Direction.Left:
-            return groove.width - markerWidth;
+            return groove.width - markerWidth - 2;
         }
     }
 
     readonly property real posAtMaximum: {
         switch (direction) {
         case Direction.Up:
-            return 0;
+            return 2;
         case Direction.Right:
-            return groove.width - markerWidth;
+            return groove.width - markerWidth - 2;
         case Direction.Down:
-            return groove.height - markerWidth;
+            return groove.height - markerWidth - 2;
         case Direction.Left:
-            return 0;
+            return 2;
         }
     }
 
@@ -65,7 +65,7 @@ Item {
         return (direction == Direction.Up || direction == Direction.Left ? -1 : 1) * (pos - markerWidth / 2 - posAtMinimum) / factor + minimumValue
     }
 
-    readonly property real factor: ((orientation == Qt.Horizontal ? groove.width : groove.height) - markerWidth )
+    readonly property real factor: ((orientation == Qt.Horizontal ? groove.width : groove.height) - markerWidth - 4)
                                    / (maximumValue - minimumValue)
 
     Rectangle {
@@ -150,8 +150,9 @@ Item {
         }
     }
 
-    Rectangle {
+    Frame {
         id: handle
+        shadow: FrameShadow.Raise
 
         x: orientation == Qt.Horizontal ? posForValue(root.value) : 2
         y: orientation == Qt.Horizontal ? 2: posForValue(root.value)
