@@ -16,6 +16,8 @@ import PvComponents 1.0
 */
 
 CaGraphics {
+    id: root
+
     /*!
       \qmlproperty url source
 
@@ -44,13 +46,13 @@ CaGraphics {
         If the number of frame is less than 1, and \l dynamicAttr has no valid channel,
         this item will be given lower stacking order.
     */
-    readonly property int frameCount: animation.frameCount
+    property int frameCount: 1
 
     Connections {
         target: dynamicAttr
         onUpdate: {
             if (imageCalc != '') {
-                var frame = Utils.calculate(imageCalc, dynamicAttr._arg)
+                var frame = Utils.calculate(imageCalc, dynamicAttr.d.args)
                 animation.visible = !isNaN(frame)
                 animation.currentFrame = Math.max(0, Math.min(frame, animation.frameCount))
             }
@@ -63,5 +65,6 @@ CaGraphics {
         fillMode: Image.Stretch
         // play animation unless calculation is used
         playing: imageCalc == ''
+        onStatusChanged: root.frameCount = frameCount
     }
 }
