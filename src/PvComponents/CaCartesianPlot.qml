@@ -232,12 +232,12 @@ Item {
 
     Component.onCompleted: {
         if (countPvName != '') {
-            d.pvCount = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(countPvName), control, 'pvCount')
+            d.pvCount = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(countPvName), root, 'pvCount')
             d.pvCount.valueChanged.connect(updateCount)
         }
 
         if (erasePvName != '') {
-            d.pvErase = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(erasePvName), control, 'pvErase')
+            d.pvErase = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(erasePvName), root, 'pvErase')
             d.pvErase.valueChanged.connect(eraseGraph)
         }
 
@@ -263,7 +263,7 @@ Item {
                             '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
                             '    }\n' +
                             '}',
-                            control, 'xpv'+i)
+                            root, 'xpv'+i)
                 xpv.valueChanged.connect(updateData)
             }
             if (ychannel && ychannel != '') {
@@ -276,7 +276,7 @@ Item {
                             '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
                             '    }\n' +
                             '}',
-                            control, 'ypv'+i)
+                            root, 'ypv'+i)
                 ypv.valueChanged.connect(updateData)
             }
             d.pvs.push([xpv,ypv])
