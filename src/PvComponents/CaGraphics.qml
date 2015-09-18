@@ -22,10 +22,6 @@ Item {
     property int fill: FillStyle.Solid
     /*! Outline style */
     property int edge: EdgeStyle.Solid
-    /*! font size */
-    property int fontSize: 12
-    /*! font family */
-    property string fontFamily: fontSize <= 20 ? 'Dejavu Sans Mono' : 'Helvetica'
     /*! Outline width */
     property int lineWidth: 0
     /*! qmlproperty enumeration CaGraphics::colorMode
@@ -42,7 +38,7 @@ Item {
         onStatusChanged: {
             if (colorMode == ColorMode.Static)
                 return
-            switch (da.chanList[0].severity) {
+            switch (da.d.pvA.severity) {
                 case 0: // NO_ALARM
                 foreground = ColorMap.no_alarm
                 break;
@@ -56,6 +52,12 @@ Item {
                 foreground = ColorMap.invalid_alarm
                 break;
             }
+        }
+        onConnectedChanged: {
+            if (colorMode == ColorMode.Static && da.visibilityMode == VisibilityMode.Static)
+                return
+            if (!da.connected)
+                foreground = ColorMap.invalid_alarm
         }
     }
 }
