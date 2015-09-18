@@ -40,27 +40,12 @@ BaseItem {
 
     visible: da.visibility
 
-    Connections {
-        target: da
-
-        onStatusChanged: {
-            if (colorMode == ColorMode.Static)
-                return
-            switch (da.chanList[0].severity) {
-                case 0: // NO_ALARM
-                foreground = 'green'
-                break;
-                case 1: // MINOR_ALARM
-                foreground = 'yellow'
-                break;
-                case 2: // MAJOR_ALARM
-                foreground = 'red'
-                break;
-                case 3: // INVALID_ALARM
-                foreground = 'white'
-                break;
-            }
-        }
+    // Mask when PVs disconnected
+    Rectangle {
+        z: 1
+        anchors.fill: parent
+        color: 'white'
+        visible: !da.connected
     }
 
     Component.onCompleted: {
