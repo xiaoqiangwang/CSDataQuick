@@ -11,14 +11,13 @@ import PvComponents 1.0
 */
 
 CaGraphics {
-    id: control
+    id: root
 
     Oval {
-        id: oval
         anchors.fill: parent
-        foreground: control.foreground
-        lineWidth: control.lineWidth
-        fillStyle: control.fill
-        edgeStyle: control.edge
+        foreground: root.foreground
+        lineWidth: root.lineWidth
+        fillStyle: root.fill
+        edgeStyle: root.edge
     }
 }

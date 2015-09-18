@@ -78,7 +78,7 @@ import PvComponents 1.0
 */
 
 Item {
-    id: control
+    id: root
 
     /*! Graph title */
     property string title
@@ -194,23 +194,23 @@ Item {
     Plot {
         id: plot
         anchors.fill: parent
-        title: control.title
-        foreground: control.foreground
-        background: control.background
+        title: root.title
+        foreground: root.foreground
+        background: root.background
         property var xAxis: Axis {
             type: Axis.Bottom
-            rangeLower: control.xRangeLower
-            rangeUpper: control.xRangeUpper
+            rangeLower: root.xRangeLower
+            rangeUpper: root.xRangeUpper
         }
         property var yAxis: Axis {
             type: Axis.Left
-            rangeLower: control.yRangeLower
-            rangeUpper: control.yRangeUpper
+            rangeLower: root.yRangeLower
+            rangeUpper: root.yRangeUpper
         }
         property var y2Axis: Axis {
             type: Axis.Left
-            rangeLower: control.y2RangeLower
-            rangeUpper: control.y2RangeUpper
+            rangeLower: root.y2RangeLower
+            rangeUpper: root.y2RangeUpper
             visible: false
         }
         Axis {
@@ -250,7 +250,7 @@ Item {
             var yAxis = model.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
             graph.color = model.get(i).foreground
-            graph.lineStyle = control.plotStyle
+            graph.lineStyle = root.plotStyle
 
             var xpv = null, ypv = null
             if (xchannel && xchannel != '') {
@@ -260,7 +260,7 @@ Item {
                             '    channel: "%1"\n'.arg(xchannel) +
                             '    property var data: []\n'+
                             '    onValueChanged: {\n' +
-                            '        if (count == 1) { data.push(value); if (data.length > control.count) data.shift();}\n' +
+                            '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
                             '    }\n' +
                             '}',
                             control, 'xpv'+i)
@@ -273,7 +273,7 @@ Item {
                             '    channel: "%1"\n'.arg(ychannel) +
                             '    property var data: []\n' +
                             '    onValueChanged: {\n' +
-                            '        if (count == 1) { data.push(value); if (data.length > control.count) data.shift();}\n' +
+                            '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
                             '    }\n' +
                             '}',
                             control, 'ypv'+i)
@@ -292,8 +292,8 @@ Item {
 
     /*! \internal */
     function eraseGraph() {
-        if ( (d.pvErase.value && control.eraseMode == EraseMode.IfNotZero) ||
-             (d.pvErase.value == 0 && control.eraseMode == EraseMode.IfZero) ) {
+        if ( (d.pvErase.value && root.eraseMode == EraseMode.IfNotZero) ||
+             (d.pvErase.value == 0 && root.eraseMode == EraseMode.IfZero) ) {
             for (var i=0; i<d.graphs.length; i++) {
                 d.graphs[i].clearData()
             }

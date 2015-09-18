@@ -10,7 +10,7 @@ import PvComponents 1.0
 */
 
 Item {
-    id: control
+    id: root
 
     /*!
         The title of the plot, displayed on top.
@@ -64,12 +64,12 @@ Item {
     Plot {
         id: plot
         anchors.fill: parent
-        title: control.title
-        foreground: control.foreground
-        background: control.background
+        title: root.title
+        foreground: root.foreground
+        background: root.background
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: xlabel ? xlabel : "Time (%1)".arg(getTimeLabel(control.units))
+            label: xlabel ? xlabel : "Time (%1)".arg(getTimeLabel(root.units))
             rangeLower: -period
             rangeUpper: 0
         }

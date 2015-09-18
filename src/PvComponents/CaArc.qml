@@ -21,7 +21,7 @@ import PvComponents 1.0
 */
 
 CaGraphics {
-    id: control
+    id: root
     /*!
       \qmlproperty real begin
       The start of the arc in degrees.
@@ -36,9 +36,9 @@ CaGraphics {
     Arc {
         id: arc
         anchors.fill: parent
-        lineWidth: control.lineWidth
-        fillStyle: control.fill
-        edgeStyle: control.edge
-        foreground: control.foreground
+        lineWidth: root.lineWidth
+        fillStyle: root.fill
+        edgeStyle: root.edge
+        foreground: root.foreground
     }
 }

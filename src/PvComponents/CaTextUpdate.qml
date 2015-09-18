@@ -6,7 +6,7 @@ import PvComponents 1.0
 import "utils.js" as UtilsJS
 
 CaMonitor {
-    id: label
+    id: root
     property alias align: label_control.horizontalAlignment
     property int format: TextFormat.Decimal
     property bool showUnits: false
@@ -17,18 +17,18 @@ CaMonitor {
         anchors.fill: parent
         Text {
             id: label_control
-            font.pixelSize: label.fontSize
-            font.family: label.fontFamily
+            font.pixelSize: root.fontSize
+            font.family: root.fontFamily
             //text: formatString(format, pv.value)
-            color: colorMode == ColorMode.Alarm ? label.alarmColor : label.foreground
+            color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
             Layout.fillWidth: true
         }
         Text {
             id: units
-            font.pixelSize: label.fontSize
-            font.family: label.fontFamily
-            color: label.foreground
+            font.pixelSize: root.fontSize
+            font.family: root.fontFamily
+            color: root.foreground
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
             visible: showUnits && text != ''

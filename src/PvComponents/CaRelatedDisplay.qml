@@ -28,7 +28,7 @@ import "utils.js" as UtilsJS
 */
 
 BaseItem {
-    id: display
+    id: root
     /*! foreground color */
     property color foreground: ColorMap.color14
     /*! background color */
@@ -74,7 +74,7 @@ BaseItem {
                     window.requestActivate()
                 } else {
                     var qmlCmd = Utils.openADLDisplay(absFilePath, args)
-                    window = Qt.createQmlObject(qmlCmd, display, absFilePath)
+                    window = Qt.createQmlObject(qmlCmd, root, absFilePath)
                     window.filePath = absFilePath
                 }
             } else {
@@ -115,26 +115,26 @@ BaseItem {
 
         // If button label starts with '-', remove it and use normal button. Otherwise use RDButton with double rect icon
         var btnLabel, btnType
-        if (display.label.charAt(0) == '-') {
-            btnLabel = display.label.substring(1)
+        if (root.label.charAt(0) == '-') {
+            btnLabel = root.label.substring(1)
             btnType = 'StyledButton'
         }
         else {
-            btnLabel = display.label
+            btnLabel = root.label
             btnType = 'RDButton'
         }
 
         // set font family and size
-        var font = UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? display.height / model.count - 4: display.height - 4, true)
-        display.fontFamily = font.family
-        display.fontSize = font.size
+        var font = UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
+        root.fontFamily = font.family
+        root.fontSize = font.size
 
         var btnCmdTemplate = '%1 {' +
                     'text: "%2";'+
-                    'fontFamily: display.fontFamily;'+
-                    'pixelSize: display.fontSize;'+
-                    'background: display.background;' +
-                    'foreground: display.foreground;' +
+                    'fontFamily: root.fontFamily;'+
+                    'pixelSize: root.fontSize;'+
+                    'background: root.background;' +
+                    'foreground: root.foreground;' +
                     '%3}'
 
         var btn
@@ -149,8 +149,8 @@ BaseItem {
                             .arg(model.get(0).remove ? 'true' : 'false')
 
             qmlCmd = imp + btnCmdTemplate.arg(btnType).arg(btnLabel).arg(triggerCmd)
-            btn = Qt.createQmlObject(qmlCmd, display, 'button')
-            btn.anchors.fill = display
+            btn = Qt.createQmlObject(qmlCmd, root, 'button')
+            btn.anchors.fill = root
             btn.align = Text.AlignHCenter
             return
         }
@@ -170,8 +170,8 @@ BaseItem {
             menuCmd += '}'
             // Create button and pulldown menu
             qmlCmd = imp + btnCmdTemplate.arg(btnType).arg(btnLabel).arg(menuCmd)
-            btn = Qt.createQmlObject(qmlCmd, display, 'button')
-            btn.anchors.fill = display
+            btn = Qt.createQmlObject(qmlCmd, root, 'button')
+            btn.anchors.fill = root
             btn.align = Text.AlignLeft
             break;
         case RelatedDisplayVisual.Row: // Row of button
@@ -181,7 +181,7 @@ BaseItem {
                 layout = 'RowLayout'
             else
                 layout = 'ColumnLayout'
-            qmlCmd = imp + 'import QtQuick.Layouts 1.0;' + layout + ' {anchors.fill: display; spacing: 0;'
+            qmlCmd = imp + 'import QtQuick.Layouts 1.0;' + layout + ' {anchors.fill: root; spacing: 0;'
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label
                 fname = model.get(i).fname
@@ -196,7 +196,7 @@ BaseItem {
                 qmlCmd += btnCmdTemplate.arg('StyledButton').arg(label).arg(btnCmd)
             }
             qmlCmd += '}'
-            Qt.createQmlObject(qmlCmd, display, 'layout')
+            Qt.createQmlObject(qmlCmd, root, 'layout')
             break;
         case RelatedDisplayVisual.Hidden:
             visible = false

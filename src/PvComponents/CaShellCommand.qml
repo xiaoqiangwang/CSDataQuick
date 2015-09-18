@@ -22,7 +22,7 @@ import "utils.js" as UtilsJS
 */
 
 BaseItem {
-    id: shell
+    id: root
     /*! foreground color */
     property color foreground: ColorMap.color14
     /*! background color */
@@ -54,7 +54,7 @@ BaseItem {
     }
 
     /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(shell.height - 4, true)
+    readonly property var font: UtilsJS.getBestFontSize(root.height - 4, true)
 
     /*!
         \internal
@@ -64,7 +64,7 @@ BaseItem {
         var c = command.indexOf('?')
         if (c >=0) {
             command = command.substring(0, c)
-            var dialog = UtilsJS.popupPromptDialog(shell, 'Command', 'command', command)
+            var dialog = UtilsJS.popupPromptDialog(root, 'Command', 'command', command)
             dialog.accepted.connect(function(){
                 runCommand(dialog.input)
             })
@@ -84,10 +84,10 @@ BaseItem {
     Component.onCompleted: {
         // Prepend '!' only if label does not starts with '-'
         var btnLabel;
-        if(shell.label[0] == '-')
-            btnLabel = shell.label.substring(1)
+        if(root.label[0] == '-')
+            btnLabel = root.label.substring(1)
         else
-            btnLabel = '! ' + shell.label
+            btnLabel = '! ' + root.label
 
         // Create button
         var btnCmd = 'import QtQuick 2.1;' +
@@ -97,17 +97,17 @@ BaseItem {
                                          'anchors.fill: parent;' +
                                          'text: "%1";'.arg(btnLabel) +
                                          '%1\n' +
-                                         'foreground: shell.foreground;' +
-                                         'background: shell.background;' +
-                                         'pixelSize: shell.fontSize;' +
-                                         'fontFamily: shell.fontFamily;}'
+                                         'foreground: root.foreground;' +
+                                         'background: root.background;' +
+                                         'pixelSize: root.fontSize;' +
+                                         'fontFamily: root.fontFamily;}'
         // Single entry, direct action on button click
         if (model.count == 1) {
-            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), shell, 'button')
+            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), root, 'button')
             btn.align = Text.AlignHCenter
         // Multiple entries, popup menu on button click
         } else {
-            var btn = Qt.createQmlObject(btnCmd.arg('menu: Menu{}'), shell, 'button')
+            var btn = Qt.createQmlObject(btnCmd.arg('menu: Menu{}'), root, 'button')
             btn.align = Text.AlignLeft
             var label, command, args
             for(var i=0; i<model.count; i++) {
@@ -115,7 +115,7 @@ BaseItem {
                 command = model.get(i).command
                 args = model.get(i).args
                 var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; import PvComponents 1.0; Action{onTriggered: parseCommand("%1 %2")}'
-                                            .arg(command).arg(args), shell, 'action')
+                                            .arg(command).arg(args), root, 'action')
                 var item = btn.menu.insertItem(i, label);
                 item.action = action
             }

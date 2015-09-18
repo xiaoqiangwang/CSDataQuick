@@ -9,20 +9,20 @@ import PvComponents 1.0
 */
 
 CaGraphics {
-    id: control
+    id: root
     /*!
         \qmltype list<Point> points
 
         Trace of the polygon
     */
-    property alias points: polyline.points
+    property alias points: polygon.points
 
     Polygon {
-        id: polyline
-        foreground: control.foreground
-        lineWidth: control.lineWidth
-        fillStyle: control.fill
-        edgeStyle: control.edge
+        id: polygon
         anchors.fill: parent
+        foreground: root.foreground
+        lineWidth: root.lineWidth
+        fillStyle: root.fill
+        edgeStyle: root.edge
     }
 }

@@ -9,7 +9,7 @@ import PvComponents 1.0
 */
 
 CaGraphics {
-    id: control
+    id: root
     /*!
         \qmltype list<Point> points
 
@@ -20,8 +20,8 @@ CaGraphics {
     Polyline {
         id: polyline
         anchors.fill: parent
-        foreground: control.foreground
-        lineWidth: control.lineWidth
-        edgeStyle: control.edge
+        foreground: root.foreground
+        lineWidth: root.lineWidth
+        edgeStyle: root.edge
     }
 }

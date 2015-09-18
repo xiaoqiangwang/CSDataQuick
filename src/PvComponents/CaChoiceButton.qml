@@ -90,10 +90,10 @@ CaControl {
             cmd += '
                     StyledButton {
                         text: "%1";
-                        foreground: colorMode == ColorMode.Alarm ? choiceButtons.alarmColor : choiceButtons.foreground;
-                        background: choiceButtons.background;
+                        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground;
+                        background: root.background;
                         pixelSize: %3;
-                        fontFamily: choiceButtons.fontFamily;
+                        fontFamily: root.fontFamily;
                         checkable: true;
                         exclusiveGroup: radioInputGroup;
                         Layout.fillWidth: true;
