@@ -1,6 +1,8 @@
 import QtQuick 2.0
-import PvComponents 1.0
+import QtQuick.Controls 1.0
 
+import PvComponents 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMonitor
@@ -46,26 +48,22 @@ BaseItem {
         visible: !pv.connected
     }
 
-    Rectangle {
-        id: tooltip
-        width: parent.width
-        height: parent.height
-        z: 1
-        color: 'black'
-        Text {
-            text: channel
-            color: 'green'
+    Menu {
+        id: contextMenu
+        MenuItem {
+            text: 'PV Info'
+            onTriggered: {
+                PvInfoDialog.info = UtilsJS.dumpPvInfo(pv)
+                PvInfoDialog.open()
+            }
         }
-        visible: false
     }
+
     MouseArea {
+        z: 1
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
-        onPressAndHold: {
-            tooltip.x = mouse.x
-            tooltip.y = mouse.y
-            tooltip.visible = true
-        }
+        onReleased: contextMenu.popup()
     }
 
     Connections {

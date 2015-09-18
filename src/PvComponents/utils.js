@@ -86,3 +86,44 @@ function popupPromptDialog(parent, title, hint, input) {
     dialog.open()
     return dialog
 }
+
+/*!
+    \qmlmethod UtilsJS::dumpPvInfo(pv)
+*/
+function dumpPvInfo(pv) {
+    var date = new Date()
+    var text
+    text = '           PV Infomation\n\n'
+    text += date + '\n\n'
+    text += pv.channel + '\n'
+    text += '======================================\n'
+    if (!pv.connected) {
+        text += 'diconnected'
+        return text
+    }
+
+    text += 'TYPE: %1\n'.arg(pv.type)
+    text += 'COUNT: %1\n'.arg(pv.count)
+    text += 'ACCESS: '
+    if (pv.readable)
+        text += 'R'
+    if (pv.writable)
+        text += 'W'
+    text += '\n'
+    text += 'HOST: %1\n'.arg(pv.host)
+    text += 'VALUE: %1\n'.arg(pv.value)
+    text += 'STAMP: %1\n'.arg(pv.stamp)
+    // PV type specific information
+    text += '\n'
+    if (pv.type == PvComponents.PvObject.Float || pv.type == PvComponents.PvObject.Double)
+        text += 'PRECISION: %1\n'.arg(pv.prec)
+    if (pv.lodisplim != pv.updisplim)
+        text += 'HOPR: %1  LOPR %2\n'.arg(pv.updisplim).arg(pv.lodisplim)
+
+    if (pv.nostr != 0)
+        text += 'STATES: %1\n'.arg(pv.nostr)
+    for(var i=0; i<pv.strs.length; i++) {
+        text += 'STATE %1: %2\n'.arg(i).arg(pv.strs[i])
+    }
+    return text
+}
