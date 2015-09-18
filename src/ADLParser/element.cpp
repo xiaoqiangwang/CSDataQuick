@@ -2493,8 +2493,8 @@ Byte::Byte (Element *parent)
 
     this->label = LABEL_NONE;
     this->direction = RIGHT;
-    sbit = 0;
-    ebit = 15;
+    sbit = 15;
+    ebit = 0;
 }
 
 void Byte::parse(std::istream &fstream)

@@ -26,12 +26,12 @@ CaMonitor {
         The integer is in the range 0-31, specifying the starting bit to be displayed.
     */
 
-    property int start: 0
+    property int start: 15
     /*!
         The integer is in the range 0-31, specifying the ending bit to be displayed.
         The ending bit can be smaller than starting bit, which cause the direction to appear reversed.
     */
-    property int end: 15
+    property int end: 0
 
     Component {
         id: horz
