@@ -21,6 +21,8 @@ QtObject {
     /*! Name of the forth process variable */
     property string channelD
 
+    /*! The color as determined from channel A's severity */
+    property color alarmColor: ColorMap.no_alarm
     /*!
         \qmlproperty enumeration visibilityMode
     */
@@ -33,10 +35,23 @@ QtObject {
     /*! The visibility as determend from visiblityMode */
     property bool visibility: true
 
+    /*! This property indicates wether channels are connect */
+    property bool connected:
+        (!d.pvA || d.pvA.connected) &&
+        (!d.pvB || d.pvB.connected) &&
+        (!d.pvC || d.pvC.connected) &&
+        (!d.pvD || d.pvD.connected)
+
     /*! \internal */
-    property var chanList: new Array(4)
-    /*! \internal */
-    property var _arg: [0,0,0,0,0,0,0,0,0,0,0,0]
+    property QtObject d: QtObject {
+        id: d
+        property var pvA
+        property var pvB
+        property var pvC
+        property var pvD
+        /*! \internal */
+        property var args: [0,0,0,0,0,0,0,0,0,0,0,0]
+    }
 
     /*! This signal is emitted when the severity of the main process variable changes. */
     signal statusChanged
@@ -46,31 +61,31 @@ QtObject {
 
     /*! \internal */
     function calcPerform() {
-        if (chanList[0] != null) {
-            _arg[0] = chanList[0].value
-            _arg[6] = chanList[0].count
-            _arg[7] = chanList[0].updisplim
-            _arg[8] = chanList[0].status
-            _arg[9] = chanList[0].severity
-            _arg[10] = chanList[0].prec
-            _arg[11] = chanList[0].lodisplim
+        if (d.pvA) {
+            d.args[0] = d.pvA.value
+            d.args[6] = d.pvA.count
+            d.args[7] = d.pvA.updisplim
+            d.args[8] = d.pvA.status
+            d.args[9] = d.pvA.severity
+            d.args[10] = d.pvA.prec
+            d.args[11] = d.pvA.lodisplim
         }
-        if (chanList[1] != null) {
-            _arg[1] = chanList[1].value
+        if (d.pvB) {
+            d.args[1] = d.pvB.value
         }
-        if (chanList[2] != null) {
-            _arg[2] = chanList[2].value
+        if (d.pvC) {
+            d.args[2] = d.pvC.value
         }
-        if (chanList[3] != null) {
-            _arg[3] = chanList[3].value
+        if (d.pvD) {
+            d.args[3] = d.pvD.value
         }
         if (visibilityMode == VisibilityMode.Calc) {
-            var res = Utils.calculate(visibilityCalc, _arg)
+            var res = Utils.calculate(visibilityCalc, d.args)
             visibility = (res != 0)
         } else if (visibilityMode == VisibilityMode.IfZero)
-            visibility = (_arg[0] == 0)
+            visibility = (d.args[0] == 0)
         else if (visibilityMode == VisibilityMode.IfNotZero)
-            visibility = (_arg[0] != 0)
+            visibility = (d.args[0] != 0)
         else
             visibility = true
         update();
@@ -89,23 +104,23 @@ QtObject {
             chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channel), da, 'channel')
             chan.valueChanged.connect(calcPerform)
             chan.statusChanged.connect(updateStatus)
-            da.chanList[0] = chan
+            d.pvA = chan
 
         }
         if (channelB != '') {
             chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelB), da, 'channelB')
             chan.valueChanged.connect(calcPerform)
-            chanList[1] = chan
+            d.pvB = chan
         }
         if (channelC != '') {
             chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelC), da, 'channelC')
             chan.valueChanged.connect(calcPerform)
-            chanList[2] = chan
+            d.pvC = chan
         }
         if (channelD != '') {
             chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelD), da, 'channelD')
             chan.valueChanged.connect(calcPerform)
-            chanList[3] = chan
+            d.pvD = chan
         }
     }
 
