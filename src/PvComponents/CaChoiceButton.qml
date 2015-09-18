@@ -16,7 +16,7 @@ import "utils.js" as Utils
 */
 
 CaControl {
-    id: choiceButtons
+    id: root
     /*!
       \list
         \li Stacking.Row: The buttons are arranged in a row
@@ -102,6 +102,6 @@ CaControl {
                     }\n'.arg(pv.strs[i]).arg(i).arg(size)
         }
         cmd += '}'
-        d.layout = Qt.createQmlObject(cmd, choiceButtons, 'layout')
+        d.layout = Qt.createQmlObject(cmd, root, 'layout')
     }
 }
