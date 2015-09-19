@@ -37,7 +37,6 @@ internal StyledAxis    StyledAxis.qml
 internal Meter         Meter.qml
 internal SliderControl SliderControl.qml
 internal StyledBar     StyledBar.qml
-internal StyledBar2    StyledBar2.qml
 internal StyledButton  StyledButton.qml
 internal RDButton      RDButton.qml
 internal WheelDigit    WheelDigit.qml
