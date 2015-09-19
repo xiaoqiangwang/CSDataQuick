@@ -10,8 +10,7 @@ QML_FILES += \
     $$PWD/CaOval.qml \
     $$PWD/CaPolyline.qml \
     $$PWD/CaSlider.qml \
-    $$PWD/Slider.qml \
-    $$PWD/Slider2.qml \
+    $$PWD/SliderControl.qml \
     $$PWD/CaTextEntry.qml \
     $$PWD/CaTextUpdate.qml \
     $$PWD/CaText.qml \

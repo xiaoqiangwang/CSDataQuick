@@ -173,7 +173,7 @@ Item {
             height: orientation == Qt.Vertical ? 2 : handle.height - 2
             width:  orientation == Qt.Vertical ? handle.width - 2 : 2
             anchors.centerIn: handle
-            source: orientation == Qt.Vertical ? "images/horz_groove.png" : "images/vert_groove.png"
+            source: orientation == Qt.Vertical ? "images/groove_horz.png" : "images/groove_vert.png"
         }
     }
 

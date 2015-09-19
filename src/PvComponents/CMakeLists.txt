@@ -66,8 +66,7 @@ set(QML_JS_FILES
     CaOval.qml
     CaPolyline.qml
     CaSlider.qml
-    Slider.qml
-    Slider2.qml
+    SliderControl.qml
     CaTextEntry.qml
     CaTextUpdate.qml
     CaText.qml
