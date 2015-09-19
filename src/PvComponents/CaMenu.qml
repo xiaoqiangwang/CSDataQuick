@@ -38,26 +38,20 @@ CaControl {
                 BorderImage {
                     anchors.fill: parent
                     source: control.pressed ? 'images/button_up.png' : 'images/button_up.png'
-                    border {left: 3; right: 3; top: 3; bottom: 3;}
+                    border {left: 2; right: 2; top: 2; bottom: 2;}
+                    smooth: false
                     width: parent.width
                     height: parent.height
 
-                    BorderImage {
-                        anchors.fill: parent
-                        source: 'images/focusframe.png'
-                        anchors.leftMargin: -1
-                        anchors.topMargin: -2
-                        anchors.rightMargin: 0
-                        anchors.bottomMargin: -1
-                        border {left: 3; right: 3; top: 3; bottom: 3;}
-                        visible: control.activeFocus
-                    }
-                    Image {
-                        source: "images/arrow-down.png"
+                    Frame {
+                        width: 9
+                        height: 7
+                        shadow: FrameShadow.Raise
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        anchors.rightMargin: 8
+                        anchors.rightMargin: 7
                         opacity: control.enabled ? 0.7 : 0.5
+                        color: root.background
                     }
                 }
                 color: root.background
