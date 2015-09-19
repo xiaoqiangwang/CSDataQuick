@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.0
+//import QtQuick.Controls 1.0
 
 import PvComponents 1.0
 import "utils.js" as UtilsJS
@@ -74,7 +74,7 @@ CaControl {
         visible: label == LabelStyle.Channel
     }
 
-    Slider2 {
+    SliderControl {
         id: slider
 
         x: 1

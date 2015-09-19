@@ -35,8 +35,7 @@ singleton PvInfoDialog  1.0 PvInfoDialog.qml
 internal Frame         Frame.qml
 internal StyledAxis    StyledAxis.qml
 internal Meter         Meter.qml
-internal Slider        Slider.qml
-internal Slider2       Slider2.qml
+internal SliderControl SliderControl.qml
 internal StyledBar     StyledBar.qml
 internal StyledBar2    StyledBar2.qml
 internal StyledButton  StyledButton.qml
