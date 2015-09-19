@@ -53,7 +53,6 @@ QML_FILES += \
     $$PWD/images/arrow-up-focus.png \
     $$PWD/images/button_down.png \
     $$PWD/images/button_up.png \
-    $$PWD/images/doublerect.png \
     $$PWD/images/focusframe.png \
     $$PWD/images/groove_horz.png \
     $$PWD/images/groove_vert.png
