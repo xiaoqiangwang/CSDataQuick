@@ -38,7 +38,6 @@ QML_FILES += \
     $$PWD/Frame.qml \
     $$PWD/Meter.qml \
     $$PWD/CaCartesianPlot.qml \
-    $$PWD/StyledBar2.qml \
     $$PWD/StyledAxis.qml \
     $$PWD/ColorMap.qml \
     $$PWD/CaIndicator.qml \

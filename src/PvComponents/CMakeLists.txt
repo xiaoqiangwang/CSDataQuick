@@ -94,7 +94,6 @@ set(QML_JS_FILES
     Frame.qml
     Meter.qml
     CaCartesianPlot.qml
-    StyledBar2.qml
     StyledAxis.qml
     ColorMap.qml
     CaIndicator.qml

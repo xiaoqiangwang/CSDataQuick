@@ -59,7 +59,7 @@ CaMonitor {
         visible: label == LabelStyle.Channel
     }
 
-    StyledBar2 {
+    StyledBar {
         id: bar
 
         height: root.height - (title.visible ? title.height : 0) - (value_text.visible ? value_text.height : 0)
