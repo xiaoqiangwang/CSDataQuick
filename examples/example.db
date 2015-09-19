@@ -13,6 +13,21 @@ record(ao, "catest")
     field (PREC, "2")
     field (ASG,  "limit")
 }
+record(ao, "catest2")
+{
+    field (HIHI, "8")
+    field (HHSV, "MAJOR")
+    field (HIGH, "5")
+    field (HSV,  "MINOR")
+    field (LOW,  "-5")
+    field (LSV,  "MINOR")
+    field (LOLO, "-8")
+    field (LLSV, "MAJOR")
+    field (HOPR, "10")
+    field (LOPR, "-10")
+    field (PREC, "2")
+}
+
 record(calc, "calc")
 {
     field (INPA, "calc")

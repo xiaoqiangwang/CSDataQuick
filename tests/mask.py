@@ -49,3 +49,16 @@ for x in range(6,8):
         im.putpixel((x,y), (255, 255, 255, 120))
 
 im.save('button_down.png')
+
+im = Image.new("RGBA", (2, 8))
+for y in range(8):
+    im.putpixel((0,y), (0, 0, 0, 150))
+    im.putpixel((1,y), (255, 255, 255, 120))
+im.save('vert_groove.png')
+
+im = Image.new("RGBA", (8, 2))
+for x in range(8):
+    im.putpixel((x,0), (0, 0, 0, 150))
+    im.putpixel((x,1), (255, 255, 255, 120))
+im.save('horz_groove.png')
+

@@ -28,7 +28,7 @@ Item {
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
     readonly property real markerWidth: 30
-    readonly property real effectiveLength: (orientation == Qt.Horizontal ? width : height) - Math.max(range.sidemargin * 2, markerWidth)
+    readonly property real effectiveLength: (orientation == Qt.Horizontal ? width : height) - Math.max(range.sidemargin * 2, markerWidth + 4)
 
     readonly property real posAtMinimum: {
         switch (direction) {
@@ -76,8 +76,8 @@ Item {
     StyledAxis {
         id: range
 
-        x: orientation == Qt.Horizontal ? Math.max(0, markerWidth / 2 - sidemargin) : 0
-        y: orientation == Qt.Horizontal ? 0 : Math.max(0, markerWidth / 2 - sidemargin)
+        anchors.horizontalCenter: orientation == Qt.Horizontal ?  root.horizontalCenter : undefined
+        anchors.verticalCenter: orientation == Qt.Vertical ?  root.verticalCenter : undefined
 
         width: orientation == Qt.Horizontal ? effectiveLength + 2 * sidemargin : Math.max(root.width / 10, implicitWidth)
         height: orientation == Qt.Horizontal ? Math.max(root.height / 10, implicitHeight) : effectiveLength + 2 * sidemargin
@@ -108,11 +108,14 @@ Item {
         id: groove
         shadow: FrameShadow.Sunken
 
-        x: orientation == Qt.Horizontal ?  Math.max(0, range.sidemargin - markerWidth / 2) : (range.visible ? range.width : 0)
-        y: orientation == Qt.Horizontal ? (range.visible ? range.height : 0) : Math.max(0, range.sidemargin - markerWidth / 2)
+        anchors.left: orientation == Qt.Vertical ? (range.visible ? range.right : root.left) : undefined
+        anchors.top: orientation == Qt.Horizontal ? (range.visible ? range.bottom : root.top) : undefined
 
-        width: orientation == Qt.Horizontal ? effectiveLength + markerWidth : root.width - range.visible * range.width
-        height: orientation == Qt.Horizontal ? root.height - range.visible * range.height : effectiveLength + markerWidth
+        anchors.horizontalCenter: orientation == Qt.Horizontal ?  root.horizontalCenter : undefined
+        anchors.verticalCenter: orientation == Qt.Vertical ?  root.verticalCenter : undefined
+
+        width: orientation == Qt.Horizontal ? effectiveLength + markerWidth + 4: root.width - range.visible * range.width
+        height: orientation == Qt.Horizontal ? root.height - range.visible * range.height : effectiveLength + markerWidth + 4
 
         border.width: focus ? 1 : 0
         color: Qt.darker(root.background, 1.2)
@@ -166,11 +169,11 @@ Item {
         color: background
         radius: 2
 
-        Rectangle {
-            height: orientation == Qt.Horizontal ? handle.height - 2 : 2
-            width: orientation == Qt.Horizontal ? 2 : handle.width - 2
+        Image {
+            height: orientation == Qt.Vertical ? 2 : handle.height - 2
+            width:  orientation == Qt.Vertical ? handle.width - 2 : 2
             anchors.centerIn: handle
-            color: Qt.darker(background)
+            source: orientation == Qt.Vertical ? "images/horz_groove.png" : "images/vert_groove.png"
         }
     }
 
