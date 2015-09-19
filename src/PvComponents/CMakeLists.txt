@@ -107,6 +107,8 @@ set(QML_JS_FILES
     images/arrow-up.png
     images/button_down.png
     images/button_up.png
+    images/groove_horz.png
+    images/groove_vert.png
     images/doublerect.png
     images/focusframe.png
 )
