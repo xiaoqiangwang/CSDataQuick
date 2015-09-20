@@ -6,7 +6,6 @@ Item {
     id: root
     property color foreground
     property string digit: '0'
-    property real order: 1
     property bool plusVisible: true
     property bool minusVisible: true
     property alias font: text.font
@@ -16,18 +15,21 @@ Item {
 
     implicitWidth: font.pixelSize * 0.6
 
+    Keys.onUpPressed: if(plusVisible) plus()
+    Keys.onDownPressed: if(minusVisible) minus()
+
     Column {
         anchors.fill: parent
         Image {
-            x: parent.width / 4
-            width: parent.width / 2
+            x: 0
+            width: parent.width
             height: parent.height / 4
-            source: root.plusVisible ? (mau.pressed ? 'images/arrow-up-focus.png':'images/arrow-up.png') : ''
-            fillMode: Image.Stretch
+            source: root.plusVisible ? (root.activeFocus ? 'images/arrow-up-focus.png':'images/arrow-up.png') : ''
+            //fillMode: Image.PreserveAspectFit
             MouseArea {
                 id: mau
                 anchors.fill: parent
-                onClicked: plus()
+                onClicked: {root.forceActiveFocus(); plus();}
                 enabled: root.plusVisible
             }
         }
@@ -41,15 +43,15 @@ Item {
             text: digit
         }
         Image {
-            x: parent.width / 4
-            width: parent.width / 2
+            x: 0
+            width: parent.width
             height: parent.height / 4
-            source: root.minusVisible ? (mad.pressed ? 'images/arrow-down-focus.png':'images/arrow-down.png') : ''
-            fillMode: Image.Stretch
+            source: root.minusVisible ? (root.activeFocus ? 'images/arrow-down-focus.png':'images/arrow-down.png') : ''
+            //fillMode: Image.PreserveAspectFit
             MouseArea {
                 id: mad
                 anchors.fill: parent
-                onClicked: minus()
+                onClicked: {root.forceActiveFocus(); minus();}
                 enabled: root.minusVisible
             }
         }
