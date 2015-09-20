@@ -576,6 +576,7 @@ private:
     Control control;
     Limits limits;
     ColorMode clrmod;
+    std::string format;
 };
 
 /* Monitor Widgets */

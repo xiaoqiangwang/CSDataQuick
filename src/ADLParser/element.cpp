@@ -2326,6 +2326,7 @@ WheelSwitch::WheelSwitch (Element *parent)
 {
     this->_type = DL_WheelSwitch;
     this->clrmod = STATIC;
+    this->format = "";
 }
 
 void WheelSwitch::parse(std::istream &fstream)
@@ -2343,6 +2344,10 @@ void WheelSwitch::parse(std::istream &fstream)
             this->control.parse(fstream);
         } else if (!strcmp(token, "limits")) {
             this->limits.parse(fstream);
+        } else if (!strcmp(token, "format")) {
+            getToken(fstream,token);
+            getToken(fstream,token);
+            this->format = token;
         } else if (!strcmp(token,"clrmod")) {
             getToken(fstream,token);
             getToken(fstream,token);
@@ -2375,6 +2380,8 @@ void WheelSwitch::toQML(std::ostream &ostream)
     Element::toQML(ostream);
     this->control.toQML(ostream);
     this->limits.toQML(ostream);
+    if (!this->format.empty())
+        ostream << indent << "    format: \"" << this->format << "\"" << std::endl;
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
 
