@@ -14,6 +14,7 @@ Item {
     property color foreground: 'black'
     property color background: 'white'
     property alias font: hiddenText.font
+    property int activeDigit: -1
 
     Text {
         id: hiddenText
@@ -27,6 +28,8 @@ Item {
         property int decimal: 0
         property string value: convert(root.value)
         property var order: []
+        property var step: []
+        property real epsilon: Math.pow(10, -(decimal+3))
         onFormatChanged: {
             parseFormat()
         }
@@ -43,6 +46,9 @@ Item {
         return format
     }
 
+    /*! \internal
+        format is specified in the form of %[width][.precision]f
+    */
     function parseFormat() {
         if (d.format.charAt(0) != '%' || d.format.charAt(d.format.length - 1) != 'f')
             return
@@ -50,7 +56,7 @@ Item {
         var width = Number(f[0])
         var decimal = Number(f[1])
 
-        /* string pattern if number does not fit the width */
+        /* string pattern displayed if number does not fit the width */
         var undef = ''
         if (decimal > 0) {
             undef += '.'
@@ -61,19 +67,18 @@ Item {
         for (var i = 0; i < width - tmp; i++)
             undef = '*' + undef
 
-        /* order pattern */
-        var order = []
+        /* step pattern */
+        d.step = []
         if (decimal == 0) {
             for (var i=width -1 ; i>=0; i--)
-                order.push(i)
+                d.step.push(Math.pow(10, i))
         } else {
             for (var i = width - decimal - 2; i >= 0; i--)
-                order.push(i)
-            order.push(Number.NaN)
+                d.step.push(Math.pow(10, i))
+            d.step.push(Number.NaN)
             for (var i = 0; i < decimal; i++)
-                order.push(-(i+1))
+                d.step.push(Math.pow(10, -(i+1)))
         }
-        d.order = order
         d.width = width
         d.decimal = decimal
         d.undef = undef
@@ -95,17 +100,24 @@ Item {
             return d.value[index]
     }
 
-    Rectangle {
+    Frame {
         id: panel
         anchors.fill: parent
         color: root.background
-        BorderImage {
-            source: 'images/button_up.png'
-            anchors.fill: parent
-            border {left: 3; right: 3; top: 3; bottom: 3;}
-            horizontalTileMode: BorderImage.Stretch
-            verticalTileMode: BorderImage.Stretch
+        shadow: FrameShadow.Raise
+    }
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: root
+        hoverEnabled: true
+
+        onEntered: {
+            if (activeDigit < 0 || activeDigit >= d.width)
+                activeDigit = d.width - 1
+            wheel.children[activeDigit].forceActiveFocus()
         }
+        onExited: root.forceActiveFocus()
     }
 
     Row {
@@ -120,17 +132,45 @@ Item {
                 height: wheel.height
                 font: root.font
                 foreground: root.foreground
-                order: d.order[index]
                 digit: getDigit(index)
-                minusVisible: root.value - Math.pow(10, order) >= root.lolim
-                plusVisible: root.value + Math.pow(10, order) <= root.hilim
+                minusVisible: !isNaN(digit) && (root.value - d.step[index]) >= root.lolim - d.epsilon
+                plusVisible: !isNaN(digit) && (root.value +  d.step[index]) <= root.hilim + d.epsilon
                 onMinus: {
-                    newValue = root.value - Math.pow(10, order)
+                    newValue = (root.value -  d.step[index]).toFixed(d.decimal)
                 }
                 onPlus: {
-                    newValue = root.value + Math.pow(10, order)
+                    newValue = (root.value +  d.step[index]).toFixed(d.decimal)
+                }
+                onActiveFocusChanged: {
+                    if (activeFocus && activeDigit!=index)
+                        activeDigit = index
                 }
             }
         }
+    }
+
+    Keys.onLeftPressed: {
+        var prevDigit = activeDigit
+        while(--prevDigit >= 0) {
+            if (wheel.children[prevDigit].minusVisible ||
+                wheel.children[prevDigit].plusVisible) {
+                wheel.children[prevDigit].forceActiveFocus()
+                break
+            }
+        }
+        if (prevDigit >= 0)
+            activeDigit = prevDigit
+    }
+    Keys.onRightPressed: {
+        var nextDigit = activeDigit
+        while(++nextDigit < d.width) {
+            if (wheel.children[nextDigit].minusVisible ||
+                wheel.children[nextDigit].plusVisible) {
+                wheel.children[nextDigit].forceActiveFocus()
+                break
+            }
+        }
+        if (nextDigit < d.width)
+            activeDigit = nextDigit
     }
 }
