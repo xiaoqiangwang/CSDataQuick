@@ -12,6 +12,8 @@ import PvComponents 1.0
     The Menu is used for ENUM process variables and is a means for picking the ENUM choices via a menu.
     Note that if the colorMode is alarm, the foreground color, not the background color, is set to the alarm colors.
     The background color should be choosen to contrast with all the alarm colors.
+
+    \image menu.png
 */
 
 CaControl {
