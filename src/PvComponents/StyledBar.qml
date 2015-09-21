@@ -65,7 +65,7 @@ Item {
         id: progress
         width: orientation == Qt.Vertical ? panel.contentWidth : panel.contentWidth * calcPercentage()
         height: orientation == Qt.Horizontal ? panel.contentHeight : panel.contentHeight * calcPercentage()
-        anchors.margins: panel.innerMargin
+        anchors.margins: fillMode == FillMode.FromEdge ? panel.innerMargin : 0
         color: root.indicatorColor
     }
 
