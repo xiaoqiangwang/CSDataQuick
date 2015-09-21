@@ -12,6 +12,13 @@ import PvComponents 1.0
     It display values in binary.  It masks off the lower 32 bits and treats them as an unsigned integer.
     The bit set is filled with foreground color, and the unset bit is filled with background color.
 
+    \qml
+    CaByte {
+        channel: 'calc'
+    }
+    \endqml
+
+    \image byte.png
 */
 CaMonitor {
     /*!
@@ -23,13 +30,13 @@ CaMonitor {
     */
     property int orientation: Qt.Horizontal
     /*!
-        The integer is in the range 0-31, specifying the starting bit to be displayed.
+        The integer is in the range 0-31, specifying the starting bit to be displayed at the left or top.
     */
 
     property int start: 15
     /*!
-        The integer is in the range 0-31, specifying the ending bit to be displayed.
-        The ending bit can be smaller than starting bit, which cause the direction to appear reversed.
+        The integer is in the range 0-31, specifying the ending bit to be displayed at the right or bottom.
+        The ending bit can be smaller than starting bit, which causes the direction to appear reversed.
     */
     property int end: 0
 
