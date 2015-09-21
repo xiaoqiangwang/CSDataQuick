@@ -13,11 +13,21 @@ import "utils.js" as Utils
     The Choice Button is used for ENUM process variables and is a means for picking
     the ENUM choices via buttons.
 
+    \qml
+    CaChoiceButton {
+        channel: 'bo'
+        stacking: Stacking.Row
+    }
+    \endqml
+
+    \image choicebutton.png
 */
 
 CaControl {
     id: root
     /*!
+      Set the layout for the choice buttons. Default is Stacking.Column.
+
       \list
         \li Stacking.Row: The buttons are arranged in a row
         \li Stacking.Column: The buttons are arranged in a column
