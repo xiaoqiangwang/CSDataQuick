@@ -5,8 +5,28 @@ import PvComponents 1.0
 /*!
     \qmltype CaComposite
     \inqmlmodule PvComponents
-    \brief Display grouped items
+    \brief Display grouped items or include external files.
 
+    A Composite is a group of any items. These items can be created directly.
+    Or it can be made to get its items from an external ADL or QML file specified by \l source.
+
+    The Composite will ignore things like the display and colormap in the ADL file and just use the items in it.
+    The positions of the items will be adjusted so the upper left corner of the bounding box of all of them is
+    at the specified x and y values of the Composite.
+    The specified height and width of the Composite are adjusted to those of the bounding box.
+
+    If the file has macros, you can specify them by \l macro. If you do not specify any,
+    any existing macros in the current file which uses this Composite will be passed to the file.
+    If you use this feature, those macros will not be passed,
+    and only the ones you specify with \l macro will be used instead.
+
+    \qml
+    BaseWindow {
+        CaComposite {
+            source: 'controls.adl'
+        }
+    }
+    \endqml
 */
 
 BaseItem {
