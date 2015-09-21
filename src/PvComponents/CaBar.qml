@@ -14,6 +14,16 @@ import "utils.js" as UtilsJS
     It can go up, down, left, or right, as specified by the \l direction property.
     It can start from the edge or from the center, as specified by the \l fillMode property.
     The Bar Monitor with the \l label set to LabelStyle.None can be used to make bar graphs.
+
+    \qml
+        CaBar {
+            channel: 'catest'
+            labelStyle: LabelStyle.Outline
+            direction: Direction.Up
+       }
+    \endqml
+
+    \image bar.png
 */
 
 CaMonitor {
@@ -21,16 +31,62 @@ CaMonitor {
     /*!
         \qmlproperty enumeration label
         The decoration mode.
+
+        \list
+        \li LabelStyle.Frame - No extra features.
+        \li LabelStyle.None - Same as LabelStyle.Frame.
+        \li LabelStyle.Outline - Show the limits.
+        \li LabelStyle.Limits - Show limits and a box for the value.
+        \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
+        \endlist
     */
     property int label: LabelStyle.Frame
     /*!
         \qmlproperty enumeration direction
-        The expanding direction.
+        Indicate the maximumValue position.
+
+        \list
+        \li Direction.Up
+        \li Direction.Right
+        \li Direction.Down
+        \li Direction.Left
+        \endlist
+
+        By Direction.Up, the minimumValue is at the bottom and maximumValue at the top. And by Direction.Right,
+        the minimumValue is at the left and maximumValue at the right. The other two reverse the direction.
     */
     property alias direction: bar.direction
     /*!
         \qmlproperty enumeration fillMode
-        Either Edge or Center.
+        Set the bar start postion.
+        \list
+        \li FillMode.FromEdge - the default
+        \li FillMode.FromCenter
+        \endlist
+
+        If the fill mode is FillMode.Edge, the bar starts from where the minimum value is.
+        And the length, in percentage, is calculated by (value - minimumValue) / (maximumValue - minimumValue).
+
+        In FillMode.Center mode, the bar starts from where the middle point is, i.e. (maximumValue - minimumValue) / 2.
+        And the length, in percentage, is calculated by (value - middleValue) / (maximumValue - minimumValue) / 2.
+        If the value is less than middle point, the bar is towards minimum value.
+
+        \qml
+        Row {
+            CaBar {
+                channel: 'catest'
+                labelStyle: LabelStyle.Outline
+                fillMode: FillMode.FromEdge
+            }
+            CaBar {
+                channel: 'catest'
+                labelStyle: LabelStyle.Outline
+                fillMode: FillMode.FromCenter
+            }
+        }
+        \endqml
+
+        \image bar-fillMode.png
     */
     property alias fillMode: bar.fillMode
     /*! Operation limits range and precision */
