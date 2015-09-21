@@ -12,6 +12,18 @@ import "utils.js" as UtilsJS
 
     The Indicator can have several decorations as specified by the \l label.
     It can go up, down, left, or right, as specified by the \l direction property.
+    It is very much like \l CaBar monitor, except that the value is represented by
+    an indicator.
+
+    \qml
+    CaIndicator {
+        channel: 'catest'
+        label: LabelStyle.Outline
+        colorMode: ColorMode.Alarm
+    }
+    \endqml
+
+    \image indicator.png
 
     \sa CaBar
 */
@@ -25,7 +37,7 @@ CaMonitor {
     property int label: LabelStyle.Frame
     /*!
         \qmlproperty enumeration direction
-        The expanding direction.
+        Indicate the maximumValue position.        .
     */
     property int direction: Direction.Right
     /*!

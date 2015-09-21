@@ -18,7 +18,7 @@ import "utils.js" as UtilsJS
     \qml
         CaBar {
             channel: 'catest'
-            labelStyle: LabelStyle.Outline
+            label: LabelStyle.Outline
             direction: Direction.Up
        }
     \endqml
