@@ -26,49 +26,63 @@ import "utils.js" as UtilsJS
     If the pointer leaves the WheelSwitch while you are in input mode, that will also abort the input.
     Type Enter to finish the input. If the number entered is invalid for the format or the limits, it will not be accepted.
 
-    The Format is a string of characters that specifies how the value will be formatted.
-    Its syntax is based on the format specification used in the C language, but is more limited.
-    Valid formats are of the form “xxx%[space|+]m.nfyyy”.
-    They consist of an arbitrary string of characters xxx (the prefix), followed by a % sign, followed by a flag,
-    which can be a space or blank, followed by an integer m representing the total number of digits including the sign and the decimal point,
-    followed by a decimal point, followed by an integer n representing the number of digits after the decimal point,
-    followed by an f, followed by an arbitrary string of characters yyy (the postfix).
-    If the flag is +, then the sign is always shown when the value is displayed.
-    If the flag is a space, then the sign is shown only when the number is negative.
-    The format, apart from the prefix and postfix, is interpreted as it is in the C language,
-    but all the options allowed by C are not available.
-    The WheelSwitch will check your format and suggest an alternative if it does not like it.
-    If the Format is not specified, then the WheelSwitch calculates it based on the low and high limits and the precision.
-
-    \table
-    \header
-    \li % 6.2f
-    \li %+6.2f
-    \li Time: % 6.2f sec
-    \row
-    \li 10.00
-    \li +10.00
-    \li Time: 10.00 sec
-    \row
-    \li 99.00
-    \li +99.00
-    \li Time: 99.00 sec
-    \row
-    \li -99.00
-    \li -99.00
-    \li Time: -99.00 sec
-    \endtable
-
     If the number is larger than the format will hold or outside the low and high limits,
     the digits are replaced by astericks, but a minus sign remains if the value is negative.
 
     The limits and precision can be changed via the PvLimits dialog.
+
+    \qml
+    CaWheelSwitch {
+        width: 150
+        height: 30
+        anchors.centerIn: parent
+        channel: 'catest'
+        format: 'PV Value: % 5.2f'
+    }
+    \endqml
+
+    \image wheelswitch.png
 */
 
 CaControl {
     id: root
 
-    /*! The format used to display the number */
+    /*!
+        The format used to display the number
+
+        The Format is a string of characters that specifies how the value will be formatted.
+        Its syntax is based on the format specification used in the C language, but is more limited.
+        Valid formats are of the form “xxx%[space|+]m.nfyyy”.
+        They consist of an arbitrary string of characters xxx (the prefix), followed by a % sign, followed by a flag,
+        which can be a space or blank, followed by an integer m representing the total number of digits including the sign and the decimal point,
+        followed by a decimal point, followed by an integer n representing the number of digits after the decimal point,
+        followed by an f, followed by an arbitrary string of characters yyy (the postfix).
+        If the flag is +, then the sign is always shown when the value is displayed.
+        If the flag is a space, then the sign is shown only when the number is negative.
+        The format, apart from the prefix and postfix, is interpreted as it is in the C language,
+        but all the options allowed by C are not available.
+        The WheelSwitch will check your format and suggest an alternative if it does not like it.
+        If the Format is not specified, then the WheelSwitch calculates it based on the low and high limits and the precision.
+
+        \table
+        \header
+        \li % 6.2f
+        \li %+6.2f
+        \li Time: % 6.2f sec
+        \row
+        \li 10.00
+        \li +10.00
+        \li Time: 10.00 sec
+        \row
+        \li 99.00
+        \li +99.00
+        \li Time: 99.00 sec
+        \row
+        \li -99.00
+        \li -99.00
+        \li Time: -99.00 sec
+        \endtable
+    */
     property string format: ''
     /*! The low high operation limit and precision */
     property Limits limits: Limits {}
