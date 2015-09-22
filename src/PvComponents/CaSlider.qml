@@ -16,6 +16,25 @@ import "utils.js" as UtilsJS
     and the up and down arrow keys are operational when \l direction is Direction.Up or Direction.Down.
     The arrow keys only function when the focus is on the slider button or the space on either side of it.
 
+    \qml
+    Row {
+        spacing: 5
+        CaSlider {
+            width: 150
+            height: 20
+            anchors.verticalCenter: parent.verticalCenter
+            channel: 'catest'
+        }
+        CaSlider {
+            width: 150
+            height: 50
+            channel: 'catest'
+            label: LabelStyle.Limits
+        }
+    }
+    \endqml
+
+    \image slider.png
 */
 
 CaControl {
@@ -25,7 +44,7 @@ CaControl {
         The incremental direction.
     */
     property int  direction: Direction.Right
-    /*! The low high operation limit and precision */
+    /*! The operation limit and precision */
     property Limits limits: Limits {}
     /*!
         The amount of vaue to increament or decrement.
@@ -40,8 +59,20 @@ CaControl {
         and the Ctrl-Arrow keys increment or decrement the value by an amount equal to 10 times \l stepSize.
     */
     property real stepSize: 1.0
-    /*! The label style */
+    /*!
+        \qmlproperty enumeration label
+        The decoration mode.
+
+        \list
+        \li LabelStyle.Frame - No extra features.
+        \li LabelStyle.None - Same as LabelStyle.Frame.
+        \li LabelStyle.Outline - Show the limits.
+        \li LabelStyle.Limits - Show limits and a box for the value.
+        \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
+        \endlist
+    */
     property int label: LabelStyle.Frame
+
     /*! \internal */
     property bool __disconnect: false
     /*! \internal */
