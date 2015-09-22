@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=10
-		y=22
+		x=196
+		y=100
 		width=571
 		height=430
 	}
@@ -107,7 +107,7 @@ display {
 		x=231
 		y=78
 		width=100
-		height=40
+		height=30
 	}
 	control {
 		chan="bo"
@@ -128,6 +128,7 @@ menu {
 		clr=14
 		bclr=51
 	}
+	clrmod="alarm"
 }
 valuator {
 	object {
@@ -165,8 +166,8 @@ valuator {
 }
 "related display" {
 	object {
-		x=200
-		y=249
+		x=463
+		y=0
 		width=105
 		height=30
 	}
@@ -198,6 +199,10 @@ valuator {
 		label="prompt"
 		name="sdcds ?"
 	}
+	command[2] {
+		label="xterm"
+		name="xterm&"
+	}
 	clr=14
 	bclr=51
 	label="Commands"
@@ -210,7 +215,7 @@ valuator {
 		height=47
 	}
 	control {
-		chan="catest"
+		chan="catest2"
 		clr=14
 		bclr=51
 	}

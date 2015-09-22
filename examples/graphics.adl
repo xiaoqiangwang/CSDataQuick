@@ -243,3 +243,22 @@ polyline {
 		(201,283)
 	}
 }
+"related display" {
+	object {
+		x=293
+		y=0
+		width=105
+		height=30
+	}
+	display[0] {
+		label="Monitors"
+		name="controls.adl"
+	}
+	display[1] {
+		label="Graphics"
+		name="graphics.adl"
+	}
+	clr=14
+	bclr=51
+	label="Others"
+}
