@@ -10,21 +10,47 @@ import "utils.js" as UtilsJS
     \brief Brings up more displays
 
     The Related Display provides a means of bringing up more displays.
-    It is a menu button that usually has a graphic consisting of two overlapping squares and a label.
-    See the paragraph above for other options for the graphic and label.
-    The menu items denote the related displays that can be displayed.
+    It is by default a menu button that has a graphic consisting of two overlapping squares and a label.
+    But it can also be a group of buttons layout in a row or column. This visual reprsentation is set by property \l visual.
+
+    The \l model denote the related displays that can be displayed.
     If there is only one related display specified in the menu,
     then the two overlapping squares and/or label appear in the middle of the button,
     and the related display is activated immediately without bringing up a menu.
+
     It is not activated until the button is released, so you can depress the button to check
     if there is more than one menu item or not, then abort by releasing the button away from the Related Display.
     If there is more than one item on the menu, the squares and/or label are at the left of the button.
-    If Ctrl-Btn1 is used in place of Btn1 to select the new display,
-    then the parent display goes away and is replaced by the new display.
-    The new display can also be configured by "replace" property to always replace the parent.
 
+    The new display can be configured by "remove" property to always replace the parent.
      When the parent display is replaced by the new display, its upper-left corner should be at the former position of the parent,
      unless the new display was already in existence.  In that case the existing display is popped up, and its position is not changed.
+
+     \qml
+    Row {
+        spacing: 10
+        CaRelatedDisplay {
+            width: 100
+            height: 25
+            label: 'More ...'
+            model: ListModel {
+                ListElement {label:'Monitors'; fname: 'monitors.adl'; remove: true;}
+                ListElement {label:'Graphics'; fname: 'graphics.adl'; remove: true;}
+            }
+        }
+        CaRelatedDisplay {
+            width: 100
+            height: 60
+            visual: RelatedDisplayVisual.Column
+            model: ListModel {
+                ListElement {label:'Monitors'; fname: 'monitors.adl'; remove: true;}
+                ListElement {label:'Graphics'; fname: 'graphics.adl'; remove: true;}
+            }
+        }
+    }
+     \endqml
+
+     \image relateddisplay.png
 */
 
 BaseItem {
@@ -47,14 +73,24 @@ BaseItem {
     /*!
         \qmlproperty enumeration visual
         \list
-            \li 0: Use a pull down menu for the choices.
-            \li 1: Use a row of buttons for the choices.
-            \li 2: Use a column of buttons for the choices.
+            \li RelatedDisplayVisual.Menu: Use a pull down menu for the choices.
+            \li RelatedDisplayVisual.Row: Use a row of buttons for the choices.
+            \li RelatedDisplayVisual.Column: Use a column of buttons for the choices.
         \endlist
     */
     property int visual: RelatedDisplayVisual.Menu
 
-    /*! related display list model */
+    /*!
+        related display list model
+
+        The model contains entries to display files. Each entry contains the following.
+        \list
+        \li label: text description
+        \li fname: display file name
+        \li args: macros substitution
+        \li remove: replace the parent display if true
+        \endlist
+    */
     property ListModel model: ListModel {
     }
 
@@ -152,6 +188,7 @@ BaseItem {
             btn = Qt.createQmlObject(qmlCmd, root, 'button')
             btn.anchors.fill = root
             btn.align = Text.AlignHCenter
+            d.btn = btn
             return
         }
 
@@ -173,6 +210,7 @@ BaseItem {
             btn = Qt.createQmlObject(qmlCmd, root, 'button')
             btn.anchors.fill = root
             btn.align = Text.AlignLeft
+            d.btn = btn
             break;
         case RelatedDisplayVisual.Row: // Row of button
         case RelatedDisplayVisual.Column: // Column of buttons
@@ -196,7 +234,7 @@ BaseItem {
                 qmlCmd += btnCmdTemplate.arg('StyledButton').arg(label).arg(btnCmd)
             }
             qmlCmd += '}'
-            Qt.createQmlObject(qmlCmd, root, 'layout')
+            d.layout = Qt.createQmlObject(qmlCmd, root, 'layout')
             break;
         case RelatedDisplayVisual.Hidden:
             visible = false
