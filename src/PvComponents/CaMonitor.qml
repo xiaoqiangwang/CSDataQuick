@@ -57,6 +57,13 @@ BaseItem {
                 PvInfoDialog.open()
             }
         }
+        MenuItem {
+            text: 'PV Limits'
+            visible: root['limits'] ? true : false
+            onTriggered: {
+                UtilsJS.popupPvLimitsDialog(root)
+            }
+        }
     }
 
     MouseArea {
