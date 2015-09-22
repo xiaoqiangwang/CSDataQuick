@@ -56,7 +56,7 @@ CaGraphics {
         anchors.fill: parent
         Text {
             id: text_control
-            color: foreground
+            color: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
             anchors.fill: parent
         }
     }

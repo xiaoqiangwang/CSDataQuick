@@ -31,6 +31,8 @@ Item {
 
     /*! dynamic attributes */
     property DynamicAttr dynamicAttr: DynamicAttr { id: da }
+    /*! color based on the severity of the process variable */
+    property color alarmColor: ColorMap.invalid_alarm
 
     visible: da.visibility
 
@@ -41,16 +43,16 @@ Item {
                 return
             switch (da.d.pvA.severity) {
                 case 0: // NO_ALARM
-                foreground = ColorMap.no_alarm
+                alarmColor = ColorMap.no_alarm
                 break;
                 case 1: // MINOR_ALARM
-                foreground = ColorMap.minor_alarm
+                alarmColor = ColorMap.minor_alarm
                 break;
                 case 2: // MAJOR_ALARM
-                foreground = ColorMap.major_alarm
+                alarmColor = ColorMap.major_alarm
                 break;
                 case 3: // INVALID_ALARM
-                foreground = ColorMap.invalid_alarm
+                alarmColor = ColorMap.invalid_alarm
                 break;
             }
         }
@@ -58,7 +60,7 @@ Item {
             if (colorMode == ColorMode.Static && da.visibilityMode == VisibilityMode.Static)
                 return
             if (!da.connected)
-                foreground = ColorMap.invalid_alarm
+                alarmColor = ColorMap.invalid_alarm
         }
     }
 }

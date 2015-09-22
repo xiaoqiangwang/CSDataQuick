@@ -34,7 +34,7 @@ CaGraphics {
         id: rect
         anchors.fill: parent
         lineWidth: root.lineWidth
-        foreground: root.foreground
+        foreground: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
         edgeStyle: root.edge
         fillStyle: root.fill
     }
