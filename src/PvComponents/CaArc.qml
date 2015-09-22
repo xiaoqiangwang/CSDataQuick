@@ -39,6 +39,6 @@ CaGraphics {
         lineWidth: root.lineWidth
         fillStyle: root.fill
         edgeStyle: root.edge
-        foreground: root.foreground
+        foreground: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
     }
 }
