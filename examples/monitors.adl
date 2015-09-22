@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=347
-		y=218
+		x=780
+		y=429
 		width=683
 		height=469
 	}
@@ -89,9 +89,9 @@ display {
 }
 "text update" {
 	object {
-		x=99
-		y=81
-		width=164
+		x=10
+		y=68
+		width=60
 		height=15
 	}
 	monitor {
@@ -104,8 +104,8 @@ display {
 }
 meter {
 	object {
-		x=281
-		y=53
+		x=112
+		y=29
 		width=163
 		height=100
 	}
@@ -119,18 +119,17 @@ meter {
 }
 bar {
 	object {
-		x=540
-		y=39
-		width=120
-		height=300
+		x=300
+		y=48
+		width=150
+		height=60
 	}
 	monitor {
 		chan="catest"
 		clr=14
 		bclr=4
 	}
-	label="channel"
-	direction="down"
+	label="outline"
 	limits {
 	}
 }
@@ -152,14 +151,14 @@ indicator {
 		x=374
 		y=197
 		width=218
-		height=90
+		height=50
 	}
 	monitor {
 		chan="catest"
 		clr=37
 		bclr=5
 	}
-	label="channel"
+	label="outline"
 	clrmod="alarm"
 	limits {
 	}
@@ -210,4 +209,40 @@ indicator {
 		yaxis=0
 	}
 	countPvName="100"
+}
+bar {
+	object {
+		x=486
+		y=48
+		width=150
+		height=60
+	}
+	monitor {
+		chan="catest"
+		clr=14
+		bclr=4
+	}
+	label="outline"
+	fillmod="from center"
+	limits {
+	}
+}
+"related display" {
+	object {
+		x=576
+		y=0
+		width=105
+		height=30
+	}
+	display[0] {
+		label="Monitors"
+		name="controls.adl"
+	}
+	display[1] {
+		label="Graphics"
+		name="graphics.adl"
+	}
+	clr=14
+	bclr=51
+	label="Others"
 }
