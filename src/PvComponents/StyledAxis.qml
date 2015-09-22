@@ -30,6 +30,7 @@ Rectangle {
     onForegroundChanged: canvas.requestPaint()
     onDirectionChanged: canvas.requestPaint()
     onVisibleChanged: canvas.requestPaint()
+    onTickmarkAligmentChanged: canvas.requestPaint()
 
     Text {
         id: hiddenText
