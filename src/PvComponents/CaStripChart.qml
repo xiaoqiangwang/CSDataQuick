@@ -130,8 +130,8 @@ Item {
             d.pvs.push(pv)
 
             // bind pv range to y axis range
-            axis.rangeLower = pv.limits.lopr
-            axis.rangeUpper = pv.limits.hopr
+            axis.rangeLower = Qt.binding(function() {return pv.limits.lopr;})
+            axis.rangeUpper = Qt.binding(function() {return pv.limits.hopr;})
 
             // fill data array with NaN and assign to pv object
             var data = []
