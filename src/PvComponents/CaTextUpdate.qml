@@ -5,12 +5,61 @@ import QtQuick.Layouts 1.0
 import PvComponents 1.0
 import "utils.js" as UtilsJS
 
+/*!
+    \qmltype CaTextUpdate
+    \inqmlmodule PvComponents
+    \brief Display the value in given format.
+
+    The value is format to string using \l format.
+
+    The font used depends on the item height using function \l UtilsJS::getBestFontSize.
+    If \l align is not Text.AlignLeft, it will attemp to find a font size so that the text can fit in item width.
+
+    \qml
+    Row {
+        spacing: 5
+        CaTextUpdate {
+            width: 100
+            height: 20
+            channel: 'catest.SCAN'
+        }
+        CaTextUpdate {
+            width: 100
+            height: 20
+            channel: 'catest'
+        }
+    }
+    \endqml
+
+    \image textupdate.png
+*/
+
 CaMonitor {
     id: root
+    /*!
+        \qmlproperty enumeration align
+        Set the horizontal alignment of the text within the item width.
+    */
     property alias align: label_control.horizontalAlignment
+    /*!
+        \qmlproperty enumeration format
+        For all of the formats, the result depends on the number and the precision in \l limits.
+
+        \list
+        \li TextFormat.Decimal - Text with or without decimal point, e.g. 10.0 or 10.
+        \li TextFormat.Exponential - Exponential notation, e.g. 1.00e+04.
+        \li TextFormat.EngNotation - Engineering notation, e.g. 10.00e+03.
+        \li TextFormat.Compact - Either in decimal or exponential form to be most compact.
+        \li TextFormat.Truncated - Text is rounded to the largest integer, e.g 10000.
+        \li TextFormat.Hexadecimal - The text is rounded to the nearest integer and shown in hexadecimal, e.g. 0x3e8.
+        \li TextFormat.Octal - The text is rounded to the nearest integer and shown in octal, e.g. 01750.
+        \li TextFormat.String - Same as decimal except that for large numbers or precision, it can be in exponential format.
+        \endlist
+    */
     property int format: TextFormat.Decimal
+    /*! Display physical units if available */
     property bool showUnits: false
-    // limits
+    /*! Operation limits and precision */
     property Limits limits: Limits {id: limits}
 
     RowLayout {
@@ -64,6 +113,7 @@ CaMonitor {
         fontFamily = font.family
     }
 
+    /*! \internal */
     function formatString(format, value) {
         if (pv.type == PvObject.Enum)
             return pv.strs[value]
@@ -75,6 +125,7 @@ CaMonitor {
         return result
     }
 
+    /*! \internal */
     function arrayToString(array) {
         var s = ''
         for(var i = 0; i < array.length; i++) {

@@ -7,6 +7,29 @@ import "utils.js" as UtilsJS
     \qmltype CaText
     \inqmlmodule PvComponents
     \brief Display a text label
+
+    It can display both plain and rich text. The text may extend beyond the height and width specified for the Text item
+    or may not use up all the specified height and width. The text typically does not fill all of the specified height for the Text item.
+
+    The font used depends on the item height using function \l UtilsJS::getBestFontSize.
+
+    \qml
+    Column {
+        spacing: 5
+        CaText {
+            width: 100
+            height: 20
+            text: 'Plain Text'
+        }
+        CaText {
+            width: 100
+            height: 20
+            text: '<b>Rich</b> <i>Text</i>'
+        }
+    }
+    \endqml
+
+    \image text.png
 */
 
 CaGraphics {
@@ -14,14 +37,12 @@ CaGraphics {
 
     /*!
         \qmlproperty string text
-        The text to display. It can be plain text or richt text.
+        The text to display. It can be plain text or richt text defined using HTML markup.
     */
     property alias text: text_control.text
     /*!
         \qmlproperty enumeration align
         Sets the horizontal alignment of the text within the item width.
-
-        The font used depends on the item height using function \l UtilsJS::getBestFontSize.
     */
     property alias align: text_control.horizontalAlignment
     /*!
