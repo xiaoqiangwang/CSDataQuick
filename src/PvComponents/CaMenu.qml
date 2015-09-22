@@ -13,6 +13,12 @@ import PvComponents 1.0
     Note that if the colorMode is alarm, the foreground color, not the background color, is set to the alarm colors.
     The background color should be choosen to contrast with all the alarm colors.
 
+    \qml
+    CaMenu {
+        channel: 'bo'
+    }
+    \endqml
+
     \image menu.png
 */
 
