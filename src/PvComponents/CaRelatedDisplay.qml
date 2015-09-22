@@ -188,7 +188,6 @@ BaseItem {
             btn = Qt.createQmlObject(qmlCmd, root, 'button')
             btn.anchors.fill = root
             btn.align = Text.AlignHCenter
-            d.btn = btn
             return
         }
 
@@ -210,7 +209,6 @@ BaseItem {
             btn = Qt.createQmlObject(qmlCmd, root, 'button')
             btn.anchors.fill = root
             btn.align = Text.AlignLeft
-            d.btn = btn
             break;
         case RelatedDisplayVisual.Row: // Row of button
         case RelatedDisplayVisual.Column: // Column of buttons
@@ -234,7 +232,7 @@ BaseItem {
                 qmlCmd += btnCmdTemplate.arg('StyledButton').arg(label).arg(btnCmd)
             }
             qmlCmd += '}'
-            d.layout = Qt.createQmlObject(qmlCmd, root, 'layout')
+            Qt.createQmlObject(qmlCmd, root, 'layout')
             break;
         case RelatedDisplayVisual.Hidden:
             visible = false
