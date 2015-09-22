@@ -21,6 +21,7 @@ import PvComponents 1.0
     \image byte.png
 */
 CaMonitor {
+    id: root
     /*!
       \qmlproperty enumeration orientation
       \list
