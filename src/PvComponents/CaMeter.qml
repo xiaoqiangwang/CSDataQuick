@@ -10,6 +10,14 @@ import "utils.js" as UtilsJS
     \brief Displays the value on a cirular dial panel.
 
     The value of the process variable is displayed by a needle within an arc.
+    \qml
+    CaMeter {
+        channel: 'catest'
+        label: LabelStyle.Outline
+    }
+    \endqml
+
+    \image meter.png
 */
 
 CaMonitor {
@@ -18,6 +26,14 @@ CaMonitor {
     /*!
         \qmlproperty enumeration label
         The decoration mode.
+
+        \list
+        \li LabelStyle.Frame - No extra features.
+        \li LabelStyle.None - Same as LabelStyle.Frame.
+        \li LabelStyle.Outline - Show the limits.
+        \li LabelStyle.Limits - Show limits and a box for the value.
+        \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
+        \endlist
     */
     property int label: LabelStyle.Frame
 
