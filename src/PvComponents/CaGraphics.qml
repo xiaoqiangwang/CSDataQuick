@@ -24,7 +24,8 @@ Item {
     property int edge: EdgeStyle.Solid
     /*! Outline width */
     property int lineWidth: 0
-    /*! qmlproperty enumeration CaGraphics::colorMode
+    /*!
+        \qmlproperty enumeration colorMode
     */
     property int colorMode: ColorMode.Static
 
