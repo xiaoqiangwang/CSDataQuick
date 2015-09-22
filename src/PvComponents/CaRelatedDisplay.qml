@@ -110,7 +110,7 @@ BaseItem {
                     window.requestActivate()
                 } else {
                     var qmlCmd = Utils.openADLDisplay(absFilePath, args)
-                    window = Qt.createQmlObject(qmlCmd, root, absFilePath)
+                    window = Utils.createDisplay(qmlCmd, root, absFilePath)
                     window.filePath = absFilePath
                 }
             } else {
