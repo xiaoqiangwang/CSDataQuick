@@ -257,3 +257,22 @@ QString QCSUtils::openADLComposite(QString fileName, QString macro)
 
     return QString::fromStdString(qmlBody);
 }
+
+QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QString filePath)
+{
+    QWindow *window = NULL;
+    QQmlEngine *engine = qmlEngine(display);
+    if (engine) {
+        QQmlComponent component(engine);
+        component.setData(qml.toLocal8Bit(), QUrl::fromLocalFile(filePath));
+        while(!component.isReady()) {
+            if (component.isError()) {
+                foreach(QQmlError error, component.errors())
+                    qDebug() << error;
+                return NULL;
+            }
+        }
+        window = qobject_cast<QQuickWindow *>(component.create());
+    }
+    return window;
+}

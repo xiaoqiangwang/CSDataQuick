@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVariant>
 
+class QWindow;
 
 class QCSUtils : public QObject
 {
@@ -19,6 +20,7 @@ public:
     Q_INVOKABLE QString searchADLFile(QString fileName, QString parentFileName);
     Q_INVOKABLE QString openADLDisplay(QString fileName, QString macro);
     Q_INVOKABLE QString openADLComposite(QString fileName, QString macro);
+    Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QString filePath);
 
 signals:
 
