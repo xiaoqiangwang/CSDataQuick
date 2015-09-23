@@ -161,6 +161,8 @@ int main(int argc, char **argv)
 
     qInstallMessageHandler(myMessageOutput);
 
+    qDebug().noquote() << qMyApp->applicationName() << "started with PID:" << qMyApp->applicationPid();
+
     if (parser.isSet(noMsgOption))
         window->showMinimized();
     else
@@ -174,7 +176,6 @@ int main(int argc, char **argv)
         else
             qWarning() << "Failed to start IPC server";
     }
-
 
     foreach (QString fileName, args) {
         QMetaObject::invokeMethod(window, "createADLDisplay",
