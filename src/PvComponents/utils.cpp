@@ -51,7 +51,7 @@
 /*!
     \qmlmethod bool Utils::execute(string program)
 
-    Execute a program, \sa QProcess::startDetached()
+    Execute a program, \sa QProcess::startDetached(), QProcess::execute()
 */
 
 /*!
@@ -107,7 +107,19 @@ double QCSUtils::calculate(QString expr, QVariantList input)
 
 bool QCSUtils::execute(QString program)
 {
-    return QProcess::startDetached(program);
+    // remove whitespaces from the start and the end
+    program = program.trimmed();
+    // replace medm with ADLViewer
+    if (program.startsWith("medm")) {
+        program = qApp->applicationFilePath() + program.mid(4);
+    }
+    // only if program ends with "&", start detached
+    if (program.endsWith("&")) {
+        program.chop(1);
+        return QProcess::startDetached(program);
+    }
+    else
+        return QProcess::execute(program);
 }
 
 QString QCSUtils::convert(int format, QVariant value, int precision)
