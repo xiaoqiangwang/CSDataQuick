@@ -25,6 +25,7 @@ Rectangle {
 
     color: background
 
+    onPrecisionChanged: canvas.requestPaint()
     onMinimumValueChanged: canvas.requestPaint()
     onMaximumValueChanged: canvas.requestPaint()
     onForegroundChanged: canvas.requestPaint()
