@@ -136,9 +136,9 @@ CaControl {
             onConnectionChanged: {
                 if (pv.connected) {
                     if (pv.lodisplim < pv.updisplim) {
-                        limits.lopr = pv.lodisplim
-                        limits.hopr = pv.updisplim
-                        limits.prec = pv.prec
+                        limits.loprChannel = pv.lodisplim
+                        limits.hoprChannel = pv.updisplim
+                        limits.precChannel = pv.prec
                     }
                 }
             }
