@@ -69,8 +69,10 @@ extern void localCvtDoubleToString(double flt_value, char  *pstr_value, unsigned
 extern void localCvtDoubleToExpNotationString(double value, char *textField, unsigned short precision);
 extern void medmLocalCvtDoubleToSexaStr (double value,  char *string, unsigned short prec,
                                  double hopr, double lopr, int *status);
-double strtos(char *string, char **rptr, int *status);
+extern double strtos(char *string, char **rptr, int *status);
 }
+
+extern QVariantMap parseGeometry(const QByteArray &a);
 
 QCSUtils::QCSUtils(QObject *parent)
     : QObject(parent)
@@ -262,7 +264,7 @@ QString QCSUtils::openADLComposite(QString fileName, QString macro)
         if (paires.length() == 2)
             macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
         else
-            qDebug() << "macro unclear" << m;
+            qWarning() << "macro unclear" << m;
     }
 
     std::string qmlBody = parseADLComposite(fileName.toStdString(), macroMap);
@@ -287,4 +289,9 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QString filePat
         window = qobject_cast<QQuickWindow *>(component.create());
     }
     return window;
+}
+
+QVariantMap QCSUtils::parseX11Geometry(QString geometry)
+{
+    return parseGeometry(geometry.toLatin1());
 }

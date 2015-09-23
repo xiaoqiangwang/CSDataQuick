@@ -11,6 +11,7 @@ set(SOURCES
     baseitem.cpp
     basewindow.cpp
     windowmanager.cpp
+    geometryspecification.cpp
 )
 
 set(HEADERS
