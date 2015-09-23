@@ -1,6 +1,6 @@
 
 file {
-	name="/Users/wang/Development/epicsqml/examples/graphics.adl"
+	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/examples/graphics.adl"
 	version=030109
 }
 display {
@@ -251,12 +251,12 @@ polyline {
 		height=30
 	}
 	display[0] {
-		label="Monitors"
+		label="Controls"
 		name="controls.adl"
 	}
 	display[1] {
-		label="Graphics"
-		name="graphics.adl"
+		label="Monitors"
+		name="monitors.adl"
 	}
 	clr=14
 	bclr=51

@@ -138,7 +138,7 @@ valuator {
 		height=50
 	}
 	control {
-		chan="catest"
+		chan="catest2"
 		clr=14
 		bclr=51
 	}
@@ -231,7 +231,7 @@ valuator {
 		height=219
 	}
 	control {
-		chan="bo"
+		chan="catest"
 		clr=14
 		bclr=51
 	}

@@ -1,6 +1,6 @@
 
 file {
-	name="/Users/wang/Development/epicsqml/examples/monitors.adl"
+	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/examples/monitors.adl"
 	version=030109
 }
 display {
@@ -184,7 +184,7 @@ indicator {
 		}
 	}
 	pen[1] {
-		chan="calc"
+		chan="catest2"
 		clr=12
 		limits {
 		}
@@ -235,7 +235,7 @@ bar {
 		height=30
 	}
 	display[0] {
-		label="Monitors"
+		label="Controls"
 		name="controls.adl"
 	}
 	display[1] {
