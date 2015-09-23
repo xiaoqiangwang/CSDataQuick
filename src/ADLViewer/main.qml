@@ -12,12 +12,14 @@ ApplicationWindow
     height: 100
     title: app.applicationName
     visible: true
+    color: ColorMap.color4
 
     menuBar: MenuBar {
         Menu {
             title: 'File'
             MenuItem {
                 text: 'Open'
+                onTriggered: fileDialog.open()
             }
             MenuItem {
                 text: 'Quit'
@@ -42,6 +44,15 @@ ApplicationWindow
         id: aboutDialog
         title: "About " + app.applicationName
         text: '<h3>%1 %2</h3>An ADL file viewer based on QtQuick'.arg(app.applicationName).arg(app.applicationVersion)
+    }
+
+    FileDialog {
+        id: fileDialog
+        title: "Open file ..."
+        onAccepted: {
+            console.debug(fileUrl)
+            //createADLDisplay(fileUrl, "", "")
+        }
     }
 
     ListView {
@@ -92,8 +103,10 @@ ApplicationWindow
     {
         // search the file
         var absFilePath = Utils.searchADLFile(fileName, '')
-        if (!absFilePath)
+        if (absFilePath === '') {
             console.error("Failed to find file ", fileName)
+            return
+        }
 
         // if the window exists, bring it up
         var window = WindowManager.findWindow(absFilePath, macro)
@@ -105,8 +118,10 @@ ApplicationWindow
 
         var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
         window = Utils.createDisplay(qmlCmd, root, absFilePath)
-        if (!window)
+        if (!window) {
             console.error("Failed to create window from ", fileName)
+            return
+        }
 
         // set new window geometry based on command line argument "-dg"
         var geometrySpec = Utils.parseX11Geometry(geometry)
@@ -144,14 +159,16 @@ ApplicationWindow
         window.raise()
         window.requestActivate()
 
+        console.info('Open ', absFilePath, macro)
         WindowManager.appendWindow(window, absFilePath, macro)
     }
 
     function outputMessage(type, message)
     {
-        // rotate old logs to be less than 1000
+        // when the number of log entries exceeds 1000, remove the 100 from the begining
+        // but leave the first entry which is the information about the current process.
         if (logModel.count > 1000)
-            logModel.remove(0, 100)
+            logModel.remove(1, 100)
         logModel.append({'type': type, 'message': message})
     }
 }
