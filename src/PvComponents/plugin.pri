@@ -36,7 +36,8 @@ SOURCES += \
     $$PWD/enums.cpp \
     $$PWD/csdatasource.cpp \
     $$PWD/csdata.cpp \
-    $$PWD/windowmanager.cpp
+    $$PWD/windowmanager.cpp \
+    $$PWD/geometryspecification.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
