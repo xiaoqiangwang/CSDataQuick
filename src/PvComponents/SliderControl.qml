@@ -76,13 +76,16 @@ Item {
     StyledAxis {
         id: range
 
+        anchors.top:  orientation == Qt.Horizontal ? root.top : undefined
+        anchors.left: orientation == Qt.Vertical ? root.left : undefined
+
         anchors.horizontalCenter: orientation == Qt.Horizontal ?  root.horizontalCenter : undefined
         anchors.verticalCenter: orientation == Qt.Vertical ?  root.verticalCenter : undefined
 
         width: orientation == Qt.Horizontal ? effectiveLength + 2 * sidemargin : Math.max(root.width / 10, implicitWidth)
         height: orientation == Qt.Horizontal ? Math.max(root.height / 10, implicitHeight) : effectiveLength + 2 * sidemargin
 
-        //font: root.font
+        font: root.font
         direction: root.direction
         precision: root.precision
         visible: root.showRange
