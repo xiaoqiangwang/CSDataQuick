@@ -65,6 +65,10 @@ int main(int argc, char **argv)
     QCommandLineOption cleanupOption(QStringList() << "c" << "cleanup", "Use this viewer as existing viewer.");
     parser.addOption(cleanupOption);
 
+    // A boolean option indicating launch mode (-noMsg)
+    QCommandLineOption noMsgOption(QStringList() << "noMsg", "Do not raise the message window");
+    parser.addOption(noMsgOption);
+
     // An option with marco substitution
     QCommandLineOption macroOption(QStringList() << "m" << "macro",
                 QCoreApplication::translate("main", "Macro definition <macros>."),
@@ -140,6 +144,9 @@ int main(int argc, char **argv)
         viewer->openADLDisplay(fileName, macroString, geometry);
         qDebug() << "Open display file" << fileName;
     }
-    viewer->show();
+    if (parser.isSet(noMsgOption))
+        viewer->showMinimized();
+    else
+        viewer->show();
     return qMyApp->exec();
 }
