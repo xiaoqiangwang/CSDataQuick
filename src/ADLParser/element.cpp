@@ -1287,8 +1287,19 @@ void Composite::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
 
     if (this->file.empty()) {
-        for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
-            (*it)->toQML(ostream);
+        bool hasNonStaticGraphics = false;
+        for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it) {
+            Element * element = (*it);
+            if (element->type() < DL_Arc || element->type() > DL_Text)
+                hasNonStaticGraphics = true;
+            element->toQML(ostream);
+        }
+        // if no dynamic channel is defined and no children other than graphics, this is a static composite item.
+        // lower its stacking order not to shadow other control/monitor items
+        if (this->dynamic_attr.hasChannels() || hasNonStaticGraphics) {
+            ostream << indent << "    z: -1" << std::endl;
+        } else
+            ostream << indent << "    z: -2" << std::endl;
     } else {
         ostream << indent << "    source: \"" << this->file << "\"" << std::endl;
         ostream << indent << "    macro: \"" << this->macro << "\"" << std::endl;
