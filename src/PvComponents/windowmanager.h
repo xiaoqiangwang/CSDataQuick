@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE void appendWindow(QWindow *window, QString absFilePath, QString macro);
     Q_INVOKABLE void removeWindow(QWindow *window);
     Q_INVOKABLE QWindow* findWindow(QString absFilePath, QString macro);
+    Q_INVOKABLE void closeAllWindow();
 
 signals:
 

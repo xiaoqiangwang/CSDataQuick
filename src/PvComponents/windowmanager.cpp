@@ -48,3 +48,9 @@ QWindow* WindowManager::findWindow(QString absFilePath, QString macro)
     }
     return window;
 }
+
+void WindowManager::closeAllWindow()
+{
+    foreach(WindowEntry entry, mWindowsList)
+        entry.window->close();
+}
