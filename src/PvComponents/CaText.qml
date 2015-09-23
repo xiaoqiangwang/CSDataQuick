@@ -54,16 +54,17 @@ CaGraphics {
     Rectangle {
         color: background
         anchors.fill: parent
-        Text {
-            id: text_control
-            color: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
-            anchors.fill: parent
-        }
+    }
+
+    Text {
+        id: text_control
+        color: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
+        anchors.fill: parent
     }
 
     onHeightChanged: {
-        var font = UtilsJS.getBestFontSize(height)
-        font.pixelSize = font.size
-        font.family = font.family
+        var font = UtilsJS.getBestFontSize(height, false)
+        root.font.pixelSize = font.size
+        root.font.family = font.family
     }
 }
