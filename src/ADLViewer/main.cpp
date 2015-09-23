@@ -3,31 +3,39 @@
 \*****************************************************************************/
 
 #include "common.h"
-#include "viewer.h"
 #include "ipcserver.h"
 
 #include <sstream>
 #include <iostream>
 
-#include <QApplication>
+#include <QGuiApplication>
 #include <QCommandLineParser>
 #include <QFile>
-#include <QPushButton>
 #include <QDir>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QPointer>
 
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QQmlComponent>
+#include <QQuickWindow>
+
 #include <QtDebug>
 
-QPointer<Viewer> viewer;
+QPointer<QQuickWindow> window;
 
-void myMessageOutput(QtMsgType type, const QMessageLogContext &ctx, const QString &msg)
+void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    Q_UNUSED(ctx);
-
-    if(viewer)
-        viewer->outputMessage(type, msg );
+    if(window) {
+        QString formatedMessage = QString("%s (%s:%u %s)").sprintf(msg.toLocal8Bit(),
+                                                                   context.file,
+                                                                   context.line,
+                                                                   context.function);
+        QMetaObject::invokeMethod(window, "outputMessage",
+                                  Q_ARG(QVariant, type),
+                                  Q_ARG(QVariant, formatedMessage));
+    }
 }
 
 int main(int argc, char **argv)
@@ -35,6 +43,10 @@ int main(int argc, char **argv)
     // First create QCoreApplication to work on command  line argument parsing
     // and dispatch request.
     QCoreApplication *qCoreApp =  new QCoreApplication(argc, argv);
+    qCoreApp->setOrganizationName("Paul Scherrer Institut");
+    qCoreApp->setOrganizationDomain("psi.ch");
+    qCoreApp->setApplicationName("ADLViewer");
+    qCoreApp->setApplicationVersion("0.1");
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
 
@@ -124,29 +136,52 @@ int main(int argc, char **argv)
     delete qCoreApp;
 
     // Now start the real application
-    QApplication *qMyApp = new QApplication(argc, argv);
-    QApplication::setApplicationName("ADLViewer");
-    QApplication::setApplicationVersion("0.1");
+    QGuiApplication *qMyApp = new QGuiApplication(argc, argv);
+    qMyApp->setOrganizationName("Paul Scherrer Institut");
+    qMyApp->setOrganizationDomain("psi.ch");
+    qMyApp->setApplicationName("ADLViewer");
+    qMyApp->setApplicationVersion("0.1");
 
-    viewer = new Viewer();
+    QQmlEngine *engine = new QQmlEngine();
+    engine->rootContext()->setContextProperty("app", qMyApp);
+    engine->addImportPath(QGuiApplication::applicationDirPath() + "/../imports/");
+    QQmlComponent component(engine, QUrl("qrc:/main.qml"));
+    while(!component.isReady()) {
+        if (component.isError()) {
+            foreach(QQmlError error, component.errors())
+                qCritical() << error;
+            return -1;
+        }
+    }
+    window = qobject_cast<QQuickWindow *>(component.create(engine->rootContext()));
+    if(window.isNull()) {
+        qCritical() << "Failed to create main window";
+        return -1;
+    }
+
     qInstallMessageHandler(myMessageOutput);
+
+    if (parser.isSet(noMsgOption))
+        window->showMinimized();
+    else
+        window->show();
 
     if (!parser.isSet(localOption)) {
         IPCServer *server = new IPCServer();
         if (server->launchServer(true))
-            QObject::connect(server, SIGNAL(dispatchRequestReceived(QString,QString,QString)),
-                         viewer, SLOT(dispatchRequestReceived(QString,QString,QString)));
+            QObject::connect(server, SIGNAL(dispatchRequestReceived(QVariant,QVariant,QVariant)),
+                         window, SLOT(dispatchRequestReceived(QVariant,QVariant,QVariant)));
         else
             qWarning() << "Failed to start IPC server";
     }
 
+
     foreach (QString fileName, args) {
-        viewer->openADLDisplay(fileName, macroString, geometry);
-        qDebug() << "Open display file" << fileName;
+        QMetaObject::invokeMethod(window, "createADLDisplay",
+                             Q_ARG(QVariant, fileName),
+                             Q_ARG(QVariant, macroString),
+                             Q_ARG(QVariant, geometry));
     }
-    if (parser.isSet(noMsgOption))
-        viewer->showMinimized();
-    else
-        viewer->show();
+
     return qMyApp->exec();
 }

@@ -1,14 +1,12 @@
 TEMPLATE = app
-QT += widgets quick
+QT += quick
 
 DESTDIR = ../../bin/
 
 HEADERS += \
-    viewer.h \
     ipcserver.h
 
 SOURCES += \
-    viewer.cpp \
     ipcserver.cpp \
     main.cpp
 
@@ -20,3 +18,6 @@ mac {
     CONFIG -= app_bundle
     LIBS += -framework Security
 }
+
+RESOURCES += \
+    main.qrc
