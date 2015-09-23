@@ -2,6 +2,7 @@
 #define BASEWINDOW_H
 
 #include <QQuickWindow>
+#include <QFileInfo>
 
 class BaseWindow : public QQuickWindow
 {
@@ -15,6 +16,9 @@ public:
     virtual ~BaseWindow();
 
     Q_INVOKABLE void printWindow();
+
+    QString filePath() const;
+    void setFilePath(const QString &filePath);
 
 protected:
     void closeEvent(QCloseEvent *event);
