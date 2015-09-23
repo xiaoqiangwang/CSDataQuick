@@ -48,7 +48,7 @@ public:
     bool launchServer(bool cleanup=false);
 
 signals:
-    void dispatchRequestReceived(QString fileName, QString macroString, QString geometry);
+    void dispatchRequestReceived(QVariant fileName, QVariant macroString, QVariant geometry);
 
 protected:
     virtual void incomingConnection(quintptr socketDescriptor);
