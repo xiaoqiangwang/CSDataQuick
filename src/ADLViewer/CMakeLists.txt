@@ -1,24 +1,28 @@
+set(CMAKE_AUTORCC ON)
+
 set(SOURCES
-    viewer.cpp
     ipcserver.cpp
     main.cpp
 )
 
 set(HEADERS
-    viewer.h
     ipcserver.h
+)
+
+set(RESOURCES
+    main.qrc
 )
 
 add_executable(ADLViewer
     ${SOURCES}
     ${HEADERS}
+    ${RESOURCES}
 )
 
 include_directories(
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5PrintSupport_INCLUDE_DIRS}
