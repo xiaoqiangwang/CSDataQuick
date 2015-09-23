@@ -4,6 +4,7 @@
 
 #include "basewindow.h"
 
+#include <QFileInfo>
 #include <QPainter>
 #include <QPrinter>
 #include <QPrintDialog>
@@ -15,6 +16,19 @@ BaseWindow :: BaseWindow(QWindow *parent)
 
 BaseWindow :: ~BaseWindow()
 {
+}
+
+QString BaseWindow :: filePath() const
+{
+    return QQuickWindow::filePath();
+}
+void BaseWindow :: setFilePath(const QString &filePath)
+{
+    QQuickWindow::setFilePath(filePath);
+
+    // set file name as window title
+    QFileInfo fi(filePath);
+    setTitle(fi.fileName());
 }
 
 void BaseWindow :: closeEvent(QCloseEvent *event)
