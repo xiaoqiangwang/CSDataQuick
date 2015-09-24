@@ -23,9 +23,6 @@ public:
 signals:
     void filePathChanged();
 
-protected:
-    void closeEvent(QCloseEvent *event);
-
 private:
     QString macro;
 

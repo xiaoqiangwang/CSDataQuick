@@ -9,9 +9,12 @@
 #include <QPrinter>
 #include <QPrintDialog>
 
+#include <QtDebug>
+
 BaseWindow :: BaseWindow(QWindow *parent)
     : QQuickWindow(parent)
 {
+    connect(this, SIGNAL(closing(QQuickCloseEvent*)), SLOT(deleteLater()));
 }
 
 BaseWindow :: ~BaseWindow()
@@ -30,12 +33,6 @@ void BaseWindow :: setFilePath(const QString &filePath)
     // set file name as window title
     QFileInfo fi(filePath);
     setTitle(fi.fileName());
-}
-
-void BaseWindow :: closeEvent(QCloseEvent *event)
-{
-    event->accept();
-    deleteLater();
 }
 
 void BaseWindow :: printWindow()
