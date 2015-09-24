@@ -121,6 +121,7 @@ ApplicationWindow
         if (window) {
             window.raise()
             window.requestActivate()
+            console.info('Activate the already existing display ', absFilePath, macro)
             return
         }
 
