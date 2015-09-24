@@ -8,6 +8,8 @@ import PvComponents 1.0
 ApplicationWindow
 {
     id: root
+    property ListModel logModel: ListModel {}
+
     width: 300
     height: 100
     title: app.applicationName
@@ -55,23 +57,15 @@ ApplicationWindow
         }
     }
 
-    ListView {
-        id: logView
+    // content item is a log message viewer
+    ScrollView {
         anchors.fill: parent
 
-        model: logModel
-        delegate: Item {
-            implicitHeight: textLabel.paintedHeight
-            implicitWidth:  logView.width
-            Rectangle {
-                anchors.fill: parent
-                color: '#FF0000'
-                visible: type == LogLevel.Fatal
-            }
-
-            Text {
-                id: textLabel
-                anchors.fill: parent
+        ListView {
+            id: logView
+            model: logModel
+            delegate: Text {
+                width: parent.width
                 wrapMode: Text.WordWrap
                 text: time + ' ' + message
                 color: {
@@ -91,21 +85,19 @@ ApplicationWindow
                     }
                 }
             }
+            onCountChanged: {
+                var newIndex = count - 1 // last index
+                positionViewAtEnd()
+                currentIndex = newIndex
+            }
         }
-        onCountChanged: {
-            var newIndex = count - 1 // last index
-            positionViewAtEnd()
-            currentIndex = newIndex
-        }
-
     }
 
     onClosing: {
         WindowManager.closeAllWindow()
     }
 
-    property ListModel logModel: ListModel {}
-
+    // slot called when a new disptach request received
     function dispatchRequestReceived(fileName, macro, geometry)
     {
         console.info('File Dispatch Request:\n' +
