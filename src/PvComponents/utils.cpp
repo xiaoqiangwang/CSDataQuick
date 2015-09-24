@@ -24,6 +24,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <QDateTime>
+
 #include <fstream>
 
 #include "parser.h"
@@ -294,4 +296,9 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QString filePat
 QVariantMap QCSUtils::parseX11Geometry(QString geometry)
 {
     return parseGeometry(geometry.toLatin1());
+}
+
+QString QCSUtils::currentDateTime()
+{
+    return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
 }
