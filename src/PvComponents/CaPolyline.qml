@@ -38,7 +38,10 @@ CaGraphics {
     Polyline {
         id: polyline
         anchors.fill: parent
-        foreground: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
+        foreground: (colorMode == ColorMode.Alarm
+                     || (dynamicAttr.visibilityMode != VisibilityMode.Static
+                         && !dynamicAttr.connected))
+                    ? root.alarmColor :root.foreground
         lineWidth: root.lineWidth
         edgeStyle: root.edge
     }

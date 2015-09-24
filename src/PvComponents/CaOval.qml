@@ -33,7 +33,10 @@ CaGraphics {
 
     Oval {
         anchors.fill: parent
-        foreground: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
+        foreground: (colorMode == ColorMode.Alarm
+                     || (dynamicAttr.visibilityMode != VisibilityMode.Static
+                         && !dynamicAttr.connected))
+                    ? root.alarmColor :root.foreground
         lineWidth: root.lineWidth
         fillStyle: root.fill
         edgeStyle: root.edge
