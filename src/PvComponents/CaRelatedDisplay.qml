@@ -106,6 +106,7 @@ BaseItem {
             if(absFilePath) {
                 window = WindowManager.findWindow(absFilePath, args)
                 if (window) {
+                    window.show()
                     window.raise()
                     window.requestActivate()
                     console.info('Activate the already existing display ', absFilePath, args)
