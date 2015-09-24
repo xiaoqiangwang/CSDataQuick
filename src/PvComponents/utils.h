@@ -22,7 +22,7 @@ public:
     Q_INVOKABLE QString openADLComposite(QString fileName, QString macro);
     Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QString filePath);
     Q_INVOKABLE QVariantMap parseX11Geometry(QString geometry);
-
+    Q_INVOKABLE QString currentDateTime();
 signals:
 
 public slots:
