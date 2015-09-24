@@ -138,6 +138,7 @@ BaseItem {
                 window.y = baseWindow.y
                 baseWindow.close()
             }
+            console.info('Open ', absFilePath, args)
             WindowManager.appendWindow(window, absFilePath, args)
             window.title = fname
             window.visible = true
