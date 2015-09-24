@@ -20,6 +20,7 @@
 #include <QQmlContext>
 #include <QQmlComponent>
 #include <QQuickWindow>
+#include <QMutex>
 
 #include <QtDebug>
 
@@ -27,7 +28,17 @@ QPointer<QQuickWindow> window;
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-    if(window) {
+
+    static QMutex recursiveMutex(QMutex::Recursive);
+    static QMutex nonRecursiveMutex(QMutex::NonRecursive);
+
+    // Prevent multiple threads from calling this method simultaneoulsy.
+    // But allow recursive calls, which is required to prevent a deadlock
+    // if the logger itself produces an error message.
+    recursiveMutex.lock();
+
+    // Fall back to stderr when this method has been called recursively.
+    if (window && nonRecursiveMutex.tryLock()) {
         QString formatedMessage = QString("%s (%s:%u %s)").sprintf(msg.toLocal8Bit(),
                                                                    context.file,
                                                                    context.line,
@@ -35,7 +46,15 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         QMetaObject::invokeMethod(window, "outputMessage",
                                   Q_ARG(QVariant, type),
                                   Q_ARG(QVariant, formatedMessage));
+        nonRecursiveMutex.unlock();
     }
+    else {
+        std::cerr << msg.toLocal8Bit().constData()
+                  << "(" << context.file << ":" << context.line << " " << context.function << ")"
+                  << std::endl;
+    }
+
+    recursiveMutex.unlock();
 }
 
 int main(int argc, char **argv)
