@@ -5,6 +5,14 @@
 #include "windowmanager.h"
 
 #include <QWindow>
+#include <QVariant>
+
+#include <QtDebug>
+
+bool windowFilePathCompare(const QWindow *w1, const QWindow *w2)
+{
+    return w1->filePath() < w2->filePath();
+}
 
 WindowManager::WindowManager(QObject *parent)
     : QObject(parent)
@@ -15,35 +23,36 @@ WindowManager::WindowManager(QObject *parent)
 
 void WindowManager::appendWindow(QWindow *window, QString absFilePath, QString macro)
 {
-    WindowEntry entry = {window, absFilePath, macro};
-    mWindowsList.append(entry);
+    Q_UNUSED(absFilePath);
+    Q_UNUSED(macro);
+
+    mWindows.append(window);
     connect(window, SIGNAL(destroyed()), this, SLOT(windowDestroyed()));
+    emit windowsChanged();
 }
 
 void WindowManager::windowDestroyed()
 {
     QWindow * window = qobject_cast<QWindow*>(sender());
+    qDebug() << window << "has been destroyed";
     if (window)
         removeWindow(window);
 }
 
 void WindowManager::removeWindow(QWindow *window)
 {
-    for(int i=0; i<mWindowsList.size(); i++) {
-        if(mWindowsList.at(i).window == window) {
-            mWindowsList.removeAt(i);
-            break;
-        }
-    }
+    mWindows.removeOne(window);
+    emit windowsChanged();
 }
 
 QWindow* WindowManager::findWindow(QString absFilePath, QString macro)
 {
     QWindow *window = Q_NULLPTR;
-    for(int i=0; i<mWindowsList.size(); i++) {
-        if(mWindowsList.at(i).absFilePath == absFilePath
-         &&mWindowsList.at(i).macro == macro) {
-            window = mWindowsList.at(i).window;
+    foreach (QWindow *w, mWindows) {
+        if (w->filePath() == absFilePath &&
+                w->property("macro") == macro) {
+            window = w;
+            break;
         }
     }
     return window;
@@ -51,6 +60,20 @@ QWindow* WindowManager::findWindow(QString absFilePath, QString macro)
 
 void WindowManager::closeAllWindow()
 {
-    foreach(WindowEntry entry, mWindowsList)
-        entry.window->close();
+    foreach (QWindow *w, mWindows) {
+        w->close();
+    }
 }
+
+QList<QObject*> WindowManager::windows()
+{
+    QList<QWindow*> sortedWindows(mWindows);
+    qSort(sortedWindows.begin(), sortedWindows.end());
+
+    QList<QObject*> windowsList;
+    foreach (QWindow *w, sortedWindows) {
+        windowsList.append(qobject_cast<QObject*>(w));
+    }
+    return windowsList;
+}
+

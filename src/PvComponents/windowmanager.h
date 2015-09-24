@@ -15,6 +15,7 @@ typedef struct {
 class WindowManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QList<QObject*> windows READ windows NOTIFY windowsChanged)
 public:
     explicit WindowManager(QObject *parent = 0);
 
@@ -23,14 +24,16 @@ public:
     Q_INVOKABLE QWindow* findWindow(QString absFilePath, QString macro);
     Q_INVOKABLE void closeAllWindow();
 
+    QList<QObject*> windows();
+
 signals:
+    void windowsChanged();
 
 public slots:
-
     void windowDestroyed();
 
 protected:
-    QList<WindowEntry> mWindowsList;
+    QList<QWindow*> mWindows;
 };
 
 #endif // WINDOWMANAGER_H
