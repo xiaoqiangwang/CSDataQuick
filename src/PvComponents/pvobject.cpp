@@ -330,7 +330,7 @@ long QQuickPvObject::exit_ca()
  */
 void QQuickPvObject::exception_handler(exception_handler_args args)
 {
-    qErrnoWarning(
+    qWarning(
       "PvObject: Channel Access Exception:\n"
       "  Channel Name: %s\n"
       "  Native Type: %s\n"
@@ -507,8 +507,9 @@ void QQuickPvObject::setValue(const QVariant val)
     default:
         break;
     }
-    if (status != ECA_NORMAL)
-        qDebug() << ca_message(status);
+    if (status != ECA_NORMAL) {
+        qWarning() << _name << ca_message(status);
+    }
     ca_flush_io();
 }
 
