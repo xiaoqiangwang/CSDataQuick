@@ -108,6 +108,8 @@ BaseItem {
                 if (window) {
                     window.raise()
                     window.requestActivate()
+                    console.info('Activate the already existing display ', absFilePath, args)
+                    return
                 } else {
                     var qmlCmd = Utils.openADLDisplay(absFilePath, args)
                     window = Utils.createDisplay(qmlCmd, root, absFilePath)
