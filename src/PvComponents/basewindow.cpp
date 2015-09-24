@@ -35,6 +35,18 @@ void BaseWindow :: setFilePath(const QString &filePath)
     setTitle(fi.fileName());
 }
 
+QString BaseWindow :: macro() const
+{
+    return _macro;
+}
+void BaseWindow :: setMacro(const QString &macro)
+{
+    if (_macro != macro) {
+        _macro = macro;
+        emit macroChanged();
+    }
+}
+
 void BaseWindow :: printWindow()
 {
     QImage snapshot = grabWindow();
