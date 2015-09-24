@@ -56,6 +56,12 @@ CaGraphics {
         anchors.fill: parent
     }
 
+    Rectangle {
+        color: ColorMap.invalid_alarm
+        anchors.fill: parent
+        visible: (colorMode != ColorMode.Static || dynamicAttr.visibilityMode != VisibilityMode.Static) && !dynamicAttr.connected
+    }
+
     Text {
         id: text_control
         color: colorMode == ColorMode.Static ? root.foreground : root.alarmColor
