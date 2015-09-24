@@ -25,6 +25,7 @@ QString BaseWindow :: filePath() const
 void BaseWindow :: setFilePath(const QString &filePath)
 {
     QQuickWindow::setFilePath(filePath);
+    emit filePathChanged();
 
     // set file name as window title
     QFileInfo fi(filePath);

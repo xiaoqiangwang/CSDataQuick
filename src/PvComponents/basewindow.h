@@ -8,7 +8,7 @@ class BaseWindow : public QQuickWindow
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString filePath READ filePath WRITE setFilePath)
+    Q_PROPERTY(QString filePath READ filePath WRITE setFilePath NOTIFY filePathChanged)
     Q_PROPERTY(QString macro MEMBER macro)
 
 public:
@@ -19,6 +19,9 @@ public:
 
     QString filePath() const;
     void setFilePath(const QString &filePath);
+
+signals:
+    void filePathChanged();
 
 protected:
     void closeEvent(QCloseEvent *event);
