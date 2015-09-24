@@ -60,19 +60,35 @@ ApplicationWindow
         anchors.fill: parent
 
         model: logModel
-        delegate: Text {
-            wrapMode: Text.WordWrap
-            text: Date().toString() + '\n' + message
-            color: {
-                switch (type) {
-                case LogLevel.Debug:
-                    return "#662219B2"
-                case LogLevel.Critical:
-                    return "#66FF0000"
-                case LogLevel.Warning:
-                    return "#66FFFD00"
-                case LogLevel.Info:
-                    return "#6641DB00"
+        delegate: Item {
+            implicitHeight: textLabel.paintedHeight
+            implicitWidth:  logView.width
+            Rectangle {
+                anchors.fill: parent
+                color: '#FF0000'
+                visible: type == LogLevel.Fatal
+            }
+
+            Text {
+                id: textLabel
+                anchors.fill: parent
+                wrapMode: Text.WordWrap
+                text: time + ' ' + message
+                color: {
+                    switch (type) {
+                    case LogLevel.Debug:
+                        return "#373737"
+                    case LogLevel.Info:
+                        return "#0000EE"
+                    case LogLevel.Warning:
+                        return "#DDDD00"
+                    case LogLevel.Critical:
+                        return "#CC0000"
+                    case LogLevel.Fatal:
+                        return "#FFFF00"
+                    default:
+                        return "#000000"
+                    }
                 }
             }
         }
@@ -169,7 +185,7 @@ ApplicationWindow
         // but leave the first entry which is the information about the current process.
         if (logModel.count > 1000)
             logModel.remove(1, 100)
-        logModel.append({'type': type, 'message': message})
+        logModel.append({'time': Utils.currentDateTime(), 'type': type, 'message': message})
     }
 }
 
