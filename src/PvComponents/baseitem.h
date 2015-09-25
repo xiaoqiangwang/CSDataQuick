@@ -4,6 +4,8 @@
 #include <QQuickItem>
 #include <QCursor>
 
+class BaseItemAttached;
+
 class BaseItem : public QQuickItem
 {
     Q_OBJECT
@@ -12,10 +14,13 @@ class BaseItem : public QQuickItem
 public:
     explicit BaseItem(QQuickItem *parent = 0);
 
-    Qt::CursorShape cursorType() {return cursor().shape();}
-    void setCursorType(Qt::CursorShape cursor) {setCursor(cursor); emit cursorTypeChanged();}
+    Qt::CursorShape cursorType();
+    void setCursorType(Qt::CursorShape cursor);
 
-    QQuickWindow * baseWindow() {return this->window();}
+    QQuickWindow * baseWindow();
+
+    static BaseItemAttached *qmlAttachedProperties(QObject *);
+
 signals:
     void cursorTypeChanged();
     void fontChanged();
@@ -26,4 +31,19 @@ private:
     QFont m_font;
 };
 
+class BaseItemAttached : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QString filePath READ filePath)
+public:
+    BaseItemAttached(QObject *object);
+
+    QString filePath() const;
+
+private:
+    BaseItem *item;
+};
+
+
+QML_DECLARE_TYPEINFO(BaseItem, QML_HAS_ATTACHED_PROPERTIES)
 #endif // BASEITEM_H
