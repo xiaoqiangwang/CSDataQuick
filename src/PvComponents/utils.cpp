@@ -222,9 +222,11 @@ QString QCSUtils::searchADLFile(QString fileName, QString parentFileName)
     char sep = ':';
 #endif
     if (!fi.exists() && fi.isRelative()) {
-        QFileInfo pfi(parentFileName);
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
-        paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
+        if (!parentFileName.isEmpty()) {
+            QFileInfo pfi(parentFileName);
+            paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
+        }
         foreach (QByteArray path, paths.split(sep)) {
             fi.setFile(QDir(path), fileName);
             if (fi.exists())
