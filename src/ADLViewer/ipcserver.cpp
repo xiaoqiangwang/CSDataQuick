@@ -8,7 +8,7 @@
 #include <QLocalSocket>
 #include <QBuffer>
 
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC) && !defined(Q_OS_IOS)
     #include <Security/AuthSession.h>
 #elif defined  Q_WS_X11
     #include <X11/Xlib.h>
@@ -104,7 +104,7 @@ void IPCHandler :: handleClient(QLocalSocket *client)
 QString IPCServer :: getServerName() {
     int id = 0;
     QString serverName = "ADLViewer";
-#ifdef Q_OS_MAC
+#if defined(Q_OS_MAC) && !defined(Q_OS_IOS)
     OSStatus error;
     SecuritySessionId sessionId;
     SessionAttributeBits sessionInfo;

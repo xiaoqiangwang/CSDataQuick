@@ -6,10 +6,13 @@
 
 #include <QFileInfo>
 #include <QPainter>
-#include <QPrinter>
 #include <QPrintDialog>
 
 #include <QtDebug>
+
+#ifndef NO_PRINTERSUPPORT
+#include <QPrinter>
+#endif
 
 BaseWindow :: BaseWindow(QWindow *parent)
     : QQuickWindow(parent)
@@ -50,10 +53,12 @@ void BaseWindow :: setMacro(const QString &macro)
 void BaseWindow :: printWindow()
 {
     QImage snapshot = grabWindow();
+#ifndef NO_PRINTERSUPPORT
     QPrinter printer;
     QPrintDialog printDialog(&printer, 0);
     if (printDialog.exec() == QDialog::Accepted) {
         QPainter painter(&printer);
         painter.drawImage(0, 0, snapshot);
     }
+#endif
 }
