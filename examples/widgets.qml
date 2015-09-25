@@ -8,6 +8,7 @@ ApplicationWindow {
     width: 800
     height: 800
     color: '#bbbbbb'
+    title: 'A demo of qml pv components'
 
     menuBar: MenuBar {
         Menu {
@@ -153,7 +154,7 @@ ApplicationWindow {
                 height: 20
                 label: 'More'
                 model: ListModel {
-                    ListElement {label: 'test'; fname: '../examples/widgets.qml'; args: ''; remove: false}
+                    ListElement {label: 'test'; fname: 'examples/widgets.qml'; args: ''; remove: false}
                 }
             }
 
