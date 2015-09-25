@@ -101,27 +101,27 @@ BaseItem {
         // TODO: substitue "name=values"
         // TODO: Handel both adl and qml
         var window
+        var absFilePath = Utils.searchADLFile(fname, baseWindow.filePath)
+        if(absFilePath === '') {
+            console.error("Failed to find file ", fname)
+            return
+        }
         if (fname.substr(-4) == '.adl') {
-            var absFilePath = Utils.searchADLFile(fname, baseWindow.filePath)
-            if(absFilePath) {
-                window = WindowManager.findWindow(absFilePath, args)
-                if (window) {
-                    window.show()
-                    window.raise()
-                    window.requestActivate()
-                    console.info('Activate the already existing display ', absFilePath, args)
-                    return
-                } else {
-                    var qmlCmd = Utils.openADLDisplay(absFilePath, args)
-                    window = Utils.createDisplay(qmlCmd, root, absFilePath)
-                    window.filePath = absFilePath
-                }
+            window = WindowManager.findWindow(absFilePath, args)
+            if (window) {
+                window.show()
+                window.raise()
+                window.requestActivate()
+                console.info('Activate the already existing display ', absFilePath, args)
+                return
             } else {
-                console.error("Failed to find file ", fname)
+                var qmlCmd = Utils.openADLDisplay(absFilePath, args)
+                window = Utils.createDisplay(qmlCmd, root, absFilePath)
+                window.filePath = absFilePath
             }
         }
         else if (fname.substr(-4) == '.qml') {
-            var component = Qt.createComponent(fname)
+            var component = Qt.createComponent(absFilePath)
             if (component.status == Component.Ready) {
                 window = component.createObject()
             }
