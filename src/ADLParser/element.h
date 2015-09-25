@@ -318,6 +318,14 @@ public:
 
     std::string macroString() {return nameValueString;}
 
+    std::list<std::string> unmatchedMacro() {
+        return unmatchedNames;
+    }
+
+    void addUnmatchedMacro(std::string macro) {
+        unmatchedNames.push_back(macro);
+    }
+
 protected:
     void parseFile(std::istream &fstream);
     void parseDisplay(std::istream &fstream);
@@ -325,6 +333,7 @@ protected:
 private:
     std::string nameValueString;
     std::map<std::string, std::string> nameValueTable;
+    std::list<std::string> unmatchedNames;
     std::list<Element *> widgets;
 
     /* file */
