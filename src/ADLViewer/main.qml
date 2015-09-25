@@ -60,8 +60,7 @@ ApplicationWindow
         id: fileDialog
         title: "Open file ..."
         onAccepted: {
-            console.debug(fileUrl)
-            //createADLDisplay(fileUrl, "", "")
+            createADLDisplay(fileUrl, "", "")
         }
     }
 

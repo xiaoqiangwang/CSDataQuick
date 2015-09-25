@@ -215,6 +215,17 @@ double QCSUtils::parse(int format, QString textValue)
 
 QString QCSUtils::searchADLFile(QString fileName, QString parentFileName)
 {
+    // Check url scheme
+    if (fileName.startsWith("http://")
+            || fileName.startsWith("https://")
+            || fileName.startsWith("ftp://")) {
+        qWarning() << "Only local file is supported";
+        return QString();
+    }
+    if (fileName.startsWith("file://")) {
+        fileName = QUrl(fileName).toLocalFile();
+    }
+
     QFileInfo fi(fileName);
 #ifdef Q_OS_WIN
     char sep = ';';
