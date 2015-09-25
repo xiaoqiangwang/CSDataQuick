@@ -45,9 +45,9 @@ ApplicationWindow
 
             MenuItem {
                 text: 'Quit'
+                onTriggered: close()
             }
         }
-
     }
 
     MessageDialog {
@@ -88,7 +88,7 @@ ApplicationWindow
                 delegate: Text {
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    text: model.modelData.macro
+                    text: model.modelData.macro ? model.modelData.macro : '<<No Macro Substitute>>'
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
