@@ -123,7 +123,7 @@ bool QCSUtils::execute(QString program)
         return QProcess::startDetached(program);
     }
     else
-        return QProcess::execute(program);
+        return QProcess::execute(program) == 0;
 }
 
 QString QCSUtils::convert(int format, QVariant value, int precision)
