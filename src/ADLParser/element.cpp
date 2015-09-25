@@ -709,8 +709,8 @@ TOKEN Element :: getToken(std::istream &fstream, char *word)
         case INMACRO:
             switch(c) {
             case ')' : *m = '\0';
-                if (display()->macros().find(macro) != display()->macros().end()) {
-                    std::string v = display()->macros()[macro];
+                if (display()->findMacro(macro)) {
+                    std::string v = display()->macroValue(macro);
                     strncpy(w,  v.c_str(), v.size());
                     w += v.size();
                 }
