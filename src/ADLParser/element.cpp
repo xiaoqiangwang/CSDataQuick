@@ -721,6 +721,7 @@ TOKEN Element :: getToken(std::istream &fstream, char *word)
                         *w++ = macro[j];
                     }
                     *w++ = ')';
+                    display()->addUnmatchedMacro(macro);
                 }
                 state = savedState;
                 m = macro;
