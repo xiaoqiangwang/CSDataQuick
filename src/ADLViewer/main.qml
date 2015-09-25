@@ -72,7 +72,7 @@ ApplicationWindow
         Component {
             id: sectionHeading
             Rectangle {
-                width: container.width
+                width: displayDialog.width
                 height: childrenRect.height
                 color: "lightsteelblue"
                 Text {
