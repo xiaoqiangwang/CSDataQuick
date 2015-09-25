@@ -307,7 +307,14 @@ public:
         for (std::map<std::string,std::string>::iterator it=nameValueTable.begin(); it!=nameValueTable.end(); ++it)
             nameValueString += it->first + '=' + it->second + ',';
     }
-    std::map<std::string, std::string> macros() {return nameValueTable;}
+
+    bool findMacro(std::string macro) {
+        return nameValueTable.find(macro) != nameValueTable.end();
+    }
+
+    std::string macroValue(std::string macro) {
+        return nameValueTable.at(macro);
+    }
 
     std::string macroString() {return nameValueString;}
 
