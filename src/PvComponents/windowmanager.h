@@ -16,6 +16,7 @@ class WindowManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<QObject*> windows READ windows NOTIFY windowsChanged)
+    Q_PROPERTY(QWindow * mainWindow MEMBER mMainWindow)
 public:
     explicit WindowManager(QObject *parent = 0);
 
@@ -23,6 +24,8 @@ public:
     Q_INVOKABLE void removeWindow(QWindow *window);
     Q_INVOKABLE QWindow* findWindow(QString absFilePath, QString macro);
     Q_INVOKABLE void closeAllWindow();
+
+    Q_INVOKABLE void setMainWindow(QWindow *window) {mMainWindow = window;}
 
     QList<QObject*> windows();
 
@@ -34,6 +37,7 @@ public slots:
 
 protected:
     QList<QWindow*> mWindows;
+    QWindow *mMainWindow;
 };
 
 #endif // WINDOWMANAGER_H

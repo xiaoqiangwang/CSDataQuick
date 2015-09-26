@@ -50,6 +50,8 @@ ApplicationWindow
         }
     }
 
+    Component.onCompleted: WindowManager.setMainWindow(root)
+
     MessageDialog {
         id: aboutDialog
         title: "About " + app.applicationName
