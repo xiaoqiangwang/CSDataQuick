@@ -2,7 +2,6 @@
 #define BASEWINDOW_H
 
 #include <QQuickWindow>
-#include <QFileInfo>
 
 class BaseWindow : public QQuickWindow
 {
