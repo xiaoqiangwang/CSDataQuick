@@ -15,7 +15,7 @@ bool windowFilePathCompare(const QWindow *w1, const QWindow *w2)
 }
 
 WindowManager::WindowManager(QObject *parent)
-    : QObject(parent)
+    : QObject(parent), mMainWindow(Q_NULLPTR)
 {
 
 }
