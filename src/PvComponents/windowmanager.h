@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QUrl>
 
 class QWindow;
 class QQuickCloseEvent;
@@ -21,9 +22,9 @@ class WindowManager : public QObject
 public:
     explicit WindowManager(QObject *parent = 0);
 
-    Q_INVOKABLE void appendWindow(QWindow *window, QString absFilePath, QString macro);
+    Q_INVOKABLE void appendWindow(QWindow *window, QUrl absFilePath, QString macro);
     Q_INVOKABLE void removeWindow(QWindow *window);
-    Q_INVOKABLE QWindow* findWindow(QString absFilePath, QString macro);
+    Q_INVOKABLE QWindow* findWindow(QUrl absFilePath, QString macro);
     Q_INVOKABLE void closeAllWindow();
 
     Q_INVOKABLE void closeWindow(QWindow *window);

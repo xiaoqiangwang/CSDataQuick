@@ -28,7 +28,7 @@ WindowManager::WindowManager(QObject *parent)
 }
 
 
-void WindowManager::appendWindow(QWindow *window, QString absFilePath, QString macro)
+void WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macro)
 {
     Q_UNUSED(absFilePath);
     Q_UNUSED(macro);
@@ -62,11 +62,11 @@ void WindowManager::removeWindow(QWindow *window)
     emit windowsChanged();
 }
 
-QWindow* WindowManager::findWindow(QString absFilePath, QString macro)
+QWindow* WindowManager::findWindow(QUrl absFilePath, QString macro)
 {
     QWindow *window = Q_NULLPTR;
     foreach (QWindow *w, mWindows) {
-        if (w->filePath() == absFilePath &&
+        if (w->property("filePath") == absFilePath &&
                 w->property("macro") == macro) {
             window = w;
             break;

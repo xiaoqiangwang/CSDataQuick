@@ -213,14 +213,14 @@ double QCSUtils::parse(int format, QString textValue)
         return qSNaN();
 }
 
-QString QCSUtils::searchADLFile(QString fileName, QString parentFileName)
+QUrl QCSUtils::searchADLFile(QString fileName, QUrl parentFileName)
 {
     // Check url scheme
     if (fileName.startsWith("http://")
             || fileName.startsWith("https://")
             || fileName.startsWith("ftp://")) {
         qWarning() << "Only local file is supported";
-        return QString();
+        return QUrl();
     }
     if (fileName.startsWith("file://")) {
         fileName = QUrl(fileName).toLocalFile();
@@ -235,7 +235,7 @@ QString QCSUtils::searchADLFile(QString fileName, QString parentFileName)
     if (!fi.exists() && fi.isRelative()) {
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
         if (!parentFileName.isEmpty()) {
-            QFileInfo pfi(parentFileName);
+            QFileInfo pfi(parentFileName.toString());
             paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
         }
         foreach (QByteArray path, paths.split(sep)) {
@@ -244,14 +244,13 @@ QString QCSUtils::searchADLFile(QString fileName, QString parentFileName)
                 break;
         }
     }
-    if (!fi.exists()) {
-        qWarning() << "Failed to open file" << fileName;
-        return QString();
-    }
-    return fi.absoluteFilePath();
+    if (!fi.exists())
+        return QUrl();
+    else
+        return QUrl::fromLocalFile(fi.absoluteFilePath());
 }
 
-QString QCSUtils::openADLDisplay(QString fileName, QString macro)
+QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
 {
     std::map<std::string, std::string> macroMap;
 
@@ -264,12 +263,12 @@ QString QCSUtils::openADLDisplay(QString fileName, QString macro)
             qDebug() << "macro unclear" << m;
     }
 
-    std::string qmlBody = parseADLDisplay(fileName.toStdString(), macroMap);
+    std::string qmlBody = parseADLDisplay(fileName.toLocalFile().toStdString(), macroMap);
 
     return QString::fromStdString(qmlBody);
 }
 
-QString QCSUtils::openADLComposite(QString fileName, QString macro)
+QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
 {
     std::map<std::string, std::string> macroMap;
 
@@ -282,18 +281,18 @@ QString QCSUtils::openADLComposite(QString fileName, QString macro)
             qWarning() << "macro unclear" << m;
     }
 
-    std::string qmlBody = parseADLComposite(fileName.toStdString(), macroMap);
+    std::string qmlBody = parseADLComposite(fileName.toLocalFile().toStdString(), macroMap);
 
     return QString::fromStdString(qmlBody);
 }
 
-QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QString filePath)
+QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
 {
     QWindow *window = NULL;
     QQmlEngine *engine = qmlEngine(display);
     if (engine) {
         QQmlComponent component(engine);
-        component.setData(qml.toLocal8Bit(), QUrl::fromLocalFile(filePath));
+        component.setData(qml.toLocal8Bit(), filePath);
         while(!component.isReady()) {
             if (component.isError()) {
                 foreach(QQmlError error, component.errors())
