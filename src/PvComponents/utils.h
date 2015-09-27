@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QUrl>
 
 class QWindow;
 
@@ -17,10 +18,10 @@ public:
     Q_INVOKABLE QString format(QString format, double number);
     Q_INVOKABLE QString convert(int format, QVariant value, int precision);
     Q_INVOKABLE double parse(int format, QString textValue);
-    Q_INVOKABLE QString searchADLFile(QString fileName, QString parentFileName);
-    Q_INVOKABLE QString openADLDisplay(QString fileName, QString macro);
-    Q_INVOKABLE QString openADLComposite(QString fileName, QString macro);
-    Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QString filePath);
+    Q_INVOKABLE QUrl searchADLFile(QString fileName, QUrl parentFileName);
+    Q_INVOKABLE QString openADLDisplay(QUrl fileName, QString macro);
+    Q_INVOKABLE QString openADLComposite(QUrl fileName, QString macro);
+    Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QUrl filePath);
     Q_INVOKABLE QVariantMap parseX11Geometry(QString geometry);
     Q_INVOKABLE QString currentDateTime();
 signals:
