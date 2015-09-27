@@ -5,6 +5,7 @@
 #include <QList>
 
 class QWindow;
+class QQuickCloseEvent;
 
 typedef struct {
     QWindow * window;
@@ -25,6 +26,9 @@ public:
     Q_INVOKABLE QWindow* findWindow(QString absFilePath, QString macro);
     Q_INVOKABLE void closeAllWindow();
 
+    Q_INVOKABLE void closeWindow(QWindow *window);
+    Q_INVOKABLE void printWindow(QWindow *window);
+
     Q_INVOKABLE void setMainWindow(QWindow *window) {mMainWindow = window;}
 
     QList<QObject*> windows();
@@ -34,6 +38,7 @@ signals:
 
 public slots:
     void windowDestroyed();
+    void onClosingWindow(QQuickCloseEvent *event);
 
 protected:
     QList<QWindow*> mWindows;
