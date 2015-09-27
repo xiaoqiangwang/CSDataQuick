@@ -57,6 +57,7 @@ set_target_properties(pvcomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/imports/PvComponents)
 
 set(QML_JS_FILES
+    BaseWindow.qml
     DynamicAttr.qml
     CaADImage.qml
     CaBar.qml
@@ -102,6 +103,7 @@ set(QML_JS_FILES
     PvInfoDialog.qml
     PvLimitsDialog.qml
     PromptDialog.qml
+    DisplayListDialog.qml
     images/arrow-down.png
     images/arrow-up.png
     images/button_down.png
