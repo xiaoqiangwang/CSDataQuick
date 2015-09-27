@@ -8,7 +8,7 @@
 #include <sstream>
 #include <iostream>
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QCommandLineParser>
 #include <QFile>
 #include <QDir>
@@ -155,7 +155,9 @@ int main(int argc, char **argv)
     delete qCoreApp;
 
     // Now start the real application
-    QGuiApplication *qMyApp = new QGuiApplication(argc, argv);
+    // It is enough to use QGuiApplication mostly.
+    // However the print dialog depends still on QtWidgets and thus QApplication.
+    QApplication *qMyApp = new QApplication(argc, argv);
     qMyApp->setOrganizationName("Paul Scherrer Institut");
     qMyApp->setOrganizationDomain("psi.ch");
     qMyApp->setApplicationName("ADLViewer");

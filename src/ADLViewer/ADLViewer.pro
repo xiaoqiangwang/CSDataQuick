@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += quick
+QT += quick widgets
 
 DESTDIR = ../../bin/
 
