@@ -5,7 +5,14 @@
 #include "windowmanager.h"
 
 #include <QWindow>
+#include <QQuickWindow>
 #include <QVariant>
+
+#ifndef NO_PRINTERSUPPORT
+#include <QPainter>
+#include <QPrintDialog>
+#include <QPrinter>
+#endif
 
 #include <QtDebug>
 
@@ -28,13 +35,23 @@ void WindowManager::appendWindow(QWindow *window, QString absFilePath, QString m
 
     mWindows.append(window);
     connect(window, SIGNAL(destroyed()), this, SLOT(windowDestroyed()));
+
+    QQuickWindow * qwindow = qobject_cast<QQuickWindow*>(window);
+    if (qwindow)
+        connect(qwindow, SIGNAL(closing(QQuickCloseEvent*)), this, SLOT(onClosingWindow(QQuickCloseEvent*)));
+
     emit windowsChanged();
+}
+
+void WindowManager::closeWindow(QWindow *window)
+{
+    window->close();
+    window->deleteLater();
 }
 
 void WindowManager::windowDestroyed()
 {
     QWindow * window = qobject_cast<QWindow*>(sender());
-    qDebug() << window << "has been destroyed";
     if (window)
         removeWindow(window);
 }
@@ -58,11 +75,36 @@ QWindow* WindowManager::findWindow(QString absFilePath, QString macro)
     return window;
 }
 
+void WindowManager::printWindow(QWindow *window)
+{
+#ifndef NO_PRINTERSUPPORT
+    QQuickWindow * qwindow = qobject_cast<QQuickWindow*>(window);
+    if (qwindow) {
+        QImage snapshot = qwindow->grabWindow();
+        QPrinter printer;
+        QPrintDialog printDialog(&printer, 0);
+        if (printDialog.exec() == QDialog::Accepted) {
+            QPainter painter(&printer);
+            painter.drawImage(0, 0, snapshot);
+        }
+    }
+#endif
+}
+
 void WindowManager::closeAllWindow()
 {
     foreach (QWindow *w, mWindows) {
         w->close();
+        w->deleteLater();
     }
+}
+
+void WindowManager::onClosingWindow(QQuickCloseEvent *event)
+{
+    //event->accept();
+    QWindow * window = qobject_cast<QWindow*>(sender());
+    if (window)
+        window->deleteLater();
 }
 
 QList<QObject*> WindowManager::windows()
