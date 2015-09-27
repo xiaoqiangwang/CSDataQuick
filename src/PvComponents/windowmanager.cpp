@@ -101,7 +101,10 @@ void WindowManager::closeAllWindow()
 
 void WindowManager::onClosingWindow(QQuickCloseEvent *event)
 {
-    //event->accept();
+    // QQuickCloseEvent is actually not in public API
+    // and only exposed in qquickwindow.h as of Qt 5.4
+    Q_UNUSED(event)
+
     QWindow * window = qobject_cast<QWindow*>(sender());
     if (window)
         window->deleteLater();
