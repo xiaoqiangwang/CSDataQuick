@@ -10,10 +10,6 @@ SOURCES += \
     ipcserver.cpp \
     main.cpp
 
-DEPENDPATH += . ../ADLParser
-INCLUDEPATH += ../ADLParser
-LIBS += -L ../ADLParser -lADLParser
-
 mac {
     CONFIG -= app_bundle
     LIBS += -framework Security
