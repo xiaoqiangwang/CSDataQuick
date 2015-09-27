@@ -11,7 +11,6 @@
 #include "adimageprovider.h"
 #include "plotitem.h"
 #include "baseitem.h"
-#include "basewindow.h"
 #include "windowmanager.h"
 
 #include <qqml.h>
@@ -46,7 +45,6 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
-    qmlRegisterType<BaseWindow>(uri, 1, 0, "BaseWindow");
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);

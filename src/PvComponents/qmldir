@@ -1,4 +1,5 @@
 module PvComponents
+BaseWindow      1.0 BaseWindow.qml
 CaADImage       1.0 CaADImage.qml
 CaArc           1.0 CaArc.qml
 CaBar           1.0 CaBar.qml 

@@ -1,5 +1,6 @@
 QML_IMPORT_PATH = .
 QML_FILES += \
+    $$PWD/BaseWindow.qml \
     $$PWD/DynamicAttr.qml \
     $$PWD/CaADImage.qml \
     $$PWD/CaBar.qml \
