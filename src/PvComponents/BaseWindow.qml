@@ -34,6 +34,12 @@ Window {
                 }
             }
         }
+        MenuItem {
+            text: 'Display List'
+            onTriggered: {
+                DisplayListDialog.open()
+            }
+        }
     }
 
     MouseArea {
