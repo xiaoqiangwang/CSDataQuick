@@ -61,6 +61,7 @@ ApplicationWindow
     FileDialog {
         id: fileDialog
         title: "Open file ..."
+        nameFilters: ["ADL files (*.adl)", "QML files (*.qml)"]
         onAccepted: {
             createADLDisplay(fileUrl, "", "")
         }
