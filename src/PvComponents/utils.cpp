@@ -15,9 +15,11 @@
 
 #include <QApplication>
 
+#include <QQuickItem>
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QQuickWindow>
+#include <QQuickView>
 #include <QDesktopWidget>
 
 
@@ -290,19 +292,64 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
 {
     QWindow *window = NULL;
     QQmlEngine *engine = qmlEngine(display);
-    if (engine) {
-        QQmlComponent component(engine);
-        component.setData(qml.toLocal8Bit(), filePath);
-        while(!component.isReady()) {
-            if (component.isError()) {
-                foreach(QQmlError error, component.errors())
-                    qDebug() << error;
-                return NULL;
-            }
-        }
-        window = qobject_cast<QQuickWindow *>(component.create());
-        window->setTitle(filePath.fileName());
+    if (!engine) {
+        qCritical() << "No valid QML engine from object" << display->objectName();
+        return Q_NULLPTR;
     }
+
+    QQmlComponent component(engine);
+    component.setData(qml.toLocal8Bit(), filePath);
+    if(!component.isReady()) {
+        qDebug() << component.errorString();
+        return Q_NULLPTR;
+    }
+
+    window = qobject_cast<QQuickWindow *>(component.create());
+    if (window) {
+        window->setTitle(filePath.fileName());
+        window->setFilePath(filePath.toString());
+    }
+    return window;
+}
+
+QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
+{
+    QQmlEngine *engine = qmlEngine(display);
+    if (!engine) {
+        qCritical() << "No valid QML engine from object" << display->objectName();
+        return Q_NULLPTR;
+    }
+
+    QQmlComponent component(engine);
+    component.loadUrl(filePath);
+    if (!component.isReady()) {
+        qDebug() << component.errorString();
+        return Q_NULLPTR;
+    }
+
+    QObject *topLevel = component.create();
+    if (!topLevel && component.isError()) {
+        qDebug() << component.errorString();
+        return Q_NULLPTR;
+    }
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
+    if (!window) {
+        if(qobject_cast<QQuickItem *>(topLevel)) {
+            QQuickView* qxView = new QQuickView(engine, NULL);
+            qxView->setResizeMode(QQuickView::SizeViewToRootObject);
+            qxView->setContent(filePath, &component, topLevel);
+            window = qxView;
+        }
+    }
+    if (window) {
+        if (window->title().isEmpty())
+            window->setTitle(filePath.fileName());
+        window->setFilePath(filePath.toString());
+        // dynamic properties, which can be accessible from C++ but not QML
+        window->setProperty("filePath", filePath);
+        window->setProperty("macro", macro);
+    }
+
     return window;
 }
 

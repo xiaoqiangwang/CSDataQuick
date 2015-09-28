@@ -120,8 +120,7 @@ BaseItem {
             window.macro = macro
         }
         if (fileName.substr(-4) == '.qml') {
-            var component = Qt.createComponent(absFilePath)
-            window = component.createObject()
+            window = Utils.createDisplayByFile(root, absFilePath, macro)
         }
         if (!window) {
             console.error("Failed to create window from ", fileName)
