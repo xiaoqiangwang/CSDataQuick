@@ -122,8 +122,8 @@ ApplicationWindow
     function createADLDisplay(fileName, macro, geometry)
     {
         // search the file
-        var absFilePath = Utils.searchADLFile(fileName, '')
-        if (absFilePath === '') {
+        var absFilePath = Utils.searchADLFile(fileName, root)
+        if (absFilePath == '') {
             console.error("Failed to find file ", fileName)
             return
         }
@@ -136,9 +136,15 @@ ApplicationWindow
             console.info('Activate the already existing display ', absFilePath, macro)
             return
         }
-
-        var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
-        window = Utils.createDisplay(qmlCmd, root, absFilePath)
+        if (fileName.substr(-4) == '.adl') {
+            var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
+            window = Utils.createDisplay(qmlCmd, root, absFilePath)
+            window.macro = macro
+        }
+         if (fileName.substr(-4) == '.qml') {
+             var component = Qt.createComponent(absFilePath)
+             window = component.createObject()
+         }
         if (!window) {
             console.error("Failed to create window from ", fileName)
             return
@@ -173,8 +179,6 @@ ApplicationWindow
         }
         window.x = x; window.y = y
         window.width = width; window.height = height
-
-        window.macro = macro
 
         window.visible = true
         window.raise()
