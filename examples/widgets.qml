@@ -154,7 +154,7 @@ ApplicationWindow {
                 height: 20
                 label: 'More'
                 model: ListModel {
-                    ListElement {label: 'test'; fname: 'examples/widgets.qml'; args: ''; remove: false}
+                    ListElement {label: 'test'; fname: 'widgets.qml'; args: ''; remove: false}
                 }
             }
 
