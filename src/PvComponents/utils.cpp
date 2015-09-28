@@ -301,6 +301,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
             }
         }
         window = qobject_cast<QQuickWindow *>(component.create());
+        window->setTitle(filePath.fileName());
     }
     return window;
 }
