@@ -213,7 +213,7 @@ double QCSUtils::parse(int format, QString textValue)
         return qSNaN();
 }
 
-QUrl QCSUtils::searchADLFile(QString fileName, QUrl parentFileName)
+QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
 {
     // Check url scheme
     if (fileName.startsWith("http://")
@@ -234,8 +234,8 @@ QUrl QCSUtils::searchADLFile(QString fileName, QUrl parentFileName)
 #endif
     if (!fi.exists() && fi.isRelative()) {
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
-        if (!parentFileName.isEmpty()) {
-            QFileInfo pfi(parentFileName.toString());
+        if (!window->filePath().isEmpty()) {
+            QFileInfo pfi(window->filePath());
             paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
         }
         foreach (QByteArray path, paths.split(sep)) {
