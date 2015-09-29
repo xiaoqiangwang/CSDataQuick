@@ -86,6 +86,7 @@ CaMonitor {
             update()
     }
 
+    /*! \internal */
     function update () {
         // loader component is not ready
         if (!loader.item)
