@@ -2584,9 +2584,9 @@ void Byte::toQML(std::ostream &ostream)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->direction != RIGHT)
         ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
-    if (this->sbit != 0)
+    if (this->sbit != 15)
         ostream << indent << "    start: " << this->sbit << std::endl;
-    if (this->ebit != 15)
+    if (this->ebit != 0)
         ostream << indent << "    end: " << this->ebit << std::endl;
     ostream << indent << "}" << std::endl;
 }
