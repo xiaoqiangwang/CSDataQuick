@@ -25,7 +25,7 @@ Dialog {
 
     contentItem: ScrollView {
         ListView {
-            model: WindowManager.windows
+            model: WindowManager.entries
             delegate: Text {
                 width: parent.width
                 wrapMode: Text.WordWrap
@@ -33,7 +33,8 @@ Dialog {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        var window = model.modelData
+                        var window = model.modelData.window
+                        console.log(model.modelData.filePath)
                         window.raise()
                         window.requestActivate()
                     }

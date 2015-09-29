@@ -8,16 +8,28 @@
 class QWindow;
 class QQuickCloseEvent;
 
-typedef struct {
+class WindowEntry : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QWindow* window MEMBER window CONSTANT)
+    Q_PROPERTY(QUrl filePath MEMBER filePath CONSTANT)
+    Q_PROPERTY(QString macro MEMBER macro CONSTANT)
+public:
+    WindowEntry(QWindow *window, QUrl filePath, QString macro) {
+        this->window = window;
+        this->filePath = filePath;
+        this->macro = macro;
+    }
+
     QWindow * window;
-    QString absFilePath;
+    QUrl filePath;
     QString macro;
-} WindowEntry;
+};
 
 class WindowManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QObject*> windows READ windows NOTIFY windowsChanged)
+    Q_PROPERTY(QList<QObject*> entries READ entries NOTIFY entriesChanged)
     Q_PROPERTY(QWindow * mainWindow MEMBER mMainWindow)
 public:
     explicit WindowManager(QObject *parent = 0);
@@ -32,10 +44,10 @@ public:
 
     Q_INVOKABLE void setMainWindow(QWindow *window) {mMainWindow = window;}
 
-    QList<QObject*> windows();
+    QList<QObject*> entries();
 
 signals:
-    void windowsChanged();
+    void entriesChanged();
 
 public slots:
     void windowDestroyed();
