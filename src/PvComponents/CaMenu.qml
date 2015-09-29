@@ -32,6 +32,7 @@ CaControl {
         enabled: pv.writable
 
         style: ComboBoxStyle {
+            padding { top: 2 ; left: 2 ; right: 14 ; bottom:2 }
             label: Text {
                 text: combo_control.currentText
                 anchors.verticalCenter: parent.verticalCenter
