@@ -334,7 +334,7 @@ void QQuickPvObject::exception_handler(exception_handler_args args)
       "PvObject: Channel Access Exception:\n"
       "  Channel Name: %s\n"
       "  Native Type: %s\n"
-      "  Native Count: %hu\n"
+      "  Native Count: %lu\n"
       "  Access: %s%s\n"
       "  Host: %s\n"
       "  Message: %s\n"
