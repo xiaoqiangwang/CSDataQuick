@@ -78,12 +78,20 @@ CaMonitor {
 
     Connections {
         target: pv
-        onValueChanged: {
-            var sign = start < end ? 1 : -1;
-            for (var i=0; i<Math.abs(end - start) + 1 && i<loader.item.children.length; i++)
-                loader.item.children[i].color = (pv.value & Math.pow(2, start+i*sign))
-                        ? (colorMode == ColorMode.Static ? foreground : alarmColor)
-                        : background
-        }
+        onValueChanged: update()
+    }
+
+    onAlarmColorChanged: update()
+
+    function update () {
+        // loader component is not ready
+        if (!loader.item)
+            return
+
+        var sign = start < end ? 1 : -1;
+        for (var i=0; i<Math.abs(end - start) + 1 && i<loader.item.children.length; i++)
+            loader.item.children[i].color = (pv.value & Math.pow(2, start+i*sign))
+                    ? (colorMode == ColorMode.Alarm ? alarmColor : foreground)
+                    : background
     }
 }
