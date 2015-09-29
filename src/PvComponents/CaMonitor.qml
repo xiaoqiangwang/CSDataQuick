@@ -78,16 +78,16 @@ BaseItem {
 
         onStatusChanged: {
             switch (pv.severity) {
-                case 0: // NO_ALARM
+                case PvObject.NoAlarm: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;
-                case 1: // MINOR_ALARM
+                case PvObject.MinorAlarm: // MINOR_ALARM
                 alarmColor = ColorMap.minor_alarm
                 break;
-                case 2: // MAJOR_ALARM
+                case PvObject.MajorAlarm: // MAJOR_ALARM
                 alarmColor = ColorMap.major_alarm
                 break;
-                case 3: // INVALID_ALARM
+                case PvObject.InvalidAlarm: // INVALID_ALARM
                 alarmColor = ColorMap.invalid_alarm
                 break;
             }
