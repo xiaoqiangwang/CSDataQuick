@@ -81,7 +81,10 @@ CaMonitor {
         onValueChanged: update()
     }
 
-    onAlarmColorChanged: update()
+    onAlarmColorChanged: {
+        if (colorMode == ColorMode.Alarm)
+            update()
+    }
 
     function update () {
         // loader component is not ready
