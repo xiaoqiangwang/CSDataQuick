@@ -57,6 +57,7 @@ CaGraphics {
     }
 
     Rectangle {
+        z: 1
         color: ColorMap.invalid_alarm
         anchors.fill: parent
         visible: (colorMode == ColorMode.Alarm || dynamicAttr.visibilityMode != VisibilityMode.Static) && !dynamicAttr.connected
