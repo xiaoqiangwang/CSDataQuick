@@ -480,4 +480,10 @@
         DL_Text           =125
     } DlElementType;
 
+    typedef enum {
+        WIDGET,
+        STATIC_GRAPHIC,
+        DYNAMIC_GRAPHIC
+    } UpdateType;
+
 #endif // COMMON_H
