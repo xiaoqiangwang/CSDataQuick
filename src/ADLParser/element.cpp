@@ -1309,10 +1309,16 @@ void Composite::toQML(std::ostream &ostream)
         }
         // if no dynamic channel is defined and no children other than graphics, this is a static composite item.
         // lower its stacking order not to shadow other control/monitor items
+        // NOTE: This is the same as in MEDM!
+        // In MEDM, Composite is only a logic group of items, their stacking order is determined globally.
+        // In QML, Composite is the parent of these items, and their stacking order is determined by composite.
+        // So the Composite stacking order is determined by the highest of its children. This means if the composite
+        // contains a control/monitor child, its order is 1. If all of its children are static graphics, and itself has
+        // no dynamic attribute, its order is -1.
         if (this->updateType() == STATIC_GRAPHIC)
-            ostream << indent << "    z: -2" << std::endl;
-        else if (this->updateType() == DYNAMIC_GRAPHIC)
             ostream << indent << "    z: -1" << std::endl;
+        if (this->updateType() == WIDGET)
+            ostream << indent << "    z: 1" << std::endl;
     } else {
         ostream << indent << "    source: \"" << this->file << "\"" << std::endl;
         ostream << indent << "    macro: \"" << this->macro << "\"" << std::endl;
@@ -1382,10 +1388,8 @@ void Arc::toQML(std::ostream &ostream)
     ostream << indent << "    span: " << this->path << std::endl;
     // if no dynamic channel is defined, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    if (this->dynamic_attr.hasChannels()) {
+    if (this->updateType() == STATIC_GRAPHIC)
         ostream << indent << "    z: -1" << std::endl;
-    } else
-        ostream << indent << "    z: -2" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1452,7 +1456,7 @@ void Image::toQML(std::ostream &ostream)
     ostream << indent << "    imageCalc: \"" << this->calc << "\"" <<std::endl;
     // if no dynamic channel is defined and image has single frame, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    ostream << indent << "    z: dynamicAttr.channel || frameCount > 1 ? -1 : -2" << std::endl;
+    ostream << indent << "    z: dynamicAttr.channel || frameCount > 1 ? 0 : -1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1504,10 +1508,8 @@ void Oval::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
     // if no dynamic channel is defined, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    if (this->dynamic_attr.hasChannels()) {
+    if (this->updateType() == STATIC_GRAPHIC)
         ostream << indent << "    z: -1" << std::endl;
-    } else
-        ostream << indent << "    z: -2" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1601,10 +1603,8 @@ void Polygon::toQML(std::ostream &ostream)
     ostream << "]" << std::endl;
     // if no dynamic channel is defined, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    if (this->dynamic_attr.hasChannels()) {
+    if (this->updateType() == STATIC_GRAPHIC)
         ostream << indent << "    z: -1" << std::endl;
-    } else
-        ostream << indent << "    z: -2" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1703,10 +1703,8 @@ void Polyline::toQML(std::ostream &ostream)
     ostream << "]" << std::endl;
     // if no dynamic channel is defined, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    if (this->dynamic_attr.hasChannels()) {
+    if (this->updateType() == STATIC_GRAPHIC)
         ostream << indent << "    z: -1" << std::endl;
-    } else
-        ostream << indent << "    z: -2" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1758,10 +1756,8 @@ void Rectangle::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
     // if no dynamic channel is defined, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    if (this->dynamic_attr.hasChannels()) {
+    if (this->updateType() == STATIC_GRAPHIC)
         ostream << indent << "    z: -1" << std::endl;
-    } else
-        ostream << indent << "    z: -2" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1842,10 +1838,8 @@ void Text::toQML(std::ostream &ostream)
     ostream << indent << "    text: \"" << this->label << '"' << std::endl;
     // if no dynamic channel is defined, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    if (this->dynamic_attr.hasChannels()) {
+    if (this->updateType() == STATIC_GRAPHIC)
         ostream << indent << "    z: -1" << std::endl;
-    } else
-        ostream << indent << "    z: -2" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1920,6 +1914,8 @@ void ChoiceButton::toQML(std::ostream &ostream)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->stacking != ROW)
         ostream << indent << "    stacking: " << qmlValueTable[this->stacking] << std::endl;
+    // control item sits on top of all the others
+    ostream << indent << "    z: 1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -1977,6 +1973,8 @@ void Menu::toQML(std::ostream &ostream)
     this->control.toQML(ostream);
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
+    // control item sits on top of all the others
+    ostream << indent << "    z: 1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -2052,6 +2050,8 @@ void MessageButton::toQML(std::ostream &ostream)
     if (!this->offMessage.empty())
         ostream << indent << "    offMessage: \"" << this->offMessage << '"' << std::endl;
     ostream << indent << "    text: \"" << this->label << '"' << std::endl;
+    // control item sits on top of all the others
+    ostream << indent << "    z: 1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -2266,7 +2266,8 @@ void Slider::toQML(std::ostream &ostream)
         ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
     if (this->dPrecision != 1.0)
         ostream << indent << "    stepSize: " << this->dPrecision << std::endl;
-
+    // control item sits on top of all the others
+    ostream << indent << "    z: 1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -2340,6 +2341,8 @@ void TextEntry::toQML(std::ostream &ostream)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->format != MEDM_DECIMAL)
         ostream << indent << "    format: " << qmlValueTable[this->format] << std::endl;
+    // control item sits on top of all the others
+    ostream << indent << "    z: 1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -2408,7 +2411,8 @@ void WheelSwitch::toQML(std::ostream &ostream)
         ostream << indent << "    format: \"" << this->format << "\"" << std::endl;
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
-
+    // control item sits on top of all the others
+    ostream << indent << "    z: 1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
