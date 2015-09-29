@@ -40,7 +40,7 @@ void WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macr
     if (qwindow)
         connect(qwindow, SIGNAL(closing(QQuickCloseEvent*)), this, SLOT(onClosingWindow(QQuickCloseEvent*)));
 
-    emit windowsChanged();
+    emit entriesChanged();
 }
 
 void WindowManager::closeWindow(QWindow *window)
@@ -59,7 +59,7 @@ void WindowManager::windowDestroyed()
 void WindowManager::removeWindow(QWindow *window)
 {
     mWindows.removeOne(window);
-    emit windowsChanged();
+    emit entriesChanged();
 }
 
 QWindow* WindowManager::findWindow(QUrl absFilePath, QString macro)
@@ -110,15 +110,17 @@ void WindowManager::onClosingWindow(QQuickCloseEvent *event)
         window->deleteLater();
 }
 
-QList<QObject*> WindowManager::windows()
+QList<QObject*> WindowManager::entries()
 {
+    // sort windows by filePath, so that the filePath can be used as section header in ListView
     QList<QWindow*> sortedWindows(mWindows);
-    qSort(sortedWindows.begin(), sortedWindows.end());
+    qSort(sortedWindows.begin(), sortedWindows.end(), windowFilePathCompare);
 
-    QList<QObject*> windowsList;
-    foreach (QWindow *w, sortedWindows) {
-        windowsList.append(qobject_cast<QObject*>(w));
+    QList<QObject*> entries;
+    foreach(QWindow *w, sortedWindows) {
+        QUrl absFilePath = w->property("filePath").toUrl();
+        QString macro = w->property("macro").toString();
+        entries.append(qobject_cast<QObject*>(new WindowEntry(w, absFilePath, macro)));
     }
-    return windowsList;
+    return entries;
 }
-
