@@ -1,12 +1,12 @@
 
 file {
-	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/examples/monitors.adl"
-	version=030109
+	name="/afs/psi.ch/user/w/wang_x1/software/epicsqml-qmake/../epicsqml/examples/monitors.adl"
+	version=030105
 }
 display {
 	object {
-		x=780
-		y=429
+		x=521
+		y=410
 		width=683
 		height=469
 	}
@@ -206,7 +206,6 @@ indicator {
 	trace[0] {
 		ydata="calc"
 		data_clr=14
-		yaxis=0
 	}
 	countPvName="100"
 }
@@ -245,4 +244,18 @@ bar {
 	clr=14
 	bclr=51
 	label="Others"
+}
+byte {
+	object {
+		x=310
+		y=192
+		width=28
+		height=28
+	}
+	monitor {
+		chan="bo"
+		clr=14
+		bclr=4
+	}
+	sbit=0
 }
