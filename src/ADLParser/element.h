@@ -267,6 +267,8 @@ public:
     void parseObject(std::istream& fstream);
     virtual void toQML(std::ostream& ostream) = 0;
 
+    virtual UpdateType updateType() {return WIDGET;}
+
 protected:
     TOKEN getToken(std::istream &fstream, char *word);
     void parseAndSkip(std::istream &fstream);
@@ -358,6 +360,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType();
 
     virtual ~Composite() {
         for (std::list<Element*>::iterator it = widgets.begin(); it != widgets.end(); ++it)
@@ -387,6 +390,9 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 private:
     BasicAttribute basic_attr;
@@ -402,6 +408,9 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 private:
     BasicAttribute basic_attr;
@@ -418,6 +427,9 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 private:
     BasicAttribute basic_attr;
@@ -431,6 +443,9 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 protected:
     void parsePoints(std::istream &fstream);
@@ -448,6 +463,9 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 protected:
     void parsePoints(std::istream &fstream);
@@ -465,6 +483,9 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 private:
     BasicAttribute basic_attr;
@@ -477,6 +498,9 @@ public:
     Text(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    UpdateType updateType() {
+        return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+    }
 
 private:
     BasicAttribute basic_attr;

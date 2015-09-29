@@ -1279,6 +1279,21 @@ void Composite::parse(std::istream &fstream)
              && (tokenType != T_EOF) );
 }
 
+UpdateType Composite::updateType()
+{
+    UpdateType type = dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
+
+    for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it) {
+        Element * element = (*it);
+        UpdateType t = element->updateType();
+        if ( t != STATIC_GRAPHIC && type != t) {
+            type = t;
+            break;
+        }
+    }
+    return type;
+}
+
 void Composite::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
@@ -1288,19 +1303,16 @@ void Composite::toQML(std::ostream &ostream)
     this->dynamic_attr.toQML(ostream);
 
     if (this->file.empty()) {
-        bool hasNonStaticGraphics = false;
         for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it) {
             Element * element = (*it);
-            if (element->type() < DL_Arc || element->type() > DL_Text)
-                hasNonStaticGraphics = true;
             element->toQML(ostream);
         }
         // if no dynamic channel is defined and no children other than graphics, this is a static composite item.
         // lower its stacking order not to shadow other control/monitor items
-        if (this->dynamic_attr.hasChannels() || hasNonStaticGraphics) {
-            ostream << indent << "    z: -1" << std::endl;
-        } else
+        if (this->updateType() == STATIC_GRAPHIC)
             ostream << indent << "    z: -2" << std::endl;
+        else if (this->updateType() == DYNAMIC_GRAPHIC)
+            ostream << indent << "    z: -1" << std::endl;
     } else {
         ostream << indent << "    source: \"" << this->file << "\"" << std::endl;
         ostream << indent << "    macro: \"" << this->macro << "\"" << std::endl;
