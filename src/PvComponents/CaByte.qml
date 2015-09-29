@@ -41,6 +41,9 @@ CaMonitor {
     */
     property int end: 0
 
+    /*! \internal */
+    property var digits: new Array(32)
+
     Component {
         id: horz
         Row {
@@ -51,6 +54,9 @@ CaMonitor {
                     width: loader.width / rptr.count
                     height: loader.height
                     border.width: 1
+                    color: digits[bit] ? (colorMode == ColorMode.Alarm ? alarmColor : foreground)
+                                       : background
+                    property int bit: start + index * (start < end ? 1 : -1)
                 }
             }
         }
@@ -66,6 +72,9 @@ CaMonitor {
                     width: loader.width
                     height: loader.height / rptr.count
                     border.width: 1
+                    color: digits[bit] ? (colorMode == ColorMode.Alarm ? alarmColor : foreground)
+                                       : background
+                    property int bit: start + index * (start < end ? 1 : -1)
                 }
             }
         }
@@ -78,24 +87,14 @@ CaMonitor {
 
     Connections {
         target: pv
-        onValueChanged: update()
-    }
-
-    onAlarmColorChanged: {
-        if (colorMode == ColorMode.Alarm)
-            update()
-    }
-
-    /*! \internal */
-    function update () {
-        // loader component is not ready
-        if (!loader.item)
-            return
-
-        var sign = start < end ? 1 : -1;
-        for (var i=0; i<Math.abs(end - start) + 1 && i<loader.item.children.length; i++)
-            loader.item.children[i].color = (pv.value & Math.pow(2, start+i*sign))
-                    ? (colorMode == ColorMode.Alarm ? alarmColor : foreground)
-                    : background
+        onValueChanged: {
+            // qml isn't notified when an array changes element
+            // so the workaround is to re assign the whole array
+            var tmp = digits
+            for (var i=0; i<32; i++) {
+                tmp[i] = ((pv.value & (1 << i)) != 0)
+            }
+            digits = tmp
+        }
     }
 }
