@@ -175,8 +175,6 @@ Item {
         property var pvErase
         property var pvs: []
         property var graphs: []
-        property var xdata: []
-        property var ydata: []
         property var range: []
     }
 
@@ -184,11 +182,6 @@ Item {
         Trace list model.
     */
     property ListModel model: ListModel {
-        ListElement {
-            xchannel: 'x'
-            ychannel: 'y'
-            foreground: 'red'
-        }
     }
 
     Plot {
@@ -244,6 +237,8 @@ Item {
             d.pvErase.valueChanged.connect(eraseGraph)
         }
 
+        if (model.count > 1)
+            plot.y2Axis.visible = true
         for(var i=0; i<model.count; i++) {
             var xchannel = model.get(i).xchannel
             var ychannel = model.get(i).ychannel
@@ -252,11 +247,11 @@ Item {
             var xAxis = plot.xAxis
             var yAxis = model.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
-            graph.color = model.get(i).foreground
-            graph.lineStyle = root.plotStyle
+            graph.color = Qt.binding(function() {return model.get(i).foreground;})
+            graph.lineStyle = Qt.binding(function () {return root.plotStyle;})
 
             var xpv = null, ypv = null
-            if (xchannel && xchannel != '') {
+            if (xchannel) {
                 xpv = Qt.createQmlObject(
                             'import PvComponents 1.0\n' +
                             'PvObject {\n' +
@@ -264,12 +259,12 @@ Item {
                             '    property var data: []\n'+
                             '    onValueChanged: {\n' +
                             '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
+                            '        updateData(%1)\n'.arg(i) +
                             '    }\n' +
                             '}',
                             root, 'xpv'+i)
-                xpv.valueChanged.connect(updateData)
             }
-            if (ychannel && ychannel != '') {
+            if (ychannel) {
                 ypv = Qt.createQmlObject(
                             'import PvComponents 1.0\n' +
                             'PvObject {\n' +
@@ -277,10 +272,10 @@ Item {
                             '    property var data: []\n' +
                             '    onValueChanged: {\n' +
                             '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
+                            '        updateData(%1)\n'.arg(i) +
                             '    }\n' +
                             '}',
                             root, 'ypv'+i)
-                ypv.valueChanged.connect(updateData)
             }
             d.pvs.push([xpv,ypv])
             d.graphs.push(graph)
@@ -290,7 +285,7 @@ Item {
     /*! \internal */
     function updateCount() {
         if (d.pvCount)
-            count = d.pvCount.value
+            count = Math.max(1, d.pvCount.value)
     }
 
     /*! \internal */
@@ -305,69 +300,74 @@ Item {
     }
 
     /*! \internal */
-    function updateData() {
-        for (var i=0; i<d.pvs.length; i++) {
-            var xpv = d.pvs[i][0]
-            var ypv = d.pvs[i][1]
-            var graph = d.graphs[i]
-            var xv = null
-            if (xpv) {
-                if (xpv.count == 1) {
-                    if (ypv && ypv.count > 1)
-                        xv = xpv.value
-                    else
-                        xv = xpv.data
-                } else {
-                    if (count == 0) count = xpv.count
+    function updateData(i) {
+        var xpv = d.pvs[i][0]
+        var ypv = d.pvs[i][1]
+        var graph = d.graphs[i]
+        var xv = null
+        if (xpv) {
+            if (xpv.count == 1) {
+                if (ypv && ypv.count > 1)
                     xv = xpv.value
-                }
+                else
+                    xv = xpv.data
             } else {
-                xv = d.range
+                if (count == 0) count = xpv.count
+                xv = xpv.value
             }
-
-            var yv = null
-            if (ypv) {
-                if (ypv.count == 1) {
-                    if (xpv && xpv.count > 1)
-                        yv = ypv.value
-                    else
-                        yv = ypv.data
-                } else {
-                    if (count == 0) count = ypv.count
-                    yv = ypv.value
-                }
-            } else
-                yv = d.range
-
-            graph.setData(xv, yv)
-
-            if (xpv) {
-                if (xRangeStyle == CartesianPlotRangeStyle.Channel
-                        || xRangeStyle == CartesianPlotRangeStyle.Auto) {
-                    plot.xAxis.rescale()
-                } else {
-                    plot.xAxis.rangeLower = root.xRangeLower
-                    plot.xAxis.rangeUpper = root.xRangeUpper
-                }
-            }
-            else {
-                plot.xAxis.rangeLower = 0;
-                plot.xAxis.rangeUpper = count;
-            }
-            if (ypv) {
-                if (xRangeStyle == CartesianPlotRangeStyle.Channel
-                        || xRangeStyle == CartesianPlotRangeStyle.Auto) {
-                    plot.yAxis.rescale()
-                } else {
-                    plot.yAxis.rangeLower = root.yRangeLower
-                    plot.yAxis.rangeUpper = root.yRangeUpper
-                }
-            }
-            else {
-                 plot.yAxis.rangeLower = 0;
-                 plot.yAxis.rangeUpper = count;
-            }
+        } else {
+            xv = d.range
         }
+
+        var yv = null
+        if (ypv) {
+            if (ypv.count == 1) {
+                if (xpv && xpv.count > 1)
+                    yv = ypv.value
+                else
+                    yv = ypv.data
+            } else {
+                if (count == 0) count = ypv.count
+                yv = ypv.value
+            }
+        } else
+            yv = d.range
+
+        graph.setData(xv, yv)
+
+        switch (xRangeStyle) {
+        case CartesianPlotRangeStyle.Channel:
+        case CartesianPlotRangeStyle.Auto:
+            plot.xAxis.rescale()
+            break
+        case CartesianPlotRangeStyle.User:
+            plot.xAxis.rangeLower = root.xRangeLower
+            plot.xAxis.rangeUpper = root.xRangeUpper
+            break
+        }
+
+        switch (yRangeStyle) {
+        case CartesianPlotRangeStyle.Channel:
+        case CartesianPlotRangeStyle.Auto:
+            plot.yAxis.rescale()
+            break
+        case CartesianPlotRangeStyle.User:
+            plot.yAxis.rangeLower = root.yRangeLower
+            plot.yAxis.rangeUpper = root.yRangeUpper
+            break
+        }
+
+        switch (y2RangeStyle) {
+        case CartesianPlotRangeStyle.Channel:
+        case CartesianPlotRangeStyle.Auto:
+            plot.y2Axis.rescale()
+            break
+        case CartesianPlotRangeStyle.User:
+            plot.y2Axis.rangeLower = root.y2RangeLower
+            plot.y2Axis.rangeUpper = root.y2RangeUpper
+            break
+        }
+
         plot.replot()
     }
 }
