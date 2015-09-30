@@ -2748,7 +2748,8 @@ void CartesianPlot::toQML(std::ostream &fstream)
 Trace::Trace(Element *parent)
     : Attribute(parent)
 {
-
+    clr = 14;
+    yaxis = 0;
 }
 
 void Trace::parse(std::istream &fstream)
