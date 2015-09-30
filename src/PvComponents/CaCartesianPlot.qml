@@ -199,16 +199,19 @@ Item {
         background: root.background
         property var xAxis: Axis {
             type: Axis.Bottom
+            scale: xAxisStyle
             rangeLower: root.xRangeLower
             rangeUpper: root.xRangeUpper
         }
         property var yAxis: Axis {
             type: Axis.Left
+            scale: yAxisStyle
             rangeLower: root.yRangeLower
             rangeUpper: root.yRangeUpper
         }
         property var y2Axis: Axis {
             type: Axis.Left
+            scale: y2AxisStyle
             rangeLower: root.y2RangeLower
             rangeUpper: root.y2RangeUpper
             visible: false
@@ -337,21 +340,32 @@ Item {
                 yv = d.range
 
             graph.setData(xv, yv)
+
             if (xpv) {
-                if (xRangeStyle == CartesianPlotRangeStyle.Auto)
+                if (xRangeStyle == CartesianPlotRangeStyle.Channel
+                        || xRangeStyle == CartesianPlotRangeStyle.Auto) {
                     plot.xAxis.rescale()
+                } else {
+                    plot.xAxis.rangeLower = root.xRangeLower
+                    plot.xAxis.rangeUpper = root.xRangeUpper
+                }
             }
             else {
-                xRangeLower = 0;
-                xRangeUpper = count;
+                plot.xAxis.rangeLower = 0;
+                plot.xAxis.rangeUpper = count;
             }
             if (ypv) {
-                if (yRangeStyle == CartesianPlotRangeStyle.Auto)
+                if (xRangeStyle == CartesianPlotRangeStyle.Channel
+                        || xRangeStyle == CartesianPlotRangeStyle.Auto) {
                     plot.yAxis.rescale()
+                } else {
+                    plot.yAxis.rangeLower = root.yRangeLower
+                    plot.yAxis.rangeUpper = root.yRangeUpper
+                }
             }
             else {
-                 yRangeLower = 0;
-                 yRangeUpper = count;
+                 plot.yAxis.rangeLower = 0;
+                 plot.yAxis.rangeUpper = count;
             }
         }
         plot.replot()
