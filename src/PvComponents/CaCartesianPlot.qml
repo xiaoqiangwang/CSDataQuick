@@ -338,7 +338,7 @@ Item {
 
             graph.setData(xv, yv)
             if (xpv) {
-                if (yRangeStyle == CartesianPlotRangeStyle.Auto)
+                if (xRangeStyle == CartesianPlotRangeStyle.Auto)
                     plot.xAxis.rescale()
             }
             else {
