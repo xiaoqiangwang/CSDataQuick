@@ -1,14 +1,14 @@
 
 file {
-	name="/Users/wang/Development/epicsqml/tests/plot.adl"
+	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/tests/plot.adl"
 	version=030109
 }
 display {
 	object {
-		x=44
-		y=194
-		width=570
-		height=550
+		x=532
+		y=221
+		width=850
+		height=600
 	}
 	clr=14
 	bclr=5
@@ -101,13 +101,14 @@ display {
 	}
 	style="line"
 	erase_oldest="plot last n pts"
-	count="100"
+	count="ao"
 	trace[0] {
 		ydata="sin"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -123,13 +124,14 @@ display {
 	}
 	style="line"
 	erase_oldest="plot last n pts"
-	count="100"
+	count="ao"
 	trace[0] {
 		xdata="calc"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -144,13 +146,14 @@ display {
 		bclr=4
 	}
 	erase_oldest="plot last n pts"
-	count="100"
+	count="ao"
 	trace[0] {
 		ydata="y"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -165,7 +168,7 @@ display {
 		bclr=4
 	}
 	style="fill-under"
-	count=""
+	count="ao"
 	trace[0] {
 		xdata="x"
 		ydata="y"
@@ -173,6 +176,7 @@ display {
 		yaxis=0
 	}
 	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -187,14 +191,15 @@ display {
 		bclr=4
 	}
 	style="line"
-	count="100"
+	count="ao"
 	trace[0] {
 		xdata="x"
 		ydata="sin"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -209,14 +214,15 @@ display {
 		bclr=4
 	}
 	style="line"
-	count="100"
+	count="ao"
 	trace[0] {
 		xdata="calc"
 		ydata="y"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -231,13 +237,14 @@ display {
 		bclr=4
 	}
 	style="line"
-	count="100"
+	count="ao"
 	trace[0] {
 		xdata="calc"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
 }
 "cartesian plot" {
 	object {
@@ -252,11 +259,101 @@ display {
 		bclr=4
 	}
 	style="line"
-	count="100"
+	count="ao"
 	trace[0] {
 		ydata="calc"
 		data_clr=14
 		yaxis=0
 	}
-	countPvName="100"
+	erase="bo"
+	countPvName="ao"
+}
+text {
+	object {
+		x=22
+		y=536
+		width=77
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Count"
+}
+valuator {
+	object {
+		x=90
+		y=535
+		width=225
+		height=21
+	}
+	control {
+		chan="ao"
+		clr=14
+		bclr=5
+	}
+	dPrecision=1.000000
+	limits {
+		loprSrc="default"
+		hoprSrc="default"
+		hoprDefault=200
+	}
+}
+text {
+	object {
+		x=22
+		y=565
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Erase"
+}
+"choice button" {
+	object {
+		x=94
+		y=569
+		width=156
+		height=20
+	}
+	control {
+		chan="bo"
+		clr=14
+		bclr=5
+	}
+	stacking="column"
+}
+"cartesian plot" {
+	object {
+		x=575
+		y=105
+		width=236
+		height=184
+	}
+	plotcom {
+		title="multiple"
+		clr=14
+		bclr=5
+	}
+	trace[0] {
+		ydata="y"
+		data_clr=14
+		yaxis=0
+	}
+	trace[1] {
+		ydata="sin"
+		data_clr=16
+		yaxis=1
+	}
+	x_axis {
+		rangeStyle="auto-scale"
+	}
+	y1_axis {
+		rangeStyle="auto-scale"
+	}
+	y2_axis {
+		rangeStyle="auto-scale"
+	}
 }
