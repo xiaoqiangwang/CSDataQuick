@@ -1,3 +1,6 @@
+record(ao, "ao")
+{
+}
 record(ao, "catest")
 {
     field (HIHI, "0.8")
