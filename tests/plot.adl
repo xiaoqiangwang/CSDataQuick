@@ -290,7 +290,7 @@ valuator {
 	control {
 		chan="ao"
 		clr=14
-		bclr=5
+		bclr=51
 	}
 	dPrecision=1.000000
 	limits {
@@ -321,7 +321,7 @@ text {
 	control {
 		chan="bo"
 		clr=14
-		bclr=5
+		bclr=51
 	}
 	stacking="column"
 }
