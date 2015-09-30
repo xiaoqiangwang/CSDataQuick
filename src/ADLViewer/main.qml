@@ -42,11 +42,6 @@ ApplicationWindow
                 text: 'About'
                 onTriggered: aboutDialog.open()
             }
-
-            MenuItem {
-                text: 'Quit'
-                onTriggered: close()
-            }
         }
     }
 
