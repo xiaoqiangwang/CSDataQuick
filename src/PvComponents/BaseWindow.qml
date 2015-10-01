@@ -1,13 +1,30 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import QtQuick.Window 2.2
+import QtQuick.Window 2.0
 
 import PvComponents 1.0
 
+/*!
+    \qmltype BaseWindow
+    \inqmlmodule PvComponents
+    \brief Base for all toplevel windows
+
+    In addition to \l Window, it records the file path this window represents and the macro expansion.
+    Also it implements a context menu,
+    \list
+    \li Print - capture a screenshot of the current window and send it to printer
+    \li Close - close the current window
+    \li Main Window - popup the main window if any registered
+    \li Display List - popup the window to display windows opened
+    \endlist
+
+*/
 Window {
     id: root
 
+    /*! file path this window represents */
     property url filePath
+    /*! macro expansion */
     property string macro
 
     Menu {
