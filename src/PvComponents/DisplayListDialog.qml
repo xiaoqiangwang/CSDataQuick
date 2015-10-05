@@ -34,7 +34,6 @@ Dialog {
                     anchors.fill: parent
                     onClicked: {
                         var window = model.modelData.window
-                        console.log(model.modelData.filePath)
                         window.raise()
                         window.requestActivate()
                     }
