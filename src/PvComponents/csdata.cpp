@@ -141,7 +141,7 @@ void QCSDataRange::reset()
 /*!
     \qmltype CSData
     \inqmlmodule PvComponents
-    \instantiates CSData
+    \instantiates QCSData
     \brief Object that provides access to control system data.
 
     Example:

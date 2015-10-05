@@ -16,6 +16,21 @@
 
 #include <QtDebug>
 
+/*!
+    \qmltype WindowManager
+    \inqmlmodule PvComponents
+    \brief Singlton object to manage all opened windows.
+
+    Example:
+    \qml
+        ListView {
+            model: WindowManager.entries
+            delegate: Text {
+                text: model.modelData.filePath
+            }
+        }
+    \endqml
+*/
 bool windowFilePathCompare(const QWindow *w1, const QWindow *w2)
 {
     return w1->filePath() < w2->filePath();
@@ -26,8 +41,11 @@ WindowManager::WindowManager(QObject *parent)
 {
 
 }
+/*!
+    \qmlmethod WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macro)
 
-
+    Append an opened window instance \a window, created with \a absFilePath and \a macro.
+ */
 void WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macro)
 {
     Q_UNUSED(absFilePath);
@@ -43,6 +61,11 @@ void WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macr
     emit entriesChanged();
 }
 
+/*!
+    \qmlmethod WindowManager::closeWindow(QWindow *window)
+
+    Close and delete a window instance \a window.
+ */
 void WindowManager::closeWindow(QWindow *window)
 {
     window->close();
@@ -62,6 +85,12 @@ void WindowManager::removeWindow(QWindow *window)
     emit entriesChanged();
 }
 
+/*!
+    \qmlmethod WindowManager::findWindow(QUrl absFilePath, QString macro)
+
+    Search for a window instance opened with \a absFilePath and \a macro.
+    It will return the found instance or null otherwise.
+ */
 QWindow* WindowManager::findWindow(QUrl absFilePath, QString macro)
 {
     QWindow *window = Q_NULLPTR;
@@ -75,6 +104,14 @@ QWindow* WindowManager::findWindow(QUrl absFilePath, QString macro)
     return window;
 }
 
+/*!
+    \qmlmethod WindowManager::printWindow(QWindow *window)
+    \brief Grab a screenshot of \a window and send to printer.
+
+    The actual printing is performed by Qt Print Support.
+
+    \sa QQuickWindow::grabWindow
+ */
 void WindowManager::printWindow(QWindow *window)
 {
 #ifndef NO_PRINTERSUPPORT
@@ -91,6 +128,11 @@ void WindowManager::printWindow(QWindow *window)
 #endif
 }
 
+/*!
+    \qmlmethod WindowManager::closeAllWindow()
+
+    Close and delete all opened windows.
+ */
 void WindowManager::closeAllWindow()
 {
     foreach (QWindow *w, mWindows) {
@@ -110,6 +152,16 @@ void WindowManager::onClosingWindow(QQuickCloseEvent *event)
         window->deleteLater();
 }
 
+/*!
+    \qmlproperty list WindowManager::entries
+
+    The list of all opened windows. Each entry has the follow field,
+    \list
+    \li filePath - absolute file path this window represents
+    \li macro - macro expansion used to create this window
+    \li window - the window instance
+    \endlist
+ */
 QList<QObject*> WindowManager::entries()
 {
     // sort windows by filePath, so that the filePath can be used as section header in ListView
