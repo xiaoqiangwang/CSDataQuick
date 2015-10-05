@@ -36,7 +36,7 @@ import PvComponents 1.0
     \qml
         CaADImage {
             interval: 200
-            channel: '13SIM1:image1:'
+            source: '13SIM1:image1:'
         }
     \endqml
 
@@ -52,7 +52,7 @@ Image {
     /*!
         Set the NDPluginStdArrays prefix. e.g. 13SIM1:image1:
     */
-    property string channel
+    property string source
 
     cache: false
     fillMode: Image.PreserveAspectFit
@@ -63,7 +63,7 @@ Image {
         repeat: true
         onTriggered: {
             source = ''
-            source = 'image://areaDetector/'+ channel
+            source = 'image://areaDetector/'+ source
         }
     }
 }

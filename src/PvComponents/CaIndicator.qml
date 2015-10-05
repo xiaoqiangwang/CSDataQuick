@@ -17,7 +17,7 @@ import "utils.js" as UtilsJS
 
     \qml
     CaIndicator {
-        channel: 'catest'
+        source: 'catest'
         label: LabelStyle.Outline
         colorMode: ColorMode.Alarm
     }

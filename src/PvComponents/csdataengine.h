@@ -4,19 +4,19 @@
 #include <QString>
 #include <QVariant>
 
-class CSData;
+class QCSData;
 
-class CSDataEngine
+class QCSDataEngine
 {
 public:
-    virtual ~CSDataEngine() {}
+    virtual ~QCSDataEngine() {}
 
     virtual QString name() = 0;
-    virtual void create(CSData* data) = 0;
-    virtual void close(CSData* data) = 0;
-    virtual void setValue(CSData* data, const QVariant value) = 0;
+    virtual void create(QCSData* data) = 0;
+    virtual void close(QCSData* data) = 0;
+    virtual void setValue(QCSData* data, const QVariant value) = 0;
 };
 
-Q_DECLARE_INTERFACE(CSDataEngine, "ch.psi.sls.CSDataEngine/1.0")
+Q_DECLARE_INTERFACE(QCSDataEngine, "ch.psi.sls.QCSDataEngine/1.0")
 
 #endif // CSDATAENGINE_H

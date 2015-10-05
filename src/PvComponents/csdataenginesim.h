@@ -3,27 +3,27 @@
 
 #include "csdataengine.h"
 
-class CSDataEngineSim : public QObject, public CSDataEngine
+class QCSDataEngineSim : public QObject, public QCSDataEngine
 {
     Q_OBJECT
     //Q_PLUGIN_METADATA(IID "ch.psi.sls.CSDataEngineInterface")
-    Q_INTERFACES(CSDataEngine)
+    Q_INTERFACES(QCSDataEngine)
 
 public:
-    CSDataEngineSim(QObject *parent=0);
-    virtual ~CSDataEngineSim();
+    QCSDataEngineSim(QObject *parent=0);
+    virtual ~QCSDataEngineSim();
 
     virtual QString name();
 
-    virtual void create(CSData *data);
-    virtual void close(CSData *data);
-    virtual void setValue(CSData *data, const QVariant value);
+    virtual void create(QCSData *data);
+    virtual void close(QCSData *data);
+    virtual void setValue(QCSData *data, const QVariant value);
 
 protected:
     void timerEvent(QTimerEvent *);
 
 private:
-    QList<CSData*> _data;
+    QList<QCSData*> _data;
 
     QVariantList wave;
 

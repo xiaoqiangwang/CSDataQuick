@@ -6,7 +6,7 @@
 #include <QTimerEvent>
 #include <QUrl>
 
-CSDataEngineSim::CSDataEngineSim(QObject *parent)
+QCSDataEngineSim::QCSDataEngineSim(QObject *parent)
     : QObject(parent)
 {
     // data for "sim://wave"
@@ -16,17 +16,17 @@ CSDataEngineSim::CSDataEngineSim(QObject *parent)
     _timerId = 0;
 }
 
-CSDataEngineSim::~CSDataEngineSim()
+QCSDataEngineSim::~QCSDataEngineSim()
 {
     killTimer(_timerId);
 }
 
-QString CSDataEngineSim::name()
+QString QCSDataEngineSim::name()
 {
     return "sim";
 }
 
-void CSDataEngineSim::create(CSData *data)
+void QCSDataEngineSim::create(QCSData *data)
 {
     QUrl source = data->property("source").toUrl();
     if (source.scheme() != name())
@@ -34,38 +34,38 @@ void CSDataEngineSim::create(CSData *data)
 
     if (source == QStringLiteral("sim://random") || source == QStringLiteral("sim://sin")) {
         data->updateValue(0);
-        data->setProperty("fieldType", CSData::Double);
+        data->setProperty("fieldType", QCSData::Double);
         data->setProperty("count", 1);
-        data->setProperty("accessRight", CSData::ReadAccess);
+        data->setProperty("accessRight", QCSData::ReadAccess);
     } else if (source == QStringLiteral("sim://enum")) {
         data->updateValue(0);
-        data->setProperty("fieldType", CSData::Enum);
+        data->setProperty("fieldType", QCSData::Enum);
         data->setProperty("count", 1);
-        data->setProperty("accessRight", int(CSData::ReadAccess | CSData::WriteAccess));
+        data->setProperty("accessRight", int(QCSData::ReadAccess | QCSData::WriteAccess));
         QStringList states;
         states << "OFF" << "ON";
         data->setProperty("stateStrings", states);
     } else if (source == QStringLiteral("sim://wave")) {
         data->updateValue(0);
-        data->setProperty("fieldType", CSData::Double);
+        data->setProperty("fieldType", QCSData::Double);
         data->setProperty("count", 20);
-        data->setProperty("accessRight", CSData::ReadAccess);
+        data->setProperty("accessRight", QCSData::ReadAccess);
     } else {
         qCritical() << "Not supported source" << source;
         return;
     }
     data->setProperty("host", "simulator");
     data->setProperty("connected", true);
-    CSDataAlarm *alarm= qvariant_cast<CSDataAlarm*>(data->property("alarm"));
+    QCSDataAlarm *alarm= qvariant_cast<QCSDataAlarm*>(data->property("alarm"));
     if (alarm)
-        alarm->setProperty("severity", CSDataAlarm::NoAlarm);
+        alarm->setProperty("severity", QCSDataAlarm::NoAlarm);
     _data.append(data);
 
     if (!_timerId)
         _timerId = startTimer(1000);
 }
 
-void CSDataEngineSim::close(CSData *data)
+void QCSDataEngineSim::close(QCSData *data)
 {
     _data.removeAll(data);
     if (_data.length() == 0) {
@@ -74,7 +74,7 @@ void CSDataEngineSim::close(CSData *data)
     }
 }
 
-void CSDataEngineSim::setValue(CSData *data, const QVariant value)
+void QCSDataEngineSim::setValue(QCSData *data, const QVariant value)
 {
     if (!_data.contains(data))
         return;
@@ -83,7 +83,7 @@ void CSDataEngineSim::setValue(CSData *data, const QVariant value)
         data->updateValue(value.toInt());
 }
 
-void CSDataEngineSim::timerEvent(QTimerEvent *event)
+void QCSDataEngineSim::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() != _timerId)
         return;
@@ -91,7 +91,7 @@ void CSDataEngineSim::timerEvent(QTimerEvent *event)
     static int count = 0;
 
     count++;
-    foreach(CSData *data, _data) {
+    foreach(QCSData *data, _data) {
         if (data->property("source") == "sim://random") {
             data->updateValue(qreal(qrand() * 1.0 / RAND_MAX));
             data->setProperty("timeStamp", QDateTime());

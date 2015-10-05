@@ -8,9 +8,9 @@
 #include <QUrl>
 #include <QVariant>
 
-class CSDataEngine;
+class QCSDataEngine;
 
-class CSDataAlarm : public QObject
+class QCSDataAlarm : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Severity severity MEMBER _severity   NOTIFY alarmChanged)
@@ -25,7 +25,7 @@ public:
     };
     Q_ENUMS(Severity)
 
-    CSDataAlarm(QObject *parent=0);
+    QCSDataAlarm(QObject *parent=0);
     void setAlarm(Severity severity, int status, const QString message);
     void reset();
 
@@ -38,14 +38,14 @@ private:
     QString _message;
 };
 
-class CSDataRange : public QObject
+class QCSDataRange : public QObject
 {
     Q_OBJECT
 
     Q_PROPERTY(double lower MEMBER _lower NOTIFY rangeChanged)
     Q_PROPERTY(double upper MEMBER _upper NOTIFY rangeChanged)
 public:
-    CSDataRange(QObject *parent=0);
+    QCSDataRange(QObject *parent=0);
     Q_INVOKABLE bool isValid() const;
     void setRange(double lower, double upper);
     void reset();
@@ -58,33 +58,33 @@ private:
     double _upper;
 };
 
-class CSData : public QObject, public QQmlParserStatus
+class QCSData : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
-    Q_PROPERTY(QString      source      READ source     WRITE setSource     NOTIFY sourceChanged)
-    Q_PROPERTY(QString      host        READ host       WRITE setHost       NOTIFY hostChanged)
-    Q_PROPERTY(bool         connected   READ connected  WRITE setConnected  NOTIFY connectionChanged)
+    Q_PROPERTY(QString      source      READ source       WRITE setSource      NOTIFY sourceChanged)
+    Q_PROPERTY(QString      host        READ host         WRITE setHost        NOTIFY hostChanged)
+    Q_PROPERTY(bool         connected   READ connected    WRITE setConnected   NOTIFY connectionChanged)
 
-    Q_PROPERTY(FieldType    fieldType   READ fieldType  WRITE setFieldType  NOTIFY fieldTypeChanged)
-    Q_PROPERTY(qulonglong   count       READ count      WRITE setCount      NOTIFY countChanged)
-    Q_PROPERTY(QVariant     value       READ value      WRITE setValue      NOTIFY valueChanged)
+    Q_PROPERTY(FieldType    fieldType   READ fieldType    WRITE setFieldType   NOTIFY fieldTypeChanged)
+    Q_PROPERTY(qulonglong   count       READ count        WRITE setCount       NOTIFY countChanged)
+    Q_PROPERTY(QVariant     value       READ value        WRITE setValue       NOTIFY valueChanged)
 
-    Q_PROPERTY(int  accessRight READ accessRight  WRITE setAccessRight   NOTIFY accessRightChanged)
-    Q_PROPERTY(CSDataAlarm* alarm           MEMBER _alarm NOTIFY alarmChanged)
-    Q_PROPERTY(QDateTime    timeStamp   READ timeStamp  WRITE setTimeStamp  NOTIFY timeStampChanged)
+    Q_PROPERTY(int  accessRight         READ accessRight  WRITE setAccessRight NOTIFY accessRightChanged)
+    Q_PROPERTY(QCSDataAlarm* alarm       MEMBER _alarm     NOTIFY alarmChanged)
+    Q_PROPERTY(QDateTime    timeStamp   READ timeStamp    WRITE setTimeStamp   NOTIFY timeStampChanged)
 
     // numeric type
-    Q_PROPERTY(int          precision   READ precision  WRITE setPrecision  NOTIFY precisionChanged)
-    Q_PROPERTY(QString      units       READ units       WRITE setUnits      NOTIFY unitsChanged)
-    Q_PROPERTY(CSDataRange* range           MEMBER _range           NOTIFY rangeChanged)
+    Q_PROPERTY(int          precision   READ precision    WRITE setPrecision   NOTIFY precisionChanged)
+    Q_PROPERTY(QString      units       READ units        WRITE setUnits       NOTIFY unitsChanged)
+    Q_PROPERTY(QCSDataRange* range       MEMBER _range     NOTIFY rangeChanged)
     // enum type
     Q_PROPERTY(QStringList  stateStrings READ stateStrings  WRITE setStateStrings  NOTIFY stateStringsChanged)
 
 public:
-    explicit CSData(QObject *parent=0);
-    ~CSData();
+    explicit QCSData(QObject *parent=0);
+    ~QCSData();
 
     virtual void classBegin();
     virtual void componentComplete();
@@ -120,7 +120,7 @@ public:
     Q_INVOKABLE void setConnected(bool connected);
 
     FieldType fieldType() const;
-    Q_INVOKABLE void setFieldType(CSData::FieldType fieldType);
+    Q_INVOKABLE void setFieldType(QCSData::FieldType fieldType);
 
     qulonglong count() const;
     Q_INVOKABLE void setCount(qulonglong count);
@@ -144,7 +144,7 @@ public:
     QStringList stateStrings() const;
     Q_INVOKABLE void setStateStrings(const QStringList stateStrings);
 
-    Q_INVOKABLE void setAlarm(CSDataAlarm::Severity severity, int status, const QString message);
+    Q_INVOKABLE void setAlarm(QCSDataAlarm::Severity severity, int status, const QString message);
     Q_INVOKABLE void setRange(double lower, double upper);
 
 
@@ -179,21 +179,20 @@ protected:
     QVariant _value;            // value
 
     int _accessRight;           // access right
-    CSDataAlarm *_alarm;        // alarm severity
+    QCSDataAlarm *_alarm;        // alarm severity
     QDateTime _timeStamp;       // date time object
 
     int _precision;             // precision for float and double type
     QString _units;             // units
-    CSDataRange*_range;         // display limit
+    QCSDataRange*_range;         // display limit
 
     QStringList _stateStrings;  // state strings separated
 
-    CSDataEngine *_engine;
+    QCSDataEngine *_engine;
 };
 
-Q_DECLARE_METATYPE(CSDataAlarm::Severity)
-Q_DECLARE_METATYPE(CSData::AccessFlags)
-Q_DECLARE_METATYPE(CSData::FieldType)
-Q_DECLARE_OPERATORS_FOR_FLAGS(CSData::AccessFlags)
+Q_DECLARE_METATYPE(QCSDataAlarm::Severity)
+Q_DECLARE_METATYPE(QCSData::FieldType)
+Q_DECLARE_OPERATORS_FOR_FLAGS(QCSData::AccessFlags)
 
 #endif // CSDATA_H

@@ -73,7 +73,7 @@ void monitorCallbackC(struct event_handler_args args)
 {
     if (args.status != ECA_NORMAL)
         return;
-    CSData *data = (CSData *)args.usr;
+    QCSData *data = (QCSData *)args.usr;
 
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
@@ -126,7 +126,7 @@ void monitorCallbackC(struct event_handler_args args)
     }
     QMetaObject::invokeMethod(data, "updateValue", Q_ARG(QVariant, value));
     QMetaObject::invokeMethod(data, "setAlarm",
-                              Q_ARG(CSDataAlarm::Severity, (CSDataAlarm::Severity)severity),
+                              Q_ARG(QCSDataAlarm::Severity, (QCSDataAlarm::Severity)severity),
                               Q_ARG(int, status),
                               Q_ARG(QString, epicsAlarmConditionStrings[status]));
     QMetaObject::invokeMethod(data, "setTimeStamp",
@@ -136,11 +136,11 @@ void monitorCallbackC(struct event_handler_args args)
 void getCallbackC(struct event_handler_args args)
 {
     if (args.status != ECA_NORMAL) {
-        qWarning() << "getCallbackC" << ca_message(args.status);
+        qWarning() << "getCallbackC:" << ca_name(args.chid) << ca_message(args.status);
         return;
     }
 
-    CSData *data = (CSData *)args.usr;
+    QCSData *data = (QCSData *)args.usr;
 
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
@@ -210,16 +210,16 @@ void getCallbackC(struct event_handler_args args)
                                     monitorCallbackC,
                                     data,
                                     &evid);
-    ca_flush_io();
     if(status != ECA_NORMAL)
-        qCritical() << "ca_create_subscription:" << ca_message(status);
+        qCritical() << "ca_create_subscription:" << ca_name(args.chid) << ca_message(status);
+    ca_flush_io();
 }
 
 void accessCallbackC(struct access_rights_handler_args args)
 {
-    CSData *data = (CSData *)ca_puser(args.chid);
-    CSData::AccessFlags accessRight = (args.ar.read_access ? CSData::ReadAccess : CSData::NoAccess) |
-            (args.ar.write_access ? CSData::WriteAccess : CSData::NoAccess);
+    QCSData *data = (QCSData *)ca_puser(args.chid);
+    QCSData::AccessFlags accessRight = (args.ar.read_access ? QCSData::ReadAccess : QCSData::NoAccess) |
+            (args.ar.write_access ? QCSData::WriteAccess : QCSData::NoAccess);
     QMetaObject::invokeMethod(data, "setAccessRight",
                               Q_ARG(int, (int)accessRight));
 }
@@ -229,12 +229,12 @@ void accessCallbackC(struct access_rights_handler_args args)
 //
 void connectCallbackC(struct connection_handler_args args)
 {
-    CSData *data = (CSData *)ca_puser(args.chid);
+    QCSData *data = (QCSData *)ca_puser(args.chid);
     // Do a get when a channel gets connected
     if (args.op == CA_OP_CONN_UP) {
         QMetaObject::invokeMethod(data, "setHost",  Q_ARG(QString, ca_host_name(args.chid)));
         QMetaObject::invokeMethod(data, "setFieldType",
-                                  Q_ARG(CSData::FieldType, (CSData::FieldType) ca_field_type(args.chid)));
+                                  Q_ARG(QCSData::FieldType, (QCSData::FieldType) ca_field_type(args.chid)));
         // Initiate CA get to get control information
         chtype reqtype = dbf_type_to_DBR_CTRL(ca_field_type(args.chid));
         int status = ca_array_get_callback(reqtype, 0, args.chid, getCallbackC, data);
@@ -251,32 +251,32 @@ void connectCallbackC(struct connection_handler_args args)
         ca_flush_io();
     } else {
         QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, false));
-        QMetaObject::invokeMethod(data, "setFieldType", Q_ARG(CSData::FieldType, CSData::Invalid));
+        QMetaObject::invokeMethod(data, "setFieldType", Q_ARG(QCSData::FieldType, QCSData::Invalid));
     }
 }
 
-CSDataEngineCA::CSDataEngineCA(QObject *parent)
+QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
     : QObject(parent)
 {
     int status = ca_context_create(ca_enable_preemptive_callback);
     if(status != ECA_NORMAL)
-        qCritical() << ca_message(status);
+        qCritical() << "ca_context_create:" << ca_message(status);
 
     _cac = ca_current_context();
 
     ca_add_exception_event(exception_handler, 0);
 }
 
-CSDataEngineCA::~CSDataEngineCA()
+QCSDataEngineCA::~QCSDataEngineCA()
 {
 }
 
-QString CSDataEngineCA::name()
+QString QCSDataEngineCA::name()
 {
     return "ca";
 }
 
-void CSDataEngineCA::create(CSData *data)
+void QCSDataEngineCA::create(QCSData *data)
 {
     QString source = data->property("source").toString();
     QUrl url(source);
@@ -304,7 +304,7 @@ void CSDataEngineCA::create(CSData *data)
         data->setProperty("chid", QVariant::fromValue((void*)_chid));
     }
 }
-void CSDataEngineCA::close(CSData *data)
+void QCSDataEngineCA::close(QCSData *data)
 {
     if (ca_current_context() != _cac) {
         ca_attach_context(_cac);
@@ -318,7 +318,7 @@ void CSDataEngineCA::close(CSData *data)
     data->setProperty("chid", QVariant::fromValue(Q_NULLPTR));
 }
 
-void CSDataEngineCA::setValue(CSData *data, const QVariant value)
+void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
 {
     if (ca_current_context() != _cac) {
         ca_attach_context(_cac);
@@ -372,7 +372,7 @@ void CSDataEngineCA::setValue(CSData *data, const QVariant value)
         break;
     }
     if (status != ECA_NORMAL) {
-        qWarning() << data->source() << ca_message(status);
+        qWarning() << "ca_array_put:" << data->source() << ca_message(status);
     }
     ca_flush_io();
 }

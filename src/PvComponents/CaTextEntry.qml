@@ -41,29 +41,29 @@ import "utils.js" as UtilsJS
         CaTextEntry {
             width: 80
             height: 25
-            channel: 'bo'
+            source: 'bo'
         }
         CaTextEntry {
             width: 200
             height: 25
-            channel: 'waves'
+            source: 'waves'
         }
         CaTextEntry {
             width: 80
             height: 25
-            channel: 'catest'
+            source: 'catest'
             format: TextFormat.Decimal
         }
         CaTextEntry {
             width: 80
             height: 25
-            channel: 'catest'
+            source: 'catest'
             format: TextFormat.Hexadecimal
         }
         CaTextEntry {
             width: 80
             height: 25
-            channel: 'catest'
+            source: 'catest'
             format: TextFormat.Octal
         }
     }

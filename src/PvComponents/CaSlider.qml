@@ -23,12 +23,12 @@ import "utils.js" as UtilsJS
             width: 150
             height: 20
             anchors.verticalCenter: parent.verticalCenter
-            channel: 'catest'
+            source: 'catest'
         }
         CaSlider {
             width: 150
             height: 50
-            channel: 'catest'
+            source: 'catest'
             label: LabelStyle.Limits
         }
     }

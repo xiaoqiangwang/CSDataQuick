@@ -3,27 +3,27 @@
 
 #include <QObject>
 
-#define engineManager CSDataEngineManager::instance()
+#define engineManager QCSDataEngineManager::instance()
 
-class CSDataEngine;
+class QCSDataEngine;
 
-class CSDataEngineManager : public QObject
+class QCSDataEngineManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<CSDataEngine*> engines MEMBER _engines CONSTANT)
+    Q_PROPERTY(QList<QCSDataEngine*> engines MEMBER _engines CONSTANT)
 
 public:
-    static CSDataEngineManager *instance();
-    ~CSDataEngineManager();
-    CSDataEngine *engineForName(QString source);
-    CSDataEngine *defaultEngine();
+    static QCSDataEngineManager *instance();
+    ~QCSDataEngineManager();
+    QCSDataEngine *engineForName(QString source);
+    QCSDataEngine *defaultEngine();
 
 private:
-    CSDataEngineManager(QObject *parent=0);
+    QCSDataEngineManager(QObject *parent=0);
 
-    static CSDataEngineManager *_manager;
+    static QCSDataEngineManager *_manager;
 
-    QList<CSDataEngine*> _engines;
+    QList<QCSDataEngine*> _engines;
 };
 
 #endif // CSDATAENGINEMANAGER

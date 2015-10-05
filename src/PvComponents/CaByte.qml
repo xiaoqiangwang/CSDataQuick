@@ -14,7 +14,7 @@ import PvComponents 1.0
 
     \qml
     CaByte {
-        channel: 'calc'
+        source: 'calc'
     }
     \endqml
 

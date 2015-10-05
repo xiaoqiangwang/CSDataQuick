@@ -17,28 +17,6 @@
 #define LEAVE_CA \
     }}
 
-
-class QQuickLimitRange : public QObject
-{
-    Q_OBJECT
-
-    Q_PROPERTY(double lower MEMBER _lower NOTIFY rangeChanged)
-    Q_PROPERTY(double upper MEMBER _upper NOTIFY rangeChanged)
-public:
-    QQuickLimitRange(QObject *parent=0);
-
-    void getRange(double*lower, double*upper) {*lower=_lower;*upper=_upper;}
-    void setRange(double lower, double upper) {_lower=lower; _upper=upper; emit rangeChanged();}
-
-signals:
-    void rangeChanged();
-
-private:
-    double _lower;
-    double _upper;
-};
-
-
 class QQuickPvObject : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
@@ -67,8 +45,6 @@ class QQuickPvObject : public QObject, public QQmlParserStatus
     Q_PROPERTY(int prec         MEMBER _precision CONSTANT DESIGNABLE false)
     Q_PROPERTY(int nostr        MEMBER _nostr CONSTANT DESIGNABLE false)
     Q_PROPERTY(QStringList strs MEMBER _strs CONSTANT DESIGNABLE false)
-    Q_PROPERTY(QQuickLimitRange *controlLimit MEMBER _ctrllim NOTIFY controlLimitChanged)
-    Q_PROPERTY(QQuickLimitRange *displayLimit MEMBER _displim NOTIFY displayLimitChanged)
     Q_PROPERTY(int type         MEMBER _type CONSTANT DESIGNABLE false)
 
     Q_PROPERTY(QVariant upctrllim MEMBER _upctrllim CONSTANT DESIGNABLE false)
@@ -169,7 +145,7 @@ private:
     // pv time stamp
     int _sec;               // time stamp - seconds since Midnight Jan.1, 1990
     int _nsec;              // time stamp - nano seconds within second
-    QDateTime _stamp;            // date time object
+    QDateTime _stamp;       // date time object
     // pv display info
     FieldType _type;        // field type
     QString _units;         // units
@@ -184,8 +160,6 @@ private:
     QVariant _lowarnlim;	// lower warn    limit
     QVariant _upctrllim;    // upper control limit
     QVariant _loctrllim;    // lower control limit
-    QQuickLimitRange *_ctrllim; // control limit
-    QQuickLimitRange *_displim; // display limit
 
     unsigned long _count;   // number of element
 

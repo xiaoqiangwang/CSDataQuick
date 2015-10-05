@@ -5,39 +5,39 @@
 #include <QtDebug>
 #include <QUrl>
 
-CSDataEngineManager *CSDataEngineManager::_manager = Q_NULLPTR;
+QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 
-CSDataEngineManager::CSDataEngineManager(QObject *parent)
+QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     : QObject(parent)
 {
-    _engines.append(new CSDataEngineSim(this));
-    _engines.append(new CSDataEngineCA(this));
+    _engines.append(new QCSDataEngineSim(this));
+    _engines.append(new QCSDataEngineCA(this));
 }
 
-CSDataEngineManager::~CSDataEngineManager()
+QCSDataEngineManager::~QCSDataEngineManager()
 {
     qDeleteAll(_engines);
 }
 
-CSDataEngineManager *CSDataEngineManager::instance()
+QCSDataEngineManager *QCSDataEngineManager::instance()
 {
     if(!_manager)
-        _manager = new CSDataEngineManager();
+        _manager = new QCSDataEngineManager();
     return _manager;
 }
 
-CSDataEngine *CSDataEngineManager::defaultEngine()
+QCSDataEngine *QCSDataEngineManager::defaultEngine()
 {
     return _engines.at(1);
 }
 
-CSDataEngine *CSDataEngineManager::engineForName(QString source)
+QCSDataEngine *QCSDataEngineManager::engineForName(QString source)
 {
     QUrl url(source);
     if (url.scheme().isEmpty())
         return defaultEngine();
 
-    foreach (CSDataEngine *engine, _engines) {
+    foreach (QCSDataEngine *engine, _engines) {
         if (engine->name() == url.scheme())
             return engine;
     }
