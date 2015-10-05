@@ -33,12 +33,12 @@ void CSDataEngineSim::create(CSData *data)
         return;
 
     if (source == QStringLiteral("sim://random") || source == QStringLiteral("sim://sin")) {
-        data->setProperty("value", 0);
+        data->updateValue(0);
         data->setProperty("fieldType", CSData::Double);
         data->setProperty("count", 1);
         data->setProperty("accessRight", CSData::ReadAccess);
     } else if (source == QStringLiteral("sim://enum")) {
-        data->setProperty("value", 0);
+        data->updateValue(0);
         data->setProperty("fieldType", CSData::Enum);
         data->setProperty("count", 1);
         data->setProperty("accessRight", int(CSData::ReadAccess | CSData::WriteAccess));
@@ -46,7 +46,7 @@ void CSDataEngineSim::create(CSData *data)
         states << "OFF" << "ON";
         data->setProperty("stateStrings", states);
     } else if (source == QStringLiteral("sim://wave")) {
-        data->setProperty("value", 0);
+        data->updateValue(0);
         data->setProperty("fieldType", CSData::Double);
         data->setProperty("count", 20);
         data->setProperty("accessRight", CSData::ReadAccess);
@@ -80,7 +80,7 @@ void CSDataEngineSim::setValue(CSData *data, const QVariant value)
         return;
 
     if (data->property("source") == "sim://enum")
-        data->setProperty("value", value.toInt());
+        data->updateValue(value.toInt());
 }
 
 void CSDataEngineSim::timerEvent(QTimerEvent *event)
@@ -93,17 +93,17 @@ void CSDataEngineSim::timerEvent(QTimerEvent *event)
     count++;
     foreach(CSData *data, _data) {
         if (data->property("source") == "sim://random") {
-            data->setProperty("value", qreal(qrand() * 1.0 / RAND_MAX));
+            data->updateValue(qreal(qrand() * 1.0 / RAND_MAX));
             data->setProperty("timeStamp", QDateTime());
         }
         else if (data->property("source") == "sim://sin") {
-            data->setProperty("value", qSin(count));
+            data->updateValue(qSin(count));
             data->setProperty("timeStamp", QDateTime());
         }
         else if (data->property("source") == "sim://wave") {
             for(int i=0; i<20; i++)
                 wave[i] = qSin(i + count);
-            data->setProperty("value", QVariant::fromValue(wave));
+            data->updateValue(QVariant::fromValue(wave));
         }
     }
 }

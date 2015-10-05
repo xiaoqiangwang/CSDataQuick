@@ -522,7 +522,7 @@ void Control::toQML(std::ostream &fstream)
     int indent_level = parent()->level() + 1;
     std::string indent(indent_level * 4, ' ');
 
-    fstream << indent << "channel: " << '"' << this->control << '"' << std::endl;
+    fstream << indent << "source: " << '"' << this->control << '"' << std::endl;
     fstream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
     fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
 }
@@ -576,7 +576,7 @@ void Monitor::toQML(std::ostream &fstream)
     int indent_level = parent()->level() + 1;
     std::string indent(indent_level * 4, ' ');
 
-    fstream << indent << "channel: " << '"' << this->rdbk << '"' << std::endl;
+    fstream << indent << "source: " << '"' << this->rdbk << '"' << std::endl;
     fstream << indent << "foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
     fstream << indent << "background: \"" << parent()->display()->color(this->bclr) << '"' << std::endl;
 }

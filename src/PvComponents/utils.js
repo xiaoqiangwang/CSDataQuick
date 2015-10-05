@@ -42,7 +42,7 @@ function popupPvLimitsDialog(parent) {
     var cmd = 'import PvComponents 1.0; PvLimitsDialog {}'
     var dialog = Qt.createQmlObject(cmd, parent, 'dialog')
 
-    dialog.channel = parent.channel
+    dialog.channel = parent.source
 
     dialog.limits.loprSrc     = parent.limits.loprSrc
     dialog.limits.loprChannel = parent.limits.loprChannel
@@ -95,35 +95,35 @@ function dumpPvInfo(pv) {
     var text
     text = '           PV Infomation\n\n'
     text += date + '\n\n'
-    text += pv.channel + '\n'
+    text += pv.source + '\n'
     text += '======================================\n'
     if (!pv.connected) {
         text += 'diconnected'
         return text
     }
 
-    text += 'TYPE: %1\n'.arg(pv.type)
+    text += 'TYPE: %1\n'.arg(pv.fieldType)
     text += 'COUNT: %1\n'.arg(pv.count)
     text += 'ACCESS: '
-    if (pv.readable)
+    if (pv.accessRight & PvComponents.CSData.ReadAccess)
         text += 'R'
-    if (pv.writable)
+    if (pv.accessRight & PvComponents.CSData.WriteAccess)
         text += 'W'
     text += '\n'
     text += 'HOST: %1\n'.arg(pv.host)
     text += 'VALUE: %1\n'.arg(pv.value)
-    text += 'STAMP: %1\n'.arg(pv.stamp)
+    text += 'STAMP: %1\n'.arg(pv.timeStamp)
     // PV type specific information
     text += '\n'
-    if (pv.type == PvComponents.PvObject.Float || pv.type == PvComponents.PvObject.Double)
-        text += 'PRECISION: %1\n'.arg(pv.prec)
-    if (pv.lodisplim != pv.updisplim)
-        text += 'HOPR: %1  LOPR %2\n'.arg(pv.updisplim).arg(pv.lodisplim)
+    if (pv.fieldType == PvComponents.CSData.Float || pv.fieldType == PvComponents.CSData.Double)
+        text += 'PRECISION: %1\n'.arg(pv.precision)
+    if (pv.range.lower != pv.range.upper)
+        text += 'HOPR: %1  LOPR %2\n'.arg(pv.range.upper).arg(pv.range.lower)
 
-    if (pv.nostr != 0)
-        text += 'STATES: %1\n'.arg(pv.nostr)
-    for(var i=0; i<pv.strs.length; i++) {
-        text += 'STATE %1: %2\n'.arg(i).arg(pv.strs[i])
+    if (pv.stateStrings.length)
+        text += 'STATES: %1\n'.arg(pv.stateStrings.length)
+    for(var i=0; i<pv.stateStrings.length; i++) {
+        text += 'STATE %1: %2\n'.arg(i).arg(pv.stateStrings[i])
     }
     return text
 }

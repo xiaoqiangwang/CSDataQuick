@@ -106,11 +106,11 @@ CaControl {
         target: pv
         onConnectionChanged: {
             if (pv.connected) {
-                if (pv.lodisplim < pv.updisplim) {
-                    limits.loprChannel = pv.lodisplim
-                    limits.hoprChannel = pv.updisplim
+                if (pv.range.isValid()) {
+                    limits.loprChannel = pv.range.lower
+                    limits.hoprChannel = pv.range.upper
                 }
-                limits.precChannel = pv.prec
+                limits.precChannel = pv.precision
             }
         }
     }

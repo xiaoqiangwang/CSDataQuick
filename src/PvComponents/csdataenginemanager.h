@@ -15,7 +15,8 @@ class CSDataEngineManager : public QObject
 public:
     static CSDataEngineManager *instance();
     ~CSDataEngineManager();
-    CSDataEngine *engineForName(QString name);
+    CSDataEngine *engineForName(QString source);
+    CSDataEngine *defaultEngine();
 
 private:
     CSDataEngineManager(QObject *parent=0);

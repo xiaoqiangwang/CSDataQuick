@@ -2,6 +2,9 @@
 #include "csdataenginesim.h"
 #include "csdataengineca.h"
 
+#include <QtDebug>
+#include <QUrl>
+
 CSDataEngineManager *CSDataEngineManager::_manager = Q_NULLPTR;
 
 CSDataEngineManager::CSDataEngineManager(QObject *parent)
@@ -23,10 +26,19 @@ CSDataEngineManager *CSDataEngineManager::instance()
     return _manager;
 }
 
-CSDataEngine *CSDataEngineManager::engineForName(QString name)
+CSDataEngine *CSDataEngineManager::defaultEngine()
 {
+    return _engines.at(1);
+}
+
+CSDataEngine *CSDataEngineManager::engineForName(QString source)
+{
+    QUrl url(source);
+    if (url.scheme().isEmpty())
+        return defaultEngine();
+
     foreach (CSDataEngine *engine, _engines) {
-        if (engine->name() == name)
+        if (engine->name() == url.scheme())
             return engine;
     }
     return Q_NULLPTR;

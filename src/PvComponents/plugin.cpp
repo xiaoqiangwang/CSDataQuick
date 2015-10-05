@@ -14,7 +14,6 @@
 #include "windowmanager.h"
 
 #include "csdata.h"
-#include "csdatasource.h"
 
 #include <qqml.h>
 
@@ -51,7 +50,6 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CSData>(uri, 1, 0, "CSData");
     qmlRegisterType<CSDataRange>(uri, 1, 0, "CSDataRange");
     qmlRegisterType<CSDataAlarm>(uri, 1, 0, "CSDataAlarm");
-    qmlRegisterType<QQmlPropertyMap>();
 
     qRegisterMetaType<CSData::AccessFlags>("CSData::AccessFlags");
     qRegisterMetaType<CSData::FieldType>("CSData::FieldType");

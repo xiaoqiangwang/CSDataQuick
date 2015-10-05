@@ -71,7 +71,7 @@ CaControl {
             d.layout = null
         }
         // calculate font size
-        var size = Utils.getBestFontSize(stacking==Stacking.Column ? height / pv.nostr - 4 : height - 4).size
+        var size = Utils.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4).size
         // create layout based on stacking
         var cmd = 'import QtQuick 2.0; import QtQuick.Layouts 1.0; import PvComponents 1.0;\n'
         if (stacking == Stacking.Row) {
@@ -80,22 +80,22 @@ CaControl {
                         id: layout;
                         anchors.fill: parent;
                         spacing: 0;
-                        enabled: pv.writable;'
+                        enabled: pv.accessRight & CSData.WriteAccess;'
         } else if (stacking == Stacking.Column) {
             cmd += '
                     ColumnLayout {
                         id: layout;
                         anchors.fill: parent;
                         spacing: 0;
-                        enabled: pv.writable;'
+                        enabled: pv.accessRight & CSData.WriteAccess;'
         } else {
             cmd += '
                     Flow {
                         id: layout;
-                        enabled: pv.writable;'
+                        enabled: pv.accessRight & CSData.WriteAccess;'
         }
         // create buttons
-        for(var i = 0; i < pv.nostr; i++) {
+        for(var i = 0; i < pv.stateStrings.length; i++) {
             var name = 'btn'+i
             cmd += '
                     StyledButton {
@@ -109,7 +109,7 @@ CaControl {
                         Layout.fillWidth: true;
                         Layout.fillHeight: true;
                         onClicked: pv.setValue(%2);
-                    }\n'.arg(pv.strs[i]).arg(i).arg(size)
+                    }\n'.arg(pv.stateStrings[i]).arg(i).arg(size)
         }
         cmd += '}'
         d.layout = Qt.createQmlObject(cmd, root, 'layout')

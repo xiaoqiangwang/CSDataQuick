@@ -104,8 +104,8 @@ Item {
             // create pv object
             var cmd =
                     'import PvComponents 1.0\n' +
-                    'PvObject {\n' +
-                    '    channel: "%1"\n'.arg(pen.channel) +
+                    'CSData {\n' +
+                    '    source: "%1"\n'.arg(pen.channel) +
                     '    property var data\n' +
                     '    property Limits limits : Limits {\n';
             if (pen.loprSrc)
@@ -119,9 +119,9 @@ Item {
               cmd +='    }\n' +
                     '    onConnectionChanged: {\n' +
                     '        if (connected) {\n' +
-                    '            if (lodisplim < updisplim) {\n' +
-                    '                limits.loprChannel = lodisplim\n' +
-                    '                limits.hoprChannel = updisplim\n' +
+                    '            if (range.isValid()) {\n' +
+                    '                limits.loprChannel = range.lower\n' +
+                    '                limits.hoprChannel = range.upper\n' +
                     '            }\n' +
                     '        }\n' +
                     '    }\n' +

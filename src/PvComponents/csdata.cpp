@@ -14,10 +14,11 @@ CSDataAlarm::CSDataAlarm(QObject *parent)
     reset();
 }
 
-void CSDataAlarm::setAlarm(Severity severity, const QString message)
+void CSDataAlarm::setAlarm(Severity severity, int status, const QString message)
 {
-    if (_severity != severity || _message != message) {
+    if (_severity != severity || _status != status || _message != message) {
         _severity = severity;
+        _status = status;
         _message = message;
         emit alarmChanged();
     }
@@ -26,6 +27,7 @@ void CSDataAlarm::setAlarm(Severity severity, const QString message)
 void CSDataAlarm::reset()
 {
     _severity = InvalidAlarm;
+    _status = 0;
     _message = "Undefined";
 }
 
@@ -45,6 +47,10 @@ void CSDataRange::setRange(double lower, double upper)
     }
 }
 
+bool CSDataRange::isValid() const
+{
+    return _lower < _upper;
+}
 
 void CSDataRange::reset()
 {
@@ -59,11 +65,17 @@ CSData::CSData(QObject *parent)
       _engine(Q_NULLPTR)
 {
     reset();
+    connect(_alarm, SIGNAL(alarmChanged()), this, SIGNAL(alarmChanged()));
+    connect(_range, SIGNAL(rangeChanged()), this, SIGNAL(rangeChanged()));
 }
 
 CSData::~CSData()
 {
-
+    // disconnect from current data engine
+    if (_engine) {
+        _engine->close(this);
+        reset();
+    }
 }
 
 void CSData::classBegin()
@@ -75,12 +87,12 @@ void CSData::componentComplete()
 {
 }
 
-QUrl CSData::source() const
+QString CSData::source() const
 {
     return _source;
 }
 
-void CSData::setSource(QUrl source)
+void CSData::setSource(const QString source)
 {
     if (_source == source)
         return;
@@ -93,9 +105,9 @@ void CSData::setSource(QUrl source)
     _source = source;
 
     // request data engine
-    CSDataEngine * engine = engineManager->engineForName(source.scheme());
+    CSDataEngine * engine = engineManager->engineForName(_source);
     if (!engine) {
-        qWarning() << "No CSDataEngine supports" << source;
+        qWarning() << "No CSDataEngine supports" << _source;
         return;
     }
     _engine = engine;
@@ -152,11 +164,11 @@ void CSData::setCount(qulonglong count)
 }
 
 
-CSData::AccessFlags CSData::accessRight() const
+int CSData::accessRight() const
 {
     return _accessRight;
 }
-void CSData::setAccessRight(CSData::AccessFlags accessRight)
+void CSData::setAccessRight(int accessRight)
 {
     if (_accessRight == accessRight)
         return;
@@ -212,9 +224,9 @@ void CSData::setStateStrings(const QStringList stateStrings)
     emit stateStringsChanged();
 }
 
-void CSData::setAlarm(CSDataAlarm::Severity severity, const QString message)
+void CSData::setAlarm(CSDataAlarm::Severity severity, int status, const QString message)
 {
-    _alarm->setAlarm(severity, message);
+    _alarm->setAlarm(severity, status, message);
 }
 
 void CSData::setRange(double lower, double upper)
@@ -227,7 +239,7 @@ QVariant CSData::value() const
     return _value;
 }
 
-void CSData::setValue(const QVariant value)
+void CSData::updateValue(const QVariant value)
 {
     if (_value == value)
         return;
@@ -236,7 +248,7 @@ void CSData::setValue(const QVariant value)
     emit valueChanged();
 }
 
-void CSData::updateValue(const QVariant value)
+void CSData::setValue(const QVariant value)
 {
     if (_engine)
         _engine->setValue(this, value);
