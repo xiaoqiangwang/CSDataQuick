@@ -33,10 +33,13 @@ SOURCES += \
     $$PWD/plotitem.cpp \
     $$PWD/baseitem.cpp \
     $$PWD/enums.cpp \
-    $$PWD/csdatasource.cpp \
     $$PWD/csdata.cpp \
     $$PWD/windowmanager.cpp \
-    $$PWD/geometryspecification.cpp
+    $$PWD/geometryspecification.cpp \
+    $$PWD/csdataengine.cpp \
+    $$PWD/csdataenginesim.cpp \
+    $$PWD/csdataenginemanager.cpp \
+    $$PWD/csdataengineca.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -48,6 +51,9 @@ HEADERS += \
     $$PWD/plotitem.h \
     $$PWD/baseitem.h \
     $$PWD/enums.h \
-    $$PWD/csdatasource.h \
     $$PWD/csdata.h \
-    $$PWD/windowmanager.h
+    $$PWD/windowmanager.h \
+    $$PWD/csdataengine.h \
+    $$PWD/csdataenginesim.h \
+    $$PWD/csdataenginemanager.h \
+    $$PWD/csdataengineca.h
