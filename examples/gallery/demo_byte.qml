@@ -11,7 +11,7 @@ ColumnLayout {
         height: orientation == Qt.Vertical ? 300 : 30
         foreground: fgColorPalette.color
         background: bgColorPalette.color
-        channel: 'calc'
+        source: 'calc'
         start: start.value
         end: end.value
         orientation: orientationGroup.orientation

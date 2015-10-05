@@ -8,7 +8,7 @@ Rectangle {
     ColumnLayout {
         anchors.fill: parent
         CaMenu {
-            channel: 'bo'
+            source: 'bo'
             width: 100
             height: 40
             foreground: fgColorPalette.color

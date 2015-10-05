@@ -8,14 +8,14 @@ Rectangle {
     ColumnLayout {
         anchors.fill: parent
         CaTextUpdate {
-            channel: 'calc'
+            source: 'calc'
             width: 100
         }
         CaMessageButton {
             text: 'reset'
             width: 80
             height: 20
-            channel: 'calc'
+            source: 'calc'
             foreground: fgColorPalette.color
             background: bgColorPalette.color
             colorMode: colorModeGroup.colorMode

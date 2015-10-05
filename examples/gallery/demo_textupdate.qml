@@ -10,7 +10,7 @@ Rectangle {
         CaTextUpdate {
             width: 100
             height: 20
-            channel: 'catest'
+            source: 'catest'
             foreground: fgColorPalette.color
             background: bgColorPalette.color
             colorMode: colorModeGroup.colorMode
