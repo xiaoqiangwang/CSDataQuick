@@ -228,12 +228,12 @@ Item {
 
     Component.onCompleted: {
         if (countPvName != '') {
-            d.pvCount = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(countPvName), root, 'pvCount')
+            d.pvCount = Qt.createQmlObject('import PvComponents 1.0; CSData{source: "%1"}'.arg(countPvName), root, 'pvCount')
             d.pvCount.valueChanged.connect(updateCount)
         }
 
         if (erasePvName != '') {
-            d.pvErase = Qt.createQmlObject('import PvComponents 1.0; PvObject{channel: "%1"}'.arg(erasePvName), root, 'pvErase')
+            d.pvErase = Qt.createQmlObject('import PvComponents 1.0; CSData{source: "%1"}'.arg(erasePvName), root, 'pvErase')
             d.pvErase.valueChanged.connect(eraseGraph)
         }
 
@@ -254,8 +254,8 @@ Item {
             if (xchannel) {
                 xpv = Qt.createQmlObject(
                             'import PvComponents 1.0\n' +
-                            'PvObject {\n' +
-                            '    channel: "%1"\n'.arg(xchannel) +
+                            'CSData {\n' +
+                            '    source: "%1"\n'.arg(xchannel) +
                             '    property var data: []\n'+
                             '    onValueChanged: {\n' +
                             '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +
@@ -267,8 +267,8 @@ Item {
             if (ychannel) {
                 ypv = Qt.createQmlObject(
                             'import PvComponents 1.0\n' +
-                            'PvObject {\n' +
-                            '    channel: "%1"\n'.arg(ychannel) +
+                            'CSData {\n' +
+                            '    source: "%1"\n'.arg(ychannel) +
                             '    property var data: []\n' +
                             '    onValueChanged: {\n' +
                             '        if (count == 1) { data.push(value); if (data.length > root.count) data.shift();}\n' +

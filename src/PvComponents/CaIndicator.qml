@@ -54,7 +54,7 @@ CaMonitor {
         anchors.top: root.top
         anchors.horizontalCenter: root.horizontalCenter
 
-        text: root.channel
+        text: root.source
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignBottom
 
@@ -113,11 +113,11 @@ CaMonitor {
         target: pv
         onConnectionChanged: {
             if (pv.connected) {
-                if (pv.lodisplim < pv.updisplim) {
-                    limits.loprChannel = pv.lodisplim
-                    limits.hoprChannel = pv.updisplim
-                    limits.precChannel = pv.prec
+                if (pv.range.isValid()) {
+                    limits.loprChannel = pv.range.lower
+                    limits.hoprChannel = pv.range.upper
                 }
+                limits.precChannel = pv.precision
             }
         }
         onValueChanged: {

@@ -64,11 +64,11 @@ QtObject {
         if (d.pvA) {
             d.args[0] = d.pvA.value
             d.args[6] = d.pvA.count
-            d.args[7] = d.pvA.updisplim
-            d.args[8] = d.pvA.status
-            d.args[9] = d.pvA.severity
-            d.args[10] = d.pvA.prec
-            d.args[11] = d.pvA.lodisplim
+            d.args[7] = d.pvA.range.upper
+            d.args[8] = d.pvA.alarm.status
+            d.args[9] = d.pvA.alarm.severity
+            d.args[10] = d.pvA.precicion
+            d.args[11] = d.pvA.range.lower
         }
         if (d.pvB) {
             d.args[1] = d.pvB.value
@@ -101,24 +101,24 @@ QtObject {
     function createChannels () {
         var chan
         if (channel != '') {
-            chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channel), da, 'channel')
+            chan = Qt.createQmlObject('import PvComponents 1.0; CSData {source: "%1"}'.arg(channel), da, 'channel')
             chan.valueChanged.connect(calcPerform)
-            chan.statusChanged.connect(updateStatus)
+            chan.alarmChanged.connect(updateStatus)
             d.pvA = chan
 
         }
         if (channelB != '') {
-            chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelB), da, 'channelB')
+            chan = Qt.createQmlObject('import PvComponents 1.0; CSData {source: "%1"}'.arg(channelB), da, 'channelB')
             chan.valueChanged.connect(calcPerform)
             d.pvB = chan
         }
         if (channelC != '') {
-            chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelC), da, 'channelC')
+            chan = Qt.createQmlObject('import PvComponents 1.0; CSData {source: "%1"}'.arg(channelC), da, 'channelC')
             chan.valueChanged.connect(calcPerform)
             d.pvC = chan
         }
         if (channelD != '') {
-            chan = Qt.createQmlObject('import PvComponents 1.0; PvObject {channel: "%1"}'.arg(channelD), da, 'channelD')
+            chan = Qt.createQmlObject('import PvComponents 1.0; CSData {source: "%1"}'.arg(channelD), da, 'channelD')
             chan.valueChanged.connect(calcPerform)
             d.pvD = chan
         }

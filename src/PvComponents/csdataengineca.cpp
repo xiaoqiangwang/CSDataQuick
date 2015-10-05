@@ -124,8 +124,10 @@ void monitorCallbackC(struct event_handler_args args)
         ConvertValue(val->tdblval,dbr_double_t)
         break;
     }
-    QMetaObject::invokeMethod(data, "setValue", Q_ARG(QVariant, value));
-    QMetaObject::invokeMethod(data, "setAlarm", Q_ARG(CSDataAlarm::Severity, (CSDataAlarm::Severity)severity),
+    QMetaObject::invokeMethod(data, "updateValue", Q_ARG(QVariant, value));
+    QMetaObject::invokeMethod(data, "setAlarm",
+                              Q_ARG(CSDataAlarm::Severity, (CSDataAlarm::Severity)severity),
+                              Q_ARG(int, status),
                               Q_ARG(QString, epicsAlarmConditionStrings[status]));
     QMetaObject::invokeMethod(data, "setTimeStamp",
                               Q_ARG(QDateTime, timeStamp));
@@ -219,7 +221,7 @@ void accessCallbackC(struct access_rights_handler_args args)
     CSData::AccessFlags accessRight = (args.ar.read_access ? CSData::ReadAccess : CSData::NoAccess) |
             (args.ar.write_access ? CSData::WriteAccess : CSData::NoAccess);
     QMetaObject::invokeMethod(data, "setAccessRight",
-                              Q_ARG(CSData::AccessFlags, accessRight));
+                              Q_ARG(int, (int)accessRight));
 }
 
 //
@@ -276,8 +278,10 @@ QString CSDataEngineCA::name()
 
 void CSDataEngineCA::create(CSData *data)
 {
-    QUrl source = data->property("source").toUrl();
-    if (source.scheme() != name()) {
+    QString source = data->property("source").toString();
+    QUrl url(source);
+
+    if (!url.scheme().isEmpty() && url.scheme() != name()) {
         qWarning() << "Unsupported source by CSDataEngineCA" << source;
         return;
     }
@@ -288,20 +292,18 @@ void CSDataEngineCA::create(CSData *data)
     }
 
     // make connection
-    chid _chid;
-    QString name = source.host();
-    int status = ca_create_channel(name.toLocal8Bit(), connectCallbackC, data, 0, &_chid);
+    chid _chid = 0;
+    QString name = url.host();
+    int status = ca_create_channel(source.toLocal8Bit(), connectCallbackC, data, 0, &_chid);
     if(status != ECA_NORMAL)
     {
-        ca_clear_channel(_chid);
-        _chid = 0;
-        qCritical() << "ca_create_channel:" << ca_message(status);
+        if (_chid) ca_clear_channel(_chid);
+        qCritical() << "ca_create_channel:" << source << ca_message(status);
+    } else {
+        // create a dynamic property to hold the channel id
+        data->setProperty("chid", QVariant::fromValue((void*)_chid));
     }
-
-    // create a dynamic property to hold the channel id
-    data->setProperty("chid", QVariant::fromValue((void*)_chid));
 }
-
 void CSDataEngineCA::close(CSData *data)
 {
     if (ca_current_context() != _cac) {

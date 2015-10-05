@@ -29,7 +29,7 @@ CaControl {
         id: combo_control
         property bool __first: true
         anchors.fill: parent
-        enabled: pv.writable
+        enabled: pv.accessRight & CSData.WriteAccess
 
         style: ComboBoxStyle {
             padding { top: 2 ; left: 2 ; right: 14 ; bottom:2 }
@@ -70,7 +70,7 @@ CaControl {
         onCurrentIndexChanged: {
             if (__first)
                 __first = false
-            else if (pv.writable)
+            else
                 pv.setValue(currentIndex)
         }
     }
@@ -78,7 +78,7 @@ CaControl {
         target: pv
         onConnectionChanged: {
             if (pv.connected) {
-                combo_control.model = pv.strs
+                combo_control.model = pv.stateStrings
             } else {
                 combo_control.model = []
             }

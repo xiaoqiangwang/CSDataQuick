@@ -110,7 +110,7 @@ CaControl {
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         verticalAlignment: TextInput.AlignBottom
         activeFocusOnPress: true
-        readOnly: !pv.writable
+        readOnly: pv.accessRight & CSData.WriteAccess == 0
         clip: true
         selectByMouse: true
         anchors.topMargin: 4
@@ -119,17 +119,17 @@ CaControl {
         anchors.rightMargin: 2
         anchors.fill: parent
         onAccepted: {
-            if (!pv.writable)
+            if (pv.accessRight & CSData.WriteAccess == 0)
                 return
             var value;
-            switch (pv.type) {
-            case PvObject.String:
+            switch (pv.fieldType) {
+            case CSData.String:
                 pv.value = text
                 break
-            case PvObject.Enum:
+            case CSData.Enum:
                 var found = false
-                for(var i=0; i<pv.strs.length; i++) {
-                    if (text == pv.strs[i]) {
+                for(var i=0; i<pv.stateStrings.length; i++) {
+                    if (text == pv.stateStrings[i]) {
                         found = true
                         break
                     }
@@ -142,13 +142,13 @@ CaControl {
                         pv.value = value
                 }
                 break
-            case PvObject.Integer:
-            case PvObject.Long:
+            case CSData.Integer:
+            case CSData.Long:
                 value = Utils.parse(format, text)
                 if (!isNaN(value))
                     pv.value = value
                 break
-            case PvObject.Char:
+            case CSData.Char:
                 pv.value = text
                 break
             default:
@@ -174,7 +174,7 @@ CaControl {
         target: pv
         onConnectionChanged: {
             if (pv.connected) {
-                limits.precChannel = pv.prec
+                limits.precChannel = pv.precision
             }
         }
         onValueChanged: {
@@ -199,11 +199,11 @@ CaControl {
         Format the value based on PV type.
     */
     function formatString(format, value) {
-        if (pv.type == PvObject.Enum)
-            return pv.strs[value]
-        if (pv.type == PvObject.String)
+        if (pv.fieldType == CSData.Enum)
+            return pv.stateStrings[value]
+        if (pv.fieldType == CSData.String)
             return value
-        if (pv.type == PvObject.Char && value instanceof Array)
+        if (pv.fieldType == CSData.Char && value instanceof Array)
             return arrayToString(value)
         var result = Utils.convert(format, value, limits.prec)
         return result

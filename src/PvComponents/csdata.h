@@ -13,8 +13,9 @@ class CSDataEngine;
 class CSDataAlarm : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(Severity severity MEMBER _severity    NOTIFY alarmChanged)
-    Q_PROPERTY(QString  message  MEMBER _message     NOTIFY alarmChanged)
+    Q_PROPERTY(Severity severity MEMBER _severity   NOTIFY alarmChanged)
+    Q_PROPERTY(int      status  MEMBER  _status     NOTIFY alarmChanged)
+    Q_PROPERTY(QString  message  MEMBER _message    NOTIFY alarmChanged)
 public:
     enum Severity {
         NoAlarm = 0,
@@ -25,13 +26,14 @@ public:
     Q_ENUMS(Severity)
 
     CSDataAlarm(QObject *parent=0);
-    void setAlarm(Severity severity, const QString message);
+    void setAlarm(Severity severity, int status, const QString message);
     void reset();
 
 signals:
     void alarmChanged();
 
 private:
+    int _status;
     Severity _severity;
     QString _message;
 };
@@ -44,9 +46,8 @@ class CSDataRange : public QObject
     Q_PROPERTY(double upper MEMBER _upper NOTIFY rangeChanged)
 public:
     CSDataRange(QObject *parent=0);
-
+    Q_INVOKABLE bool isValid() const;
     void setRange(double lower, double upper);
-
     void reset();
 
 signals:
@@ -62,7 +63,7 @@ class CSData : public QObject, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
-    Q_PROPERTY(QUrl         source      READ source     WRITE setSource     NOTIFY sourceChanged)
+    Q_PROPERTY(QString      source      READ source     WRITE setSource     NOTIFY sourceChanged)
     Q_PROPERTY(QString      host        READ host       WRITE setHost       NOTIFY hostChanged)
     Q_PROPERTY(bool         connected   READ connected  WRITE setConnected  NOTIFY connectionChanged)
 
@@ -70,12 +71,12 @@ class CSData : public QObject, public QQmlParserStatus
     Q_PROPERTY(qulonglong   count       READ count      WRITE setCount      NOTIFY countChanged)
     Q_PROPERTY(QVariant     value       READ value      WRITE setValue      NOTIFY valueChanged)
 
-    Q_PROPERTY(AccessFlags  accessRight READ accessRight  WRITE setAccessRight   NOTIFY accessRightChanged)
+    Q_PROPERTY(int  accessRight READ accessRight  WRITE setAccessRight   NOTIFY accessRightChanged)
     Q_PROPERTY(CSDataAlarm* alarm           MEMBER _alarm NOTIFY alarmChanged)
     Q_PROPERTY(QDateTime    timeStamp   READ timeStamp  WRITE setTimeStamp  NOTIFY timeStampChanged)
 
     // numeric type
-    Q_PROPERTY(int          pecision    READ precision  WRITE setPrecision  NOTIFY precisionChanged)
+    Q_PROPERTY(int          precision   READ precision  WRITE setPrecision  NOTIFY precisionChanged)
     Q_PROPERTY(QString      units       READ units       WRITE setUnits      NOTIFY unitsChanged)
     Q_PROPERTY(CSDataRange* range           MEMBER _range           NOTIFY rangeChanged)
     // enum type
@@ -93,6 +94,7 @@ public:
         ReadAccess  = 0x01,
         WriteAccess = 0x02,
     };
+    Q_ENUMS(AccessFlag)
     Q_DECLARE_FLAGS(AccessFlags, AccessFlag)
 
     enum FieldType {
@@ -108,8 +110,8 @@ public:
     };
     Q_ENUMS(FieldType)
 
-    QUrl source() const;
-    void setSource(const QUrl source);
+    QString source() const;
+    void setSource(const QString source);
 
     QString host() const;
     Q_INVOKABLE void setHost(const QString host);
@@ -125,9 +127,10 @@ public:
 
     QVariant value() const;
     Q_INVOKABLE void setValue(const QVariant value);
+    Q_INVOKABLE void updateValue(const QVariant value);
 
-    AccessFlags accessRight() const;
-    Q_INVOKABLE void setAccessRight(CSData::AccessFlags accessRight);
+    int accessRight() const;
+    Q_INVOKABLE void setAccessRight(int accessRight);
 
     QDateTime timeStamp() const;
     Q_INVOKABLE void setTimeStamp(const QDateTime timeStamp);
@@ -141,10 +144,9 @@ public:
     QStringList stateStrings() const;
     Q_INVOKABLE void setStateStrings(const QStringList stateStrings);
 
-    Q_INVOKABLE void setAlarm(CSDataAlarm::Severity severity, const QString message);
+    Q_INVOKABLE void setAlarm(CSDataAlarm::Severity severity, int status, const QString message);
     Q_INVOKABLE void setRange(double lower, double upper);
 
-    Q_INVOKABLE void updateValue(const QVariant value);
 
 signals:
     void sourceChanged();
@@ -168,7 +170,7 @@ signals:
 protected:
     void reset();
 
-    QUrl  _source;              // data source
+    QString  _source;           // data source
     QString _host;              // host where the data exists
     bool _connected;            // data connection status
 
@@ -176,7 +178,7 @@ protected:
     qulonglong _count;          // number of element
     QVariant _value;            // value
 
-    AccessFlags _accessRight;   // access right
+    int _accessRight;           // access right
     CSDataAlarm *_alarm;        // alarm severity
     QDateTime _timeStamp;       // date time object
 

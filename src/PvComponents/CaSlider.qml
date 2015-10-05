@@ -95,7 +95,7 @@ CaControl {
         anchors.left: root.left
         z: 1
 
-        text: root.channel
+        text: root.source
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignBottom
 
@@ -129,17 +129,17 @@ CaControl {
         showValueText: label == LabelStyle.Limits ||  label == LabelStyle.Channel
         valueTextColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
 
-        enabled: pv.writable
+        enabled: pv.accessRight & CSData.WriteAccess
 
         Connections {
             target: pv
             onConnectionChanged: {
                 if (pv.connected) {
-                    if (pv.lodisplim < pv.updisplim) {
-                        limits.loprChannel = pv.lodisplim
-                        limits.hoprChannel = pv.updisplim
-                        limits.precChannel = pv.prec
+                    if (pv.range.isValid()) {
+                        limits.loprChannel = pv.range.lower
+                        limits.hoprChannel = pv.range.upper
                     }
+                    limits.precChannel = pv.precision
                 }
             }
             onValueChanged: {

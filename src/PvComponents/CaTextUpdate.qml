@@ -89,7 +89,7 @@ CaMonitor {
         onConnectionChanged: {
             if (pv.connected) {
                 units.text = pv.units;
-                limits.precChannel = pv.prec
+                limits.precChannel = pv.precision
             }
         }
         onValueChanged: {
@@ -115,11 +115,11 @@ CaMonitor {
 
     /*! \internal */
     function formatString(format, value) {
-        if (pv.type == PvObject.Enum)
-            return pv.strs[value]
-        if (pv.type == PvObject.String)
+        if (pv.fieldType == CSData.Enum)
+            return pv.stateStrings[value]
+        if (pv.fieldTYpe == CSData.String)
             return value
-        if (pv.type == PvObject.Char && value instanceof Array)
+        if (pv.fieldType == CSData.Char && value instanceof Array)
             return arrayToString(value)
         var result = Utils.convert(format, value, limits.prec)
         return result

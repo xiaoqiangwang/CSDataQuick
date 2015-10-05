@@ -34,13 +34,15 @@ BaseItem {
     /*! The font family for text display */
     property string fontFamily: fontSize <= 22 ? 'Courier' : 'Helvetica'
 
-    /*! \qmlproperty string CaControl::channel
-        The PV channel name.
+    /*! \qmlproperty string CaControl::source
+        The data source url.
     */
-    property alias channel: pv.channel
+    property string source
 
     /*! internal */
-    property var pv: PvObject { id: pv; }
+    property var pv: CSData {
+        source: root.source
+    }
 
     /*! dynamic attributes */
     property DynamicAttr dynamicAttr: DynamicAttr { id: da }
@@ -54,7 +56,7 @@ BaseItem {
         z: 1
         anchors.fill: parent
         color: 'white'
-        visible: channel != '' && !pv.connected
+        visible: pv.source && !pv.connected
     }
 
     Menu {
@@ -79,14 +81,15 @@ BaseItem {
         z: 1
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
-        cursorShape: pv.writable ? Qt.ArrowCursor : Qt.ForbiddenCursor
+        cursorShape: pv.accessRight & CSData.WriteAccess ? Qt.ArrowCursor : Qt.ForbiddenCursor
         onReleased: contextMenu.popup()
     }
 
     Connections {
         target: pv
-        onStatusChanged: {
-            switch (pv.severity) {
+
+        onAlarmChanged: {
+            switch (pv.alarm.severity) {
                 case 0: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;

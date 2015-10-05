@@ -24,10 +24,10 @@ BaseItem {
     /*! font family */
     property string fontFamily: fontSize <= 22 ?'Dejavu Sans Mono' : 'Helvetica'
 
-    /*! control pv name */
-    property alias channel: pv.channel
-    /*! control pv object */
-    property var pv: PvObject { id: pv; }
+    /*! control data source name */
+    property alias source: pv.source
+    /*! control data object */
+    property var pv: CSData { id: pv; }
 
     /*! dynamic attributes */
     property var dynamicAttr: DynamicAttr { id: da }
@@ -76,18 +76,18 @@ BaseItem {
     Connections {
         target: pv
 
-        onStatusChanged: {
-            switch (pv.severity) {
-                case PvObject.NoAlarm: // NO_ALARM
+        onAlarmChanged: {
+            switch (pv.alarm.severity) {
+                case CSDataAlarm.NoAlarm: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;
-                case PvObject.MinorAlarm: // MINOR_ALARM
+                case CSDataAlarm.MinorAlarm: // MINOR_ALARM
                 alarmColor = ColorMap.minor_alarm
                 break;
-                case PvObject.MajorAlarm: // MAJOR_ALARM
+                case CSDataAlarm.MajorAlarm: // MAJOR_ALARM
                 alarmColor = ColorMap.major_alarm
                 break;
-                case PvObject.InvalidAlarm: // INVALID_ALARM
+                case CSDataAlarm.InvalidAlarm: // INVALID_ALARM
                 alarmColor = ColorMap.invalid_alarm
                 break;
             }

@@ -50,12 +50,10 @@ CaControl {
         anchors.fill: parent
 
         onPressedChanged: {
-            if (!pv.writable)
-                return
             if (pressed)
-                pv.value = onMessage
+                pv.setValue(onMessage)
             else
-                pv.value = offMessage
+                pv.setValue(offMessage)
         }
     }
 }
