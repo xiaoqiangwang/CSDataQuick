@@ -9,6 +9,7 @@ sourcedirs = . ../src/PvComponents
 sources.fileextensions += "*.qdoc *.qml *.js"
 headers += ../src/PvComponents/utils.h \
            ../src/PvComponents/csdata.h \
+           ../src/PvComponents/baseitem.h \
            ../src/PvComponents/windowmanager.h \
            ../src/PvComponents/shapes.h \
            ../src/PvComponents/plotitem.h \
@@ -16,6 +17,7 @@ headers += ../src/PvComponents/utils.h \
 
 sources += ../src/PvComponents/utils.cpp \
            ../src/PvComponents/csdata.cpp \
+           ../src/PvComponents/baseitem.cpp \
            ../src/PvComponents/windowmanager.cpp \
            ../src/PvComponents/shapes.cpp \
            ../src/PvComponents/plotitem.cpp \

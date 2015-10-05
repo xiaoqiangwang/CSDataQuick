@@ -6,12 +6,21 @@
 
 #include <QQuickWindow>
 
+/*!
+    \qmltype BaseItem
+    \inqmlmodule PvComponents
+    \brief Base item which all visual items derive.
+*/
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
     setClip(false);
 }
 
+/*!
+    \qmlproperty enumeration BaseItem::cursorType
+    Mouse cursor shape.
+ */
 Qt::CursorShape BaseItem::cursorType()
 {
     return cursor().shape();
@@ -22,6 +31,10 @@ void BaseItem::setCursorType(Qt::CursorShape cursor)
     emit cursorTypeChanged();
 }
 
+/*!
+    \qmlproperty Window BaseItem::window
+    Window which contains this item.
+ */
 QQuickWindow * BaseItem::baseWindow()
 {
     return this->window();
