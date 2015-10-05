@@ -11,7 +11,7 @@ ColumnLayout {
     CaSlider {
         width:  orientation == Qt.Horizontal ? 150 : 50
         height: orientation == Qt.Vertical ? 150 : 50
-        channel: 'catest'
+        source: 'catest'
         foreground: fgColorPalette.color
         background: bgColorPalette.color
         colorMode: colorModeGroup.colorMode

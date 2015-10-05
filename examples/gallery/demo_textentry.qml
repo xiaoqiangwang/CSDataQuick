@@ -8,7 +8,7 @@ Rectangle {
     ColumnLayout {
         anchors.fill: parent
         CaTextEntry {
-            channel: 'catest'
+            source: 'catest'
             width: 100
             height: 20
             foreground: fgColorPalette.color
@@ -17,7 +17,7 @@ Rectangle {
             format: textFormatGroup.textFormat
         }
         CaTextEntry {
-            channel: 'castr'
+            source: 'castr'
             width: 100
             height: 20
             foreground: fgColorPalette.color

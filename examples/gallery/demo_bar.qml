@@ -11,7 +11,7 @@ ColumnLayout {
     CaBar {
         width: (direction == Direction.Left || direction == Direction.Right) ? 100 : 50
         height: (direction == Direction.Left || direction == Direction.Right) ? 50 : 100
-        channel: 'catest'
+        source: 'catest'
         foreground: fgColorPalette.color
         background: bgColorPalette.color
         colorMode: colorModeGroup.colorMode

@@ -11,7 +11,7 @@ ColumnLayout {
     CaIndicator {
         width: 100
         height: 50
-        channel: 'catest'
+        source: 'catest'
         colorMode: colorModeGroup.colorMode
         direction: directionGroup.direction
         label: labelStyleGroup.labelStyle

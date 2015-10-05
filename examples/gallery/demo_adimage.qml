@@ -11,6 +11,6 @@ Item {
         width: 600
         height: 600
         interval: 200
-        channel: '13SIM1:image1:'
+        source: '13SIM1:image1:'
     }
 }
