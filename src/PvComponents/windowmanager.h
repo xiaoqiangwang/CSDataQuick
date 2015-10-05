@@ -35,7 +35,6 @@ public:
     explicit WindowManager(QObject *parent = 0);
 
     Q_INVOKABLE void appendWindow(QWindow *window, QUrl absFilePath, QString macro);
-    Q_INVOKABLE void removeWindow(QWindow *window);
     Q_INVOKABLE QWindow* findWindow(QUrl absFilePath, QString macro);
     Q_INVOKABLE void closeAllWindow();
 
@@ -43,6 +42,8 @@ public:
     Q_INVOKABLE void printWindow(QWindow *window);
 
     Q_INVOKABLE void setMainWindow(QWindow *window) {mMainWindow = window;}
+
+    void removeWindow(QWindow *window);
 
     QList<QObject*> entries();
 
