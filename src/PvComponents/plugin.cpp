@@ -13,6 +13,9 @@
 #include "baseitem.h"
 #include "windowmanager.h"
 
+#include "csdata.h"
+#include "csdatasource.h"
+
 #include <qqml.h>
 
 static QObject *utils_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -45,6 +48,14 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
+    qmlRegisterType<CSData>(uri, 1, 0, "CSData");
+    qmlRegisterType<CSDataRange>(uri, 1, 0, "CSDataRange");
+    qmlRegisterType<CSDataAlarm>(uri, 1, 0, "CSDataAlarm");
+    qmlRegisterType<QQmlPropertyMap>();
+
+    qRegisterMetaType<CSData::AccessFlags>("CSData::AccessFlags");
+    qRegisterMetaType<CSData::FieldType>("CSData::FieldType");
+    qRegisterMetaType<CSDataAlarm::Severity>("CSDataAlarm::Severity");
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);
