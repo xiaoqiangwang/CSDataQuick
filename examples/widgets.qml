@@ -60,9 +60,9 @@ ApplicationWindow {
                 lineWidth: 2
             }
             CaArc {
-                PvObject {
+                CSData {
                     id: pv
-                    channel: 'catest'
+                    source: 'catest'
                 }
 
                 width: 100
@@ -109,7 +109,7 @@ ApplicationWindow {
             CaSlider {
                 width: 200
                 height: 50
-                channel: 'catest'
+                source: 'catest'
                 stepSize: 0.1
                 label: LabelStyle.Channel
             }
@@ -118,7 +118,7 @@ ApplicationWindow {
                 width: 100
                 height: 24
                 text: 'Click Me!'
-                channel: 'calc'
+                source: 'calc'
                 foreground: 'yellow'
                 onMessage: 0.1
                 offMessage: 0.5
@@ -127,26 +127,26 @@ ApplicationWindow {
             CaTextEntry {
                 width:100
                 height:24
-                channel: 'catest'
+                source: 'catest'
                 colorMode: ColorMode.Alarm
             }
             CaTextEntry {
                 width: 200
                 height: 20
-                channel: 'calc.SCAN'
+                source: 'calc.SCAN'
             }
 
             CaMenu {
                 width: 100
                 height: 20
-                channel: 'calc.SCAN'
+                source: 'calc.SCAN'
             }
 
             CaChoiceButton {
                 width: 100
                 height: 30
                 stacking: Stacking.Row
-                channel: 'bo'
+                source: 'bo'
             }
 
             CaRelatedDisplay {
@@ -175,13 +175,13 @@ ApplicationWindow {
             width: parent.width
 
             CaTextUpdate {
-                channel: 'calc'
+                source: 'calc'
                 width: 100
                 height: 20
             }
 
             CaTextUpdate {
-                channel: 'calc.SCAN'
+                source: 'calc.SCAN'
                 width: 150
                 height: 20
             }
@@ -189,12 +189,12 @@ ApplicationWindow {
             CaByte {
                 width: 320
                 height: 15
-                channel: 'calc'
+                source: 'calc'
             }
             CaBar {
                 width: 100
                 height: 40
-                channel: 'catest'
+                source: 'catest'
                 colorMode: ColorMode.Alarm
                 label: LabelStyle.Limits
             }
@@ -203,13 +203,13 @@ ApplicationWindow {
                height: 100
                direction: Direction.Down
                label: LabelStyle.Outline
-               channel: 'catest'
+               source: 'catest'
                colorMode: ColorMode.Alarm
            }
             CaIndicator {
                 width: 100
                 height: 50
-                channel: 'catest'
+                source: 'catest'
                 colorMode: ColorMode.Alarm
                 label: LabelStyle.Channel
             }
@@ -217,7 +217,7 @@ ApplicationWindow {
             CaMeter {
                 width: 80
                 height: 60
-                channel: 'catest'
+                source: 'catest'
             }
 
             CaStripChart {
@@ -225,7 +225,7 @@ ApplicationWindow {
                 height: 300
                 model: ListModel {
                     ListElement {
-                        channel: 'catest'
+                        source: 'catest'
                     }
                     ListElement {
 
