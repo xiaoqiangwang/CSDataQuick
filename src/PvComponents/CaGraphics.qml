@@ -41,7 +41,7 @@ Item {
         onStatusChanged: {
             if (colorMode == ColorMode.Static)
                 return
-            switch (da.d.pvA.severity) {
+            switch (da.d.pvA.alarm.severity) {
                 case 0: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;
