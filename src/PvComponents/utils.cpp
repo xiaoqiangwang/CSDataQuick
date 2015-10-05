@@ -40,30 +40,6 @@
     This is a group of helper functions, which are called by QML components.
 */
 
-/*!
-    \qmlmethod string Utils::format(string format, real number)
-
-    Format a number with given format, \sa QString::sprintf()
-*/
-
-/*!
-    \qmlmethod real Utils::calculate(string expr, array input)
-
-    Evalute an expression based on given input.
-*/
-
-/*!
-    \qmlmethod bool Utils::execute(string program)
-
-    Execute a program, \sa QProcess::startDetached(), QProcess::execute()
-*/
-
-/*!
-    \qmlmethod string Utils::convert(TextFormat format, real value, int precision)
-
-    Convert a number with given format.
-*/
-
 #define M_PI 3.14159265358979323846
 
 // conversion functions from conversion.c
@@ -84,11 +60,22 @@ QCSUtils::QCSUtils(QObject *parent)
 
 }
 
+
+/*!
+    \qmlmethod QString Utils::format(QString format, double number)
+
+    Format a number with given format, \sa QString::sprintf()
+*/
 QString QCSUtils::format(QString format, double number)
 {
     return QString("").sprintf(format.toLatin1(), number);
 }
 
+/*!
+    \qmlmethod double Utils::calculate(QString expr, QVariantList input)
+
+    Evalute an expression based on given input.
+*/
 double QCSUtils::calculate(QString expr, QVariantList input)
 {
     double result = 0.0;
@@ -111,6 +98,14 @@ double QCSUtils::calculate(QString expr, QVariantList input)
     return result;
 }
 
+/*!
+    \qmlmethod bool Utils::execute(QString program)
+
+    Execute a program. If \a program ends with "&", the new process will be detached.
+    Otherwise it will wait for the new process to finish and return the exit code.
+
+    \sa QProcess::startDetached(), QProcess::execute()
+*/
 bool QCSUtils::execute(QString program)
 {
     // remove whitespaces from the start and the end
@@ -128,6 +123,11 @@ bool QCSUtils::execute(QString program)
         return QProcess::execute(program) == 0;
 }
 
+/*!
+    \qmlmethod QString Utils::convert(TextFormat format, real value, int precision)
+
+    Convert a number with given format.
+*/
 QString QCSUtils::convert(int format, QVariant value, int precision)
 {
     char textField[128];
@@ -174,6 +174,11 @@ QString QCSUtils::convert(int format, QVariant value, int precision)
     return QString::fromLatin1(textField);
 }
 
+/*!
+    \qmlmethod double Utils::parse(int format, QString textValue)
+
+    Parse a numeric value in \a format from \a textValue. This is the opposite of Utils::convert.
+ */
 double QCSUtils::parse(int format, QString textValue)
 {
     char textField[128];
@@ -215,6 +220,12 @@ double QCSUtils::parse(int format, QString textValue)
         return qSNaN();
 }
 
+/*!
+    \qmlmethod QUrl Utils::searchADLFile(QString fileName, QWindow *window)
+
+    Search \a fileName from the current directory, the file path of \a window
+    and EPICS_DISPLAY_PATH environment variable.
+ */
 QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
 {
     // Check url scheme
@@ -252,6 +263,12 @@ QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
         return QUrl::fromLocalFile(fi.absoluteFilePath());
 }
 
+/*!
+    \qmlmethod QString Utils::openADLDisplay(QUrl fileName, QString macro)
+
+    Parse \a fileName with \a macro expansion, and convert to QML source.
+    The root item is BaseWindow.
+ */
 QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
 {
     std::map<std::string, std::string> macroMap;
@@ -269,6 +286,12 @@ QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
 
     return QString::fromStdString(qmlBody);
 }
+/*!
+    \qmlmethod QString Utils::openADLComposite(QUrl fileName, QString macro)
+
+    Parse \a fileName with \a macro expansion, and convert to QML source.
+    The difference from Utils::openADLDisplay is that this will only return the children items.
+ */
 
 QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
 {
@@ -288,6 +311,12 @@ QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
     return QString::fromStdString(qmlBody);
 }
 
+/*!
+    \qmlmethod QWindow* Utils::createDisplay(QString qml, QObject *display, QUrl filePath)
+
+    Create a top level window based on \a qml source, represented by \a filePath.
+    The QQmlEngine used is which \a display was created in.
+ */
 QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
 {
     QWindow *window = NULL;
@@ -312,6 +341,12 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
     return window;
 }
 
+/*!
+    \qmlmethod QWindow* Utils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
+
+    Create a top level window from \a filePath with \a macro expansion.
+    The QQmlEngine used is which \a display was created in.
+ */
 QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
 {
     QQmlEngine *engine = qmlEngine(display);
@@ -352,12 +387,29 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
 
     return window;
 }
+/*!
+    \qmlmethod Utils::parseX11Geometry(QString geometry)
 
+    Parse a token of a X11 geometry specification, e.g. "200x100+10-20".
+    The returned map contains the following fields,
+    \list
+    \li xOffset - x offset
+    \li yOffset - y offset
+    \li corner - the corner from where the offset counts
+    \li width - window width
+    \li height - window height
+    \endlist
+ */
 QVariantMap QCSUtils::parseX11Geometry(QString geometry)
 {
     return parseGeometry(geometry.toLatin1());
 }
 
+/*!
+    \qmlmethod Utils::currentDateTime()
+
+    Return the current time in the form of "yyyy-MM-dd HH:mm:ss".
+ */
 QString QCSUtils::currentDateTime()
 {
     return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
