@@ -225,7 +225,7 @@ ApplicationWindow {
                 height: 300
                 model: ListModel {
                     ListElement {
-                        source: 'catest'
+                        channel: 'catest'
                     }
                     ListElement {
 
