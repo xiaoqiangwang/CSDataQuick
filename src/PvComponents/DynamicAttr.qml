@@ -36,7 +36,7 @@ QtObject {
     property bool visibility: true
 
     /*! This property indicates wether channels are connect */
-    property bool connected:
+    readonly property bool connected:
         (!d.pvA || d.pvA.connected) &&
         (!d.pvB || d.pvB.connected) &&
         (!d.pvC || d.pvC.connected) &&
