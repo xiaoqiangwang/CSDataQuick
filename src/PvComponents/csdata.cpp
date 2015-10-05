@@ -13,6 +13,12 @@
     \brief The CSDataAlarm class provides alarm information about the data.
 */
 /*!
+    \qmltype CSDataAlarm
+    \inqmlmodule PvComponents
+    \instantiates QCSDataAlarm
+    \brief The object provides alarm information about the data.
+*/
+/*!
     \enum QCSDataAlarm::Severity
         \value NoAlarm
                Normal state
@@ -32,6 +38,8 @@
 /*!
     \qmlproperty enumeration CSDataAlarm::severity
     This property holds the alarm severity.
+
+    \sa QCSDataAlarm::Severity
 */
 /*!
     \property QCSDataAlarm::status
@@ -40,7 +48,7 @@
     The actual meaning depends on data engine.
 */
 /*!
-    \qmlproperty enumeration CSDataAlarm::status
+    \qmlproperty int CSDataAlarm::status
     This property holds the alarm status.
 */
 /*!
@@ -82,6 +90,12 @@ void QCSDataAlarm::reset()
 /*!
     \class QCSDataRange
     \inmodule PvComponents
+    \brief This class provides limits information about the data.
+*/
+/*!
+    \qmltype CSDataRange
+    \inqmlmodule PvComponents
+    \instantiates QCSDataRange
     \brief This class provides limits information about the data.
 */
 /*!
@@ -298,6 +312,8 @@ void QCSData::setConnected(bool connected)
 /*!
     \qmlproperty enumeration CSData::fieldType
     This property holds native type of the data.
+
+    \sa QCSData::FieldType
 */
 QCSData::FieldType QCSData::fieldType() const
 {
@@ -440,7 +456,7 @@ void QCSData::setStateStrings(const QStringList stateStrings)
     This property holds the alarm information.
 */
 /*!
-    \qmlproperty var CSData::alarm
+    \qmlproperty SDataAlarm CSData::alarm
     This property holds the alarm information.
 */
 /*!
@@ -457,7 +473,7 @@ void QCSData::setAlarm(QCSDataAlarm::Severity severity, int status, const QStrin
     \sa QCSDataRange
 */
 /*!
-    \qmlproperty var CSData::range
+    \qmlproperty CSDataRange CSData::range
     This property holds the limits information.
 */
 /*!
