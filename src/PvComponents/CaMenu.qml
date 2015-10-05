@@ -15,7 +15,7 @@ import PvComponents 1.0
 
     \qml
     CaMenu {
-        channel: 'bo'
+        source: 'bo'
     }
     \endqml
 

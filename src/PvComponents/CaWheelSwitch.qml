@@ -36,7 +36,7 @@ import "utils.js" as UtilsJS
         width: 150
         height: 30
         anchors.centerIn: parent
-        channel: 'catest'
+        source: 'catest'
         format: 'PV Value: % 5.2f'
     }
     \endqml

@@ -21,12 +21,12 @@ import "utils.js" as UtilsJS
         CaTextUpdate {
             width: 100
             height: 20
-            channel: 'catest.SCAN'
+            source: 'catest.SCAN'
         }
         CaTextUpdate {
             width: 100
             height: 20
-            channel: 'catest'
+            source: 'catest'
         }
     }
     \endqml

@@ -12,7 +12,7 @@ import "utils.js" as UtilsJS
     The value of the process variable is displayed by a needle within an arc.
     \qml
     CaMeter {
-        channel: 'catest'
+        source: 'catest'
         label: LabelStyle.Outline
     }
     \endqml

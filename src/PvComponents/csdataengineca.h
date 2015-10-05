@@ -5,27 +5,27 @@
 
 struct ca_client_context;
 
-class CSDataEngineCA : public QObject, public CSDataEngine
+class QCSDataEngineCA : public QObject, public QCSDataEngine
 {
     Q_OBJECT
-    Q_INTERFACES(CSDataEngine)
+    Q_INTERFACES(QCSDataEngine)
 
 public:
-    CSDataEngineCA(QObject *parent);
-    virtual ~CSDataEngineCA();
+    QCSDataEngineCA(QObject *parent);
+    virtual ~QCSDataEngineCA();
 
     virtual QString name();
 
-    virtual void create(CSData *data);
-    virtual void close(CSData *data);
-    virtual void setValue(CSData *data, const QVariant value);
+    virtual void create(QCSData *data);
+    virtual void close(QCSData *data);
+    virtual void setValue(QCSData *data, const QVariant value);
 
 signals:
 
 public slots:
 
 private:
-    QList<CSData*> _data;
+    QList<QCSData*> _data;
 
     struct ca_client_context *_cac; // global channel access client context
 };

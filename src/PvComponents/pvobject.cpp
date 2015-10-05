@@ -284,13 +284,6 @@ static void getCallbackC(struct event_handler_args);
 static void monitorCallbackC(struct event_handler_args);
 static void accessCallbackC(struct access_rights_handler_args args);
 
-QQuickLimitRange::QQuickLimitRange(QObject *parent)
-    : QObject(parent)
-{
-    _lower = 0;
-    _upper = 0;
-}
-
 /*!
     \internal
     \brief Creates a preemptive channel access context.
@@ -383,8 +376,6 @@ QQuickPvObject::QQuickPvObject(QObject *parent):
     _lodisplim = 0; _updisplim = 0;
     _lowarnlim = 0; _upwarnlim = 0;
     _loctrllim = 0; _upctrllim = 0;
-    _displim = new QQuickLimitRange(this);
-    _ctrllim = new QQuickLimitRange(this);
 }
 
 /*!
@@ -612,10 +603,7 @@ long QQuickPvObject::unsubscribe()
     _upalrmlim = VP.upper_alarm_limit;\
     _loalrmlim = VP.lower_alarm_limit;\
     _upctrllim = VP.upper_ctrl_limit;\
-    _loctrllim = VP.lower_ctrl_limit; \
-    _displim->setRange(VP.lower_disp_limit,VP.upper_disp_limit); \
-    _ctrllim->setRange(VP.lower_ctrl_limit,VP.upper_ctrl_limit);
-
+    _loctrllim = VP.lower_ctrl_limit;
 
 #define ConvertValue(VP,TYPE)\
     if (count==1) {\

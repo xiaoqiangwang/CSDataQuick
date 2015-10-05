@@ -17,7 +17,7 @@ import "utils.js" as UtilsJS
 
     \qml
         CaBar {
-            channel: 'catest'
+            source: 'catest'
             label: LabelStyle.Outline
             direction: Direction.Up
        }
@@ -74,12 +74,12 @@ CaMonitor {
         \qml
         Row {
             CaBar {
-                channel: 'catest'
+                source: 'catest'
                 labelStyle: LabelStyle.Outline
                 fillMode: FillMode.FromEdge
             }
             CaBar {
-                channel: 'catest'
+                source: 'catest'
                 labelStyle: LabelStyle.Outline
                 fillMode: FillMode.FromCenter
             }

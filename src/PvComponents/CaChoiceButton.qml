@@ -15,7 +15,7 @@ import "utils.js" as Utils
 
     \qml
     CaChoiceButton {
-        channel: 'bo'
+        source: 'bo'
         stacking: Stacking.Row
     }
     \endqml

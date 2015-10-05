@@ -14,7 +14,8 @@
 #include "windowmanager.h"
 
 #include "csdata.h"
-
+#include "csdataengine.h"
+#include "csdataenginemanager.h"
 #include <qqml.h>
 
 static QObject *utils_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -33,6 +34,14 @@ static QObject *windowmanager_provider(QQmlEngine *engine, QJSEngine *scriptEngi
     return new WindowManager();
 }
 
+static QObject *enginemanager_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    return engineManager;
+}
+
 void PvComponentsPlugin::registerTypes(const char *uri)
 {
     // @uri PvComponents
@@ -47,16 +56,19 @@ void PvComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
-    qmlRegisterType<CSData>(uri, 1, 0, "CSData");
-    qmlRegisterType<CSDataRange>(uri, 1, 0, "CSDataRange");
-    qmlRegisterType<CSDataAlarm>(uri, 1, 0, "CSDataAlarm");
+    qmlRegisterType<QCSData>(uri, 1, 0, "CSData");
+    qmlRegisterType<QCSDataRange>(uri, 1, 0, "CSDataRange");
+    qmlRegisterType<QCSDataAlarm>(uri, 1, 0, "CSDataAlarm");
 
-    qRegisterMetaType<CSData::AccessFlags>("CSData::AccessFlags");
-    qRegisterMetaType<CSData::FieldType>("CSData::FieldType");
-    qRegisterMetaType<CSDataAlarm::Severity>("CSDataAlarm::Severity");
+    qmlRegisterInterface<QCSDataEngine>("CSDataEngine");
+
+    qRegisterMetaType<QCSData::AccessFlags>("CSData::AccessFlags");
+    qRegisterMetaType<QCSData::FieldType>("CSData::FieldType");
+    qRegisterMetaType<QCSDataAlarm::Severity>("CSDataAlarm::Severity");
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);
+    qmlRegisterSingletonType<QCSDataEngineManager>(uri, 1, 0, "EngineManager", enginemanager_provider);
 
     qmlRegisterUncreatableType<LogLevel>(uri, 1, 0, "LogLevel", "LogLevel Enum");
     qmlRegisterUncreatableType<FrameShadow>(uri, 1, 0, "FrameShadow", "FrameShadow Enum");
