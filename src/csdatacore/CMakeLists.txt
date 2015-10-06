@@ -33,9 +33,9 @@ include_directories(
     ${EPICS_INCLUDE_DIRS}
 )
 
-target_link_libraries(csdataplugin Qt5::Core Qt5::Declarative)
+target_link_libraries(csdataplugin Qt5::Core Qt5::Qml)
 target_link_libraries(csdataplugin ${EPICS_LIBRARIES})
-set_target_properties(csdatalugin PROPERTIES 
+set_target_properties(csdataplugin PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSData)
 
 set(QML_JS_FILES
