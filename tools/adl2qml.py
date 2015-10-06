@@ -199,7 +199,7 @@ class MEDMDisplay(MEDMObject):
 import QtQuick.Controls 1.0
 import QtQuick.Window 2.0
 
-import PvComponents 1.0
+import CSDataQuick.Components 1.0
 
 Rectangle {
     visible: true
@@ -233,7 +233,7 @@ class MEDMControl(MEDMObject):
     z: 1
     foreground: %s
     background: %s
-    channel: %s
+    source: %s
 """ % (self.foreground, self.background, self.channel)
 
         return super(MEDMControl, self).toQML() + s
@@ -446,7 +446,7 @@ class MEDMMonitor(MEDMObject):
 
     def toQML(self):
         s = """
-    channel: %s
+    source: %s
     foreground: %s
     background: %s
 """ % (self.channel, self.foreground, self.background)
@@ -576,8 +576,8 @@ class MEDMText(MEDMGraphics):
     %s
     align: %s
     text: %s
-    fontSize: %s
-    fontFamily: %s
+    font.pixelSize: %s
+    font.family: %s
 }
 """ % (super(MEDMText, self).toQML(), self.align, self.text, size, family)
         return s
