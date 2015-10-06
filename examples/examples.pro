@@ -1,6 +1,7 @@
 TEMPLATE = aux
 
 OTHER_FILES = widgets.qml
+OTHER_FILES += LED.gif
 OTHER_FILES += gallery/demo_adimage.qml
 OTHER_FILES += gallery/demo_arc.qml
 OTHER_FILES += gallery/demo_bar.qml
