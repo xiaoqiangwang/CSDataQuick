@@ -1,0 +1,11 @@
+/*!
+    \qmlmodule CSDataQuick.Components 1.0
+    \title UI Components QML Type
+    \ingroup qmlmodules
+    \brief Provide QtQuick items to control system data.
+
+    \code
+    import CSDataQuick.Components 1.0
+    \endcode
+
+*/
