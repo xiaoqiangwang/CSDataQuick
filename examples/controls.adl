@@ -179,6 +179,18 @@ valuator {
 		label="Graphics"
 		name="graphics.adl"
 	}
+	display[2] {
+		label="Cartesian Plots"
+		name="plots.adl"
+	}
+	display[3] {
+		label="Text"
+		name="texts.adl"
+	}
+	display[4] {
+		label="Layer"
+		name="layer.adl"
+	}
 	clr=14
 	bclr=51
 	label="Others"
@@ -246,8 +258,8 @@ valuator {
 	object {
 		x=331
 		y=234
-		width=112
-		height=53
+		width=120
+		height=80
 	}
 	display[0] {
 		label="Monitors"
@@ -256,6 +268,14 @@ valuator {
 	display[1] {
 		label="Graphics"
 		name="graphics.adl"
+	}
+	display[2] {
+		label="Cartesian Plot"
+		name="plot.adl"
+	}
+	display[3] {
+		label="Overlay"
+		name="layer.adl"
 	}
 	clr=14
 	bclr=51
