@@ -1,14 +1,14 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
-import CSData 1.0
-import CSData.Components 1.0
+import CSDataQuick.Data 1.0
+import CSDataQuick.Components 1.0
 import "utils.js" as Utils
 
 
 /*!
     \qmltype CaChoiceButton
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display PV's enumerate
 
     The Choice Button is used for ENUM process variables and is a means for picking
@@ -74,7 +74,7 @@ CaControl {
         // calculate font size
         var size = Utils.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4).size
         // create layout based on stacking
-        var cmd = 'import QtQuick 2.0; import QtQuick.Layouts 1.0; import CSData 1.0; import CSData.Components 1.0; import CSData.Components.Private 1.0;\n'
+        var cmd = 'import QtQuick 2.0; import QtQuick.Layouts 1.0; import CSDataQuick.Data 1.0; import CSDataQuick.Components 1.0; import CSDataQuick.Components.Private 1.0;\n'
         if (stacking == Stacking.Row) {
             cmd += '
                     RowLayout {

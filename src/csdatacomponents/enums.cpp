@@ -6,7 +6,7 @@
 
 /*!
     \qmltype TextFormat
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of supported text format
 
     This class holds the enums of the supported text format. \sa Utils::convert
@@ -79,7 +79,7 @@
 
 /*!
     \qmltype ColorMode
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of dynamic color rules
 
     This class holds the enums of the dynamic color rules. \sa Utils::convert
@@ -105,7 +105,7 @@
 
 /*!
     \qmltype Direction
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of item direction
 */
 /*!
@@ -119,7 +119,7 @@
 */
 /*!
     \qmltype EdgeStyle
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of the outline style
 */
 /*!
@@ -132,7 +132,7 @@
 
 /*!
     \qmltype FillStyle
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of the item filling style
 */
 /*!
@@ -145,7 +145,7 @@
 
 /*!
     \qmltype VisibilityMode
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of how items visibility changes
 */
 /*!
@@ -167,7 +167,7 @@
 */
 /*!
     \qmltype LimitsSource
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Enums of where the limits and precision is from
 */
 /*!

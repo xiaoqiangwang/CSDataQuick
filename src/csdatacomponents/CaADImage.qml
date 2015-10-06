@@ -1,11 +1,11 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaADImage
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display an image from areaDetector
 
     \l {http://cars9.uchicago.edu/software/epics/areaDetector.html}{areaDetector} is a generic EPICS framework to integrate detectors.

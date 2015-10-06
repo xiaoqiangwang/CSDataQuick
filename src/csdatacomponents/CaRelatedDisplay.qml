@@ -1,12 +1,12 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaRelatedDisplay
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Brings up more displays
 
     The Related Display provides a means of bringing up more displays.
@@ -140,7 +140,7 @@ BaseItem {
     Component.onCompleted: {
         var label, fname, args, remove
         var qmlCmd
-        var imp ='import QtQuick 2.1; import QtQuick.Controls 1.0; import CSData.Components.Private 1.0;'
+        var imp ='import QtQuick 2.1; import QtQuick.Controls 1.0; import CSDataQuick.Components.Private 1.0;'
 
         // If button label starts with '-', remove it and use normal button. Otherwise use RDButton with double rect icon
         var btnLabel, btnType

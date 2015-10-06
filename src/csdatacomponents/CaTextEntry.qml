@@ -2,14 +2,14 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 
-import CSData 1.0
-import CSData.Components 1.0
-import CSData.Components.Private 1.0
+import CSDataQuick.Data 1.0
+import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaTextEntry
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display an editable text
 
     The Text Entry provides a means of displaying the value of a process variable in an entry box,

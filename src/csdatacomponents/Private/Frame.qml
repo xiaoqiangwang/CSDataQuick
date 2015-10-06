@@ -1,6 +1,6 @@
 import QtQuick 2.1
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 Rectangle {
     implicitHeight: 10

@@ -2,13 +2,13 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.0
 
-import CSData 1.0
-import CSData.Components 1.0
+import CSDataQuick.Data 1.0
+import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaControl
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Basic type to all PV controls
 
     CaControl is the base type for all control types.

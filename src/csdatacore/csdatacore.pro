@@ -2,7 +2,7 @@ TEMPLATE = lib
 CONFIG += qt plugin
 QT += quick
 TARGET = csdataplugin
-TARGETPATH = ../../imports/CSData/
+TARGETPATH = ../../imports/CSDataQuick/Data/
 DESTDIR = $${TARGETPATH}
 
 # EPICS related

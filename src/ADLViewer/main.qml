@@ -3,7 +3,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.0
 import QtQuick.Dialogs 1.2
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 ApplicationWindow
 {

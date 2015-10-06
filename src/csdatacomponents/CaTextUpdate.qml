@@ -2,13 +2,13 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
-import CSData 1.0
-import CSData.Components 1.0
+import CSDataQuick.Data 1.0
+import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaTextUpdate
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display the value in given format.
 
     The value is format to string using \l format.

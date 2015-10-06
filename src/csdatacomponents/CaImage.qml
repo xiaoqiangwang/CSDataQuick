@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaImage
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Show a static or dynamic image
 
     The image can be any any image format supported by Qt, loaded from any URL scheme supported by Qt.

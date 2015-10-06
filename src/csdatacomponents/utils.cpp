@@ -34,7 +34,7 @@
 
 /*!
     \qmltype Utils
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Helper functions
 
     This is a group of helper functions, which are called by QML components.

@@ -1,11 +1,11 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaText
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display a text label
 
     It can display both plain and rich text. The text may extend beyond the height and width specified for the Text item

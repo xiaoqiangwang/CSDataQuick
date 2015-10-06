@@ -11,7 +11,7 @@
 
 void CSDataPlugin::registerTypes(const char *uri)
 {
-    // @uri CSData
+    // @uri CSDataQuick.Data
     qmlRegisterType<QCSData>(uri, 1, 0, "CSData");
     qmlRegisterType<QCSDataRange>(uri, 1, 0, "CSDataRange");
     qmlRegisterType<QCSDataAlarm>(uri, 1, 0, "CSDataAlarm");

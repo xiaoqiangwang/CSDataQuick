@@ -5,7 +5,7 @@ ios {
     DEFINES += NO_PRINTERSUPPORT
 }
 TARGET = csdatacomponentsplugin
-TARGETPATH = ../../imports/CSData/Components
+TARGETPATH = ../../imports/CSDataQuick/Components
 DESTDIR = $${TARGETPATH}
 
 include(qml.pri)

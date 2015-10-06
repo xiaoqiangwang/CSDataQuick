@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaStripChart
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display a strip chart
 
 */
@@ -96,14 +96,14 @@ Item {
             if (!pen.channel)
                 continue
             // create graph with its own left axis
-            var axis = Qt.createQmlObject('import CSData.Components 1.0; Axis {type: Axis.Left}', plot, 'axis' + i)
+            var axis = Qt.createQmlObject('import CSDataQuick.Components 1.0; Axis {type: Axis.Left}', plot, 'axis' + i)
             var graph = plot.addGraph(plot.xAxis, axis)
             if (pen.foreground)
                 graph.color = pen.foreground
             d.graphs.push(graph)
             // create pv object
             var cmd =
-                    'import CSData 1.0\n' +
+                    'import CSDataQuick.Data 1.0\n' +
                     'CSData {\n' +
                     '    source: "%1"\n'.arg(pen.channel) +
                     '    property var data\n' +

@@ -9,12 +9,12 @@
 #include <QtDebug>
 /*!
     \class QCSDataAlarm
-    \inmodule PvComponents
+    \inmodule CSDataQuick.Data
     \brief The CSDataAlarm class provides alarm information about the data.
 */
 /*!
     \qmltype CSDataAlarm
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Data
     \instantiates QCSDataAlarm
     \brief The object provides alarm information about the data.
 */
@@ -89,12 +89,12 @@ void QCSDataAlarm::reset()
 
 /*!
     \class QCSDataRange
-    \inmodule PvComponents
+    \inmodule CSDataQuick.Data
     \brief This class provides limits information about the data.
 */
 /*!
     \qmltype CSDataRange
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Data
     \instantiates QCSDataRange
     \brief This class provides limits information about the data.
 */
@@ -149,12 +149,12 @@ void QCSDataRange::reset()
 
 /*!
     \class QCSData
-    \inmodule PvComponents
+    \inmodule CSDataQuick.Data
     \brief This class provides access to control system data.
 */
 /*!
     \qmltype CSData
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Data
     \instantiates QCSData
     \brief Object that provides access to control system data.
 
@@ -456,7 +456,7 @@ void QCSData::setStateStrings(const QStringList stateStrings)
     This property holds the alarm information.
 */
 /*!
-    \qmlproperty SDataAlarm CSData::alarm
+    \qmlproperty CSDataAlarm CSData::alarm
     This property holds the alarm information.
 */
 /*!
@@ -489,7 +489,7 @@ void QCSData::setRange(double lower, double upper)
     This property holds the value of the data.
 */
 /*!
-    \qmlproperty var CSData::value
+    \qmlproperty QVariant CSData::value
     This property holds the value of the data.
 */
 QVariant QCSData::value() const
