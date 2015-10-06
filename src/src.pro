@@ -2,9 +2,11 @@ TEMPLATE = subdirs
 
 SUBDIRS += ADLParser
 
-SUBDIRS += PvComponents
-PvComponents.depends += ADLParser
+SUBDIRS += csdatacore
+
+SUBDIRS += csdatacomponents
+csdatacomponents.depends += ADLParser
 
 SUBDIRS += ADLViewer
-ADLViewer.depends += ADLParser PvComponents
+ADLViewer.depends += ADLParser csdatacomponents
 
