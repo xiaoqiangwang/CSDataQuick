@@ -1,6 +1,6 @@
 .pragma library
 
-.import CSData 1.0 as Core
+.import CSDataQuick.Data 1.0 as Core
 
 /*!
     \qmltype UtilsJS

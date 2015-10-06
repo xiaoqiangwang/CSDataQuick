@@ -11,7 +11,7 @@
 
 /*!
     \class QQuickPvObject
-    \inmodule PvComponents
+    \inmodule CSDataQuick.Components
     \brief The QQuickPvObject class provides access to EPICS Process Variables.
 
     QQuickPvObject derives from QObject and encapsulate the PV access methods.
@@ -19,7 +19,7 @@
 /*!
     \qmltype PvObject
     \instantiates QQuickPvObject
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Object provides access to EPICS Process Variables.
 
     Example:
@@ -272,7 +272,7 @@ void QQuickPvObject::setChannel(const QString name)
 
 
 /*!
-    \qmlmethod PvComponents::PvObject::setValue(var value)
+    \qmlmethod PvObject::setValue(var value)
 
     Set new value to the PV.
 */

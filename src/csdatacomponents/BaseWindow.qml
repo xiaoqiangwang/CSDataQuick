@@ -2,11 +2,11 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Window 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype BaseWindow
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Base for all toplevel windows
 
     In addition to \l Window, it records the file path this window represents and the macro expansion.

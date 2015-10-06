@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaCartesianPlot
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display XY Plot
 
     A Cartesian Plot consists of an X and one or two Y axes on which data can be plotted.
@@ -228,12 +228,12 @@ Item {
 
     Component.onCompleted: {
         if (countPvName != '') {
-            d.pvCount = Qt.createQmlObject('import CSData 1.0; CSData{source: "%1"}'.arg(countPvName), root, 'pvCount')
+            d.pvCount = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(countPvName), root, 'pvCount')
             d.pvCount.valueChanged.connect(updateCount)
         }
 
         if (erasePvName != '') {
-            d.pvErase = Qt.createQmlObject('import CSData 1.0; CSData{source: "%1"}'.arg(erasePvName), root, 'pvErase')
+            d.pvErase = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(erasePvName), root, 'pvErase')
             d.pvErase.valueChanged.connect(eraseGraph)
         }
 
@@ -253,7 +253,7 @@ Item {
             var xpv = null, ypv = null
             if (xchannel) {
                 xpv = Qt.createQmlObject(
-                            'import CSData 1.0\n' +
+                            'import CSDataQuick.Data 1.0\n' +
                             'CSData {\n' +
                             '    source: "%1"\n'.arg(xchannel) +
                             '    property var data: []\n'+
@@ -266,7 +266,7 @@ Item {
             }
             if (ychannel) {
                 ypv = Qt.createQmlObject(
-                            'import CSData 1.0\n' +
+                            'import CSDataQuick.Data 1.0\n' +
                             'CSData {\n' +
                             '    source: "%1"\n'.arg(ychannel) +
                             '    property var data: []\n' +

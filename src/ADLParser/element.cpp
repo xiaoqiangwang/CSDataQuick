@@ -1050,7 +1050,7 @@ void Display::toQML(std::ostream &ostream)
 {
     ostream << "import QtQuick 2.0\n";
     ostream << "import QtQuick.Controls 1.0\n";
-    ostream << "import CSData.Components 1.0\n";
+    ostream << "import CSDataQuick.Components 1.0\n";
     ostream << "BaseWindow {\n";
     Element::toQML(ostream);
     ostream << "    color: \"" << color(this->bclr) << '"' << std::endl;

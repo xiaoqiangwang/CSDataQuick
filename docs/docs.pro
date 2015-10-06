@@ -1,11 +1,13 @@
 TEMPLATE = aux
 QT += help
 
-QMAKE_DOCS = $$PWD/epicsqml.qdocconf
+QMAKE_DOCS = $$PWD/csdataquick.qdocconf
 
 OTHER_FILES = \
-    $$PWD/epicsqml.qdocconf \
-    $$PWD/epicsqml.qdoc
+    $$PWD/csdataquick.qdocconf \
+    $$PWD/csdataquick.qdoc \
+    $$PWD/csdata.qml\
+    $$PWD/cscomponents.qml
 
 qtPrepareTool(QDOC, qdoc)
 

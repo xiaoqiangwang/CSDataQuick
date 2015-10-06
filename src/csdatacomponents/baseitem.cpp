@@ -8,7 +8,7 @@
 
 /*!
     \qmltype BaseItem
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Base item which all visual items derive.
 */
 BaseItem::BaseItem(QQuickItem *parent) :

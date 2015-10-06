@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaPolygon
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display a polygon shape
 
     Draws the polygon defined by the \l points array. The first point is implicitly connected to the last point.

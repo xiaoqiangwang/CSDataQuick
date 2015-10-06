@@ -1,10 +1,10 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaArc
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Display an arc curve
 
     The arc is drawn beginning at \l begin and extending \l span degrees

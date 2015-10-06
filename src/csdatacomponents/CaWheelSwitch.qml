@@ -1,12 +1,12 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
-import CSData.Components.Private 1.0
+import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaWheelSwitch
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Control a number with individual digit manipulation.
 
     The WheelSwitch displays a number value. It has arrow buttons above and below the digits that are used to change individual digits.

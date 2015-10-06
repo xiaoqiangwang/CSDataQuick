@@ -3,7 +3,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 import QtQuick.Dialogs 1.2
 
-import PvComponents 1.0
+import CSDataQuick.Components 1.0
 
 Rectangle {
     property int currentIndex: 1

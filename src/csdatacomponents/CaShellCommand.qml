@@ -1,12 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaShellCommand
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Run shell commands
 
     It is a menu button that usually has a graphic consisting of an “!” and a \l label.
@@ -107,16 +107,16 @@ BaseItem {
 
         // Create button
         var btnCmd = 'import QtQuick 2.1;' +
-                                     'import QtQuick.Controls 1.0;' +
-                                     'import CSData.Components.Private 1.0;' +
-                                     'StyledButton {' +
-                                         'anchors.fill: parent;' +
-                                         'text: "%1";'.arg(btnLabel) +
-                                         '%1\n' +
-                                         'foreground: root.foreground;' +
-                                         'background: root.background;' +
-                                         'pixelSize: root.fontSize;' +
-                                         'fontFamily: root.fontFamily;}'
+                     'import QtQuick.Controls 1.0;' +
+                     'import CSDataQuick.Components.Private 1.0;' +
+                      'StyledButton {' +
+                        'anchors.fill: parent;' +
+                        'text: "%1";'.arg(btnLabel) +
+                         '%1\n' +
+                         'foreground: root.foreground;' +
+                         'background: root.background;' +
+                         'pixelSize: root.fontSize;' +
+                         'fontFamily: root.fontFamily;}'
         // Single entry, direct action on button click
         if (model.count == 1) {
             var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), root, 'button')
@@ -130,7 +130,7 @@ BaseItem {
                 label = model.get(i).label
                 command = model.get(i).command
                 args = model.get(i).args
-                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; import CSData.Components 1.0; Action{onTriggered: parseCommand("%1 %2")}'
+                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; Action{onTriggered: parseCommand("%1 %2")}'
                                             .arg(command).arg(args), root, 'action')
                 var item = btn.menu.insertItem(i, label);
                 item.action = action

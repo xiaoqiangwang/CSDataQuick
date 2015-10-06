@@ -7,8 +7,8 @@ if(QDOC_EXECUTABLE STREQUAL "QDOC_EXECUTABLE-NOTFOUND")
     message(WARNING "qdoc not found, documentation cannot be built")
 else()
     add_custom_target(docs
-                      COMMAND ${QDOC_EXECUTABLE} --indexdir ${QT_DOC_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/epicsqml.qdocconf
+                      COMMAND ${QDOC_EXECUTABLE} --indexdir ${QT_DOC_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick.qdocconf
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                       COMMENT "Generate documents..."
-                      SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/epicsqml.qdocconf)
+                      SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick.qdocconf)
 endif()

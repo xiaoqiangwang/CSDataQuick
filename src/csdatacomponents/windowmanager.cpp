@@ -18,7 +18,7 @@
 
 /*!
     \qmltype WindowManager
-    \inqmlmodule PvComponents
+    \inqmlmodule CSDataQuick.Components
     \brief Singlton object to manage all opened windows.
 
     Example:

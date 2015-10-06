@@ -33,7 +33,7 @@ static QObject *windowmanager_provider(QQmlEngine *engine, QJSEngine *scriptEngi
 
 void CSDataComponentsPlugin::registerTypes(const char *uri)
 {
-    // @uri CSData.Components
+    // @uri CSDataQuick.Components
     qmlRegisterType<QQuickPvObject>(uri, 1, 0, "PvObject");
     qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
     qmlRegisterType<PolylineItem>(uri, 1, 0, "Polyline");

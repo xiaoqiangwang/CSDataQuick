@@ -1,11 +1,11 @@
 import QtQuick 2.0
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 
 /*!
     \qmltype CaGraphics
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Basic type to all PV graphics shape
 
     CaGraphics is the base type for all graphics types.

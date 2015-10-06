@@ -1,10 +1,10 @@
 import QtQuick 2.1
 
-import CSData.Components 1.0
+import CSDataQuick.Components 1.0
 
 /*!
     \qmltype DynamicAttr
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Specifies items visibility.
 
     Fours process variables can be speficied for the calculation.
@@ -101,24 +101,24 @@ QtObject {
     function createChannels () {
         var chan
         if (channel != '') {
-            chan = Qt.createQmlObject('import CSData 1.0; CSData {source: "%1"}'.arg(channel), da, 'channel')
+            chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channel), da, 'channel')
             chan.valueChanged.connect(calcPerform)
             chan.alarmChanged.connect(updateStatus)
             d.pvA = chan
 
         }
         if (channelB != '') {
-            chan = Qt.createQmlObject('import CSData 1.0; CSData {source: "%1"}'.arg(channelB), da, 'channelB')
+            chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channelB), da, 'channelB')
             chan.valueChanged.connect(calcPerform)
             d.pvB = chan
         }
         if (channelC != '') {
-            chan = Qt.createQmlObject('import CSData 1.0; CSData {source: "%1"}'.arg(channelC), da, 'channelC')
+            chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channelC), da, 'channelC')
             chan.valueChanged.connect(calcPerform)
             d.pvC = chan
         }
         if (channelD != '') {
-            chan = Qt.createQmlObject('import CSData 1.0; CSData {source: "%1"}'.arg(channelD), da, 'channelD')
+            chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channelD), da, 'channelD')
             chan.valueChanged.connect(calcPerform)
             d.pvD = chan
         }
