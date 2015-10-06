@@ -1,3 +1,4 @@
 add_subdirectory(ADLParser)
 add_subdirectory(ADLViewer)
-add_subdirectory(PvComponents)
+add_subdirectory(csdatacore)
+add_subdirectory(csdatacomponents)
