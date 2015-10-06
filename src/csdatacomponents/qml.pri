@@ -48,15 +48,15 @@ QML_FILES += \
     $$PWD/Private/StyledButton.qml \
     $$PWD/Private/WheelDigit.qml \
     $$PWD/Private/WheelSwitch.qml \
-    $$PWD/images/arrow-down.png \
-    $$PWD/images/arrow-down-focus.png \
-    $$PWD/images/arrow-up.png \
-    $$PWD/images/arrow-up-focus.png \
-    $$PWD/images/button_down.png \
-    $$PWD/images/button_up.png \
-    $$PWD/images/focusframe.png \
-    $$PWD/images/groove_horz.png \
-    $$PWD/images/groove_vert.png
+    $$PWD/Private/images/arrow-down.png \
+    $$PWD/Private/images/arrow-down-focus.png \
+    $$PWD/Private/images/arrow-up.png \
+    $$PWD/Private/images/arrow-up-focus.png \
+    $$PWD/Private/images/button_down.png \
+    $$PWD/Private/images/button_up.png \
+    $$PWD/Private/images/focusframe.png \
+    $$PWD/Private/images/groove_horz.png \
+    $$PWD/Private/images/groove_vert.png
 
 OTHER_FILES = $$QML_FILES
 
