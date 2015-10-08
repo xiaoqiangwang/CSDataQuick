@@ -59,10 +59,6 @@ BaseItem {
     property color foreground: ColorMap.color14
     /*! background color */
     property color background: ColorMap.color51 // color4 is the actual default
-    /*! font family */
-    property string fontFamily
-    /*! font size */
-    property int fontSize
     /*!
         text displayed on button
 
@@ -93,6 +89,8 @@ BaseItem {
     */
     property ListModel model: ListModel {
     }
+
+    readonly property var font: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
 
     /*!
         \internal
@@ -154,14 +152,10 @@ BaseItem {
         }
 
         // set font family and size
-        var font = UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
-        root.fontFamily = font.family
-        root.fontSize = font.size
-
         var btnCmdTemplate = '%1 {' +
                     'text: "%2";'+
-                    'fontFamily: root.fontFamily;'+
-                    'pixelSize: root.fontSize;'+
+                    'font.family: root.font.family;'+
+                    'font.pixelSize: root.font.size;'+
                     'background: root.background;' +
                     'foreground: root.foreground;' +
                     '%3}'

@@ -6,13 +6,16 @@ Button {
     id: root
     property color background: __pallete.button
     property color foreground: __pallete.buttonText
-    property int pixelSize: 12
-    property string  fontFamily
+    property alias font: hiddenText.font
     property int align: Text.AlignHCenter
 
     SystemPalette {
         id: __pallete
         colorGroup: SystemPalette.Active
+    }
+
+    Text {
+        id: hiddenText
     }
 
     style: ButtonStyle {
@@ -50,8 +53,7 @@ Button {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: root.align
             color: control.foreground
-            font.pixelSize: control.pixelSize
-            font.family: control.fontFamily
+            font: hiddenText.font
         }
     }
 }
