@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.0
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
 import CSDataQuick.Components.Private 1.0
+import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMenu
@@ -27,6 +28,8 @@ import CSDataQuick.Components.Private 1.0
 CaControl {
     id: root
 
+    readonly property var font: UtilsJS.getBestFontSize(height, true)
+
     ComboBox {
         id: combo_control
         property bool __first: true
@@ -41,8 +44,8 @@ CaControl {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
-                font.pixelSize: root.fontSize
-                font.family: root.fontFamily
+                font.pixelSize: root.font.size
+                font.family: root.font.family
             }
             background: Frame {
                 anchors.fill: parent

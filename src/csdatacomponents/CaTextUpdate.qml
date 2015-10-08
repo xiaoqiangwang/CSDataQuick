@@ -43,6 +43,11 @@ CaMonitor {
     */
     property alias align: label_control.horizontalAlignment
     /*!
+        \qmlproperty font font
+        The font used to display the text.
+    */
+    property alias font: label_control.font
+    /*!
         \qmlproperty enumeration format
         For all of the formats, the result depends on the number and the precision in \l limits.
 
@@ -67,8 +72,6 @@ CaMonitor {
         anchors.fill: parent
         Text {
             id: label_control
-            font.pixelSize: root.fontSize
-            font.family: root.fontFamily
             //text: formatString(format, pv.value)
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
@@ -76,8 +79,7 @@ CaMonitor {
         }
         Text {
             id: units
-            font.pixelSize: root.fontSize
-            font.family: root.fontFamily
+            font: label_control.font
             color: root.foreground
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
@@ -98,8 +100,8 @@ CaMonitor {
             // MEDM Compat: automatic adjust font size only if it is not left aligned
             if (align == Text.AlignLeft)
                 return
-            while(fontSize > 8 && label_control.paintedWidth > label_control.width) {
-                fontSize -= 1
+            while(font.pixelSize > 8 && label_control.paintedWidth > label_control.width) {
+                font.pixelSize -= 1
             }
         }
     }
@@ -110,8 +112,8 @@ CaMonitor {
 
     onHeightChanged: {
         var font = UtilsJS.getBestFontSize(height)
-        fontSize = font.size
-        fontFamily = font.family
+        font.pixelSize = font.size
+        font.family = font.family
     }
 
     /*! \internal */

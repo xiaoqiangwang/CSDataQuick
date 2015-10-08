@@ -43,10 +43,6 @@ BaseItem {
     property color foreground: ColorMap.color14
     /*! background color */
     property color background: ColorMap.color51 // color4 is the actual default
-    /*! font family */
-    property string fontFamily: font.family
-    /*! font size */
-    property int fontSize: font.size
     /*!
         text on button
 
@@ -115,8 +111,8 @@ BaseItem {
                          '%1\n' +
                          'foreground: root.foreground;' +
                          'background: root.background;' +
-                         'pixelSize: root.fontSize;' +
-                         'fontFamily: root.fontFamily;}'
+                         'font.pixelSize: root.font.size;' +
+                         'font.family: root.font.family;}'
         // Single entry, direct action on button click
         if (model.count == 1) {
             var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), root, 'button')

@@ -72,7 +72,7 @@ CaControl {
             d.layout = null
         }
         // calculate font size
-        var size = Utils.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4).size
+        var font = Utils.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4)
         // create layout based on stacking
         var cmd = 'import QtQuick 2.0; import QtQuick.Layouts 1.0; import CSDataQuick.Data 1.0; import CSDataQuick.Components 1.0; import CSDataQuick.Components.Private 1.0;\n'
         if (stacking == Stacking.Row) {
@@ -103,14 +103,14 @@ CaControl {
                         text: "%1";
                         foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground;
                         background: root.background;
-                        pixelSize: %3;
-                        fontFamily: root.fontFamily;
+                        font.pixelSize: %2;
+                        font.family: "%3";
                         checkable: true;
                         exclusiveGroup: radioInputGroup;
                         Layout.fillWidth: true;
                         Layout.fillHeight: true;
-                        onClicked: pv.setValue(%2);
-                    }\n'.arg(pv.stateStrings[i]).arg(i).arg(size)
+                        onClicked: pv.setValue(%4);
+                    }\n'.arg(pv.stateStrings[i]).arg(font.size).arg(font.family).arg(i)
         }
         cmd += '}'
         d.layout = Qt.createQmlObject(cmd, root, 'layout')

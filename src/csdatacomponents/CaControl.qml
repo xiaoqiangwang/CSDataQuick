@@ -26,14 +26,8 @@ BaseItem {
     /*! The background color. */
     property color foreground: ColorMap.color14
 
-    /*! qmlproperty enumeration CaControl::colorMode
-    */
+    /*! qmlproperty enumeration CaControl::colorMode */
     property int colorMode: ColorMode.Static
-
-    /*! The font size for text display */
-    property int fontSize: 12
-    /*! The font family for text display */
-    property string fontFamily: fontSize <= 22 ? 'Courier' : 'Helvetica'
 
     /*! \qmlproperty string CaControl::source
         The data source url.

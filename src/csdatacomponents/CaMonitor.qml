@@ -17,14 +17,8 @@ BaseItem {
     property color background: ColorMap.color4
     /*! background color */
     property color foreground: ColorMap.color14
-    /*! qmlproperty enumeration CaGraphics::colorMode
-    */
+    /*! qmlproperty enumeration CaGraphics::colorMode */
     property int colorMode: ColorMode.Static
-    /*! font size */
-    property int fontSize: 11
-    /*! font family */
-    property string fontFamily: fontSize <= 22 ?'Dejavu Sans Mono' : 'Helvetica'
-
     /*! control data source name */
     property alias source: pv.source
     /*! control data object */

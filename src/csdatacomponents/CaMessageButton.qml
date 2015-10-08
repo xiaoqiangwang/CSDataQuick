@@ -14,7 +14,7 @@ import "utils.js" as UtilsJS
 */
 
 CaControl {
-    id: messageButton
+    id: root
 
     /*!
       \qmlproperty string text
@@ -39,15 +39,12 @@ CaControl {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
 
-    fontFamily: font.family
-    fontSize: font.size
-
     StyledButton {
         id: btn
-        background: messageButton.background
-        foreground: colorMode == ColorMode.Alarm ? messageButton.alarmColor : messageButton.foreground
-        pixelSize: messageButton.fontSize
-        fontFamily: messageButton.fontFamily
+        background: root.background
+        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        font.pixelSize: root.font.size
+        font.family: root.font.family
         anchors.fill: parent
 
         onPressedChanged: {
