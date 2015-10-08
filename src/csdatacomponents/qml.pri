@@ -58,17 +58,44 @@ QML_FILES += \
     $$PWD/Private/images/groove_horz.png \
     $$PWD/Private/images/groove_vert.png
 
-OTHER_FILES = $$QML_FILES
+DESIGNER_FILES = \
+    $$PWD/designer/CaTextSpecifics.qml \
+    $$PWD/designer/images/arc.png \
+    $$PWD/designer/images/bar.png \
+    $$PWD/designer/images/byte.png \
+    $$PWD/designer/images/cartesianPlot.png \
+    $$PWD/designer/images/choiceButton.png \
+    $$PWD/designer/images/composite.png \
+    $$PWD/designer/images/image.png \
+    $$PWD/designer/images/indicator.png \
+    $$PWD/designer/images/menu.png \
+    $$PWD/designer/images/messageButton.png \
+    $$PWD/designer/images/meter.png \
+    $$PWD/designer/images/oval.png \
+    $$PWD/designer/images/polygon.png \
+    $$PWD/designer/images/polyline.png \
+    $$PWD/designer/images/rectangle.png \
+    $$PWD/designer/images/relatedDisplay.png \
+    $$PWD/designer/images/shellCommand.png \
+    $$PWD/designer/images/slider.png \
+    $$PWD/designer/images/stripChart.png \
+    $$PWD/designer/images/text.png \
+    $$PWD/designer/images/textEntry.png \
+    $$PWD/designer/images/textUpdate.png \
+    $$PWD/designer/images/wheelSwitch.png \
+    $$PWD/designer/csdatacomponents.metainfo
+    
+OTHER_FILES = $$QML_FILES $$DESIGNER_FILES
 
 # These rules are to copy qml file to TARGETPATH
 defineReplace(qmlModStripSrcDir) {
     return($$TARGETPATH/$$relative_path($$1, $$_PRO_FILE_PWD_))
 }
 
-qmlfiles2build.input = QML_FILES
+qmlfiles2build.input = OTHER_FILES
 qmlfiles2build.output_function = qmlModStripSrcDir
 qmlfiles2build.commands = $$QMAKE_COPY ${QMAKE_FILE_NAME} ${QMAKE_FILE_OUT}
-qmlfiles2build.depends = $$QML_FILES
+qmlfiles2build.depends = $$OTHER_FILES
 qmlfiles2build.CONFIG = no_link target_predeps
 
 QMAKE_EXTRA_COMPILERS += qmlfiles2build
