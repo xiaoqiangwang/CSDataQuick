@@ -271,7 +271,7 @@ valuator {
 	}
 	display[2] {
 		label="Cartesian Plot"
-		name="plot.adl"
+		name="plots.adl"
 	}
 	display[3] {
 		label="Overlay"
