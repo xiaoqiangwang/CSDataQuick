@@ -6,7 +6,7 @@ import CSDataQuick.Components 1.0
 
 ApplicationWindow {
     id: app
-    width: 800
+    width: 900
     height: 800
     color: '#bbbbbb'
     title: 'A demo of qml pv components'
@@ -40,13 +40,14 @@ ApplicationWindow {
             CaText {
                 width: 200
                 height: 20
-                text: 'Oh, A static label'
+                text: "Oh, A static label"
+                align: Qt.AlignRight
             }
 
             CaRect {
                 width: 100
                 height: 70
-                foreground: 'blue'
+                foreground: "#000000"
                 fill: FillStyle.Solid
             }
 
@@ -83,7 +84,7 @@ ApplicationWindow {
             }
 
             CaPolyline {
-                width: 200
+                width: 120
                 height: 80
                 lineWidth: 2
                 foreground: 'black'
@@ -94,8 +95,8 @@ ApplicationWindow {
             }
 
             CaImage {
-                width: 100
-                height: 100
+                width: 80
+                height: 80
                 source: 'LED.gif'
                 dynamicAttr.channel: 'catest'
                 imageCalc: 'A*10'
@@ -222,8 +223,8 @@ ApplicationWindow {
             }
 
             CaStripChart {
-                width: 500
-                height: 300
+                width: 300
+                height: 200
                 model: ListModel {
                     ListElement {
                         channel: 'catest'
@@ -233,37 +234,17 @@ ApplicationWindow {
                     }
                 }
             }
-/*
             CaCartesianPlot {
-                width: 500
-                height: 300
-            }
-            */
-            /*
-            Plot {
-                id: plot
-                width: 400
+                width: 300
                 height: 200
-                title: 'A Simple Demo'
-                xLabel: 'X'
-                yLabel: 'Y'
-
-                graphs: [
-                    Graph {
-                        color: 'red'
-                        data: [Qt.point(0,1), Qt.point(1, 2), Qt.point(2, 3)]
-                    },
-                    Graph {
-                        color: 'green'
-                        data: [Qt.point(0,2.5), Qt.point(1, 3.5), Qt.point(3, 4.5)]
+                model: ListModel{
+                    ListElement {
+                        xchannel: "x"
+                        ychannel: "y"
+                        foreground: "black"
                     }
-                ]
-
-                Component.onCompleted: {
-                    plot.initPlot()
                 }
-           }
-           */
-       }
+            }
+        }
     }
 }
