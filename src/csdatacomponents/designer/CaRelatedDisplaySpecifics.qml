@@ -9,36 +9,34 @@ Column {
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Text")
+        caption: qsTr("Related Display")
 
         SectionLayout {
             Label {
-                text: qsTr("text")
-                tooltip: qsTr("text to display")
+                text: qsTr("label")
+                tooltip: qsTr("text label")
             }
             SecondColumnLayout {
                 LineEdit {
-                    backendValue: backendValues.text
+                    backendValue: backendValues.label
                     showTranslateCheckBox: false
                     implicitWidth: 180
                 }
             }
             Label {
-                text: qsTr("alignment")
-                tooltip: qsTr("text horizontal alignment")
+                text: qsTr("visual")
+                tooltip: qsTr("visual form")
             }
             SecondColumnLayout {
                 ComboBox {
-                    backendValue: backendValues.align
+                    backendValue: backendValues.visual
                     implicitWidth: 180
-                    scope: "Text"
-                    model: ["AlignLeft", "AlignRight", "AlignHCenter", "AlignJustify"]
+                    scope: "RelatedDisplayVisual"
+                    model: ["Menu", "Row", "Column"]
                 }
             }
         }
     }
-    ColorSection {
-    }
-    DynamicAttribute {
-    }
+ 
+    ColorSection {}
 }
