@@ -76,12 +76,12 @@ CaMonitor {
         Row {
             CaBar {
                 source: 'catest'
-                labelStyle: LabelStyle.Outline
+                label: LabelStyle.Outline
                 fillMode: FillMode.FromEdge
             }
             CaBar {
                 source: 'catest'
-                labelStyle: LabelStyle.Outline
+                label: LabelStyle.Outline
                 fillMode: FillMode.FromCenter
             }
         }

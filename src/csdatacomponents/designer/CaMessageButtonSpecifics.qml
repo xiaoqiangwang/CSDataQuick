@@ -6,39 +6,37 @@ Column {
     anchors.left: parent.left
     anchors.right: parent.right
 
+    DataSourceSection {}
+
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Text")
+        caption: qsTr("Message Button")
 
         SectionLayout {
             Label {
-                text: qsTr("text")
-                tooltip: qsTr("text to display")
+                text: qsTr("on")
+                tooltip: qsTr("message when pressed")
             }
             SecondColumnLayout {
                 LineEdit {
-                    backendValue: backendValues.text
-                    showTranslateCheckBox: false
+                    backendValue: backendValues.onMessage
                     implicitWidth: 180
                 }
             }
             Label {
-                text: qsTr("alignment")
-                tooltip: qsTr("text horizontal alignment")
+                text: qsTr("off")
+                tooltip: qsTr("message when released")
             }
             SecondColumnLayout {
-                ComboBox {
-                    backendValue: backendValues.align
+                LineEdit {
+                    backendValue: backendValues.offMessage
                     implicitWidth: 180
-                    scope: "Text"
-                    model: ["AlignLeft", "AlignRight", "AlignHCenter", "AlignJustify"]
                 }
             }
         }
     }
-    ColorSection {
-    }
-    DynamicAttribute {
-    }
+
+    ColorSection {}
+    DynamicAttributeSection {}
 }

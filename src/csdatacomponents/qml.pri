@@ -59,7 +59,35 @@ QML_FILES += \
     $$PWD/Private/images/groove_vert.png
 
 DESIGNER_FILES = \
+    $$PWD/designer/CaArcSpecifics.qml \
+    $$PWD/designer/CaBarSpecifics.qml \
+    $$PWD/designer/CaByteSpecifics.qml \
+    $$PWD/designer/CaCartesianPlotSpecifics.qml \
+    $$PWD/designer/CaCompositeSpecifics.qml \
+    $$PWD/designer/CaChoiceButtonSpecifics.qml \
+    $$PWD/designer/CaImageSpecifics.qml \
+    $$PWD/designer/CaIndicatorSpecifics.qml \
+    $$PWD/designer/CaMenuSpecifics.qml \
+    $$PWD/designer/CaMessageButtonSpecifics.qml \
+    $$PWD/designer/CaMeterSpecifics.qml \
+    $$PWD/designer/CaOvalSpecifics.qml \
+    $$PWD/designer/CaPolygonSpecifics.qml \
+    $$PWD/designer/CaPolylineSpecifics.qml \
+    $$PWD/designer/CaRectSpecifics.qml \
+    $$PWD/designer/CaRelatedDisplaySpecifics.qml \
+    $$PWD/designer/CaShellCommandSpecifics.qml \
+    $$PWD/designer/CaSliderSpecifics.qml \
+    $$PWD/designer/CaStripChartSpecifics.qml \
     $$PWD/designer/CaTextSpecifics.qml \
+    $$PWD/designer/CaTextEntrySpecifics.qml \
+    $$PWD/designer/CaTextUpdateSpecifics.qml \
+    $$PWD/designer/CaWheelSwitchSpecifics.qml \
+    $$PWD/designer/ColorSection.qml \
+    $$PWD/designer/ColorPalette.qml \
+    $$PWD/designer/DataSourceSection.qml \
+    $$PWD/designer/DynamicAttributeSection.qml \
+    $$PWD/designer/GraphicsSection.qml \
+    $$PWD/designer/LimitsSection.qml \
     $$PWD/designer/images/arc.png \
     $$PWD/designer/images/bar.png \
     $$PWD/designer/images/byte.png \
