@@ -13,13 +13,13 @@ import CSDataQuick.Components 1.0
 QtObject {
     id: da
     /*! Name of the main process variable */
-    property string channel
+    property string channel: ''
     /*! Name of the second process variable */
-    property string channelB
+    property string channelB: ''
     /*! Name of the third process variable */
-    property string channelC
+    property string channelC: ''
     /*! Name of the forth process variable */
-    property string channelD
+    property string channelD: ''
 
     /*! The color as determined from channel A's severity */
     property color alarmColor: ColorMap.no_alarm
