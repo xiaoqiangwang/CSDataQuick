@@ -88,6 +88,7 @@ DESIGNER_FILES = \
     $$PWD/designer/DynamicAttributeSection.qml \
     $$PWD/designer/GraphicsSection.qml \
     $$PWD/designer/LimitsSection.qml \
+    $$PWD/designer/PolylineEditor.qml \
     $$PWD/designer/images/arc.png \
     $$PWD/designer/images/bar.png \
     $$PWD/designer/images/byte.png \
