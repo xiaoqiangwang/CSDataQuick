@@ -6,6 +6,17 @@ Column {
     anchors.left: parent.left
     anchors.right: parent.right
 
+    Section {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        caption: qsTr("Trace")
+        PolylineEditor {
+            width: 100
+            height: 100
+            backendValue: backendValues.points
+        }
+    }
+
     GraphicsSection {}
     ColorSection {}
     DynamicAttributeSection {}
