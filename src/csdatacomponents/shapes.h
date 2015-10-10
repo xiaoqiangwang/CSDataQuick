@@ -3,7 +3,7 @@
 
 #include <QQuickPaintedItem>
 #include <QVector>
-#include <QPoint>
+#include <QPointF>
 #include <QPainterPath>
 
 #include "enums.h"
@@ -102,7 +102,7 @@ public:
 
     QVariantList points() {
         QVariantList list;
-        foreach(QPoint point, _points)
+        foreach(QPointF point, _points)
             list.append(point);
         return list;
     }
@@ -117,7 +117,7 @@ protected:
     QPainterPath buildPath();
 
 private:
-    QVector<QPoint> _points;
+    QVector<QPointF> _points;
 };
 
 class PolygonItem : public ShapeItem
@@ -130,7 +130,7 @@ public:
 
     QVariantList points() {
         QVariantList list;
-        foreach(QPoint point, _points)
+        foreach(QPointF point, _points)
             list.append(point);
         return list;
     }
@@ -145,7 +145,7 @@ protected:
     QPainterPath buildPath();
 
 private:
-    QVector<QPoint> _points;
+    QVector<QPointF> _points;
 };
 
 class PaintedRectangletem : public ShapeItem
