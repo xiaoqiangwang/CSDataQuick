@@ -7,6 +7,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QBuffer>
+#include <QDataStream>
 
 #if defined(Q_OS_MAC) && !defined(Q_OS_IOS)
     #include <Security/AuthSession.h>
