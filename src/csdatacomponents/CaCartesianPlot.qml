@@ -192,12 +192,14 @@ Item {
         background: root.background
         property var xAxis: Axis {
             type: Axis.Bottom
+            label: root.xLabel
             scale: xAxisStyle
             rangeLower: root.xRangeLower
             rangeUpper: root.xRangeUpper
         }
         property var yAxis: Axis {
             type: Axis.Left
+            label: root.yLabel
             scale: yAxisStyle
             rangeLower: root.yRangeLower
             rangeUpper: root.yRangeUpper
