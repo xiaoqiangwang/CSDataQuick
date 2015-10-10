@@ -113,11 +113,17 @@ QString CustomPlotItem::title()
 void CustomPlotItem::setTitle(QString title)
 {
     mTitle->setText(title);
-    if (title.isEmpty() && mTitle->layout() != NULL)
-        mPlot->plotLayout()->take(mTitle);
+    if (title.isEmpty()) {
+        if (mTitle->layout() != NULL) {
+            mPlot->plotLayout()->take(mTitle);
+            mPlot->plotLayout()->simplify();
+        }
+    }
     else {
-        mPlot->plotLayout()->insertRow(0);
-        mPlot->plotLayout()->addElement(0, 0, mTitle);
+        if (mTitle->layout() == NULL) {
+            mPlot->plotLayout()->insertRow(0);
+            mPlot->plotLayout()->addElement(0, 0, mTitle);
+        }
     }
     mPlot->replot();
 }
