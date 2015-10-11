@@ -40,6 +40,7 @@ set_target_properties(csdataplugin PROPERTIES
 
 set(QML_JS_FILES
     qmldir
+    plugins.qmltypes
 )
 
 foreach(FILE ${QML_JS_FILES})
