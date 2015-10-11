@@ -7,7 +7,7 @@ import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMessageButton
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Displays a push button
 
     The Message Button sets the process variable when the button is pressed or released.

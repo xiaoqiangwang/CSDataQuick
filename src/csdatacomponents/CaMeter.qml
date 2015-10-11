@@ -7,7 +7,7 @@ import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMeter
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Displays the value on a cirular dial panel.
 
     The value of the process variable is displayed by a needle within an arc.

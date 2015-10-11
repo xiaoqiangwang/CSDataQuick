@@ -8,7 +8,7 @@ import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaIndicator
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief The Indicator displays the value on a scale.
 
     The Indicator can have several decorations as specified by the \l label.

@@ -20,6 +20,7 @@ Column {
                 UrlChooser {
                      Layout.fillWidth: true
                      backendValue: backendValues.source
+                     filter: "*.adl *.qml"
                 }
             }
         }
