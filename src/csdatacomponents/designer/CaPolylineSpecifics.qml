@@ -11,9 +11,10 @@ Column {
         anchors.right: parent.right
         caption: qsTr("Trace")
         PolylineEditor {
-            width: 100
-            height: 100
+            width: backendValues.width.value
+            height: backendValues.height.value
             backendValue: backendValues.points
+            closePath: false
         }
     }
 
