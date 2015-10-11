@@ -4,7 +4,7 @@ import CSDataQuick.Components 1.0
 
 /*!
     \qmltype CaComposite
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Display grouped items or include external files.
 
     A Composite is a group of any items. These items can be created directly.
@@ -60,6 +60,9 @@ BaseItem {
 
     visible: da.visibility
 
+    /*! \internal */
+    property var __rootItem: null
+
     // Mask when PVs disconnected
     Rectangle {
         z: 1
@@ -68,10 +71,11 @@ BaseItem {
         visible: !da.connected
     }
 
-    Component.onCompleted: {
-        if (!source)
-            return
-        var absFilePath = Utils.searchADLFile(source, baseWindow.filePath ? baseWindow.filePath : baseWindow.url)
+    onSourceChanged: {
+        if (__rootItem)
+            __rootItem.destroy()
+
+        var absFilePath = Utils.searchADLFile(source, baseWindow)
         if (!absFilePath) {
             console.error("Failed to find file ", source)
             return
@@ -79,9 +83,10 @@ BaseItem {
         var qmlBody = Utils.openADLComposite(absFilePath, macro)
         var qmlCmd = 'import QtQuick 2.0\n' +
                 'import QtQuick.Controls 1.0\n' +
-                'import CSData.Components 1.0\n' +
+                'import CSDataQuick.Components 1.0\n' +
                 'Item { anchors.fill: parent\n' +
                 qmlBody + '\n}';
-        var item = Qt.createQmlObject(qmlCmd, root, absFilePath)
+        __rootItem  = Qt.createQmlObject(qmlCmd, root, absFilePath)
+
     }
 }
