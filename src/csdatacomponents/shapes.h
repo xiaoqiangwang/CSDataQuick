@@ -111,6 +111,7 @@ public:
         foreach(QVariant v, points)
             _points.append(v.toPoint());
         rebuildPath();
+        update();
     }
 
 protected:
@@ -139,6 +140,7 @@ public:
         foreach(QVariant v, points)
             _points.append(v.toPoint());
         rebuildPath();
+        update();
     }
 
 protected:
