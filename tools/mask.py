@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+"""
+    Create the border images for button frame
+"""
 from PIL import Image
 im = Image.new("RGBA", (8, 8))
 
