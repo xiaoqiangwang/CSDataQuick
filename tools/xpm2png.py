@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+"""
+    Extract MEDM object icons from xbm format to png.
+"""
 from PIL import Image
 import numpy
 import re
