@@ -36,10 +36,10 @@ Canvas {
         }
         if (pointMoving)
             ctx.lineTo(pointMoving.x, pointMoving.y)
+        else if (closePath)
+            ctx.closePath()
 
         ctx.stroke()
-        if (closePath)
-            ctx.closePath()
     }
     MouseArea {
         anchors.fill: parent
