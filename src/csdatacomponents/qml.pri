@@ -1,6 +1,7 @@
 QML_IMPORT_PATH = .
 QML_FILES += \
     $$PWD/qmldir \
+    $$PWD/plugins.qmltypes \
     $$PWD/BaseWindow.qml \
     $$PWD/DynamicAttr.qml \
     $$PWD/CaADImage.qml \
@@ -59,6 +60,7 @@ QML_FILES += \
     $$PWD/Private/images/groove_vert.png
 
 DESIGNER_FILES = \
+    $$PWD/designer/BaseWindowSpecifics.qml \
     $$PWD/designer/CaArcSpecifics.qml \
     $$PWD/designer/CaBarSpecifics.qml \
     $$PWD/designer/CaByteSpecifics.qml \
@@ -112,6 +114,7 @@ DESIGNER_FILES = \
     $$PWD/designer/images/textEntry.png \
     $$PWD/designer/images/textUpdate.png \
     $$PWD/designer/images/wheelSwitch.png \
+    $$PWD/designer/images/window.png \
     $$PWD/designer/csdatacomponents.metainfo
     
 OTHER_FILES = $$QML_FILES $$DESIGNER_FILES

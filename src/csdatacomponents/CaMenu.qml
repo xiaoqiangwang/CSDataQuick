@@ -9,7 +9,7 @@ import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMenu
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Displays process variable's enumerate in drop-down menu
 
     The Menu is used for ENUM process variables and is a means for picking the ENUM choices via a menu.

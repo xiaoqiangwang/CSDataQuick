@@ -7,7 +7,7 @@ import "utils.js" as UtilsJS
 
 /*!
     \qmltype CaMonitor
-    \inqmlmodule CSData.Components
+    \inqmlmodule CSDataQuick.Components
     \brief Basic type to all PV monitors
 
 */

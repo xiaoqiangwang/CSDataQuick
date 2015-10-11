@@ -1,5 +1,17 @@
 MetaInfo {
     Type {
+        name: "CSDataQuick.Components.BaseWindow"
+        icon: "images/window.png"
+
+        ItemLibraryEntry {
+            name: "Window"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/window.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CaArc"
         icon: "images/arc.png"
 
