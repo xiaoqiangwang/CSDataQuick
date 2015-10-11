@@ -38,7 +38,9 @@ HEADERS += \
     $$PWD/csdataenginemanager.h \
     $$PWD/csdataengineca.h
 
-OTHER_FILES = qmldir
+OTHER_FILES = \
+    $$PWD/qmldir \
+    $$PWD/plugins.qmltypes
 
 # These rules are to copy qml file to TARGETPATH
 defineReplace(qmlModStripSrcDir) {
