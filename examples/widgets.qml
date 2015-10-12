@@ -52,11 +52,11 @@ ApplicationWindow {
             }
 
             CaOval {
-                dynamicAttr.channel: 'bo'
+                dynamicAttribute.channel: 'bo'
                 colorMode: ColorMode.Alarm
                 width: 100
                 height: 70
-                dynamicAttr.visibilityMode: VisibilityMode.IfZero
+                dynamicAttribute.visibilityMode: VisibilityMode.IfZero
                 fill: FillStyle.Solid
                 lineWidth: 2
             }
@@ -97,7 +97,7 @@ ApplicationWindow {
                 width: 80
                 height: 80
                 source: 'LED.gif'
-                dynamicAttr.channel: 'catest'
+                dynamicAttribute.channel: 'catest'
                 imageCalc: 'A*10'
             }
         }

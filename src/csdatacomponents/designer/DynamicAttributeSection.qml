@@ -26,7 +26,7 @@ Section {
         }
         SecondColumnLayout {
             ComboBox {
-                backendValue: backendValues.dynamicAttr_visibilityMode
+                backendValue: backendValues.dynamicAttribute_visibilityMode
                 implicitWidth: 180
                 scope: "VisibilityMode"
                 model: ["Static", "IfZero", "IfNotZero", "Calc"]
@@ -38,7 +38,7 @@ Section {
         }
         SecondColumnLayout {
             LineEdit {
-                backendValue: backendValues.dynamicAttr_channel
+                backendValue: backendValues.dynamicAttribute_channel
                 showTranslateCheckBox: false
                 implicitWidth: 180
             }
@@ -49,7 +49,7 @@ Section {
         }
         SecondColumnLayout {
             LineEdit {
-                backendValue: backendValues.dynamicAttr_channelB
+                backendValue: backendValues.dynamicAttribute_channelB
                 showTranslateCheckBox: false
                 implicitWidth: 180
             }
@@ -60,7 +60,7 @@ Section {
         }
         SecondColumnLayout {
             LineEdit {
-                backendValue: backendValues.dynamicAttr_channelC
+                backendValue: backendValues.dynamicAttribute_channelC
                 showTranslateCheckBox: false
                 implicitWidth: 180
             }
@@ -71,7 +71,7 @@ Section {
         }
         SecondColumnLayout {
             LineEdit {
-                backendValue: backendValues.dynamicAttr_channelD
+                backendValue: backendValues.dynamicAttribute_channelD
                 showTranslateCheckBox: false
                 implicitWidth: 180
             }

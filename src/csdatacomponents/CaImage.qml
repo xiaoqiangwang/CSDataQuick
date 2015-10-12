@@ -43,16 +43,16 @@ CaGraphics {
         This is the number of frames in the image.
 
         The ADLViewer uses this property to decide this item's stacking order.
-        If the number of frame is less than 1, and \l dynamicAttr has no valid channel,
+        If the number of frame is less than 1, and \l dynamicAttribute has no valid channel,
         this item will be given lower stacking order.
     */
     property int frameCount: 1
 
     Connections {
-        target: dynamicAttr
+        target: dynamicAttribute
         onUpdate: {
             if (imageCalc != '') {
-                var frame = Utils.calculate(imageCalc, dynamicAttr.d.args)
+                var frame = Utils.calculate(imageCalc, dynamicAttribute.d.args)
                 animation.visible = !isNaN(frame)
                 animation.currentFrame = Math.max(0, Math.min(frame, animation.frameCount))
             }

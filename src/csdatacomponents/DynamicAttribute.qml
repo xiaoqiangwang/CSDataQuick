@@ -3,7 +3,7 @@ import QtQuick 2.1
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype DynamicAttr
+    \qmltype DynamicAttribute
     \inqmlmodule CSDataQuick.Components
     \brief Specifies items visibility.
 

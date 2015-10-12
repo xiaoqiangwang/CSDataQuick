@@ -208,15 +208,15 @@ void DynamicAttribute::toQML(std::ostream &ostream)
     if (this->clr != STATIC)
         ostream << indent << "colorMode: " << qmlValueTable[this->clr] << std::endl;
     if (this->vis != V_STATIC)
-        ostream << indent << "dynamicAttr.visibilityMode: " << qmlValueTable[this->vis] << std::endl;
+        ostream << indent << "dynamicAttribute.visibilityMode: " << qmlValueTable[this->vis] << std::endl;
     if (!this->calc.empty())
-        ostream << indent << "dynamicAttr.visibilityCalc: \"" << this->calc << '"' << std::endl;
+        ostream << indent << "dynamicAttribute.visibilityCalc: \"" << this->calc << '"' << std::endl;
 
     for (int i=0; i < MAX_CALC_RECORDS; i++) {
         char chanName[9];
         if (!this->chan[i].empty()) {
             sprintf(chanName,"channel%c",i?'A'+i:'\0');
-            ostream << indent << "dynamicAttr." << chanName << ": \"" << this->chan[i] << '"' << std::endl;
+            ostream << indent << "dynamicAttribute." << chanName << ": \"" << this->chan[i] << '"' << std::endl;
         }
     }
  }
@@ -1456,7 +1456,7 @@ void Image::toQML(std::ostream &ostream)
     ostream << indent << "    imageCalc: \"" << this->calc << "\"" <<std::endl;
     // if no dynamic channel is defined and image has single frame, this is a static graphics item.
     // lower its stacking order not to shadow other control/monitor items
-    ostream << indent << "    z: dynamicAttr.channel || frameCount > 1 ? 0 : -1" << std::endl;
+    ostream << indent << "    z: dynamicAttribute.channel || frameCount > 1 ? 0 : -1" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
