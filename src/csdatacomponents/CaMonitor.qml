@@ -13,10 +13,16 @@ import "utils.js" as UtilsJS
 */
 
 BaseItem {
-    /*! foreground color */
-    property color background: ColorMap.color4
-    /*! background color */
-    property color foreground: ColorMap.color14
+    /*! 
+        \qmlproperty color background
+        The color to fill background.
+    */
+    background: ColorMap.color4
+    /*!
+        \qmlproperty color foreground
+        The color to draw text.
+    */
+    foreground: ColorMap.color14
     /*! qmlproperty enumeration CaGraphics::colorMode */
     property int colorMode: ColorMode.Static
     /*! control data source name */

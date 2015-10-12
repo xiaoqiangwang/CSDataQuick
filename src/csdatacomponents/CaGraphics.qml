@@ -14,10 +14,16 @@ import CSDataQuick.Components 1.0
 */
 BaseItem {
     // graphics basic attributes
-    /*! foreground color */
-    property color foreground: ColorMap.color14
-    /*! background color */
-    property color background: 'transparent'
+    /*! 
+        \qmlproperty color foreground
+        color to draw text, lines and fill shapes
+    */
+    foreground: ColorMap.color14
+    /*! 
+        \qmlproperty color background
+        not used for graphics items
+    */
+    background: 'transparent'
     /*! Draw outline only or fill the shape */
     property int fill: FillStyle.Solid
     /*! Outline style */

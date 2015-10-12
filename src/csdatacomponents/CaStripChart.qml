@@ -9,7 +9,7 @@ import CSDataQuick.Components 1.0
 
 */
 
-Item {
+BaseItem {
     id: root
 
     /*!
@@ -25,13 +25,15 @@ Item {
     */
     property string yLabel
     /*!
-        The color of title, axis and their labels.
-    */
-    property color foreground: ColorMap.color14
-    /*!
+        \qmlproperty color background
         The color of the plot area.
     */
-    property color background:  ColorMap.color4
+    background:  ColorMap.color4
+    /*!
+        \qmlproperty color foreground
+        The color of title, axis and their labels.
+    */
+    foreground: ColorMap.color14
     /*!
         \qmlproperty enumeration units
         The time axis units.

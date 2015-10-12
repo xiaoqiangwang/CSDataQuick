@@ -10,6 +10,8 @@ class DynamicAttributeBase;
 class BaseItem : public QQuickItem
 {
     Q_OBJECT
+    Q_PROPERTY(QColor foreground MEMBER _foreground NOTIFY foregroundChanged)
+    Q_PROPERTY(QColor background MEMBER _background NOTIFY backgroundChanged)
     Q_PROPERTY(Qt::CursorShape cursorType READ cursorType WRITE setCursorType NOTIFY cursorTypeChanged)
     Q_PROPERTY(QQuickWindow* baseWindow READ baseWindow)
     Q_PROPERTY(DynamicAttributeBase* dynamicAttribute MEMBER _dynamicAttribute)
@@ -25,13 +27,15 @@ public:
     static BaseItemAttached *qmlAttachedProperties(QObject *);
 
 signals:
+    void backgroundChanged();
     void cursorTypeChanged();
-    void fontChanged();
+    void foregroundChanged();
 
 public slots:
 
 private:
-    QFont m_font;
+    QColor _foreground;
+    QColor _background;
     DynamicAttributeBase *_dynamicAttribute;
 };
 

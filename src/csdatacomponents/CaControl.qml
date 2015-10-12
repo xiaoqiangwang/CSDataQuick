@@ -19,12 +19,17 @@ import "utils.js" as UtilsJS
 BaseItem {
     id: root
 
-    // appearance
-    /*! The foreground color. */
-    property color background: ColorMap.color51 // '#bbbbbb' is the actual default
+    /*! 
+        \qmlproperty color background
+        The color to fill background. 
+    */
+    background: ColorMap.color51
 
-    /*! The background color. */
-    property color foreground: ColorMap.color14
+    /*!
+        \qmlproperty color foreground
+        The color to draw text. 
+    */
+    foreground: ColorMap.color14
 
     /*! qmlproperty enumeration CaControl::colorMode */
     property int colorMode: ColorMode.Static

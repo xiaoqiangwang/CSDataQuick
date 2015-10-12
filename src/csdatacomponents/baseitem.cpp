@@ -54,6 +54,5 @@ BaseItemAttached::BaseItemAttached(QObject *object)
 
 QString BaseItemAttached::filePath() const
 {
-    qDebug() << item->window()->title();
     return item->window()->filePath();
 }

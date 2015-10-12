@@ -32,12 +32,6 @@ import CSDataQuick.Components 1.0
 BaseItem {
     id: root
 
-    // appearance
-    /*! background color */
-    property color background: ColorMap.color51 // color4 is the actual default
-    /*! foreground color */
-    property color foreground: ColorMap.color14
-
     /*!
         external source file to load components
     */
