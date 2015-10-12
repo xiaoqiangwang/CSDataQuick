@@ -453,8 +453,10 @@ QString AxisItem::label()
 void AxisItem::setLabel(QString label)
 {
     _label = label;
-    if (mAxis)
+    if (mAxis) {
         mAxis->setLabel(label);
+        mAxis->parentPlot()->replot();
+    }
     emit labelChanged();
 }
 
