@@ -7,6 +7,7 @@ OTHER_FILES += gallery/demo_adimage.qml
 OTHER_FILES += gallery/demo_arc.qml
 OTHER_FILES += gallery/demo_bar.qml
 OTHER_FILES += gallery/demo_byte.qml
+OTHER_FILES += gallery/demo_cartesianplot.qml
 OTHER_FILES += gallery/demo_choicebutton.qml
 OTHER_FILES += gallery/demo_image.qml
 OTHER_FILES += gallery/demo_indicator.qml
