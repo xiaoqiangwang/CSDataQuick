@@ -28,6 +28,7 @@ import "utils.js" as UtilsJS
 CaControl {
     id: root
 
+    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height, true)
 
     ComboBox {

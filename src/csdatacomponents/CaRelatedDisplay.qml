@@ -95,6 +95,7 @@ BaseItem {
     property ListModel model: ListModel {
     }
 
+    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
 
     /*!
