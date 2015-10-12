@@ -77,7 +77,7 @@ import CSDataQuick.Components 1.0
     \endtable
 */
 
-Item {
+BaseItem {
     id: root
 
     /*! Graph title */
@@ -86,11 +86,6 @@ Item {
     property string xLabel
     /*! Y axis label */
     property string yLabel
-    /*! foreground color */
-    property color foreground: ColorMap.color14
-    /*! background color */
-    property color background: ColorMap.color4
-
     /*!
         \list
             \li false: Plot n points corresponding to the first n changes
