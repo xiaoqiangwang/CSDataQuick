@@ -40,15 +40,7 @@ import "utils.js" as UtilsJS
 BaseItem {
     id: root
 
-    /*! 
-        \qmlproperty color background
-        background color
-    */
     background: ColorMap.color51
-    /*! 
-        \qmlproperty color foreground
-        text color 
-    */
     foreground: ColorMap.color14
     /*!
         text on button

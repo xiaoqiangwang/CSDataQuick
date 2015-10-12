@@ -12,6 +12,20 @@
     \inqmlmodule CSDataQuick.Components
     \brief Base item which all visual items derive.
 */
+/*!
+    \qmlproperty color BaseItem::foreground
+    \brief Color used to draw outline, text.
+
+    This is also the color fill graphics item.
+*/
+/*!
+    \qmlproperty color BaseItem::background
+    \brief Color used to fill background.
+*/
+/*!
+    \qmlproperty DynamicAttribute BaseItem::dynamicAttribute
+    \brief Configure item's visibility and color
+*/
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
