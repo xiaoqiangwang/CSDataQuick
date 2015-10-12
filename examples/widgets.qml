@@ -52,9 +52,8 @@ ApplicationWindow {
             }
 
             CaOval {
-                dynamicAttr {
-                    channel: 'bo'
-                }
+                dynamicAttr.channel: 'bo'
+                dynamicAttr.channelB: 'catest'
                 colorMode: ColorMode.Alarm
                 width: 100
                 height: 70
