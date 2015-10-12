@@ -50,7 +50,7 @@ BaseItem {
     property int colorMode: ColorMode.Static
 
     /*! dynamic attributes */
-    property DynamicAttr dynamicAttr: DynamicAttr { id: da }
+    dynamicAttribute: DynamicAttribute { id: da }
 
     visible: da.visibility
 

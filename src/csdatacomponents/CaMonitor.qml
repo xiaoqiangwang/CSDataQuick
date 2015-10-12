@@ -23,7 +23,6 @@ BaseItem {
     property var pv: CSData { id: pv; }
 
     /*! dynamic attributes */
-    property alias dynamicAttr: da
     dynamicAttribute: DynamicAttr {id: da}
 
     /*! color based on the severity of the process variable */

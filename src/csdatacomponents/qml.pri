@@ -3,7 +3,7 @@ QML_FILES += \
     $$PWD/qmldir \
     $$PWD/plugins.qmltypes \
     $$PWD/BaseWindow.qml \
-    $$PWD/DynamicAttr.qml \
+    $$PWD/DynamicAttribute.qml \
     $$PWD/CaADImage.qml \
     $$PWD/CaArc.qml \
     $$PWD/CaBar.qml \

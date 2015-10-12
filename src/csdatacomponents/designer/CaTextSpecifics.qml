@@ -39,6 +39,6 @@ Column {
     }
     ColorSection {
     }
-    DynamicAttribute {
+    DynamicAttributeSection {
     }
 }

@@ -554,12 +554,12 @@ class MEDMGraphics(MEDMObject):
         if hasattr(self, 'channel'):
             q = """
     colorMode: %s
-    dynamicAttr.channel: %s
-    dynamicAttr.channelB: %s
-    dynamicAttr.channelC: %s
-    dynamicAttr.channelD: %s
-    dynamicAttr.visibilityMode: %s
-    dynamicAttr.visibilityCalc: %s
+    dynamicAttribute.channel: %s
+    dynamicAttribute.channelB: %s
+    dynamicAttribute.channelC: %s
+    dynamicAttribute.channelD: %s
+    dynamicAttribute.visibilityMode: %s
+    dynamicAttribute.visibilityCalc: %s
 """ % (ColorMode[self.colorMode], self.channel, self.channelB, self.channelC, self.channelD, VisMode[self.visMode], self.visCalc)
 
         return s + q
@@ -723,12 +723,12 @@ class MEDMComposite(MEDMObject):
         if hasattr(self, 'channel'):
             q = """
     colorMode: %s
-    dynamicAttr.channel: %s
-    dynamicAttr.channelB: %s
-    dynamicAttr.channelC: %s
-    dynamicAttr.channelD: %s
-    dynamicAttr.visibilityMode: %s
-    dynamicAttr.visibilityCalc: %s
+    dynamicAttribute.channel: %s
+    dynamicAttribute.channelB: %s
+    dynamicAttribute.channelC: %s
+    dynamicAttribute.channelD: %s
+    dynamicAttribute.visibilityMode: %s
+    dynamicAttribute.visibilityCalc: %s
 """ % (ColorMode[self.colorMode], self.channel, self.channelB, self.channelC, self.channelD, VisMode[self.visMode], self.visCalc)
 
         s = ''

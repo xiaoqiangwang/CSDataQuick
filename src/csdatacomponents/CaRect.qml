@@ -35,8 +35,8 @@ CaGraphics {
         anchors.fill: parent
         lineWidth: root.lineWidth
         foreground: (colorMode == ColorMode.Alarm
-                     || (dynamicAttr.visibilityMode != VisibilityMode.Static
-                         && !dynamicAttr.connected))
+                     || (dynamicAttribute.visibilityMode != VisibilityMode.Static
+                         && !dynamicAttribute.connected))
                     ? root.alarmColor :root.foreground
         edgeStyle: root.edge
         fillStyle: root.fill

@@ -60,7 +60,7 @@ CaGraphics {
         z: 1
         color: ColorMap.invalid_alarm
         anchors.fill: parent
-        visible: (colorMode == ColorMode.Alarm || dynamicAttr.visibilityMode != VisibilityMode.Static) && !dynamicAttr.connected
+        visible: (colorMode == ColorMode.Alarm || dynamicAttribute.visibilityMode != VisibilityMode.Static) && !dynamicAttribute.connected
     }
 
     Text {
