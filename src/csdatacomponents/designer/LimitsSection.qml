@@ -14,16 +14,17 @@ Section {
         }
         SecondColumnLayout {
             ComboBox {
-                backendValue: backendValues.limits_loprSrc
+                id: loprSrc
+                backendValue: backendValues._loprSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
             SpinBox {
-                backendValue: backendValues.limits_loprDefault
+                backendValue: backendValues._loprDefault
                 minimumValue: -Infinity
                 maximumValue: Infinity
-                decimals: backendValues.limits_prec
-                enabled: backendValues.limits_loprSrc.value == 1
+                decimals: backendValues._prec
+                enabled: loprSrc.currentIndex == 1
             }
         }
         Label {
@@ -32,16 +33,17 @@ Section {
         }
         SecondColumnLayout {
             ComboBox {
-                backendValue: backendValues.limits_hoprSrc
+                id: hoprSrc
+                backendValue: backendValues._hoprSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
             SpinBox {
-                backendValue: backendValues.limits_hoprDefault
+                backendValue: backendValues._hoprDefault
                 minimumValue: -Infinity
                 maximumValue: Infinity
-                decimals: backendValues.limits_prec
-                enabled: backendValues.limits_hoprSrc.value == 1
+                decimals: backendValues._prec
+                enabled: hoprSrc.currentIndex == 1
             }
         }
         Label {
@@ -50,18 +52,18 @@ Section {
         }
         SecondColumnLayout {
             ComboBox {
-                backendValue: backendValues.limits_precSrc
+                id: precSrc
+                backendValue: backendValues._precSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
             SpinBox {
-                backendValue: backendValues.limits_precDefault
+                backendValue: backendValues._precDefault
                 minimumValue: 0
                 maximumValue: 25
-                enabled: backendValues.limits_precSrc.value == 1
+                enabled: precSrc.currentIndex == 1
             }
         }
     }
 }
-
 

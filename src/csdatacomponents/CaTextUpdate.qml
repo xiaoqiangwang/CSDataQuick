@@ -67,6 +67,13 @@ CaMonitor {
     property bool showUnits: false
     /*! Operation limits and precision */
     property Limits limits: Limits {id: limits}
+    /* The following properties alias exist only for qml designer property editor */
+    /*! \internal */
+    property alias _prec: limits.prec
+    /*! \internal */
+    property alias _precSrc: limits.precSrc
+    /*! \internal */
+    property alias _precDefault: limits.precDefault
 
     RowLayout {
         anchors.fill: parent
