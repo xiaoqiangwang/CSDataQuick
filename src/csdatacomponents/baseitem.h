@@ -5,12 +5,15 @@
 #include <QCursor>
 
 class BaseItemAttached;
+class DynamicAttributeBase;
 
 class BaseItem : public QQuickItem
 {
     Q_OBJECT
     Q_PROPERTY(Qt::CursorShape cursorType READ cursorType WRITE setCursorType NOTIFY cursorTypeChanged)
     Q_PROPERTY(QQuickWindow* baseWindow READ baseWindow)
+    Q_PROPERTY(DynamicAttributeBase* dynamicAttribute MEMBER _dynamicAttribute)
+
 public:
     explicit BaseItem(QQuickItem *parent = 0);
 
@@ -29,6 +32,7 @@ public slots:
 
 private:
     QFont m_font;
+    DynamicAttributeBase *_dynamicAttribute;
 };
 
 class BaseItemAttached : public QObject

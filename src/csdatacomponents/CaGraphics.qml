@@ -12,7 +12,7 @@ import CSDataQuick.Components 1.0
     It defines all the attributes that are common across graphics shapes.
 
 */
-Item {
+BaseItem {
     // graphics basic attributes
     /*! foreground color */
     property color foreground: ColorMap.color14
@@ -30,7 +30,9 @@ Item {
     property int colorMode: ColorMode.Static
 
     /*! dynamic attributes */
-    property DynamicAttr dynamicAttr: DynamicAttr { id: da }
+    property alias dynamicAttr: da
+    dynamicAttribute: DynamicAttr {id: da}
+
     /*! color based on the severity of the process variable */
     property color alarmColor: ColorMap.invalid_alarm
 

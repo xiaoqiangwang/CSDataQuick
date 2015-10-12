@@ -11,6 +11,7 @@
 #include "adimageprovider.h"
 #include "plotitem.h"
 #include "baseitem.h"
+#include "attribute.h"
 #include "windowmanager.h"
 
 #include <qqml.h>
@@ -36,6 +37,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     // @uri CSDataQuick.Components
     qmlRegisterType<QQuickPvObject>(uri, 1, 0, "PvObject");
     qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
+    qmlRegisterType<DynamicAttributeBase>(uri, 1, 0, "DynamicAttributeBase");
     qmlRegisterType<PolylineItem>(uri, 1, 0, "Polyline");
     qmlRegisterType<PolygonItem>(uri, 1, 0, "Polygon");
     qmlRegisterType<ArcItem>(uri, 1, 0, "Arc");
