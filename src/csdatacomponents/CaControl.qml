@@ -40,7 +40,9 @@ BaseItem {
     }
 
     /*! dynamic attributes */
-    property DynamicAttr dynamicAttr: DynamicAttr { id: da }
+    property alias dynamicAttr: da
+    dynamicAttribute: DynamicAttr {id: da}
+
     /*! color based on the severity of the process variable */
     property color alarmColor: ColorMap.invalid_alarm
 

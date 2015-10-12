@@ -3,6 +3,7 @@
 \*****************************************************************************/
 
 #include "baseitem.h"
+#include "attribute.h"
 
 #include <QQuickWindow>
 
@@ -14,6 +15,7 @@
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
+    _dynamicAttribute = new DynamicAttributeBase(this);
     setClip(false);
 }
 

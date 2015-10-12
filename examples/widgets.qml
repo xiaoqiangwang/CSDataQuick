@@ -53,10 +53,10 @@ ApplicationWindow {
 
             CaOval {
                 dynamicAttr.channel: 'bo'
-                dynamicAttr.channelB: 'catest'
                 colorMode: ColorMode.Alarm
                 width: 100
                 height: 70
+                dynamicAttr.visibilityMode: VisibilityMode.IfZero
                 fill: FillStyle.Solid
                 lineWidth: 2
             }

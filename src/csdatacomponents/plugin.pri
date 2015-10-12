@@ -34,7 +34,8 @@ SOURCES += \
     $$PWD/baseitem.cpp \
     $$PWD/enums.cpp \
     $$PWD/windowmanager.cpp \
-    $$PWD/geometryspecification.cpp
+    $$PWD/geometryspecification.cpp \
+    $$PWD/attribute.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -46,4 +47,5 @@ HEADERS += \
     $$PWD/plotitem.h \
     $$PWD/baseitem.h \
     $$PWD/enums.h \
-    $$PWD/windowmanager.h
+    $$PWD/windowmanager.h \
+    $$PWD/attribute.h

@@ -10,28 +10,41 @@ import CSDataQuick.Components 1.0
     Fours process variables can be speficied for the calculation.
 */
 
-QtObject {
-    id: da
-    /*! Name of the main process variable */
-    property string channel: ''
-    /*! Name of the second process variable */
-    property string channelB: ''
-    /*! Name of the third process variable */
-    property string channelC: ''
-    /*! Name of the forth process variable */
-    property string channelD: ''
+/*!
+    \qmlproperty string channel
+    Name of the main process variable
+*/
+/*!
+    \qmlproperty string channelB
+    Name of the second process variable
+*/
+/*!
+    \qmlproperty string channelC
+    Name of the third process variable
+*/
+/*!
+    \qmlproperty string channelD
+    Name of the forth process variable
+*/
+/*!
+    \qmlproperty enumeration visibilityMode
+    \list
+    \li VisibilityMode.Static - No visiblity change.
+    \li VisibilityMode.IfZero - Visible if \l channel has value zero.
+    \li VisibilityMode.IfNotZero - Visible if \l channel has value no-zero.
+    \li VisibilityMode.Calc - Visible if \l visibilityCalc returns true.
+    \endlist
+*/
+/*!
+    \qmlproperty string visibilityCalc
+    An expression that determines whether the object is displayed or not.
+    The expression should return 0 for false and anything else for true.
+*/
 
+DynamicAttributeBase {
+    id: da
     /*! The color as determined from channel A's severity */
     property color alarmColor: ColorMap.no_alarm
-    /*!
-        \qmlproperty enumeration visibilityMode
-    */
-    property int visibilityMode : VisibilityMode.Static
-    /*!
-        An expression that determines whether the object is displayed or not.
-        The expression should return 0 for false and anything else for true.
-    */
-    property string visibilityCalc : 'A'
     /*! The visibility as determend from visiblityMode */
     property bool visibility: true
 
