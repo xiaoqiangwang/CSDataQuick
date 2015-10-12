@@ -249,7 +249,7 @@ Item {
             var xAxis = plot.xAxis
             var yAxis = model.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
-            graph.color = Qt.binding(function() {return model.get(i).foreground;})
+            graph.color = Qt.binding(function() {return model.get(i).foreground ? model.get(i).foreground : 'black';})
             graph.lineStyle = Qt.binding(function () {return root.plotStyle;})
 
             var xpv = null, ypv = null
