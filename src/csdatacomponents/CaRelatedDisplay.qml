@@ -55,14 +55,7 @@ import "utils.js" as UtilsJS
 
 BaseItem {
     id: root
-    /*! 
-        \qmlproperty color foreground
-        The color to fill background
-    */
     background: ColorMap.color51
-    /*! 
-        \qmlproperty color foreground
-    */
     foreground: ColorMap.color14
     /*!
         text displayed on button

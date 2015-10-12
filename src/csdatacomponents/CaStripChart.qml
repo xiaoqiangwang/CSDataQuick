@@ -12,6 +12,8 @@ import CSDataQuick.Components 1.0
 BaseItem {
     id: root
 
+    background:  ColorMap.color4
+    foreground: ColorMap.color14
     /*!
         The title of the plot, displayed on top.
     */
@@ -24,16 +26,6 @@ BaseItem {
         The label of y axis, show next to the axis.
     */
     property string yLabel
-    /*!
-        \qmlproperty color background
-        The color of the plot area.
-    */
-    background:  ColorMap.color4
-    /*!
-        \qmlproperty color foreground
-        The color of title, axis and their labels.
-    */
-    foreground: ColorMap.color14
     /*!
         \qmlproperty enumeration units
         The time axis units.
