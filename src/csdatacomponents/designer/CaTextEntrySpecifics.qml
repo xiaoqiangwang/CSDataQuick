@@ -27,6 +27,24 @@ Column {
                 }
             }
             Label {
+                text: qsTr("precision")
+                tooltip: qsTr("numbers after decimal point")
+            }
+            SecondColumnLayout {
+                ComboBox {
+                    id: precSrc
+                    backendValue: backendValues._precSrc
+                    scope: "LimitsSource"
+                    model: ["Channel", "Default", "User"]
+                }
+                SpinBox {
+                    backendValue: backendValues._precDefault
+                    minimumValue: 0
+                    maximumValue: 25
+                    enabled: precSrc.currentIndex == 1
+                }
+            }
+            Label {
                 text: qsTr("format")
                 tooltip: qsTr("text format")
             }

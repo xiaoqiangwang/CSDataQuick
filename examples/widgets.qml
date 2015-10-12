@@ -128,6 +128,9 @@ ApplicationWindow {
             CaTextEntry {
                 width:100
                 height:24
+                _precSrc: LimitsSource.Default
+                format: TextFormat.Compact
+                _precDefault: 7
                 source: 'catest'
                 colorMode: ColorMode.Alarm
             }
@@ -179,6 +182,7 @@ ApplicationWindow {
                 source: 'calc'
                 width: 100
                 height: 20
+                _precSrc: LimitsSource.Default
             }
 
             CaTextUpdate {
@@ -195,15 +199,18 @@ ApplicationWindow {
             CaBar {
                 width: 100
                 height: 40
+                _hoprSrc: LimitsSource.Default
                 source: 'catest'
                 colorMode: ColorMode.Alarm
                 label: LabelStyle.Limits
             }
             CaBar {
-               width: 50
-               height: 100
-               direction: Direction.Down
-               label: LabelStyle.Outline
+                width: 50
+                height: 100
+                _hoprDefault: 7
+                _hoprSrc: LimitsSource.Default
+                direction: Direction.Down
+                label: LabelStyle.Outline
                source: 'catest'
                colorMode: ColorMode.Alarm
            }
