@@ -41,7 +41,7 @@ BaseItem {
         Each ListElement contains properties "channel", "foreground" and "limits".
         "channel" is the process variable to monitor.
         "foreground" is the color of the line for that channel,
-        "limits" specifies the source for the Low Limit, the Low Limit.
+        "limits" specifies the source for the range.
     */
     property ListModel model
 
@@ -98,6 +98,7 @@ BaseItem {
             // create pv object
             var cmd =
                     'import CSDataQuick.Data 1.0\n' +
+                    'import CSDataQuick.Components 1.0\n' +
                     'CSData {\n' +
                     '    source: "%1"\n'.arg(pen.channel) +
                     '    property var data\n' +

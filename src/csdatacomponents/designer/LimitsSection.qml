@@ -15,15 +15,15 @@ Section {
         SecondColumnLayout {
             ComboBox {
                 id: loprSrc
-                backendValue: backendValues._loprSrc
+                backendValue: backendValues.limits_loprSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
             SpinBox {
-                backendValue: backendValues._loprDefault
+                backendValue: backendValues.limits_loprDefault
                 minimumValue: -Infinity
                 maximumValue: Infinity
-                decimals: backendValues._prec
+                decimals: backendValues.limits_prec.value
                 enabled: loprSrc.currentIndex == 1
             }
         }
@@ -34,15 +34,15 @@ Section {
         SecondColumnLayout {
             ComboBox {
                 id: hoprSrc
-                backendValue: backendValues._hoprSrc
+                backendValue: backendValues.limits_hoprSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
             SpinBox {
-                backendValue: backendValues._hoprDefault
+                backendValue: backendValues.limits_hoprDefault
                 minimumValue: -Infinity
                 maximumValue: Infinity
-                decimals: backendValues._prec
+                decimals: backendValues.limits_prec.value
                 enabled: hoprSrc.currentIndex == 1
             }
         }
@@ -53,12 +53,12 @@ Section {
         SecondColumnLayout {
             ComboBox {
                 id: precSrc
-                backendValue: backendValues._precSrc
+                backendValue: backendValues.limits_precSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
             SpinBox {
-                backendValue: backendValues._precDefault
+                backendValue: backendValues.limits_precDefault
                 minimumValue: 0
                 maximumValue: 25
                 enabled: precSrc.currentIndex == 1

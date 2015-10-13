@@ -2103,8 +2103,7 @@ void ShellCommandEntry::toQML(std::ostream &ostream)
 
     ostream << indent << "    ListElement {" << std::endl;
     ostream << indent << "        label: \"" << this->label << '"' << std::endl;
-    ostream << indent << "        command: \"" << this->command << '"' << std::endl;
-    ostream << indent << "        args: \"" << this->args << '"' << std::endl;
+    ostream << indent << "        command: \"" << this->command << ' ' << this->args << '"' << std::endl;
     ostream << indent << "    }" << std::endl;
 }
 

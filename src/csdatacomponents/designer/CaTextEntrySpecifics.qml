@@ -33,12 +33,12 @@ Column {
             SecondColumnLayout {
                 ComboBox {
                     id: precSrc
-                    backendValue: backendValues._precSrc
+                    backendValue: backendValues.limits_precSrc
                     scope: "LimitsSource"
                     model: ["Channel", "Default", "User"]
                 }
                 SpinBox {
-                    backendValue: backendValues._precDefault
+                    backendValue: backendValues.limits_precDefault
                     minimumValue: 0
                     maximumValue: 25
                     enabled: precSrc.currentIndex == 1

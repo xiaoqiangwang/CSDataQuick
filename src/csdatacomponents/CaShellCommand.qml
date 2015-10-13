@@ -27,9 +27,9 @@ import "utils.js" as UtilsJS
         height: 25
         label: 'Shell Commands'
         model: ListModel {
-            ListElement {label: 'ls'; command: 'ls'; args:'';}
-            ListElement {label: 'xterm'; command: 'xterm'; args:'';}
-            ListElement {label: 'run anything'; command: '?'; args:'';}
+            ListElement {label: 'ls'; command: 'ls'}
+            ListElement {label: 'xterm'; command: 'xterm'}
+            ListElement {label: 'run anything'; command: '?';}
         }
     }
     \endqml
@@ -53,13 +53,12 @@ BaseItem {
     /*!
         command list model
 
-        Each element contains three properties, label, command and args.
+        Each element contains three properties, label, command.
         The label is the label on the menu item in the menu that is brought up when the Shell Command button is pressed.
-        The string in command will be concatenated with the string in args with a space in between,
-        and the resulting string will be executed as a system command when the menu item with that label is selected.
-        (The args are actually superfluous, since any command arguments can just as well be included in command.)
+        The string in command will be executed as a system command when the menu item with that label is selected.
+
         The GUI will block until the command is executed, so it is almost always wise to include an “&” at the end of the command
-        (or the args if they re used) so that it will execute in the background.
+        so that it will execute in the background.
     */
     property ListModel model: ListModel {
     }
@@ -114,19 +113,18 @@ BaseItem {
                          'font.family: root.font.family;}'
         // Single entry, direct action on button click
         if (model.count == 1) {
-            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1 %2")'.arg(model.get(0).command).arg(model.get(0).args)), root, 'button')
+            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1")'.arg(model.get(0).command)), root, 'button')
             btn.align = Text.AlignHCenter
         // Multiple entries, popup menu on button click
         } else {
             var btn = Qt.createQmlObject(btnCmd.arg('menu: Menu{}'), root, 'button')
             btn.align = Text.AlignLeft
-            var label, command, args
+            var label, command
             for(var i=0; i<model.count; i++) {
                 label = model.get(i).label
                 command = model.get(i).command
-                args = model.get(i).args
-                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; Action{onTriggered: parseCommand("%1 %2")}'
-                                            .arg(command).arg(args), root, 'action')
+                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; Action{onTriggered: parseCommand("%1")}'
+                                            .arg(command), root, 'action')
                 var item = btn.menu.insertItem(i, label);
                 item.action = action
             }

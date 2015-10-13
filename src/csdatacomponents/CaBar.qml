@@ -95,27 +95,7 @@ CaMonitor {
     */
     property Limits limits : Limits{id: limits}
 
-    /* The following properties alias exist only for qml designer property editor */
-    /*! \internal */
-    property alias _lopr: limits.lopr
-    /*! \internal */
-    property alias _loprSrc: limits.loprSrc
-    /*! \internal */
-    property alias _loprDefault: limits.loprDefault
-    /*! \internal */
-    property alias _hopr: limits.hopr
-    /*! \internal */
-    property alias _hoprSrc: limits.hoprSrc
-    /*! \internal */
-    property alias _hoprDefault: limits.hoprDefault
-    /*! \internal */
-    property alias _prec: limits.prec
-    /*! \internal */
-    property alias _precSrc: limits.precSrc
-    /*! \internal */
-    property alias _precDefault: limits.precDefault
-
-    /*!
+   /*!
         \internal
         Determine the font based item total height, indepent of the orientation.
     */

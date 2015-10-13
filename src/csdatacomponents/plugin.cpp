@@ -37,6 +37,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     // @uri CSDataQuick.Components
     qmlRegisterType<QQuickPvObject>(uri, 1, 0, "PvObject");
     qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
+    qmlRegisterType<LimitsBase>(uri, 1, 0, "Limits");
     qmlRegisterType<DynamicAttributeBase>(uri, 1, 0, "DynamicAttributeBase");
     qmlRegisterType<PolylineItem>(uri, 1, 0, "Polyline");
     qmlRegisterType<PolygonItem>(uri, 1, 0, "Polygon");

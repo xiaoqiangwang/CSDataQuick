@@ -30,6 +30,7 @@ BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
     _dynamicAttribute = new DynamicAttributeBase(this);
+    _limits = Q_NULLPTR;
     setClip(false);
 }
 

@@ -1,11 +1,9 @@
 import QtQuick 2.1
 import HelperWidgets 2.0
+import QtQuick.Controls 1.0 as Controls
 import QtQuick.Layouts 1.0
 
 Column {
-    anchors.left: parent.left
-    anchors.right: parent.right
-
     DataSourceSection {}
 
     Section {
@@ -33,12 +31,12 @@ Column {
             SecondColumnLayout {
                 ComboBox {
                     id: precSrc
-                    backendValue: backendValues._precSrc
+                    currentIndex: backendValues.limits_precSrc
                     scope: "LimitsSource"
                     model: ["Channel", "Default", "User"]
                 }
                 SpinBox {
-                    backendValue: backendValues._precDefault
+                    backendValue: backendValues.limits_precDefault
                     minimumValue: 0
                     maximumValue: 25
                     enabled: precSrc.currentIndex == 1
