@@ -263,6 +263,9 @@ MetaInfo {
             libraryIcon: "images/textUpdate.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+            Property { name: "limits"; type: "QObject"; }
+            Property { name: "limits.precSrc"; type: "LimitsSource"; value: 0}
+            Property { name: "limits.precDefault"; type: "double"; value: 0}
         }
     }
     Type {
