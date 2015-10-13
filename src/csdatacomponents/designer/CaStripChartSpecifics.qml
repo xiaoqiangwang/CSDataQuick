@@ -47,7 +47,7 @@ Column {
                 }
                 ComboBox {
                     backendValue: backendValues.units
-                    scope: "TimeUnits"
+                    scope: "TimeUnit"
                     model: ["Second", "Minute"]
                 }
              }
