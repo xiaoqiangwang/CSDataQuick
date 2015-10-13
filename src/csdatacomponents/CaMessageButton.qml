@@ -27,14 +27,14 @@ CaControl {
         This value should be commensurate with the type of the process variable.
         (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
     */
-    property var onMessage
+    property string onMessage
     /*!
         Value to set the process variable when button is released
 
         This value should be commensurate with the type of the process variable.
         (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
     */
-    property var offMessage
+    property string offMessage
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
