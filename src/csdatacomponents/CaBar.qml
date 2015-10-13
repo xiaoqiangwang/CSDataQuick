@@ -93,7 +93,7 @@ CaMonitor {
     /*!
         Operation limits range and precision
     */
-    property Limits limits : Limits{id: limits}
+    limits : Limits{}
 
    /*!
         \internal

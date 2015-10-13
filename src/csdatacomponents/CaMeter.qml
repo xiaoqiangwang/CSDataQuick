@@ -39,7 +39,7 @@ CaMonitor {
     property int label: LabelStyle.Frame
 
     /*! The operation limits */
-    property Limits limits : Limits{id: limits}
+    limits : Limits{}
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 

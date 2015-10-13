@@ -93,8 +93,8 @@ CaControl {
     */
     property int format: TextFormat.Decimal
 
-    /*! The low high operation range and precision */
-    property Limits limits: Limits {id: limits}
+    limits: Limits {}
+
     Frame {
         anchors.fill: parent
         color: root.background

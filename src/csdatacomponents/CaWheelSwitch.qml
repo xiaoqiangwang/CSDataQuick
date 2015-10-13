@@ -85,8 +85,9 @@ CaControl {
         \endtable
     */
     property string format: ''
-    /*! The low high operation limit and precision */
-    property Limits limits: Limits {id: limits}
+
+    limits: Limits {}
+
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height, 1)
 

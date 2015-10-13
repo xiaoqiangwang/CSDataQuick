@@ -65,8 +65,9 @@ CaMonitor {
     property int format: TextFormat.Decimal
     /*! Display physical units if available */
     property bool showUnits: false
-    /*! Operation limits and precision */
-    property Limits limits: Limits {id: limits}
+
+    limits: Limits {}
+
     RowLayout {
         anchors.fill: parent
         Text {
