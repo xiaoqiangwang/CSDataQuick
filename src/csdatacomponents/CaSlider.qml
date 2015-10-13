@@ -47,7 +47,7 @@ CaControl {
     */
     property int  direction: Direction.Right
     /*! The operation limit and precision */
-    property var limits: Limits {id: limits}
+    limits: Limits {}
     /*!
         The amount of vaue to increament or decrement.
 
