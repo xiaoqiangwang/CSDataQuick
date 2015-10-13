@@ -6,6 +6,7 @@
 #include "csdataenginemanager.h"
 #include "csdataengine.h"
 
+#include <QCoreApplication>
 #include <QtDebug>
 /*!
     \class QCSDataAlarm
@@ -66,6 +67,7 @@ QCSDataAlarm::QCSDataAlarm(QObject *parent)
     : QObject(parent)
 {
     reset();
+
 }
 /*!
     \brief Set the alarm \a severity, \a status and \a message.
@@ -208,6 +210,18 @@ QCSData::QCSData(QObject *parent)
     reset();
     connect(_alarm, SIGNAL(alarmChanged()), this, SIGNAL(alarmChanged()));
     connect(_range, SIGNAL(rangeChanged()), this, SIGNAL(rangeChanged()));
+
+    if (QCoreApplication::applicationName() == "Qml2Puppet") {
+        _inPuppet = true;
+        _connected = true;
+        _fieldType = Double;
+        _count = 1;
+        _accessRight = ReadAccess | WriteAccess;
+        _stateStrings << "OFF" << "ON";
+        _alarm->setAlarm(QCSDataAlarm::NoAlarm, 0, "NoAlarm");
+    }
+    else
+        _inPuppet = false;
 }
 /*!
     \brief Delete the data object and disconnect from data engine.
@@ -247,6 +261,11 @@ void QCSData::setSource(const QString source)
     if (_source == source)
         return;
 
+    if (_inPuppet) {
+        _source = source;
+        emit sourceChanged();
+        return;
+    }
     // disconnect from current data engine
     if (_engine) {
         _engine->close(this);

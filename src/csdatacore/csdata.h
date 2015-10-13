@@ -189,6 +189,9 @@ protected:
     QStringList _stateStrings;  // state strings separated
 
     QCSDataEngine *_engine;
+
+    // If this is instantiated in Qml2Puppet, it will fake the connection.
+    bool _inPuppet;
 };
 
 Q_DECLARE_METATYPE(QCSDataAlarm::Severity)
