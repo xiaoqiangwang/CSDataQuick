@@ -119,10 +119,10 @@ ApplicationWindow {
                 width: 100
                 height: 24
                 text: 'Click Me!'
+                onMessage: "1"
                 source: 'calc'
                 foreground: 'yellow'
-                onMessage: 0.1
-                offMessage: 0.5
+                offMessage: "2"
             }
 
             CaTextEntry {
