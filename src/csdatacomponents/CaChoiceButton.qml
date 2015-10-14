@@ -3,7 +3,7 @@ import QtQuick.Controls 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import "utils.js" as Utils
+import "utils.js" as UtilsJS
 
 
 /*!
@@ -38,6 +38,8 @@ CaControl {
       \endlist
     */
     property int stacking: Stacking.Column
+    /*! \internal */
+    property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4, true)
 
     /*! \internal */
     QtObject {
@@ -66,6 +68,11 @@ CaControl {
             createLayout()
     }
 
+    Component.onCompleted: {
+        if (pv.connected)
+            createLayout()
+    }
+
     /*! \internal */
     function createLayout() {
         // destroy any previous buttons/layout
@@ -73,8 +80,6 @@ CaControl {
             d.layout.destroy();
             d.layout = null
         }
-        // calculate font size
-        var font = Utils.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4)
         // create layout based on stacking
         var cmd = 'import QtQuick 2.0; import QtQuick.Layouts 1.0; import CSDataQuick.Data 1.0; import CSDataQuick.Components 1.0; import CSDataQuick.Components.Private 1.0;\n'
         if (stacking == Stacking.Row) {
@@ -105,14 +110,14 @@ CaControl {
                         text: "%1";
                         foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground;
                         background: root.background;
-                        font.pixelSize: %2;
-                        font.family: "%3";
+                        font.pixelSize: root.font.size;
+                        font.family: root.font.family;
                         checkable: true;
                         exclusiveGroup: radioInputGroup;
                         Layout.fillWidth: true;
                         Layout.fillHeight: true;
-                        onClicked: pv.setValue(%4);
-                    }\n'.arg(pv.stateStrings[i]).arg(font.size).arg(font.family).arg(i)
+                        onClicked: pv.setValue(%2);
+                    }\n'.arg(pv.stateStrings[i]).arg(i)
         }
         cmd += '}'
         d.layout = Qt.createQmlObject(cmd, root, 'layout')
