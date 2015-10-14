@@ -358,22 +358,40 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
     QQmlComponent component(engine);
     component.loadUrl(filePath);
     if (!component.isReady()) {
-        qDebug() << component.errorString();
+        qCritical() << component.errorString();
         return Q_NULLPTR;
     }
-
     QObject *topLevel = component.create();
-    if (!topLevel && component.isError()) {
-        qDebug() << component.errorString();
+    if (!topLevel) {
+        qCritical() << component.errorString();
         return Q_NULLPTR;
     }
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     if (!window) {
-        if(qobject_cast<QQuickItem *>(topLevel)) {
-            QQuickView* qxView = new QQuickView(engine, NULL);
-            qxView->setResizeMode(QQuickView::SizeViewToRootObject);
-            qxView->setContent(filePath, &component, topLevel);
-            window = qxView;
+        if(QQuickItem *root = qobject_cast<QQuickItem *>(topLevel)) {
+            /* If the root item is not a window then reparent it to a CSDataQuick.Components.BaseWindow */
+            int x = root->x();
+            int y = root->y();
+            int width = root->width();
+            int height = root->height();
+            QString temp = QString("import QtQuick 2.0\n"
+                                   "import CSDataQuick.Components 1.0\n"
+                                   "BaseWindow {\n"
+                                   "}\n");
+            QQmlComponent component(engine);
+            component.setData(temp.toLocal8Bit(), filePath);
+            topLevel = component.create();
+            if (!topLevel) {
+                qCritical() << component.errorString();
+                return Q_NULLPTR;
+            }
+            window = qobject_cast<QQuickWindow *>(topLevel);
+            root->setParentItem(window->contentItem());
+            root->setX(0); root->setY(0);
+            window->setGeometry(x,y,width,height);
+        } else {
+            // neither a visual item or a window, just delete
+            delete topLevel;
         }
     }
     if (window) {
