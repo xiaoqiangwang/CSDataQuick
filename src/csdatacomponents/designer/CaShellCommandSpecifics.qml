@@ -24,24 +24,6 @@ Column {
                     implicitWidth: 180
                 }
             }
-
-            Controls.TableView {
-                Layout.columnSpan: 2
-                Controls.TableViewColumn {
-                    role: 'label'
-                    title: qsTr("Label")
-                }
-                Controls.TableViewColumn {
-                    role: 'command'
-                    title: qsTr("Command")
-                }
-                model: backendValues.model.value
-                onModelChanged: {
-                    for (var prop in backendValues.model.complexNode)
-                        console.log(prop, backendValues.model.complexNode[prop])
-                }
-            }
-
         }
     }
  
