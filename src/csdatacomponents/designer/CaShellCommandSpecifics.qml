@@ -26,6 +26,6 @@ Column {
             }
         }
     }
- 
+
     ColorSection {}
 }
