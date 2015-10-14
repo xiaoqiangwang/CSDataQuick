@@ -11,12 +11,17 @@ Canvas {
     property bool closePath: false
 
     onBackendValueChanged: {
-        points = backendValue.value
+        if (!backendValue.value)
+            points = []
+        else
+            points = backendValue.value
         canvas.requestPaint()
     }
 
     onValueFromBackendChanged: {
         points = eval(valueFromBackend)
+        if (!points)
+            points = []
         canvas.requestPaint()
     }
 
