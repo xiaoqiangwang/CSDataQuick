@@ -30,7 +30,7 @@ CaText          1.0 CaText.qml
 CaTextEntry     1.0 CaTextEntry.qml 
 CaTextUpdate    1.0 CaTextUpdate.qml
 CaWheelSwitch   1.0 CaWheelSwitch.qml
-DynamicAttr     1.0 DynamicAttr.qml
+DynamicAttribute 1.0 DynamicAttribute.qml
 PvLimitsDialog  1.0 PvLimitsDialog.qml
 PromptDialog    1.0 PromptDialog.qml
 singleton ColorMap 1.0 ColorMap.qml

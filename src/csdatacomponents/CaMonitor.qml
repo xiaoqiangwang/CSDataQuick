@@ -23,7 +23,7 @@ BaseItem {
     property var pv: CSData { id: pv; }
 
     /*! dynamic attributes */
-    dynamicAttribute: DynamicAttr {id: da}
+    dynamicAttribute: DynamicAttribute {id: da}
 
     /*! color based on the severity of the process variable */
     property color alarmColor: ColorMap.invalid_alarm
