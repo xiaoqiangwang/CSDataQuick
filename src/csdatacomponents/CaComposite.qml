@@ -31,7 +31,8 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-
+    width: 400
+    height: 300
     /*!
         external source file to load components
     */

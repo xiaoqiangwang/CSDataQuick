@@ -39,7 +39,8 @@ import "utils.js" as UtilsJS
 
 BaseItem {
     id: root
-
+    width: 60
+    height: 20
     background: ColorMap.color51
     foreground: ColorMap.color14
     /*!

@@ -45,6 +45,8 @@ import CSDataQuick.Components 1.0
 */
 
 Image {
+    width: 400
+    height: 300
     /*!
         \qmlproperty real interval
         Set the interval between image refresh, in milliseconds.

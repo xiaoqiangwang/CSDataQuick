@@ -21,6 +21,9 @@ import CSDataQuick.Components 1.0
 */
 Window {
     id: root
+    width: 640
+    height: 480
+    color: ColorMap.color4
 
     /*! file path this window represents */
     property url filePath

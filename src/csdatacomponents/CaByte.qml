@@ -22,6 +22,8 @@ import CSDataQuick.Components 1.0
 */
 CaMonitor {
     id: root
+    width: 150
+    height: 30
     /*!
       \qmlproperty enumeration orientation
       \list

@@ -41,6 +41,8 @@ import "utils.js" as UtilsJS
 
 CaControl {
     id: root
+    width: 150
+    height: 50
     /*!
         \qmlproperty enumeration direction
         The incremental direction.
