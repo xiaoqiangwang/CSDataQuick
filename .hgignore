@@ -1,4 +1,5 @@
 syntax: glob
+*.orig
 Makefile
 Makefile.*
 .DS_Store
@@ -12,3 +13,4 @@ moc_*.cpp
 *.app
 .idea
 docs/html
+examples/design.qml
