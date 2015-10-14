@@ -26,6 +26,8 @@ import "utils.js" as Utils
 
 CaControl {
     id: root
+    width: 50
+    height: 40
     /*!
       Set the layout for the choice buttons. Default is Stacking.Column.
 

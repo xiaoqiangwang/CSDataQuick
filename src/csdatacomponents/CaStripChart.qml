@@ -11,7 +11,8 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-
+    width: 300
+    height: 200
     background:  ColorMap.color4
     foreground: ColorMap.color14
     /*!

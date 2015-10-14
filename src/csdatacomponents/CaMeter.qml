@@ -23,7 +23,8 @@ import "utils.js" as UtilsJS
 
 CaMonitor {
     id: root
-
+    width: 150
+    height: 50
     /*!
         \qmlproperty enumeration label
         The decoration mode.

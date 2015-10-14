@@ -79,7 +79,8 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-
+    width: 300
+    height: 200
     /*! Graph title */
     property string title
     /*! X axis label */

@@ -27,6 +27,8 @@ import "utils.js" as UtilsJS
 
 CaControl {
     id: root
+    width: 100
+    height: 20
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height, true)

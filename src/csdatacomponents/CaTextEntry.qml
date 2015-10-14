@@ -76,6 +76,8 @@ import "utils.js" as UtilsJS
 
 CaControl {
     id: root
+    width: 100
+    height: 20
     /*!
         \qmlproperty enumeration align
         Sets the horizontal alignment of the text within the item width.

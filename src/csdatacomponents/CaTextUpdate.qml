@@ -37,6 +37,8 @@ import "utils.js" as UtilsJS
 
 CaMonitor {
     id: root
+    width: 100
+    height: 20
     /*!
         \qmlproperty enumeration align
         Set the horizontal alignment of the text within the item width.
