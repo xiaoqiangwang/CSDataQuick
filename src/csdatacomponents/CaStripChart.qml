@@ -64,9 +64,14 @@ BaseItem {
         background: root.background
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: xLabel ? xLabel : "Time (%1)".arg(getTimeLabel(root.units))
+            label: xLabel ? xLabel : (yLabel ? "Time (%1)".arg(getTimeLabel(root.units)) : '')
             rangeLower: -period
             rangeUpper: 0
+            autoScale: false
+        }
+        property var yAxis: Axis {
+            type: Axis.Left
+            autoScale: false
         }
         Axis {
             id: xAxis2
@@ -91,7 +96,11 @@ BaseItem {
             if (!pen.channel)
                 continue
             // create graph with its own left axis
-            var axis = Qt.createQmlObject('import CSDataQuick.Components 1.0; Axis {type: Axis.Left}', plot, 'axis' + i)
+            var axis
+            if (i == 0)
+                axis = plot.yAxis
+            else
+                axis = Qt.createQmlObject('import CSDataQuick.Components 1.0; Axis {type: Axis.Left; autoScale: false}', plot, 'yaxis' + i)
             var graph = plot.addGraph(plot.xAxis, axis)
             if (pen.foreground)
                 graph.color = pen.foreground
@@ -105,12 +114,12 @@ BaseItem {
                     '    property var data\n' +
                     '    property Limits limits : Limits {\n';
             if (pen.loprSrc)
-              cmd +='        loprSrc: %1\n'.arg(pen.loprSrc)
+              cmd +='        loprSrc: %1\n'.arg(limitsEnumString(pen.loprSrc))
             if (pen.loprDefault)
               cmd +='        loprDefault: %1\n'.arg(pen.loprDefault)
             if (pen.hoprSrc)
-              cmd +='        hoprSrc: %1\n'.arg(pen.hoprSrc)
-            if (pen.hoprSrc)
+              cmd +='        hoprSrc: %1\n'.arg(limitsEnumString(pen.hoprSrc))
+            if (pen.hoprDefault)
               cmd +='        hoprDefault: %1\n'.arg(pen.hoprDefault)
               cmd +='    }\n' +
                     '    onConnectionChanged: {\n' +
@@ -189,5 +198,18 @@ BaseItem {
             d.graphs[i].setData(d.time, d.pvs[i].data)
         }
         plot.replot()
+    }
+    /* \internal */
+    function limitsEnumString(index) {
+        switch (index) {
+            case 0:
+            return 'Limits.Channel';
+            case 1:
+            return 'Limits.Default';
+            case 2:
+            return 'Limits.User';
+            case 3:
+            return 'Limits.Unused';
+        }
     }
 }
