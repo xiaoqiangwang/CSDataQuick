@@ -46,11 +46,9 @@ CaGraphics {
         Sets the horizontal alignment of the text within the item width.
     */
     property alias align: text_control.horizontalAlignment
-    /*!
-        \qmlproperty font font
-        The font used to display the text.
-    */
-    property alias font: text_control.font
+
+    /*! \internal */
+    readonly property var font: UtilsJS.getBestFontSize(height, false)
 
     Rectangle {
         color: background
@@ -68,11 +66,7 @@ CaGraphics {
         id: text_control
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         anchors.fill: parent
-    }
-
-    onHeightChanged: {
-        var font = UtilsJS.getBestFontSize(height, false)
-        root.font.pixelSize = font.size
-        root.font.family = font.family
+        font.family: root.font.family
+        font.pixelSize: root.font.size
     }
 }

@@ -45,11 +45,6 @@ CaMonitor {
     */
     property alias align: label_control.horizontalAlignment
     /*!
-        \qmlproperty font font
-        The font used to display the text.
-    */
-    property alias font: label_control.font
-    /*!
         \qmlproperty enumeration format
         For all of the formats, the result depends on the number and the precision in \l limits.
 
@@ -68,6 +63,8 @@ CaMonitor {
     /*! Display physical units if available */
     property bool showUnits: false
 
+    readonly property var font: UtilsJS.getBestFontSize(height)
+
     limits: Limits {}
 
     RowLayout {
@@ -77,6 +74,8 @@ CaMonitor {
             //text: formatString(format, pv.value)
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
+            font.pixelSize: root.font.size
+            font.family: root.font.family
             Layout.fillWidth: true
         }
         Text {
@@ -102,8 +101,8 @@ CaMonitor {
             // MEDM Compat: automatic adjust font size only if it is not left aligned
             if (align == Text.AlignLeft)
                 return
-            while(font.pixelSize > 8 && label_control.paintedWidth > label_control.width) {
-                font.pixelSize -= 1
+            while(label_control.font.pixelSize > 6 && label_control.paintedWidth > label_control.width) {
+                label_control.font.pixelSize -= 1
             }
         }
     }
@@ -112,17 +111,14 @@ CaMonitor {
         label_control.text = formatString(format, pv.value)
     }
 
-    onHeightChanged: {
-        var font = UtilsJS.getBestFontSize(height)
-        font.pixelSize = font.size
-        font.family = font.family
-    }
-
     /*! \internal */
     function formatString(format, value) {
+        if (pv.source.indexOf('X06SA-MD2') == 0)
+            console.log(pv.value, pv.fieldType, pv.stateString)
+
         if (pv.fieldType == CSData.Enum)
             return pv.stateStrings[value]
-        if (pv.fieldTYpe == CSData.String)
+        if (pv.fieldType == CSData.String)
             return value
         if (pv.fieldType == CSData.Char && value instanceof Array)
             return arrayToString(value)
