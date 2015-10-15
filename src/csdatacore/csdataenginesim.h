@@ -3,7 +3,7 @@
 
 #include "csdataengine.h"
 
-class QCSDataEngineSim : public QObject, public QCSDataEngine
+class QCSDataEngineSim : public QCSDataEngine
 {
     Q_OBJECT
     //Q_PLUGIN_METADATA(IID "ch.psi.sls.CSDataEngineInterface")
@@ -14,10 +14,12 @@ public:
     virtual ~QCSDataEngineSim();
 
     virtual QString name();
+    virtual QString description();
 
     virtual void create(QCSData *data);
     virtual void close(QCSData *data);
     virtual void setValue(QCSData *data, const QVariant value);
+    virtual QList<QObject*> allData();
 
 protected:
     void timerEvent(QTimerEvent *);

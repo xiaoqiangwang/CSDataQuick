@@ -10,13 +10,14 @@ class QCSDataEngine;
 class QCSDataEngineManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QCSDataEngine*> engines MEMBER _engines CONSTANT)
+    Q_PROPERTY(QList<QObject*> engines READ engines CONSTANT)
 
 public:
     static QCSDataEngineManager *instance();
     ~QCSDataEngineManager();
-    QCSDataEngine *engineForName(QString source);
-    QCSDataEngine *defaultEngine();
+    QCSDataEngine *engineForName(QString source) const;
+    QCSDataEngine *defaultEngine() const;
+    QList<QObject*> engines() const;
 
 private:
     QCSDataEngineManager(QObject *parent=0);

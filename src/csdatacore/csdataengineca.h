@@ -5,7 +5,7 @@
 
 struct ca_client_context;
 
-class QCSDataEngineCA : public QObject, public QCSDataEngine
+class QCSDataEngineCA : public QCSDataEngine
 {
     Q_OBJECT
     Q_INTERFACES(QCSDataEngine)
@@ -15,10 +15,12 @@ public:
     virtual ~QCSDataEngineCA();
 
     virtual QString name();
+    virtual QString description();
 
     virtual void create(QCSData *data);
     virtual void close(QCSData *data);
     virtual void setValue(QCSData *data, const QVariant value);
+    virtual QList<QObject*> allData();
 
 signals:
 

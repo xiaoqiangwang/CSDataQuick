@@ -9,6 +9,14 @@
 
 #include <qqml.h>
 
+static QObject *enginemanager_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    return engineManager;
+}
+
 void CSDataPlugin::registerTypes(const char *uri)
 {
     // @uri CSDataQuick.Data
@@ -17,6 +25,8 @@ void CSDataPlugin::registerTypes(const char *uri)
     qmlRegisterType<QCSDataAlarm>(uri, 1, 0, "CSDataAlarm");
 
     qmlRegisterInterface<QCSDataEngine>("CSDataEngine");
+
+    qmlRegisterSingletonType<QCSDataEngineManager>(uri, 1, 0, "DataEngineManager", enginemanager_provider);
 
     qRegisterMetaType<QCSData::AccessFlags>("CSData::AccessFlags");
     qRegisterMetaType<QCSData::FieldType>("CSData::FieldType");

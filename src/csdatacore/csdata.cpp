@@ -211,6 +211,8 @@ QCSData::QCSData(QObject *parent)
     connect(_alarm, SIGNAL(alarmChanged()), this, SIGNAL(alarmChanged()));
     connect(_range, SIGNAL(rangeChanged()), this, SIGNAL(rangeChanged()));
 
+    _inPuppet = false;
+
     if (QCoreApplication::applicationName() == "Qml2Puppet") {
         _inPuppet = true;
         _connected = true;
@@ -220,8 +222,6 @@ QCSData::QCSData(QObject *parent)
         _stateStrings << "OFF" << "ON";
         _alarm->setAlarm(QCSDataAlarm::NoAlarm, 0, "NoAlarm");
     }
-    else
-        _inPuppet = false;
 }
 /*!
     \brief Delete the data object and disconnect from data engine.

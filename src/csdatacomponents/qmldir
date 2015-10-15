@@ -36,3 +36,4 @@ PromptDialog    1.0 PromptDialog.qml
 singleton ColorMap 1.0 ColorMap.qml
 singleton PvInfoDialog  1.0 PvInfoDialog.qml
 singleton DisplayListDialog  1.0 DisplayListDialog.qml
+singleton PvTableDialog  1.0 PvTableDialog.qml
