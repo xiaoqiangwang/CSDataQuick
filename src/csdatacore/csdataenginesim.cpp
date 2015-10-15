@@ -28,9 +28,12 @@ QString QCSDataEngineSim::name()
 
 void QCSDataEngineSim::create(QCSData *data)
 {
-    QUrl source = data->property("source").toUrl();
-    if (source.scheme() != name())
+    QString source = data->property("source").toString();
+
+    if (QCSDataSourceName(source).scheme() != name()) {
+        qWarning() << "Unsupported source by CSDataEngineSim" << source;
         return;
+    }
 
     if (source == QStringLiteral("sim://random") || source == QStringLiteral("sim://sin")) {
         data->updateValue(0);
