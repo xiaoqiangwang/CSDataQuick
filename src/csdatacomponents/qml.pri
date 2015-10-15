@@ -36,6 +36,7 @@ QML_FILES += \
     $$PWD/DisplayListDialog.qml \
     $$PWD/PvInfoDialog.qml \
     $$PWD/PvLimitsDialog.qml \
+    $$PWD/PvTableDialog.qml \
     $$PWD/PromptDialog.qml \
     $$PWD/Private/qmldir \
     $$PWD/Private/Frame.qml \

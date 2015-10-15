@@ -7,7 +7,7 @@
 #include <QUrl>
 
 QCSDataEngineSim::QCSDataEngineSim(QObject *parent)
-    : QObject(parent)
+    : QCSDataEngine(parent)
 {
     // data for "sim://wave"
     for(int i=0; i<20; i++)
@@ -24,6 +24,11 @@ QCSDataEngineSim::~QCSDataEngineSim()
 QString QCSDataEngineSim::name()
 {
     return "sim";
+}
+
+QString QCSDataEngineSim::description()
+{
+    return "Simulation Engine";
 }
 
 void QCSDataEngineSim::create(QCSData *data)
@@ -109,4 +114,13 @@ void QCSDataEngineSim::timerEvent(QTimerEvent *event)
             data->updateValue(QVariant::fromValue(wave));
         }
     }
+}
+
+QList<QObject*> QCSDataEngineSim::allData()
+{
+    QList<QObject *> objects;
+    foreach (QCSData* data, _data) {
+       objects.append(data);
+    }
+    return objects;
 }

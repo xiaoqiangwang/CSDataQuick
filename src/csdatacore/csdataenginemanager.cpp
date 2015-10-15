@@ -26,12 +26,12 @@ QCSDataEngineManager *QCSDataEngineManager::instance()
     return _manager;
 }
 
-QCSDataEngine *QCSDataEngineManager::defaultEngine()
+QCSDataEngine *QCSDataEngineManager::defaultEngine() const
 {
     return _engines.at(1);
 }
 
-QCSDataEngine *QCSDataEngineManager::engineForName(QString source)
+QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
 {
     QCSDataSourceName dataSourceName(source);
     if (dataSourceName.scheme().isEmpty())
@@ -42,4 +42,13 @@ QCSDataEngine *QCSDataEngineManager::engineForName(QString source)
             return engine;
     }
     return Q_NULLPTR;
+}
+
+QList<QObject*> QCSDataEngineManager::engines() const
+{
+    QList<QObject *> objects;
+    foreach (QCSDataEngine *engine, _engines) {
+        objects.append(qobject_cast<QObject*>(engine));
+    }
+    return objects;
 }

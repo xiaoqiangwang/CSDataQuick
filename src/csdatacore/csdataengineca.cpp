@@ -11,7 +11,7 @@
 void exception_handler(exception_handler_args args)
 {
     qWarning(
-      "PvObject: Channel Access Exception:\n"
+      "CSDataEngineCA: Channel Access Exception:\n"
       "  Channel Name: %s\n"
       "  Native Type: %s\n"
       "  Native Count: %lu\n"
@@ -145,7 +145,6 @@ void getCallbackC(struct event_handler_args args)
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
     qulonglong count  = args.count;
-    QMetaObject::invokeMethod(data, "setCount", Q_ARG(qulonglong, count));
 
     int status, severity;
     QDateTime timeStamp;
@@ -235,6 +234,8 @@ void connectCallbackC(struct connection_handler_args args)
         QMetaObject::invokeMethod(data, "setHost",  Q_ARG(QString, ca_host_name(args.chid)));
         QMetaObject::invokeMethod(data, "setFieldType",
                                   Q_ARG(QCSData::FieldType, (QCSData::FieldType) ca_field_type(args.chid)));
+        QMetaObject::invokeMethod(data, "setCount", Q_ARG(qulonglong, ca_element_count(args.chid)));
+
         // Initiate CA get to get control information
         chtype reqtype = dbf_type_to_DBR_CTRL(ca_field_type(args.chid));
         int status = ca_array_get_callback(reqtype, 0, args.chid, getCallbackC, data);
@@ -256,7 +257,7 @@ void connectCallbackC(struct connection_handler_args args)
 }
 
 QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
-    : QObject(parent)
+    : QCSDataEngine(parent)
 {
     int status = ca_context_create(ca_enable_preemptive_callback);
     if(status != ECA_NORMAL)
@@ -274,6 +275,11 @@ QCSDataEngineCA::~QCSDataEngineCA()
 QString QCSDataEngineCA::name()
 {
     return "ca";
+}
+
+QString QCSDataEngineCA::description()
+{
+    return "Channel Access Engine";
 }
 
 void QCSDataEngineCA::create(QCSData *data)
@@ -302,6 +308,7 @@ void QCSDataEngineCA::create(QCSData *data)
     } else {
         // create a dynamic property to hold the channel id
         data->setProperty("chid", QVariant::fromValue((void*)_chid));
+        _data.append(data);
     }
 }
 void QCSDataEngineCA::close(QCSData *data)
@@ -375,4 +382,13 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
         qWarning() << "ca_array_put:" << data->source() << ca_message(status);
     }
     ca_flush_io();
+}
+
+QList<QObject*> QCSDataEngineCA::allData()
+{
+    QList<QObject *> objects;
+    foreach (QCSData* data, _data) {
+       objects.append(data);
+    }
+    return objects;
 }
