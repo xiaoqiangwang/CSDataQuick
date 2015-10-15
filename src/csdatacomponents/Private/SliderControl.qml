@@ -5,7 +5,7 @@ import CSDataQuick.Components 1.0
 
 Item {
     id: root
-    property real value: 0.4
+    property real value: 0.0
     property int precision: 0
     property real minimumValue: 0.0
     property real maximumValue: 1.0
