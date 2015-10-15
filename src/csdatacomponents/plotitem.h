@@ -146,6 +146,7 @@ class AxisItem : public QObject, public QQmlParserStatus
     Q_PROPERTY(double rangeUpper READ rangeUpper WRITE setRangeUpper NOTIFY rangeUpperChanged)
     Q_PROPERTY(int tickCount READ tickCount WRITE setTickCount)
     Q_PROPERTY(bool tickVisible READ tickVisible WRITE setTickVisible)
+    Q_PROPERTY(bool autoScale READ autoScale WRITE setAutoScale)
     Q_ENUMS(AxisType)
     Q_ENUMS(AxisScale)
 
@@ -195,6 +196,9 @@ public:
     void setTickVisible(bool visible);
     bool tickVisible() {return _tickVisible;}
 
+    void setAutoScale(bool on);
+    bool autoScale() {return _autoScale;}
+
     Q_INVOKABLE void rescale();
 
 signals:
@@ -215,6 +219,7 @@ private:
     QString _dateFormat;
     int _tickCount;
     bool _tickVisible;
+    bool _autoScale;
 
     QCPAxis *mAxis;
     friend class GraphItem;

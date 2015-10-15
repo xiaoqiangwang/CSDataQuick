@@ -47,6 +47,7 @@ Module {
         Property { name: "rangeUpper"; type: "double" }
         Property { name: "tickCount"; type: "int" }
         Property { name: "tickVisible"; type: "bool" }
+        Property { name: "autoScale"; type: "bool" }
         Method { name: "rescale" }
     }
     Component {

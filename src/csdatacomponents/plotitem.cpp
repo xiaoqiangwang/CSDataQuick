@@ -71,7 +71,7 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
 
     connect(mPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
 
-    mPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
+    mPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom );
 
     // create title but leave it out until it has content
     mTitle = new QCPPlotTitle(mPlot);
@@ -102,6 +102,7 @@ GraphItem *CustomPlotItem::addGraph(AxisItem *xAxis, AxisItem *yAxis)
     graph->setX(xAxis);
     graph->setY(yAxis);
     graph->init();
+    mGraphs.append(graph);
     return graph;
 }
 
@@ -401,6 +402,7 @@ AxisItem::AxisItem(QObject *parent)
     _upper = 1;
     _tickCount = 3;
     _tickVisible = true;
+    _autoScale = true;
 }
 
 void AxisItem::componentComplete()
@@ -424,6 +426,7 @@ void AxisItem::componentComplete()
     setLabel(_label);
     setRangeLower(_lower);
     setRangeUpper(_upper);
+    setAutoScale(_autoScale);
 }
 
 bool AxisItem::visible()
@@ -466,8 +469,11 @@ double AxisItem::rangeLower()
 }
 void AxisItem::setRangeLower(double lower)
 {
+    if (_lower == lower)
+        return;
     _lower = lower;
-    if (mAxis)
+
+    if (mAxis && !autoScale())
         mAxis->setRangeLower(lower);
     emit rangeLowerChanged();
 }
@@ -478,8 +484,11 @@ double AxisItem::rangeUpper()
 }
 void AxisItem::setRangeUpper(double upper)
 {
+    if (_upper == upper)
+        return;
     _upper = upper;
-    if (mAxis)
+
+    if (mAxis && !autoScale())
         mAxis->setRangeUpper(upper);
     emit rangeUpperChanged();
 }
@@ -521,8 +530,26 @@ void AxisItem::setTickCount(int count)
     }
 }
 
+void AxisItem::setAutoScale(bool on)
+{
+    _autoScale = on;
+
+    if (!mAxis)
+        return;
+
+    if (_autoScale)
+        mAxis->rescale();
+    else
+        mAxis->setRange(_lower, _upper);
+}
+
 void AxisItem::rescale()
 {
-    if (mAxis)
+    if (!mAxis)
+        return;
+
+    if (autoScale())
         mAxis->rescale();
+    else
+        mAxis->setRange(_lower, _upper);
 }
