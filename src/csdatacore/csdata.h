@@ -10,6 +10,30 @@
 
 class QCSDataEngine;
 
+class QCSDataSourceName
+{
+public:
+    QCSDataSourceName(const QString source) {
+        int index = source.indexOf("://");
+        if (index >= 0) {
+            _scheme = source.left(index);
+            _name = source.mid(index+3);
+        }
+        else {
+            _name = source;
+        }
+        _source = source;
+    }
+
+    QString source() const { return _source; }
+    QString scheme() const { return _scheme; }
+    QString name() const { return _name; }
+private:
+    QString _name;
+    QString _scheme;
+    QString _source;
+};
+
 class QCSDataAlarm : public QObject
 {
     Q_OBJECT

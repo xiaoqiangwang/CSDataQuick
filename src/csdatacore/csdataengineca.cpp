@@ -278,13 +278,13 @@ QString QCSDataEngineCA::name()
 
 void QCSDataEngineCA::create(QCSData *data)
 {
-    QString source = data->property("source").toString();
-    QUrl url(source);
+    QCSDataSourceName source = QCSDataSourceName(data->property("source").toString());
 
-    if (!url.scheme().isEmpty() && url.scheme() != name()) {
-        qWarning() << "Unsupported source by CSDataEngineCA" << source;
+    if (!source.scheme().isEmpty() && source.scheme() != name()) {
+        qWarning() << "Unsupported source by CSDataEngineCA" << source.source();
         return;
     }
+
 
     if (ca_current_context() != _cac) {
         ca_attach_context(_cac);
@@ -292,13 +292,13 @@ void QCSDataEngineCA::create(QCSData *data)
     }
 
     // make connection
+    QString channelName = source.name();
     chid _chid = 0;
-    QString name = url.host();
-    int status = ca_create_channel(source.toLocal8Bit(), connectCallbackC, data, 0, &_chid);
+    int status = ca_create_channel(channelName.toLocal8Bit(), connectCallbackC, data, 0, &_chid);
     if(status != ECA_NORMAL)
     {
         if (_chid) ca_clear_channel(_chid);
-        qCritical() << "ca_create_channel:" << source << ca_message(status);
+        qCritical() << "ca_create_channel:" << channelName << ca_message(status);
     } else {
         // create a dynamic property to hold the channel id
         data->setProperty("chid", QVariant::fromValue((void*)_chid));
