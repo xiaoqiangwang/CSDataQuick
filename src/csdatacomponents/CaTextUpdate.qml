@@ -117,8 +117,14 @@ CaMonitor {
             return pv.stateStrings[value]
         if (pv.fieldType == CSData.String)
             return value
-        if (pv.fieldType == CSData.Char && value instanceof Array)
-            return String.fromCharCode.apply(null, value)
+        if (pv.fieldType == CSData.Char && format == TextFormat.String) {
+            if (value instanceof Array)
+                return String.fromCharCode.apply(null, value).replace(/\0/g, '')
+            else
+                return String.fromCharCode(value).replace(/\0/g, '')
+        }
+        if (value instanceof Array)
+            value = value[0]
         var result = Utils.convert(format, value, limits.prec)
         return result
     }

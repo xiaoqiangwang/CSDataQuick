@@ -352,10 +352,21 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     break;
     case DBF_CHAR:
     {
-        QByteArray ba = value.toByteArray();
-        if (ba.isEmpty())
-            ba.append('\x00');
-        ca_array_put(DBR_CHAR, ba.length(), _chid, ba);
+        switch (value.type()) {
+        case QVariant::String:
+        case QVariant::ByteArray: {
+            QByteArray ba = value.toByteArray();
+            if (ba.isEmpty())
+                ba.append('\x00');
+            ca_array_put(DBR_CHAR, ba.length(), _chid, ba);
+        }
+            break;
+        default: {
+            int ivalue = value.toInt(&ok);
+            if (ok)
+                status = ca_array_put(DBR_CHAR, 1, _chid, &ivalue);
+        }
+        }
     }
     break;
     case DBF_INT:
