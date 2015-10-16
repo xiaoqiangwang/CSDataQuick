@@ -247,7 +247,7 @@ QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
 #endif
     if (!fi.exists() && fi.isRelative()) {
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
-        if (!window->filePath().isEmpty()) {
+        if (window && !window->filePath().isEmpty()) {
             QFileInfo pfi(window->filePath());
             paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
         }
