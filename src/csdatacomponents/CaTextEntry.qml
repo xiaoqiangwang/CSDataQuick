@@ -86,14 +86,11 @@ CaControl {
     */
     property alias align: textField.horizontalAlignment
     /*!
-        \qmlproperty font font
-        The font used to display the text.
-    */
-    property alias font: textField.font
-    /*!
         \qmlproperty TextFormat format
     */
     property int format: TextFormat.Decimal
+
+    property var font: UtilsJS.getBestFontSize(height, true)
 
     limits: Limits {}
 
@@ -108,6 +105,8 @@ CaControl {
         verticalAlignment: TextInput.AlignBottom
         activeFocusOnPress: true
         readOnly: pv.accessRight & CSData.WriteAccess == 0
+        font.family: root.font.family
+        font.pixelSize: root.font.size
         clip: true
         selectByMouse: true
         anchors.topMargin: 4
@@ -183,12 +182,6 @@ CaControl {
 
     onFormatChanged: {
         textField.text = formatString(format, pv.value)
-    }
-
-    onHeightChanged: {
-        var font = UtilsJS.getBestFontSize(height, true)
-        root.font.pixelSize = font.size
-        root.font.family = font.family
     }
 
     /*!
