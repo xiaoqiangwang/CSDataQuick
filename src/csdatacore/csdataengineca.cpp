@@ -203,7 +203,7 @@ void getCallbackC(struct event_handler_args args)
     evid evid;
     chtype reqtype = dbf_type_to_DBR_TIME(ca_field_type(args.chid));
     status = ca_create_subscription(reqtype,
-                                    count,
+                                    ca_element_count(args.chid),
                                     args.chid,
                                     DBE_VALUE | DBE_ALARM,
                                     monitorCallbackC,
@@ -353,6 +353,8 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     case DBF_CHAR:
     {
         QByteArray ba = value.toByteArray();
+        if (ba.isEmpty())
+            ba.append('\x00');
         ca_array_put(DBR_CHAR, ba.length(), _chid, ba);
     }
     break;
