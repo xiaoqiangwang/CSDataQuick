@@ -118,21 +118,9 @@ CaMonitor {
         if (pv.fieldType == CSData.String)
             return value
         if (pv.fieldType == CSData.Char && value instanceof Array)
-            return arrayToString(value)
+            return String.fromCharCode.apply(null, value)
         var result = Utils.convert(format, value, limits.prec)
         return result
-    }
-
-    /*! \internal */
-    function arrayToString(array) {
-        var s = ''
-        for(var i = 0; i < array.length; i++) {
-            var v = array[i]
-            if (v == 0)
-                break
-            s += String.fromCharCode(v)
-        }
-        return s
     }
 }
 
