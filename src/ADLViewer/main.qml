@@ -101,6 +101,7 @@ ApplicationWindow
     onClosing: {
         PvInfoDialog.close()
         DisplayListDialog.close()
+        PvTableDialog.close()
         WindowManager.closeAllWindow()
     }
 

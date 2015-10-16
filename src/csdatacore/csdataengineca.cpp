@@ -309,6 +309,7 @@ void QCSDataEngineCA::create(QCSData *data)
         // create a dynamic property to hold the channel id
         data->setProperty("chid", QVariant::fromValue((void*)_chid));
         _data.append(data);
+        emit allDataChanged();
     }
 }
 void QCSDataEngineCA::close(QCSData *data)
@@ -323,6 +324,8 @@ void QCSDataEngineCA::close(QCSData *data)
     if(status != ECA_NORMAL)
         qWarning() << "ca_clear_channel:" << ca_message(status);
     data->setProperty("chid", QVariant::fromValue(Q_NULLPTR));
+    _data.removeOne(data);
+    emit allDataChanged();
 }
 
 void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)

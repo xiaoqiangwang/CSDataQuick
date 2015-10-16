@@ -17,6 +17,7 @@ import CSDataQuick.Components 1.0
     \li Close - close the current window
     \li Main Window - popup the main window if any registered
     \li Display List - popup the window to display windows opened
+    \li Data Engines - popup the window to display data engine information
     \endlist
 
 */
