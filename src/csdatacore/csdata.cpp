@@ -266,19 +266,18 @@ void QCSData::setSource(const QString source)
         emit sourceChanged();
         return;
     }
+    // request data engine
+    QCSDataEngine * engine = engineManager->engineForName(source);
+    if (!engine) {
+        qWarning() << "No CSDataEngine supports" << source;
+        return;
+    }
     // disconnect from current data engine
     if (_engine) {
         _engine->close(this);
         reset();
     }
     _source = source;
-
-    // request data engine
-    QCSDataEngine * engine = engineManager->engineForName(_source);
-    if (!engine) {
-        qWarning() << "No CSDataEngine supports" << _source;
-        return;
-    }
     _engine = engine;
     engine->create(this);
     emit sourceChanged();
@@ -542,7 +541,7 @@ void QCSData::reset()
 
     _fieldType = Invalid;
     _count = 0;
-    _value = 0.0;
+    _value = QVariant();
 
     _accessRight = NoAccess;
     _alarm->reset();
