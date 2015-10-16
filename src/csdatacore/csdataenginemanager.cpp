@@ -10,8 +10,8 @@ QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     : QObject(parent)
 {
-    _engines.append(new QCSDataEngineSim(this));
     _engines.append(new QCSDataEngineCA(this));
+    _engines.append(new QCSDataEngineSim(this));
 }
 
 QCSDataEngineManager::~QCSDataEngineManager()
@@ -28,7 +28,7 @@ QCSDataEngineManager *QCSDataEngineManager::instance()
 
 QCSDataEngine *QCSDataEngineManager::defaultEngine() const
 {
-    return _engines.at(1);
+    return _engines.at(0);
 }
 
 QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
