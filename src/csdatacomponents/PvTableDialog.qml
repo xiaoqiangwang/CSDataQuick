@@ -26,13 +26,14 @@ Dialog {
                 implicitWidth: 200
                 model: DataEngineManager.engines
                 textRole: 'description'
-                onCurrentIndexChanged: pvTable.model = DataEngineManager.engines[currentIndex].allData
+                property var engine:  DataEngineManager.engines[currentIndex]
             }
         }
         TableView {
             id: pvTable
             Layout.fillWidth: true
             Layout.fillHeight: true
+            sortIndicatorVisible: true
             TableViewColumn {
                 title: 'Source'
                 role: 'source'
@@ -46,6 +47,36 @@ Dialog {
                     color: styleData.value ? 'green' : 'red'
                 }
             }
+            property var sourceModel: engineCombo.engine.allData
+            model: sourceModel.filter(filterByName).sort(sortByObject)
+        }
+        TextField {
+            id: searchBox
+            Layout.fillWidth: true
+            Text {
+                anchors.fill: parent
+                anchors.leftMargin: 20
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Look for a data source?"
+                visible: searchBox.text == '' && searchBox.focus == false
+            }
+        }
+    }
+    function filterByName (value, index, array) {
+        return (value.source.indexOf(searchBox.text) != -1)
+    }
+    function compare(first, second, inverse) {
+        if (first < second)
+            return inverse ? 1 : -1
+        if (first > second)
+            return inverse ? -1 : 1
+        return 0
+    }
+    function sortByObject(first, second) {
+        if (pvTable.sortIndicatorColumn == 0) {
+            return compare(first.source, second.source, pvTable.sortIndicatorOrder == Qt.AscendingOrder)
+        } else if (pvTable.sortIndicatorColumn == 1) {
+            return compare(first.connected, second.connected, pvTable.sortIndicatorOrder == Qt.AscendingOrder)
         }
     }
 }

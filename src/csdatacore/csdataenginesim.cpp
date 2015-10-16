@@ -68,6 +68,7 @@ void QCSDataEngineSim::create(QCSData *data)
     if (alarm)
         alarm->setProperty("severity", QCSDataAlarm::NoAlarm);
     _data.append(data);
+    emit allDataChanged();
 
     if (!_timerId)
         _timerId = startTimer(1000);
@@ -75,7 +76,9 @@ void QCSDataEngineSim::create(QCSData *data)
 
 void QCSDataEngineSim::close(QCSData *data)
 {
-    _data.removeAll(data);
+    _data.removeOne(data);
+    emit allDataChanged();
+
     if (_data.length() == 0) {
         killTimer(_timerId);
         _timerId = 0;

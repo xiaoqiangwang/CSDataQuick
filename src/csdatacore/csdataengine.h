@@ -10,7 +10,7 @@ class QCSData;
 class QCSDataEngine : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QObject*> allData READ allData)
+    Q_PROPERTY(QList<QObject*> allData READ allData NOTIFY allDataChanged)
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(QString description READ description CONSTANT)
 
@@ -24,6 +24,9 @@ public:
     virtual void close(QCSData* data) = 0;
     virtual void setValue(QCSData* data, const QVariant value) = 0;
     virtual QList<QObject*> allData() {return QList<QObject*>();}
+
+signals:
+    void allDataChanged();
 };
 
 Q_DECLARE_INTERFACE(QCSDataEngine, "ch.psi.sls.QCSDataEngine/1.0")
