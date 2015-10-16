@@ -113,9 +113,6 @@ CaMonitor {
 
     /*! \internal */
     function formatString(format, value) {
-        if (pv.source.indexOf('X06SA-MD2') == 0)
-            console.log(pv.value, pv.fieldType, pv.stateString)
-
         if (pv.fieldType == CSData.Enum)
             return pv.stateStrings[value]
         if (pv.fieldType == CSData.String)
