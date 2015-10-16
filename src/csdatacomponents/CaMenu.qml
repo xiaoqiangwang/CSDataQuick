@@ -35,7 +35,6 @@ CaControl {
 
     ComboBox {
         id: combo_control
-        property bool __first: true
         anchors.fill: parent
         enabled: pv.accessRight & CSData.WriteAccess
 
@@ -67,11 +66,9 @@ CaControl {
             }
         }
 
-        onCurrentIndexChanged: {
-            if (__first)
-                __first = false
-            else
-                pv.setValue(currentIndex)
+        onActivated: {
+            console.log('sdc')
+            pv.setValue(index)
         }
     }
     Connections {
