@@ -41,8 +41,8 @@ BaseItem {
     id: root
     width: 60
     height: 20
-    background: ColorMap.color51
-    foreground: ColorMap.color14
+    background: ColorMap.controls_background
+    foreground: ColorMap.foreground
     /*!
         text on button
 

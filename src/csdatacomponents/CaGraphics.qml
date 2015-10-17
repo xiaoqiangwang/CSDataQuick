@@ -13,8 +13,8 @@ import CSDataQuick.Components 1.0
 
 */
 BaseItem {
-    background: 'transparent'
-    foreground: ColorMap.color14
+    background: ColorMap.graphics_background
+    foreground: ColorMap.foreground
     /*! Draw outline only or fill the shape */
     property int fill: FillStyle.Solid
     /*! Outline style */

@@ -25,7 +25,7 @@ Window {
     id: root
     width: 640
     height: 480
-    color: ColorMap.color4
+    color: ColorMap.windows_background
 
     /*! file path this window represents */
     property url filePath
