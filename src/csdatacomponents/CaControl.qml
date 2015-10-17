@@ -19,8 +19,8 @@ import "utils.js" as UtilsJS
 BaseItem {
     id: root
 
-    background: ColorMap.color51
-    foreground: ColorMap.color14
+    background: ColorMap.controls_background
+    foreground: ColorMap.foreground
 
     /*! qmlproperty enumeration CaControl::colorMode */
     property int colorMode: ColorMode.Static

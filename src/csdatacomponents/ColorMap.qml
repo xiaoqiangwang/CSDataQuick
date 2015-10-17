@@ -4,6 +4,12 @@ import QtQuick 2.0
 
 QtObject {
 
+    property color foreground: color14
+    property color windows_background: color4
+    property color controls_background: color51
+    property color graphics_background: 'transparent'
+    property color monitors_background: color4
+
     property color no_alarm: "#00C000"
     property color minor_alarm: "#FFFF00"
     property color major_alarm: "#FF0000"

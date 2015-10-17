@@ -81,8 +81,8 @@ BaseItem {
     id: root
     width: 300
     height: 200
-    background: ColorMap.color4
-    foreground: ColorMap.color14
+    background: ColorMap.monitors_background
+    foreground: ColorMap.foreground
     /*! Graph title */
     property string title
     /*! X axis label */

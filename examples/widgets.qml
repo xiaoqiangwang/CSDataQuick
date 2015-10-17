@@ -8,7 +8,7 @@ ApplicationWindow {
     id: app
     width: 900
     height: 800
-    color: '#bbbbbb'
+    color: ColorMap.windows_background
     title: 'A demo of qml pv components'
 
     menuBar: MenuBar {

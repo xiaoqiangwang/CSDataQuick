@@ -121,6 +121,7 @@ CaControl {
         }
         cmd += '}'
         d.layout = Qt.createQmlObject(cmd, root, 'layout')
-        d.layout.children[pv.value].checked = true
+        if (pv.value)
+            d.layout.children[pv.value].checked = true
     }
 }

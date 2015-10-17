@@ -13,8 +13,8 @@ import "utils.js" as UtilsJS
 */
 
 BaseItem {
-    background: ColorMap.color4
-    foreground: ColorMap.color14
+    background: ColorMap.monitors_background
+    foreground: ColorMap.foreground
     /*! qmlproperty enumeration CaGraphics::colorMode */
     property int colorMode: ColorMode.Static
     /*! control data source name */
