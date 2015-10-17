@@ -249,8 +249,6 @@ MetaInfo {
             libraryIcon: "images/text.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
-
-            QmlSource { source: "catext.qml" }
         }
     }
     Type {
