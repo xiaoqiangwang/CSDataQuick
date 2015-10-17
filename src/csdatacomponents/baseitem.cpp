@@ -29,6 +29,8 @@
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
+    _foreground = Qt::black;
+    _background = Qt::transparent;
     _dynamicAttribute = new DynamicAttributeBase(this);
     _limits = Q_NULLPTR;
     setClip(false);
