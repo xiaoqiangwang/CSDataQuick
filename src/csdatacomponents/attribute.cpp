@@ -52,6 +52,7 @@ void LimitsBase::onLoprSrcChanged()
     case LimitsSource::Default:
         lopr = _loprDefault;
         break;
+    case LimitsSource::Unused:
     case LimitsSource::Channel:
         lopr = _loprChannel;
         break;
@@ -72,6 +73,7 @@ void LimitsBase::onHoprSrcChanged()
     case LimitsSource::Default:
         hopr = _hoprDefault;
         break;
+    case LimitsSource::Unused:
     case LimitsSource::Channel:
         hopr = _hoprChannel;
         break;
@@ -92,6 +94,7 @@ void LimitsBase::onPrecSrcChanged()
     case LimitsSource::Default:
         prec = _precDefault;
         break;
+    case LimitsSource::Unused:
     case LimitsSource::Channel:
         prec = _precChannel;
         break;
