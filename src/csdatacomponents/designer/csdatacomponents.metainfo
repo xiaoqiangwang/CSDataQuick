@@ -9,6 +9,8 @@ MetaInfo {
             libraryIcon: "images/window.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+            Property { name: "width"; type: "int"; value: 640; }
+            Property { name: "height"; type: "int"; value: 480; }
         }
     }
     Type {

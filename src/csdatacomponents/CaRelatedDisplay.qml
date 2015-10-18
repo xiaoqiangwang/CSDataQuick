@@ -115,8 +115,7 @@ BaseItem {
         // open new display
         if (fileName.substr(-4) == '.adl') {
             var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
-            window = Utils.createDisplay(qmlCmd, root, absFilePath)
-            window.macro = macro
+            window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
         }
         if (fileName.substr(-4) == '.qml') {
             window = Utils.createDisplayByFile(root, absFilePath, macro)
@@ -131,7 +130,7 @@ BaseItem {
                 baseWindow.close()
             }
             console.info('Open ', absFilePath, macro)
-            WindowManager.appendWindow(window, absFilePath, macro)
+            WindowManager.appendWindow(window)
             window.visible = true
         }
     }

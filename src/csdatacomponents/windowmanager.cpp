@@ -42,14 +42,17 @@ WindowManager::WindowManager(QObject *parent)
 
 }
 /*!
-    \qmlmethod WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macro)
+    \qmlmethod WindowManager::appendWindow(QWindow *window)
 
-    Append an opened window instance \a window, created with \a absFilePath and \a macro.
+    Append an opened window instance \a window.
  */
-void WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macro)
+void WindowManager::appendWindow(QWindow *window)
 {
-    Q_UNUSED(absFilePath);
-    Q_UNUSED(macro);
+    if (!window)
+        return;
+
+    if (mWindows.contains(window))
+        return;
 
     mWindows.append(window);
     connect(window, SIGNAL(destroyed()), this, SLOT(windowDestroyed()));
@@ -68,6 +71,10 @@ void WindowManager::appendWindow(QWindow *window, QUrl absFilePath, QString macr
  */
 void WindowManager::closeWindow(QWindow *window)
 {
+    if (!window) {
+        qWarning() << "Invalid window to close";
+        return;
+    }
     window->close();
     window->deleteLater();
 }

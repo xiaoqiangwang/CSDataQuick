@@ -6,6 +6,7 @@
 #include <QUrl>
 
 class QWindow;
+class QQuickItem;
 
 class QCSUtils : public QObject
 {
@@ -21,10 +22,11 @@ public:
     Q_INVOKABLE QUrl searchADLFile(QString fileName, QWindow *window);
     Q_INVOKABLE QString openADLDisplay(QUrl fileName, QString macro);
     Q_INVOKABLE QString openADLComposite(QUrl fileName, QString macro);
-    Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QUrl filePath);
+    Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);
     Q_INVOKABLE QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
     Q_INVOKABLE QVariantMap parseX11Geometry(QString geometry);
     Q_INVOKABLE QString currentDateTime();
+    Q_INVOKABLE QWindow *parentWindow(QQuickItem *item);
 signals:
 
 public slots:

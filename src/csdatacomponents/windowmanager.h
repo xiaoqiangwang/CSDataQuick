@@ -34,7 +34,7 @@ class WindowManager : public QObject
 public:
     explicit WindowManager(QObject *parent = 0);
 
-    Q_INVOKABLE void appendWindow(QWindow *window, QUrl absFilePath, QString macro);
+    Q_INVOKABLE void appendWindow(QWindow *window);
     Q_INVOKABLE QWindow* findWindow(QUrl absFilePath, QString macro);
     Q_INVOKABLE void closeAllWindow();
 

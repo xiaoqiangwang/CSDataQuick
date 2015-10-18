@@ -317,9 +317,9 @@ QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
     Create a top level window based on \a qml source, represented by \a filePath.
     The QQmlEngine used is which \a display was created in.
  */
-QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
+QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, QString macro)
 {
-    QWindow *window = NULL;
+    QWindow *window = Q_NULLPTR;
     QQmlEngine *engine = qmlEngine(display);
     if (!engine) {
         qCritical() << "No valid QML engine from object" << display->objectName();
@@ -333,10 +333,20 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath)
         return Q_NULLPTR;
     }
 
-    window = qobject_cast<QQuickWindow *>(component.create());
+    QObject *topLevel = component.create();
+    if (!topLevel) {
+        qCritical() << component.errorString();
+        return Q_NULLPTR;
+    }
+
+    window = qobject_cast<QQuickWindow *>(topLevel);
     if (window) {
-        window->setTitle(filePath.fileName());
+        if (window->title().isEmpty())
+            window->setTitle(filePath.fileName());
         window->setFilePath(filePath.toString());
+        // dynamic properties, which can be accessible from C++ but not QML
+        window->setProperty("filePath", filePath);
+        window->setProperty("macro", macro);
     }
     return window;
 }
@@ -368,40 +378,41 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
     }
     QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     if (!window) {
-        if(QQuickItem *root = qobject_cast<QQuickItem *>(topLevel)) {
-            /* If the root item is not a window then reparent it to a CSDataQuick.Components.BaseWindow */
-            int x = root->x();
-            int y = root->y();
-            int width = root->width();
-            int height = root->height();
-            QString temp = QString("import QtQuick 2.0\n"
-                                   "import CSDataQuick.Components 1.0\n"
-                                   "BaseWindow {\n"
-                                   "}\n");
-            QQmlComponent component(engine);
-            component.setData(temp.toLocal8Bit(), filePath);
-            topLevel = component.create();
-            if (!topLevel) {
-                qCritical() << component.errorString();
-                return Q_NULLPTR;
-            }
-            window = qobject_cast<QQuickWindow *>(topLevel);
-            root->setParentItem(window->contentItem());
-            root->setX(0); root->setY(0);
-            window->setGeometry(x,y,width,height);
+        if(qobject_cast<QQuickItem *>(topLevel)) {
+            QQuickView* qxView = new QQuickView(engine, NULL);
+            qxView->setResizeMode(QQuickView::SizeViewToRootObject);
+            qxView->setContent(filePath, &component, topLevel);
+            window = qxView;
         } else {
             // neither a visual item or a window, just delete
             delete topLevel;
+            return Q_NULLPTR;
         }
     }
-    if (window) {
-        if (window->title().isEmpty())
-            window->setTitle(filePath.fileName());
-        window->setFilePath(filePath.toString());
-        // dynamic properties, which can be accessible from C++ but not QML
-        window->setProperty("filePath", filePath);
-        window->setProperty("macro", macro);
+    if (QString(topLevel->metaObject()->className()).startsWith("BaseWindow_QMLTYPE")) {
+        QString title = topLevel->property("title").toString();
+        if (!title.isEmpty())
+            window->setTitle(title);
+
+    } else {
+        // attach context menu to the existing window
+        QString temp = QString("import QtQuick 2.0\n"
+                               "import CSDataQuick.Components.Private 1.0\n"
+                               "ContextMenu {}\n");
+        QQmlComponent component(engine);
+        component.setData(temp.toLocal8Bit(), QUrl());
+        QQuickItem *contextMenu = qobject_cast<QQuickItem *>(component.create());
+        if (contextMenu) {
+            contextMenu->setParentItem(window->contentItem());
+        }
     }
+
+    if (window->title().isEmpty())
+        window->setTitle(filePath.fileName());
+    window->setFilePath(filePath.toString());
+    // dynamic properties, which can be accessible from C++ but not QML
+    window->setProperty("filePath", filePath);
+    window->setProperty("macro", macro);
 
     return window;
 }
@@ -431,4 +442,17 @@ QVariantMap QCSUtils::parseX11Geometry(QString geometry)
 QString QCSUtils::currentDateTime()
 {
     return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
+}
+
+/*!
+    \qmlmethod QWindow * Utils::parentWindow(QQuickItem *item)
+
+    Return the parent window for item.
+*/
+QWindow *QCSUtils::parentWindow(QQuickItem *item)
+{
+    if (!item)
+        return Q_NULLPTR;
+
+    return item->window();
 }
