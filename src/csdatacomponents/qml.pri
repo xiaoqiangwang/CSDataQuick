@@ -39,6 +39,7 @@ QML_FILES += \
     $$PWD/PvTableDialog.qml \
     $$PWD/PromptDialog.qml \
     $$PWD/Private/qmldir \
+    $$PWD/Private/ContextMenu.qml \
     $$PWD/Private/Frame.qml \
     $$PWD/Private/Indicator.qml \
     $$PWD/Private/Meter.qml \

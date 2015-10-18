@@ -1050,16 +1050,17 @@ void Display::toQML(std::ostream &ostream)
 {
     ostream << "import QtQuick 2.0\n";
     ostream << "import QtQuick.Controls 1.0\n";
+    ostream << "import QtQuick.Window 2.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
-    ostream << "BaseWindow {\n";
+    ostream << "import CSDataQuick.Components.Private 1.0\n";
+    ostream << "Window {\n";
     Element::toQML(ostream);
-    ostream << "    color: \"" << color(this->bclr) << '"' << std::endl;
-    ostream << "    filePath: \"" << this->fileName() << "\"" << std::endl;
-    ostream << "    macro: \"" << this->macroString() << "\"" << std::endl;
+    ostream << "    color: \"" << color(this->bclr) << "\"\n";
+    ostream << "    ContextMenu {}" << std::endl;
     for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
         (*it)->toQML(ostream);
 
-    ostream << "}\n";
+    ostream << "}" << std::endl;
 }
 
 void Display::toPartialQML(std::ostream &ostream)
