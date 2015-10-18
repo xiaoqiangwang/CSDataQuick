@@ -318,12 +318,12 @@ void QCSDataEngineCA::close(QCSData *data)
         ca_attach_context(_cac);
         qWarning() << "Current CA context has been swappped";
     }
-
     chid _chid = (chid)data->property("chid").value<void*>();
     int status = ca_clear_channel(_chid);
     if(status != ECA_NORMAL)
         qWarning() << "ca_clear_channel:" << ca_message(status);
     data->setProperty("chid", QVariant::fromValue(Q_NULLPTR));
+
     _data.removeOne(data);
     emit allDataChanged();
 }

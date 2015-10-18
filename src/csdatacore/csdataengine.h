@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVariant>
 #include <QObject>
+#include <QQmlListProperty>
 
 class QCSData;
 
@@ -18,12 +19,12 @@ public:
     QCSDataEngine(QObject *parent);
     virtual ~QCSDataEngine() {}
 
-    virtual QString name() {return "";}
-    virtual QString description() {return "";}
+    virtual QString name() = 0;
+    virtual QString description() = 0;
     virtual void create(QCSData* data) = 0;
     virtual void close(QCSData* data) = 0;
     virtual void setValue(QCSData* data, const QVariant value) = 0;
-    virtual QList<QObject*> allData() {return QList<QObject*>();}
+    virtual QList<QObject*> allData() = 0;
 
 signals:
     void allDataChanged();
