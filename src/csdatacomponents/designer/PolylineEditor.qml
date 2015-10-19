@@ -76,7 +76,6 @@ Canvas {
                    expr += ','
             }
             expr += ']'
-            console.log(backendValue.expression)
             backendValue.expression = expr
         }
     }
