@@ -167,7 +167,7 @@ ApplicationWindow {
                 height: 20
                 label: 'list'
                 model: ListModel {
-                    ListElement {label: 'List Directory'; command: 'ls'; args: '-l'; }
+                    ListElement {label: 'List Directory'; command: 'ls -l' }
                 }
             }
 
