@@ -1,7 +1,9 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
@@ -93,6 +95,66 @@ BaseItem {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
 
+    Loader {
+        anchors.fill: parent
+        sourceComponent: visual == RelatedDisplayVisual.Menu ? menuStyle : buttonStyle
+    }
+
+    Component {
+        id: buttonStyle
+        GridLayout {
+            rowSpacing: 0
+            columnSpacing: 0
+            rows: visual == RelatedDisplayVisual.Column ? root.model.count : 1
+            columns: visual == RelatedDisplayVisual.Row ? root.model.count : 1
+            Repeater {
+                model: root.model.count
+                StyledButton {
+                    text: root.model.get(index).label
+                    font.family: root.font.family
+                    font.pixelSize: root.font.size
+                    background: root.background
+                    foreground: root.foreground
+                    Layout.fillHeight: visual == RelatedDisplayVisual.Row
+                    Layout.fillWidth: visual == RelatedDisplayVisual.Column
+                    onClicked: load(root.model.get(index).fname,
+                                    root.model.get(index).args,
+                                    root.model.get(index).remove)
+                }
+            }
+        }
+    }
+
+    Component {
+        id: menuStyle
+        RDButton {
+            text: root.label
+            font.family: root.font.family
+            font.pixelSize: root.font.size
+            background: root.background
+            foreground: root.foreground
+            showIcon: root.label.charAt(0) != '-'
+            menu: root.model.count > 1 ? popupMenu : null
+            Menu {
+                id: popupMenu
+                Instantiator {
+                    model: root.model
+                    delegate: MenuItem {
+                        text: model.label
+                        onTriggered: load(model.fname, model.args, model.remove)
+                    }
+                    onObjectAdded: popupMenu.insertItem(index, object)
+                    onObjectRemoved: popupMenu.removeItem(object)
+                }
+            }
+            onClicked: {
+                if (root.model.count == 1) {
+                    load(model.get(0).fname, model.get(0).model.args, model.get(0).model.remove)
+                }
+            }
+        }
+    }
+
     /*!
         \internal
     */
@@ -132,98 +194,6 @@ BaseItem {
             console.info('Open ', absFilePath, macro)
             WindowManager.appendWindow(window)
             window.visible = true
-        }
-    }
-
-    Component.onCompleted: {
-        var label, fname, args, remove
-        var qmlCmd
-        var imp ='import QtQuick 2.1; import QtQuick.Controls 1.0; import CSDataQuick.Components.Private 1.0;'
-
-        // If button label starts with '-', remove it and use normal button. Otherwise use RDButton with double rect icon
-        var btnLabel, btnType
-        if (root.label.charAt(0) == '-') {
-            btnLabel = root.label.substring(1)
-            btnType = 'StyledButton'
-        }
-        else {
-            btnLabel = root.label
-            btnType = 'RDButton'
-        }
-
-        // set font family and size
-        var btnCmdTemplate = '%1 {' +
-                    'text: "%2";'+
-                    'font.family: root.font.family;'+
-                    'font.pixelSize: root.font.size;'+
-                    'background: root.background;' +
-                    'foreground: root.foreground;' +
-                    '%3}'
-
-        var btn
-        // If only one display file, one push button will be used independent of the visual style
-        if (model.count <= 1) {
-            // Compose button creation statements
-            var triggerCmd = ''
-            if (model.count == 1)
-                triggerCmd = 'onClicked: load("%1", "%2", %3)'
-                            .arg(model.get(0).fname)
-                            .arg(model.get(0).args)
-                            .arg(model.get(0).remove ? 'true' : 'false')
-
-            qmlCmd = imp + btnCmdTemplate.arg(btnType).arg(btnLabel).arg(triggerCmd)
-            btn = Qt.createQmlObject(qmlCmd, root, 'button')
-            btn.anchors.fill = root
-            btn.align = Text.AlignHCenter
-            return
-        }
-
-        switch (visual) {
-        case RelatedDisplayVisual.Menu: // Button with popupmenu
-            // Compose menu creation statements
-            var menuCmd = 'menu: Menu {\n'
-            for(var i=0; i<model.count; i++) {
-                label = model.get(i).label
-                fname = model.get(i).fname
-                args = model.get(i).args
-                remove = model.get(i).remove
-                menuCmd += 'MenuItem {text: "%1"; onTriggered: load("%2", "%3", %4)}\n'
-                           .arg(label).arg(fname).arg(args).arg(remove ? 'true' : 'false')
-            }
-            menuCmd += '}'
-            // Create button and pulldown menu
-            qmlCmd = imp + btnCmdTemplate.arg(btnType).arg(btnLabel).arg(menuCmd)
-            btn = Qt.createQmlObject(qmlCmd, root, 'button')
-            btn.anchors.fill = root
-            btn.align = Text.AlignLeft
-            break;
-        case RelatedDisplayVisual.Row: // Row of button
-        case RelatedDisplayVisual.Column: // Column of buttons
-            var layout
-            if (visual == RelatedDisplayVisual.Row)
-                layout = 'RowLayout'
-            else
-                layout = 'ColumnLayout'
-            qmlCmd = imp + 'import QtQuick.Layouts 1.0;' + layout + ' {anchors.fill: root; spacing: 0;'
-            for(var i=0; i<model.count; i++) {
-                label = model.get(i).label
-                fname = model.get(i).fname
-                args = model.get(i).args
-                remove = model.get(i).remove
-                var btnCmd = 'Layout.fillWidth: true; Layout.fillHeight: true;' +
-                             'onClicked: load("%1", "%2", %3)'
-                             .arg(model.get(i).fname)
-                             .arg(model.get(i).args)
-                             .arg(model.get(i).remove ? 'true' : 'false')
-
-                qmlCmd += btnCmdTemplate.arg('StyledButton').arg(label).arg(btnCmd)
-            }
-            qmlCmd += '}'
-            Qt.createQmlObject(qmlCmd, root, 'layout')
-            break;
-        case RelatedDisplayVisual.Hidden:
-            visible = false
-            break;
         }
     }
 }
