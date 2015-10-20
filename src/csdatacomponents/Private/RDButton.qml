@@ -10,6 +10,7 @@ Button {
     property color foreground: __pallete.buttonText
     property alias font: hiddenText.font
     property int align: Text.AlignHCenter
+    property bool showIcon: true
 
     SystemPalette {
         id: __pallete
@@ -51,6 +52,7 @@ Button {
                     height: width
                     anchors.verticalCenter: parent.verticalCenter
                     foreground: root.foreground
+                    visible: showIcon
                 }
 
                 Text {
