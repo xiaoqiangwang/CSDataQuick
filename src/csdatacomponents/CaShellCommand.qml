@@ -113,7 +113,6 @@ BaseItem {
     Menu {
         id: popupMenu
         Instantiator {
-            id: inst
             model: commandModel
             delegate: MenuItem {
                 text: model.label

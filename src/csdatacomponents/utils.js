@@ -127,3 +127,14 @@ function dumpPvInfo(pv) {
     }
     return text
 }
+
+/*!
+    \qmlmethod UtilsJS::modelFromArray(array)
+*/
+function modelFromArray(model, array)
+{
+    model.clear()
+    for(var i=0; i<array.length; i++)
+        model.append(array[i])
+    return model
+}

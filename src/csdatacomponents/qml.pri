@@ -87,9 +87,12 @@ DESIGNER_FILES = \
     $$PWD/designer/CaWheelSwitchSpecifics.qml \
     $$PWD/designer/ColorSection.qml \
     $$PWD/designer/ColorPalette.qml \
+    $$PWD/designer/CommandEditor.qml \
     $$PWD/designer/DataSourceSection.qml \
     $$PWD/designer/DynamicAttributeSection.qml \
+    $$PWD/designer/FieldEditor.qml \
     $$PWD/designer/GraphicsSection.qml \
+    $$PWD/designer/IconButton.qml \
     $$PWD/designer/LimitsSection.qml \
     $$PWD/designer/PolylineEditor.qml \
     $$PWD/designer/images/arc.png \
@@ -116,6 +119,11 @@ DESIGNER_FILES = \
     $$PWD/designer/images/textUpdate.png \
     $$PWD/designer/images/wheelSwitch.png \
     $$PWD/designer/images/window.png \
+    $$PWD/designer/images/add.png \
+    $$PWD/designer/images/apply.png \
+    $$PWD/designer/images/arrow_down.png \
+    $$PWD/designer/images/arrow_up.png \
+    $$PWD/designer/images/delete.png \
     $$PWD/designer/csdatacomponents.metainfo
     
 OTHER_FILES = $$QML_FILES $$DESIGNER_FILES
