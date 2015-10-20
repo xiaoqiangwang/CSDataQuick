@@ -81,7 +81,8 @@ BaseItem {
     /*!
         related display list model
 
-        The model contains entries to display files. Each entry contains the following.
+        The model contains entries to display files. It can be ListModel or object array.
+        In either case, each entry contains the following.
         \list
         \li label: text description
         \li fname: display file name
@@ -89,8 +90,7 @@ BaseItem {
         \li remove: replace the parent display if true
         \endlist
     */
-    property ListModel model: ListModel {
-    }
+    property var model
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
@@ -105,21 +105,21 @@ BaseItem {
         GridLayout {
             rowSpacing: 0
             columnSpacing: 0
-            rows: visual == RelatedDisplayVisual.Column ? root.model.count : 1
-            columns: visual == RelatedDisplayVisual.Row ? root.model.count : 1
+            rows: visual == RelatedDisplayVisual.Column ? displayModel.count : 1
+            columns: visual == RelatedDisplayVisual.Row ? displayModel.count : 1
             Repeater {
-                model: root.model.count
+                model: displayModel.count
                 StyledButton {
-                    text: root.model.get(index).label
+                    text: displayModel.get(index).label
                     font.family: root.font.family
                     font.pixelSize: root.font.size
                     background: root.background
                     foreground: root.foreground
                     Layout.fillHeight: visual == RelatedDisplayVisual.Row
                     Layout.fillWidth: visual == RelatedDisplayVisual.Column
-                    onClicked: load(root.model.get(index).fname,
-                                    root.model.get(index).args,
-                                    root.model.get(index).remove)
+                    onClicked: load(displayModel.get(index).fname,
+                                    displayModel.get(index).args,
+                                    displayModel.get(index).remove)
                 }
             }
         }
@@ -134,11 +134,11 @@ BaseItem {
             background: root.background
             foreground: root.foreground
             showIcon: root.label.charAt(0) != '-'
-            menu: root.model.count > 1 ? popupMenu : null
+            menu: displayModel.count > 1 ? popupMenu : null
             Menu {
                 id: popupMenu
                 Instantiator {
-                    model: root.model
+                    model: displayModel
                     delegate: MenuItem {
                         text: model.label
                         onTriggered: load(model.fname, model.args, model.remove)
@@ -148,10 +148,29 @@ BaseItem {
                 }
             }
             onClicked: {
-                if (root.model.count == 1) {
-                    load(model.get(0).fname, model.get(0).model.args, model.get(0).model.remove)
+                if (displayModel.count == 1) {
+                    load(displayModel.get(0).fname,
+                         displayModel.get(0).args,
+                         displayModel.get(0).remove)
                 }
             }
+        }
+    }
+
+    ListModel {
+        id: displayModel
+    }
+
+    onModelChanged: generateModel()
+    function generateModel() {
+        if (model instanceof Array) {
+            displayModel.clear()
+            for(var i=0; i<model.length; i++)
+                displayModel.append(model[i])
+        } else {
+            displayModel.clear()
+            for(var i=0; i<model.count; i++)
+                displayModel.append(model.get(i))
         }
     }
 
