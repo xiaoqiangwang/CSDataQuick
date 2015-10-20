@@ -1,7 +1,9 @@
 import QtQuick 2.0
+import QtQml 2.1
 import QtQuick.Controls 1.0
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
@@ -54,15 +56,16 @@ BaseItem {
     /*!
         command list model
 
-        Each element contains three properties, label, command.
-        The label is the label on the menu item in the menu that is brought up when the Shell Command button is pressed.
-        The string in command will be executed as a system command when the menu item with that label is selected.
+        The model can be ListModel or array object. In any case, each element contains two properties:
+        \list
+        \li label - the label on the menu item in the menu that is brought up when the Shell Command button is pressed.
+        \li command - the string in command will be executed as a system command when the menu item with that label is selected.
+        \endlist
 
         The GUI will block until the command is executed, so it is almost always wise to include an “&” at the end of the command
         so that it will execute in the background.
     */
-    property ListModel model: ListModel {
-    }
+    property var model
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(root.height - 4, true)
@@ -92,43 +95,49 @@ BaseItem {
             console.error('Error happend when run command: `%1`'.arg(command))
     }
 
-    Component.onCompleted: {
-        // Prepend '!' only if label does not starts with '-'
-        var btnLabel;
-        if(root.label[0] == '-')
-            btnLabel = root.label.substring(1)
-        else
-            btnLabel = '! ' + root.label
-
-        // Create button
-        var btnCmd = 'import QtQuick 2.1;' +
-                     'import QtQuick.Controls 1.0;' +
-                     'import CSDataQuick.Components.Private 1.0;' +
-                      'StyledButton {' +
-                        'anchors.fill: parent;' +
-                        'text: "%1";'.arg(btnLabel) +
-                         '%1\n' +
-                         'foreground: root.foreground;' +
-                         'background: root.background;' +
-                         'font.pixelSize: root.font.size;' +
-                         'font.family: root.font.family;}'
-        // Single entry, direct action on button click
-        if (model.count == 1) {
-            var btn = Qt.createQmlObject(btnCmd.arg('onClicked: parseCommand("%1")'.arg(model.get(0).command)), root, 'button')
-            btn.align = Text.AlignHCenter
-        // Multiple entries, popup menu on button click
-        } else {
-            var btn = Qt.createQmlObject(btnCmd.arg('menu: Menu{}'), root, 'button')
-            btn.align = Text.AlignLeft
-            var label, command
-            for(var i=0; i<model.count; i++) {
-                label = model.get(i).label
-                command = model.get(i).command
-                var action = Qt.createQmlObject('import QtQuick 2.1; import QtQuick.Controls 1.0; Action{onTriggered: parseCommand("%1")}'
-                                            .arg(command), root, 'action')
-                var item = btn.menu.insertItem(i, label);
-                item.action = action
+    StyledButton {
+        anchors.fill: parent
+        text: root.label[0] == '-' ? root.label.substring(1) : ('! ' + root.label)
+        foreground: root.foreground
+        background: root.background
+        font.pixelSize: root.font.size
+        font.family: root.font.family
+        menu: commandModel.count > 1 ? popupMenu : null
+        onClicked: {
+            if (commandModel.count == 1) {
+                parseCommand(commandModel.get(0).command)
             }
+        }
+    }
+
+    Menu {
+        id: popupMenu
+        Instantiator {
+            id: inst
+            model: commandModel
+            delegate: MenuItem {
+                text: model.label
+                onTriggered: parseCommand(model.command)
+            }
+            onObjectAdded: popupMenu.insertItem(index, object)
+            onObjectRemoved: popupMenu.removeItem(object)
+        }
+    }
+    
+    ListModel {
+        id: commandModel
+    }
+
+    onModelChanged: generateModel()
+    function generateModel() {
+        if (model instanceof Array) {
+            commandModel.clear()
+            for(var i=0; i<model.length; i++)
+                commandModel.append(model[i]) 
+        } else {
+            commandModel.clear()
+            for(var i=0; i<model.count; i++)
+                commandModel.append(model.get(i)) 
         }
     }
 }
