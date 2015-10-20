@@ -456,3 +456,19 @@ QWindow *QCSUtils::parentWindow(QQuickItem *item)
 
     return item->window();
 }
+/*!
+    \qmlmethod QWindow * Utils::parentWindow(QQuickItem *item)
+
+    Return the parent window for item.
+*/
+QPoint QCSUtils::mapToGlobal(QQuickItem *item, const QPoint point)
+{
+    if (!item)
+        return point;
+    
+    QWindow *window = item->window();
+    if (!window)
+        return point;
+
+    return window->mapToGlobal(item->mapToItem(Q_NULLPTR, point).toPoint());
+}

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVariant>
 #include <QUrl>
+#include <QPoint>
 
 class QWindow;
 class QQuickItem;
@@ -27,6 +28,8 @@ public:
     Q_INVOKABLE QVariantMap parseX11Geometry(QString geometry);
     Q_INVOKABLE QString currentDateTime();
     Q_INVOKABLE QWindow *parentWindow(QQuickItem *item);
+    Q_INVOKABLE QPoint mapToGlobal(QQuickItem *item, const QPoint point);
+
 signals:
 
 public slots:
