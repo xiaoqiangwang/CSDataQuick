@@ -89,6 +89,7 @@ DESIGNER_FILES = \
     $$PWD/designer/ColorPalette.qml \
     $$PWD/designer/CommandEditor.qml \
     $$PWD/designer/DataSourceSection.qml \
+    $$PWD/designer/DisplayEditor.qml \
     $$PWD/designer/DynamicAttributeSection.qml \
     $$PWD/designer/FieldEditor.qml \
     $$PWD/designer/GraphicsSection.qml \
