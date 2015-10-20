@@ -637,10 +637,10 @@ void RelatedDisplayEntry::toQML(std::ostream &ostream)
 
     ostream << indent << "    ListElement {" << std::endl;
     ostream << indent << "        label: \"" << this->label << '"' << std::endl;
-    ostream << indent << "        fname: \"" << this->name << '"' << std::endl;
-    ostream << indent << "        args: \"" << this->args << '"' << std::endl;
+    ostream << indent << "        file: \"" << this->name << '"' << std::endl;
+    ostream << indent << "        macro: \"" << this->args << '"' << std::endl;
     if (this->mode == REPLACE_DISPLAY)
-    ostream << indent << "        remove: true" << std::endl;
+    ostream << indent << "        replace: true" << std::endl;
     ostream << indent << "    }" << std::endl;
 }
 
