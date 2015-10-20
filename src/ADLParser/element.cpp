@@ -3097,7 +3097,7 @@ void Pen::toQML(std::ostream &fstream)
 
     fstream << indent << "    ListElement {" << std::endl;
     fstream << indent << "        channel: \"" << this->chan << '"' << std::endl;
-    fstream << indent << "        foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
+    fstream << indent << "        color: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
     // Since ListElement can only contain plain types, not QtObject,
     // the limits property has to be given explicitly.
     // This requires acess Limits' members.
