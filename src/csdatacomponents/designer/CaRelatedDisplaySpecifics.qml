@@ -37,6 +37,16 @@ Column {
             }
         }
     }
- 
+
+    Section {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        caption: qsTr("Display Entry")
+
+        DisplayEditor {
+            backendValue: backendValues.model
+        }
+    }
+
     ColorSection {}
 }
