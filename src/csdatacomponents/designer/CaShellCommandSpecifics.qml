@@ -26,6 +26,15 @@ Column {
             }
         }
     }
+    Section {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        caption: qsTr("Command Entry")
+
+        CommandEditor {
+            backendValue: backendValues.model
+        }
+    }
 
     ColorSection {}
 }
