@@ -39,10 +39,15 @@ BaseItem {
     /*!
         The PV list model
 
-        Each ListElement contains properties "channel", "foreground" and "limits".
-        "channel" is the process variable to monitor.
-        "foreground" is the color of the line for that channel,
-        "limits" specifies the source for the range.
+        Each ListElement contains the following properties,
+        \list
+        \li channel  - the process variable to monitor.
+        \li color - the color of the line for that channel,
+        \li loprSrc - the lower range source.
+        \li loprDefault - the default lower range.
+        \li hoprSrc - the upper range source.
+        \li hoprDefault - the default upper range.
+        \endlist
     */
     property ListModel model
 
@@ -102,8 +107,8 @@ BaseItem {
             else
                 axis = Qt.createQmlObject('import CSDataQuick.Components 1.0; Axis {type: Axis.Left; autoScale: false}', plot, 'yaxis' + i)
             var graph = plot.addGraph(plot.xAxis, axis)
-            if (pen.foreground)
-                graph.color = pen.foreground
+            if (pen.color)
+                graph.color = pen.color
             d.graphs.push(graph)
             // create pv object
             var cmd =
