@@ -24,7 +24,7 @@ import "utils.js" as UtilsJS
     if there is more than one menu item or not, then abort by releasing the button away from the Related Display.
     If there is more than one item on the menu, the squares and/or label are at the left of the button.
 
-    The new display can be configured by "remove" property to always replace the parent.
+    The new display can be configured by "replace" property to always replace the parent.
      When the parent display is replaced by the new display, its upper-left corner should be at the former position of the parent,
      unless the new display was already in existence.  In that case the existing display is popped up, and its position is not changed.
 
@@ -36,8 +36,8 @@ import "utils.js" as UtilsJS
             height: 25
             label: 'More ...'
             model: ListModel {
-                ListElement {label:'Monitors'; fname: 'monitors.adl'; remove: true;}
-                ListElement {label:'Graphics'; fname: 'graphics.adl'; remove: true;}
+                ListElement {label:'Monitors'; file: 'monitors.adl'; replace: true;}
+                ListElement {label:'Graphics'; file: 'graphics.adl'; replace: true;}
             }
         }
         CaRelatedDisplay {
@@ -45,8 +45,8 @@ import "utils.js" as UtilsJS
             height: 60
             visual: RelatedDisplayVisual.Column
             model: ListModel {
-                ListElement {label:'Monitors'; fname: 'monitors.adl'; remove: true;}
-                ListElement {label:'Graphics'; fname: 'graphics.adl'; remove: true;}
+                ListElement {label:'Monitors'; file: 'monitors.adl'; replace: true;}
+                ListElement {label:'Graphics'; file: 'graphics.adl'; replace: true;}
             }
         }
     }
@@ -85,9 +85,9 @@ BaseItem {
         In either case, each entry contains the following.
         \list
         \li label: text description
-        \li fname: display file name
-        \li args: macros substitution
-        \li remove: replace the parent display if true
+        \li file: display file name
+        \li macro: macro substitution
+        \li replace: replace the parent display if true
         \endlist
     */
     property var model
@@ -117,9 +117,9 @@ BaseItem {
                     foreground: root.foreground
                     Layout.fillHeight: visual == RelatedDisplayVisual.Row
                     Layout.fillWidth: visual == RelatedDisplayVisual.Column
-                    onClicked: load(displayModel.get(index).fname,
-                                    displayModel.get(index).args,
-                                    displayModel.get(index).remove)
+                    onClicked: load(displayModel.get(index).file,
+                                    displayModel.get(index).macro,
+                                    displayModel.get(index).replace)
                 }
             }
         }
@@ -141,7 +141,7 @@ BaseItem {
                     model: displayModel
                     delegate: MenuItem {
                         text: model.label
-                        onTriggered: load(model.fname, model.args, model.remove)
+                        onTriggered: load(model.file, model.macro, model.replace)
                     }
                     onObjectAdded: popupMenu.insertItem(index, object)
                     onObjectRemoved: popupMenu.removeItem(object)
@@ -149,9 +149,9 @@ BaseItem {
             }
             onClicked: {
                 if (displayModel.count == 1) {
-                    load(displayModel.get(0).fname,
-                         displayModel.get(0).args,
-                         displayModel.get(0).remove)
+                    load(displayModel.get(0).file,
+                         displayModel.get(0).macro,
+                         displayModel.get(0).replace)
                 }
             }
         }
@@ -177,7 +177,7 @@ BaseItem {
     /*!
         \internal
     */
-    function load(fileName, macro, remove) {
+    function load(fileName, macro, replace) {
         // search the file
         var absFilePath = Utils.searchADLFile(fileName, baseWindow)
         if (absFilePath == '') {
@@ -205,7 +205,7 @@ BaseItem {
             console.error("Failed to create window from ", fileName)
             return
         } else {
-            if (remove) {
+            if (replace) {
                 window.x = baseWindow.x
                 window.y = baseWindow.y
                 baseWindow.close()
