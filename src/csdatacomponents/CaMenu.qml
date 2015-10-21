@@ -31,7 +31,7 @@ CaControl {
     height: 20
 
     /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height, true)
+    readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
 
     ComboBox {
         id: combo_control
@@ -67,7 +67,6 @@ CaControl {
         }
 
         onActivated: {
-            console.log('sdc')
             pv.setValue(index)
         }
     }
