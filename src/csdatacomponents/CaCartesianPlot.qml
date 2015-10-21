@@ -217,6 +217,7 @@ BaseItem {
             scale: xAxisStyle
             rangeLower: root.xRangeLower
             rangeUpper: root.xRangeUpper
+            autoScale: xRangeStyle != CartesianPlotRangeStyle.User
         }
         property var yAxis: Axis {
             type: Axis.Left
@@ -224,12 +225,14 @@ BaseItem {
             scale: yAxisStyle
             rangeLower: root.yRangeLower
             rangeUpper: root.yRangeUpper
+            autoScale: yRangeStyle != CartesianPlotRangeStyle.User
         }
         property var y2Axis: Axis {
             type: Axis.Left
             scale: y2AxisStyle
             rangeLower: root.y2RangeLower
             rangeUpper: root.y2RangeUpper
+            autoScale: y2RangeStyle != CartesianPlotRangeStyle.User
             visible: false
         }
         Axis {
