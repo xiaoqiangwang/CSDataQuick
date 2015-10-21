@@ -12,7 +12,7 @@ Rectangle {
             width: 200
             height: 200
             foreground: fgColorPalette.color
-            fill: fillStyleGroup.fillStyle
+            fillStyle: fillStyleGroup.fillStyle
         }
         Row {
             spacing: 10

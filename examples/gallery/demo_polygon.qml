@@ -13,8 +13,8 @@ Rectangle {
             height: 201
             foreground: fgColorPalette.color
             points: [Qt.point(50,0), Qt.point(0, 100), Qt.point(50, 200), Qt.point(150, 200), Qt.point(200,100)]
-            edge: edgeStyleGroup.edgeStyle
-            fill: fillStyleGroup.fillStyle
+            edgeStyle: edgeStyleGroup.edgeStyle
+            fillStyle: fillStyleGroup.fillStyle
 
         }
         Row {

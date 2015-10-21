@@ -13,7 +13,7 @@ Item {
             height: 200
             begin: beginSlider.value
             span: spanSlider.value
-            fill: fillStyleGroup.fillStyle
+            fillStyle: fillStyleGroup.fillStyle
             foreground: fgColorPalette.color
         }
         RowLayout {
