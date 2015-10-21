@@ -170,6 +170,11 @@ CaControl {
             textField.focus = false
             textField.text = formatString(format, pv.value)
         }
+        DropArea {
+            anchors.fill: parent
+            keys: ['text/plain']
+            onDropped: textField.text = drop.text
+        }
     }
 
     Connections {
