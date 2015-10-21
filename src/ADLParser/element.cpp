@@ -125,9 +125,9 @@ void BasicAttribute::toQML(std::ostream &ostream)
     if (this->width > 0)
         ostream << indent << "lineWidth: " << this->width << std::endl;
     if (this->fill != F_SOLID)
-        ostream << indent << "fill: " << qmlValueTable[this->fill] << std::endl;
+        ostream << indent << "fillStyle: " << qmlValueTable[this->fill] << std::endl;
     if (this->style != SOLID)
-        ostream << indent << "edge: " << qmlValueTable[this->style] << std::endl;
+        ostream << indent << "edgeStyle: " << qmlValueTable[this->style] << std::endl;
 }
 
 DynamicAttribute::DynamicAttribute (Element *parent)

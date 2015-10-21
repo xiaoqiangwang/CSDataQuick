@@ -40,7 +40,7 @@ CaGraphics {
                          && !dynamicAttribute.connected))
                     ? root.alarmColor :root.foreground
         lineWidth: root.lineWidth
-        fillStyle: root.fill
-        edgeStyle: root.edge
+        fillStyle: root.fillStyle
+        edgeStyle: root.edgeStyle
     }
 }

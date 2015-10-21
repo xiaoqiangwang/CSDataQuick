@@ -40,7 +40,7 @@ CaGraphics {
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static
                          && !dynamicAttribute.connected))
                     ? root.alarmColor :root.foreground
-        edgeStyle: root.edge
-        fillStyle: root.fill
+        edgeStyle: root.edgeStyle
+        fillStyle: root.fillStyle
     }
 }
