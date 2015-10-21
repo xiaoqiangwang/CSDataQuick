@@ -1,5 +1,6 @@
 import QtQuick 2.0
 
+import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
 
 /*!
@@ -49,7 +50,24 @@ BaseItem {
         \li hoprDefault - the default upper range.
         \endlist
     */
-    property ListModel model
+    property var model
+
+    ListModel {
+        id: traceModel
+    }
+
+    onModelChanged: generateModel()
+    function generateModel() {
+        if (model instanceof Array) {
+            traceModel.clear()
+            for(var i=0; i<model.length; i++)
+                traceModel.append(model[i])
+        } else {
+            traceModel.clear()
+            for(var i=0; i<model.count; i++)
+                traceModel.append(model.get(i))
+        }
+    }
 
     // list of created pvs and their corresponding graph and time,data
     QtObject {
@@ -90,13 +108,15 @@ BaseItem {
         }
     }
 
-    Component.onCompleted: {
+    Component.onCompleted: createTraces()
+
+    function createTraces() {
         var length = period * getInterval()
         for (var i=1; i<=length; i++) {
             d.time.push((i - length) / getInterval())
         }
-        for(var i=0; i<model.count; i++) {
-            var pen = model.get(i);
+        for(var i=0; i<traceModel.count; i++) {
+            var pen = traceModel.get(i);
 
             if (!pen.channel)
                 continue
