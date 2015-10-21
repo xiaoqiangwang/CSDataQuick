@@ -46,5 +46,14 @@ Column {
             }
         }
     }
+    Section {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        caption: qsTr("Cartesian Plot Entry")
+
+        CartesianPlotEditor {
+            backendValue: backendValues.model
+        }
+    }
     ColorSection {}
 }
