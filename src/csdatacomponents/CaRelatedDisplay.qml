@@ -97,7 +97,7 @@ BaseItem {
 
     Loader {
         anchors.fill: parent
-        sourceComponent: visual == RelatedDisplayVisual.Menu ? menuStyle : buttonStyle
+        sourceComponent: visual == RelatedDisplayVisual.Menu || displayModel.count == 1 ? menuStyle : buttonStyle
     }
 
     Component {
