@@ -115,8 +115,8 @@ BaseItem {
                     font.pixelSize: root.font.size
                     background: root.background
                     foreground: root.foreground
-                    Layout.fillHeight: visual == RelatedDisplayVisual.Row
-                    Layout.fillWidth: visual == RelatedDisplayVisual.Column
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                     onClicked: load(displayModel.get(index).file,
                                     displayModel.get(index).macro,
                                     displayModel.get(index).replace)
