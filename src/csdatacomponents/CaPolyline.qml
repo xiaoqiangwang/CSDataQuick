@@ -45,6 +45,6 @@ CaGraphics {
                          && !dynamicAttribute.connected))
                     ? root.alarmColor :root.foreground
         lineWidth: root.lineWidth
-        edgeStyle: root.edge
+        edgeStyle: root.edgeStyle
     }
 }

@@ -39,8 +39,8 @@ CaGraphics {
         id: arc
         anchors.fill: parent
         lineWidth: root.lineWidth
-        fillStyle: root.fill
-        edgeStyle: root.edge
+        fillStyle: root.fillStyle
+        edgeStyle: root.edgeStyle
         foreground: (colorMode == ColorMode.Alarm
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static
                          && !dynamicAttribute.connected))

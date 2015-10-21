@@ -16,9 +16,9 @@ BaseItem {
     background: ColorMap.graphics_background
     foreground: ColorMap.foreground
     /*! Draw outline only or fill the shape */
-    property int fill: FillStyle.Solid
+    property int fillStyle: FillStyle.Solid
     /*! Outline style */
-    property int edge: EdgeStyle.Solid
+    property int edgeStyle: EdgeStyle.Solid
     /*! Outline width */
     property int lineWidth: 0
     /*!
