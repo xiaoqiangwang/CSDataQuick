@@ -2801,7 +2801,7 @@ void Trace::toQML(std::ostream &fstream)
     fstream << indent << "    ListElement {" << std::endl;
     fstream << indent << "        xchannel: \"" << this->xdata << '"' << std::endl;
     fstream << indent << "        ychannel: \"" << this->ydata << '"' << std::endl;
-    fstream << indent << "        foreground: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
+    fstream << indent << "        color: \"" << parent()->display()->color(this->clr) << '"' << std::endl;
     fstream << indent << "        yaxis: " << this->yaxis << std::endl;
     fstream << indent << "    }" << std::endl;
 }

@@ -178,8 +178,31 @@ BaseItem {
 
     /*!
         Trace list model.
+
+        Each element contains the following properties,
+        \list
+        \li xchannel - data source for x
+        \li ychannel - data source for y
+        \li color - line color
+        \endlist
     */
-    property ListModel model: ListModel {
+    property var model
+
+    ListModel {
+        id: traceModel
+    }
+
+    onModelChanged: generateModel()
+    function generateModel() {
+        if (model instanceof Array) {
+            traceModel.clear()
+            for(var i=0; i<model.length; i++)
+                traceModel.append(model[i])
+        } else {
+            traceModel.clear()
+            for(var i=0; i<model.count; i++)
+                traceModel.append(model.get(i))
+        }
     }
 
     Plot {
@@ -247,7 +270,7 @@ BaseItem {
             var xAxis = plot.xAxis
             var yAxis = model.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
-            graph.color = Qt.binding(function() {return model.get(i).foreground ? model.get(i).foreground : 'black';})
+            graph.color = Qt.binding(function() {return model.get(i).color ? model.get(i).color : 'black';})
             graph.lineStyle = Qt.binding(function () {return root.plotStyle;})
 
             var xpv = null, ypv = null
