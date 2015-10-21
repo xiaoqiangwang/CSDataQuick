@@ -12,8 +12,8 @@ Rectangle {
             width: 200
             height: 200
             foreground: fgColorPalette.color
-            fill: fillStyleGroup.fillStyle
-            edge: edgeStyleGroup.edgeStyle
+            fillStyle: fillStyleGroup.fillStyle
+            edgeStyle: edgeStyleGroup.edgeStyle
         }
         Row {
             spacing: 10

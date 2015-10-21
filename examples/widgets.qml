@@ -48,7 +48,7 @@ ApplicationWindow {
                 width: 100
                 height: 70
                 foreground: "#000000"
-                fill: FillStyle.Solid
+                fillStyle: FillStyle.Solid
             }
 
             CaOval {
@@ -57,7 +57,7 @@ ApplicationWindow {
                 width: 100
                 height: 70
                 dynamicAttribute.visibilityMode: VisibilityMode.IfZero
-                fill: FillStyle.Solid
+                fillStyle: FillStyle.Solid
                 lineWidth: 2
             }
             CaArc {
@@ -70,15 +70,15 @@ ApplicationWindow {
                 height: 100
                 begin: 90
                 span: pv.value * 360
-                fill: FillStyle.Solid
+                fillStyle: FillStyle.Solid
             }
             CaPolygon {
                 width: 100
                 height: 50
                 lineWidth: 2
                 foreground: 'pink'
-                fill: FillStyle.Solid
-                edge: EdgeStyle.Solid
+                fillStyle: FillStyle.Solid
+                edgeStyle: EdgeStyle.Solid
                 points: [Qt.point(50, 5), Qt.point(20, 40), Qt.point(80, 40)]
             }
 
@@ -88,7 +88,7 @@ ApplicationWindow {
                 lineWidth: 2
                 foreground: 'black'
                 background: 'black'
-                edge: EdgeStyle.Solid
+                edgeStyle: EdgeStyle.Solid
                 points: [Qt.point(10,10), Qt.point(100, 30),
                     Qt.point(100, 70), Qt.point(50, 80)]
             }

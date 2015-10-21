@@ -13,7 +13,7 @@ Rectangle {
             height: 201
             foreground: fgColorPalette.color
             points: [Qt.point(50,0), Qt.point(0, 100), Qt.point(50, 200), Qt.point(150, 200), Qt.point(200,100)]
-            edge: edgeStyleGroup.edgeStyle
+            edgeStyle: edgeStyleGroup.edgeStyle
         }
         Row {
             spacing: 10
