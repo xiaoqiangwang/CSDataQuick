@@ -85,7 +85,7 @@ DESIGNER_FILES = \
     $$PWD/designer/CaTextEntrySpecifics.qml \
     $$PWD/designer/CaTextUpdateSpecifics.qml \
     $$PWD/designer/CaWheelSwitchSpecifics.qml \
-    $$PWD/desginer/CartesianPlotEditor.qml \
+    $$PWD/designer/CartesianPlotEditor.qml \
     $$PWD/designer/ColorSection.qml \
     $$PWD/designer/ColorPalette.qml \
     $$PWD/designer/CommandEditor.qml \

@@ -260,17 +260,17 @@ BaseItem {
             d.pvErase.valueChanged.connect(eraseGraph)
         }
 
-        if (model.count > 1)
+        if (traceModel.count > 1)
             plot.y2Axis.visible = true
-        for(var i=0; i<model.count; i++) {
-            var xchannel = model.get(i).xchannel
-            var ychannel = model.get(i).ychannel
+        for(var i=0; i<traceModel.count; i++) {
+            var xchannel = traceModel.get(i).xchannel
+            var ychannel = traceModel.get(i).ychannel
             // the first plot uses the first y axis
             // the second and following use the second y axis
             var xAxis = plot.xAxis
-            var yAxis = model.get(i).yaxis ? plot.y2Axis : plot.yAxis
+            var yAxis = traceModel.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
-            graph.color = Qt.binding(function() {return model.get(i).color ? model.get(i).color : 'black';})
+            graph.color = Qt.binding(function() {return traceModel.get(i).color ? traceModel.get(i).color : 'black';})
             graph.lineStyle = Qt.binding(function () {return root.plotStyle;})
 
             var xpv = null, ypv = null
