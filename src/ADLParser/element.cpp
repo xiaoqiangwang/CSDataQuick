@@ -2598,8 +2598,8 @@ void Byte::toQML(std::ostream &ostream)
     this->limits.toQML(ostream);
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
-    if (this->direction != RIGHT)
-        ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
+    if (this->direction == UP || this->direction == DOWN)
+        ostream << indent << "    orientation: Qt.Vertical" << std::endl;
     if (this->sbit != 15)
         ostream << indent << "    start: " << this->sbit << std::endl;
     if (this->ebit != 0)
