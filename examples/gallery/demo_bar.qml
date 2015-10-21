@@ -16,7 +16,7 @@ ColumnLayout {
         background: bgColorPalette.color
         colorMode: colorModeGroup.colorMode
         direction: directionGroup.direction
-        label: labelStyleGroup.labelStyle
+        labelStyle: labelStyleGroup.labelStyle
         fillMode: fillModeGroup.fillMode
     }
     Row {

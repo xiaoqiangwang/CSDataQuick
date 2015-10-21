@@ -15,7 +15,7 @@ ColumnLayout {
         foreground: fgColorPalette.color
         background: bgColorPalette.color
         colorMode: colorModeGroup.colorMode
-        label: labelStyleGroup.labelStyle
+        labelStyle: labelStyleGroup.labelStyle
     }
     Row {
         spacing: 10

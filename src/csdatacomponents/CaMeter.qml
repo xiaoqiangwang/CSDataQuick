@@ -14,7 +14,7 @@ import "utils.js" as UtilsJS
     \qml
     CaMeter {
         source: 'catest'
-        label: LabelStyle.Outline
+        labelStyle: LabelStyle.Outline
     }
     \endqml
 
@@ -26,7 +26,7 @@ CaMonitor {
     width: 150
     height: 50
     /*!
-        \qmlproperty enumeration label
+        \qmlproperty enumeration labelStyle
         The decoration mode.
 
         \list
@@ -37,7 +37,7 @@ CaMonitor {
         \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
         \endlist
     */
-    property int label: LabelStyle.Frame
+    property int labelStyle: LabelStyle.Frame
 
     /*! The operation limits */
     limits : Limits{}
@@ -59,9 +59,9 @@ CaMonitor {
         font.pixelSize: root.font.size
 
         title: root.source
-        showTitle: label == LabelStyle.Channel
+        showTitle: labelStyle == LabelStyle.Channel
         showRange: true
-        showValue: label == LabelStyle.Limits || label == LabelStyle.Channel
+        showValue: labelStyle == LabelStyle.Limits || labelStyle == LabelStyle.Channel
     }
 
     Connections {

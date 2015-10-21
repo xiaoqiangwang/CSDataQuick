@@ -14,7 +14,7 @@ ColumnLayout {
         source: 'catest'
         colorMode: colorModeGroup.colorMode
         direction: directionGroup.direction
-        label: labelStyleGroup.labelStyle
+        labelStyle: labelStyleGroup.labelStyle
     }
     ColorModeGroup {
         id: colorModeGroup

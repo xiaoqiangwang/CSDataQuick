@@ -11,7 +11,7 @@ import "utils.js" as UtilsJS
     \inqmlmodule CSDataQuick.Components
     \brief The Indicator displays the value on a scale.
 
-    The Indicator can have several decorations as specified by the \l label.
+    The Indicator can have several decorations as specified by the \l labelStyle.
     It can go up, down, left, or right, as specified by the \l direction property.
     It is very much like \l CaBar monitor, except that the value is represented by
     an indicator.
@@ -19,7 +19,7 @@ import "utils.js" as UtilsJS
     \qml
     CaIndicator {
         source: 'catest'
-        label: LabelStyle.Outline
+        labelStyle: LabelStyle.Outline
         colorMode: ColorMode.Alarm
     }
     \endqml
@@ -34,10 +34,10 @@ CaMonitor {
     width: 150
     height: 50
     /*!
-        \qmlproperty enumeration label
+        \qmlproperty enumeration labelStyle
         The decoration mode.
     */
-    property int label: LabelStyle.Frame
+    property int labelStyle: LabelStyle.Frame
     /*!
         \qmlproperty enumeration direction
         Indicate the maximumValue position.        .
@@ -64,7 +64,7 @@ CaMonitor {
         font.family: root.font.family
         font.pixelSize: root.font.size
 
-        visible: label == LabelStyle.Channel
+        visible: labelStyle == LabelStyle.Channel
     }
 
     Indicator {
@@ -84,7 +84,7 @@ CaMonitor {
         maximumValue: limits.hopr
         precision: limits.prec
 
-        showRange: label == LabelStyle.Outline || label == LabelStyle.Limits || label == LabelStyle.Channel
+        showRange: labelStyle == LabelStyle.Outline || labelStyle == LabelStyle.Limits || labelStyle == LabelStyle.Channel
 
         font.family: root.font.family
         font.pixelSize: root.font.size
@@ -103,7 +103,7 @@ CaMonitor {
         font.family: root.font.family
         font.pixelSize: root.font.size
 
-        visible: label == LabelStyle.Limits ||  label == LabelStyle.Channel
+        visible: labelStyle == LabelStyle.Limits ||  labelStyle == LabelStyle.Channel
 
         Rectangle {
             anchors.fill: parent

@@ -112,7 +112,7 @@ ApplicationWindow {
                 height: 50
                 source: 'catest'
                 stepSize: 0.1
-                label: LabelStyle.Channel
+                labelStyle: LabelStyle.Channel
             }
 
             CaMessageButton {
@@ -203,13 +203,13 @@ ApplicationWindow {
                 limits.hoprSrc: LimitsSource.Default
                 source: 'catest'
                 colorMode: ColorMode.Alarm
-                label: LabelStyle.Limits
+                labelStyle: LabelStyle.Limits
             }
             CaBar {
                 width: 50
                 height: 100
                 direction: Direction.Down
-                label: LabelStyle.Outline
+                labelStyle: LabelStyle.Outline
                source: 'catest'
                colorMode: ColorMode.Alarm
            }
@@ -218,7 +218,7 @@ ApplicationWindow {
                 height: 50
                 source: 'catest'
                 colorMode: ColorMode.Alarm
-                label: LabelStyle.Channel
+                labelStyle: LabelStyle.Channel
             }
 
             CaMeter {

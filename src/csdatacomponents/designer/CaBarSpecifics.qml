@@ -44,7 +44,7 @@ Column {
             }
             SecondColumnLayout {
                 ComboBox {
-                    backendValue: backendValues.label
+                    backendValue: backendValues.labelStyle
                     implicitWidth: 180
                     scope: "LabelStyle"
                     model: ["Frame", "None", "Outline", "Limits", "Channel"]

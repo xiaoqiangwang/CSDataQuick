@@ -31,7 +31,7 @@ import "utils.js" as UtilsJS
             width: 150
             height: 50
             source: 'catest'
-            label: LabelStyle.Limits
+            labelStyle: LabelStyle.Limits
         }
     }
     \endqml
@@ -64,7 +64,7 @@ CaControl {
     */
     property real stepSize: 1.0
     /*!
-        \qmlproperty enumeration label
+        \qmlproperty enumeration labelStyle
         The decoration mode.
 
         \list
@@ -75,7 +75,7 @@ CaControl {
         \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
         \endlist
     */
-    property int label: LabelStyle.Frame
+    property int labelStyle: LabelStyle.Frame
 
     /*! \internal */
     property bool __disconnect: false
@@ -106,7 +106,7 @@ CaControl {
         font.family: root.font.family
         font.pixelSize: root.font.size
 
-        visible: label == LabelStyle.Channel
+        visible: labelStyle == LabelStyle.Channel
     }
 
     SliderControl {
@@ -129,8 +129,8 @@ CaControl {
         stepSize: root.stepSize
         direction: root.direction
 
-        showRange: label == LabelStyle.Outline || label == LabelStyle.Limits ||  label == LabelStyle.Channel
-        showValueText: label == LabelStyle.Limits ||  label == LabelStyle.Channel
+        showRange: labelStyle == LabelStyle.Outline || labelStyle == LabelStyle.Limits ||  labelStyle == LabelStyle.Channel
+        showValueText: labelStyle == LabelStyle.Limits ||  labelStyle == LabelStyle.Channel
         valueTextColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
 
         enabled: pv.accessRight & CSData.WriteAccess
