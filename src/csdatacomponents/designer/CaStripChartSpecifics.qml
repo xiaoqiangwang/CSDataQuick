@@ -53,5 +53,14 @@ Column {
              }
         }
     }
+    Section {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        caption: qsTr("Strip Chart Entry")
+
+        StripChartEditor {
+            backendValue: backendValues.model
+        }
+    }
     ColorSection {}
 }

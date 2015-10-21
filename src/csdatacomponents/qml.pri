@@ -85,6 +85,7 @@ DESIGNER_FILES = \
     $$PWD/designer/CaTextEntrySpecifics.qml \
     $$PWD/designer/CaTextUpdateSpecifics.qml \
     $$PWD/designer/CaWheelSwitchSpecifics.qml \
+    $$PWD/desginer/CartesianPlotEditor.qml \
     $$PWD/designer/ColorSection.qml \
     $$PWD/designer/ColorPalette.qml \
     $$PWD/designer/CommandEditor.qml \
@@ -96,6 +97,7 @@ DESIGNER_FILES = \
     $$PWD/designer/IconButton.qml \
     $$PWD/designer/LimitsSection.qml \
     $$PWD/designer/PolylineEditor.qml \
+    $$PWD/designer/StripChartEditor.qml \
     $$PWD/designer/images/arc.png \
     $$PWD/designer/images/bar.png \
     $$PWD/designer/images/byte.png \
