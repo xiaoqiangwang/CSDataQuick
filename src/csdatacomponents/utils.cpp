@@ -382,6 +382,9 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
             QQuickView* qxView = new QQuickView(engine, NULL);
             qxView->setResizeMode(QQuickView::SizeViewToRootObject);
             qxView->setContent(filePath, &component, topLevel);
+            // object without parent returned to QML will be garbage collected
+            // if not referenced anymore. so we declare the ownership.
+            engine->setObjectOwnership(qxView, QQmlEngine::CppOwnership);
             window = qxView;
         } else {
             // neither a visual item or a window, just delete
@@ -413,7 +416,6 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
     // dynamic properties, which can be accessible from C++ but not QML
     window->setProperty("filePath", filePath);
     window->setProperty("macro", macro);
-
     return window;
 }
 /*!
