@@ -14,7 +14,7 @@ Section {
         }
         SecondColumnLayout {
             ComboBox {
-                backendValue: backendValues.fill
+                backendValue: backendValues.fillStyle
                 implicitWidth: 180
                 scope: "FillStyle"
                 model: ["Solid", "Outline"]
@@ -26,7 +26,7 @@ Section {
         }
         SecondColumnLayout {
             ComboBox {
-                backendValue: backendValues.edge
+                backendValue: backendValues.edgeStyle
                 implicitWidth: 180
                 scope: "EdgeStyle"
                 model: ["Solid", "Dash"]

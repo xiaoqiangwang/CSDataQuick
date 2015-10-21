@@ -11,15 +11,15 @@ import "utils.js" as UtilsJS
     \inqmlmodule CSDataQuick.Components
     \brief Display a bar that expands or contracts when value changes
 
-    The Bar Monitor can have several decorations as specified by the \l label.
+    The Bar Monitor can have several decorations as specified by the \l labelStyle.
     It can go up, down, left, or right, as specified by the \l direction property.
     It can start from the edge or from the center, as specified by the \l fillMode property.
-    The Bar Monitor with the \l label set to LabelStyle.None can be used to make bar graphs.
+    The Bar Monitor with the \l labelStyle set to LabelStyle.None can be used to make bar graphs.
 
     \qml
         CaBar {
             source: 'catest'
-            label: LabelStyle.Outline
+            labelStyle: LabelStyle.Outline
             direction: Direction.Up
        }
     \endqml
@@ -43,7 +43,7 @@ CaMonitor {
         \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
         \endlist
     */
-    property int label: LabelStyle.Frame
+    property int labelStyle: LabelStyle.Frame
     /*!
         \qmlproperty enumeration direction
         Indicate the maximumValue position.
@@ -78,12 +78,12 @@ CaMonitor {
         Row {
             CaBar {
                 source: 'catest'
-                label: LabelStyle.Outline
+                labelStyle: LabelStyle.Outline
                 fillMode: FillMode.FromEdge
             }
             CaBar {
                 source: 'catest'
-                label: LabelStyle.Outline
+                labelStyle: LabelStyle.Outline
                 fillMode: FillMode.FromCenter
             }
         }
@@ -117,7 +117,7 @@ CaMonitor {
         font.family: root.font.family
         font.pixelSize: root.font.size
 
-        visible: label == LabelStyle.Channel
+        visible: labelStyle == LabelStyle.Channel
     }
 
     StyledBar {
@@ -135,8 +135,8 @@ CaMonitor {
         maximumValue: limits.hopr
         precision: limits.prec
 
-        showRange: label == LabelStyle.Outline || label == LabelStyle.Limits || label == LabelStyle.Channel
-        showFrame: label != LabelStyle.None
+        showRange: labelStyle == LabelStyle.Outline || labelStyle == LabelStyle.Limits || labelStyle == LabelStyle.Channel
+        showFrame: labelStyle != LabelStyle.None
 
         font.family: root.font.family
         font.pixelSize: root.font.size
@@ -155,7 +155,7 @@ CaMonitor {
         font.family: root.font.family
         font.pixelSize: root.font.size
 
-        visible: label == LabelStyle.Limits ||  label == LabelStyle.Channel
+        visible: labelStyle == LabelStyle.Limits ||  labelStyle == LabelStyle.Channel
 
         Rectangle {
             anchors.fill: parent

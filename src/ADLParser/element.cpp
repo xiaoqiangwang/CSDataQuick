@@ -2261,7 +2261,7 @@ void Slider::toQML(std::ostream &ostream)
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->label !=  LABEL_NONE)
-        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+        ostream << indent << "    labelStyle: " << qmlValueTable[this->label] << std::endl;
     if (this->direction != RIGHT)
         ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
     if (this->dPrecision != 1.0)
@@ -2510,7 +2510,7 @@ void Bar::toQML(std::ostream &ostream)
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->label !=  LABEL_NONE)
-        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+        ostream << indent << "    labelStyle: " << qmlValueTable[this->label] << std::endl;
     if (this->direction != RIGHT)
         ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
     if (this->fillmod != FROM_EDGE)
@@ -2886,7 +2886,7 @@ void Indicator::toQML(std::ostream &ostream)
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->label !=  LABEL_NONE)
-        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+        ostream << indent << "    labelStyle: " << qmlValueTable[this->label] << std::endl;
     if (this->direction != RIGHT)
         ostream << indent << "    direction: " << qmlValueTable[this->direction] << std::endl;
     ostream << indent << "}" << std::endl;
@@ -2962,7 +2962,7 @@ void Meter::toQML(std::ostream &ostream)
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
     if (this->label !=  LABEL_NONE)
-        ostream << indent << "    label: " << qmlValueTable[this->label] << std::endl;
+        ostream << indent << "    labelStyle: " << qmlValueTable[this->label] << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
