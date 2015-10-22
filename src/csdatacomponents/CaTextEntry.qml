@@ -89,7 +89,7 @@ CaControl {
         \qmlproperty TextFormat format
     */
     property int format: TextFormat.Decimal
-
+    /*! \internal */
     property var font: UtilsJS.getBestFontSize(height, true)
 
     limits: Limits {}

@@ -128,7 +128,7 @@ BaseItem {
     Component {
         id: menuStyle
         RDButton {
-            text: root.label
+            text: root.label.replace(/^-/, '')
             font.family: root.font.family
             font.pixelSize: root.font.size
             background: root.background
@@ -162,6 +162,7 @@ BaseItem {
     }
 
     onModelChanged: generateModel()
+    /*! \internal */
     function generateModel() {
         if (model instanceof Array) {
             displayModel.clear()

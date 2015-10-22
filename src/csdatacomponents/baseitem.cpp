@@ -26,6 +26,10 @@
     \qmlproperty DynamicAttribute BaseItem::dynamicAttribute
     \brief Configure item's visibility and color
 */
+/*!
+    \qmlproperty Limits BaseItem::limits
+    \brief Configure the operation range and data precision
+ */
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {

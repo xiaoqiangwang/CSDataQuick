@@ -29,7 +29,7 @@ CaGraphics {
     /*!
         For multiple-frame images, the frame to display is defined by this expression.
 
-        The syntax for the Image Calc expression is the same as that for the \l DynamicAttr.
+        The syntax for the Image Calc expression is the same as that for the \l DynamicAttribute.
         The only difference is that the expression should return a frame number, not True or False.
         The Image will be black if the expression is invalid.
 

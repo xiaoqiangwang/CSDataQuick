@@ -46,7 +46,7 @@ CaMonitor {
     property alias align: label_control.horizontalAlignment
     /*!
         \qmlproperty enumeration format
-        For all of the formats, the result depends on the number and the precision in \l limits.
+        For all of the formats, the result depends on the number and the precision in limits.
 
         \list
         \li TextFormat.Decimal - Text with or without decimal point, e.g. 10.0 or 10.
@@ -62,7 +62,7 @@ CaMonitor {
     property int format: TextFormat.Decimal
     /*! Display physical units if available */
     property bool showUnits: false
-
+    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height)
 
     limits: Limits {}

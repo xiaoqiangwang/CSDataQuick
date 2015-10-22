@@ -57,6 +57,7 @@ BaseItem {
     }
 
     onModelChanged: generateModel()
+    /*! \internal */
     function generateModel() {
         if (model instanceof Array) {
             traceModel.clear()
@@ -110,6 +111,7 @@ BaseItem {
 
     Component.onCompleted: createTraces()
 
+    /*! \internal */
     function createTraces() {
         var length = period * getInterval()
         for (var i=1; i<=length; i++) {
@@ -224,7 +226,7 @@ BaseItem {
         }
         plot.replot()
     }
-    /* \internal */
+    /*! \internal */
     function limitsEnumString(index) {
         switch (index) {
             case 0:
