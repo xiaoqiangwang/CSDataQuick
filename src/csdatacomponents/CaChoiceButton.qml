@@ -1,8 +1,10 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 
@@ -26,8 +28,10 @@ import "utils.js" as UtilsJS
 
 CaControl {
     id: root
-    width: 50
-    height: 40
+
+    implicitHeight: stacking == Stacking.Column ? pv.stateStrings.length * 20 : 20
+    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? pv.stateStrings.length * 50 : 50
+
     /*!
       Set the layout for the choice buttons. Default is Stacking.Column.
 
@@ -41,87 +45,58 @@ CaControl {
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4, true)
 
-    /*! \internal */
-    QtObject {
-        id: d
-        property var layout: null
-    }
-    
-    ExclusiveGroup { id: radioInputGroup }
-
     Connections {
         target: pv
+        onValueChanged: loader.item.children[pv.value].checked = true
+    }
 
-        onValueChanged: {
-            if (d.layout)
-                d.layout.children[pv.value].checked = true
-        }
-        onConnectionChanged: {
-            if (!pv.connected)
-                return
-            createLayout();
+    ExclusiveGroup { id: radioInputGroup }
+
+    Loader {
+        id: loader
+        anchors.fill: parent
+        enabled: pv.accessRight & CSData.WriteAccess
+        sourceComponent: (stacking == Stacking.Row || stacking == Stacking.Column) ? layoutStyle : flowStyle
+    }
+
+    Component {
+        id: button
+        StyledButton {
+            text: pv.stateStrings[index]
+            foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+            background: root.background
+            font.pixelSize: root.font.size
+            font.family: root.font.family
+            checkable: true
+            exclusiveGroup: radioInputGroup
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            onClicked: pv.setValue(index)
         }
     }
 
-    onStackingChanged: {
-        if (pv.connected)
-            createLayout()
+    Component {
+        id: flowStyle
+        Flow {
+            spacing: 0
+            Repeater {
+                model: pv.stateStrings.length
+                delegate: button
+            }
+        }
     }
 
-    Component.onCompleted: {
-        if (pv.connected)
-            createLayout()
-    }
-
-    /*! \internal */
-    function createLayout() {
-        // destroy any previous buttons/layout
-        if (d.layout) {
-            d.layout.destroy();
-            d.layout = null
+    Component {
+        id: layoutStyle
+        GridLayout {
+            rows: stacking == Stacking.Row ? 1 : pv.stateStrings.length
+            columns: stacking == Stacking.Column ? 1 : pv.stateStrings.length
+            rowSpacing: 0
+            columnSpacing: 0
+            Repeater {
+                model: pv.stateStrings.length
+                delegate: button
+            }
         }
-        // create layout based on stacking
-        var cmd = 'import QtQuick 2.0; import QtQuick.Layouts 1.0; import CSDataQuick.Data 1.0; import CSDataQuick.Components 1.0; import CSDataQuick.Components.Private 1.0;\n'
-        if (stacking == Stacking.Row) {
-            cmd += '
-                    RowLayout {
-                        id: layout;
-                        anchors.fill: parent;
-                        spacing: 0;
-                        enabled: pv.accessRight & CSData.WriteAccess;'
-        } else if (stacking == Stacking.Column) {
-            cmd += '
-                    ColumnLayout {
-                        id: layout;
-                        anchors.fill: parent;
-                        spacing: 0;
-                        enabled: pv.accessRight & CSData.WriteAccess;'
-        } else {
-            cmd += '
-                    Flow {
-                        id: layout;
-                        enabled: pv.accessRight & CSData.WriteAccess;'
-        }
-        // create buttons
-        for(var i = 0; i < pv.stateStrings.length; i++) {
-            var name = 'btn'+i
-            cmd += '
-                    StyledButton {
-                        text: "%1";
-                        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground;
-                        background: root.background;
-                        font.pixelSize: root.font.size;
-                        font.family: root.font.family;
-                        checkable: true;
-                        exclusiveGroup: radioInputGroup;
-                        Layout.fillWidth: true;
-                        Layout.fillHeight: true;
-                        onClicked: pv.setValue(%2);
-                    }\n'.arg(pv.stateStrings[i]).arg(i)
-        }
-        cmd += '}'
-        d.layout = Qt.createQmlObject(cmd, root, 'layout')
-        if (pv.value)
-            d.layout.children[pv.value].checked = true
     }
 }
