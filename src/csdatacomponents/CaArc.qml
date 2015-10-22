@@ -22,8 +22,8 @@ import CSDataQuick.Components 1.0
 
 CaGraphics {
     id: root
-    width: 100
-    height: 100
+    implicitWidth: 100
+    implicitHeight: 100
     /*!
       \qmlproperty real begin
       The start of the arc in degrees.

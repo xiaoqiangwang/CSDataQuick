@@ -22,8 +22,8 @@ import CSDataQuick.Components 1.0
 */
 CaMonitor {
     id: root
-    width: 150
-    height: 30
+    implicitWidth: orientation == Qt.Horizontal ? 160 : 20
+    implicitHeight: orientation == Qt.Vertical ? 20 : 160
     /*!
       \qmlproperty enumeration orientation
       \list

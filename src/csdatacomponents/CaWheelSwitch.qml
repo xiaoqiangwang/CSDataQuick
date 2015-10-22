@@ -47,8 +47,8 @@ import "utils.js" as UtilsJS
 
 CaControl {
     id: root
-    width: 100
-    height: 50
+    implicitWidth: 100
+    implicitHeight: 50
     /*!
         The format used to display the number
 

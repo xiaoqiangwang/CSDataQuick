@@ -23,8 +23,8 @@ import CSDataQuick.Components.Private 1.0
 */
 Rectangle {
     id: root
-    width: 640
-    height: 480
+    implicitWidth: 640
+    implicitHeight: 480
     color: ColorMap.windows_background
 
     /*! window title */

@@ -38,8 +38,8 @@ import CSDataQuick.Components 1.0
 
 CaGraphics {
     id: root
-    width: 100
-    height: 100
+    implicitWidth: 100
+    implicitHeight: 100
     /*!
         \qmltype list<Point> points
 

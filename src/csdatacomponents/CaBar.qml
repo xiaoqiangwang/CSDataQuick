@@ -29,8 +29,8 @@ import "utils.js" as UtilsJS
 
 CaMonitor {
     id: root
-    width: 150
-    height: 50
+    implicitWidth: (direction == Direction.Left || direction == Direction.Right) ? 200 : 50
+    implicitHeight:  (direction == Direction.Left || direction == Direction.Right) ? 50 : 200
     /*!
         \qmlproperty enumeration label
         The decoration mode.
