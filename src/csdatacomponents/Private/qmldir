@@ -1,0 +1,13 @@
+module CSData.Components.Private
+ContextMenu     1.0 ContextMenu.qml
+Frame           1.0 Frame.qml
+Indicator       1.0 Indicator.qml
+Meter           1.0 Meter.qml
+RDButton        1.0 RDButton.qml
+SliderControl   1.0 SliderControl.qml
+StyledAxis      1.0 StyledAxis.qml	
+StyledBar       1.0 StyledBar.qml
+StyledButton    1.0 StyledButton.qml
+WheelDigit      1.0 WheelDigit.qml
+WheelSwitch     1.0 WheelSwitch.qml
+

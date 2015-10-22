@@ -1,0 +1,98 @@
+record(ao, "ao")
+{
+}
+record(ao, "catest")
+{
+    field (HIHI, "0.8")
+    field (HHSV, "MAJOR")
+    field (HIGH, "0.6")
+    field (HSV,  "MINOR")
+    field (LOW,  "0.4")
+    field (LSV,  "MINOR")
+    field (LOLO, "0.2")
+    field (LLSV, "MAJOR")
+    field (HOPR, "1.0")
+    field (LOPR, "0.0")
+    field (PREC, "2")
+    field (ASG,  "limit")
+}
+record(ao, "catest2")
+{
+    field (HIHI, "8")
+    field (HHSV, "MAJOR")
+    field (HIGH, "5")
+    field (HSV,  "MINOR")
+    field (LOW,  "-5")
+    field (LSV,  "MINOR")
+    field (LOLO, "-8")
+    field (LLSV, "MAJOR")
+    field (HOPR, "10")
+    field (LOPR, "-10")
+    field (PREC, "2")
+}
+
+record(calc, "calc")
+{
+    field (INPA, "calc")
+    field (CALC, "A+1")
+    field (SCAN, "1 second")
+    field (FLNK, "x")
+    field (ASG,  "limit")
+}
+record(compress, "x")
+{
+    field (INP, "calc")
+    field (ALG, "Circular Buffer")
+    field (NSAM,"100")
+    field (N,   "1")
+}
+
+record(calc, "sin")
+{
+    field (INPA, "calc CP")
+    field (CALC, "sin(A/10*PI)")
+    field (PREC, "3")
+    field (FLNK, "y")
+}
+record(compress, "y")
+{
+    field (INP, "sin")
+    field (ALG, "Circular Buffer")
+    field (NSAM,"100")
+    field (N,   "1")
+}
+
+record(bo, "bo")
+{
+    field (ZNAM, "OFF")
+    field (ZSV,  "MINOR")
+    field (ONAM, "ON")
+    field (OSV,  "NO_ALARM")
+    field (ASG,  "limit")
+}
+
+record(mbbo, "mbbo")
+{
+    field (ZRVL, "0")
+    field (ZRST, "ZERO")
+    field (ONVL, "1")
+    field (ONST, "ONE")
+    field (TWVL, "2")
+    field (TWST, "TWO")
+}
+
+record(waveform, "waves")
+{
+    field (FTVL, "UCHAR")
+    field (NELM, "128")
+}
+
+record(stringout, "castr")
+{
+}
+
+record(bo, "writable")
+{
+    field (ZNAM, "No Write")
+    field (ONAM, "Writable")
+}

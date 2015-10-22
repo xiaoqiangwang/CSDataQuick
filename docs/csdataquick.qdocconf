@@ -1,0 +1,44 @@
+project = CSDataQuick
+description = CSDataQuick Documentation
+url = http://bitbucket.org/xwang/epicsqml
+version = 1.0
+
+Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
+
+sourcedirs = . ../src/csdatacore ../src/csdatacomponents
+sources.fileextensions += "*.qdoc *.qml *.js"
+headers += ../src/csdatacore/csdata.h \
+           ../src/csdatacomponents/utils.h \
+           ../src/csdatacomponents/baseitem.h \
+           ../src/csdatacomponents/windowmanager.h \
+           ../src/csdatacomponents/shapes.h \
+           ../src/csdatacomponents/plotitem.h \
+           ../src/csdatacomponents/adimageprovider.h
+
+sources += ../src/csdatacore/csdata.cpp \
+           ../src/csdatacomponents/utils.cpp \
+           ../src/csdatacomponents/baseitem.cpp \
+           ../src/csdatacomponents/windowmanager.cpp \
+           ../src/csdatacomponents/shapes.cpp \
+           ../src/csdatacomponents/plotitem.cpp \
+           ../src/csdatacomponents/adimageprovider.cpp
+
+headers.fileextensions = "*.h"
+
+imagedirs   = images
+
+# include qt indexes to create cross reference
+depends = qtcore qtdoc qtgui qtwidgets qtqml qtquick
+
+outputdir = html
+outputformats = HTML
+syntaxhighlighting = true
+
+HTML.templatedir = .
+HTML.extraimages += images/ico_out.png
+ HTML.nobreadcrumbs = true
+HTML.stylesheets = offline.css
+HTML.headerstyles = \
+  "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
+HTML.endheader = "</head>\n"
+HTML.footer = "<div class=\"footer\">Copyright (C) 2014 Xiaoqiang Wang.</div>\n"

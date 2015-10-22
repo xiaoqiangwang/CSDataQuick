@@ -1,0 +1,6 @@
+asSetFilename("./access.as")
+dbLoadRecords example.db
+
+iocInit
+
+asInit

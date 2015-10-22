@@ -1,0 +1,292 @@
+MetaInfo {
+    Type {
+        name: "CSDataQuick.Components.BaseWindow"
+        icon: "images/window.png"
+
+        ItemLibraryEntry {
+            name: "Window"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/window.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+            Property { name: "width"; type: "int"; value: 640; }
+            Property { name: "height"; type: "int"; value: 480; }
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaArc"
+        icon: "images/arc.png"
+
+        ItemLibraryEntry {
+            name: "Arc"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/arc.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaBar"
+        icon: "images/bar.png"
+
+        ItemLibraryEntry {
+            name: "Bar"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/bar.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaByte"
+        icon: "images/byte.png"
+
+        ItemLibraryEntry {
+            name: "Byte"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/byte.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaCartesianPlot"
+        icon: "images/cartesianPlot.png"
+
+        ItemLibraryEntry {
+            name: "CartesianPlot"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/cartesianPlot.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaChoiceButton"
+        icon: "images/choiceButton.png"
+
+        ItemLibraryEntry {
+            name: "ChoiceButton"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/choicebutton.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaComposite"
+        icon: "images/composite.png"
+
+        ItemLibraryEntry {
+            name: "Composite"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/composite.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaImage"
+        icon: "images/image.png"
+
+        ItemLibraryEntry {
+            name: "Image"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/image.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaIndicator"
+        icon: "images/indicator.png"
+
+        ItemLibraryEntry {
+            name: "Indicator"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/indicator.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaMenu"
+        icon: "images/menu.png"
+
+        ItemLibraryEntry {
+            name: "Menu"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/menu.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaMessageButton"
+        icon: "images/messageButton.png"
+
+        ItemLibraryEntry {
+            name: "MessageButton"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/messageButton.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaMeter"
+        icon: "images/meter.png"
+
+        ItemLibraryEntry {
+            name: "Meter"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/meter.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaOval"
+        icon: "images/oval.png"
+
+        ItemLibraryEntry {
+            name: "Oval"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/oval.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaPolygon"
+        icon: "images/polygon.png"
+
+        ItemLibraryEntry {
+            name: "Polygon"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/polygon.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaPolyline"
+        icon: "images/polyline.png"
+
+        ItemLibraryEntry {
+            name: "Polyline"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/polyline.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaRect"
+        icon: "images/rectangle.png"
+
+        ItemLibraryEntry {
+            name: "Rectangle"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/rectangle.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaRelatedDisplay"
+        icon: "images/relatedDisplay.png"
+
+        ItemLibraryEntry {
+            name: "RelatedDisplay"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/relatedDisplay.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaShellCommand"
+        icon: "images/shellCommand.png"
+
+        ItemLibraryEntry {
+            name: "ShellCommand"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/shellCommand.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaSlider"
+        icon: "images/slider.png"
+
+        ItemLibraryEntry {
+            name: "Slider"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/slider.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaStripChart"
+        icon: "images/stripChart.png"
+
+        ItemLibraryEntry {
+            name: "StripChart"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/stripChart.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaText"
+        icon: "images/text.png"
+
+        ItemLibraryEntry {
+            name: "Text"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/text.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaTextUpdate"
+        icon: "images/textUpdate.png"
+
+        ItemLibraryEntry {
+            name: "TextUpdate"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/textUpdate.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaTextEntry"
+        icon: "images/textEntry.png"
+
+        ItemLibraryEntry {
+            name: "TextEntry"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/textEntry.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CaWheelSwitch"
+        icon: "images/wheelSwitch.png"
+
+        ItemLibraryEntry {
+            name: "wheelswitch"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/wheelSwitch.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+}
