@@ -101,7 +101,7 @@ CaMonitor {
         \internal
         Determine the font based item total height, indepent of the orientation.
     */
-    readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
+    readonly property var font: UtilsJS.getBestFontSize(height / 10, true)
 
     Text {
         id: title
