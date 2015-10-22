@@ -5,8 +5,10 @@ SUBDIRS += ADLParser
 SUBDIRS += csdatacore
 
 SUBDIRS += csdatacomponents
-csdatacomponents.depends += ADLParser
+csdatacomponents.depends += csdatacore ADLParser
 
 SUBDIRS += ADLViewer
-ADLViewer.depends += ADLParser csdatacomponents
+ADLViewer.depends += csdatacomponents
 
+SUBDIRS += builder
+builder.depends += csdatacomponents
