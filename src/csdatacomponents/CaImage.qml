@@ -17,8 +17,8 @@ import CSDataQuick.Components 1.0
 
 CaGraphics {
     id: root
-    implicitWidth: 300
-    implicitHeight: 200
+    implicitWidth: animation.implicitWidth
+    implicitHeight: animation.implicitHeight
     /*!
       \qmlproperty url source
 
