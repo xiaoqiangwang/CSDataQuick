@@ -15,6 +15,16 @@ Column {
 
         SectionLayout {
             Label {
+                text: qsTr("text")
+                tooltip: qsTr("label on button")
+            }
+            SecondColumnLayout {
+                LineEdit {
+                    backendValue: backendValues.text
+                    implicitWidth: 180
+                }
+            }
+            Label {
                 text: qsTr("on")
                 tooltip: qsTr("message when pressed")
             }
