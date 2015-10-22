@@ -128,6 +128,7 @@ BaseItem {
     }
 
     onModelChanged: generateModel()
+    /*! \internal */
     function generateModel() {
         if (model instanceof Array) {
             commandModel.clear()

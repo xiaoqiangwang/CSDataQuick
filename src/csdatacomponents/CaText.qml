@@ -68,5 +68,6 @@ CaGraphics {
         anchors.fill: parent
         font.family: root.font.family
         font.pixelSize: root.font.size
+        verticalAlignment: Text.AlignHCenter
     }
 }
