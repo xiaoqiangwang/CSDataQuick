@@ -5,16 +5,11 @@ import QtQuick.Controls.Styles 1.0
 
 Column {
     id: colorPalette
-    width: parent.width
-
-    Layout.preferredWidth: 200
-    Layout.preferredHeight: showPalette ? 100 : 20
 
     property variant backendValue
     property color valueFromBackend: backendValue.value
 
     property color color
-    property bool showPalette: false
 
     onColorChanged: {
         if (backendValue === undefined)
@@ -39,46 +34,82 @@ Column {
 
     Rectangle {
         id: button
-        width: parent.width
-        height: 20
+        implicitWidth: 120
+        implicitHeight: 23
         color: colorPalette.color
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                showPalette = !showPalette
+                if (toolTip.opacity == 0)
+                    show()
+                else
+                    hide()
             }
         }
     }
+    function show() {
+        toolTip.originalParent = toolTip.parent;
+        var p = toolTip.parent;
+        while (p.parent != undefined && p.parent.parent != undefined)
+            p = p.parent
+        toolTip.parent = p;
 
-    Grid {
-        id: grid
-        columns: 13
-        spacing: 1
-        flow: Grid.TopToBottom
+        toolTip.oldX = toolTip.x
+        toolTip.oldY = toolTip.y
+        var globalPos = toolTip.mapFromItem(button, toolTip.oldX, toolTip.oldY);
+        toolTip.x = globalPos.x + toolTip.oldX
+        toolTip.y = globalPos.y + toolTip.oldY
 
-        visible: showPalette
+        toolTip.opacity = 1
+    }
+    function hide() {
+        toolTip.opacity = 0;
+        var oldClip = toolTip.originalParent.clip
+        toolTip.originalParent.clip = false
+        toolTip.parent = toolTip.originalParent
+        toolTip.originalParent.clip = true
+        toolTip.originalParent.clip = oldClip
+        toolTip.x = toolTip.oldX
+        toolTip.y = toolTip.oldY
+    }
 
-        Controls.ExclusiveGroup {
-            id: colorButtonGroup
-        }
-        Repeater {
-            model: 65
-            delegate: Controls.Button {
-                width: 15
-                height: 15
-                style: ButtonStyle{
-                    background: Rectangle {
-                        color: colorPalette['color%1'.arg(index)]
-                        border.width: checked ? 1 : 0
+    Item {
+        id: toolTip
+        opacity: 0
+        x: -40
+        y: 20
+        property Item originalParent: parent
+
+        property int oldX: x
+        property int oldY: y
+        
+        Grid {
+            columns: 13
+            spacing: 1
+            flow: Grid.TopToBottom
+
+            Controls.ExclusiveGroup {
+                id: colorButtonGroup
+            }
+            Repeater {
+                model: 65
+                delegate: Controls.Button {
+                    width: 15
+                    height: 15
+                    style: ButtonStyle{
+                        background: Rectangle {
+                            color: colorPalette['color%1'.arg(index)]
+                            border.width: checked ? 1 : 0
+                        }
                     }
+                    checkable: true
+                    exclusiveGroup: colorButtonGroup
+                    onClicked: {
+                        colorPalette.color = color
+                        hide()
+                    }
+                    property color color: colorPalette['color%1'.arg(index)]
                 }
-                checkable: true
-                exclusiveGroup: colorButtonGroup
-                onClicked: {
-                    colorPalette.color = color
-                    colorPalette.showPalette = false
-                }
-                property color color: colorPalette['color%1'.arg(index)]
             }
         }
     }
