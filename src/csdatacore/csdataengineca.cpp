@@ -55,7 +55,10 @@ void exception_handler(exception_handler_args args)
 
 #define ConvertValue(VP,TYPE)\
     if (count==1) {\
-        value.setValue((TYPE)(VP.value));\
+        if (dbr_type_is_CHAR(type)) \
+              value.setValue(int(VP.value)); \
+        else \
+              value.setValue((TYPE)(VP.value));\
     } else {\
         QList<qreal> list;\
         for(qulonglong i=0; i<count; i++) {\
