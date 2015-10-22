@@ -30,7 +30,7 @@ CaControl {
     id: root
 
     implicitHeight: stacking == Stacking.Column ? pv.stateStrings.length * 20 : 20
-    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? pv.stateStrings.length * 50 : 50
+    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? pv.stateStrings.length * 100 : 100
 
     /*!
       Set the layout for the choice buttons. Default is Stacking.Column.

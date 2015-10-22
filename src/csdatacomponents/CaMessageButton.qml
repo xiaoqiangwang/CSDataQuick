@@ -15,8 +15,8 @@ import "utils.js" as UtilsJS
 
 CaControl {
     id: root
-    width: 60
-    height: 20
+    implicitWidth: 100
+    implicitHeight: 20
     /*!
       \qmlproperty string text
       Text on message button

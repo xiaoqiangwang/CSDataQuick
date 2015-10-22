@@ -34,8 +34,8 @@ import "utils.js" as UtilsJS
 
 CaGraphics {
     id: root
-    width: 100
-    height: 20
+    implicitWidth: 100
+    implicitHeight: 20
     /*!
         \qmlproperty string text
         The text to display. It can be plain text or richt text defined using HTML markup.

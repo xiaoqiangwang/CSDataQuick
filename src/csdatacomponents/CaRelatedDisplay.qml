@@ -57,8 +57,8 @@ import "utils.js" as UtilsJS
 
 BaseItem {
     id: root
-    width: 60
-    height: 20
+    implicitWidth: visual == RelatedDisplayVisual.Row ? displayModel.count * 50 : 50
+    implicitHeight: visual == RelatedDisplayVisual.Column ? displayModel.count * 20 : 20
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
     /*!
