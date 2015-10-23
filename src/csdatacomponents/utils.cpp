@@ -248,8 +248,12 @@ QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
     if (!fi.exists() && fi.isRelative()) {
         QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
         if (window && !window->filePath().isEmpty()) {
-            QFileInfo pfi(window->filePath());
-            paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
+            QUrl fileUrl = QUrl(window->filePath());
+            if (fileUrl.isLocalFile()) {
+                QFileInfo pfi(fileUrl.toLocalFile());
+                qDebug() << "XW:" << pfi.absoluteFilePath();
+                paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
+            }
         }
         foreach (QByteArray path, paths.split(sep)) {
             fi.setFile(QDir(path), fileName);

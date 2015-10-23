@@ -132,11 +132,11 @@ ApplicationWindow
             console.info('Activate the already existing display ', absFilePath, macro)
             return
         }
-        if (fileName.substr(-4) == '.adl') {
+        if (String(fileName).substr(-4) == '.adl') {
             var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
             window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
         }
-        if (fileName.substr(-4) == '.qml') {
+        if (String(fileName).substr(-4) == '.qml') {
             window = Utils.createDisplayByFile(root, absFilePath, macro)
         }
         if (!window) {
