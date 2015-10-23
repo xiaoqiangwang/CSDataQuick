@@ -4,6 +4,7 @@
  * Note: The ADL file parsing, notably the getToken and parse methods, is
  * derived from MEDM. The copyright belongs to the original authors.
 \*****************************************************************************/
+#define ALLOCATE_STORAGE
 #include "element.h"
 
 #include <cstdlib>
