@@ -4,8 +4,8 @@ LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
 
 win32 {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/WIN32
-    LIBS += -lws2_32
-    QMAKE_CXXFLAGS += -D_MINGW -DEPICS_DLL_NO
+    #LIBS += -lws2_32
+    #QMAKE_CXXFLAGS += -D_MINGW -DEPICS_DLL_NO
 }
 linux {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/Linux
@@ -15,12 +15,19 @@ macx {
     INCLUDEPATH += $$(EPICS_BASE)/include/os/Darwin
 }
 
-DEPENDPATH += . ../ADLParser
-INCLUDEPATH += ../ADLParser
-LIBS += -L ../ADLParser -lADLParser
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../ADLParser/release/ -lADLParser
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../ADLParser/debug/ -lADLParser
+else:unix: LIBS += -L$$OUT_PWD/../ADLParser/ -lADLParser
 
-win32:!win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/ADLParser.lib
-else:unix|win32-g++: PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/libADLParser.a
+INCLUDEPATH += $$PWD/../ADLParser
+DEPENDPATH += $$PWD/../ADLParser
+
+win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/release/libADLParser.a
+else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/debug/libADLParser.a
+else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/release/ADLParser.lib
+else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/debug/ADLParser.lib
+else:unix: PRE_TARGETDEPS += $$OUT_PWD/../ADLParser/libADLParser.a
+
 
 SOURCES += \
     $$PWD/pvobject.cpp \
