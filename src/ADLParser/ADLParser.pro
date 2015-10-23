@@ -7,6 +7,5 @@ HEADERS += \
     parser.h
 
 SOURCES += \
-    common.cpp \
     element.cpp \
     parser.cpp
