@@ -1057,7 +1057,7 @@ void Display::toQML(std::ostream &ostream)
     ostream << "Window {\n";
     Element::toQML(ostream);
     ostream << "    color: \"" << color(this->bclr) << "\"\n";
-    ostream << "    ContextMenu {}" << std::endl;
+    ostream << "    ContextMenu {anchors.fill: parent}" << std::endl;
     for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
         (*it)->toQML(ostream);
 
