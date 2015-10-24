@@ -405,7 +405,7 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
         // attach context menu to the existing window
         QString temp = QString("import QtQuick 2.0\n"
                                "import CSDataQuick.Components.Private 1.0\n"
-                               "ContextMenu {anchors.fill: parent}\n");
+                               "ContextMenu {anchors.fill: parent; z:-1}\n");
         QQmlComponent component(engine);
         component.setData(temp.toLocal8Bit(), QUrl());
         QQuickItem *contextMenu = qobject_cast<QQuickItem *>(component.create());
