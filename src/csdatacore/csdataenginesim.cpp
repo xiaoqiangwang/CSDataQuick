@@ -10,9 +10,11 @@
 QCSDataEngineSim::QCSDataEngineSim(QObject *parent)
     : QCSDataEngine(parent)
 {
+    _data = new ObjectModel(this);
+
     QByteArrayList roles;
     roles << "source" << "connected";
-    _data = new ObjectModel(roles, this);
+    _data->setup<QCSData>(roles);
 
     // data for "sim://wave"
     for(int i=0; i<20; i++)
