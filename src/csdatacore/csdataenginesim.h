@@ -3,6 +3,8 @@
 
 #include "csdataengine.h"
 
+#include "objectmodel.h"
+
 class QCSDataEngineSim : public QCSDataEngine
 {
     Q_OBJECT
@@ -19,13 +21,13 @@ public:
     virtual void create(QCSData *data);
     virtual void close(QCSData *data);
     virtual void setValue(QCSData *data, const QVariant value);
-    virtual QList<QObject*> allData();
+    virtual ObjectModel *allData();
 
 protected:
     void timerEvent(QTimerEvent *);
 
 private:
-    QList<QCSData*> _data;
+    ObjectModel *_data;
 
     QVariantList wave;
 

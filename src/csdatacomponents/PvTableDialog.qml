@@ -46,8 +46,17 @@ Dialog {
                     color: styleData.value ? 'green' : 'red'
                 }
             }
-            property var sourceModel: engineCombo.engine.allData
-            model: sourceModel.filter(filterByName).sort(sortByObject)
+            model: SortFilterProxyModel {
+                source: engineCombo.engine.allData
+
+                sortOrder: pvTable.sortIndicatorOrder
+                sortCaseSensitivity: Qt.CaseInsensitive
+                sortRole: pvTable.getColumn(pvTable.sortIndicatorColumn).role
+
+                filterString: "*" + searchBox.text + "*"
+                filterSyntax: SortFilterProxyModel.Wildcard
+                filterCaseSensitivity: Qt.CaseInsensitive
+            }
         }
         TextField {
             id: searchBox
@@ -59,23 +68,6 @@ Dialog {
                 text: "Look for a data source?"
                 visible: searchBox.text == '' && searchBox.focus == false
             }
-        }
-    }
-    function filterByName (value, index, array) {
-        return (value.source.indexOf(searchBox.text) != -1)
-    }
-    function compare(first, second, inverse) {
-        if (first < second)
-            return inverse ? 1 : -1
-        if (first > second)
-            return inverse ? -1 : 1
-        return 0
-    }
-    function sortByObject(first, second) {
-        if (pvTable.sortIndicatorColumn == 0) {
-            return compare(first.source, second.source, pvTable.sortIndicatorOrder == Qt.AscendingOrder)
-        } else if (pvTable.sortIndicatorColumn == 1) {
-            return compare(first.connected, second.connected, pvTable.sortIndicatorOrder == Qt.AscendingOrder)
         }
     }
 }

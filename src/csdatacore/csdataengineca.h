@@ -2,8 +2,9 @@
 #define CSDATAENGINECA_H
 
 #include "csdataengine.h"
-
 struct ca_client_context;
+
+class ObjectModel;
 
 class QCSDataEngineCA : public QCSDataEngine
 {
@@ -20,14 +21,14 @@ public:
     virtual void create(QCSData *data);
     virtual void close(QCSData *data);
     virtual void setValue(QCSData *data, const QVariant value);
-    virtual QList<QObject*> allData();
+    virtual ObjectModel* allData();
 
 signals:
 
 public slots:
 
 private:
-    QList<QCSData*> _data;
+    ObjectModel *_data;
 
     struct ca_client_context *_cac; // global channel access client context
 };

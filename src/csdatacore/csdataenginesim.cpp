@@ -1,5 +1,6 @@
 #include "csdataenginesim.h"
 #include "csdata.h"
+#include "objectmodel.h"
 
 #include <QtDebug>
 #include <QtMath>
@@ -9,6 +10,10 @@
 QCSDataEngineSim::QCSDataEngineSim(QObject *parent)
     : QCSDataEngine(parent)
 {
+    QByteArrayList roles;
+    roles << "source" << "connected";
+    _data = new ObjectModel(roles, this);
+
     // data for "sim://wave"
     for(int i=0; i<20; i++)
         wave.append(0);
@@ -67,7 +72,7 @@ void QCSDataEngineSim::create(QCSData *data)
     QCSDataAlarm *alarm= qvariant_cast<QCSDataAlarm*>(data->property("alarm"));
     if (alarm)
         alarm->setProperty("severity", QCSDataAlarm::NoAlarm);
-    _data.append(data);
+    _data->append(data);
     emit allDataChanged();
 
     if (!_timerId)
@@ -76,10 +81,10 @@ void QCSDataEngineSim::create(QCSData *data)
 
 void QCSDataEngineSim::close(QCSData *data)
 {
-    _data.removeOne(data);
+    _data->remove(data);
     emit allDataChanged();
 
-    if (_data.length() == 0) {
+    if (_data->size() == 0) {
         killTimer(_timerId);
         _timerId = 0;
     }
@@ -87,7 +92,7 @@ void QCSDataEngineSim::close(QCSData *data)
 
 void QCSDataEngineSim::setValue(QCSData *data, const QVariant value)
 {
-    if (!_data.contains(data))
+    if (!_data->contains(data))
         return;
 
     if (data->property("source") == "sim://enum")
@@ -102,7 +107,8 @@ void QCSDataEngineSim::timerEvent(QTimerEvent *event)
     static int count = 0;
 
     count++;
-    foreach(QCSData *data, _data) {
+    for(int i=0; i<_data->size(); i++) {
+        QCSData *data = qobject_cast<QCSData*>(_data->at(i));
         if (data->property("source") == "sim://random") {
             data->updateValue(qreal(qrand() * 1.0 / RAND_MAX));
             data->setProperty("timeStamp", QDateTime());
@@ -119,11 +125,7 @@ void QCSDataEngineSim::timerEvent(QTimerEvent *event)
     }
 }
 
-QList<QObject*> QCSDataEngineSim::allData()
+ObjectModel *QCSDataEngineSim::allData()
 {
-    QList<QObject *> objects;
-    foreach (QCSData* data, _data) {
-       objects.append(data);
-    }
-    return objects;
+    return _data;
 }
