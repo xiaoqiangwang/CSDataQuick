@@ -187,7 +187,7 @@ ApplicationWindow
         // when the number of log entries exceeds 1000, remove the 100 from the begining
         // but leave the first entry which is the information about the current process.
         if (logModel.count > 1000)
-            logModel.remove(1, 100)
+            logModel.remove(1, 1000)
         logModel.append({'time': Utils.currentDateTime(), 'type': type, 'message': message})
     }
 }
