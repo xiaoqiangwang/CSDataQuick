@@ -5,14 +5,9 @@
 
 #include <QtDebug>
 
-ObjectModel::ObjectModel(const QByteArrayList roles, QObject *parent)
+ObjectModel::ObjectModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    setObjectName("QObjectListModel");
-    for(int i=0; i<roles.count(); i++) {
-        _roles.insert(Qt::UserRole + i, roles.at(i));
-    }
-    _handler = metaObject ()->method(metaObject()->indexOfMethod ("onObjectPropertyChanged()"));
 }
 
 QHash<int, QByteArray> ObjectModel::roleNames () const
@@ -48,20 +43,9 @@ void ObjectModel::append(QObject *object)
     beginInsertRows(QModelIndex(), pos, pos);
     _objects.append(object);
     // add property change signal handler
-    const QMetaObject* meta = object->metaObject();
-    QHashIterator<int, QByteArray> it(_roles);
-    while (it.hasNext()) {
-        it.next();
-        int index = meta->indexOfProperty(it.value());
-        if (index == -1)
-            continue;
-        QMetaProperty property = meta->property(index);
-        if (property.hasNotifySignal()) {
-            QMetaMethod method = property.notifySignal();
-            connect(object, method, this, _handler);
-        }
-    }
-
+    foreach(int signalIndex, _signalsIndex)
+        connect(object, object->metaObject()->method(signalIndex),
+                this, _handler);
     endInsertRows();
     emit countChanged();
 }

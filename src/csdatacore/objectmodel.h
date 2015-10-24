@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 
 #include <QMetaMethod>
+#include <QVector>
 
 class ObjectModel : public QAbstractListModel
 {
@@ -11,7 +12,25 @@ class ObjectModel : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
 
 public:
-    ObjectModel(const QByteArrayList roles, QObject *parent);
+    ObjectModel(QObject *parent);
+
+    template <typename ObjectType>
+    void setup(const QByteArrayList roles) {
+        for(int i=0; i<roles.count(); i++) {
+            QByteArray role = roles.at(i);
+
+            _roles.insert(Qt::UserRole + i, role);
+            // find the corresponding role's property and its signal
+            const QMetaObject meta = ObjectType::staticMetaObject;
+            int index = meta.indexOfProperty(role);
+            if (index >= 0) {
+                QMetaProperty property = meta.property(index);
+                if (property.hasNotifySignal())
+                    _signalsIndex.append(property.notifySignalIndex());
+            }
+        }
+        _handler = metaObject ()->method(metaObject()->indexOfMethod ("onObjectPropertyChanged()"));
+    }
 
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
@@ -32,8 +51,9 @@ public slots:
     void onObjectPropertyChanged();
 
 private:
-    QList<QObject*> _objects;
+    QVector<QObject*> _objects;
     QHash<int, QByteArray> _roles;
+    QVector<int> _signalsIndex;
     QMetaMethod _handler;
 };
 

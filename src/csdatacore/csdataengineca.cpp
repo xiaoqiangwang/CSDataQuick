@@ -263,9 +263,11 @@ void connectCallbackC(struct connection_handler_args args)
 QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
     : QCSDataEngine(parent)
 {
+    _data = new ObjectModel(this);
     QByteArrayList roles;
     roles << "source" << "connected";
-    _data = new ObjectModel(roles, this);
+    _data->setup<QCSData>(roles);
+
     int status = ca_context_create(ca_enable_preemptive_callback);
     if(status != ECA_NORMAL)
         qCritical() << "ca_context_create:" << ca_message(status);
