@@ -28,7 +28,9 @@ SOURCES += \
     $$PWD/csdataengine.cpp \
     $$PWD/csdataenginesim.cpp \
     $$PWD/csdataenginemanager.cpp \
-    $$PWD/csdataengineca.cpp
+    $$PWD/csdataengineca.cpp \
+    $$PWD/objectmodel.cpp \
+    $$PWD/sortfilterproxymodel.cpp
 
 HEADERS += \
     $$PWD/plugin.h \
@@ -36,7 +38,9 @@ HEADERS += \
     $$PWD/csdataengine.h \
     $$PWD/csdataenginesim.h \
     $$PWD/csdataenginemanager.h \
-    $$PWD/csdataengineca.h
+    $$PWD/csdataengineca.h \
+    $$PWD/objectmodel.h \
+    $$PWD/sortfilterproxymodel.h
 
 OTHER_FILES = \
     $$PWD/qmldir \

@@ -6,6 +6,8 @@
 #include "csdata.h"
 #include "csdataengine.h"
 #include "csdataenginemanager.h"
+#include "objectmodel.h"
+#include "sortfilterproxymodel.h"
 
 #include <qqml.h>
 
@@ -23,6 +25,8 @@ void CSDataPlugin::registerTypes(const char *uri)
     qmlRegisterType<QCSData>(uri, 1, 0, "CSData");
     qmlRegisterType<QCSDataRange>(uri, 1, 0, "CSDataRange");
     qmlRegisterType<QCSDataAlarm>(uri, 1, 0, "CSDataAlarm");
+    qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
+    qmlRegisterUncreatableType<ObjectModel>(uri, 1, 0, "ObjectModel", "QObject List Model");
 
     qmlRegisterInterface<QCSDataEngine>("CSDataEngine");
 

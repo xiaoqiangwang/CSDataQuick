@@ -1,5 +1,6 @@
 #include "csdataengineca.h"
 #include "csdata.h"
+#include "objectmodel.h"
 
 // epics base headers
 #include <cadef.h>
@@ -262,6 +263,9 @@ void connectCallbackC(struct connection_handler_args args)
 QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
     : QCSDataEngine(parent)
 {
+    QByteArrayList roles;
+    roles << "source" << "connected";
+    _data = new ObjectModel(roles, this);
     int status = ca_context_create(ca_enable_preemptive_callback);
     if(status != ECA_NORMAL)
         qCritical() << "ca_context_create:" << ca_message(status);
@@ -311,7 +315,7 @@ void QCSDataEngineCA::create(QCSData *data)
     } else {
         // create a dynamic property to hold the channel id
         data->setProperty("chid", QVariant::fromValue((void*)_chid));
-        _data.append(data);
+        _data->append(data);
         emit allDataChanged();
     }
 }
@@ -327,7 +331,7 @@ void QCSDataEngineCA::close(QCSData *data)
         qWarning() << "ca_clear_channel:" << ca_message(status);
     data->setProperty("chid", QVariant::fromValue(0));
 
-    _data.removeOne(data);
+    _data->remove(data);
     emit allDataChanged();
 }
 
@@ -403,11 +407,7 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     ca_flush_io();
 }
 
-QList<QObject*> QCSDataEngineCA::allData()
+ObjectModel* QCSDataEngineCA::allData()
 {
-    QList<QObject *> objects;
-    foreach (QCSData* data, _data) {
-       objects.append(data);
-    }
-    return objects;
+    return _data;
 }
