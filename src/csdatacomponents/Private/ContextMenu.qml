@@ -5,7 +5,6 @@ import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
 
 MouseArea {
-    anchors.fill: parent
     acceptedButtons: Qt.RightButton
     onReleased: contextMenu.popup()
 
