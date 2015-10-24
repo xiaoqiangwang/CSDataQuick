@@ -31,7 +31,7 @@ Rectangle {
     property string title
 
     ContextMenu {
-
+        anchors.fill: parent
     }
 }
 
