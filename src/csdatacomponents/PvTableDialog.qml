@@ -46,15 +46,19 @@ Dialog {
                     color: styleData.value ? 'green' : 'red'
                 }
             }
-            model: SortFilterProxyModel {
-                source: engineCombo.engine.allData
+            model: proxyModel
+
+            SortFilterProxyModel {
+                id: proxyModel
+                source: root.visible ? engineCombo.engine.allData : null
 
                 sortOrder: pvTable.sortIndicatorOrder
                 sortCaseSensitivity: Qt.CaseInsensitive
                 sortRole: pvTable.getColumn(pvTable.sortIndicatorColumn).role
 
-                filterString: "*" + searchBox.text + "*"
-                filterSyntax: SortFilterProxyModel.Wildcard
+                filterString: searchBox.text
+                filterRole: 'source'
+                filterSyntax: SortFilterProxyModel.RegExp
                 filterCaseSensitivity: Qt.CaseInsensitive
             }
         }
