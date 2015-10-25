@@ -44,6 +44,7 @@
 
 SortFilterProxyModel::SortFilterProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
+    _filterKey = -1;
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SIGNAL(countChanged()));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SIGNAL(countChanged()));
 }
@@ -85,6 +86,7 @@ QByteArray SortFilterProxyModel::filterRole() const
 
 void SortFilterProxyModel::setFilterRole(const QByteArray &role)
 {
+    _filterKey = roleKey(role);
     QSortFilterProxyModel::setFilterRole(roleKey(role));
 }
 
@@ -110,7 +112,6 @@ void SortFilterProxyModel::setFilterSyntax(SortFilterProxyModel::FilterSyntax sy
 
 QJSValue SortFilterProxyModel::get(int idx) const
 {
-    qDebug() << "get " << idx;
     QJSEngine *engine = qmlEngine(this);
     QJSValue value = engine->newObject();
     if (idx >= 0 && idx < count()) {
@@ -126,14 +127,7 @@ QJSValue SortFilterProxyModel::get(int idx) const
 
 int SortFilterProxyModel::roleKey(const QByteArray &role) const
 {
-    QHash<int, QByteArray> roles = roleNames();
-    QHashIterator<int, QByteArray> it(roles);
-    while (it.hasNext()) {
-        it.next();
-        if (it.value() == role)
-            return it.key();
-    }
-    return -1;
+    return roleNames().key(role, -1);
 }
 
 QHash<int, QByteArray> SortFilterProxyModel::roleNames() const
@@ -145,25 +139,16 @@ QHash<int, QByteArray> SortFilterProxyModel::roleNames() const
 
 bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
-    QRegExp rx = filterRegExp();
-    if (rx.isEmpty())
+    QRegExp regexp = filterRegExp();
+    if (regexp.isEmpty())
         return true;
-    QAbstractItemModel *model = sourceModel();
-    if (filterRole().isEmpty()) {
-        QHash<int, QByteArray> roles = roleNames();
-        QHashIterator<int, QByteArray> it(roles);
-        while (it.hasNext()) {
-            it.next();
-            QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
-            QString key = model->data(sourceIndex, it.key()).toString();
-            if (key.contains(rx))
-                return true;
-        }
-        return false;
-    }
-    QModelIndex sourceIndex = model->index(sourceRow, 0, sourceParent);
+
+    if (_filterKey == -1)
+        return true;
+
+    QModelIndex sourceIndex = sourceModel()->index(sourceRow, 0, sourceParent);
     if (!sourceIndex.isValid())
         return true;
-    QString key = model->data(sourceIndex, roleKey(filterRole())).toString();
-    return key.contains(rx);
+    QString key = sourceModel()->data(sourceIndex, _filterKey).toString();
+    return key.contains(regexp);
 }
