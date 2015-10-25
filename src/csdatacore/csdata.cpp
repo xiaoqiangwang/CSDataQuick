@@ -213,7 +213,7 @@ QCSData::QCSData(QObject *parent)
 
     _inPuppet = false;
 
-    if (QCoreApplication::applicationName() == "Qml2Puppet") {
+    if (qgetenv("QML_PUPPET_MODE") == "true") {
         _inPuppet = true;
         _connected = true;
         _fieldType = Double;
