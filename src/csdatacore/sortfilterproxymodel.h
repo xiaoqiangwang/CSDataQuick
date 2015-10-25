@@ -97,7 +97,8 @@ protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
 private:
-    int _filterKey;
+    QByteArray _sortRole;
+    QByteArray _filterRole;
 };
 
 #endif // SORTFILTERPROXYMODEL_H
