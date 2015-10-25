@@ -92,7 +92,6 @@ ApplicationWindow
             }
             onCountChanged: {
                 var newIndex = count - 1 // last index
-                positionViewAtEnd()
                 currentIndex = newIndex
             }
         }
