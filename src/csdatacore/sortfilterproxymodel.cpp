@@ -44,7 +44,6 @@
 
 SortFilterProxyModel::SortFilterProxyModel(QObject *parent) : QSortFilterProxyModel(parent)
 {
-    _filterKey = -1;
     connect(this, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SIGNAL(countChanged()));
     connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SIGNAL(countChanged()));
 }
@@ -62,15 +61,19 @@ QObject *SortFilterProxyModel::source() const
 void SortFilterProxyModel::setSource(QObject *source)
 {
     setSourceModel(qobject_cast<QAbstractItemModel *>(source));
+    // re-assure the sort/filter role
+    QSortFilterProxyModel::setSortRole(roleKey(_sortRole));
+    QSortFilterProxyModel::setFilterRole(roleKey(_filterRole));
 }
 
 QByteArray SortFilterProxyModel::sortRole() const
 {
-    return roleNames().value(QSortFilterProxyModel::sortRole());
+    return _sortRole;
 }
 
 void SortFilterProxyModel::setSortRole(const QByteArray &role)
 {
+    _sortRole = role;
     QSortFilterProxyModel::setSortRole(roleKey(role));
 }
 
@@ -81,12 +84,12 @@ void SortFilterProxyModel::setSortOrder(Qt::SortOrder order)
 
 QByteArray SortFilterProxyModel::filterRole() const
 {
-    return roleNames().value(QSortFilterProxyModel::filterRole());
+    return _filterRole;
 }
 
 void SortFilterProxyModel::setFilterRole(const QByteArray &role)
 {
-    _filterKey = roleKey(role);
+    _filterRole = role;
     QSortFilterProxyModel::setFilterRole(roleKey(role));
 }
 
@@ -143,12 +146,9 @@ bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &so
     if (regexp.isEmpty())
         return true;
 
-    if (_filterKey == -1)
-        return true;
-
     QModelIndex sourceIndex = sourceModel()->index(sourceRow, 0, sourceParent);
     if (!sourceIndex.isValid())
         return true;
-    QString key = sourceModel()->data(sourceIndex, _filterKey).toString();
+    QString key = sourceModel()->data(sourceIndex, QSortFilterProxyModel::filterRole()).toString();
     return key.contains(regexp);
 }
