@@ -1,7 +1,11 @@
 #include "csdataenginemanager.h"
 #include "csdataenginesim.h"
-#include "csdataengineca.h"
 #include "csdata.h"
+
+#include <QDir>
+#include <QFileInfo>
+#include <QPluginLoader>
+#include <QCoreApplication>
 
 #include <QtDebug>
 
@@ -10,8 +14,19 @@ QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     : QObject(parent)
 {
-    _engines.append(new QCSDataEngineCA(this));
     _engines.append(new QCSDataEngineSim(this));
+
+    QDir pluginsDir = QDir(qApp->applicationDirPath());
+    pluginsDir.cdUp();
+    pluginsDir.cd("plugins");
+    foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
+        QPluginLoader loader(fileInfo.absoluteFilePath());
+        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
+        if (engine) {
+            _engines.append(engine);
+            qDebug() << "Loaded " << engine->description();
+        }
+    }
 }
 
 QCSDataEngineManager::~QCSDataEngineManager()
@@ -28,7 +43,11 @@ QCSDataEngineManager *QCSDataEngineManager::instance()
 
 QCSDataEngine *QCSDataEngineManager::defaultEngine() const
 {
-    return _engines.at(0);
+    foreach (QCSDataEngine *engine, _engines) {
+        if (engine->name() == "ca")
+            return engine;
+    }
+    return Q_NULLPTR;
 }
 
 QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
