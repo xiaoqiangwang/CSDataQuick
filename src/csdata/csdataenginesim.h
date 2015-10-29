@@ -3,12 +3,10 @@
 
 #include "csdataengine.h"
 
-#include "objectmodel.h"
-
 class QCSDataEngineSim : public QCSDataEngine
 {
     Q_OBJECT
-    //Q_PLUGIN_METADATA(IID "ch.psi.sls.CSDataEngineInterface")
+    Q_PLUGIN_METADATA(IID "ch.psi.sls.CSDataEngineInterface")
     Q_INTERFACES(QCSDataEngine)
 
 public:
