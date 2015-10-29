@@ -4,7 +4,6 @@
 #include <QDateTime>
 #include <QFlags>
 #include <QObject>
-#include <QQmlParserStatus>
 #include <QUrl>
 #include <QVariant>
 
@@ -82,10 +81,9 @@ private:
     double _upper;
 };
 
-class QCSData : public QObject, public QQmlParserStatus
+class QCSData : public QObject
 {
     Q_OBJECT
-    Q_INTERFACES(QQmlParserStatus)
 
     Q_PROPERTY(QString      source      READ source       WRITE setSource      NOTIFY sourceChanged)
     Q_PROPERTY(QString      host        READ host         WRITE setHost        NOTIFY hostChanged)
@@ -109,9 +107,6 @@ class QCSData : public QObject, public QQmlParserStatus
 public:
     explicit QCSData(QObject *parent=0);
     ~QCSData();
-
-    virtual void classBegin();
-    virtual void componentComplete();
 
     enum AccessFlag {
         NoAccess    = 0x00,

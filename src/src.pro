@@ -2,7 +2,10 @@ TEMPLATE = subdirs
 
 SUBDIRS += ADLParser
 
+SUBDIRS += csdata
+
 SUBDIRS += csdatacore
+csdatacore.depends = csdata
 
 SUBDIRS += csdatacomponents
 csdatacomponents.depends += csdatacore ADLParser

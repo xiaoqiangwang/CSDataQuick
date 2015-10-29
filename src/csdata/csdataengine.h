@@ -4,7 +4,6 @@
 #include <QString>
 #include <QVariant>
 #include <QObject>
-#include <QQmlListProperty>
 
 class QCSData;
 class ObjectModel;
