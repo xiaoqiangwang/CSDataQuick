@@ -9,10 +9,11 @@ class ObjectModel;
 class QCSDataEngineCA : public QCSDataEngine
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "ch.psi.sls.CSDataEngineInterface")
     Q_INTERFACES(QCSDataEngine)
 
 public:
-    QCSDataEngineCA(QObject *parent);
+    QCSDataEngineCA(QObject *parent=0);
     virtual ~QCSDataEngineCA();
 
     virtual QString name();
