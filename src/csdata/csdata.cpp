@@ -234,15 +234,6 @@ QCSData::~QCSData()
         reset();
     }
 }
-/*! \reimp */
-void QCSData::classBegin()
-{
-
-}
-/*! \reimp */
-void QCSData::componentComplete()
-{
-}
 
 /*!
     \property QCSData::source
