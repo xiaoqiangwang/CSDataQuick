@@ -7,8 +7,8 @@ DESTDIR = $${TARGETPATH}
 
 QMAKE_RPATHDIR = @executable_path
 
-INCLUDEPATH += $$PWD/../csdata
-DEPENDPATH += $$PWD/../csdata
+INCLUDEPATH += $$PWD/../csdata/core
+DEPENDPATH += $$PWD/../csdata/core
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../bin/ -lcsdata
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../bin -lcsdata
