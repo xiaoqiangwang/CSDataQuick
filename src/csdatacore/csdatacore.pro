@@ -5,7 +5,8 @@ TARGET = csdataplugin
 TARGETPATH = $$OUT_PWD/../../imports/CSDataQuick/Data/
 DESTDIR = $${TARGETPATH}
 
-QMAKE_RPATHDIR = @executable_path
+osx:QMAKE_RPATHDIR = @executable_path
+else:unix:QMAKE_LFLAGS += '-Wl,-rpath,\'\$$ORIGIN/../../../bin\'' 
 
 INCLUDEPATH += $$PWD/../csdata/core
 DEPENDPATH += $$PWD/../csdata/core
