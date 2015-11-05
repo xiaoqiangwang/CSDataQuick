@@ -3,7 +3,7 @@ CONFIG += qt
 TARGET = csdata
 DESTDIR = $$OUT_PWD/../../../bin
 
-QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
+osx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
 
 SOURCES += \
     $$PWD/csdata.cpp \
