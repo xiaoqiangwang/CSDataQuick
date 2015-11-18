@@ -2,7 +2,7 @@ TEMPLATE = lib
 CONFIG += qt plugin
 QT += quick
 TARGET = csdataplugin
-TARGETPATH = $$OUT_PWD/../../imports/CSDataQuick/Data/
+TARGETPATH = ../../imports/CSDataQuick/Data/
 DESTDIR = $${TARGETPATH}
 
 osx:QMAKE_RPATHDIR = @executable_path
@@ -36,6 +36,6 @@ qmlfiles2build.input = OTHER_FILES
 qmlfiles2build.output_function = qmlModStripSrcDir
 qmlfiles2build.commands = $$QMAKE_COPY ${QMAKE_FILE_NAME} ${QMAKE_FILE_OUT}
 qmlfiles2build.depends = $$QML_FILES
-qmlfiles2build.CONFIG = no_link no_clean target_predeps
+qmlfiles2build.CONFIG = no_link target_predeps
 
 QMAKE_EXTRA_COMPILERS += qmlfiles2build
