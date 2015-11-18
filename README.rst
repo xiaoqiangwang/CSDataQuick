@@ -11,6 +11,12 @@ Use qmake::
     $ qmake epicsqml.pro
     $ make
 
+On RHEL/Centos/SL 6.x, install qt5 from EPEL repository::
+
+    # yum install yum-conf-epel
+    # yum --enablerepo=epel install qt5-qtdeclarative-devel
+    # yum --enablerepo=epel install qt5-qtquickcontrols
+
 Demos
 -----
 First load the example EPICS database into an IOC, e.g.::
