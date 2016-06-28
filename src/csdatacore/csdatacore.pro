@@ -1,8 +1,10 @@
+include(../../epicsqml.pri)
+
 TEMPLATE = lib
 CONFIG += qt plugin
 QT += quick
 TARGET = csdataplugin
-TARGETPATH = ../../imports/CSDataQuick/Data/
+TARGETPATH = $$OUTPUT_PATH/imports/CSDataQuick/Data/
 DESTDIR = $${TARGETPATH}
 
 osx:QMAKE_RPATHDIR = @executable_path
@@ -23,19 +25,9 @@ HEADERS += \
     $$PWD/plugin.h \
     $$PWD/sortfilterproxymodel.h
 
-OTHER_FILES = \
+QML_FILES = \
     $$PWD/qmldir \
     $$PWD/plugins.qmltypes
 
-# These rules are to copy qml file to TARGETPATH
-defineReplace(qmlModStripSrcDir) {
-    return($$TARGETPATH/$$relative_path($$1, $$_PRO_FILE_PWD_))
-}
-
-qmlfiles2build.input = OTHER_FILES
-qmlfiles2build.output_function = qmlModStripSrcDir
-qmlfiles2build.commands = $$QMAKE_COPY ${QMAKE_FILE_NAME} ${QMAKE_FILE_OUT}
-qmlfiles2build.depends = $$QML_FILES
-qmlfiles2build.CONFIG = no_link target_predeps
-
-QMAKE_EXTRA_COMPILERS += qmlfiles2build
+include(../../rpath.pri)
+include(../../qml.pri)
