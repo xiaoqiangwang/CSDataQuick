@@ -6,7 +6,9 @@
 #include <QMetaMethod>
 #include <QVector>
 
-class ObjectModel : public QAbstractListModel
+#include "cs_global.h"
+
+class QCS_DLLSPEC ObjectModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)

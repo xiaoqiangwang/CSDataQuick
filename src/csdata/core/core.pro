@@ -2,6 +2,7 @@ TEMPLATE = lib
 CONFIG += qt
 TARGET = csdata
 DESTDIR = $$OUT_PWD/../../../bin
+DEFINES += QCS_EXPORT
 
 osx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
 
@@ -17,4 +18,5 @@ HEADERS += \
     $$PWD/csdataengine.h \
     $$PWD/csdataenginesim.h \
     $$PWD/csdataenginemanager.h \
-    $$PWD/objectmodel.h
+    $$PWD/objectmodel.h \
+    $$PWD/cs_global.h

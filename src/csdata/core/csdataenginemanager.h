@@ -2,12 +2,13 @@
 #define CSDATAENGINEMANAGER
 
 #include <QObject>
+#include "cs_global.h"
 
 #define engineManager QCSDataEngineManager::instance()
 
 class QCSDataEngine;
 
-class QCSDataEngineManager : public QObject
+class QCS_DLLSPEC QCSDataEngineManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QList<QObject*> engines READ engines CONSTANT)
