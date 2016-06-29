@@ -2,9 +2,10 @@
  * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
 \*****************************************************************************/
 
-#include "csdata.h"
 #include "csdataenginemanager.h"
 #include "csdataengine.h"
+
+#include "csdata.h"
 
 #include <QCoreApplication>
 #include <QtDebug>
