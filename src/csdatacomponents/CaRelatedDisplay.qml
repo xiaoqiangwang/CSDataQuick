@@ -109,12 +109,12 @@ BaseItem {
             columns: visual == RelatedDisplayVisual.Row ? displayModel.count : 1
             Repeater {
                 model: displayModel.count
-                StyledButton {
+                StyledButton2 {
                     text: displayModel.get(index).label
                     font.family: root.font.family
                     font.pixelSize: root.font.size
-                    background: root.background
-                    foreground: root.foreground
+                    backgroundColor: root.background
+                    foregroundColor: root.foreground
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     onClicked: load(displayModel.get(index).file,

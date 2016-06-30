@@ -39,10 +39,10 @@ CaControl {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
 
-    StyledButton {
+    StyledButton2 {
         id: btn
-        background: root.background
-        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        backgroundColor: root.background
+        foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         font.pixelSize: root.font.size
         font.family: root.font.family
         anchors.fill: parent
