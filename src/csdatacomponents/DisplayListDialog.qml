@@ -1,7 +1,7 @@
 pragma Singleton
 
 import QtQuick 2.0
-import QtQuick.Controls 1.0
+import QtQuick.Controls 2.0
 import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Components 1.0
@@ -23,8 +23,7 @@ Dialog {
         }
     }
 
-    contentItem: ScrollView {
-        ListView {
+    contentItem: ListView {
             model: WindowManager.entries
             delegate: Text {
                 width: parent.width
@@ -48,7 +47,8 @@ Dialog {
                 positionViewAtEnd()
                 currentIndex = newIndex
             }
-        }
+        ScrollBar.horizontal: ScrollBar {}
+        ScrollBar.vertical: ScrollBar {}
     }
     standardButtons: StandardButton.Ok
 }
