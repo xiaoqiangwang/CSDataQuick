@@ -57,7 +57,7 @@ BaseItem {
             text: 'PV Info'
             onTriggered: {
                 PvInfoDialog.info = UtilsJS.dumpPvInfo(pv)
-                PvInfoDialog.popup()
+                PvInfoDialog.open()
             }
         }
         MenuItem {
