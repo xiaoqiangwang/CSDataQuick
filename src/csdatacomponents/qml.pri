@@ -131,15 +131,4 @@ DESIGNER_FILES = \
     
 OTHER_FILES = $$QML_FILES $$DESIGNER_FILES
 
-# These rules are to copy qml file to TARGETPATH
-defineReplace(qmlModStripSrcDir) {
-    return($$TARGETPATH/$$relative_path($$1, $$_PRO_FILE_PWD_))
-}
-
-qmlfiles2build.input = OTHER_FILES
-qmlfiles2build.output_function = qmlModStripSrcDir
-qmlfiles2build.commands = $$QMAKE_COPY ${QMAKE_FILE_NAME} ${QMAKE_FILE_OUT}
-qmlfiles2build.depends = $$OTHER_FILES
-qmlfiles2build.CONFIG = no_link target_predeps
-
-QMAKE_EXTRA_COMPILERS += qmlfiles2build
+include(../../qmlmodule.pri)
