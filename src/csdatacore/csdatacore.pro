@@ -30,4 +30,4 @@ QML_FILES = \
     $$PWD/plugins.qmltypes
 
 include(../../rpath.pri)
-include(../../qml.pri)
+include(../../qmlmodule.pri)
