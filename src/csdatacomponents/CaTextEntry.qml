@@ -92,7 +92,7 @@ CaControl {
 
     limits: Limits {}
 
-    Frame {
+    StyledFrame {
         anchors.fill: parent
         color: root.background
         shadow: FrameShadow.Sunken

@@ -135,7 +135,7 @@ Item {
             return d.valueString[index]
     }
 
-    Frame {
+    StyledFrame {
         id: panel
         anchors.fill: parent
         color: root.background

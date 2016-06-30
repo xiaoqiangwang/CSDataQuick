@@ -40,7 +40,6 @@ QML_FILES += \
     $$PWD/PromptDialog.qml \
     $$PWD/Private/qmldir \
     $$PWD/Private/ContextMenu.qml \
-    $$PWD/Private/Frame.qml \
     $$PWD/Private/Indicator.qml \
     $$PWD/Private/Meter.qml \
     $$PWD/Private/RDButton.qml \
@@ -48,6 +47,8 @@ QML_FILES += \
     $$PWD/Private/StyledAxis.qml \
     $$PWD/Private/StyledBar.qml \
     $$PWD/Private/StyledButton.qml \
+    $$PWD/Private/StyledButton2.qml \
+    $$PWD/Private/StyledFrame.qml \
     $$PWD/Private/WheelDigit.qml \
     $$PWD/Private/WheelSwitch.qml \
     $$PWD/Private/images/arrow-down.png \

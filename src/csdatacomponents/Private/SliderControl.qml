@@ -106,7 +106,7 @@ Item {
         visible: showValueText
     }
 
-    Frame {
+    StyledFrame {
         id: groove
         shadow: FrameShadow.Sunken
 
@@ -155,7 +155,7 @@ Item {
         }
     }
 
-    Frame {
+    StyledFrame {
         id: handle
         shadow: FrameShadow.Raise
 
