@@ -43,7 +43,7 @@ Item {
         maximumValue: root.maximumValue
         background: root.background
     }
-    Frame {
+    StyledFrame {
         id: panel
         shadow: showFrame ? FrameShadow.Sunken : FrameShadow.Flat
 

@@ -49,9 +49,9 @@ CaControl {
                 font.pixelSize: root.font.size
                 font.family: root.font.family
             }
-            background: Frame {
+            background: StyledFrame {
                 anchors.fill: parent
-                Frame {
+                StyledFrame {
                     width: 9
                     height: 7
                     shadow: FrameShadow.Raise
@@ -71,7 +71,7 @@ CaControl {
             text: modelData
         }
 
-        indicator: Frame {
+        indicator: StyledFrame {
             width: 9
             height: 7
             shadow: FrameShadow.Raise
@@ -91,7 +91,7 @@ CaControl {
             font.pixelSize: root.font.size
             font.family: root.font.family
         }
-        background: Frame {
+        background: StyledFrame {
             anchors.fill: parent
             shadow: FrameShadow.Raise
             color: root.background
