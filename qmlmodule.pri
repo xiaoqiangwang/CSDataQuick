@@ -1,6 +1,6 @@
 # These rules are to copy qml file to TARGETPATH
 defineReplace(qmlModStripSrcDir) {
-    return($$TARGETPATH/$$relative_path($$1, $$_PRO_FILE_PWD_))
+    return($$relative_path($$TARGETPATH/$$relative_path($$1, $$_PRO_FILE_PWD_),$$OUT_PWD))
 }
 
 qmlfiles2build.input = QML_FILES
