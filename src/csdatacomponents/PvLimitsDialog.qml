@@ -81,6 +81,7 @@ Dialog {
             }
             ComboBox {
                 model: sourceModel
+                textRole: "text"
                 currentIndex: limits.loprSrc
                 onCurrentIndexChanged: {
                     limits.loprSrc = sourceModel.get(currentIndex).value
@@ -103,6 +104,7 @@ Dialog {
             }
             ComboBox {
                 model: sourceModel
+                textRole: "text"
                 currentIndex: limits.hoprSrc
                 onCurrentIndexChanged: {
                     limits.hoprSrc = sourceModel.get(currentIndex).value
@@ -125,6 +127,7 @@ Dialog {
             }
             ComboBox {
                 model: sourceModel
+                textRole: "text"
                 currentIndex: limits.precSrc
                 onCurrentIndexChanged: {
                     limits.precSrc = sourceModel.get(currentIndex).value
