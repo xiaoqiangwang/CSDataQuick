@@ -26,6 +26,6 @@ Button {
         implicitWidth: 100
         implicitHeight: 20
         color: root.backgroundColor
-        shadow: root.down ? FrameShadow.Sunken : FrameShadow.Raise
+        shadow: root.down || root.checked ? FrameShadow.Sunken : FrameShadow.Raise
     }
 }
