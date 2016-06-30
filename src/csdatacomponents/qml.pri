@@ -60,7 +60,7 @@ QML_FILES += \
     $$PWD/Private/images/groove_horz.png \
     $$PWD/Private/images/groove_vert.png
 
-DESIGNER_FILES = \
+QML_FILES += \
     $$PWD/designer/BaseWindowSpecifics.qml \
     $$PWD/designer/CaArcSpecifics.qml \
     $$PWD/designer/CaBarSpecifics.qml \
@@ -129,6 +129,6 @@ DESIGNER_FILES = \
     $$PWD/designer/images/delete.png \
     $$PWD/designer/csdatacomponents.metainfo
     
-OTHER_FILES = $$QML_FILES $$DESIGNER_FILES
+OTHER_FILES = $$QML_FILES
 
 include(../../qmlmodule.pri)
