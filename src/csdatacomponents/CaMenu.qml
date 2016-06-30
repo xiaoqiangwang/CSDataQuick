@@ -65,7 +65,38 @@ CaControl {
                 color: root.background
             }
         }
+/*
+        delegate: ItemDelegate {
+            background: root.background
+            text: modelData
+        }
 
+        indicator: Frame {
+            width: 9
+            height: 7
+            shadow: FrameShadow.Raise
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: 7
+            opacity: control.enabled ? 0.7 : 0.5
+            color: root.background
+        }
+
+        contentItem: Text {
+            text: combo_control.currentText
+            anchors.verticalCenter: parent.verticalCenter
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+            font.pixelSize: root.font.size
+            font.family: root.font.family
+        }
+        background: Frame {
+            anchors.fill: parent
+            shadow: FrameShadow.Raise
+            color: root.background
+        }
+*/
         onActivated: {
             pv.setValue(index)
         }
