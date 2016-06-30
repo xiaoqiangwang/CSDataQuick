@@ -48,9 +48,9 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         nonRecursiveMutex.unlock();
     }
     else {
-        std::cerr << msg.toLocal8Bit().constData()
-                  << "(" << context.file << ":" << context.line << " " << context.function << ")"
-                  << std::endl;
+        if (!msg.isEmpty())
+            fprintf(stderr, "Error: %s\n",
+                msg.toLocal8Bit().constData());
     }
 
     recursiveMutex.unlock();
