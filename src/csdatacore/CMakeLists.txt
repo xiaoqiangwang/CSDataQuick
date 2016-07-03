@@ -1,19 +1,11 @@
 set(SOURCES
-    csdata.cpp
-    csdataengine.cpp
-    csdataengineca.cpp
-    csdataenginemanager.cpp
-    csdataenginesim.cpp
     plugin.cpp
+    sortfilterproxymodel.cpp
 )
 
 set(HEADERS
-    csdata.h
-    csdataengine.h
-    csdataengineca.h
-    csdataenginemanager.h
-    csdataenginesim.h
     plugin.h
+    sortfilterproxymodel.h
 )
 
 # When CMake 3.0.0 is required, remove this block (see CMP0042).
@@ -27,14 +19,14 @@ add_library(csdataplugin SHARED
 )
 
 include_directories(
+    ../csdata/core/
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}
-    ${EPICS_INCLUDE_DIRS}
 )
 
+target_link_libraries(csdataplugin csdata)
 target_link_libraries(csdataplugin Qt5::Core Qt5::Qml)
-target_link_libraries(csdataplugin ${EPICS_LIBRARIES})
 set_target_properties(csdataplugin PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Data/)
 
