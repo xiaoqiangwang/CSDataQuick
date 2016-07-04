@@ -107,7 +107,7 @@ CaControl {
         font.pixelSize: root.font.size
         clip: true
         selectByMouse: true
-        anchors.topMargin: 4
+        anchors.topMargin: 2
         anchors.bottomMargin: 2
         anchors.leftMargin: 2
         anchors.rightMargin: 2
