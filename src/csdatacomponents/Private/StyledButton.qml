@@ -4,8 +4,8 @@ import QtQuick.Controls.Styles 1.0
 
 Button {
     id: root
-    property color background: __pallete.button
-    property color foreground: __pallete.buttonText
+    property color backgroundColor: __pallete.button
+    property color foregroundColor: __pallete.buttonText
     property alias font: hiddenText.font
     property int align: Text.AlignHCenter
 
@@ -41,7 +41,7 @@ Button {
                 width: control.width
                 height: control.height
             }
-            color: control.background
+            color: control.backgroundColor
         }
 
         label: Text {
@@ -52,7 +52,7 @@ Button {
             anchors.leftMargin: control.iconSource == '' ? 0 : Math.min(control.height, control.width) - 8
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: root.align
-            color: control.foreground
+            color: control.foregroundColor
             font: hiddenText.font
         }
     }
