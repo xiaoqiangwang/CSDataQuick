@@ -1,4 +1,4 @@
-include(../../epicsqml.pri)
+include(../../paths.pri)
 
 TEMPLATE = lib
 CONFIG += qt plugin

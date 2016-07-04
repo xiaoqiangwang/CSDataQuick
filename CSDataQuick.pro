@@ -1,4 +1,4 @@
-include(epicsqml.pri)
+include(paths.pri)
 
 #version check qt
 !minQtVersion(5, 4, 0) {
