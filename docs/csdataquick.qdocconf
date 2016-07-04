@@ -5,9 +5,9 @@ version = 1.0
 
 Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
 
-sourcedirs = . ../src/csdatacore ../src/csdatacomponents
+sourcedirs = . ../src/csdata/core ../src/csdatacomponents
 sources.fileextensions += "*.qdoc *.qml *.js"
-headers += ../src/csdatacore/csdata.h \
+headers += ../src/csdata/core/csdata.h \
            ../src/csdatacomponents/utils.h \
            ../src/csdatacomponents/baseitem.h \
            ../src/csdatacomponents/windowmanager.h \
@@ -15,7 +15,7 @@ headers += ../src/csdatacore/csdata.h \
            ../src/csdatacomponents/plotitem.h \
            ../src/csdatacomponents/adimageprovider.h
 
-sources += ../src/csdatacore/csdata.cpp \
+sources += ../src/csdata/core/csdata.cpp \
            ../src/csdatacomponents/utils.cpp \
            ../src/csdatacomponents/baseitem.cpp \
            ../src/csdatacomponents/windowmanager.cpp \
@@ -41,4 +41,4 @@ HTML.stylesheets = offline.css
 HTML.headerstyles = \
   "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
 HTML.endheader = "</head>\n"
-HTML.footer = "<div class=\"footer\">Copyright (C) 2014 Xiaoqiang Wang.</div>\n"
+HTML.footer = "<div class=\"footer\">Copyright (C) 2014-2016 Xiaoqiang Wang.</div>\n"
