@@ -13,7 +13,7 @@ Dialog {
     Component {
         id: sectionHeading
         Rectangle {
-            width: displayDialog.width
+            width: parent.width
             height: childrenRect.height
             color: "lightsteelblue"
             Text {
