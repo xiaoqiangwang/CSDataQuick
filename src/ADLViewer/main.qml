@@ -91,8 +91,7 @@ ApplicationWindow
                 }
             }
             onCountChanged: {
-                var newIndex = count - 1 // last index
-                currentIndex = newIndex
+                positionViewAtIndex(count-1, ListView.Beginning)
             }
         }
     }
