@@ -25,7 +25,7 @@ ApplicationWindow
             }
             MenuItem {
                 text: 'Quit'
-                onTriggered: Qt.quit()
+                onTriggered: close()
             }
         }
         Menu {
