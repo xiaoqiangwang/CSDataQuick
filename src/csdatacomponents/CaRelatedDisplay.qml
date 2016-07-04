@@ -109,7 +109,7 @@ BaseItem {
             columns: visual == RelatedDisplayVisual.Row ? displayModel.count : 1
             Repeater {
                 model: displayModel.count
-                StyledButton2 {
+                StyledButton {
                     text: displayModel.get(index).label
                     font.family: root.font.family
                     font.pixelSize: root.font.size

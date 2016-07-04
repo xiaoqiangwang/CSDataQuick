@@ -1,5 +1,5 @@
 import QtQuick 2.1
-import QtQuick.Controls 2.0
+import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
@@ -50,7 +50,7 @@ CaControl {
         onValueChanged: loader.item.children[pv.value].checked = true
     }
 
-    ButtonGroup { id: radioInputGroup }
+    ExclusiveGroup { id: radioInputGroup }
 
     Loader {
         id: loader
@@ -61,14 +61,14 @@ CaControl {
 
     Component {
         id: button
-        StyledButton2 {
+        StyledButton {
             text: pv.stateStrings[index]
             foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             backgroundColor: root.background
             font.pixelSize: root.font.size
             font.family: root.font.family
             checkable: true
-            ButtonGroup.group: radioInputGroup
+            exclusiveGroup: radioInputGroup
             Layout.fillWidth: true
             Layout.fillHeight: true
             onClicked: pv.setValue(index)

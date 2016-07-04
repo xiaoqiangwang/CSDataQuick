@@ -98,8 +98,8 @@ BaseItem {
     StyledButton {
         anchors.fill: parent
         text: root.label[0] == '-' ? root.label.substring(1) : ('! ' + root.label)
-        foreground: root.foreground
-        background: root.background
+        foregroundColor: root.foreground
+        backgroundColor: root.background
         font.pixelSize: root.font.size
         font.family: root.font.family
         menu: commandModel.count > 1 ? popupMenu : null

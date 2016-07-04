@@ -39,7 +39,7 @@ CaControl {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
 
-    StyledButton2 {
+    StyledButton {
         id: btn
         backgroundColor: root.background
         foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
