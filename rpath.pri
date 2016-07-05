@@ -1,5 +1,7 @@
 macx {
-    QMAKE_LFLAGS += -Wl,-rpath,@loader_path/../,-rpath,@executable_path/../
+    QMAKE_RPATHDIR += @loader_path/../lib
+    QMAKE_RPATHDIR += @loader_path/../../../lib
+    QMAKE_RPATHDIR += @executable_path
 } else:linux-* {
     #do the rpath by hand since it's not possible to use ORIGIN in QMAKE_RPATHDIR
     # this expands to $ORIGIN (after qmake and make), it does NOT read a qmake var
