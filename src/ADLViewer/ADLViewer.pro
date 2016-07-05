@@ -17,3 +17,5 @@ mac {
 
 RESOURCES += \
     main.qrc
+
+include(../rpath.pri)

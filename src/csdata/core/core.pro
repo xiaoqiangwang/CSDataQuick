@@ -1,7 +1,7 @@
 TEMPLATE = lib
 CONFIG += qt
 TARGET = csdata
-DESTDIR = $$OUT_PWD/../../../bin
+DESTDIR = $$OUT_PWD/../../../lib
 DEFINES += QCS_EXPORT
 
 osx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
