@@ -92,7 +92,7 @@ Viewer::Viewer(QWidget *parent) :
     QMainWindow(parent)
 {
     setWindowTitle(QApplication::applicationName()  + " " + QApplication::applicationVersion());
-    engine.addImportPath(QApplication::applicationDirPath() + "/../imports/");
+    engine.addImportPath(QApplication::applicationDirPath() + "/../qml/");
 
     QAction *actionOpen = new QAction(tr("Open..."), this);
     actionOpen->setObjectName("actionOpen");

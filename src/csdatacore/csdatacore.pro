@@ -4,7 +4,7 @@ TEMPLATE = lib
 CONFIG += qt plugin
 QT += quick
 TARGET = csdataplugin
-TARGETPATH = $$OUT_PWD/../../imports/CSDataQuick/Data
+TARGETPATH = $$OUT_PWD/../../qml/CSDataQuick/Data
 DESTDIR = $${TARGETPATH}
 
 osx:QMAKE_RPATHDIR = @executable_path

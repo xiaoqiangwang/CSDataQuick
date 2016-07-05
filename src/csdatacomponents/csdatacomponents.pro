@@ -9,7 +9,7 @@ win32-msvc* {
 }
 
 TARGET = csdatacomponentsplugin
-TARGETPATH = $$OUT_PWD/../../imports/CSDataQuick/Components
+TARGETPATH = $$OUT_PWD/../../qml/CSDataQuick/Components
 DESTDIR = $${TARGETPATH}
 
 include(qml.pri)

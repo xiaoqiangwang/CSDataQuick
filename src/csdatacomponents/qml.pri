@@ -1,4 +1,4 @@
-QML_IMPORT_PATH = $$OUT_PWD/../../imports/
+QML_IMPORT_PATH = $$OUT_PWD/../../qml/
 QML_FILES += \
     $$PWD/qmldir \
     $$PWD/plugins.qmltypes \

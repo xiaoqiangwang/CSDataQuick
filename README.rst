@@ -43,13 +43,13 @@ First load the example EPICS database into an IOC, e.g.::
 
 To have an overview of UI components::
 
-    $ qmlscene -I imports examples/widgets.qml
+    $ qmlscene -I qml examples/widgets.qml
 
 
 To explore possible options for each component::
 
     $ cd examples/gallery
-    $ qmlscene -I ../../imports main.qml
+    $ qmlscene -I ../../qml main.qml
 
 To see the ADLViewer in work::
 
