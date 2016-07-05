@@ -28,7 +28,7 @@ include_directories(
 target_link_libraries(csdataplugin csdata)
 target_link_libraries(csdataplugin Qt5::Core Qt5::Qml)
 set_target_properties(csdataplugin PROPERTIES 
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Data/)
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/)
 
 set(QML_JS_FILES
     qmldir
@@ -43,14 +43,14 @@ foreach(FILE ${QML_JS_FILES})
         get_filename_component(DIR ${FILE} DIRECTORY)
     endif()
 
-    if (NOT IS_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Data/${DIR})
-        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Data/${DIR})
+    if (NOT IS_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/${DIR})
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/${DIR})
     endif()
     # copy qml files prebuild
     add_custom_command(
         TARGET csdataplugin PRE_BUILD    
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FILE} ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Data/${DIR}
-        DEPENDS ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Data/${FILE}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FILE} ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/${DIR}
+        DEPENDS ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/${FILE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endforeach()

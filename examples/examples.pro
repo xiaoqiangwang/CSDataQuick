@@ -1,5 +1,5 @@
 TEMPLATE = aux
-QML_IMPORT_PATH = $$OUT_PWD/../imports/
+QML_IMPORT_PATH = $$OUT_PWD/../qml/
 
 OTHER_FILES = widgets.qml
 OTHER_FILES += LED.gif

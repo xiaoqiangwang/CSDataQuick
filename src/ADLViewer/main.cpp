@@ -164,7 +164,7 @@ int main(int argc, char **argv)
 
     QQmlEngine *engine = new QQmlEngine();
     engine->rootContext()->setContextProperty("app", qMyApp);
-    engine->addImportPath(QGuiApplication::applicationDirPath() + "/../imports/");
+    engine->addImportPath(QGuiApplication::applicationDirPath() + "/../qml/");
     QQmlComponent component(engine, QUrl("qrc:/main.qml"));
     while(!component.isReady()) {
         if (component.isError()) {

@@ -54,7 +54,7 @@ target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5
 target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
 target_link_libraries(csdatacomponentsplugin ADLParser)
 set_target_properties(csdatacomponentsplugin PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Components)
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
 
 set(QML_JS_FILES
     qmldir
@@ -193,14 +193,14 @@ foreach(FILE ${QML_JS_FILES})
         get_filename_component(DIR ${FILE} DIRECTORY)
     endif()
 
-    if (NOT IS_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Components/${DIR})
-        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Components/${DIR})
+    if (NOT IS_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${DIR})
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${DIR})
     endif()
     # copy qml files prebuild
     add_custom_command(
         TARGET csdatacomponentsplugin PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FILE} ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Components/${DIR}
-        DEPENDS ${CMAKE_BINARY_DIR}/imports/CSDataQuick/Components/${FILE}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FILE} ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${DIR}
+        DEPENDS ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${FILE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endforeach()

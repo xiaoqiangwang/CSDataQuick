@@ -9,10 +9,15 @@ set(HEADERS
     ipcserver.h
 )
 
-set(RESOURCES
-    main.qrc
-)
-
+if (CMAKE_VERSION VERSION_LESS 3.0)
+    qt5_add_resources(RESOURCES
+        main.qrc
+    )
+else ()
+    set(RESOURCES
+        main.qrc
+    )
+endif()
 add_executable(ADLViewer
     ${SOURCES}
     ${HEADERS}

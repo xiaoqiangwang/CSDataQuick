@@ -3,8 +3,6 @@ CONFIG += qt plugin
 TARGET = csdataengineca
 DESTDIR = $$OUT_PWD/../../../plugins
 
-QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
-
 # EPICS related
 INCLUDEPATH += $$(EPICS_BASE)/include/
 LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
@@ -23,9 +21,9 @@ macx {
 INCLUDEPATH += $$PWD/../core
 DEPENDPATH += $$PWD/../core
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../bin/ -lcsdata
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../bin -lcsdata
-else:unix: LIBS += -L$$OUT_PWD/../../../bin/ -lcsdata
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../../lib/ -lcsdata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../../lib -lcsdata
+else:unix: LIBS += -L$$OUT_PWD/../../../lib -lcsdata
 
 SOURCES += \
     $$PWD/csdataengineca.cpp
