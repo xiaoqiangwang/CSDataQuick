@@ -21,6 +21,15 @@ find_package(Qt5PrintSupport)
 # necessary (as is the default with Qt 5).
 if (${CMAKE_MAJOR_VERSION} LESS 3)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+    # -fPIC
+    if (${CMAKE_COMPILER_IS_GNUCXX})
+        set(CMAKE_CXX_FLAGS "-fPIC ${CMAKE_CXX_FLAGS}")
+    endif()
+
+    # Qt 5.7 requires C++11
+    if (NOT(${Qt5Core_VERSION} VERSION_LESS 5.7))
+        set(CMAKE_CXX_FLAGS "--std=gnu++11 ${CMAKE_CXX_FLAGS}")
+    endif()
 endif()
 
 find_package(EPICS)
