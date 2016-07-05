@@ -68,7 +68,7 @@ MetaInfo {
         ItemLibraryEntry {
             name: "ChoiceButton"
             category: "CSDataQuick - Components"
-            libraryIcon: "images/choicebutton.png"
+            libraryIcon: "images/choiceButton.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
         }
