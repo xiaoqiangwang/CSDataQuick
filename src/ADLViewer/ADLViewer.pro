@@ -1,3 +1,5 @@
+include(../../rpath.pri)
+
 TEMPLATE = app
 QT += quick widgets
 
@@ -18,4 +20,3 @@ mac {
 RESOURCES += \
     main.qrc
 
-include(../rpath.pri)

@@ -6,7 +6,7 @@ macx {
     QMAKE_RPATHDIR += \$\$ORIGIN
     QMAKE_RPATHDIR += \$\$ORIGIN/..
     QMAKE_RPATHDIR += \$\$ORIGIN/../lib
-    QMAKE_RPATHDIR += \$\$ORIGIN/../$$IDE_LIBRARY_BASENAME/qtcreator
+    QMAKE_RPATHDIR += \$\$ORIGIN/../../../lib
     IDE_PLUGIN_RPATH = $$join(QMAKE_RPATHDIR, ":")
 
     QMAKE_LFLAGS += -Wl,-z,origin \'-Wl,-rpath,$${IDE_PLUGIN_RPATH}\'

@@ -3,8 +3,6 @@ CONFIG += qt plugin
 TARGET = csdataengineca
 DESTDIR = $$OUT_PWD/../../../plugins
 
-QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
-
 # EPICS related
 INCLUDEPATH += $$(EPICS_BASE)/include/
 LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
