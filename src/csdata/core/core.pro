@@ -4,6 +4,8 @@ TARGET = csdata
 DESTDIR = $$OUT_PWD/../../../lib
 DEFINES += QCS_EXPORT
 
+osx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
+
 SOURCES += \
     $$PWD/csdata.cpp \
     $$PWD/csdataengine.cpp \
