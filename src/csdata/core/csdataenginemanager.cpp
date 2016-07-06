@@ -9,6 +9,31 @@
 
 #include <QtDebug>
 
+#if !defined(MAX_PATH) && defined(PATH_MAX)
+#define MAX_PATH PATH_MAX
+#endif
+
+static char libraryFilePath[MAX_PATH];
+
+#if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
+#include <dlfcn.h>
+__attribute__((constructor))
+static void init(void) {
+    Dl_info dl_info;
+    dladdr((void*)init, &dl_info);
+    strncpy(libraryFilePath, dl_info.dli_fname, MAX_PATH-1);
+    libraryFilePath[MAX_PATH-1] = '\0';
+}
+#elif defined(Q_OS_WIN32)
+BOOL WINAPI DllMain(
+        __in  HINSTANCE hinstDLL,
+        __in  DWORD fdwReason,
+        __in  LPVOID lpvReserved) {
+
+    GetModuleFileName(hinstDLL, libraryFilePath, MAX_PATH);
+}
+#endif
+
 QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
@@ -16,7 +41,8 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
 {
     _engines.append(new QCSDataEngineSim(this));
 
-    QDir pluginsDir = QDir(qApp->applicationDirPath());
+
+    QDir pluginsDir = QFileInfo(libraryFilePath).dir();
     pluginsDir.cdUp();
     pluginsDir.cd("plugins");
     foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
