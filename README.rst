@@ -2,10 +2,17 @@ CSDataQuick
 ===========
 
 This project brings EPICS control system data into QML programming.
-
+The control system data is modeled into CSData object.
 
 Install
 -------
+
+Get EPICS
+~~~~~~~~~
+Download and install EPICS base. Set the following environment variables,::
+
+    $ export EPICS_BASE=/opt/epics/base-3.14.12
+    $ export EPICS_HOST_ARCH=linux-x86_64
 
 Get Qt5
 ~~~~~~~
@@ -15,23 +22,37 @@ On RHEL/Centos/SL 6.x, install qt5.6 from EPEL repository::
     # yum --enablerepo=epel install qt5-qtdeclarative-devel
     # yum --enablerepo=epel install qt5-qtquickcontrols
 
-Or download the `installer https://www.qt.io/download-open-source/`_.
+Or download the `installer <https://www.qt.io/download-open-source/>`_.
 
 With Qt 5.7, the 2D render backend is made available as open source.
-This is especially valuable when the OpenGL driver function poorly.
+This is especially valuable when the OpenGL driver functions poorly.
 For example, graphics could be rendered ugly on intel graphics driver on SL6.4.
 The 2D render could be enabled, by setting the following environment variable::
 
     $ export QMLSCENE_DEVICE=softwarecontext
 
+.. note:: Qt 5.7 requires C++11, which means gcc 4.8 and above.
 
 Build
 ~~~~~
+
+Get the source,::
+
+    $ git clone https://github.com/xiaoqiangwang/CSDataQuick.git
+
 Use qmake::
 
-    $ qmake CSDataQuick.pro
+    $ mkdir CSDataQuick-qmake
+    $ cd CSDataQuick-qmake
+    $ qmake ../CSDataQuick
     $ make
 
+Use cmake::
+
+    $ mkdir CSDataQuick-cmake
+    $ cd CSDataQuick-cmake
+    $ cmake ../CSDataQuick
+    $ make
 
 Demos
 -----
@@ -57,13 +78,16 @@ To see the ADLViewer in work::
 
 Designer
 --------
-Be sure to change the render from 2D to OpenGLi,::
+Be sure to change the render from 2D to OpenGL,::
 
     $ export QMLSCENE_DEVICE=
+
+Launch Qt Creator,::
+
+    $ export QML_IMPORT_PATH=qml
+    $ qtcreator
 
 Open options dialog, Tools -> Options, select *Qt Quick* from the left list, then select 
 *Qt Quick Designer* tab, in the *QML Enumlation Layer* group, select 
 *Use QML emulation layer that is built bythe selected Qt*.
-
-
 
