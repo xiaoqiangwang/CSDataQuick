@@ -1,21 +1,5 @@
-# EPICS related
-INCLUDEPATH += $$(EPICS_BASE)/include/
-LIBS += -L$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH) -lca -lCom
-
-win32 {
-    INCLUDEPATH += $$(EPICS_BASE)/include/os/WIN32
-    #LIBS += -lws2_32
-    #QMAKE_CXXFLAGS += -D_MINGW -DEPICS_DLL_NO
-}
-linux {
-    INCLUDEPATH += $$(EPICS_BASE)/include/os/Linux
-    LIBS += -Wl,-rpath=$$(EPICS_BASE)/lib/$$(EPICS_HOST_ARCH)
-}
-macx {
-    INCLUDEPATH += $$(EPICS_BASE)/include/os/Darwin
-}
-
 INCLUDEPATH += $$PWD/../ADLParser
+INCLUDEPATH += $$PWD/../csdata/core/
 DEPENDPATH += $$PWD/../ADLParser
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser
@@ -49,3 +33,5 @@ HEADERS += \
     $$PWD/enums.h \
     $$PWD/windowmanager.h \
     $$PWD/attribute.h
+
+include(../../epics.pri)

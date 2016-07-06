@@ -1,6 +1,8 @@
 #ifndef CS_GLOBAL_H
 #define CS_GLOBAL_H
 
+#include <QtGlobal>
+
 #ifdef Q_OS_WIN32
     #if defined(QCS_EXPORT)
         #define QCS_DLLSPEC Q_DECL_EXPORT
