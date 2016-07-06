@@ -9,8 +9,11 @@
 
 #include <QtDebug>
 
+#ifdef Q_OS_WIN32
+#include <Windows.h>
 #if !defined(MAX_PATH) && defined(PATH_MAX)
 #define MAX_PATH PATH_MAX
+#endif
 #endif
 
 static char libraryFilePath[MAX_PATH];
@@ -30,7 +33,8 @@ BOOL WINAPI DllMain(
         __in  DWORD fdwReason,
         __in  LPVOID lpvReserved) {
 
-    GetModuleFileName(hinstDLL, libraryFilePath, MAX_PATH);
+    GetModuleFileNameA(hinstDLL, libraryFilePath, MAX_PATH);
+    return TRUE;
 }
 #endif
 
