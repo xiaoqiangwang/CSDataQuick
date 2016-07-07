@@ -37,7 +37,7 @@ LimitsBase::LimitsBase(QObject *parent)
     connect(this, SIGNAL(hoprSrcChanged()), this, SLOT(onHoprSrcChanged()));
     connect(this, SIGNAL(hoprChannelChanged()), this, SLOT(onHoprSrcChanged()));
     connect(this, SIGNAL(hoprDefaultChanged()), this, SLOT(onHoprSrcChanged()));
-    connect(this, SIGNAL(loprUserChanged()), this, SLOT(onHoprSrcChanged()));
+    connect(this, SIGNAL(hoprUserChanged()), this, SLOT(onHoprSrcChanged()));
 
     connect(this, SIGNAL(precSrcChanged()), this, SLOT(onPrecSrcChanged()));
     connect(this, SIGNAL(precChannelChanged()), this, SLOT(onPrecSrcChanged()));
