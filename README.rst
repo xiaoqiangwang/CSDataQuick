@@ -25,7 +25,7 @@ On RHEL/Centos/SL 6.x, install qt5.6 from EPEL repository::
 Or download the `installer <https://www.qt.io/download-open-source/>`_.
 
 With Qt 5.7, the 2D render backend is made available as open source.
-This is especially valuable when the OpenGL driver functions poorly.
+This is especially valuable when the OpenGL driver functions poorly, e.g via ssh.
 For example, graphics could be rendered ugly on intel graphics driver on SL6.4.
 The 2D render could be enabled, by setting the following environment variable::
 
