@@ -7,6 +7,7 @@
 #define epicsAlarmGLOBAL
 #include <alarm.h>
 
+#include <QTimer>
 #include <QtDebug>
 
 void exception_handler(exception_handler_args args)
@@ -268,6 +269,8 @@ QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
     roles << "source" << "connected";
     _data->setup<QCSData>(roles);
 
+    _update_scheduled = false;
+
     int status = ca_context_create(ca_enable_preemptive_callback);
     if(status != ECA_NORMAL)
         qCritical() << "ca_context_create:" << ca_message(status);
@@ -318,7 +321,7 @@ void QCSDataEngineCA::create(QCSData *data)
         // create a dynamic property to hold the channel id
         data->setProperty("chid", QVariant::fromValue((void*)_chid));
         _data->append(data);
-        emit allDataChanged();
+        dataChanged();
     }
 }
 void QCSDataEngineCA::close(QCSData *data)
@@ -334,7 +337,7 @@ void QCSDataEngineCA::close(QCSData *data)
     data->setProperty("chid", QVariant::fromValue(0));
 
     _data->remove(data);
-    emit allDataChanged();
+    dataChanged();
 }
 
 void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
@@ -412,4 +415,26 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
 ObjectModel* QCSDataEngineCA::allData()
 {
     return _data;
+}
+
+void QCSDataEngineCA::dataChanged()
+{
+    if (_update_scheduled)
+        return;
+
+    qint64 now = QDateTime::currentMSecsSinceEpoch();
+    if (now < _last_update + 250) {
+        _update_scheduled = true;
+        QTimer::singleShot(250, this, SLOT(notifyDataChange()));
+    } else {
+        _last_update = now;
+        emit allDataChanged();
+    }
+}
+
+void QCSDataEngineCA::notifyDataChange()
+{
+    _last_update = QDateTime::currentMSecsSinceEpoch();
+    _update_scheduled = false;
+    emit allDataChanged();
 }

@@ -26,10 +26,15 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void notifyDataChange();
 
 private:
+    void dataChanged();
+
     ObjectModel *_data;
+    bool _update_scheduled;
+    qint64 _last_update;
 
     struct ca_client_context *_cac; // global channel access client context
 };
