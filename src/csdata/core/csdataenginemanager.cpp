@@ -16,6 +16,11 @@
 #endif
 #endif
 
+#include <limits.h>
+#if defined(_POSIX_PATH_MAX) && !defined(MAX_PATH)
+#define MAX_PATH _POSIX_PATH_MAX
+#endif
+
 static char libraryFilePath[MAX_PATH];
 
 #if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
