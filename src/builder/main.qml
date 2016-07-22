@@ -11,6 +11,7 @@ ApplicationWindow {
     width: 400
     height: 400
     title: qsTr("Hello World")
+    color: windows_background
 
     menuBar: MenuBar {
         Menu {
