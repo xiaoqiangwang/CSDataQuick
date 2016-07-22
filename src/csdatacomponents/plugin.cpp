@@ -13,6 +13,7 @@
 #include "baseitem.h"
 #include "attribute.h"
 #include "windowmanager.h"
+#include "csimageitem.h"
 
 #include <qqml.h>
 
@@ -48,6 +49,8 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
+
+    qmlRegisterType<CSImageItem>(uri, 1, 0, "ImageItem");
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);

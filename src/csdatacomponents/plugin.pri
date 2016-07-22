@@ -19,7 +19,8 @@ SOURCES += \
     $$PWD/enums.cpp \
     $$PWD/windowmanager.cpp \
     $$PWD/geometryspecification.cpp \
-    $$PWD/attribute.cpp
+    $$PWD/attribute.cpp \
+    $$PWD/csimageitem.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -32,6 +33,7 @@ HEADERS += \
     $$PWD/baseitem.h \
     $$PWD/enums.h \
     $$PWD/windowmanager.h \
-    $$PWD/attribute.h
+    $$PWD/attribute.h \
+    $$PWD/csimageitem.h
 
 include(../../epics.pri)
