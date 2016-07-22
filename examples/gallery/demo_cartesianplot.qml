@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     Column {
         anchors.fill: parent
-        CaCartesianPlot {
+        CSCartesianPlot {
             id: plot
             width: 200
             height: 200

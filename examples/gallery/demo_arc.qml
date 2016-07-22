@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Item {
     ColumnLayout {
         anchors.fill: parent
-        CaArc {
+        CSArc {
             id: arc
             width: 200
             height: 200

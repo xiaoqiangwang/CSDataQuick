@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     ColumnLayout {
         anchors.fill: parent
-        CaPolygon {
+        CSPolygon {
             id: polygon
             width: 201
             height: 201

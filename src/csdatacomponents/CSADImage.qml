@@ -4,7 +4,7 @@ import QtQuick.Controls 1.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaADImage
+    \qmltype CSADImage
     \inqmlmodule CSDataQuick.Components
     \brief Display an image from areaDetector
 
@@ -35,7 +35,7 @@ import CSDataQuick.Components 1.0
     \endtable
 
     \qml
-        CaADImage {
+        CSADImage {
             interval: 200
             source: '13SIM1:image1:'
         }

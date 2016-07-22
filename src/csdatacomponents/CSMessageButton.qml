@@ -5,14 +5,14 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaMessageButton
+    \qmltype CSMessageButton
     \inqmlmodule CSDataQuick.Components
     \brief Displays a push button
 
     The Message Button sets the process variable when the button is pressed or released.
 */
 
-CaControl {
+CSControl {
     id: root
     implicitWidth: 100
     implicitHeight: 20

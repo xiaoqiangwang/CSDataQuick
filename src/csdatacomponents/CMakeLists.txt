@@ -60,33 +60,33 @@ set(QML_JS_FILES
     qmldir
     BaseWindow.qml
     DynamicAttribute.qml
-    CaADImage.qml
-    CaArc.qml
-    CaBar.qml
-    CaByte.qml
-    CaCartesianPlot.qml
-    CaChoiceButton.qml
-    CaComposite.qml
-    CaControl.qml
-    CaGraphics.qml
-    CaImage.qml
-    CaIndicator.qml
-    CaMenu.qml
-    CaMessageButton.qml
-    CaMeter.qml
-    CaMonitor.qml
-    CaOval.qml
-    CaPolygon.qml
-    CaPolyline.qml
-    CaRect.qml
-    CaRelatedDisplay.qml
-    CaShellCommand.qml
-    CaSlider.qml
-    CaStripChart.qml
-    CaTextEntry.qml
-    CaTextUpdate.qml
-    CaText.qml
-    CaWheelSwitch.qml
+    CSADImage.qml
+    CSArc.qml
+    CSBar.qml
+    CSByte.qml
+    CSCartesianPlot.qml
+    CSChoiceButton.qml
+    CSComposite.qml
+    CSControl.qml
+    CSGraphics.qml
+    CSImage.qml
+    CSIndicator.qml
+    CSMenu.qml
+    CSMessageButton.qml
+    CSMeter.qml
+    CSMonitor.qml
+    CSOval.qml
+    CSPolygon.qml
+    CSPolyline.qml
+    CSRect.qml
+    CSRelatedDisplay.qml
+    CSShellCommand.qml
+    CSSlider.qml
+    CSStripChart.qml
+    CSTextEntry.qml
+    CSTextUpdate.qml
+    CSText.qml
+    CSWheelSwitch.qml
     utils.js
     ColorMap.qml
     DisplayListDialog.qml
@@ -117,29 +117,29 @@ set(QML_JS_FILES
     Private/images/groove_horz.png
     Private/images/groove_vert.png
     designer/BaseWindowSpecifics.qml
-    designer/CaArcSpecifics.qml
-    designer/CaBarSpecifics.qml
-    designer/CaByteSpecifics.qml
-    designer/CaCartesianPlotSpecifics.qml
-    designer/CaCompositeSpecifics.qml
-    designer/CaChoiceButtonSpecifics.qml
-    designer/CaImageSpecifics.qml
-    designer/CaIndicatorSpecifics.qml
-    designer/CaMenuSpecifics.qml
-    designer/CaMessageButtonSpecifics.qml
-    designer/CaMeterSpecifics.qml
-    designer/CaOvalSpecifics.qml
-    designer/CaPolygonSpecifics.qml
-    designer/CaPolylineSpecifics.qml
-    designer/CaRectSpecifics.qml
-    designer/CaRelatedDisplaySpecifics.qml
-    designer/CaShellCommandSpecifics.qml
-    designer/CaSliderSpecifics.qml
-    designer/CaStripChartSpecifics.qml
-    designer/CaTextSpecifics.qml
-    designer/CaTextEntrySpecifics.qml
-    designer/CaTextUpdateSpecifics.qml
-    designer/CaWheelSwitchSpecifics.qml
+    designer/CSArcSpecifics.qml
+    designer/CSBarSpecifics.qml
+    designer/CSByteSpecifics.qml
+    designer/CSCartesianPlotSpecifics.qml
+    designer/CSCompositeSpecifics.qml
+    designer/CSChoiceButtonSpecifics.qml
+    designer/CSImageSpecifics.qml
+    designer/CSIndicatorSpecifics.qml
+    designer/CSMenuSpecifics.qml
+    designer/CSMessageButtonSpecifics.qml
+    designer/CSMeterSpecifics.qml
+    designer/CSOvalSpecifics.qml
+    designer/CSPolygonSpecifics.qml
+    designer/CSPolylineSpecifics.qml
+    designer/CSRectSpecifics.qml
+    designer/CSRelatedDisplaySpecifics.qml
+    designer/CSShellCommandSpecifics.qml
+    designer/CSSliderSpecifics.qml
+    designer/CSStripChartSpecifics.qml
+    designer/CSTextSpecifics.qml
+    designer/CSTextEntrySpecifics.qml
+    designer/CSTextUpdateSpecifics.qml
+    designer/CSWheelSwitchSpecifics.qml
     designer/CartesianPlotEditor.qml
     designer/ColorSection.qml
     designer/ColorPalette.qml

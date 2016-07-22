@@ -7,7 +7,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaShellCommand
+    \qmltype CSShellCommand
     \inqmlmodule CSDataQuick.Components
     \brief Run shell commands
 
@@ -24,7 +24,7 @@ import "utils.js" as UtilsJS
     and a dialog box will prompt the user to complete (or otherwise edit) the command.
 
     \qml
-    CaShellCommand {
+    CSShellCommand {
         width: 150
         height: 25
         label: 'Shell Commands'

@@ -4,11 +4,11 @@ import CSDataQuick.Components 1.0
 
 
 /*!
-    \qmltype CaGraphics
+    \qmltype CSGraphics
     \inqmlmodule CSDataQuick.Components
     \brief Basic type to all PV graphics shape
 
-    CaGraphics is the base type for all graphics types.
+    CSGraphics is the base type for all graphics types.
     It defines all the attributes that are common across graphics shapes.
 
 */

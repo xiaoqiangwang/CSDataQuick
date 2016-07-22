@@ -7,11 +7,11 @@ import CSDataQuick.Components 1.0
 Rectangle {
     ColumnLayout {
         anchors.fill: parent
-        CaTextUpdate {
+        CSTextUpdate {
             source: 'calc'
             width: 100
         }
-        CaMessageButton {
+        CSMessageButton {
             text: 'reset'
             width: 80
             height: 20

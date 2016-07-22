@@ -110,14 +110,14 @@ ApplicationWindow {
             }
         }
     }
-    Component { id: bar;         CaBar         {source: channelName}}
-    Component { id: bite;        CaByte        {source: channelName}}
-    Component { id: choiceButton;CaChoiceButton{source: channelName; stacking: Stacking.Row}}
-    Component { id: menu;        CaMenu        {source: channelName}}
+    Component { id: bar;         CSBar         {source: channelName}}
+    Component { id: bite;        CSByte        {source: channelName}}
+    Component { id: choiceButton;CSChoiceButton{source: channelName; stacking: Stacking.Row}}
+    Component { id: menu;        CSMenu        {source: channelName}}
     Component { id: separator;   Rectangle     {height: 2}}
-    Component { id: textEntry;   CaTextEntry   {source: channelName}}
-    Component { id: textUpdate;  CaTextUpdate  {source: channelName}}
-    Component { id: wheelSwitch; CaWheelSwitch {source: channelName}}
+    Component { id: textEntry;   CSTextEntry   {source: channelName}}
+    Component { id: textUpdate;  CSTextUpdate  {source: channelName}}
+    Component { id: wheelSwitch; CSWheelSwitch {source: channelName}}
 
     function open() {
 

@@ -2,45 +2,45 @@ import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
 
-/*!
-    \qmltype CaRect
-    \inqmlmodule CSDataQuick.Components
-    \brief Display a rectangle
 
-    The rectangle is drawn always within the item boundary.
+/*!
+    \qmltype CSOval
+    \inqmlmodule CSDataQuick.Components
+    \brief Display a circle or ellipse.
+
+    The ellipse is drawn always within the item boundary.
 
     \qml
     Row {
         spacing: 5
-        CaRect {
-            width: 100
-            height: 100
+        CSOval {
+            width: 50
+            height: 50
         }
-        CaRect {
+        CSOval {
             width: 100
-            height: 100
-            lineWidth: 5
-            fill: FillStyle.Outline
+            height: 50
+            fillStyle: FillStyle.Outline
         }
     }
     \endqml
 
-    \image rect.png
+    \image oval.png
 */
 
-CaGraphics {
+CSGraphics {
     id: root
     implicitWidth: 100
     implicitHeight: 100
-    PaintedRectangle {
-        id: rect
+
+    Oval {
         anchors.fill: parent
-        lineWidth: root.lineWidth
         foreground: (colorMode == ColorMode.Alarm
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static
                          && !dynamicAttribute.connected))
                     ? root.alarmColor :root.foreground
-        edgeStyle: root.edgeStyle
+        lineWidth: root.lineWidth
         fillStyle: root.fillStyle
+        edgeStyle: root.edgeStyle
     }
 }

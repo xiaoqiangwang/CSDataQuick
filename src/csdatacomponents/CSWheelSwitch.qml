@@ -5,7 +5,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaWheelSwitch
+    \qmltype CSWheelSwitch
     \inqmlmodule CSDataQuick.Components
     \brief Control a number with individual digit manipulation.
 
@@ -33,7 +33,7 @@ import "utils.js" as UtilsJS
     The limits and precision can be changed via the PvLimits dialog.
 
     \qml
-    CaWheelSwitch {
+    CSWheelSwitch {
         width: 150
         height: 30
         anchors.centerIn: parent
@@ -45,7 +45,7 @@ import "utils.js" as UtilsJS
     \image wheelswitch.png
 */
 
-CaControl {
+CSControl {
     id: root
     implicitWidth: 100
     implicitHeight: 50

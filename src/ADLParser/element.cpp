@@ -1300,7 +1300,7 @@ void Composite::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaComposite {" << std::endl;
+    ostream << indent << "CSComposite {" << std::endl;
     Element::toQML(ostream);
     this->dynamic_attr.toQML(ostream);
 
@@ -1382,7 +1382,7 @@ void Arc::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaArc {" << std::endl;
+    ostream << indent << "CSArc {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1450,7 +1450,7 @@ void Image::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaImage {" << std::endl;
+    ostream << indent << "CSImage {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1504,7 +1504,7 @@ void Oval::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaOval {" << std::endl;
+    ostream << indent << "CSOval {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1594,7 +1594,7 @@ void Polygon::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaPolygon {" << std::endl;
+    ostream << indent << "CSPolygon {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1694,7 +1694,7 @@ void Polyline::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaPolyline {" << std::endl;
+    ostream << indent << "CSPolyline {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1752,7 +1752,7 @@ void Rectangle::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaRect {" << std::endl;
+    ostream << indent << "CSRect {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1831,7 +1831,7 @@ void Text::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaText {" << std::endl;
+    ostream << indent << "CSText {" << std::endl;
     Element::toQML(ostream);
     this->basic_attr.toQML(ostream);
     this->dynamic_attr.toQML(ostream);
@@ -1909,7 +1909,7 @@ void ChoiceButton::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaChoiceButton {" << std::endl;
+    ostream << indent << "CSChoiceButton {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
     if (this->clrmod != STATIC)
@@ -1970,7 +1970,7 @@ void Menu::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaMenu {" << std::endl;
+    ostream << indent << "CSMenu {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
     if (this->clrmod != STATIC)
@@ -2041,7 +2041,7 @@ void MessageButton::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaMessageButton {" << std::endl;
+    ostream << indent << "CSMessageButton {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
 
@@ -2163,7 +2163,7 @@ void ShellCommand::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaShellCommand {" << std::endl;
+    ostream << indent << "CSShellCommand {" << std::endl;
     Element::toQML(ostream);
     ostream << indent << "    foreground: \"" << display()->color(this->clr) << '"' << std::endl;
     ostream << indent << "    background: \"" << display()->color(this->bclr) << '"' << std::endl;
@@ -2255,7 +2255,7 @@ void Slider::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaSlider {" << std::endl;
+    ostream << indent << "CSSlider {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
     this->limits.toQML(ostream);
@@ -2334,7 +2334,7 @@ void TextEntry::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaTextEntry {" << std::endl;
+    ostream << indent << "CSTextEntry {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
     this->limits.toQML(ostream);
@@ -2404,7 +2404,7 @@ void WheelSwitch::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaWheelSwitch {" << std::endl;
+    ostream << indent << "CSWheelSwitch {" << std::endl;
     Element::toQML(ostream);
     this->control.toQML(ostream);
     this->limits.toQML(ostream);
@@ -2504,7 +2504,7 @@ void Bar::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaBar {" << std::endl;
+    ostream << indent << "CSBar {" << std::endl;
     Element::toQML(ostream);
     this->monitor.toQML(ostream);
     this->limits.toQML(ostream);
@@ -2593,7 +2593,7 @@ void Byte::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaByte {" << std::endl;
+    ostream << indent << "CSByte {" << std::endl;
     Element::toQML(ostream);
     this->monitor.toQML(ostream);
     this->limits.toQML(ostream);
@@ -2720,7 +2720,7 @@ void CartesianPlot::toQML(std::ostream &fstream)
 {
     std::string indent(level() * 4, ' ');
 
-    fstream << indent << "CaCartesianPlot {" << std::endl;
+    fstream << indent << "CSCartesianPlot {" << std::endl;
     Element::toQML(fstream);
     this->plotcom.toQML(fstream);
     fstream << indent << "    plotStyle: " << qmlValueTable[this->style] << std::endl;
@@ -2880,7 +2880,7 @@ void Indicator::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaIndicator {" << std::endl;
+    ostream << indent << "CSIndicator {" << std::endl;
     Element::toQML(ostream);
     this->monitor.toQML(ostream);
     this->limits.toQML(ostream);
@@ -2956,7 +2956,7 @@ void Meter::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaMeter {" << std::endl;
+    ostream << indent << "CSMeter {" << std::endl;
     Element::toQML(ostream);
     this->monitor.toQML(ostream);
     this->limits.toQML(ostream);
@@ -3034,7 +3034,7 @@ void StripChart::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaStripChart {" << std::endl;
+    ostream << indent << "CSStripChart {" << std::endl;
     Element::toQML(ostream);
     this->plotcom.toQML(ostream);
     ostream << indent << "    period: " << this->period << std::endl;
@@ -3225,7 +3225,7 @@ void TextUpdate::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaTextUpdate {" << std::endl;
+    ostream << indent << "CSTextUpdate {" << std::endl;
     Element::toQML(ostream);
     this->monitor.toQML(ostream);
     this->limits.toQML(ostream);
@@ -3302,7 +3302,7 @@ void RelatedDisplay::toQML(std::ostream &ostream)
 {
     std::string indent(level() * 4, ' ');
 
-    ostream << indent << "CaRelatedDisplay {" << std::endl;
+    ostream << indent << "CSRelatedDisplay {" << std::endl;
     Element::toQML(ostream);
     ostream << indent << "    foreground: \"" << display()->color(this->clr) << '"' << std::endl;
     ostream << indent << "    background: \"" << display()->color(this->bclr) << '"' << std::endl;

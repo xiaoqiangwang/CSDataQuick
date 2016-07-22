@@ -7,7 +7,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaRelatedDisplay
+    \qmltype CSRelatedDisplay
     \inqmlmodule CSDataQuick.Components
     \brief Brings up more displays
 
@@ -31,7 +31,7 @@ import "utils.js" as UtilsJS
      \qml
     Row {
         spacing: 10
-        CaRelatedDisplay {
+        CSRelatedDisplay {
             width: 100
             height: 25
             label: 'More ...'
@@ -40,7 +40,7 @@ import "utils.js" as UtilsJS
                 ListElement {label:'Graphics'; file: 'graphics.adl'; replace: true;}
             }
         }
-        CaRelatedDisplay {
+        CSRelatedDisplay {
             width: 100
             height: 60
             visual: RelatedDisplayVisual.Column

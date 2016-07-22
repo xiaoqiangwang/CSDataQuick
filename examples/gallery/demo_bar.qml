@@ -8,7 +8,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
 ColumnLayout {
     anchors.fill: parent
-    CaBar {
+    CSBar {
         width: (direction == Direction.Left || direction == Direction.Right) ? 100 : 50
         height: (direction == Direction.Left || direction == Direction.Right) ? 50 : 100
         source: 'catest'

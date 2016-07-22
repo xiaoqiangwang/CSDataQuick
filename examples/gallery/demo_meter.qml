@@ -8,7 +8,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
 ColumnLayout {
     anchors.fill: parent
-    CaMeter {
+    CSMeter {
         width: 100
         height:80
         source: 'catest'

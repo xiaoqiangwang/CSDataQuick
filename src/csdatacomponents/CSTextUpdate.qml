@@ -6,7 +6,7 @@ import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaTextUpdate
+    \qmltype CSTextUpdate
     \inqmlmodule CSDataQuick.Components
     \brief Display the value in given format.
 
@@ -18,12 +18,12 @@ import "utils.js" as UtilsJS
     \qml
     Row {
         spacing: 5
-        CaTextUpdate {
+        CSTextUpdate {
             width: 100
             height: 20
             source: 'catest.SCAN'
         }
-        CaTextUpdate {
+        CSTextUpdate {
             width: 100
             height: 20
             source: 'catest'
@@ -34,7 +34,7 @@ import "utils.js" as UtilsJS
     \image textupdate.png
 */
 
-CaMonitor {
+CSMonitor {
     id: root
     implicitWidth: 100
     implicitHeight: 20

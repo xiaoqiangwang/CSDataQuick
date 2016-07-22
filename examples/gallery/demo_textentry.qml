@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     ColumnLayout {
         anchors.fill: parent
-        CaTextEntry {
+        CSTextEntry {
             source: 'catest'
             width: 100
             height: 20
@@ -16,7 +16,7 @@ Rectangle {
             align: textAlignmentGroup.textAlignment
             format: textFormatGroup.textFormat
         }
-        CaTextEntry {
+        CSTextEntry {
             source: 'castr'
             width: 100
             height: 20

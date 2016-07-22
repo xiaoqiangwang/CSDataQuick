@@ -4,7 +4,7 @@ import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaText
+    \qmltype CSText
     \inqmlmodule CSDataQuick.Components
     \brief Display a text label
 
@@ -16,12 +16,12 @@ import "utils.js" as UtilsJS
     \qml
     Column {
         spacing: 5
-        CaText {
+        CSText {
             width: 100
             height: 20
             text: 'Plain Text'
         }
-        CaText {
+        CSText {
             width: 100
             height: 20
             text: '<b>Rich</b> <i>Text</i>'
@@ -32,7 +32,7 @@ import "utils.js" as UtilsJS
     \image text.png
 */
 
-CaGraphics {
+CSGraphics {
     id: root
     implicitWidth: 100
     implicitHeight: 20

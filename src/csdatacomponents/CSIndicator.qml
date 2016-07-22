@@ -5,17 +5,17 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaIndicator
+    \qmltype CSIndicator
     \inqmlmodule CSDataQuick.Components
     \brief The Indicator displays the value on a scale.
 
     The Indicator can have several decorations as specified by the \l labelStyle.
     It can go up, down, left, or right, as specified by the \l direction property.
-    It is very much like \l CaBar monitor, except that the value is represented by
+    It is very much like \l CSBar monitor, except that the value is represented by
     an indicator.
 
     \qml
-    CaIndicator {
+    CSIndicator {
         source: 'catest'
         labelStyle: LabelStyle.Outline
         colorMode: ColorMode.Alarm
@@ -24,10 +24,10 @@ import "utils.js" as UtilsJS
 
     \image indicator.png
 
-    \sa CaBar
+    \sa CSBar
 */
 
-CaMonitor {
+CSMonitor {
     id: root
     implicitWidth: 200
     implicitHeight: 50

@@ -6,7 +6,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaTextEntry
+    \qmltype CSTextEntry
     \inqmlmodule CSDataQuick.Components
     \brief Display an editable text
 
@@ -38,29 +38,29 @@ import "utils.js" as UtilsJS
 
     \qml
     Column {
-        CaTextEntry {
+        CSTextEntry {
             width: 80
             height: 25
             source: 'bo'
         }
-        CaTextEntry {
+        CSTextEntry {
             width: 200
             height: 25
             source: 'waves'
         }
-        CaTextEntry {
+        CSTextEntry {
             width: 80
             height: 25
             source: 'catest'
             format: TextFormat.Decimal
         }
-        CaTextEntry {
+        CSTextEntry {
             width: 80
             height: 25
             source: 'catest'
             format: TextFormat.Hexadecimal
         }
-        CaTextEntry {
+        CSTextEntry {
             width: 80
             height: 25
             source: 'catest'
@@ -72,7 +72,7 @@ import "utils.js" as UtilsJS
     \image textentry.png
 */
 
-CaControl {
+CSControl {
     id: root
     implicitWidth: 100
     implicitHeight: 20

@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     ColumnLayout {
         anchors.fill: parent
-        CaOval {
+        CSOval {
             id: oval
             width: 200
             height: 200

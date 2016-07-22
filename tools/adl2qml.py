@@ -250,7 +250,7 @@ class MEDMTextEntry(MEDMControl):
     def toQML(self):
         size, family = calcBestFont(self.height, True )
 
-        s = """CaTextEntry {
+        s = """CSTextEntry {
      %s
     align: %s
     fontSize: %s
@@ -271,7 +271,7 @@ class MEDMButton(MEDMControl):
 
     def toQML(self):
         size, family = calcBestFont(self.height, True)
-        s = """CaMessageButton {
+        s = """CSMessageButton {
     %s
     text: %s
     fontSize: %s
@@ -289,7 +289,7 @@ class MEDMChoiceButton(MEDMControl):
         self.stacking = Stacking[d.get('stacking', '"row"')]
 
     def toQML(self):
-        s = """CaChoiceButton {
+        s = """CSChoiceButton {
         %s
         stacking: %s
 }
@@ -304,7 +304,7 @@ class MEDMMenu(MEDMControl):
         self.background = '"#%s"' % color_map[int(d['control']['bclr'])]
 
     def toQML(self):
-        s = """CaMenu {
+        s = """CSMenu {
     %s
 }
 """ % (super(MEDMMenu, self).toQML())
@@ -317,7 +317,7 @@ class MEDMSlider(MEDMControl):
         self.direction = Direction[d.get('direction', '"right"')]
 
     def toQML(self):
-        s = """CaSlider {
+        s = """CSSlider {
     %s
     direction: %s
 }
@@ -330,7 +330,7 @@ class MEDMWheelSwitch(MEDMControl):
         self.format = d.get('format', '""')
 
     def toQML(self):
-        s = """CaWheelSwitch {
+        s = """CSWheelSwitch {
     %s
     format: %s
 }
@@ -375,7 +375,7 @@ class MEDMRelatedDisplay(MEDMObject):
 
         size, family = calcBestFont(self.height, True)
 
-        s = """CaRelatedDisplay {
+        s = """CSRelatedDisplay {
         %s
         foreground: %s
         background: %s
@@ -420,7 +420,7 @@ class MEDMShellCommand(MEDMObject):
 
         size, family = calcBestFont(self.height, True)
 
-        s = """CaShellCommand {
+        s = """CSShellCommand {
         %s
         foreground: %s
         background: %s
@@ -465,7 +465,7 @@ class MEDMTextUpdate(MEDMMonitor):
 
     def toQML(self):
         size, family = calcBestFont(self.height, False)
-        s = """CaTextUpdate {
+        s = """CSTextUpdate {
     %s
     align: %s
     format: %s
@@ -484,7 +484,7 @@ class MEDMBar(MEDMMonitor):
         self.direction = Direction[d.get('direction', '"right"')]
 
     def toQML(self):
-        s = """CaBar {
+        s = """CSBar {
     %s
     direction: %s
 }
@@ -496,7 +496,7 @@ class MEDMMeter(MEDMMonitor):
         super(MEDMMeter, self).__init__(d, parent)
 
     def toQML(self):
-        s = """CaMeter {
+        s = """CSMeter {
     %s
 }
 """ % (super(MEDMMeter, self).toQML())
@@ -513,7 +513,7 @@ class MEDMByte(MEDMMonitor):
         d = {'"right"' : 'Qt.Horizontal',
              '"down"'  : 'Qt.Vertical'}
 
-        s = """CaByte {
+        s = """CSByte {
     %s
     orientation: %s
     start: %s
@@ -572,7 +572,7 @@ class MEDMText(MEDMGraphics):
 
     def toQML(self):
         size, family = calcBestFont(self.height, False)
-        s = """CaText {
+        s = """CSText {
     %s
     align: %s
     text: %s
@@ -588,7 +588,7 @@ class MEDMImage(MEDMObject):
         self.fname = d['"image name"']
 
     def toQML(self):
-        s = """CaImage {
+        s = """CSImage {
     %s
     source: %s
 }
@@ -606,7 +606,7 @@ class MEDMArc(MEDMGraphics):
 
 
     def toQML(self):
-        s = """CaArc {
+        s = """CSArc {
     %s
     fill: %s
     edge: %s
@@ -625,7 +625,7 @@ class MEDMOval(MEDMGraphics):
         self.height += 1
 
     def toQML(self):
-        s = """CaOval {
+        s = """CSOval {
     %s
     fill: %s
     edge: %s
@@ -639,7 +639,7 @@ class MEDMRect(MEDMGraphics):
         super(MEDMRect, self).__init__(d, parent)
 
     def toQML(self):
-        s = """CaRect {
+        s = """CSRect {
     %s
     fill: %s
     edge: %s
@@ -663,7 +663,7 @@ class MEDMPolyline(MEDMGraphics):
             p += 'Qt.point(%s,%s),' % (int(pt[0]) - int(self.x), int(pt[1]) - int(self.y))
 
         p += ']'
-        s = """CaPolyline {
+        s = """CSPolyline {
     %s
     edge: %s
     lineWidth: %s
@@ -687,7 +687,7 @@ class MEDMPolygon(MEDMGraphics):
         for pt in self.points:
             p += 'Qt.point(%s,%s),' % (pt[0] - self.x, pt[1] - self.y)
         p += ']'
-        s = """CaPolygon {
+        s = """CSPolygon {
     %s
     fill: %s
     edge: %s
@@ -747,7 +747,7 @@ class MEDMComposite(MEDMObject):
                 qml = 'Item {\n' + qml + '}\n'
             s += qml
 
-        return """ CaComposite {
+        return """CSComposite {
         %s
         %s
         %s
@@ -787,7 +787,7 @@ class MEDMStripChart(MEDMObject):
 """ % (pen[0], pen[1], LimitsSource[pen[2].loprSrc], pen[2].loprDefault, LimitsSource[pen[2].hoprSrc], pen[2].hoprDefault)
 
         s = """
-CaStripChart {
+CSStripChart {
     %s
     title: %s
     foreground: %s
@@ -835,7 +835,7 @@ class MEDMCartesianPlot(MEDMObject):
         }
 """ % (trace[0], trace[1], trace[2])
         s = """
-CaCartesianPlot {
+CSCartesianPlot {
     %s
     title: %s
     foreground: %s

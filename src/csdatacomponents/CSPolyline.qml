@@ -3,15 +3,15 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaPolygon
+    \qmltype CSPolygon
     \inqmlmodule CSDataQuick.Components
     \brief Display a polyline
 
     Draws the polyline defined by the \l points array.
-    Note that unlike CaPolygon, the last point is not connected to the first, unless the first point is repeated at the end.
+    Note that unlike CSPolygon, the last point is not connected to the first, unless the first point is repeated at the end.
 
     \qml
-    CaPolyline {
+    CSPolyline {
         width: 100
         height: 100
         points: [
@@ -23,10 +23,10 @@ import CSDataQuick.Components 1.0
 
     \image polyline.png
 
-    \sa CaPolygon
+    \sa CSPolygon
 */
 
-CaGraphics {
+CSGraphics {
     id: root
     implicitWidth: 100
     implicitHeight: 100

@@ -6,7 +6,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaSlider
+    \qmltype CSSlider
     \inqmlmodule CSDataQuick.Components
     \brief Display a slider to control a PV
 
@@ -20,13 +20,13 @@ import "utils.js" as UtilsJS
     \qml
     Row {
         spacing: 5
-        CaSlider {
+        CSSlider {
             width: 150
             height: 20
             anchors.verticalCenter: parent.verticalCenter
             source: 'catest'
         }
-        CaSlider {
+        CSSlider {
             width: 150
             height: 50
             source: 'catest'
@@ -38,7 +38,7 @@ import "utils.js" as UtilsJS
     \image slider.png
 */
 
-CaControl {
+CSControl {
     id: root
     implicitWidth: 200
     implicitHeight: 50

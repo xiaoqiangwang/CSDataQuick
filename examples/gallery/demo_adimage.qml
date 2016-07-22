@@ -5,7 +5,7 @@ import CSDataQuick.Components 1.0
 Item {
     width: 700
     height: 700
-    CaADImage {
+    CSADImage {
         x: 10
         y: 10
         width: 600

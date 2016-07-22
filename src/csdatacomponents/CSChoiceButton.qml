@@ -9,7 +9,7 @@ import "utils.js" as UtilsJS
 
 
 /*!
-    \qmltype CaChoiceButton
+    \qmltype CSChoiceButton
     \inqmlmodule CSDataQuick.Components
     \brief Display PV's enumerate
 
@@ -17,7 +17,7 @@ import "utils.js" as UtilsJS
     the ENUM choices via buttons.
 
     \qml
-    CaChoiceButton {
+    CSChoiceButton {
         source: 'bo'
         stacking: Stacking.Row
     }
@@ -26,7 +26,7 @@ import "utils.js" as UtilsJS
     \image choicebutton.png
 */
 
-CaControl {
+CSControl {
     id: root
 
     implicitHeight: stacking == Stacking.Column ? pv.stateStrings.length * 20 : 20

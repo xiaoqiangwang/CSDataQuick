@@ -8,7 +8,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
 ColumnLayout {
     anchors.fill: parent
-    CaSlider {
+    CSSlider {
         width:  orientation == Qt.Horizontal ? 150 : 50
         height: orientation == Qt.Vertical ? 150 : 50
         source: 'catest'

@@ -3,7 +3,7 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaCartesianPlot
+    \qmltype CSCartesianPlot
     \inqmlmodule CSDataQuick.Components
     \brief Display XY Plot
 

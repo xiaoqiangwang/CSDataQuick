@@ -5,7 +5,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaBar
+    \qmltype CSBar
     \inqmlmodule CSDataQuick.Components
     \brief Display a bar that expands or contracts when value changes
 
@@ -15,7 +15,7 @@ import "utils.js" as UtilsJS
     The Bar Monitor with the \l labelStyle set to LabelStyle.None can be used to make bar graphs.
 
     \qml
-        CaBar {
+        CSBar {
             source: 'catest'
             labelStyle: LabelStyle.Outline
             direction: Direction.Up
@@ -25,7 +25,7 @@ import "utils.js" as UtilsJS
     \image bar.png
 */
 
-CaMonitor {
+CSMonitor {
     id: root
     implicitWidth: (direction == Direction.Left || direction == Direction.Right) ? 200 : 50
     implicitHeight:  (direction == Direction.Left || direction == Direction.Right) ? 50 : 200
@@ -74,12 +74,12 @@ CaMonitor {
 
         \qml
         Row {
-            CaBar {
+            CSBar {
                 source: 'catest'
                 labelStyle: LabelStyle.Outline
                 fillMode: FillMode.FromEdge
             }
-            CaBar {
+            CSBar {
                 source: 'catest'
                 labelStyle: LabelStyle.Outline
                 fillMode: FillMode.FromCenter

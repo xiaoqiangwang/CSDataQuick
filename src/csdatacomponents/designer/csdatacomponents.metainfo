@@ -14,7 +14,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaArc"
+        name: "CSDataQuick.Components.CSArc"
         icon: "images/arc.png"
 
         ItemLibraryEntry {
@@ -26,7 +26,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaBar"
+        name: "CSDataQuick.Components.CSBar"
         icon: "images/bar.png"
 
         ItemLibraryEntry {
@@ -38,7 +38,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaByte"
+        name: "CSDataQuick.Components.CSByte"
         icon: "images/byte.png"
 
         ItemLibraryEntry {
@@ -50,7 +50,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaCartesianPlot"
+        name: "CSDataQuick.Components.CSCartesianPlot"
         icon: "images/cartesianPlot.png"
 
         ItemLibraryEntry {
@@ -62,7 +62,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaChoiceButton"
+        name: "CSDataQuick.Components.CSChoiceButton"
         icon: "images/choiceButton.png"
 
         ItemLibraryEntry {
@@ -74,7 +74,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaComposite"
+        name: "CSDataQuick.Components.CSComposite"
         icon: "images/composite.png"
 
         ItemLibraryEntry {
@@ -86,7 +86,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaImage"
+        name: "CSDataQuick.Components.CSImage"
         icon: "images/image.png"
 
         ItemLibraryEntry {
@@ -98,7 +98,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaIndicator"
+        name: "CSDataQuick.Components.CSIndicator"
         icon: "images/indicator.png"
 
         ItemLibraryEntry {
@@ -110,7 +110,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaMenu"
+        name: "CSDataQuick.Components.CSMenu"
         icon: "images/menu.png"
 
         ItemLibraryEntry {
@@ -122,7 +122,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaMessageButton"
+        name: "CSDataQuick.Components.CSMessageButton"
         icon: "images/messageButton.png"
 
         ItemLibraryEntry {
@@ -134,7 +134,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaMeter"
+        name: "CSDataQuick.Components.CSMeter"
         icon: "images/meter.png"
 
         ItemLibraryEntry {
@@ -146,7 +146,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaOval"
+        name: "CSDataQuick.Components.CSOval"
         icon: "images/oval.png"
 
         ItemLibraryEntry {
@@ -158,7 +158,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaPolygon"
+        name: "CSDataQuick.Components.CSPolygon"
         icon: "images/polygon.png"
 
         ItemLibraryEntry {
@@ -170,7 +170,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaPolyline"
+        name: "CSDataQuick.Components.CSPolyline"
         icon: "images/polyline.png"
 
         ItemLibraryEntry {
@@ -182,7 +182,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaRect"
+        name: "CSDataQuick.Components.CSRect"
         icon: "images/rectangle.png"
 
         ItemLibraryEntry {
@@ -194,7 +194,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaRelatedDisplay"
+        name: "CSDataQuick.Components.CSRelatedDisplay"
         icon: "images/relatedDisplay.png"
 
         ItemLibraryEntry {
@@ -206,7 +206,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaShellCommand"
+        name: "CSDataQuick.Components.CSShellCommand"
         icon: "images/shellCommand.png"
 
         ItemLibraryEntry {
@@ -218,7 +218,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaSlider"
+        name: "CSDataQuick.Components.CSSlider"
         icon: "images/slider.png"
 
         ItemLibraryEntry {
@@ -230,7 +230,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaStripChart"
+        name: "CSDataQuick.Components.CSStripChart"
         icon: "images/stripChart.png"
 
         ItemLibraryEntry {
@@ -242,7 +242,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaText"
+        name: "CSDataQuick.Components.CSText"
         icon: "images/text.png"
 
         ItemLibraryEntry {
@@ -254,7 +254,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaTextUpdate"
+        name: "CSDataQuick.Components.CSTextUpdate"
         icon: "images/textUpdate.png"
 
         ItemLibraryEntry {
@@ -266,7 +266,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaTextEntry"
+        name: "CSDataQuick.Components.CSTextEntry"
         icon: "images/textEntry.png"
 
         ItemLibraryEntry {
@@ -278,7 +278,7 @@ MetaInfo {
         }
     }
     Type {
-        name: "CSDataQuick.Components.CaWheelSwitch"
+        name: "CSDataQuick.Components.CSWheelSwitch"
         icon: "images/wheelSwitch.png"
 
         ItemLibraryEntry {

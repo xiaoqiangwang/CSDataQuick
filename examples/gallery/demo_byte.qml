@@ -6,7 +6,7 @@ import CSDataQuick.Components 1.0
 
 
 ColumnLayout {
-    CaByte {
+    CSByte {
         width: orientation == Qt.Horizontal ? 300 : 30
         height: orientation == Qt.Vertical ? 300 : 30
         foreground: fgColorPalette.color

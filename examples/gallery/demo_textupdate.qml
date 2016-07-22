@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     ColumnLayout {
         anchors.fill: parent
-        CaTextUpdate {
+        CSTextUpdate {
             width: 100
             height: 20
             source: 'catest'

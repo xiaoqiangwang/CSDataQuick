@@ -7,11 +7,11 @@ import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaControl
+    \qmltype CSControl
     \inqmlmodule CSDataQuick.Components
     \brief Basic type to all PV controls
 
-    CaControl is the base type for all control types.
+    CSControl is the base type for all control types.
     It defines all the attributes that are common across PV controls.
 
 
@@ -22,10 +22,10 @@ BaseItem {
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
 
-    /*! qmlproperty enumeration CaControl::colorMode */
+    /*! qmlproperty enumeration CSControl::colorMode */
     property int colorMode: ColorMode.Static
 
-    /*! \qmlproperty string CaControl::source
+    /*! \qmlproperty string CSControl::source
         The data source url.
     */
     property string source

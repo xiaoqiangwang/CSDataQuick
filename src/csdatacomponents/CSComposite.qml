@@ -3,7 +3,7 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaComposite
+    \qmltype CSComposite
     \inqmlmodule CSDataQuick.Components
     \brief Display grouped items or include external files.
 
@@ -22,7 +22,7 @@ import CSDataQuick.Components 1.0
 
     \qml
     BaseWindow {
-        CaComposite {
+        CSComposite {
             source: 'controls.adl'
         }
     }

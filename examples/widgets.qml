@@ -37,22 +37,22 @@ ApplicationWindow {
             x: 10
             spacing: 10
 
-            CaText {
+            CSText {
                 text: "Oh, A static label"
             }
 
-            CaRect {
+            CSRect {
                 fillStyle: FillStyle.Solid
             }
 
-            CaOval {
+            CSOval {
                 dynamicAttribute.channel: 'bo'
                 colorMode: ColorMode.Alarm
                 dynamicAttribute.visibilityMode: VisibilityMode.IfZero
                 fillStyle: FillStyle.Outline
                 lineWidth: 2
             }
-            CaArc {
+            CSArc {
                 CSData {
                     id: pv
                     source: 'catest'
@@ -61,7 +61,7 @@ ApplicationWindow {
                 span: pv.value * 360
                 fillStyle: FillStyle.Solid
             }
-            CaPolygon {
+            CSPolygon {
                 width: 100
                 height: 50
                 lineWidth: 2
@@ -71,7 +71,7 @@ ApplicationWindow {
                 points: [Qt.point(50, 5), Qt.point(20, 40), Qt.point(80, 40)]
             }
 
-            CaPolyline {
+            CSPolyline {
                 width: 120
                 height: 80
                 lineWidth: 2
@@ -82,7 +82,7 @@ ApplicationWindow {
                     Qt.point(100, 70), Qt.point(50, 80)]
             }
 
-            CaImage {
+            CSImage {
                 source: 'LED.gif'
                 dynamicAttribute.channel: 'catest'
                 imageCalc: 'A*10'
@@ -94,13 +94,13 @@ ApplicationWindow {
             spacing: 10
             width: parent.width
 
-            CaSlider {
+            CSSlider {
                 source: 'catest'
                 stepSize: 0.1
                 labelStyle: LabelStyle.Channel
             }
 
-            CaMessageButton {
+            CSMessageButton {
                 text: 'Click Me!'
                 onMessage: "1"
                 source: 'calc'
@@ -108,34 +108,34 @@ ApplicationWindow {
                 offMessage: "2"
             }
 
-            CaTextEntry {
+            CSTextEntry {
                 limits.precDefault: 3
                 limits.precSrc: LimitsSource.Default
                 format: TextFormat.Compact
                 source: 'catest'
                 colorMode: ColorMode.Alarm
             }
-            CaTextEntry {
+            CSTextEntry {
                 source: 'calc.SCAN'
             }
 
-            CaMenu {
+            CSMenu {
                 source: 'calc.SCAN'
             }
 
-            CaChoiceButton {
+            CSChoiceButton {
                 stacking: Stacking.Row
                 source: 'bo'
             }
 
-            CaRelatedDisplay {
+            CSRelatedDisplay {
                 label: 'More'
                 model: ListModel {
                     ListElement {label: 'test'; fname: 'widgets.qml'; args: ''; remove: false}
                 }
             }
 
-            CaShellCommand {
+            CSShellCommand {
                 label: 'list'
                 model: ListModel {
                     ListElement {label: 'List Directory'; command: 'ls -l' }
@@ -149,41 +149,41 @@ ApplicationWindow {
             spacing: 10
             width: parent.width
 
-            CaTextUpdate {
+            CSTextUpdate {
                 source: 'calc'
             }
 
-            CaTextUpdate {
+            CSTextUpdate {
                 source: 'calc.SCAN'
             }
 
-            CaByte {
+            CSByte {
                 source: 'calc'
             }
-            CaBar {
+            CSBar {
                 limits.hoprDefault: 6
                 limits.hoprSrc: LimitsSource.Default
                 source: 'catest'
                 colorMode: ColorMode.Alarm
                 labelStyle: LabelStyle.Limits
             }
-            CaBar {
+            CSBar {
                 direction: Direction.Down
                 labelStyle: LabelStyle.Outline
                source: 'catest'
                colorMode: ColorMode.Alarm
            }
-            CaIndicator {
+            CSIndicator {
                 source: 'catest'
                 colorMode: ColorMode.Alarm
                 labelStyle: LabelStyle.Channel
             }
 
-            CaMeter {
+            CSMeter {
                 source: 'catest'
             }
 
-            CaStripChart {
+            CSStripChart {
                 model: ListModel {
                     ListElement {
                         channel: 'catest'
@@ -193,7 +193,7 @@ ApplicationWindow {
                     }
                 }
             }
-            CaCartesianPlot {
+            CSCartesianPlot {
                 model: ListModel{
                     ListElement {
                         xchannel: "x"

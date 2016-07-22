@@ -3,7 +3,7 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaArc
+    \qmltype CSArc
     \inqmlmodule CSDataQuick.Components
     \brief Display an arc curve
 
@@ -11,7 +11,7 @@ import CSDataQuick.Components 1.0
     counter clockwise. Negative \l span will effectively draw in clockwise.
 
     \qml
-        CaArc {
+        CSArc {
             begin: 45
             span:  225
        }
@@ -20,7 +20,7 @@ import CSDataQuick.Components 1.0
     \image arc.png
 */
 
-CaGraphics {
+CSGraphics {
     id: root
     implicitWidth: 100
     implicitHeight: 100

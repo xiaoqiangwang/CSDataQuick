@@ -4,7 +4,7 @@ import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaStripChart
+    \qmltype CSStripChart
     \inqmlmodule CSDataQuick.Components
     \brief Display a strip chart
 

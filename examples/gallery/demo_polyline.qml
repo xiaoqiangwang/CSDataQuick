@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     ColumnLayout {
         anchors.fill: parent
-        CaPolyline {
+        CSPolyline {
             id: arc
             width: 201
             height: 201

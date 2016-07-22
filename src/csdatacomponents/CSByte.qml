@@ -3,7 +3,7 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaByte
+    \qmltype CSByte
     \inqmlmodule CSDataQuick.Components
     \brief Display bits of an unsigned integer.
 
@@ -11,14 +11,14 @@ import CSDataQuick.Components 1.0
     The bit set is filled with foreground color, and the unset bit is filled with background color.
 
     \qml
-    CaByte {
+    CSByte {
         source: 'calc'
     }
     \endqml
 
     \image byte.png
 */
-CaMonitor {
+CSMonitor {
     id: root
     implicitWidth: orientation == Qt.Horizontal ? 160 : 20
     implicitHeight: orientation == Qt.Vertical ? 160 : 20

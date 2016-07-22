@@ -8,7 +8,7 @@ import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaMenu
+    \qmltype CSMenu
     \inqmlmodule CSDataQuick.Components
     \brief Displays process variable's enumerate in drop-down menu
 
@@ -17,7 +17,7 @@ import "utils.js" as UtilsJS
     The background color should be choosen to contrast with all the alarm colors.
 
     \qml
-    CaMenu {
+    CSMenu {
         source: 'bo'
     }
     \endqml
@@ -25,7 +25,7 @@ import "utils.js" as UtilsJS
     \image menu.png
 */
 
-CaControl {
+CSControl {
     id: root
     implicitWidth: 100
     implicitHeight: 20

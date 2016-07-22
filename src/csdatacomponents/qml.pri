@@ -4,33 +4,33 @@ QML_FILES += \
     $$PWD/plugins.qmltypes \
     $$PWD/BaseWindow.qml \
     $$PWD/DynamicAttribute.qml \
-    $$PWD/CaADImage.qml \
-    $$PWD/CaArc.qml \
-    $$PWD/CaBar.qml \
-    $$PWD/CaByte.qml \
-    $$PWD/CaCartesianPlot.qml \
-    $$PWD/CaChoiceButton.qml \
-    $$PWD/CaComposite.qml \
-    $$PWD/CaControl.qml \
-    $$PWD/CaGraphics.qml \
-    $$PWD/CaImage.qml \
-    $$PWD/CaIndicator.qml \
-    $$PWD/CaMenu.qml \
-    $$PWD/CaMessageButton.qml \
-    $$PWD/CaMeter.qml \
-    $$PWD/CaMonitor.qml \
-    $$PWD/CaOval.qml \
-    $$PWD/CaPolygon.qml \
-    $$PWD/CaPolyline.qml \
-    $$PWD/CaRect.qml \
-    $$PWD/CaRelatedDisplay.qml \
-    $$PWD/CaShellCommand.qml \
-    $$PWD/CaSlider.qml \
-    $$PWD/CaStripChart.qml \
-    $$PWD/CaTextEntry.qml \
-    $$PWD/CaTextUpdate.qml \
-    $$PWD/CaText.qml \
-    $$PWD/CaWheelSwitch.qml \
+    $$PWD/CSADImage.qml \
+    $$PWD/CSArc.qml \
+    $$PWD/CSBar.qml \
+    $$PWD/CSByte.qml \
+    $$PWD/CSCartesianPlot.qml \
+    $$PWD/CSChoiceButton.qml \
+    $$PWD/CSComposite.qml \
+    $$PWD/CSControl.qml \
+    $$PWD/CSGraphics.qml \
+    $$PWD/CSImage.qml \
+    $$PWD/CSIndicator.qml \
+    $$PWD/CSMenu.qml \
+    $$PWD/CSMessageButton.qml \
+    $$PWD/CSMeter.qml \
+    $$PWD/CSMonitor.qml \
+    $$PWD/CSOval.qml \
+    $$PWD/CSPolygon.qml \
+    $$PWD/CSPolyline.qml \
+    $$PWD/CSRect.qml \
+    $$PWD/CSRelatedDisplay.qml \
+    $$PWD/CSShellCommand.qml \
+    $$PWD/CSSlider.qml \
+    $$PWD/CSStripChart.qml \
+    $$PWD/CSTextEntry.qml \
+    $$PWD/CSTextUpdate.qml \
+    $$PWD/CSText.qml \
+    $$PWD/CSWheelSwitch.qml \
     $$PWD/utils.js \
     $$PWD/ColorMap.qml \
     $$PWD/DisplayListDialog.qml \
@@ -63,30 +63,30 @@ QML_FILES += \
 
 QML_FILES += \
     $$PWD/designer/BaseWindowSpecifics.qml \
-    $$PWD/designer/CaArcSpecifics.qml \
-    $$PWD/designer/CaBarSpecifics.qml \
-    $$PWD/designer/CaByteSpecifics.qml \
-    $$PWD/designer/CaCartesianPlotSpecifics.qml \
-    $$PWD/designer/CaCompositeSpecifics.qml \
-    $$PWD/designer/CaChoiceButtonSpecifics.qml \
-    $$PWD/designer/CaImageSpecifics.qml \
-    $$PWD/designer/CaIndicatorSpecifics.qml \
-    $$PWD/designer/CaMenuSpecifics.qml \
-    $$PWD/designer/CaMessageButtonSpecifics.qml \
-    $$PWD/designer/CaMeterSpecifics.qml \
-    $$PWD/designer/CaOvalSpecifics.qml \
-    $$PWD/designer/CaPolygonSpecifics.qml \
-    $$PWD/designer/CaPolylineSpecifics.qml \
-    $$PWD/designer/CaRectSpecifics.qml \
-    $$PWD/designer/CaRelatedDisplaySpecifics.qml \
-    $$PWD/designer/CaShellCommandSpecifics.qml \
-    $$PWD/designer/CaSliderSpecifics.qml \
-    $$PWD/designer/CaStripChartSpecifics.qml \
-    $$PWD/designer/CaTextSpecifics.qml \
-    $$PWD/designer/CaTextEntrySpecifics.qml \
-    $$PWD/designer/CaTextUpdateSpecifics.qml \
-    $$PWD/designer/CaWheelSwitchSpecifics.qml \
-    $$PWD/designer/CartesianPlotEditor.qml \
+    $$PWD/designer/CSArcSpecifics.qml \
+    $$PWD/designer/CSBarSpecifics.qml \
+    $$PWD/designer/CSByteSpecifics.qml \
+    $$PWD/designer/CSCartesianPlotSpecifics.qml \
+    $$PWD/designer/CSCompositeSpecifics.qml \
+    $$PWD/designer/CSChoiceButtonSpecifics.qml \
+    $$PWD/designer/CSImageSpecifics.qml \
+    $$PWD/designer/CSIndicatorSpecifics.qml \
+    $$PWD/designer/CSMenuSpecifics.qml \
+    $$PWD/designer/CSMessageButtonSpecifics.qml \
+    $$PWD/designer/CSMeterSpecifics.qml \
+    $$PWD/designer/CSOvalSpecifics.qml \
+    $$PWD/designer/CSPolygonSpecifics.qml \
+    $$PWD/designer/CSPolylineSpecifics.qml \
+    $$PWD/designer/CSRectSpecifics.qml \
+    $$PWD/designer/CSRelatedDisplaySpecifics.qml \
+    $$PWD/designer/CSShellCommandSpecifics.qml \
+    $$PWD/designer/CSSliderSpecifics.qml \
+    $$PWD/designer/CSStripChartSpecifics.qml \
+    $$PWD/designer/CSTextSpecifics.qml \
+    $$PWD/designer/CSTextEntrySpecifics.qml \
+    $$PWD/designer/CSTextUpdateSpecifics.qml \
+    $$PWD/designer/CSWheelSwitchSpecifics.qml \
+    $$PWD/designer/CSrtesianPlotEditor.qml \
     $$PWD/designer/ColorSection.qml \
     $$PWD/designer/ColorPalette.qml \
     $$PWD/designer/CommandEditor.qml \

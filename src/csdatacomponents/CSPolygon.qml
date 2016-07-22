@@ -3,7 +3,7 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaPolygon
+    \qmltype CSPolygon
     \inqmlmodule CSDataQuick.Components
     \brief Display a polygon shape
 
@@ -12,7 +12,7 @@ import CSDataQuick.Components 1.0
     \qml
     Row {
         spacing: 5
-        CaPolygon {
+        CSPolygon {
             width: 100
             height: 100
             points: [
@@ -20,7 +20,7 @@ import CSDataQuick.Components 1.0
                 Qt.point(80.0, 30.0),Qt.point(90.0, 70.0)
             ]
         }
-        CaPolygon {
+        CSPolygon {
             width: 100
             height:100
             points: [
@@ -36,7 +36,7 @@ import CSDataQuick.Components 1.0
     \image polygon.png
 */
 
-CaGraphics {
+CSGraphics {
     id: root
     implicitWidth: 100
     implicitHeight: 100

@@ -3,7 +3,7 @@ import QtQuick 2.0
 import CSDataQuick.Components 1.0
 
 /*!
-    \qmltype CaImage
+    \qmltype CSImage
     \inqmlmodule CSDataQuick.Components
     \brief Show a static or dynamic image
 
@@ -15,7 +15,7 @@ import CSDataQuick.Components 1.0
     the \l imageCalc that returns a frame number.
 */
 
-CaGraphics {
+CSGraphics {
     id: root
     implicitWidth: animation.implicitWidth
     implicitHeight: animation.implicitHeight
@@ -29,7 +29,7 @@ CaGraphics {
     /*!
         For multiple-frame images, the frame to display is defined by this expression.
 
-        The syntax for the Image Calc expression is the same as that for the \l DynamicAttribute.
+        The syntax for the Image CSlc expression is the same as that for the \l DynamicAttribute.
         The only difference is that the expression should return a frame number, not True or False.
         The Image will be black if the expression is invalid.
 

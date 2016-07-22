@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
     Column {
         anchors.fill: parent
-        CaText {
+        CSText {
             text: input.text
             width: 200
             height: textHeight.value

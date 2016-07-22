@@ -6,7 +6,7 @@ import CSDataQuick.Components 1.0
 import "utils.js" as UtilsJS
 
 /*!
-    \qmltype CaMonitor
+    \qmltype CSMonitor
     \inqmlmodule CSDataQuick.Components
     \brief Basic type to all PV monitors
 
@@ -15,7 +15,7 @@ import "utils.js" as UtilsJS
 BaseItem {
     background: ColorMap.monitors_background
     foreground: ColorMap.foreground
-    /*! qmlproperty enumeration CaGraphics::colorMode */
+    /*! qmlproperty enumeration CSGraphics::colorMode */
     property int colorMode: ColorMode.Static
     /*! control data source name */
     property alias source: pv.source

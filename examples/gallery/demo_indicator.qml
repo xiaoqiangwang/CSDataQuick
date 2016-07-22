@@ -8,7 +8,7 @@ import CSDataQuick.Components 1.0
 Rectangle {
 ColumnLayout {
     anchors.fill: parent
-    CaIndicator {
+    CSIndicator {
         width: 100
         height: 50
         source: 'catest'
