@@ -2,9 +2,9 @@ INCLUDEPATH += $$PWD/../ADLParser
 INCLUDEPATH += $$PWD/../csdata/core/
 DEPENDPATH += $$PWD/../ADLParser
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser
-else:unix: LIBS += -L$$OUT_PWD/../../lib/ -lADLParser
+win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser -lcsdata
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser -lcsdata
+else:unix: LIBS += -L$$OUT_PWD/../../lib/ -lADLParser -lcsdata
 
 SOURCES += \
     $$PWD/pvobject.cpp \
@@ -20,7 +20,8 @@ SOURCES += \
     $$PWD/windowmanager.cpp \
     $$PWD/geometryspecification.cpp \
     $$PWD/attribute.cpp \
-    $$PWD/csimageitem.cpp
+    $$PWD/csimageitem.cpp \
+    $$PWD/adimage.cpp
 
 HEADERS += \
     $$PWD/pvobject.h \
@@ -34,6 +35,7 @@ HEADERS += \
     $$PWD/enums.h \
     $$PWD/windowmanager.h \
     $$PWD/attribute.h \
-    $$PWD/csimageitem.h
+    $$PWD/csimageitem.h \
+    $$PWD/adimage.h
 
 include(../../epics.pri)

@@ -14,6 +14,7 @@
 #include "attribute.h"
 #include "windowmanager.h"
 #include "csimageitem.h"
+#include "adimage.h"
 
 #include <qqml.h>
 
@@ -51,6 +52,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
 
     qmlRegisterType<CSImageItem>(uri, 1, 0, "ImageItem");
+    qmlRegisterType<ADImage>(uri, 1, 0, "ADImage");
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);

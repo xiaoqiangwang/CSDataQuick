@@ -62,11 +62,8 @@ void exception_handler(exception_handler_args args)
         else \
               value.setValue((TYPE)(VP.value));\
     } else {\
-        QList<qreal> list;\
-        for(qulonglong i=0; i<count; i++) {\
-            TYPE v = (TYPE)*(&(VP.value) + i); \
-            list.append(v);\
-        }\
+        QVector<TYPE> list(count);\
+        memcpy(list.data(), &VP.value, count * sizeof(TYPE));\
         value.setValue(QVariant::fromValue(list));\
     }
 typedef dbr_string_t* dbr_string_t_ptr;
@@ -129,6 +126,7 @@ void monitorCallbackC(struct event_handler_args args)
         ConvertValue(val->tdblval,dbr_double_t)
         break;
     }
+
     QMetaObject::invokeMethod(data, "updateValue", Q_ARG(QVariant, value));
     QMetaObject::invokeMethod(data, "setAlarm",
                               Q_ARG(QCSDataAlarm::Severity, (QCSDataAlarm::Severity)severity),

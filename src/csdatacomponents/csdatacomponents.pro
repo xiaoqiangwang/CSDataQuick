@@ -15,9 +15,3 @@ DESTDIR = $${TARGETPATH}
 include(qml.pri)
 include(plugin.pri)
 include(../../rpath.pri)
-
-HEADERS += \
-    adimage.h
-
-SOURCES += \
-    adimage.cpp

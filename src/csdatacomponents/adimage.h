@@ -9,9 +9,8 @@
 class ADImage : public QObject
 {
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
-    Q_PROPERTY(QImage image READ image WRITE setImage NOTIFY imageChanged)
-    Q_PROPERTY(double highLevel READ highLevel WRITE setHighLevel NOTIFY highLevelChanged)
-    Q_PROPERTY(double lowLevel READ lowLevel WRITE setLowLevel NOTIFY lowLevelChanged)
+    Q_PROPERTY(double lowLevel  MEMBER _lowLevel  WRITE setLowLevel NOTIFY lowLevelChanged)
+    Q_PROPERTY(double highLevel MEMBER _highLevel WRITE setHighLevel NOTIFY highLevelChanged)
 
     Q_OBJECT
 public:
@@ -20,17 +19,31 @@ public:
     QString source() { return _source; }
     void setSource(QString source);
 
-    QImage image() { return _image; }
-    void setImage(QImage image) { _image = image; emit imageChanged(); }
+    void setLowLevel(double lowLevel);
+    void setHighLevel(double highLevel);
 
 signals:
     void sourceChanged();
-    void imageChanged();
+    void lowLevelChanged();
+    void highLevelChanged();
+    void imageChanged(QImage image);
 
 public slots:
+    void updateData();
+
+protected:
+    void updateImage();
 
 private:
     QString _source;
+    double _lowLevel;
+    double _highLevel;
+    double _ratio;
+
+    QVector<unsigned char> _data;
+    int _width;
+    int _height;
+    QImage::Format _format;
     QImage _image;
 
     QCSData _arrayData;
