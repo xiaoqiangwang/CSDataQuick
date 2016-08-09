@@ -64,7 +64,9 @@ CSMonitor {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height)
 
-    limits: Limits {}
+    limits: Limits {
+        precChannel: pv.precision
+    }
 
     RowLayout {
         anchors.fill: parent
@@ -84,17 +86,21 @@ CSMonitor {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
             visible: showUnits && text != ''
+            text: pv.units
         }
     }
 
     Connections {
         target: pv
-        onConnectionChanged: {
-            if (pv.connected) {
-                units.text = pv.units;
-                limits.precChannel = pv.precision
-            }
+
+        onPrecisionChanged: {
+            label_control.text = formatString(format, pv.value)
         }
+
+        onStateStringsChanged: {
+            label_control.text = formatString(format, pv.value)
+        }
+
         onValueChanged: {
             label_control.text = formatString(format, pv.value)
             // MEDM Compat: automatic adjust font size only if it is not left aligned
