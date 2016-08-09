@@ -93,7 +93,9 @@ CSMonitor {
     /*!
         Operation limits range and precision
     */
-    limits : Limits{}
+    limits: Limits {
+        precChannel: pv.precision
+    }
 
    /*!
         \internal
@@ -170,7 +172,6 @@ CSMonitor {
                     limits.loprChannel = pv.range.lower
                     limits.hoprChannel = pv.range.upper
                 }
-                limits.precChannel = pv.precision
             }
         }
         onValueChanged: {

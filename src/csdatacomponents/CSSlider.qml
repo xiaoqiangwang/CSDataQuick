@@ -48,7 +48,9 @@ CSControl {
     */
     property int  direction: Direction.Right
     /*! The operation limit and precision */
-    limits: Limits {}
+    limits: Limits {
+        precChannel: pv.precision
+    }
     /*!
         The amount of vaue to increament or decrement.
 
@@ -142,7 +144,6 @@ CSControl {
                         limits.loprChannel = pv.range.lower
                         limits.hoprChannel = pv.range.upper
                     }
-                    limits.precChannel = pv.precision
                 }
             }
             onValueChanged: {

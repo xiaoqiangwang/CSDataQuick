@@ -44,7 +44,9 @@ CSMonitor {
     /*!
         Operation limits range and precision
     */
-    limits : Limits{}
+    limits: Limits {
+        precChannel: pv.precision
+    }
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
@@ -118,7 +120,6 @@ CSMonitor {
                     limits.loprChannel = pv.range.lower
                     limits.hoprChannel = pv.range.upper
                 }
-                limits.precChannel = pv.precision
             }
         }
         onValueChanged: {

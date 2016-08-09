@@ -87,7 +87,9 @@ CSControl {
     */
     property string format: ''
 
-    limits: Limits {}
+    limits: Limits {
+        precChannel: pv.precision
+    }
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height, 1)
@@ -113,7 +115,6 @@ CSControl {
                     limits.loprChannel = pv.range.lower
                     limits.hoprChannel = pv.range.upper
                 }
-                limits.precChannel = pv.precision
             }
         }
     }
