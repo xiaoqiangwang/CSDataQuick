@@ -90,7 +90,9 @@ CSControl {
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(height, true)
 
-    limits: Limits {}
+    limits: Limits {
+        precChannel: pv.precision
+    }
 
     StyledFrame {
         anchors.fill: parent
@@ -177,11 +179,15 @@ CSControl {
 
     Connections {
         target: pv
-        onConnectionChanged: {
-            if (pv.connected) {
-                limits.precChannel = pv.precision
-            }
+
+        onPrecisionChanged: {
+            textField.text = formatString(format, pv.value)
         }
+
+        onStateStringsChanged: {
+            textField.text = formatString(format, pv.value)
+        }
+
         onValueChanged: {
             textField.text = formatString(format, pv.value)
             if (!textField.activeFocus)
