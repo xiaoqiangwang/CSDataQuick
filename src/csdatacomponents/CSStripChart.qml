@@ -149,12 +149,10 @@ BaseItem {
             if (pen.hoprDefault)
               cmd +='        hoprDefault: %1\n'.arg(pen.hoprDefault)
               cmd +='    }\n' +
-                    '    onConnectionChanged: {\n' +
-                    '        if (connected) {\n' +
-                    '            if (range.isValid()) {\n' +
-                    '                limits.loprChannel = range.lower\n' +
-                    '                limits.hoprChannel = range.upper\n' +
-                    '            }\n' +
+                    '    onRangeChanged: {\n' +
+                    '        if (range.isValid()) {\n' +
+                    '            limits.loprChannel = range.lower\n' +
+                    '            limits.hoprChannel = range.upper\n' +
                     '        }\n' +
                     '    }\n' +
                     '}'

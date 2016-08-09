@@ -109,12 +109,10 @@ CSControl {
 
     Connections {
         target: pv
-        onConnectionChanged: {
-            if (pv.connected) {
-                if (pv.range.isValid()) {
-                    limits.loprChannel = pv.range.lower
-                    limits.hoprChannel = pv.range.upper
-                }
+        onRangeChanged: {
+            if (pv.range.isValid()) {
+                limits.loprChannel = pv.range.lower
+                limits.hoprChannel = pv.range.upper
             }
         }
     }
