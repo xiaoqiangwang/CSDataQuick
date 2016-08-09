@@ -37,6 +37,10 @@ CSControl {
         id: combo_control
         anchors.fill: parent
         enabled: pv.accessRight & CSData.WriteAccess
+        model: pv.stateStrings
+        onModelChanged: {
+            currentIndex = pv.value
+        }
 
         style: ComboBoxStyle {
             padding { top: 2 ; left: 2 ; right: 14 ; bottom:2 }
@@ -103,13 +107,6 @@ CSControl {
     }
     Connections {
         target: pv
-        onConnectionChanged: {
-            if (pv.connected) {
-                combo_control.model = pv.stateStrings
-            } else {
-                combo_control.model = []
-            }
-        }
         onValueChanged: {
             combo_control.currentIndex = pv.value
         }
