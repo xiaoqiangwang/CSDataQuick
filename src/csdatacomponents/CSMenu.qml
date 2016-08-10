@@ -39,7 +39,8 @@ CSControl {
         enabled: pv.accessRight & CSData.WriteAccess
         model: pv.stateStrings
         onModelChanged: {
-            currentIndex = pv.value
+            if (pv.value !== undefined)
+                currentIndex = pv.value
         }
 
         style: ComboBoxStyle {

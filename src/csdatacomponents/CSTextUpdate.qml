@@ -118,6 +118,8 @@ CSMonitor {
 
     /*! \internal */
     function formatString(format, value) {
+        if (value === undefined)
+            return ""
         if (pv.fieldType == CSData.Enum)
             return pv.stateStrings[value]
         if (pv.fieldType == CSData.String)
