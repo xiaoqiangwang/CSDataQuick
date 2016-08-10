@@ -2,5 +2,5 @@ asSetFilename("./access.as")
 dbLoadRecords example.db
 
 iocInit
-
+dbpf "writable",1
 asInit
