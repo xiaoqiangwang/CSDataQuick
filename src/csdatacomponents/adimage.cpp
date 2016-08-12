@@ -1,28 +1,32 @@
 #include "adimage.h"
 
+#include <functional>
+
 #include <QtDebug>
 #include <QThread>
+#include <QtConcurrent>
 
-void imageCleanupHandler(void *info)
+void imageCleanupHandler(void *data)
 {
-    delete[] (unsigned char*)info;
+    delete[] (unsigned char*)data;
 }
 
 ADImage::ADImage(QObject *parent) : QObject(parent)
 {
+    _data = QVariant();
     _lowLevel = 0;
     _highLevel = 255;
     _ratio = 1.0;
+
+    connect(&_arrayData, SIGNAL(valueChanged()), this, SLOT(updateData()));
 }
 
 void ADImage::setSource(QString source)
 {
-    _arrayData.setSource(source + "ArrayData");
     _ndims.setSource(source + "NDimensions_RBV");
     _dims.setSource(source + "Dimensions_RBV");
     _color.setSource(source + "ColorMode_RBV");
-
-    connect(&_arrayData, SIGNAL(valueChanged()), this, SLOT(updateData()));
+    _arrayData.setSource(source + "ArrayData");
 }
 
 void ADImage::setLowLevel(double lowLevel)
@@ -57,53 +61,94 @@ void ADImage::updateData()
     }
 
     QVector<int> dims;
-    int npixels = 1;
     foreach(QVariant v, _dims.value().value<QSequentialIterable>()) {
         int num = v.toInt();
         if (num == 0)
             break;
         dims.append(num);
-        npixels *= num;
     }
 
-    _data.resize(npixels);
-    QVector<unsigned char> v = _arrayData.value().value< QVector<unsigned char> >();
-    _data = v;
-    //for(int i=0; i<v.size()&&i<npixels; i++) {
-    //    _data[i] = v.at(i).toDouble();
-    //}
+    _data.setValue(_arrayData.value());
+    _dtype = _arrayData.fieldType();
 
-    if (colorMode == 2) {
+    if (colorMode == 2 && dims.size() == 3) {
     // RGB1
         _format = QImage::Format_RGB888;
         _width = dims[1];
         _height = dims[2];
-    } else {
+        _size = _width * _height * 3;
+    } else if(colorMode < 2 && dims.size() == 2) {
     // Mono = 0, Bayer = 1
         _format = QImage::Format_Indexed8;
         _width = dims[0];
         _height = dims[1];
+        _size = _width * _height;
+    } else {
+        _format = QImage::Format_Invalid;
     }
 
     updateImage();
 }
 
+template<typename T>
+void rescale2(T& v, T* begin, unsigned char *result, double lowLevel, double highLevel, double ratio) {
+    result[&v - begin] = (qBound(lowLevel, (double)v, highLevel) - lowLevel) *  ratio;
+}
+
 void ADImage::updateImage()
 {
-    QTime t;
-    t.start();
-    int size = 1;
-    if (_format == QImage::Format_Indexed8) {
-        size = _width * _height;
-    } else {
-        size = _width * _height * 3;
+    unsigned char *data = new unsigned char[_size];
+
+    switch(_dtype) {
+    case QCSData::Char:
+    {
+        QVector<unsigned char> v8i = _data.value< QVector<unsigned char> >();
+        if (v8i.size() < _size) {
+            qWarning() << "Inconsistent size " << v8i.size() << " != " << _size;
+            return;
+        }
+        if (_ratio == 1.0)
+            memcpy(data, v8i.constData(), _size);
+        else
+            QtConcurrent::blockingMap(v8i, std::bind(rescale2<unsigned char>, std::placeholders::_1, v8i.data(), data, _lowLevel, _highLevel, _ratio));
     }
-    unsigned char *data = new unsigned char[size];
-    //memcpy(data, _data.data(), size);
-    for (int i=0; i<size; i++) {
-        data[i] = (_data[i] - _lowLevel) * _ratio;
+        break;
+    case QCSData::Short:
+    {
+        QVector<unsigned short> v16i = _data.value< QVector<unsigned short> >();
+        if (v16i.size() < _size)
+            return;
+        QtConcurrent::blockingMap(v16i, std::bind(rescale2<unsigned short>, std::placeholders::_1, v16i.data(), data, _lowLevel, _highLevel, _ratio));
+    }
+        break;
+    case QCSData::Long:
+    {
+        QVector<int> v32i = _data.value< QVector<int> >();
+        if (v32i.size() < _size)
+            return;
+        QtConcurrent::blockingMap(v32i, std::bind(rescale2<int>, std::placeholders::_1, v32i.data(), data, _lowLevel, _highLevel, _ratio));
+    }
+        break;
+    case QCSData::Float:
+    {
+        QVector<float> v32f = _data.value< QVector<float> >();
+        if (v32f.size() < _size)
+            return;
+        QtConcurrent::blockingMap(v32f, std::bind(rescale2<float>, std::placeholders::_1, v32f.data(), data, _lowLevel, _highLevel, _ratio));
+    }
+        break;
+    case QCSData::Double:
+    {
+        QVector<double> v64f = _data.value< QVector<double> >();
+        if (v64f.size() < _size)
+            return;
+        QtConcurrent::blockingMap(v64f, std::bind(rescale2<double>, std::placeholders::_1, v64f.data(), data, _lowLevel, _highLevel, _ratio));
+    }
+        break;
+    default:
+        qWarning() << "Unsupported data type" << _arrayData.fieldType();
+        return;
     }
 
-    _image = QImage(data, _width, _height, _format, imageCleanupHandler, data);
-    emit imageChanged(_image);
+    emit imageChanged(QImage(data, _width, _height, _format, imageCleanupHandler, data));
 }

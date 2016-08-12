@@ -40,11 +40,12 @@ private:
     double _highLevel;
     double _ratio;
 
-    QVector<unsigned char> _data;
+    QVariant _data;
+    QCSData::FieldType _dtype;
     int _width;
     int _height;
+    int _size;
     QImage::Format _format;
-    QImage _image;
 
     QCSData _arrayData;
     QCSData _ndims;

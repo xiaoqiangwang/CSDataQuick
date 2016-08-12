@@ -12,14 +12,16 @@ CSImageItem::CSImageItem(QQuickItem *parent)
 void CSImageItem::setImage(QImage image)
 {
     _image = image;
-    _image.setColorTable(getColorTable(_colorMap));
+    if (_image.format() == QImage::Format_Indexed8)
+        _image.setColorTable(getColorTable(_colorMap));
     update();
 }
 
 void CSImageItem::setColorMap(ColorMapEnum colorMap)
 {
     _colorMap = colorMap;
-    _image.setColorTable(getColorTable(_colorMap));
+    if (_image.format() == QImage::Format_Indexed8)
+        _image.setColorTable(getColorTable(_colorMap));
     update();
 }
 
@@ -27,8 +29,18 @@ void CSImageItem::paint(QPainter *painter)
 {
     if (_image.isNull())
         return;
-    QSize sz = _image.size();
-    painter->drawImage(contentsBoundingRect(), _image);
+    QRectF dest = contentsBoundingRect();
+    double aspect = _image.width() / _image.height();
+    if (dest.width() / dest.height() > aspect) {
+        double w = dest.height() * aspect;
+        dest.setX((dest.width() - w) / 2);
+        dest.setWidth(w);
+    } else {
+        double h = dest.height() * aspect;
+        dest.setY((dest.height() - h) / 2);
+        dest.setHeight(h);
+    }
+    painter->drawImage(dest, _image);
 }
 
 QVector<QRgb> CSImageItem::getColorTable(ColorMapEnum colorMap)
