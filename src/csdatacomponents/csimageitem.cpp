@@ -6,14 +6,21 @@ CSImageItem::CSImageItem(QQuickItem *parent)
     : QQuickPaintedItem( parent )
 {
     setFlag( QQuickItem::ItemHasContents, true );
+    setAcceptedMouseButtons(Qt::LeftButton);
     _colorMap = Gray;
 }
 
 void CSImageItem::setImage(QImage image)
 {
-    _image = image;
+    if (_image.size() != image.size()) {
+        _image = image;
+        resetZoom();
+    } else
+        _image = image;
+
     if (_image.format() == QImage::Format_Indexed8)
         _image.setColorTable(getColorTable(_colorMap));
+
     update();
 }
 
@@ -25,22 +32,61 @@ void CSImageItem::setColorMap(ColorMapEnum colorMap)
     update();
 }
 
+void CSImageItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+{
+    resetZoom();
+}
+
+void CSImageItem::mousePressEvent(QMouseEvent *event)
+{
+    _last = event->pos();
+}
+
+void CSImageItem::mouseMoveEvent(QMouseEvent *event)
+{
+    if (_last.isNull())
+        return;
+
+    QPointF delta = event->pos() - _last;
+    _dest.translate(delta);
+    _last = event->pos();
+    update();
+}
+
+void CSImageItem::mouseReleaseEvent(QMouseEvent *event)
+{
+    _last = QPoint();
+}
+
+void CSImageItem::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    resetZoom();
+    update();
+}
+
+void CSImageItem::wheelEvent(QWheelEvent *event)
+{
+    QPointF dist = event->posF() - _dest.center();
+
+    if (event->delta() > 0) {
+        QPointF pt = _dest.center();
+        _dest.setSize(QSizeF(_dest.width() * 0.95, _dest.height()*0.95));
+        _dest.translate(pt - _dest.center());
+        _dest.translate(dist*0.95);
+    } else {
+        QPointF pt = _dest.center();
+        _dest.setSize(QSizeF(_dest.width() * 1.05, _dest.height()*1.05));
+        _dest.translate(pt - _dest.center());
+        _dest.translate(dist*1.05);
+    }
+    update();
+}
+
 void CSImageItem::paint(QPainter *painter)
 {
     if (_image.isNull())
         return;
-    QRectF dest = contentsBoundingRect();
-    double aspect = _image.width() / _image.height();
-    if (dest.width() / dest.height() > aspect) {
-        double w = dest.height() * aspect;
-        dest.setX((dest.width() - w) / 2);
-        dest.setWidth(w);
-    } else {
-        double h = dest.height() * aspect;
-        dest.setY((dest.height() - h) / 2);
-        dest.setHeight(h);
-    }
-    painter->drawImage(dest, _image);
+    painter->drawImage(_dest, _image);
 }
 
 QVector<QRgb> CSImageItem::getColorTable(ColorMapEnum colorMap)
@@ -94,4 +140,22 @@ QVector<QRgb> CSImageItem::getColorTable(ColorMapEnum colorMap)
     }
     _colorTables[colorMap] = ct;
     return ct;
+}
+
+void CSImageItem::resetZoom()
+{
+    if (_image.isNull())
+        return;
+
+    _dest = contentsBoundingRect();
+    double aspect = _image.width() / _image.height();
+    if (_dest.width() / _dest.height() > aspect) {
+        double w = _dest.height() * aspect;
+        _dest.setX((_dest.width() - w) / 2);
+        _dest.setWidth(w);
+    } else {
+        double h = _dest.width() / aspect;
+        _dest.setY((_dest.height() - h) / 2);
+        _dest.setHeight(h);
+    }
 }
