@@ -66,18 +66,16 @@ void CSImageItem::mouseDoubleClickEvent(QMouseEvent *event)
 
 void CSImageItem::wheelEvent(QWheelEvent *event)
 {
-    QPointF dist = event->posF() - _dest.center();
+    QPointF dist = event->posF() - _dest.topLeft();
 
     if (event->delta() > 0) {
         QPointF pt = _dest.center();
-        _dest.setSize(QSizeF(_dest.width() * 0.95, _dest.height()*0.95));
-        _dest.translate(pt - _dest.center());
-        _dest.translate(dist*0.95);
+        _dest.setSize(QSizeF(_dest.width() * 0.95, _dest.height() * 0.95));
+        _dest.translate(dist * 0.05);
     } else {
         QPointF pt = _dest.center();
-        _dest.setSize(QSizeF(_dest.width() * 1.05, _dest.height()*1.05));
-        _dest.translate(pt - _dest.center());
-        _dest.translate(dist*1.05);
+        _dest.setSize(QSizeF(_dest.width() * 1.05, _dest.height() * 1.05));
+        _dest.translate(-dist * 0.05);
     }
     update();
 }
