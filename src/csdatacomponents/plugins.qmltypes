@@ -509,67 +509,6 @@ Module {
         Method { name: "currentDateTime"; type: "string" }
     }
     Component {
-        name: "QQuickPvObject"
-        prototype: "QObject"
-        exports: ["PvObject 1.0"]
-        exportMetaObjectRevisions: [0]
-        Enum {
-            name: "FieldType"
-            values: {
-                "String": 0,
-                "Integer": 1,
-                "Short": 1,
-                "Float": 2,
-                "Enum": 3,
-                "Char": 4,
-                "Long": 5,
-                "Double": 6,
-                "Invalid": 7
-            }
-        }
-        Enum {
-            name: "Severity"
-            values: {
-                "NoAlarm": 0,
-                "MinorAlarm": 1,
-                "MajorAlarm": 2,
-                "InvalidAlarm": 3
-            }
-        }
-        Property { name: "channel"; type: "string" }
-        Property { name: "monitor"; type: "bool" }
-        Property { name: "value"; type: "QVariant" }
-        Property { name: "host"; type: "string"; isReadonly: true }
-        Property { name: "connected"; type: "bool" }
-        Property { name: "severity"; type: "int" }
-        Property { name: "status"; type: "int" }
-        Property { name: "readable"; type: "bool" }
-        Property { name: "writable"; type: "bool" }
-        Property { name: "count"; type: "int"; isReadonly: true }
-        Property { name: "units"; type: "string"; isReadonly: true }
-        Property { name: "prec"; type: "int"; isReadonly: true }
-        Property { name: "nostr"; type: "int"; isReadonly: true }
-        Property { name: "strs"; type: "QStringList"; isReadonly: true }
-        Property { name: "type"; type: "int"; isReadonly: true }
-        Property { name: "upctrllim"; type: "QVariant"; isReadonly: true }
-        Property { name: "loctrllim"; type: "QVariant"; isReadonly: true }
-        Property { name: "updisplim"; type: "QVariant"; isReadonly: true }
-        Property { name: "lodisplim"; type: "QVariant"; isReadonly: true }
-        Property { name: "stamp"; type: "QDateTime" }
-        Signal { name: "connectionChanged" }
-        Signal {
-            name: "accessChanged"
-            Parameter { name: "readable"; type: "bool" }
-            Parameter { name: "writable"; type: "bool" }
-        }
-        Signal { name: "controlLimitChanged" }
-        Signal { name: "displayLimitChanged" }
-        Method {
-            name: "setValue"
-            Parameter { name: "val"; type: "QVariant" }
-        }
-    }
-    Component {
         name: "RelatedDisplayMode"
         prototype: "QObject"
         exports: ["RelatedDisplayMode 1.0"]

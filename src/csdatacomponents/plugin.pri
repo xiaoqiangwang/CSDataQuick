@@ -7,8 +7,6 @@ else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLPars
 else:unix: LIBS += -L$$OUT_PWD/../../lib/ -lADLParser -lcsdata
 
 SOURCES += \
-    $$PWD/pvobject.cpp \
-    $$PWD/adimageprovider.cpp \
     $$PWD/plugin.cpp \
     $$PWD/utils.cpp \
     $$PWD/shapes.cpp \
@@ -24,8 +22,6 @@ SOURCES += \
     $$PWD/adimage.cpp
 
 HEADERS += \
-    $$PWD/pvobject.h \
-    $$PWD/adimageprovider.h \
     $$PWD/plugin.h \
     $$PWD/utils.h \
     $$PWD/shapes.h \
