@@ -34,6 +34,8 @@ void CSImageItem::setColorMap(ColorMapEnum colorMap)
 
 void CSImageItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
+    Q_UNUSED(newGeometry);
+    Q_UNUSED(oldGeometry);
     resetZoom();
 }
 
@@ -55,11 +57,13 @@ void CSImageItem::mouseMoveEvent(QMouseEvent *event)
 
 void CSImageItem::mouseReleaseEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
     _last = QPoint();
 }
 
 void CSImageItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event);
     resetZoom();
     update();
 }
