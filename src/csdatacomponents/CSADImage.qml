@@ -44,29 +44,23 @@ import CSDataQuick.Components 1.0
     \image ADImage.gif
 */
 
-Image {
+BaseItem {
+    id: root
     width: 400
     height: 300
     /*!
-        \qmlproperty real interval
-        Set the interval between image refresh, in milliseconds.
-    */
-    property alias interval: timer.interval
-    /*!
+        \qmlproperty string source
         Set the NDPluginStdArrays prefix. e.g. 13SIM1:image1:
     */
-    property string source
+    property alias source: ad.source
 
-    cache: false
-    fillMode: Image.PreserveAspectFit
+    ImageItem {
+        id: img
+        anchors.fill: parent
+    }
 
-    Timer {
-        id: timer
-        running: true
-        repeat: true
-        onTriggered: {
-            source = ''
-            source = 'image://areaDetector/'+ source
-        }
+    ADImage {
+        id: ad
+        onImageChanged: img.setImage(image)
     }
 }
