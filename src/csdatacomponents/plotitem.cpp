@@ -92,6 +92,10 @@ void CustomPlotItem::componentComplete()
             GraphItem *graph = qobject_cast<GraphItem*>(child);
             graph->init();
         }
+        if (qobject_cast<ColorMapItem*>(child)) {
+            ColorMapItem *colormap = qobject_cast<ColorMapItem*>(child);
+            colormap->init();
+        }
     }
     replot();
 }
@@ -389,6 +393,79 @@ void GraphItem::clearData()
         mGraph->clearData();
     }
 }
+
+/*
+ * ColorMap Item
+ */
+
+ColorMapItem::ColorMapItem(QObject *parent)
+    : QObject(parent), mColorMap(0),mData(0),mXAxis(0),mYAxis(0)
+{
+}
+
+void ColorMapItem::init()
+{
+    CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
+    if (plot == 0)
+        return;
+    mColorMap = new QCPColorMap(mXAxis->axis(), mYAxis->axis());
+    mColorMap->setGradient(QCPColorGradient::gpPolar);
+
+    mColorMap->setInterpolate(_interpolate);
+
+    mData = new QCPColorMapData(0, 0, QCPRange(0, 1), QCPRange(0, 1));
+    plot->plot()->addPlottable(mColorMap);
+    mColorMap->setData(mData);
+}
+
+bool ColorMapItem::interpolate()
+{
+    return _interpolate;
+}
+
+void ColorMapItem::setInterpolate(bool enabled)
+{
+    _interpolate = enabled;
+    if (mColorMap != 0)
+        mColorMap->setInterpolate(enabled);
+}
+
+void ColorMapItem::setXRange(double lower, double upper, int size)
+{
+    mData->setKeySize(size);
+    mData->setKeyRange(QCPRange(lower, upper));
+    mXAxis->rescale();
+}
+
+void ColorMapItem::setYRange(double lower, double upper, int size)
+{
+    mData->setValueSize(size);
+    mData->setValueRange(QCPRange(lower, upper));
+    mYAxis->rescale();
+}
+
+void ColorMapItem::setData(double x, double y, double z)
+{
+    mData->setData(x, y, z);
+    mColorMap->rescaleDataRange(true);
+}
+
+void ColorMapItem::setCell(int x, int y, double z)
+{
+    mData->setCell(x, y, z);
+    mColorMap->rescaleDataRange(true);
+}
+
+void ColorMapItem::clearData()
+{
+    if (mColorMap) {
+        mColorMap->clearData();
+    }
+}
+
+/*
+ * Axis Item
+ */
 
 AxisItem::AxisItem(QObject *parent)
     : QObject(parent), mAxis(0)

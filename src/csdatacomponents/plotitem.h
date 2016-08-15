@@ -6,6 +6,8 @@
 class QCustomPlot;
 class QCPPlotTitle;
 class QCPGraph;
+class QCPColorMap;
+class QCPColorMapData;
 class QCPAxis;
 class GraphItem;
 class AxisItem;
@@ -129,6 +131,52 @@ private:
     LineStyle mLineStyle;
     AxisItem *mXAxis;
     AxisItem *mYAxis;
+    friend class CustomPlotItem;
+};
+
+class ColorMapItem : public QObject, public QQmlParserStatus
+{
+    Q_OBJECT
+    Q_INTERFACES(QQmlParserStatus)
+
+    Q_PROPERTY(AxisItem* x READ x WRITE setX)
+    Q_PROPERTY(AxisItem* y READ y WRITE setY)
+    Q_PROPERTY(bool interpolate READ interpolate WRITE setInterpolate)
+
+public:
+
+    explicit ColorMapItem(QObject *parent=0);
+
+    void classBegin() {}
+    void componentComplete() {}
+
+    void init();
+
+    //properties
+    AxisItem* x() {return mXAxis;}
+    void setX(AxisItem *x) {mXAxis = x;}
+
+    AxisItem* y() {return mYAxis;}
+    void setY(AxisItem *y) {mYAxis = y;}
+
+    bool interpolate();
+    void setInterpolate(bool enabled);
+
+    //methods
+    Q_INVOKABLE void setXRange(double lower, double upper, int size);
+    Q_INVOKABLE void setYRange(double lower, double upper, int size);
+    Q_INVOKABLE void setData(double x, double y, double z);
+    Q_INVOKABLE void setCell(int x, int y, double z);
+    Q_INVOKABLE void clearData();
+
+signals:
+
+private:
+    QCPColorMap *mColorMap;
+    QCPColorMapData *mData;
+    AxisItem *mXAxis;
+    AxisItem *mYAxis;
+    bool _interpolate;
     friend class CustomPlotItem;
 };
 
