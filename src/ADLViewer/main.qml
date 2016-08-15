@@ -34,6 +34,10 @@ ApplicationWindow
                 text: 'Display List'
                 onTriggered: DisplayListDialog.open()
             }
+            MenuItem {
+                text: 'Data Engine'
+                onTriggered: PvTableDialog.open()
+            }
         }
 
         Menu {
