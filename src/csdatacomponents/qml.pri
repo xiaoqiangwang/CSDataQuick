@@ -4,6 +4,7 @@ QML_FILES += \
     $$PWD/plugins.qmltypes \
     $$PWD/BaseWindow.qml \
     $$PWD/DynamicAttribute.qml \
+    $$PWD/CS2DSscan.qml \
     $$PWD/CSADImage.qml \
     $$PWD/CSArc.qml \
     $$PWD/CSBar.qml \
@@ -129,7 +130,7 @@ QML_FILES += \
     $$PWD/designer/images/arrow_up.png \
     $$PWD/designer/images/delete.png \
     $$PWD/designer/csdatacomponents.metainfo
-    
+
 OTHER_FILES = $$QML_FILES
 
 include(../../qmlmodule.pri)
