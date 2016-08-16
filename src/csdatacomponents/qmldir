@@ -4,6 +4,7 @@ typeinfo plugins.qmltype
 
 BaseWindow      1.0 BaseWindow.qml
 CSADImage       1.0 CSADImage.qml
+CS2DSscan       1.0 CS2DSscan.qml
 CSArc           1.0 CSArc.qml
 CSBar           1.0 CSBar.qml 
 CSByte          1.0 CSByte.qml
