@@ -64,10 +64,14 @@ import CSDataQuick.Components 1.0
 
 */
 
-Plot {
-    id: plot
-    width: 400
-    height: 300
+BaseItem{
+    id: root
+    implicitWidth: 300
+    implicitHeight: 200
+    /*!
+        Graph title
+    */
+    property string title
     /*!
         Set the sscan record prefix of X dimension
     */
@@ -148,20 +152,27 @@ Plot {
             source: scanX + Utils.format('.D%02.0fCV', detX)
         }
     }
-    property var xAxis: Axis {
-        type: Axis.Bottom
-        label: d.pvX.value
-        autoScale: true
-    }
-    property var yAxis: Axis {
-        type: Axis.Left
-        label: d.pvY.value
-        autoScale: true
-    }
 
-    ColorMapItem {
-        id: cm
-        x: xAxis
-        y: yAxis
+    Plot {
+        id: plot
+        anchors.fill: parent
+        title: root.title
+
+        property var xAxis: Axis {
+            type: Axis.Bottom
+            label: d.pvX.value
+            autoScale: true
+        }
+        property var yAxis: Axis {
+            type: Axis.Left
+            label: d.pvY.value
+            autoScale: true
+        }
+
+        ColorMapItem {
+            id: cm
+            x: plot.xAxis
+            y: plot.yAxis
+        }
     }
 }
