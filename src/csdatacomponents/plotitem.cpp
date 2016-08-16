@@ -198,6 +198,8 @@ void CustomPlotItem::paint(QPainter *painter)
 
 void CustomPlotItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
+    if (mPlot == 0)
+        return;
     int titleFont = calcTitleFontSize(newGeometry.toRect());
     mTitle->setFont(QFont("Courier", titleFont));
 
@@ -410,11 +412,19 @@ void ColorMapItem::init()
         return;
     mColorMap = new QCPColorMap(mXAxis->axis(), mYAxis->axis());
     mColorMap->setGradient(QCPColorGradient::gpPolar);
-
     mColorMap->setInterpolate(_interpolate);
+
+    mColorScale = new QCPColorScale(plot->plot());
+    mColorScale->setType(QCPAxis::atRight);
+    mColorMap->setColorScale(mColorScale);
+
+    QCPMarginGroup *marginGroup = new QCPMarginGroup(plot->plot());
+    plot->plot()->axisRect()->setMarginGroup(QCP::msTop | QCP::msBottom, marginGroup);
+    mColorScale->setMarginGroup(QCP::msTop | QCP::msBottom, marginGroup);
 
     mData = new QCPColorMapData(0, 0, QCPRange(0, 1), QCPRange(0, 1));
     plot->plot()->addPlottable(mColorMap);
+    plot->plot()->plotLayout()->addElement(0, 1, mColorScale);
     mColorMap->setData(mData);
 }
 

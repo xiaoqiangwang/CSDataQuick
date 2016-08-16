@@ -8,6 +8,7 @@ class QCPPlotTitle;
 class QCPGraph;
 class QCPColorMap;
 class QCPColorMapData;
+class QCPColorScale;
 class QCPAxis;
 class GraphItem;
 class AxisItem;
@@ -173,6 +174,7 @@ signals:
 
 private:
     QCPColorMap *mColorMap;
+    QCPColorScale *mColorScale;
     QCPColorMapData *mData;
     AxisItem *mXAxis;
     AxisItem *mYAxis;
