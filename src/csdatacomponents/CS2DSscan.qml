@@ -79,15 +79,15 @@ Plot {
     /*!
         Set the sscan record detector number
      */
-    property int numD: 1
+    property int detX: 1
     /*!
         Set the sscan record positioner number of X dimension
      */
-    property int numX: 1
+    property int posX: 1
     /*!
         Set the sscan record positioner number of Y dimension
      */
-    property int numY: 1
+    property int posY: 1
 
     QtObject {
         id: d
@@ -103,13 +103,13 @@ Plot {
             source: scanX + '.NPTS'
         }
         property var pvX: CSData {
-            source: scanX + Utils.format('.P%.0fPV', numX)
+            source: scanX + Utils.format('.P%.0fPV', posX)
         }
         property var spX: CSData {
-            source: scanX + Utils.format('.P%.0fSP', numX)
+            source: scanX + Utils.format('.P%.0fSP', posX)
         }
         property var epX: CSData {
-            source: scanX + Utils.format('.P%.0fEP', numX)
+            source: scanX + Utils.format('.P%.0fEP', posX)
         }
         property var runX: CSData {
             source: scanX + '.EXSC'
@@ -127,13 +127,13 @@ Plot {
             source: scanY + '.NPTS'
         }
         property var pvY: CSData {
-            source: scanY + Utils.format('.P%.0fPV', numY)
+            source: scanY + Utils.format('.P%.0fPV', posY)
         }
         property var spY: CSData {
-            source: scanY + Utils.format('.P%.0fSP', numY)
+            source: scanY + Utils.format('.P%.0fSP', posY)
         }
         property var epY: CSData {
-            source: scanY + Utils.format('.P%.0fEP', numY)
+            source: scanY + Utils.format('.P%.0fEP', posY)
         }
         property var runY: CSData {
             source: scanY + '.EXSC'
@@ -145,7 +145,7 @@ Plot {
         }
         /* Detector of X dimension */
         property var detX: CSData {
-            source: scanX + Utils.format('.D%02.0fCV', numD)
+            source: scanX + Utils.format('.D%02.0fCV', detX)
         }
     }
     property var xAxis: Axis {
