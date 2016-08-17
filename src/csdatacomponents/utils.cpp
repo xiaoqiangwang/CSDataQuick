@@ -62,6 +62,31 @@ QCSUtils::QCSUtils(QObject *parent)
 
 
 /*!
+    \qmlmethod QVariant Utils::vectorGet(QVariant v, int index)
+
+    Get the element at the given index from a vector
+*/
+QVariant QCSUtils::vectorGet(QVariant v, int index)
+{
+    if (!v.isValid())
+        return QVariant();
+
+    if (strcmp(v.typeName(), "QVector<double>") == 0)
+        return v.value< QVector<double> >().at(index);
+    else if (strcmp(v.typeName(), "QVector<float>") == 0)
+        return v.value< QVector<float> >().at(index);
+    else if (strcmp(v.typeName(), "QVector<int>") == 0)
+        return v.value< QVector<int> >().at(index);
+    else if (strcmp(v.typeName(), "QVector<short>") == 0)
+        return v.value< QVector<short> >().at(index);
+    else if (strcmp(v.typeName(), "QVector<char>") == 0)
+        return v.value< QVector<char> >().at(index);
+    else
+        return QVariant();
+}
+
+
+/*!
     \qmlmethod QString Utils::format(QString format, double number)
 
     Format a number with given format, \sa QString::sprintf()
