@@ -166,12 +166,12 @@ BaseItem{
 
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: d.pvX.value
+            label: d.pvX.value || ''
             autoScale: true
         }
         property var yAxis: Axis {
             type: Axis.Left
-            label: d.pvY.value
+            label: d.pvY.value || ''
             autoScale: true
         }
 
