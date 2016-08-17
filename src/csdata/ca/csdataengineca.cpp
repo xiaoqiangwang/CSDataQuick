@@ -73,8 +73,10 @@ typedef dbr_string_t* dbr_string_t_ptr;
 //
 void monitorCallbackC(struct event_handler_args args)
 {
-    if (args.status != ECA_NORMAL)
+    if (args.status != ECA_NORMAL) {
+        qWarning() << "monitorCallbackC:" << ca_name(args.chid) << ca_message(args.status);
         return;
+    }
     QCSData *data = (QCSData *)args.usr;
 
     union db_access_val *val = (union db_access_val *)args.dbr;
@@ -197,12 +199,12 @@ void propertyCallbackC(struct event_handler_args args)
         break;
     }
 
-    // Set connected after first get succeeds
-    QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, true));
-
     // Subscribe to value and alarm changes
     QVariant v = data->property("evidMonitor");
     if (!v.isValid()) {
+        // Set connected after first get succeeds
+        QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, true));
+
         evid evidMonitor;
         chtype reqtype = dbf_type_to_DBR_TIME(ca_field_type(args.chid));
         status = ca_create_subscription(reqtype,
@@ -330,6 +332,8 @@ void QCSDataEngineCA::create(QCSData *data)
         _data->append(data);
         dataChanged();
     }
+
+    ca_flush_io();
 }
 void QCSDataEngineCA::close(QCSData *data)
 {
@@ -347,6 +351,8 @@ void QCSDataEngineCA::close(QCSData *data)
     data->setProperty("chid", QVariant());
     data->setProperty("evidProperty", QVariant());
     data->setProperty("evidMonitor", QVariant());
+
+    ca_flush_io();
 
     _data->remove(data);
     dataChanged();
