@@ -95,13 +95,22 @@ BaseItem{
 
     QtObject {
         id: d
+        /* Detector of X dimension */
+        property var detX: CSData {
+            source: scanX + Utils.format('.D%02.0fCV', detX)
+        }
         /* X dimension */
-        property var cptX: CSData {
-            source: scanX + '.CPT'
+        property var valX: CSData {
+            source: scanX + '.VAL'
             onValueChanged: {
-                cm.setCell(d.cptX.value, d.cptY.value, d.detX.value)
+                if (d.cptX.value == 0)
+                    return
+                cm.setCell(d.cptX.value - 1, d.cptY.value, d.detX.value)
                 plot.replot()
             }
+        }
+        property var cptX: CSData {
+            source: scanX + '.CPT'
         }
         property var nptsX: CSData {
             source: scanX + '.NPTS'
@@ -143,13 +152,10 @@ BaseItem{
             source: scanY + '.EXSC'
             onValueChanged: {
                 if (value == 1) {
+                    cm.clearData()
                     cm.setYRange(d.spY.value, d.epY.value, d.nptsY.value)
                 }
             }
-        }
-        /* Detector of X dimension */
-        property var detX: CSData {
-            source: scanX + Utils.format('.D%02.0fCV', detX)
         }
     }
 
