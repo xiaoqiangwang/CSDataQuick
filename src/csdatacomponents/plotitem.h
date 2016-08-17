@@ -175,7 +175,6 @@ signals:
 private:
     QCPColorMap *mColorMap;
     QCPColorScale *mColorScale;
-    QCPColorMapData *mData;
     AxisItem *mXAxis;
     AxisItem *mYAxis;
     bool _interpolate;

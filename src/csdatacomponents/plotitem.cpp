@@ -401,7 +401,7 @@ void GraphItem::clearData()
  */
 
 ColorMapItem::ColorMapItem(QObject *parent)
-    : QObject(parent), mColorMap(0),mData(0),mXAxis(0),mYAxis(0)
+    : QObject(parent), mColorMap(0),mXAxis(0),mYAxis(0)
 {
 }
 
@@ -422,10 +422,8 @@ void ColorMapItem::init()
     plot->plot()->axisRect()->setMarginGroup(QCP::msTop | QCP::msBottom, marginGroup);
     mColorScale->setMarginGroup(QCP::msTop | QCP::msBottom, marginGroup);
 
-    mData = new QCPColorMapData(0, 0, QCPRange(0, 1), QCPRange(0, 1));
     plot->plot()->addPlottable(mColorMap);
     plot->plot()->plotLayout()->addElement(0, 1, mColorScale);
-    mColorMap->setData(mData);
 }
 
 bool ColorMapItem::interpolate()
@@ -442,27 +440,27 @@ void ColorMapItem::setInterpolate(bool enabled)
 
 void ColorMapItem::setXRange(double lower, double upper, int size)
 {
-    mData->setKeySize(size);
-    mData->setKeyRange(QCPRange(lower, upper));
+    mColorMap->data()->setKeySize(size);
+    mColorMap->data()->setKeyRange(QCPRange(lower, upper));
     mXAxis->rescale();
 }
 
 void ColorMapItem::setYRange(double lower, double upper, int size)
 {
-    mData->setValueSize(size);
-    mData->setValueRange(QCPRange(lower, upper));
+    mColorMap->data()->setValueSize(size);
+    mColorMap->data()->setValueRange(QCPRange(lower, upper));
     mYAxis->rescale();
 }
 
 void ColorMapItem::setData(double x, double y, double z)
 {
-    mData->setData(x, y, z);
+    mColorMap->data()->setData(x, y, z);
     mColorMap->rescaleDataRange(true);
 }
 
 void ColorMapItem::setCell(int x, int y, double z)
 {
-    mData->setCell(x, y, z);
+    mColorMap->data()->setCell(x, y, z);
     mColorMap->rescaleDataRange(true);
 }
 
