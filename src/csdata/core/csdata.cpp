@@ -517,9 +517,6 @@ void QCSData::setValue(const QVariant value)
 */
 void QCSData::updateValue(const QVariant value)
 {
-    if (_value == value)
-        return;
-
     _value.setValue(value);
     emit valueChanged();
 }
