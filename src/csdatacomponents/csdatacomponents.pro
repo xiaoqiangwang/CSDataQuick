@@ -1,5 +1,5 @@
 TEMPLATE = lib
-CONFIG += qt plugin
+CONFIG += qt plugin c++11
 QT += quick printsupport concurrent
 ios {
     DEFINES += NO_PRINTERSUPPORT
