@@ -411,11 +411,11 @@ void ColorMapItem::init()
     if (plot == 0)
         return;
     mColorMap = new QCPColorMap(mXAxis->axis(), mYAxis->axis());
-    mColorMap->setGradient(QCPColorGradient::gpPolar);
     mColorMap->setInterpolate(_interpolate);
 
     mColorScale = new QCPColorScale(plot->plot());
     mColorScale->setType(QCPAxis::atRight);
+    mColorScale->setGradient(QCPColorGradient::gpHot);
     mColorMap->setColorScale(mColorScale);
 
     QCPMarginGroup *marginGroup = new QCPMarginGroup(plot->plot());
