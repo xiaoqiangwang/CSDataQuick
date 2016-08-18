@@ -401,7 +401,7 @@ void GraphItem::clearData()
  */
 
 ColorMapItem::ColorMapItem(QObject *parent)
-    : QObject(parent), mColorMap(0),mXAxis(0),mYAxis(0)
+    : QObject(parent), mColorMap(0),mXAxis(0),mYAxis(0),_interpolate(false)
 {
 }
 
