@@ -321,6 +321,8 @@ BaseItem {
              (d.pvErase.value == 0 && root.eraseMode == EraseMode.IfZero) ) {
             for (var i=0; i<d.graphs.length; i++) {
                 d.graphs[i].clearData()
+                d.pvs[i][0].data.length = 0
+                d.pvs[i][1].data.length = 0
             }
             plot.replot()
         }
