@@ -14,6 +14,18 @@ MetaInfo {
         }
     }
     Type {
+        name: "CSDataQuick.Components.CS2DSscan"
+        icon: "images/2dsscan.png"
+
+        ItemLibraryEntry {
+            name: "2D sscan"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/2dsscan.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CSArc"
         icon: "images/arc.png"
 

@@ -64,6 +64,7 @@ QML_FILES += \
 
 QML_FILES += \
     $$PWD/designer/BaseWindowSpecifics.qml \
+    $$PWD/designer/CS2DSscanSpecifics.qml \
     $$PWD/designer/CSArcSpecifics.qml \
     $$PWD/designer/CSBarSpecifics.qml \
     $$PWD/designer/CSByteSpecifics.qml \
@@ -100,6 +101,7 @@ QML_FILES += \
     $$PWD/designer/LimitsSection.qml \
     $$PWD/designer/PolylineEditor.qml \
     $$PWD/designer/StripChartEditor.qml \
+    $$PWD/designer/images/2dsscan.png \
     $$PWD/designer/images/arc.png \
     $$PWD/designer/images/bar.png \
     $$PWD/designer/images/byte.png \
