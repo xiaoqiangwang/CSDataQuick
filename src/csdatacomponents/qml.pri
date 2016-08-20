@@ -50,6 +50,7 @@ QML_FILES += \
     $$PWD/Private/StyledButton.qml \
     $$PWD/Private/StyledButton2.qml \
     $$PWD/Private/StyledFrame.qml \
+    $$PWD/Private/StyledTextEntry.qml \
     $$PWD/Private/WheelDigit.qml \
     $$PWD/Private/WheelSwitch.qml \
     $$PWD/Private/images/arrow-down.png \

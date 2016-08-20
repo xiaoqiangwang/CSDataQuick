@@ -9,6 +9,7 @@ StyledAxis      1.0 StyledAxis.qml
 StyledBar       1.0 StyledBar.qml
 StyledButton    1.0 StyledButton.qml
 StyledButton2   1.0 StyledButton2.qml
+StyledTextEntry 1.0 StyledTextEntry.qml
 WheelDigit      1.0 WheelDigit.qml
 WheelSwitch     1.0 WheelSwitch.qml
 

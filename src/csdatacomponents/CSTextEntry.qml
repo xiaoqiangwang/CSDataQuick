@@ -82,7 +82,7 @@ CSControl {
 
         The font used depends on the item height using function \l UtilsJS::getBestFontSize.
     */
-    property alias align: textField.horizontalAlignment
+    property alias align: textEntry.horizontalAlignment
     /*!
         \qmlproperty TextFormat format
     */
@@ -94,86 +94,45 @@ CSControl {
         precChannel: pv.precision
     }
 
-    StyledFrame {
+    StyledTextEntry {
+        id: textEntry
         anchors.fill: parent
-        color: root.background
-        shadow: FrameShadow.Sunken
-    }
-    TextInput {
-        id: textField
-        color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
-        verticalAlignment: TextInput.AlignBottom
-        activeFocusOnPress: true
-        readOnly: pv.accessRight & CSData.WriteAccess == 0
-        font.family: root.font.family
-        font.pixelSize: root.font.size
-        clip: true
-        selectByMouse: true
-        anchors.topMargin: 2
-        anchors.bottomMargin: 2
-        anchors.leftMargin: 2
-        anchors.rightMargin: 2
-        anchors.fill: parent
+        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        background: root.background
+
+        onHasFocusChanged: {
+            text = formatString(format, pv.value)
+        }
+
         onAccepted: {
             if (pv.accessRight & CSData.WriteAccess == 0)
                 return
-            var value;
+            var value
             switch (pv.fieldType) {
             case CSData.String:
-                pv.value = text
+                value = text
                 break
             case CSData.Enum:
-                var found = false
-                for(var i=0; i<pv.stateStrings.length; i++) {
-                    if (text == pv.stateStrings[i]) {
-                        found = true
+                var i
+                for(i=0; i<pv.stateStrings.length; i++)
+                    if (text == pv.stateStrings[i])
                         break
-                    }
-                }
-                if (found)
-                    pv.value = text
-                else {
+                if (i < pv.stateStrings.length)
+                    value = i
+                else
                     value = Utils.parse(format, text)
-                    if (!isNaN(value))
-                        pv.value = value
-                }
-                break
-            case CSData.Integer:
-            case CSData.Long:
-                value = Utils.parse(format, text)
-                if (!isNaN(value))
-                    pv.value = value
                 break
             case CSData.Char:
                 if (format == TextFormat.String)
-                    pv.value = text
-                else {
+                    value = text
+                else
                     value = Utils.parse(format, text)
-                    if (!isNaN(value))
-                        pv.value = value
-                }
                 break
             default:
                 value = Utils.parse(format, text)
-                if (!isNaN(value))
-                    pv.value = value
             }
-        }
-    }
-
-    MouseArea {
-        anchors.fill: textField
-        acceptedButtons: Qt.NoButton
-        hoverEnabled: true
-        onEntered: textField.focus = true
-        onExited: {
-            textField.focus = false
-            textField.text = formatString(format, pv.value)
-        }
-        DropArea {
-            anchors.fill: parent
-            keys: ['text/plain']
-            onDropped: textField.text = drop.text
+            if (value !== undefined && !isNaN(value))
+                pv.value = value
         }
     }
 
@@ -181,22 +140,22 @@ CSControl {
         target: pv
 
         onPrecisionChanged: {
-            textField.text = formatString(format, pv.value)
+            textEntry.text = formatString(format, pv.value)
         }
 
         onStateStringsChanged: {
-            textField.text = formatString(format, pv.value)
+            textEntry.text = formatString(format, pv.value)
         }
 
         onValueChanged: {
-            textField.text = formatString(format, pv.value)
-            if (!textField.activeFocus)
-                textField.cursorPosition = 0
+            textEntry.text = formatString(format, pv.value)
+            if (!textEntry.hasFocus)
+                textEntry.cursorPosition = 0
         }
     }
 
     onFormatChanged: {
-        textField.text = formatString(format, pv.value)
+        textEntry.text = formatString(format, pv.value)
     }
 
     /*!
