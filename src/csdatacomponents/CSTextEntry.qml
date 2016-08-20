@@ -139,10 +139,6 @@ CSControl {
     Connections {
         target: pv
 
-        onPrecisionChanged: {
-            textEntry.text = formatString(format, pv.value)
-        }
-
         onStateStringsChanged: {
             textEntry.text = formatString(format, pv.value)
         }
@@ -151,6 +147,14 @@ CSControl {
             textEntry.text = formatString(format, pv.value)
             if (!textEntry.hasFocus)
                 textEntry.cursorPosition = 0
+        }
+    }
+
+    Connections {
+        target: limits
+
+        onPrecChanged: {
+            textEntry.text = formatString(format, pv.value)
         }
     }
 

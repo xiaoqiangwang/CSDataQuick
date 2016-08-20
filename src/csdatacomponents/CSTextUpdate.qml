@@ -93,10 +93,6 @@ CSMonitor {
     Connections {
         target: pv
 
-        onPrecisionChanged: {
-            label_control.text = formatString(format, pv.value)
-        }
-
         onStateStringsChanged: {
             label_control.text = formatString(format, pv.value)
         }
@@ -109,6 +105,14 @@ CSMonitor {
             while(label_control.font.pixelSize > 6 && label_control.paintedWidth > label_control.width) {
                 label_control.font.pixelSize -= 1
             }
+        }
+    }
+
+    Connections {
+        target: limits
+
+        onPrecChanged: {
+            label_control.text = formatString(format, pv.value)
         }
     }
 
