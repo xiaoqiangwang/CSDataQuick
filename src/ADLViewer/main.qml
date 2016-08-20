@@ -84,7 +84,7 @@ ApplicationWindow
                     case LogLevel.Info:
                         return "#0000EE"
                     case LogLevel.Warning:
-                        return "#DDDD00"
+                        return "#FAFA37"
                     case LogLevel.Critical:
                         return "#CC0000"
                     case LogLevel.Fatal:
