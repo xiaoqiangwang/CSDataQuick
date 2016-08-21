@@ -99,6 +99,7 @@ CSControl {
         anchors.fill: parent
         foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         background: root.background
+        readOnly: pv.accessRight & CSData.WriteAccess == 0
 
         onHasFocusChanged: {
             text = formatString(format, pv.value)
