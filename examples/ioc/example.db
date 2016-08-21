@@ -81,9 +81,15 @@ record(mbbo, "mbbo")
     field (TWST, "TWO")
 }
 
-record(waveform, "waves")
+record(waveform, "wavec")
 {
     field (FTVL, "UCHAR")
+    field (NELM, "128")
+}
+
+record(waveform, "waves")
+{
+    field (FTVL, "STRING")
     field (NELM, "128")
 }
 

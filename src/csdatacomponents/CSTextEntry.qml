@@ -46,7 +46,7 @@ import "utils.js" as UtilsJS
         CSTextEntry {
             width: 200
             height: 25
-            source: 'waves'
+            source: 'wavec'
         }
         CSTextEntry {
             width: 80
