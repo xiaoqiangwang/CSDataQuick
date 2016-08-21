@@ -4,6 +4,9 @@ import CSDataQuick.Components 1.0
 
 Item {
     id: root
+    implicitWidth: 100
+    implicitHeight: 20
+
     property color background: 'white'
     property color foreground : 'black'
     property alias readOnly: textField.readOnly
