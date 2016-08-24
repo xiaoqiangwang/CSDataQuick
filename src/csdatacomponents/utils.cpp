@@ -64,7 +64,7 @@ QCSUtils::QCSUtils(QObject *parent)
 /*!
     \qmlmethod QVariant Utils::vectorGet(QVariant v, int index, int count)
 
-    Get the subarray from a vector, starting at position \l index.
+    Get the subarray from a vector, starting at position \l index (default 0).
     If \l count is -1 (the default), all elements after \l index are included.
     \sa QVector::mid().
 */
