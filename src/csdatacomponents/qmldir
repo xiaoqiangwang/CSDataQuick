@@ -28,7 +28,8 @@ CSShellCommand  1.0 CSShellCommand.qml
 CSSlider        1.0 CSSlider.qml 
 CSStripChart    1.0 CSStripChart.qml
 CSText          1.0 CSText.qml
-CSTextEntry     1.0 CSTextEntry.qml 
+CSTextArea      1.0 CSTextArea.qml
+CSTextEntry     1.0 CSTextEntry.qml
 CSTextEntryArray 1.0 CSTextEntryArray.qml
 CSTextUpdate    1.0 CSTextUpdate.qml
 CSWheelSwitch   1.0 CSWheelSwitch.qml
