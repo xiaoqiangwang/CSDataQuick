@@ -75,7 +75,7 @@ CSControl {
     /*!
         Show the element label
     */
-    property bool showLabel: true
+    property bool labelVisible: true
     /*!
         Element label
     */
@@ -133,7 +133,7 @@ CSControl {
             Layout.fillHeight: stacking != Stacking.Column
             Layout.row: stacking == Stacking.Column ? index : 0
             Layout.column: stacking == Stacking.Column ? 0 : index
-            visible: showLabel
+            visible: labelVisible
         }
     }
 
