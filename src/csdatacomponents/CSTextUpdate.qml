@@ -60,7 +60,7 @@ CSMonitor {
     */
     property int format: TextFormat.Decimal
     /*! Display physical units if available */
-    property bool showUnits: false
+    property bool unitsVisible: false
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height)
 
@@ -85,7 +85,7 @@ CSMonitor {
             color: root.foreground
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
-            visible: showUnits && text != ''
+            visible: unitsVisible && text != ''
             text: pv.units
         }
     }
