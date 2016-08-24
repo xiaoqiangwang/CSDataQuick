@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QUrl>
 #include <QVariant>
+#include <QVariantMap>
 #include "cs_global.h"
 
 class QCSDataEngine;
@@ -102,9 +103,12 @@ class QCS_DLLSPEC QCSData : public QObject
     Q_PROPERTY(int          precision   READ precision    WRITE setPrecision   NOTIFY precisionChanged)
     Q_PROPERTY(QString      units       READ units        WRITE setUnits       NOTIFY unitsChanged)
     Q_PROPERTY(QCSDataRange* range       MEMBER _range     NOTIFY rangeChanged)
+
     // enum type
     Q_PROPERTY(QStringList  stateStrings READ stateStrings  WRITE setStateStrings  NOTIFY stateStringsChanged)
 
+    // extra properties
+    Q_PROPERTY(QVariantMap  extraProperties READ getExtraProperties MEMBER _extraProperties)
 public:
     explicit QCSData(QObject *parent=0);
     ~QCSData();
@@ -167,6 +171,7 @@ public:
     Q_INVOKABLE void setAlarm(QCSDataAlarm::Severity severity, int status, const QString message);
     Q_INVOKABLE void setRange(double lower, double upper);
 
+    QVariantMap getExtraProperties() const { return _extraProperties; }
 
 signals:
     void sourceChanged();
@@ -207,6 +212,8 @@ protected:
     QCSDataRange*_range;         // display limit
 
     QStringList _stateStrings;  // state strings separated
+
+    QVariantMap _extraProperties; // extra properties
 
     QCSDataEngine *_engine;
 

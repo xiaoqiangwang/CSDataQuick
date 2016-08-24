@@ -55,16 +55,21 @@ void exception_handler(exception_handler_args args)
     QMetaObject::invokeMethod(data, "setRange", Q_ARG(double, VP.lower_disp_limit),\
                                                 Q_ARG(double, VP.upper_disp_limit));
 
-#define ConvertValue(VP,TYPE)\
-    if (count==1) {\
-        if (dbr_type_is_CHAR(type)) \
-              value.setValue(int(VP.value)); \
-        else \
-              value.setValue((TYPE)(VP.value));\
+#define ConvertValue(VP,TYPE,VTYPE)\
+    if (element_count==1) {\
+        value.setValue((TYPE)(VP.value));\
     } else {\
-        QVector<TYPE> list(count);\
-        memcpy(list.data(), &VP.value, count * sizeof(TYPE));\
-        value.setValue(QVariant::fromValue(list));\
+        if (use_native_type || sizeof(TYPE) == sizeof(VTYPE)) { \
+            QVector<TYPE> list(count);\
+            memcpy(list.data(), &VP.value, count * sizeof(TYPE));\
+            value.setValue(list);\
+        } else {\
+            QVector<VTYPE> list(count);\
+            for(qulonglong i=0; i<count; i++) {\
+                list[i] = (TYPE)*(&(VP.value) + i); \
+            }\
+            value.setValue(list);\
+        }\
     }
 typedef dbr_string_t* dbr_string_t_ptr;
 
@@ -78,10 +83,12 @@ void monitorCallbackC(struct event_handler_args args)
         return;
     }
     QCSData *data = (QCSData *)args.usr;
+    bool use_native_type = data->getExtraProperties().value("UseNativeType", QVariant(false)).toBool();
 
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
     qulonglong count  = args.count;
+    qulonglong element_count  = ca_element_count(args.chid);
 
     int status, severity;
     QDateTime timeStamp;
@@ -97,35 +104,35 @@ void monitorCallbackC(struct event_handler_args args)
             strList.push_back(*(dbr_string_t_ptr)(&(val->tstrval.value) + i));
         value.setValue(strList);
         break;
-    case DBR_TIME_INT:
+    case DBR_TIME_SHORT:
         ConvertSTS(val->tshrtval)
         ConvertTime(val->tshrtval)
-        ConvertValue(val->tshrtval,dbr_int_t)
+        ConvertValue(val->tshrtval,dbr_int_t,int)
         break;
     case DBR_TIME_FLOAT:
         ConvertSTS(val->tfltval);
         ConvertTime(val->tfltval);
-        ConvertValue(val->tfltval,dbr_float_t)
+        ConvertValue(val->tfltval,dbr_float_t,double)
         break;
     case DBR_TIME_ENUM:
         ConvertSTS(val->tenmval);
         ConvertTime(val->tenmval);
-        ConvertValue(val->tenmval,dbr_enum_t)
+        ConvertValue(val->tenmval,dbr_enum_t,int)
         break;
     case DBR_TIME_CHAR:
         ConvertSTS(val->tchrval);
         ConvertTime(val->tchrval);
-        ConvertValue(val->tchrval,dbr_char_t)
+        ConvertValue(val->tchrval,dbr_char_t,int)
         break;
     case DBR_TIME_LONG:
         ConvertSTS(val->tlngval);
         ConvertTime(val->tlngval);
-        ConvertValue(val->tlngval,dbr_long_t)
+        ConvertValue(val->tlngval,dbr_long_t,int)
         break;
     case DBR_TIME_DOUBLE:
         ConvertSTS(val->tdblval);
         ConvertTime(val->tdblval);
-        ConvertValue(val->tdblval,dbr_double_t)
+        ConvertValue(val->tdblval,dbr_double_t,double)
         break;
     }
 
@@ -146,10 +153,12 @@ void propertyCallbackC(struct event_handler_args args)
     }
 
     QCSData *data = (QCSData *)args.usr;
+    bool use_native_type = data->getExtraProperties().value("UseNativeType", QVariant(false)).toBool();
 
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
     qulonglong count  = args.count;
+    qulonglong element_count  = ca_element_count(args.chid);
 
     int status, severity;
     QVariant value;
@@ -163,15 +172,15 @@ void propertyCallbackC(struct event_handler_args args)
             strList.push_back(*(dbr_string_t_ptr)(&(val->cstrval.value) + i));
         value.setValue(strList);
         break;
-    case DBR_CTRL_INT:
+    case DBR_CTRL_SHORT:
         ConvertSTS(val->cshrtval)
         ConvertCtrl(val->cshrtval)
-        ConvertValue(val->cshrtval,dbr_int_t)
+        ConvertValue(val->cshrtval,dbr_int_t,int)
         break;
     case DBR_CTRL_FLOAT:
         ConvertSTS(val->cfltval);
         ConvertCtrl(val->cfltval);
-        ConvertValue(val->cfltval,dbr_float_t)
+        ConvertValue(val->cfltval,dbr_float_t,double)
         QMetaObject::invokeMethod(data, "setPrecision", Q_ARG(int, val->cfltval.precision));
         break;
     case DBR_CTRL_ENUM:
@@ -179,22 +188,22 @@ void propertyCallbackC(struct event_handler_args args)
         for(int i=0; i<val->cenmval.no_str; i++)
             strList.append(val->cenmval.strs[i]);
         QMetaObject::invokeMethod(data, "setStateStrings", Q_ARG(QStringList, strList));
-        ConvertValue(val->cenmval,dbr_enum_t)
+        ConvertValue(val->cenmval,dbr_enum_t,int)
         break;
     case DBR_CTRL_CHAR:
         ConvertSTS(val->cchrval);
         ConvertCtrl(val->cchrval);
-        ConvertValue(val->cchrval,dbr_char_t)
+        ConvertValue(val->cchrval,dbr_char_t,int)
         break;
     case DBR_CTRL_LONG:
         ConvertSTS(val->clngval);
         ConvertCtrl(val->clngval);
-        ConvertValue(val->clngval,dbr_long_t)
+        ConvertValue(val->clngval,dbr_long_t,int)
         break;
     case DBR_CTRL_DOUBLE:
         ConvertSTS(val->cdblval);
         ConvertCtrl(val->cdblval);
-        ConvertValue(val->cdblval,dbr_double_t)
+        ConvertValue(val->cdblval,dbr_double_t,double)
         QMetaObject::invokeMethod(data, "setPrecision", Q_ARG(int, val->cdblval.precision));
         break;
     }
