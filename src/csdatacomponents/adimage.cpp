@@ -26,6 +26,9 @@ void ADImage::setSource(QString source)
     _ndims.setSource(source + "NDimensions_RBV");
     _dims.setSource(source + "Dimensions_RBV");
     _color.setSource(source + "ColorMode_RBV");
+    QVariantMap config = _arrayData.extraProperties();
+    config["UseNativeType"] = true;
+    _arrayData.setExtraProperties(config);
     _arrayData.setSource(source + "ArrayData");
 }
 
