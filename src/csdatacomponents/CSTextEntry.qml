@@ -99,6 +99,9 @@ CSControl {
         anchors.fill: parent
         foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         background: root.background
+        font.pixelSize: root.font.size
+        font.family: root.font.family
+        horizontalAlignment: root.align
         readOnly: pv.accessRight & CSData.WriteAccess == 0
 
         onHasFocusChanged: {
@@ -132,8 +135,9 @@ CSControl {
             default:
                 value = Utils.parse(format, text)
             }
-            if (value !== undefined && !isNaN(value))
+            if (value !== undefined && (typeof value == 'string' || !isNaN(value))) {
                 pv.value = value
+            }
         }
     }
 
