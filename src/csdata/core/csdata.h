@@ -108,7 +108,7 @@ class QCS_DLLSPEC QCSData : public QObject
     Q_PROPERTY(QStringList  stateStrings READ stateStrings  WRITE setStateStrings  NOTIFY stateStringsChanged)
 
     // extra properties
-    Q_PROPERTY(QVariantMap  extraProperties READ getExtraProperties MEMBER _extraProperties)
+    Q_PROPERTY(QVariantMap  extraProperties READ extraProperties WRITE setExtraProperties)
 public:
     explicit QCSData(QObject *parent=0);
     ~QCSData();
@@ -171,7 +171,8 @@ public:
     Q_INVOKABLE void setAlarm(QCSDataAlarm::Severity severity, int status, const QString message);
     Q_INVOKABLE void setRange(double lower, double upper);
 
-    QVariantMap getExtraProperties() const { return _extraProperties; }
+    QVariantMap extraProperties() const { return _extraProperties; }
+    void setExtraProperties(const QVariantMap properties) { _extraProperties = properties; }
 
 signals:
     void sourceChanged();

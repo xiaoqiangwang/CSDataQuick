@@ -83,7 +83,7 @@ void monitorCallbackC(struct event_handler_args args)
         return;
     }
     QCSData *data = (QCSData *)args.usr;
-    bool use_native_type = data->getExtraProperties().value("UseNativeType", QVariant(false)).toBool();
+    bool use_native_type = data->extraProperties().value("UseNativeType", QVariant(false)).toBool();
 
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
@@ -153,7 +153,7 @@ void propertyCallbackC(struct event_handler_args args)
     }
 
     QCSData *data = (QCSData *)args.usr;
-    bool use_native_type = data->getExtraProperties().value("UseNativeType", QVariant(false)).toBool();
+    bool use_native_type = data->extraProperties().value("UseNativeType", QVariant(false)).toBool();
 
     union db_access_val *val = (union db_access_val *)args.dbr;
     chtype type = args.type;
