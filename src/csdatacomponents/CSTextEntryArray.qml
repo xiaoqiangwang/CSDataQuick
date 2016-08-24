@@ -12,6 +12,15 @@ import "utils.js" as UtilsJS
     \inqmlmodule CSDataQuick.Components
     \brief Display text entry for array data
 
+    Functionally it is the same as \l CSTextEntry, only that it allows to display and change an array data.
+    Each array element is displayed in a text entry box, formatted using \l format and \l align.
+
+    The entries can be arranged either into a column or into a row. \l stacking
+
+    An sub-array can be selected using \l index and \l count.
+
+    \l label can be assigned for each array element. By default it is the element index.
+
     \qml
     Column {
         CSTextEntryArray {
@@ -106,9 +115,6 @@ CSControl {
                     value = Utils.parse(format, text)
                 }
                 if (typeof value == 'string' || !isNaN(value)) {
-                    // convert data vector into array and change the modified element
-                    // the conversion is necessary because QML only recognise
-                    // QVector<double> and QVector<int>
                     var array = pv.value
                     array[index + root.index] = value
                     pv.value = array
