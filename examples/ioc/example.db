@@ -87,6 +87,12 @@ record(waveform, "wavec")
     field (NELM, "128")
 }
 
+record(waveform, "waved")
+{
+    field (FTVL, "DOUBLE")
+    field (NELM, "128")
+}
+
 record(waveform, "waves")
 {
     field (FTVL, "STRING")
