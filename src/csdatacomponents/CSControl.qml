@@ -51,8 +51,7 @@ BaseItem {
         visible: pv.source && !pv.connected
     }
 
-    Menu {
-        id: contextMenu
+    property Menu contextMenu: Menu {
         MenuItem {
             text: 'PV Info'
             onTriggered: {
