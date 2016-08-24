@@ -1,6 +1,7 @@
 .pragma library
 
 .import CSDataQuick.Data 1.0 as Core
+.import CSDataQuick.Components 1.0 as Components
 
 /*!
     \qmltype UtilsJS
@@ -137,4 +138,31 @@ function modelFromArray(model, array)
     for(var i=0; i<array.length; i++)
         model.append(array[i])
     return model
+}
+
+/*!
+    \qmlmethod UtilsJS::formatString(value, format, type, precision)
+    Format the value based on PV type.
+*/
+function formatString(value, format, type, precision, states) {
+    if (value === undefined) {
+        if (format == Components.TextFormat.String)
+            return ""
+        else
+            return Components.Utils.convert(format, 0, precision)
+    }
+    if (type == Core.CSData.Enum)
+        return states[value]
+    if (type == Core.CSData.String)
+        return value
+    if (type == Core.CSData.Char && format == Components.TextFormat.String) {
+        if (value instanceof Array)
+            return String.fromCharCode.apply(null, value).replace(/\0/g, '')
+        else
+            return String.fromCharCode(value).replace(/\0/g, '')
+    }
+    if (value instanceof Array)
+        value = value[0]
+    var result = Components.Utils.convert(format, value, precision)
+    return result
 }

@@ -29,6 +29,7 @@ CSSlider        1.0 CSSlider.qml
 CSStripChart    1.0 CSStripChart.qml
 CSText          1.0 CSText.qml
 CSTextEntry     1.0 CSTextEntry.qml 
+CSTextEntryArray 1.0 CSTextEntryArray.qml
 CSTextUpdate    1.0 CSTextUpdate.qml
 CSWheelSwitch   1.0 CSWheelSwitch.qml
 DynamicAttribute 1.0 DynamicAttribute.qml

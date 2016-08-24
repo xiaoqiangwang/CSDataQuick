@@ -29,6 +29,7 @@ QML_FILES += \
     $$PWD/CSSlider.qml \
     $$PWD/CSStripChart.qml \
     $$PWD/CSTextEntry.qml \
+    $$PWD/CSTextEntryArray.qml \
     $$PWD/CSTextUpdate.qml \
     $$PWD/CSText.qml \
     $$PWD/CSWheelSwitch.qml \
