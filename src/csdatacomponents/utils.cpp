@@ -62,27 +62,41 @@ QCSUtils::QCSUtils(QObject *parent)
 
 
 /*!
-    \qmlmethod QVariant Utils::vectorGet(QVariant v, int index)
+    \qmlmethod QVariant Utils::vectorGet(QVariant v, int index, int count)
 
-    Get the element at the given index from a vector
+    Get the subarray from a vector, starting at position \l index.
+    If \l count is -1 (the default), all elements after \l index are included.
+    \sa QVector::mid().
 */
-QVariant QCSUtils::vectorGet(QVariant v, int index)
+QVariantList QCSUtils::vectorGet(QVariant v, int index, int count)
 {
-    if (!v.isValid())
-        return QVariant();
+    QVariantList value;
 
-    if (strcmp(v.typeName(), "QVector<double>") == 0)
-        return v.value< QVector<double> >().at(index);
-    else if (strcmp(v.typeName(), "QVector<float>") == 0)
-        return v.value< QVector<float> >().at(index);
-    else if (strcmp(v.typeName(), "QVector<int>") == 0)
-        return v.value< QVector<int> >().at(index);
-    else if (strcmp(v.typeName(), "QVector<short>") == 0)
-        return v.value< QVector<short> >().at(index);
-    else if (strcmp(v.typeName(), "QVector<char>") == 0)
-        return v.value< QVector<char> >().at(index);
-    else
-        return QVariant();
+    if (v.userType() == qMetaTypeId< QVector<double> >()) {
+        foreach(double d, v.value< QVector<double> >().mid(index, count))
+            value.append(d);
+    }
+    else if (v.userType() == qMetaTypeId< QVector<float> >()) {
+        foreach(float d, v.value< QVector<float> >().mid(index, count))
+            value.append(d);
+    }
+    else if (v.userType() == qMetaTypeId< QVector<int> >()) {
+        foreach(int d, v.value< QVector<int> >().mid(index, count))
+            value.append(d);
+    }
+    else if (v.userType() == qMetaTypeId< QVector<ushort> >()) {
+        foreach(ushort d, v.value< QVector<ushort> >().mid(index, count))
+            value.append(d);
+    }
+    else if (v.userType() == qMetaTypeId< QVector<uchar> >()) {
+        foreach(uchar d, v.value< QVector<uchar> >().mid(index, count))
+            value.append(d);
+    }
+    else if (v.userType() == QVariant::StringList) {
+        foreach(QString d, v.value<QStringList>().mid(index, count))
+            value.append(d);
+    }
+    return value;
 }
 
 
