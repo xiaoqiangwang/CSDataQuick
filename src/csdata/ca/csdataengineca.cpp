@@ -358,6 +358,23 @@ void QCSDataEngineCA::close(QCSData *data)
     dataChanged();
 }
 
+template <typename T>
+QVector<T> setup_put(QVariant value)
+{
+    QVector<T> val;
+    if (value.canConvert<QVariantList>()) {
+        foreach(QVariant v, value.value<QSequentialIterable>()) {
+            if (v.isValid())
+                val.append(v.value<T>());
+            else
+                val.append(0);
+        }
+    } else {
+        val.append(value.value<T>());
+    }
+    return val;
+}
+
 void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
 {
     if (ca_current_context() != _cac) {
@@ -368,61 +385,49 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     chid _chid = (chid)data->property("chid").value<void*>();
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
     int status = ECA_NORMAL;
-    bool ok = false;
+    unsigned long count = 1;
+    QVariant newValue(value);
 
-    switch (ca_field_type(_chid)) {
-    case DBF_ENUM:
-    {
-        int ivalue = value.toInt(&ok);
-        if (ok)
-            status = ca_array_put(DBR_LONG, 1, _chid, &ivalue);
-        else
-            status = ca_array_put(DBR_STRING, 1, _chid, value.toString().toLatin1());
-    }
-    break;
-    case DBF_CHAR:
-    {
-        switch (value.type()) {
-        case QVariant::String:
-        case QVariant::ByteArray: {
-            QByteArray ba = value.toByteArray();
+    if (newValue.type() == QVariant::String || newValue.type() == QVariant::ByteArray) {
+        if (reqtype == DBR_ENUM || reqtype == DBR_STRING) {
+            reqtype = DBR_STRING;
+        }
+        else {
+            QByteArray ba = newValue.toByteArray();
             if (ba.isEmpty())
                 ba.append('\x00');
-            ca_array_put(DBR_CHAR, ba.length(), _chid, ba);
-        }
-            break;
-        default: {
-            int ivalue = value.toInt(&ok);
-            if (ok)
-                status = ca_array_put(DBR_CHAR, 1, _chid, &ivalue);
-        }
+            QVector<char> v;
+            for(int i=0; i<ba.length(); i++) {
+                v.append(ba.at(i));
+            }
+            newValue.setValue(QVariant::fromValue(v));
         }
     }
-    break;
-    case DBF_INT:
-    case DBF_LONG:
-    {
-        int ivalue = value.toInt(&ok);
-        if (ok)
-            status = ca_array_put(DBR_LONG, 1, _chid, &ivalue);
+    if (newValue.canConvert<QVariantList>()) {
+        unsigned long value_count = newValue.value<QVariantList>().count();
+        count = qMin(value_count, ca_element_count(_chid));
+        if (count == 1)
+            newValue.setValue(newValue.value<QVariantList>().at(0));
     }
-    break;
-    case DBF_FLOAT:
-    case DBF_DOUBLE:
+
+    switch (reqtype) {
+    case DBR_STRING:
     {
-        double fvalue = value.toDouble(&ok);
-        if (ok)
-            status = ca_array_put(DBR_DOUBLE, 1, _chid, &fvalue);
-    }
-    break;
-    case DBF_STRING:
-    {
-        QString str = value.toString();
-        status = ca_array_put(reqtype, 1, _chid, str.toLatin1());
+        QStringList strs = newValue.toStringList();
+        dbr_string_t *pbuf = (dbr_string_t *)calloc(strs.count(), sizeof(dbr_string_t));
+        for (int i=0; i<strs.count(); i++) {
+            QByteArray ba = strs.at(i).toLocal8Bit();
+            strncpy(pbuf[i], ba.constData(), ba.size());
+        }
+        status = ca_array_put(DBR_STRING, qMin((unsigned long)strs.size(), ca_element_count(_chid)), _chid, pbuf);
     }
     break;
     default:
-        break;
+    {
+        QVector<double> v = setup_put<double>(newValue);
+        status = ca_array_put(DBR_DOUBLE, qMin((unsigned long)v.size(), ca_element_count(_chid)), _chid, v.data());
+    }
+    break;
     }
     if (status != ECA_NORMAL) {
         qWarning() << "ca_array_put:" << data->source() << ca_message(status);
