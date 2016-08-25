@@ -57,7 +57,7 @@ void exception_handler(exception_handler_args args)
 
 #define ConvertValue(VP,TYPE,VTYPE)\
     if (element_count==1) {\
-        value.setValue((TYPE)(VP.value));\
+        value.setValue((VTYPE)(VP.value));\
     } else {\
         if (use_native_type || sizeof(TYPE) == sizeof(VTYPE)) { \
             QVector<TYPE> list(count);\
