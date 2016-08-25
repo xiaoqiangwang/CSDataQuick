@@ -105,6 +105,7 @@ QML_FILES += \
     $$PWD/designer/LimitsSection.qml \
     $$PWD/designer/PolylineEditor.qml \
     $$PWD/designer/StripChartEditor.qml \
+    $$PWD/designer/TextFormatSection.qml \
     $$PWD/designer/images/2dsscan.png \
     $$PWD/designer/images/areaDetector.png \
     $$PWD/designer/images/arc.png \
