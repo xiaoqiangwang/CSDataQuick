@@ -395,13 +395,15 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
     int status = ECA_NORMAL;
     unsigned long count = 1;
-    QVariant newValue(value);
+    qulonglong element_count  = ca_element_count(_chid);
 
+    QVariant newValue(value);
     if (newValue.type() == QVariant::String || newValue.type() == QVariant::ByteArray) {
         if (reqtype == DBR_ENUM || reqtype == DBR_STRING) {
             reqtype = DBR_STRING;
-        }
-        else {
+        } else if (element_count == 1) {
+            newValue.setValue(value.toDouble());
+        } else {
             QByteArray ba = newValue.toByteArray();
             if (ba.isEmpty())
                 ba.append('\x00');
