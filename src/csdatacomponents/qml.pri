@@ -130,6 +130,7 @@ QML_FILES += \
     $$PWD/designer/images/stripChart.png \
     $$PWD/designer/images/text.png \
     $$PWD/designer/images/textEntry.png \
+    $$PWD/designer/images/textEntryArray.png \
     $$PWD/designer/images/textUpdate.png \
     $$PWD/designer/images/wheelSwitch.png \
     $$PWD/designer/images/window.png \

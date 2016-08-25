@@ -302,6 +302,18 @@ MetaInfo {
         }
     }
     Type {
+        name: "CSDataQuick.Components.CSTextEntryArray"
+        icon: "images/textEntryArray.png"
+
+        ItemLibraryEntry {
+            name: "TextEntryArray"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/textEntryArray.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CSWheelSwitch"
         icon: "images/wheelSwitch.png"
 
