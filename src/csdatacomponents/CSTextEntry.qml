@@ -144,6 +144,10 @@ CSControl {
     Connections {
         target: pv
 
+        onSourceChanged: {
+            textEntry.text = formatString(format, pv.value)
+        }
+
         onStateStringsChanged: {
             textEntry.text = formatString(format, pv.value)
         }
@@ -172,6 +176,9 @@ CSControl {
         Format the value based on PV type.
     */
     function formatString () {
+        if (pv.extraProperties['QmlPuppetMode'])
+            return pv.source
+
         return UtilsJS.formatString(pv.value,
                                     format,
                                     pv.fieldType,

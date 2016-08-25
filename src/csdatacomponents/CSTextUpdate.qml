@@ -93,6 +93,10 @@ CSMonitor {
     Connections {
         target: pv
 
+        onSourceChanged: {
+            label_control.text = formatString(format, pv.value)
+        }
+
         onStateStringsChanged: {
             label_control.text = formatString(format, pv.value)
         }
@@ -122,6 +126,9 @@ CSMonitor {
 
     /*! \internal */
     function formatString () {
+        if (pv.extraProperties['QmlPuppetMode'])
+            return pv.source
+
         return UtilsJS.formatString(pv.value,
                                     format,
                                     pv.fieldType,
