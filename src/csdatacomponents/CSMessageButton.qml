@@ -48,9 +48,9 @@ CSControl {
         anchors.fill: parent
 
         onPressedChanged: {
-            if (pressed)
+            if (pressed && onMessage)
                 pv.setValue(onMessage)
-            else
+            else if(!pressed && offMessage)
                 pv.setValue(offMessage)
         }
     }
