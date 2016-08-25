@@ -223,6 +223,7 @@ QCSData::QCSData(QObject *parent)
         _stateStrings << "OFF" << "ON";
         _alarm->setAlarm(QCSDataAlarm::NoAlarm, 0, "NoAlarm");
     }
+    _extraProperties["QmlPuppetMode"] = _inPuppet;
 }
 /*!
     \brief Delete the data object and disconnect from data engine.
