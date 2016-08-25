@@ -64,6 +64,8 @@ DynamicAttributeBase {
         property var pvD
         /*! \internal */
         property var args: [0,0,0,0,0,0,0,0,0,0,0,0]
+        /*! \internal */
+        property bool inPuppet: false
     }
 
     /*! This signal is emitted when the severity of the main process variable changes. */
@@ -101,6 +103,8 @@ DynamicAttributeBase {
             visibility = (d.args[0] != 0)
         else
             visibility = true
+        if (d.inPuppet)
+            visibility = true
         update();
     }
 
@@ -118,22 +122,25 @@ DynamicAttributeBase {
             chan.valueChanged.connect(calcPerform)
             chan.alarmChanged.connect(updateStatus)
             d.pvA = chan
-
+            d.inPuppet = chan.extraProperties['QmlPuppetMode']
         }
         if (channelB != '') {
             chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channelB), da, 'channelB')
             chan.valueChanged.connect(calcPerform)
             d.pvB = chan
+            d.inPuppet = chan.extraProperties['QmlPuppetMode']
         }
         if (channelC != '') {
             chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channelC), da, 'channelC')
             chan.valueChanged.connect(calcPerform)
             d.pvC = chan
+            d.inPuppet = chan.extraProperties['QmlPuppetMode']
         }
         if (channelD != '') {
             chan = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData {source: "%1"}'.arg(channelD), da, 'channelD')
             chan.valueChanged.connect(calcPerform)
             d.pvD = chan
+            d.inPuppet = chan.extraProperties['QmlPuppetMode']
         }
     }
 
