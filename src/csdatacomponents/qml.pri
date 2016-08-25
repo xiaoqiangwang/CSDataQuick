@@ -90,6 +90,7 @@ QML_FILES += \
     $$PWD/designer/CSStripChartSpecifics.qml \
     $$PWD/designer/CSTextSpecifics.qml \
     $$PWD/designer/CSTextEntrySpecifics.qml \
+    $$PWD/designer/CSTextEntryArraySpecifics.qml \
     $$PWD/designer/CSTextUpdateSpecifics.qml \
     $$PWD/designer/CSWheelSwitchSpecifics.qml \
     $$PWD/designer/CSrtesianPlotEditor.qml \
