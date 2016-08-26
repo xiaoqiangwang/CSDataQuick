@@ -151,6 +151,7 @@ QColor CustomPlotItem::background()
 void CustomPlotItem::setBackground(QColor color)
 {
     mPlot->setBackground(color);
+    mPlot->replot();
 }
 
 QQmlListProperty<GraphItem> CustomPlotItem::graphs()
