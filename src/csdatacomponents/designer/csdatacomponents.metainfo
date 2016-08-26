@@ -30,7 +30,7 @@ MetaInfo {
         icon: "images/2dsscan.png"
 
         ItemLibraryEntry {
-            name: "2D sscan"
+            name: "sscan2D"
             category: "CSDataQuick - Components"
             libraryIcon: "images/2dsscan.png"
             version: "1.0"
