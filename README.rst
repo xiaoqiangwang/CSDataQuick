@@ -78,10 +78,6 @@ To see the ADLViewer in work::
 
 Designer
 --------
-Be sure to change the render from 2D to OpenGL,::
-
-    $ export QMLSCENE_DEVICE=
-
 Launch Qt Creator,::
 
     $ export QML_IMPORT_PATH=qml
