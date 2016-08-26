@@ -68,6 +68,8 @@ BaseItem{
     id: root
     implicitWidth: 300
     implicitHeight: 200
+    background: ColorMap.monitors_background
+    foreground: ColorMap.foreground
     /*!
         Graph title
     */
@@ -162,6 +164,8 @@ BaseItem{
     Plot {
         id: plot
         anchors.fill: parent
+        foreground: root.foreground
+        background: root.background
         title: root.title
 
         property var xAxis: Axis {
