@@ -23,6 +23,38 @@ Column {
                 }
             }
             Label {
+                text: qsTr("size")
+            }
+            SecondColumnLayout {
+                Label {
+                    text: "W"
+                    width: 12
+                }
+
+                SpinBox {
+                    backendValue: backendValues.width
+                    minimumValue: 0
+                    maximumValue: 10000
+                    decimals: 0
+                }
+
+                Label {
+                    text: "H"
+                    width: 12
+                }
+
+                SpinBox {
+                    backendValue: backendValues.height
+                    minimumValue: 0
+                    maximumValue: 10000
+                    decimals: 0
+                }
+
+                ExpandingSpacer {
+
+                }
+            }
+            Label {
                 text: 'background'
             }
             ColorPalette {

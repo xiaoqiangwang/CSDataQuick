@@ -89,6 +89,7 @@ QML_FILES += \
     $$PWD/designer/CSSliderSpecifics.qml \
     $$PWD/designer/CSStripChartSpecifics.qml \
     $$PWD/designer/CSTextSpecifics.qml \
+    $$PWD/designer/CSTextAreaSpecifics.qml \
     $$PWD/designer/CSTextEntrySpecifics.qml \
     $$PWD/designer/CSTextEntryArraySpecifics.qml \
     $$PWD/designer/CSTextUpdateSpecifics.qml \
@@ -129,6 +130,7 @@ QML_FILES += \
     $$PWD/designer/images/slider.png \
     $$PWD/designer/images/stripChart.png \
     $$PWD/designer/images/text.png \
+    $$PWD/designer/images/textArea.png \
     $$PWD/designer/images/textEntry.png \
     $$PWD/designer/images/textEntryArray.png \
     $$PWD/designer/images/textUpdate.png \

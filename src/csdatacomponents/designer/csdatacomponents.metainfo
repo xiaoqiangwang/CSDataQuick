@@ -30,7 +30,7 @@ MetaInfo {
         icon: "images/2dsscan.png"
 
         ItemLibraryEntry {
-            name: "2D sscan"
+            name: "sscan2D"
             category: "CSDataQuick - Components"
             libraryIcon: "images/2dsscan.png"
             version: "1.0"
@@ -285,6 +285,18 @@ MetaInfo {
             name: "TextUpdate"
             category: "CSDataQuick - Components"
             libraryIcon: "images/textUpdate.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
+        name: "CSDataQuick.Components.CSTextArea"
+        icon: "images/textArea.png"
+
+        ItemLibraryEntry {
+            name: "TextArea"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/textArea.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
         }

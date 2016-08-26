@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Window 2.0
 
 import CSDataQuick.Components 1.0
 import CSDataQuick.Components.Private 1.0
@@ -19,17 +20,11 @@ import CSDataQuick.Components.Private 1.0
     \endlist
 
 */
-Rectangle {
+Window {
     id: root
-    implicitWidth: 640
-    implicitHeight: 480
     color: ColorMap.windows_background
-
-    /*! window title */
-    property string title
 
     ContextMenu {
         anchors.fill: parent
     }
 }
-

@@ -88,7 +88,7 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
 
-    bool hasChannels() {return !chan[0].empty();}
+    bool hasChannels() const {return !chan[0].empty();}
 
 protected:
     ColorMode clr;
@@ -254,20 +254,20 @@ public:
     }
     virtual ~Element() {}
 
-    DlElementType type() {return _type;}
-    Element *parent() {return _parent;}
-    Display *display() {return _display;}
+    DlElementType type() const {return _type;}
+    Element *parent() const {return _parent;}
+    Display *display() const {return _display;}
 
-    int level() {return _level;}
+    int level() const {return _level;}
 
-    Rect rect() {return _rect; }
+    Rect rect() const {return _rect; }
     void setRect(Rect rect) { this->_rect = rect;}
 
     virtual void parse(std::istream& fstream) = 0;
     void parseObject(std::istream& fstream);
     virtual void toQML(std::ostream& ostream) = 0;
 
-    virtual UpdateType updateType() {return WIDGET;}
+    virtual UpdateType updateType() const {return CONTROL;}
 
 protected:
     TOKEN getToken(std::istream &fstream, char *word);
@@ -360,7 +360,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType();
+    virtual UpdateType updateType() const;
 
     virtual ~Composite() {
         for (std::list<Element*>::iterator it = widgets.begin(); it != widgets.end(); ++it)
@@ -390,7 +390,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType() {
+    virtual UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -408,7 +408,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType() {
+    virtual UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -427,7 +427,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType() {
+    virtual UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -443,7 +443,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType() {
+    virtual UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -463,7 +463,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType() {
+    UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -483,7 +483,7 @@ public:
 
     void parse(std::istream &fstream);
     void toQML(std::ostream &ostream);
-    UpdateType updateType() {
+    UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -498,7 +498,7 @@ public:
     Text(Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
-    UpdateType updateType() {
+    UpdateType updateType() const {
         return dynamic_attr.hasChannels() ? DYNAMIC_GRAPHIC : STATIC_GRAPHIC;
     }
 
@@ -563,6 +563,7 @@ public:
         for (std::vector<ShellCommandEntry*>::iterator it = commands.begin(); it != commands.end(); ++it)
             delete *it;
     }
+    UpdateType updateType() const {return WIDGET;}
 
 protected:
     void parseCommand(std::istream);
@@ -625,6 +626,7 @@ public:
     Bar (Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    UpdateType updateType() const { return MONITOR; }
 
 private:
     Monitor monitor;
@@ -641,6 +643,7 @@ public:
     Byte (Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    UpdateType updateType() const { return MONITOR; }
 
 private:
     Monitor monitor;
@@ -685,6 +688,7 @@ public:
     Indicator (Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    UpdateType updateType() const { return MONITOR; }
 
 private:
     Monitor monitor;
@@ -700,6 +704,7 @@ public:
     Meter (Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    virtual UpdateType updateType() const { return MONITOR; }
 
 private:
     Monitor monitor;
@@ -733,6 +738,7 @@ public:
     TextUpdate (Element *parent);
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
+    virtual UpdateType updateType() const { return MONITOR; }
 
 private:
     Monitor monitor;
@@ -753,6 +759,7 @@ public:
         for (std::vector<RelatedDisplayEntry*>::iterator it = entries.begin(); it != entries.end(); ++it)
             delete *it;
     }
+    virtual UpdateType updateType() const {return WIDGET;}
 protected:
     void parseEntry(std::istream);
 

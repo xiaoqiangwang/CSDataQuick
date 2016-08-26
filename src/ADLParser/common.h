@@ -481,9 +481,11 @@
     } DlElementType;
 
     typedef enum {
+        STATIC_GRAPHIC = 0,
+        DYNAMIC_GRAPHIC,
+        MONITOR = DYNAMIC_GRAPHIC,
         WIDGET,
-        STATIC_GRAPHIC,
-        DYNAMIC_GRAPHIC
+        CONTROL
     } UpdateType;
 
 #endif // COMMON_H
