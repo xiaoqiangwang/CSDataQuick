@@ -48,7 +48,7 @@ BaseItem {
         z: 1
         anchors.fill: parent
         color: 'white'
-        visible: pv.source && !pv.connected
+        visible: !pv.connected
     }
 
     property Menu contextMenu: Menu {
