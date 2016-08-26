@@ -1050,14 +1050,10 @@ void ColorMap::parse(std::istream &fstream)
 void Display::toQML(std::ostream &ostream)
 {
     ostream << "import QtQuick 2.0\n";
-    ostream << "import QtQuick.Controls 1.0\n";
-    ostream << "import QtQuick.Window 2.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
-    ostream << "import CSDataQuick.Components.Private 1.0\n";
-    ostream << "Window {\n";
+    ostream << "BaseWindow {\n";
     Element::toQML(ostream);
     ostream << "    color: \"" << color(this->bclr) << "\"\n";
-    ostream << "    ContextMenu {anchors.fill: parent}" << std::endl;
     for (std::list<Element*>::iterator it=widgets.begin(); it != widgets.end(); ++it)
         (*it)->toQML(ostream);
 
