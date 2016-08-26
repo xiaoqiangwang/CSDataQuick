@@ -1,12 +1,12 @@
 
 file {
-	name="/Users/wang/Development/epicsqml/tests/layer.adl"
-	version=030109
+	name="/afs/psi.ch/user/w/wang_x1/software/CSDataQuick/examples/layer.adl"
+	version=030105
 }
 display {
 	object {
-		x=183
-		y=28
+		x=431
+		y=343
 		width=607
 		height=336
 	}
@@ -128,21 +128,6 @@ composite {
 		chan="bo"
 	}
 }
-"text entry" {
-	object {
-		x=77
-		y=125
-		width=96
-		height=23
-	}
-	control {
-		chan="catest"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 composite {
 	object {
 		x=79
@@ -229,27 +214,6 @@ composite {
 }
 polyline {
 	object {
-		x=234
-		y=224
-		width=60
-		height=2
-	}
-	"basic attribute" {
-		clr=21
-		width=2
-	}
-	"dynamic attribute" {
-		vis="calc"
-		calc="A"
-		chan="bo"
-	}
-	points {
-		(235,225)
-		(293,225)
-	}
-}
-polyline {
-	object {
 		x=92
 		y=82
 		width=89
@@ -267,21 +231,6 @@ polyline {
 	points {
 		(93,83)
 		(180,170)
-	}
-}
-"text update" {
-	object {
-		x=94
-		y=93
-		width=96
-		height=24
-	}
-	monitor {
-		chan="catest"
-		clr=14
-		bclr=62
-	}
-	limits {
 	}
 }
 polygon {
@@ -305,16 +254,6 @@ polygon {
 		(151,73)
 	}
 }
-"shell command" {
-	object {
-		x=144
-		y=134
-		width=53
-		height=29
-	}
-	clr=14
-	bclr=4
-}
 "text update" {
 	object {
 		x=442
@@ -329,4 +268,83 @@ polygon {
 	}
 	limits {
 	}
+}
+"text update" {
+	object {
+		x=94
+		y=117
+		width=96
+		height=24
+	}
+	monitor {
+		chan="catest"
+		clr=14
+		bclr=62
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=77
+		y=125
+		width=96
+		height=23
+	}
+	control {
+		chan="catest"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+polyline {
+	object {
+		x=154
+		y=224
+		width=136
+		height=5
+	}
+	"basic attribute" {
+		clr=21
+		width=2
+	}
+	"dynamic attribute" {
+		vis="calc"
+		calc="A"
+		chan="bo"
+	}
+	points {
+		(155,228)
+		(289,225)
+	}
+}
+"strip chart" {
+	object {
+		x=0
+		y=203
+		width=202
+		height=120
+	}
+	plotcom {
+		clr=14
+		bclr=4
+	}
+	pen[0] {
+		chan="catest"
+		clr=14
+		limits {
+		}
+	}
+}
+"shell command" {
+	object {
+		x=166
+		y=212
+		width=53
+		height=29
+	}
+	clr=14
+	bclr=4
 }
