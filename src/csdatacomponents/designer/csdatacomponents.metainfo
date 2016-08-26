@@ -290,6 +290,18 @@ MetaInfo {
         }
     }
     Type {
+        name: "CSDataQuick.Components.CSTextArea"
+        icon: "images/textArea.png"
+
+        ItemLibraryEntry {
+            name: "TextArea"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/textArea.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CSTextEntry"
         icon: "images/textEntry.png"
 
