@@ -401,7 +401,7 @@ void GraphItem::clearData()
  */
 
 ColorMapItem::ColorMapItem(QObject *parent)
-    : QObject(parent), mColorMap(0),mXAxis(0),mYAxis(0),_interpolate(false)
+    : QObject(parent), mColorMap(0),mColorScale(0),mXAxis(0),mYAxis(0),_interpolate(false)
 {
 }
 
@@ -440,28 +440,36 @@ void ColorMapItem::setInterpolate(bool enabled)
 
 void ColorMapItem::setXRange(double lower, double upper, int size)
 {
-    mColorMap->data()->setKeySize(size);
-    mColorMap->data()->setKeyRange(QCPRange(lower, upper));
-    mXAxis->rescale();
+    if (mColorMap) {
+        mColorMap->data()->setKeySize(size);
+        mColorMap->data()->setKeyRange(QCPRange(lower, upper));
+        mXAxis->rescale();
+    }
 }
 
 void ColorMapItem::setYRange(double lower, double upper, int size)
 {
-    mColorMap->data()->setValueSize(size);
-    mColorMap->data()->setValueRange(QCPRange(lower, upper));
-    mYAxis->rescale();
+    if (mColorMap) {
+        mColorMap->data()->setValueSize(size);
+        mColorMap->data()->setValueRange(QCPRange(lower, upper));
+        mYAxis->rescale();
+    }
 }
 
 void ColorMapItem::setData(double x, double y, double z)
 {
-    mColorMap->data()->setData(x, y, z);
-    mColorMap->rescaleDataRange(true);
+    if (mColorMap) {
+        mColorMap->data()->setData(x, y, z);
+        mColorMap->rescaleDataRange(true);
+    }
 }
 
 void ColorMapItem::setCell(int x, int y, double z)
 {
-    mColorMap->data()->setCell(x, y, z);
-    mColorMap->rescaleDataRange(true);
+    if (mColorMap) {
+        mColorMap->data()->setCell(x, y, z);
+        mColorMap->rescaleDataRange(true);
+    }
 }
 
 void ColorMapItem::clearData()
