@@ -9,7 +9,7 @@ Column {
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Image")
+        caption: qsTr("Source")
 
         SectionLayout {
             Label {
