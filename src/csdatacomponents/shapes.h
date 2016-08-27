@@ -96,7 +96,7 @@ class PolylineItem : public ShapeItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariantList points READ points WRITE setPoints)
+    Q_PROPERTY(QVariantList points READ points WRITE setPoints NOTIFY pointsChanged)
 public:
     PolylineItem(QQuickItem *parent=0);
 
@@ -109,10 +109,14 @@ public:
     void setPoints(QVariantList points) {
         _points.clear();
         foreach(QVariant v, points)
-            _points.append(v.toPoint());
+            _points.append(v.toPointF());
+        emit pointsChanged();
         rebuildPath();
         update();
     }
+
+signals:
+    void pointsChanged();
 
 protected:
     QPainterPath buildPath();
@@ -125,7 +129,7 @@ class PolygonItem : public ShapeItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariantList points READ points WRITE setPoints)
+    Q_PROPERTY(QVariantList points READ points WRITE setPoints NOTIFY pointsChanged)
 public:
     PolygonItem(QQuickItem *parent=0);
 
@@ -138,10 +142,14 @@ public:
     void setPoints(QVariantList points) {
         _points.clear();
         foreach(QVariant v, points)
-            _points.append(v.toPoint());
+            _points.append(v.toPointF());
+        emit pointsChanged();
         rebuildPath();
         update();
     }
+
+signals:
+    void pointsChanged();
 
 protected:
     QPainterPath buildPath();
