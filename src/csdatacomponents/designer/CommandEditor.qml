@@ -25,27 +25,23 @@ Column {
             listView.model.append(model[i]) 
         }
     }
-    function replacer(key, value) {
-        if (key == 'objectName')
-            return undefined
-        else
-            return value
-    }
     Component {
         id: itemDelegate
         RowLayout {
             width: parent.width
             FieldEditor { 
-                width: 80; 
-                text: label; 
+                width: 80
+                text: label
+                placeholderText: 'label'
                 onAccepted: {
                     listView.model.setProperty(index, "label", text)
                 }
             }
             FieldEditor { 
-                Layout.fillWidth: true;
-                Layout.minimumWidth: 120; 
-                text: command; 
+                Layout.fillWidth: true
+                Layout.minimumWidth: 120
+                text: command
+                placeholderText: 'command'
                 onAccepted: {
                     listView.model.setProperty(index, "command", text)
                 }
@@ -80,19 +76,22 @@ Column {
     Row {
         IconButton {
             iconSource: 'images/add.png'
+            tooltip: 'Add a new entry'
             onClicked: {
-                listView.model.append({label:'ls %1'.arg(listView.model.count), command:''})
+                listView.model.append({'label':'', 'command':''})
             }
         }
         IconButton {
             iconSource: 'images/apply.png'
+            tooltip: 'Save all entries'
             onClicked: {
                 var model = []
                 for(var i=0; i<listView.model.count; i++) {
-                    model.push(listView.model.get(i))
+                    var m = listView.model.get(i)
+                    model.push({'label':m.label, 'command':m.command})
                 }
-                console.log(JSON.stringify(model, replacer))
-                backendValue.expression = JSON.stringify(model, replacer)
+                console.log(model)
+                backendValue.expression = JSON.stringify(model)
             }
         }
     }

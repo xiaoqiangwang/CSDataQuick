@@ -30,26 +30,26 @@ Column {
         RowLayout {
             width: parent.width
             FieldEditor { 
-                width: 80; 
-                text: label; 
+                width: 80
+                text: label
                 placeholderText: 'label'
                 onAccepted: {
                     listView.model.setProperty(index, "label", text)
                 }
             }
             FieldEditor { 
-                Layout.fillWidth: true;
-                Layout.minimumWidth: 120; 
-                text: file;
+                Layout.fillWidth: true
+                Layout.minimumWidth: 120
+                text: file
                 placeholderText: 'file name'
                 onAccepted: {
                     listView.model.setProperty(index, "file", text)
                 }
             }
             FieldEditor {
-                Layout.fillWidth: true;
-                Layout.minimumWidth: 120;
-                text: macro;
+                Layout.fillWidth: true
+                Layout.minimumWidth: 120
+                text: macro
                 placeholderText: 'macro'
                 onAccepted: {
                     listView.model.setProperty(index, "macro", text)
