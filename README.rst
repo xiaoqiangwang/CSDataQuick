@@ -80,7 +80,7 @@ Designer
 --------
 Launch Qt Creator,::
 
-    $ export QML_IMPORT_PATH=qml
+    $ export QML2_IMPORT_PATH=`pwd`/qml
     $ qtcreator
 
 Open options dialog, Tools -> Options, select *Qt Quick* from the left list, then select 
