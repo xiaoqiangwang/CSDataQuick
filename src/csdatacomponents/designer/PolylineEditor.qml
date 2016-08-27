@@ -5,28 +5,41 @@ Canvas {
     
     property var points: []
     property variant backendValue
-    property variant valueFromBackend: backendValue.expression
-    property var pointMoving: null
 
     property bool closePath: false
 
+    QtObject {
+        id: d
+        property size oldSize
+        property var pointMoving: null
+    }
+
     onBackendValueChanged: {
-        if (!backendValue.value)
-            points = []
-        else
-            points = backendValue.value
+        points = eval(backendValue.expression)
         canvas.requestPaint()
     }
 
-    onValueFromBackendChanged: {
-        points = eval(valueFromBackend)
-        if (!points)
-            points = []
-        canvas.requestPaint()
+    onVisibleChanged: canvas.requestPaint()
+
+    onCanvasSizeChanged: {
+        if (canvasSize.width == 0 || canvasSize.height == 0)
+            return
+        if (d.oldSize === undefined) {
+            d.oldSize = canvasSize
+            return
+        }
+        // relocate each point within the new rectangle
+        for (var i=0; i<points.length; i++) {
+            points[i].x = points[i].x * canvasSize.width / d.oldSize.width
+            points[i].y = points[i].y * canvasSize.height / d.oldSize.height
+        }
+        d.oldSize = canvasSize
+        updateToBackend()
     }
 
     property bool __drawing: false
     onPaint: {
+        console.log('paint', points)
         var ctx = getContext("2d")
         ctx.fillStyle = "black"
         ctx.fillRect(0, 0, width, height)
@@ -39,8 +52,8 @@ Canvas {
             else
                 ctx.lineTo(points[i].x, points[i].y)
         }
-        if (pointMoving)
-            ctx.lineTo(pointMoving.x, pointMoving.y)
+        if (d.pointMoving)
+            ctx.lineTo(d.pointMoving.x, d.pointMoving.y)
         else if (closePath)
             ctx.closePath()
 
@@ -56,27 +69,31 @@ Canvas {
                 __drawing = true
                 parent.requestPaint()
             }
-            pointMoving = null
-            points.push(Qt.point(mouse.x, mouse.y))
+            d.pointMoving = null
+            points.push(Qt.point((mouse.x), (mouse.y)))
+            updateToBackend()
             parent.requestPaint()
         }
         onPositionChanged: {
             if (!__drawing)
                 return
-            pointMoving = Qt.point(mouse.x, mouse.y)
+            d.pointMoving = Qt.point(mouse.x, mouse.y)
             parent.requestPaint()
         }
 
         onDoubleClicked: {
             __drawing = false
-            var expr = '['
-            for (var i=0; i<points.length; i++) {
-                expr += 'Qt.point(%1,%2)'.arg(points[i].x).arg(points[i].y)
-                if (i < points.length - 1)
-                   expr += ','
-            }
-            expr += ']'
-            backendValue.expression = expr
+            updateToBackend()
         }
+    }
+    function updateToBackend() {
+        var expr = '['
+        for (var i=0; i<points.length; i++) {
+            expr += 'Qt.point(%1,%2)'.arg(points[i].x).arg(points[i].y)
+            if (i < points.length - 1)
+               expr += ','
+        }
+        expr += ']'
+        backendValue.expression = expr
     }
 }
