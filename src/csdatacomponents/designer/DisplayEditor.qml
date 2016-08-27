@@ -25,12 +25,6 @@ Column {
             listView.model.append(model[i]) 
         }
     }
-    function replacer(key, value) {
-        if (key == 'objectName')
-            return undefined
-        else
-            return value
-    }
     Component {
         id: itemDelegate
         RowLayout {
@@ -38,6 +32,7 @@ Column {
             FieldEditor { 
                 width: 80; 
                 text: label; 
+                placeholderText: 'label'
                 onAccepted: {
                     listView.model.setProperty(index, "label", text)
                 }
@@ -46,6 +41,7 @@ Column {
                 Layout.fillWidth: true;
                 Layout.minimumWidth: 120; 
                 text: file;
+                placeholderText: 'file name'
                 onAccepted: {
                     listView.model.setProperty(index, "file", text)
                 }
@@ -54,12 +50,14 @@ Column {
                 Layout.fillWidth: true;
                 Layout.minimumWidth: 120;
                 text: macro;
+                placeholderText: 'macro'
                 onAccepted: {
                     listView.model.setProperty(index, "macro", text)
                 }
             }
             CheckBox {
                 checked: replace
+                text: 'replace'
                 onClicked: {
                     listView.model.setProperty(index, "replace", checked)
                 }
@@ -96,7 +94,7 @@ Column {
         IconButton {
             iconSource: 'images/add.png'
             onClicked: {
-                listView.model.append({label:'', file:'', macro:'', replace:false})
+                listView.model.append({'label':'', 'file':'', 'macro':'', 'replace':false})
             }
         }
         IconButton {
@@ -104,10 +102,10 @@ Column {
             onClicked: {
                 var model = []
                 for(var i=0; i<listView.model.count; i++) {
-                    model.push(listView.model.get(i))
+                    var m = listView.model.get(i)
+                    model.push({'label':m.label, 'file':m.file, 'macro':m.macro, 'replace': m.replace})
                 }
-                console.log(JSON.stringify(model, replacer))
-                backendValue.expression = JSON.stringify(model, replacer)
+                backendValue.expression = JSON.stringify(model)
             }
         }
     }
