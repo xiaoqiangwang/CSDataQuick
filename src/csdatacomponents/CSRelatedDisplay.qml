@@ -180,7 +180,7 @@ BaseItem {
     */
     function load(fileName, macro, replace) {
         // search the file
-        var absFilePath = Utils.searchADLFile(fileName, baseWindow)
+        var absFilePath = Utils.searchDisplayFile(fileName, baseWindow)
         if (absFilePath == '') {
             console.error("Failed to find file ", fileName)
             return

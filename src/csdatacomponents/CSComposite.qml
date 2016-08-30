@@ -56,7 +56,10 @@ BaseItem {
     visible: da.visibility
 
     /*! \internal */
-    property var __rootItem: null
+    QtObject {
+        id: d
+        property var rootItem: null
+    }
 
     // Mask when PVs disconnected
     Rectangle {
@@ -67,21 +70,31 @@ BaseItem {
     }
 
     onSourceChanged: {
-        if (__rootItem)
-            __rootItem.destroy()
+        if (d.rootItem) {
+            d.rootItem.destroy()
+            d.rootItem = null;
+        }
 
-        var absFilePath = Utils.searchADLFile(source, baseWindow)
+        var absFilePath = Utils.searchDisplayFile(source, baseWindow)
         if (!absFilePath) {
             console.error("Failed to find file ", source)
             return
         }
-        var qmlBody = Utils.openADLComposite(absFilePath, macro)
-        var qmlCmd = 'import QtQuick 2.0\n' +
-                'import QtQuick.Controls 1.0\n' +
-                'import CSDataQuick.Components 1.0\n' +
-                'Item { anchors.fill: parent\n' +
-                qmlBody + '\n}';
-        __rootItem  = Qt.createQmlObject(qmlCmd, root, absFilePath)
+        var qmlCmd
+        if (/.adl$/i.test(absFilePath)) {
+            var qmlBody = Utils.openADLComposite(absFilePath, macro)
+            qmlCmd = 'import QtQuick 2.0\n' +
+                    'import QtQuick.Controls 1.0\n' +
+                    'import CSDataQuick.Components 1.0\n' +
+                    'Item { anchors.fill: parent\n' +
+                    qmlBody + '\n}';
+        } else if (/.qml$/i.test(absFilePath)) {
+            qmlCmd = Utils.openQMLDisplay(absFilePath, macro)
+        }
 
+        d.rootItem  = Qt.createQmlObject(qmlCmd, root, absFilePath)
+        // override rootItem position property
+        d.rootItem.x = 0
+        d.rootItem.y = 0
     }
 }

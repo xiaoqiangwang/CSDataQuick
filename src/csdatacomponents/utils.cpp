@@ -260,12 +260,12 @@ double QCSUtils::parse(int format, QString textValue)
 }
 
 /*!
-    \qmlmethod QUrl Utils::searchADLFile(QString fileName, QWindow *window)
+    \qmlmethod QUrl Utils::searchDisplayFile(QString fileName, QWindow *window)
 
     Search \a fileName from the current directory, the file path of \a window
-    and EPICS_DISPLAY_PATH environment variable.
+    and EPICS_DISPLAY_PATH (.adl) or QML_DISPLAY_PATH (.qml) environment variable.
  */
-QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
+QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
 {
     // Check url scheme
     if (fileName.startsWith("http://")
@@ -279,22 +279,28 @@ QUrl QCSUtils::searchADLFile(QString fileName, QWindow *window)
     }
 
     QFileInfo fi(fileName);
+    QByteArray paths;
+    if (QString::compare(fi.suffix(), "adl", Qt::CaseInsensitive) == 0)
+        paths = qgetenv("EPICS_DISPLAY_PATH");
+    else if (QString::compare(fi.suffix(), "qml", Qt::CaseInsensitive) == 0)
+        paths = qgetenv("QML_DISPLAY_PATH");
+
 #ifdef Q_OS_WIN
     char sep = ';';
 #else
     char sep = ':';
 #endif
     if (!fi.exists() && fi.isRelative()) {
-        QByteArray paths = qgetenv("EPICS_DISPLAY_PATH");
         if (window && !window->filePath().isEmpty()) {
             QUrl fileUrl = QUrl(window->filePath());
             if (fileUrl.isLocalFile()) {
                 QFileInfo pfi(fileUrl.toLocalFile());
-                qDebug() << "XW:" << pfi.absoluteFilePath();
                 paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
             }
         }
         foreach (QByteArray path, paths.split(sep)) {
+            if (path.isEmpty())
+                continue;
             fi.setFile(QDir(path), fileName);
             if (fi.exists())
                 break;
@@ -322,7 +328,7 @@ QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
         if (paires.length() == 2)
             macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
         else
-            qDebug() << "macro unclear" << m;
+            qWarning() << "macro unclear" << m;
     }
 
     std::string qmlBody = parseADLDisplay(fileName.toLocalFile().toStdString(), macroMap);
@@ -353,6 +359,40 @@ QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
 
     return QString::fromStdString(qmlBody);
 }
+/*!
+    \qmlmethod QString Utils::openQMLDisplay(QUrl fileName, QString macro)
+
+    Open \a fileName with \a macro expansion.
+ */
+
+QString QCSUtils::openQMLDisplay(QUrl fileName, QString macro)
+{
+    std::map<std::string, std::string> macroMap;
+
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() == 2)
+            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
+        else
+            qWarning() << "macro unclear" << m;
+    }
+
+    QFile file(fileName.toLocalFile());
+    if(!file.open(QFile::ReadOnly)) {
+        qWarning() << "Unable to open file " << fileName;
+        return QString();
+    }
+    QString qml = file.readAll();
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() != 2) continue;
+        qml.replace("$("+paires[0]+")", paires[1]);
+    }
+
+    return qml;
+}
 
 /*!
     \qmlmethod QWindow* Utils::createDisplay(QString qml, QObject *display, QUrl filePath)
@@ -362,7 +402,7 @@ QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
  */
 QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, QString macro)
 {
-    QWindow *window = Q_NULLPTR;
+    QQuickWindow *window = Q_NULLPTR;
     QQmlEngine *engine = qmlEngine(display);
     if (!engine) {
         qCritical() << "No valid QML engine from object" << display->objectName();
@@ -372,7 +412,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
     QQmlComponent component(engine);
     component.setData(qml.toLocal8Bit(), filePath);
     if(!component.isReady()) {
-        qDebug() << component.errorString();
+        qWarning() << component.errorString();
         return Q_NULLPTR;
     }
 
@@ -383,43 +423,6 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
     }
 
     window = qobject_cast<QQuickWindow *>(topLevel);
-    if (window) {
-        if (window->title().isEmpty())
-            window->setTitle(filePath.fileName());
-        window->setFilePath(filePath.toString());
-        // dynamic properties, which can be accessible from C++ but not QML
-        window->setProperty("filePath", filePath);
-        window->setProperty("macro", macro);
-    }
-    return window;
-}
-
-/*!
-    \qmlmethod QWindow* Utils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
-
-    Create a top level window from \a filePath with \a macro expansion.
-    The QQmlEngine used is which \a display was created in.
- */
-QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
-{
-    QQmlEngine *engine = qmlEngine(display);
-    if (!engine) {
-        qCritical() << "No valid QML engine from object" << display->objectName();
-        return Q_NULLPTR;
-    }
-
-    QQmlComponent component(engine);
-    component.loadUrl(filePath);
-    if (!component.isReady()) {
-        qCritical() << component.errorString();
-        return Q_NULLPTR;
-    }
-    QObject *topLevel = component.create();
-    if (!topLevel) {
-        qCritical() << component.errorString();
-        return Q_NULLPTR;
-    }
-    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     if (!window) {
         if(qobject_cast<QQuickItem *>(topLevel)) {
             QQuickView* qxView = new QQuickView(engine, NULL);
@@ -439,7 +442,11 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
         QString title = topLevel->property("title").toString();
         if (!title.isEmpty())
             window->setTitle(title);
-
+        // copy position from toplevel item to window
+        window->setX(topLevel->property("x").toInt());
+        window->setY(topLevel->property("y").toInt());
+        topLevel->setProperty("x", 0);
+        topLevel->setProperty("y", 0);
     } else {
         // attach context menu to the existing window
         QString temp = QString("import QtQuick 2.0\n"
@@ -460,6 +467,23 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
     window->setProperty("filePath", filePath);
     window->setProperty("macro", macro);
     return window;
+}
+
+/*!
+    \qmlmethod QWindow* Utils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
+
+    Create a top level window from \a filePath with \a macro expansion.
+    The QQmlEngine used is which \a display was created in.
+ */
+QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
+{
+    QFileInfo fi(filePath.toLocalFile());
+    QString qml;
+    if (QString::compare(fi.suffix(), "adl", Qt::CaseInsensitive) == 0)
+        qml = openADLDisplay(filePath, macro);
+    else if (QString::compare(fi.suffix(), "qml", Qt::CaseInsensitive) == 0)
+        qml = openQMLDisplay(filePath, macro);
+    return createDisplay(qml, display, filePath, macro);
 }
 /*!
     \qmlmethod Utils::parseX11Geometry(QString geometry)

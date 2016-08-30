@@ -20,7 +20,8 @@ public:
     Q_INVOKABLE QString format(QString format, double number);
     Q_INVOKABLE QString convert(int format, QVariant value, int precision);
     Q_INVOKABLE double parse(int format, QString textValue);
-    Q_INVOKABLE QUrl searchADLFile(QString fileName, QWindow *window);
+    Q_INVOKABLE QUrl searchDisplayFile(QString fileName, QWindow *window);
+    Q_INVOKABLE QString openQMLDisplay(QUrl fileName, QString macro);
     Q_INVOKABLE QString openADLDisplay(QUrl fileName, QString macro);
     Q_INVOKABLE QString openADLComposite(QUrl fileName, QString macro);
     Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);

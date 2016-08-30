@@ -469,7 +469,7 @@ Module {
             Parameter { name: "textValue"; type: "string" }
         }
         Method {
-            name: "searchADLFile"
+            name: "searchDisplayFile"
             type: "QUrl"
             Parameter { name: "fileName"; type: "string" }
             Parameter { name: "window"; type: "QWindow"; isPointer: true }

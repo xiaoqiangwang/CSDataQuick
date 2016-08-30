@@ -120,7 +120,7 @@ ApplicationWindow
     function createADLDisplay(fileName, macro, geometry)
     {
         // search the file
-        var absFilePath = Utils.searchADLFile(fileName, root)
+        var absFilePath = Utils.searchDisplayFile(fileName, root)
         if (absFilePath == '') {
             console.error("Failed to find file ", fileName)
             return
@@ -134,13 +134,7 @@ ApplicationWindow
             console.info('Activate the already existing display ', absFilePath, macro)
             return
         }
-        if (String(fileName).substr(-4) == '.adl') {
-            var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
-            window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
-        }
-        if (String(fileName).substr(-4) == '.qml') {
-            window = Utils.createDisplayByFile(root, absFilePath, macro)
-        }
+        window = Utils.createDisplayByFile(root, absFilePath, macro)
         if (!window) {
             console.error("Failed to create window from ", fileName)
             return
