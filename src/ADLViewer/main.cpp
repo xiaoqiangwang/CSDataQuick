@@ -23,6 +23,8 @@
 
 #include <QtDebug>
 
+#include "parser.h"
+
 QPointer<QQuickWindow> window;
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
@@ -79,6 +81,10 @@ int main(int argc, char **argv)
     QCommandLineOption execOption(QStringList() << "x" << "execute", "Open in execute mode.");
     parser.addOption(execOption);
 
+    // A boolean option indicating conversion mode (-c, --convert)
+    QCommandLineOption convertOption(QStringList() << "c" << "convert", "Open in conversion mode.");
+    parser.addOption(convertOption);
+
     // A boolean option indicating editing mode (-e, --edit)
     QCommandLineOption editOption(QStringList() << "e" << "edit", "Open in editor mode.");
     parser.addOption(editOption);
@@ -130,6 +136,26 @@ int main(int argc, char **argv)
     // adl files is in args
     const QStringList args = parser.positionalArguments();
 
+    // Do conversion
+    if (parser.isSet(convertOption)) {
+        foreach (QString arg, args) {
+            QFileInfo fi(arg);
+            if (fi.isRelative()) {
+                fi.setFile("displays:" + arg);
+            }
+            if (!fi.exists()) {
+                qWarning() << "Cannot find file " << arg;
+                continue;
+            }
+            std::string qml = parseADLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
+            QFile file(fi.baseName() + ".qml");
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                file.write(qml.c_str());
+            }
+        }
+        qCoreApp->quit();
+        return 0;
+    }
     // Do remote protocol if local option is not specified
     if (!parser.isSet(localOption)) {
         if (parser.isSet(attachOption)) {

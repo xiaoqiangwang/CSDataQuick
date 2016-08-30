@@ -3,6 +3,9 @@ include(../../rpath.pri)
 TEMPLATE = app
 QT += quick widgets
 
+INCLUDEPATH += $$PWD/../ADLParser $$PWD/../csdata/core
+LIBS += -L$$OUT_PWD/../../lib/ -lADLParser
+
 DESTDIR = ../../bin/
 
 HEADERS += \
