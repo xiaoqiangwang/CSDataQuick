@@ -9,7 +9,7 @@ Column {
     Section {
         anchors.left: parent.left
         anchors.right: parent.right
-        caption: qsTr("Source")
+        caption: qsTr("Composite")
 
         SectionLayout {
             Label {
@@ -22,6 +22,14 @@ Column {
                      backendValue: backendValues.source
                      filter: "*.adl *.qml"
                 }
+            }
+            Label {
+                text: qsTr("macro")
+                tooltip: qsTr("macro expansion")
+            }
+            LineEdit {
+                Layout.fillWidth: true
+                backendValue: backendValues.macro
             }
         }
     }
