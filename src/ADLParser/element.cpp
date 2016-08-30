@@ -1269,8 +1269,6 @@ void Composite::parse(std::istream &fstream)
             }
             this->file = filename;
             this->macro = macroString;
-            if (this->macro.empty())
-                this->macro = display()->macroString();
         } else if (!strcmp(token, "children")) {
             this->parseChildren(fstream);
         }
@@ -1315,7 +1313,19 @@ void Composite::toQML(std::ostream &ostream)
         outputWidgets(ostream, widgets);
     } else {
         ostream << indent << "    source: \"" << this->file << "\"" << std::endl;
-        ostream << indent << "    macro: \"" << this->macro << "\"" << std::endl;
+        std::string macro = this->macro;
+        if (macro.empty()) {
+            macro = display()->macroString();
+            std::set<std::string> umacro = display()->unmatchedMacro();
+            std::set<std::string>::const_iterator it = umacro.cbegin();
+            while(it != umacro.cend()) {
+                macro += (*it) + "=$(" + (*it) + ")";
+                if (++it != umacro.cend() ) {
+                    macro += ",";
+                }
+            }
+        }
+        ostream << indent << "    macro: \"" << macro << "\"" << std::endl;
     }
     ostream << indent << "}" << std::endl;
 }
