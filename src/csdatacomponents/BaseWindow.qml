@@ -20,9 +20,15 @@ import CSDataQuick.Components.Private 1.0
     \endlist
 
 */
-Window {
+Rectangle {
     id: root
+    implicitWidth: 640
+    implicitHeight: 480
+
     color: ColorMap.windows_background
+
+    /*! window title */
+    property string title
 
     ContextMenu {
         anchors.fill: parent
