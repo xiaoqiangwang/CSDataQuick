@@ -94,7 +94,6 @@ QML_FILES += \
     $$PWD/designer/CSTextEntryArraySpecifics.qml \
     $$PWD/designer/CSTextUpdateSpecifics.qml \
     $$PWD/designer/CSWheelSwitchSpecifics.qml \
-    $$PWD/designer/CSrtesianPlotEditor.qml \
     $$PWD/designer/ColorSection.qml \
     $$PWD/designer/ColorPalette.qml \
     $$PWD/designer/CommandEditor.qml \
