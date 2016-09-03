@@ -31,8 +31,17 @@ include_directories(
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${Qt5PrintSupport_INCLUDE_DIRS}
+    ../ADLParser
+    ../csdata/core
 )
-target_link_libraries(ADLViewer Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::PrintSupport)
+target_link_libraries(ADLViewer
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Quick
+    Qt5::PrintSupport
+    ADLParser
+)
 if(APPLE)
     find_library(OSXSecurity Security)
     target_link_libraries(ADLViewer ${OSXSecurity})

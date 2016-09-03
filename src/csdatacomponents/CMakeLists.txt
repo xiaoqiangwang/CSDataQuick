@@ -1,6 +1,4 @@
 set(SOURCES
-    pvobject.cpp
-    adimageprovider.cpp
     enums.cpp
     plugin.cpp
     utils.cpp
@@ -12,11 +10,12 @@ set(SOURCES
     windowmanager.cpp
     geometryspecification.cpp
     attribute.cpp
+    adimage.cpp
+    csimageitem.cpp
+    mjpeg.cpp
 )
 
 set(HEADERS
-    pvobject.h
-    adimageprovider.h
     enums.h
     plugin.h
     utils.h
@@ -26,6 +25,9 @@ set(HEADERS
     baseitem.h
     windowmanager.h
     attribute.h
+    adimage.h
+    csimageitem.h
+    mjpeg.h
 )
 
 # When CMake 3.0.0 is required, remove this block (see CMP0042).
@@ -45,21 +47,26 @@ include_directories(
     ${Qt5Widgets_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
+    ${Qt5Concurrent_INCLUDE_DIRS}
     ${Qt5PrintSupport_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
     ../ADLParser
+    ../csdata/core
 )
 
-target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::PrintSupport)
+target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
 target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
 target_link_libraries(csdatacomponentsplugin ADLParser)
+target_link_libraries(csdatacomponentsplugin csdata)
 set_target_properties(csdatacomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
 
 set(QML_JS_FILES
     qmldir
+    plugins.qmltypes
     BaseWindow.qml
     DynamicAttribute.qml
+    CS2DSscan.qml
     CSADImage.qml
     CSArc.qml
     CSBar.qml
@@ -83,7 +90,9 @@ set(QML_JS_FILES
     CSShellCommand.qml
     CSSlider.qml
     CSStripChart.qml
+    CSTextArea.qml
     CSTextEntry.qml
+    CSTextEntryArray.qml
     CSTextUpdate.qml
     CSText.qml
     CSWheelSwitch.qml
@@ -105,6 +114,7 @@ set(QML_JS_FILES
     Private/StyledButton.qml
     Private/StyledButton2.qml
     Private/StyledFrame.qml
+    Private/StyledTextEntry.qml
     Private/WheelDigit.qml
     Private/WheelSwitch.qml
     Private/images/arrow-down.png
@@ -117,6 +127,8 @@ set(QML_JS_FILES
     Private/images/groove_horz.png
     Private/images/groove_vert.png
     designer/BaseWindowSpecifics.qml
+    designer/CS2DSscanSpecifics.qml
+    designer/CSADImageSpecifics.qml
     designer/CSArcSpecifics.qml
     designer/CSBarSpecifics.qml
     designer/CSByteSpecifics.qml
@@ -137,10 +149,11 @@ set(QML_JS_FILES
     designer/CSSliderSpecifics.qml
     designer/CSStripChartSpecifics.qml
     designer/CSTextSpecifics.qml
+    designer/CSTextAreaSpecifics.qml
     designer/CSTextEntrySpecifics.qml
+    designer/CSTextEntryArraySpecifics.qml
     designer/CSTextUpdateSpecifics.qml
     designer/CSWheelSwitchSpecifics.qml
-    designer/CartesianPlotEditor.qml
     designer/ColorSection.qml
     designer/ColorPalette.qml
     designer/CommandEditor.qml
@@ -153,6 +166,9 @@ set(QML_JS_FILES
     designer/LimitsSection.qml
     designer/PolylineEditor.qml
     designer/StripChartEditor.qml
+    designer/TextFormatSection.qml
+    designer/images/2dsscan.png
+    designer/images/areaDetector.png
     designer/images/arc.png
     designer/images/bar.png
     designer/images/byte.png
@@ -173,7 +189,9 @@ set(QML_JS_FILES
     designer/images/slider.png
     designer/images/stripChart.png
     designer/images/text.png
+    designer/images/textArea.png
     designer/images/textEntry.png
+    designer/images/textEntryArray.png
     designer/images/textUpdate.png
     designer/images/wheelSwitch.png
     designer/images/window.png
