@@ -3,8 +3,10 @@ import QtQuick.Controls 1.0 as Controls
 import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.0
 
-Column {
+Item {
     id: colorPalette
+    implicitWidth: 120
+    implicitHeight: 23
 
     property variant backendValue
     property color valueFromBackend: backendValue.value
@@ -34,8 +36,7 @@ Column {
 
     Rectangle {
         id: button
-        implicitWidth: 120
-        implicitHeight: 23
+        anchors.fill: parent
         color: colorPalette.color
         MouseArea {
             anchors.fill: parent

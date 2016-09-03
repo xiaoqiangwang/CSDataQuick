@@ -17,12 +17,14 @@ Section {
         }
         ColorPalette {
             backendValue: backendValues.foreground
+            Layout.preferredWidth: 120
         }
         Label {
             text: 'background'
         }
         ColorPalette {
             backendValue: backendValues.background
+            Layout.preferredWidth: 120
         }
     }
 }
