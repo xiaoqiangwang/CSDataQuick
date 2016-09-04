@@ -106,6 +106,8 @@ Item {
                     checkable: true
                     exclusiveGroup: colorButtonGroup
                     onClicked: {
+                        if (toolTip.opacity == 0)
+                            return
                         colorPalette.color = color
                         hide()
                     }
