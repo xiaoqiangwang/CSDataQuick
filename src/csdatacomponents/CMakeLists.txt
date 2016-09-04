@@ -154,6 +154,7 @@ set(QML_JS_FILES
     designer/CSTextEntryArraySpecifics.qml
     designer/CSTextUpdateSpecifics.qml
     designer/CSWheelSwitchSpecifics.qml
+    designer/CartesianPlotEditor.qml
     designer/ColorSection.qml
     designer/ColorPalette.qml
     designer/CommandEditor.qml
