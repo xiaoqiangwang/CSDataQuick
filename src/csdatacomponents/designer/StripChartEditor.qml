@@ -2,11 +2,12 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.0
+import HelperWidgets 2.0
 
 Column {
     id: root
-    width: 300
-    height: listView.height + 150
+    width: parent.width
+    height: listView.height + 50
 
     property var backendValue
     property var valueFromBackend: backendValue.expression
@@ -22,31 +23,25 @@ Column {
         var model = JSON.parse(expression)
         listView.model.clear()
         for(var i=0; i<model.length; i++) {
-            listView.model.append(model[i]) 
+            listView.model.append(model[i])
         }
-    }
-    function replacer(key, value) {
-        if (key == 'objectName')
-            return undefined
-        else
-            return value
     }
     Component {
         id: itemDelegate
         RowLayout {
             width: parent.width
-            FieldEditor { 
-                id: channel
-                width: 80
+            FieldEditor {
+                implicitWidth: 180
                 text: model.channel
+                placeholderText: 'source'
                 onAccepted: {
-                    listView.model.setProperty(index, "channel", channel.text)
+                    listView.model.setProperty(index, "channel", text)
                 }
             }
             ColorPalette {
                 id: palette
-                width: 250
                 color: model.color
+                Layout.preferredWidth: 30
                 Connections {
                     target: palette
                     onColorChanged: {
@@ -54,6 +49,44 @@ Column {
                     }
                 }
             }
+            /*
+            ComboBox {
+                id: loprSrc
+                style: CustomComboBoxStyle {}
+                currentIndex: model.loprSrc
+                model: ["Channel", "Default", "User"]
+                onCurrentIndexChanged: {
+                    listView.model.setProperty(index, "loprSrc", currentIndex)
+                }
+            }
+            SpinBox {
+                minimumValue: -Infinity
+                maximumValue: Infinity
+                value: model.loprDefault
+                enabled: loprSrc.currentIndex == 1
+                onValueChanged: {
+                    listView.model.setProperty(index, "loprDefault", value)
+                }
+            }
+            ComboBox {
+                id: hoprSrc
+                style: CustomComboBoxStyle {}
+                currentIndex: model.hoprSrc
+                model: ["Channel", "Default", "User"]
+                onCurrentIndexChanged: {
+                    listView.model.setProperty(index, "hoprSrc", currentIndex)
+                }
+            }
+            SpinBox {
+                minimumValue: -Infinity
+                maximumValue: Infinity
+                value: model.hoprDefault
+                enabled: hoprSrc.currentIndex == 1
+                onValueChanged: {
+                    listView.model.setProperty(index, "hoprDefault", value)
+                }
+            }
+            */
             Row {
                 IconButton {
                     iconSource: 'images/arrow_up.png'
@@ -85,7 +118,10 @@ Column {
         IconButton {
             iconSource: 'images/add.png'
             onClicked: {
-                listView.model.append({channel:'', color:'black'})
+                listView.model.append({'channel':'', 'color':'black',
+                                          //'loprSrc': 0, 'loprDefault':0,
+                                          //'hoprSrc': 0, 'hoprDefault':0
+                                      })
             }
         }
         IconButton {
@@ -93,10 +129,15 @@ Column {
             onClicked: {
                 var model = []
                 for(var i=0; i<listView.model.count; i++) {
-                    model.push(listView.model.get(i))
+                    var m = listView.model.get(i)
+                    if (!m.channel)
+                        continue
+                    model.push({'channel':m.channel, 'color':m.color,
+                                   //'loprSrc':m.loprSrc, 'loprDefault': m.loprDefault,
+                                   //'hoprSrc':m.hoprSrc, 'hoprDefault': m.hoprDefault,
+                               })
                 }
-                console.log(JSON.stringify(model, replacer))
-                backendValue.expression = JSON.stringify(model, replacer)
+                backendValue.expression = JSON.stringify(model)
             }
         }
     }
