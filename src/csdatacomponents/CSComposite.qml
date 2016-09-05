@@ -69,7 +69,23 @@ BaseItem {
         visible: !da.connected
     }
 
+    onMacroChanged: {
+        if (Component.status != Component.Ready)
+            return
+        createDisplay()
+    }
+
     onSourceChanged: {
+        if (Component.status != Component.Ready)
+            return
+        createDisplay()
+    }
+
+    Component.onCompleted: {
+        createDisplay()
+    }
+
+    function createDisplay () {
         if (d.rootItem) {
             d.rootItem.destroy()
             d.rootItem = null;
@@ -91,7 +107,6 @@ BaseItem {
         } else if (/.qml$/i.test(absFilePath)) {
             qmlCmd = Utils.openQMLDisplay(absFilePath, macro)
         }
-
         d.rootItem  = Qt.createQmlObject(qmlCmd, root, absFilePath)
         // override rootItem position property
         d.rootItem.x = 0
