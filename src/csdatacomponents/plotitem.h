@@ -119,6 +119,9 @@ public:
     Q_INVOKABLE void setData(QVariant x, QVariant y);
     Q_INVOKABLE void clearData();
 
+public slots:
+    void selectionChanged(bool selected);
+
 signals:
     void dataChanged(GraphItem *item);
     void colorChanged();

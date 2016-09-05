@@ -71,7 +71,7 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
 
     connect(mPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
 
-    mPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom );
+    mPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom |  QCP::iSelectPlottables);
 
     // create title but leave it out until it has content
     mTitle = new QCPPlotTitle(mPlot);
@@ -256,8 +256,24 @@ void GraphItem::init()
     if (plot == 0)
         return;
     mGraph = plot->plot()->addGraph(mXAxis->axis(), mYAxis->axis());
+    connect(mGraph, SIGNAL(selectionChanged(bool)), this, SLOT(selectionChanged(bool)));
     setColor(_color);
     mGraph->setData(mX, mY);
+}
+
+void GraphItem::selectionChanged(bool selected)
+{
+    if (mGraph) {
+        QCPAxisRect *axisRect = mGraph->keyAxis()->axisRect();
+        if (selected) {
+            axisRect->setRangeDragAxes(mGraph->keyAxis(), mGraph->valueAxis());
+            axisRect->setRangeZoomAxes(mGraph->keyAxis(), mGraph->valueAxis());
+        }
+        else {
+            axisRect->setRangeDragAxes(0, 0);
+            axisRect->setRangeZoomAxes(0, 0);
+        }
+    }
 }
 
 QColor GraphItem::color()
