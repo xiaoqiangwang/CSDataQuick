@@ -1,7 +1,7 @@
 #ifndef CS_GLOBAL_H
 #define CS_GLOBAL_H
 
-#ifdef Q_OS_WIN32
+#ifdef _WIN32
     #if defined(QCS_EXPORT)
         #define QCS_DLLSPEC __declspec(dllexport)
     #else
