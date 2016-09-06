@@ -90,6 +90,8 @@ BaseItem {
             d.rootItem.destroy()
             d.rootItem = null;
         }
+        if (!source)
+            return
 
         var absFilePath = Utils.searchDisplayFile(source, baseWindow)
         if (!absFilePath) {
