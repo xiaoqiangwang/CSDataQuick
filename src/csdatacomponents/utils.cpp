@@ -28,8 +28,6 @@
 
 #include <QDateTime>
 
-#include <fstream>
-
 #include "parser.h"
 
 /*!
@@ -540,4 +538,60 @@ QPoint QCSUtils::mapToGlobal(QQuickItem *item, const QPoint point)
         return point;
 
     return window->mapToGlobal(item->mapToItem(Q_NULLPTR, point).toPoint());
+}
+/*!
+    \qmlmethod Utils::parseExecList()
+
+    Return the command list defined by MEDM_EXEC_LIST environment variable.
+*/
+QVariantList QCSUtils::parseExecList()
+{
+    QVariantList list;
+
+    QByteArray arg;
+    QByteArray label;
+    QByteArray command;
+    QByteArray envs = qgetenv("MEDM_EXEC_LIST");
+    if (!envs.isEmpty() && !envs.endsWith(':'))
+        envs.append(':');
+    for(int i=0; i<envs.length(); i++) {
+        char c = envs.at(i);
+        if (c == ';') {
+            label = arg;
+            arg = "";
+        } else if (c == ':') {
+            // look ahead if there follows backlash '\'
+            // whihc can be part of file path on Win32
+            if (i + 1 < envs.length() && envs.at(i + 1) == '\\') {
+                arg += c;
+            } else {
+                command = arg;
+                arg = "";
+                if (!label.isEmpty() && !command.isEmpty()) {
+                    QVariantMap map;
+                    map.insert("label", QString(label));
+                    map.insert("command", QString(command));
+                    list.append(map);
+                }
+            }
+        } else {
+            arg += c;
+        }
+    }
+    return list;
+}
+
+/*!
+    \qmlmethod Utils::getProperty(name)
+*/
+QVariant QCSUtils::getProperty(QObject *object, QString name)
+{
+    if (name == "winId") {
+        QWindow *window = qobject_cast<QWindow*>(object);
+        if (window)
+            return window->winId();
+        else
+            return QVariant();
+    } else
+        return object->property(name.toLocal8Bit());
 }

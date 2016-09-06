@@ -1,8 +1,10 @@
+import QtQml 2.1
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import "../utils.js" as UtilsJS
 
 MouseArea {
     acceptedButtons: Qt.RightButton
@@ -49,5 +51,53 @@ MouseArea {
                 PvTableDialog.open()
             }
         }
+        Menu {
+            id: executeMenu
+            title: 'Execute'
+
+            Instantiator {
+                id: executeMenuInst
+                delegate: MenuItem {
+                    text: modelData.label
+                    onTriggered: runCommand(modelData.command)
+                }
+                onObjectAdded: executeMenu.insertItem(index, object)
+                onObjectRemoved: executeMenu.removeItem(object)
+            }
+            visible: executeMenuInst.count > 0
+        }
+    }
+
+    Component.onCompleted: {
+        var model = []
+        var list = Utils.parseExecList()
+        for (var i=0; i<list.length; i++) {
+            // If &P is specified, the command is used to address items with PV, skip them in the main list
+            if (list[i].command.indexOf('&P') < 0) {
+                model.push(list[i])
+            }
+        }
+        executeMenuInst.model = model
+    }
+
+    function runCommand(command) {
+        var window = Utils.parentWindow(parent)
+        if (command.indexOf('&?')>=0) {
+            var dialog = UtilsJS.popupPromptDialog(root, 'Command', 'command', command)
+            dialog.accepted.connect(function(){
+                command = command.replace('&?', dialog.input)
+                Utils.execute(command)
+            })
+        } else if (command.indexOf('&A')>=0) {
+            command = command.replace('&A', Utils.getProperty(window, 'filePath'))
+            Utils.execute(command)
+        } else if (command.indexOf('&T')>=0) {
+            command = command.replace('&T', Utils.getProperty(window, 'title'))
+            Utils.execute(command)
+        } else if (command.indexOf('&X')>=0) {
+            command = command.replace('&X', Utils.getProperty(window, 'winId'))
+            Utils.execute(command)
+        } else
+            Utils.execute(command)
     }
 }

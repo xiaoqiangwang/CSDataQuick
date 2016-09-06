@@ -31,7 +31,8 @@ public:
     Q_INVOKABLE QWindow *parentWindow(QQuickItem *item);
     Q_INVOKABLE QPoint mapToGlobal(QQuickItem *item, const QPoint point);
     Q_INVOKABLE QVariantList vectorGet(QVariant v, int index=0, int count=-1);
-
+    Q_INVOKABLE QVariantList parseExecList();
+    Q_INVOKABLE QVariant getProperty(QObject *object, QString name);
 signals:
 
 public slots:
