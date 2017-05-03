@@ -1,4 +1,4 @@
-project(epicsqml)
+project(CSDataQuick)
 cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 set(EPICSQML_VERSION_MAJOR 1)
 set(EPICSQML_VERSION_MINOR 0)
