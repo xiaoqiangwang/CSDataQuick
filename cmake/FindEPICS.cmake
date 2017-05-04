@@ -10,10 +10,6 @@ IF (NOT EPICS_HOST_ARCH)
     SET (EPICS_HOST_ARCH $ENV{EPICS_HOST_ARCH})
 ENDIF()
 
-IF (NOT IS_DIRECTORY ${EPICS_BASE})
-    MESSAGE(FATAL_ERROR "EPICS base could not be located. Please define EPICS_BASE and EPICS_HOST_ARCH")
-ENDIF ()
-
 IF (WIN32)
     SET(OSCLASS "WIN32")
     SET(CMPLCLASS "msvc")
@@ -38,3 +34,26 @@ SET( EPICS_LIBRARY_DIRS
 FIND_LIBRARY (EPICS_CA_LIBRARY NAMES ca HINTS ${EPICS_LIBRARY_DIRS})
 FIND_LIBRARY (EPICS_COM_LIBRARY NAMES Com HINTS ${EPICS_LIBRARY_DIRS})
 SET(EPICS_LIBRARIES ${EPICS_CA_LIBRARY} ${EPICS_COM_LIBRARY})
+
+# Find EPICS version
+IF (EXISTS ${EPICS_BASE}/include/epicsVersion.h)
+    FILE(READ ${EPICS_BASE}/include/epicsVersion.h EPICS_VERSION_SRC)
+    STRING(REGEX MATCH 
+        "#define EPICS_VERSION +([0-9]+)\n#define EPICS_REVISION +([0-9]+)\n#define EPICS_MODIFICATION +([0-9]+)\n#define EPICS_PATCH_LEVEL +([0-9]+)"
+        EPICS_VERSION_STR
+        ${EPICS_VERSION_SRC}
+    )
+    IF(EPICS_VERSION_STR)
+        SET(EPICS_VERSION ${CMAKE_MATCH_1}.${CMAKE_MATCH_2}.${CMAKE_MATCH_3}.${CMAKE_MATCH_4})
+    ENDIF()
+ENDIF()
+# ----------------------------------------------------------------------------
+# handle the QUIETLY and REQUIRED arguments and set *_FOUND to TRUE
+# if all listed variables are found or TRUE
+include (FindPackageHandleStandardArgs)
+
+find_package_handle_standard_args (
+    EPICS
+    REQUIRED_VARS  EPICS_LIBRARIES EPICS_INCLUDE_DIRS
+    VERSION_VAR EPICS_VERSION
+)
