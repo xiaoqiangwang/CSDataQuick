@@ -249,9 +249,20 @@ void connectCallbackC(struct connection_handler_args args)
     QCSData *data = (QCSData *)ca_puser(args.chid);
     int status;
     if (args.op == CA_OP_CONN_UP) {
+        QCSData::FieldType ftype = QCSData::Invalid;
+        switch (ca_field_type(args.chid)) {
+            case DBF_STRING: ftype = QCSData::String; break;
+            case DBF_CHAR:   ftype = QCSData::Char;   break;
+            case DBF_ENUM:   ftype = QCSData::Enum;   break;
+            case DBF_SHORT:  ftype = QCSData::Short;  break;
+            case DBF_LONG:   ftype = QCSData::Integer;break;
+            case DBF_FLOAT:  ftype = QCSData::Float;  break;
+            case DBF_DOUBLE: ftype = QCSData::Double; break;
+        }
+
         QMetaObject::invokeMethod(data, "setHost",  Q_ARG(QString, ca_host_name(args.chid)));
         QMetaObject::invokeMethod(data, "setFieldType",
-                                  Q_ARG(QCSData::FieldType, (QCSData::FieldType) ca_field_type(args.chid)));
+                                  Q_ARG(QCSData::FieldType, ftype));
         QMetaObject::invokeMethod(data, "setCount", Q_ARG(qulonglong, ca_element_count(args.chid)));
 
         // Add property change monitor

@@ -171,24 +171,24 @@ void QCSDataRange::reset()
 */
 /*!
     \enum QCSData::FieldType
+        \value Invalid
+               Invalid or disconnected PV object
         \value String
-               Fixed length string of 40 charactors.
-        \value Integer
-               16 bit integer number
-        \value Short
-               Same as QCSData::Integer
-        \value Float
-               32 bit float number
+               String of 8bit charactors.
         \value Enum
                An enumeration of choices
         \value Char
                8 bit char
-        \value Long
+        \value Short
+               16 bit integer number
+        \value Integer
                32 bit integer number
+        \value Long
+               64 bit integer number
+        \value Float
+               32 bit float number
         \value Double
                64 but float number
-        \value Invalid
-               Invalid or disconnected PV object
 */
 /*!
     \enum QCSData::AccessFlag

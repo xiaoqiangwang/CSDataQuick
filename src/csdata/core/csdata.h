@@ -122,15 +122,15 @@ public:
     Q_DECLARE_FLAGS(AccessFlags, AccessFlag)
 
     enum FieldType {
+        Invalid = -1,
         String = 0,
-        Integer = 1,
-        Short = 1,
-        Float = 2,
-        Enum = 3,
-        Char = 4,
+        Enum = 1,
+        Char = 2,
+        Short = 3,
+        Integer = 4,
         Long = 5,
-        Double = 6,
-        Invalid = 7,
+        Float = 6,
+        Double = 7,
     };
     Q_ENUMS(FieldType)
 
