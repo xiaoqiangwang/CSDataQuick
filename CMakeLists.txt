@@ -34,7 +34,7 @@ if (${CMAKE_MAJOR_VERSION} LESS 3)
     endif()
 endif()
 
-find_package(EPICS)
+find_package(EPICS REQUIRED)
 
 set(ENV{QML_IMPORT_PATH} )
 
