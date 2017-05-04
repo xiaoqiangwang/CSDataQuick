@@ -1,9 +1,8 @@
+SET(EPICS_BASE $ENV{EPICS_BASE})
 IF (NOT EPICS_BASE)
     SET (EPICS_ROOT $ENV{EPICS})
     IF (EPICS_ROOT)
         SET(EPICS_BASE "${EPICS_ROOT}/base")
-    ELSE ()
-        SET(EPICS_BASE $ENV{EPICS_BASE})
     ENDIF ()
 ENDIF ()
 
@@ -17,15 +16,19 @@ ENDIF ()
 
 IF (WIN32)
     SET(OSCLASS "WIN32")
+    SET(CMPLCLASS "msvc")
 ELSEIF (APPLE)
     SET(OSCLASS "Darwin")
+    SET(CMPLCLASS "clang")
 ELSEIF (UNIX)
     SET(OSCLASS "Linux")
+    SET(CMPLCLASS "gcc")
 ENDIF()
 
 SET (EPICS_INCLUDE_DIRS
     ${EPICS_BASE}/include
     ${EPICS_BASE}/include/os/${OSCLASS} 
+    ${EPICS_BASE}/include/compiler/${CMPLCLASS} 
 )
 
 SET( EPICS_LIBRARY_DIRS
