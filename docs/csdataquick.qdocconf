@@ -1,6 +1,6 @@
 project = CSDataQuick
 description = CSDataQuick Documentation
-url = http://bitbucket.org/xwang/epicsqml
+url = https://github.com/xiaoqiangwang/CSDataQuick
 version = 1.0
 
 Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
