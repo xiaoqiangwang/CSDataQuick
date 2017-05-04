@@ -1,5 +1,5 @@
-!isEmpty(EPICSQML_PRI_INCLUDED):error("epicsqml.pri already included")
-EPICSQML_PRI_INCLUDED = 1
+!isEmpty(PATHS_PRI_INCLUDED):error("paths.pri already included")
+PATHS_PRI_INCLUDED = 1
 
 defineTest(minQtVersion) {
     maj = $$1

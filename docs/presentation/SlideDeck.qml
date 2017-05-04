@@ -165,7 +165,7 @@ Text {
         title: 'Source of this talk'
         contentWidth: width / 2
         content: [
-            "Repo: http://bitbucket.org/xwang/epicsqml"
+            "Repo: https://github.com/xiaoqiangwang/CSDataQuick"
         ]
         CodeSection {
             text: "import QtQuick 2.0\n" +
