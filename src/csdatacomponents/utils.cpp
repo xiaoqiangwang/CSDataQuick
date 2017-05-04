@@ -64,7 +64,7 @@ QCSUtils::QCSUtils(QObject *parent)
 
     Get the subarray from a vector, starting at position \l index (default 0).
     If \l count is -1 (the default), all elements after \l index are included.
-    \sa QVector::mid().
+    \sa QVector::mid()
 */
 QVariantList QCSUtils::vectorGet(QVariant v, int index, int count)
 {
