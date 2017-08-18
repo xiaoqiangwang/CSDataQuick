@@ -1,4 +1,7 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.3
+
 import Qt.labs.presentation 1.0
 
 Presentation
@@ -11,11 +14,29 @@ Presentation
     SlideCounter {}
     Clock {}
 
-
     Slide {
-        centeredText: "Create Dynamic GUI, <p><p>The <i><b>Quick</b></i> Way"
-    }
+        id: master
+        anchors.fill: parent
+        Image {
+            anchors.top: parent.top
+            source: "PSI Aerial.png"
+            width: parent.width
+            height: parent.height / 2
+        }
+        Text {
+            width: parent.width
+            height: parent.height / 2
+            anchors.top: parent.verticalCenter
+            anchors.topMargin: master.fontSize * 1.5
+            horizontalAlignment: Text.Center
+            font.pixelSize: master.baseFontSize
+            font.family: fontFamily
+            color: textColor
+            wrapMode: Text.Wrap
 
+            text:"QtQuick/Qml, and EPICS<p><p>Dynamic GUI in the <i><b>Quick</b></i> Way"
+        }
+    }
     Slide {
         centeredText: "Hello World!"
     }
@@ -25,7 +46,7 @@ Presentation
         CodeSection {
             x: 0
             width: parent.width
-            text: "
+            text: '
 #include <gtk/gtk.h>
  
 int main (int argc, char **argv)
@@ -37,11 +58,11 @@ int main (int argc, char **argv)
  
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
  
-    gtk_window_set_title(GTK_WINDOW(window), \"Hello World!\");
+    gtk_window_set_title(GTK_WINDOW(window), "Hello World!");
  
-    g_signal_connect(window, \"destroy\", G_CALLBACK(gtk_main_quit), NULL);
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
  
-    label = gtk_label_new(\"Hello World!\");
+    label = gtk_label_new("Hello World!");
  
     gtk_container_add(GTK_CONTAINER(window), label);
  
@@ -51,51 +72,27 @@ int main (int argc, char **argv)
  
     return 0;
 }
-"
+'
         }
     }
     
     Slide {
-        title: "The Swing Version"
+        title: "The Qt Widget Version"
         CodeSection {
             x: 0
             width: parent.width
-            text: "
-import javax.swing.*;        
-
-public class HelloWorldSwing {
-    public static void main(String[] args) {
-        JFrame frame = new JFrame(\"HelloWorldSwing\");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JLabel label = new JLabel(\"Hello World!\");
-        frame.getContentPane().add(label);
-
-        frame.pack();
-        frame.setVisible(true);
-    }
-}
-"
-
-        }
-    }
-    Slide {
-        title: "The Qt Version"
-        CodeSection {
-            x: 0
-            width: parent.width
-            text: "
+            text: '
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QLabel>
 
 int main(int argc, char **argv)
 {
     QApplication app(argv);
-    QLabel label(\"Hello World!\");
+    QLabel label("Hello World!");
     label.show();
     app.exec();
 }
-"
+'
         }
     }
    
@@ -126,13 +123,16 @@ Text {
     }
 
     Slide {
-        title: "QtQuick"
+        title: "QtQuick/QML"
         content: [
-            "QtQuick: Declarative way of building dynamic GUI",
-            "  QML: Qt Meta Language",
-            "    Javascript alike, JIT optimized",
-            "    Extensible with C++",
-            "  Scene graph based rendering. Non-imperative.",
+            "QML",
+            " The language and the infrastructure engine",
+            " Declarative, JSON-like syntax",
+            " Javascript expression for dynamic property binding",
+            " Extensible with C++",
+            "QtQuick",
+            " The standard library, visual items, animations, models/views",
+            " Scene graph based rendering with multiple backends",
         ]
     }
 
@@ -141,7 +141,25 @@ Text {
     }
 
     Slide {
-        title: "WebKit"
+        title: "Web"
+        SplitView {
+            anchors.fill: parent
+            SimpleWebview {
+                id: webView
+                Layout.minimumWidth: 500
+                Layout.fillWidth: true
+            }
+            CodeSection {
+                id: sourceCode
+                text: readFile("SimpleWebview.qml")
+                visible: false
+            }
+        }
+        Keys.onPressed: {
+            if (event.key == Qt.Key_S) {
+                sourceCode.visible = !sourceCode.visible
+            }
+        }
     }
 
     Slide {
@@ -168,33 +186,7 @@ Text {
             "Repo: https://github.com/xiaoqiangwang/CSDataQuick"
         ]
         CodeSection {
-            text: "import QtQuick 2.0\n" +
-                  "import Qt.labs.presentation 1.0\n" +
-                  "\n" +
-                  "Presentation {\n" +
-                  "    id: presentation\n" +
-                  "\n" +    
-                  "    width: 1280\n" +
-                  "    height: 720\n" +
-                  "\n" +
-                  "SlideCounter {}\n" +
-                  "Clock {}\n" +
-                  "\n" +
-                  "Slide {\n" +
-                  "    centeredText: \"Create Dynamic GUI, Quick\"\n" +
-                  "}\n" +
-                  "Slide {\n" +
-                  "    centeredText: \"Hello World!\"\n" +
-                  "}\n" +
-                  "\n" +
-                  "Slide {\n" +
-                  "title: \"The Gtk Version\"\n" +
-                  "CodeSection {\n" +
-                  "    x: 0\n" +
-                  "    width: parent.width\n" +
-                  "    text: \"\n" +
-                  "\n" +
-                  "#include <gtk/gtk.h>\n"
+            text: readFile("SlideDeck.qml")
         }
     }
 
@@ -218,39 +210,6 @@ Text {
             z: -1
         }
     }
-
-    CodeSlide {
-        title: "CodeSlide {} Element"
-        code:
-"CodeSlide {
-    title: \"CodeSlide {} Element\"
-    code:
-\"
-// Whitespaces are preserved,
-// so we start at the beginning of the line...
-
-// You can mouse click on any line
-
-// Navigate with keypad when the code has focus
-
-int main(int argc, char **argv) {
-    QGuiApplication app;
-    QWindow window;
-    window.show();
-    return app.exec();
-}
-\" "
-    }
-
-    Slide {
-        title: "Font size relative to screen size"
-        content: [
-            "Which means you don't need to worry about it",
-            "Bullet points wrap around on the edges, regardless of how long they are, like this. Even if you should choose to use a very long bullet point (which would distract your audience) it would still look ok'ish",
-            "If you run out of height, you're out of luck though..."
-        ]
-    }
-
 
 
     Slide {
@@ -279,60 +238,6 @@ int main(int argc, char **argv) {
         }
     }
 
-
-    Slide {
-        title: "Features"
-        centeredText: 'Hit [C] to fade out the current page if there are questions from the audience'
-    }
-
-    Slide {
-        title: "Features"
-        centeredText: 'Navigate back and forth using [left] and [right]\n[space] or [click] takes you to the next slide.'
-    }
-
-    CodeSlide {
-        title: "Slide Counter"
-        code:
-"Presentation {
-
-    SlideCounter {
-        // Defaults:
-        // anchors.right: parent.right
-        // anchors.bottom: parent.bottom
-        // anchors.margins: fontSize;
-        // textColor: 'black'
-        // fontFamily: 'Helvetica' (from presentation)
-        // fontScale: 0.5;
-        }
-    }
-
-    Slide {
-        ...
-    }
-}"
-    }
-
-    CodeSlide {
-        title: "Clock"
-        code:
-"Presentation {
-
-    Clock {
-        // Defaults:
-        // anchors.let: parent.left
-        // anchors.bottom: parent.bottom
-        // anchors.margins: fontSize;
-        // textColor: 'black'
-        // fontFamily: 'Helvetica' (from presentation)
-        // fontScale: 0.5;
-        }
-    }
-
-    Slide {
-        ...
-    }
-}"
-    }
 
     Slide {
         title: "Customizations"
@@ -382,5 +287,10 @@ int main(int argc, char **argv) {
         centeredText: "Now go make our own presentations\n\nEnjoy!"
     }
 
-
+    function readFile(fileUrl) {
+        var request = new XMLHttpRequest();
+        request.open("GET", fileUrl, false);
+        request.send(null);
+        return request.responseText;
+    }
 }
