@@ -40,6 +40,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import QtQuick.Controls 1.4
 
 Rectangle
 {
@@ -63,13 +64,14 @@ Rectangle
     width: parent.width / 2
     height: parent.height
 
-    Text {
+    TextArea {
         id: textItem
         anchors.fill: parent
-        anchors.margins: 20
+        anchors.margins: 5
         text: root.text;
-        font.family: "courier"
+        font.family: "Courier New"
         font.pixelSize: root.fontSize
+        readOnly: true
     }
 
 }
