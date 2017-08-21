@@ -25,6 +25,8 @@ add_library(csdata SHARED
     ${HEADERS}
 )
 
+add_definitions(-DQCS_EXPORT)
+
 include_directories(
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
