@@ -11,7 +11,7 @@ ApplicationWindow {
     width: 400
     height: 400
     title: qsTr("Hello World")
-    color: windows_background
+    color: ColorMap.windows_background
 
     menuBar: MenuBar {
         Menu {
@@ -49,28 +49,35 @@ ApplicationWindow {
 
     property bool tableVisible: false
 
-    ColumnLayout {
+    GridLayout {
         id: mainLayout
+        columns: 2
+        rowSpacing: 5
+        columnSpacing: 5
         anchors.margins: 5
-        transform: Translate {
-            x: tableVisible ? window.width * 0.9 : 0
-            Behavior on x { NumberAnimation { duration: 400; easing.type: Easing.OutQuad } }
-        }
 
         Repeater {
             model: itemModel
-            RowLayout {
-                Text {
-                    text: model.channelName
-                    width: 120
-                }
-                Loader {
-                    Layout.fillWidth: true
-                    sourceComponent: componentForItemType(model.itemType)
-                    // so that component can access channelName
-                    property string channelName: model.channelName
-                }
+            Text {
+                Layout.row: index
+                Layout.column: 0
+                text: model.channelName
             }
+        }
+        Repeater {
+            model: itemModel
+            Loader {
+                Layout.row: index
+                Layout.column: 1
+                Layout.fillWidth: true
+                sourceComponent: componentForItemType(model.itemType)
+                // so that component can access channelName
+                property string channelName: model.channelName
+            }
+        }
+        transform: Translate {
+            x: tableVisible ? window.width * 0.9 : 0
+            Behavior on x { NumberAnimation { duration: 400; easing.type: Easing.OutQuad } }
         }
     }
 
