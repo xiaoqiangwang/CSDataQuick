@@ -47,7 +47,7 @@ Rectangle
     id: root
 
     property string text
-
+    property bool readOnly: true
     property real fontSize: parent.baseFontSize / 2
 
     gradient: Gradient {
@@ -71,7 +71,7 @@ Rectangle
         text: root.text;
         font.family: "Courier New"
         font.pixelSize: root.fontSize
-        readOnly: true
+        readOnly: root.readOnly
     }
 
 }
