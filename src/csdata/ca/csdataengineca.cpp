@@ -226,7 +226,9 @@ void propertyCallbackC(struct event_handler_args args)
         if(status != ECA_NORMAL)
             qCritical() << "ca_create_subscription:" << ca_name(args.chid) << ca_message(status);
         else {
-            data->setProperty("evidMonitor", QVariant::fromValue((void*)evidMonitor));
+            QMetaObject::invokeMethod(data, "setProperty",
+                                      Q_ARG(QString, "evidMonitor"),
+                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidMonitor)));
             ca_flush_io();
         }
     }
@@ -275,7 +277,9 @@ void connectCallbackC(struct connection_handler_args args)
                 qCritical() << "ca_array_get_callback:" << ca_message(status);
                 return;
             }
-            data->setProperty("evidProperty", QVariant::fromValue((void*)evidProperty));
+            QMetaObject::invokeMethod(data, "setProperty",
+                                      Q_ARG(QString, "evidProperty"),
+                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidProperty)));
         }
         // Replace access right handler
         status = ca_replace_access_rights_event(args.chid, accessCallbackC);
