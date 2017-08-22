@@ -209,7 +209,7 @@ void propertyCallbackC(struct event_handler_args args)
     }
 
     // Subscribe to value and alarm changes
-    QVariant v = data->property("evidMonitor");
+    QVariant v = data->extraProperty("evidMonitor");
     if (!v.isValid()) {
         // Set connected after first get succeeds
         QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, true));
@@ -226,9 +226,9 @@ void propertyCallbackC(struct event_handler_args args)
         if(status != ECA_NORMAL)
             qCritical() << "ca_create_subscription:" << ca_name(args.chid) << ca_message(status);
         else {
-            QMetaObject::invokeMethod(data, "setProperty",
-                                      Q_ARG(QString, "evidMonitor"),
-                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidMonitor)));
+            QMetaObject::invokeMethod(data, "setExtraProperty",
+                                      Q_ARG(const QString, "evidMonitor"),
+                                      Q_ARG(const QVariant, QVariant::fromValue((void*)evidMonitor)));
             ca_flush_io();
         }
     }
@@ -268,7 +268,7 @@ void connectCallbackC(struct connection_handler_args args)
         QMetaObject::invokeMethod(data, "setCount", Q_ARG(qulonglong, ca_element_count(args.chid)));
 
         // Add property change monitor
-        QVariant v = data->property("evidProperty");
+        QVariant v = data->extraProperty("evidProperty");
         if (!v.isValid()) {
             evid evidProperty;
             chtype reqtype = dbf_type_to_DBR_CTRL(ca_field_type(args.chid));
@@ -277,9 +277,9 @@ void connectCallbackC(struct connection_handler_args args)
                 qCritical() << "ca_array_get_callback:" << ca_message(status);
                 return;
             }
-            QMetaObject::invokeMethod(data, "setProperty",
-                                      Q_ARG(QString, "evidProperty"),
-                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidProperty)));
+            QMetaObject::invokeMethod(data, "setExtraProperty",
+                                      Q_ARG(const QString, "evidProperty"),
+                                      Q_ARG(const QVariant, QVariant::fromValue((void*)evidProperty)));
         }
         // Replace access right handler
         status = ca_replace_access_rights_event(args.chid, accessCallbackC);
@@ -352,7 +352,7 @@ void QCSDataEngineCA::create(QCSData *data)
         qCritical() << "ca_create_channel:" << channelName << ca_message(status);
     } else {
         // create a dynamic property to hold the channel id
-        data->setProperty("chid", QVariant::fromValue((void*)_chid));
+        data->setExtraProperty("chid", QVariant::fromValue((void*)_chid));
         _data->append(data);
         dataChanged();
     }
@@ -366,15 +366,15 @@ void QCSDataEngineCA::close(QCSData *data)
         qWarning() << "Current CA context has been swappped";
     }
     // Clear channel
-    chid _chid = (chid)data->property("chid").value<void*>();
+    chid _chid = (chid)data->extraProperty("chid").value<void*>();
     int status = ca_clear_channel(_chid);
     if(status != ECA_NORMAL)
         qWarning() << "ca_clear_channel:" << ca_message(status);
 
     // Remove associated dynamic properties
-    data->setProperty("chid", QVariant());
-    data->setProperty("evidProperty", QVariant());
-    data->setProperty("evidMonitor", QVariant());
+    data->setExtraProperty("chid", QVariant());
+    data->setExtraProperty("evidProperty", QVariant());
+    data->setExtraProperty("evidMonitor", QVariant());
 
     ca_flush_io();
 
@@ -406,7 +406,7 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
         qWarning() << "Current CA context has been swappped";
     }
 
-    chid _chid = (chid)data->property("chid").value<void*>();
+    chid _chid = (chid)data->extraProperty("chid").value<void*>();
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
     int status = ECA_NORMAL;
     unsigned long count = 1;
