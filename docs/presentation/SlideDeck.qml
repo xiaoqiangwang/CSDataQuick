@@ -163,7 +163,36 @@ Text {
     }
 
     Slide {
-        title: "MVC"
+        id: mv
+        title: "Model/View"
+        QtObject {
+            id: d
+            property var rootItem: null
+        }
+
+        CodeSection {
+            id: codeMV
+            readOnly: false
+            text: '
+    ListModel {
+        id: fruitModel
+        ListElement {name: "Apple"}
+        ListElement {name: "Banana"}
+        ListElement {name: "Citron"}
+    }
+
+    ListView {
+        model: fruitModel
+        anchors.fill: parent
+        delegate: Text {
+            text: index + name
+        }
+    }
+'
+        }
+        Component.onCompleted: {
+            d.rootItem = Qt.createQmlObject('import QtQuick 2.0\nItem {\nanchors.fill: parent\n' + codeMV.text + '\n}', mv, '')
+        }
     }
 
     Slide {
