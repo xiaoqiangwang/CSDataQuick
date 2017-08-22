@@ -21,3 +21,5 @@ HEADERS += \
     $$PWD/csdataenginemanager.h \
     $$PWD/objectmodel.h \
     $$PWD/cs_global.h
+
+include(../../../epics.pri)

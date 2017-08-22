@@ -11,6 +11,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 
+cmake_policy(SET CMP0020 NEW)
+
 find_package(Qt5Core)
 find_package(Qt5Gui)
 find_package(Qt5Widgets)

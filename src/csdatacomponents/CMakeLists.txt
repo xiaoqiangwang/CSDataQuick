@@ -54,6 +54,9 @@ include_directories(
     ../csdata/core
 )
 
+add_definitions(${EPICS_DEFINITIONS})
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
 target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
 target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
 target_link_libraries(csdatacomponentsplugin ADLParser)

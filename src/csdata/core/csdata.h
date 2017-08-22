@@ -174,6 +174,9 @@ public:
     QVariantMap extraProperties() const { return _extraProperties; }
     void setExtraProperties(const QVariantMap properties) { _extraProperties = properties; }
 
+    Q_INVOKABLE void setExtraProperty(const QString name, const QVariant value) { _extraProperties[name] = value; }
+    QVariant extraProperty(const QString name) { return _extraProperties[name]; }
+
 signals:
     void sourceChanged();
     void hostChanged();

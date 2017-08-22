@@ -23,6 +23,8 @@ include_directories(
     ${EPICS_INCLUDE_DIRS}
 )
 
+add_definitions(${EPICS_DEFINITIONS})
+
 target_link_libraries(csdataengineca Qt5::Core)
 target_link_libraries(csdataengineca ${EPICS_LIBRARIES})
 target_link_libraries(csdataengineca csdata)
