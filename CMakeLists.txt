@@ -1,5 +1,5 @@
 project(CSDataQuick)
-cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.10 FATAL_ERROR)
 set(CSDATAQUICK_VERSION_MAJOR 1)
 set(CSDATAQUICK_VERSION_MINOR 0)
 set(CSDATAQUICK_VERSION_RELEASE 0)
@@ -13,28 +13,27 @@ set(CMAKE_AUTOMOC ON)
 
 cmake_policy(SET CMP0020 NEW)
 
-find_package(Qt5Core)
-find_package(Qt5Gui)
-find_package(Qt5Widgets)
-find_package(Qt5Qml)
-find_package(Qt5Quick)
-find_package(Qt5Concurrent)
-find_package(Qt5PrintSupport)
-# For an older CMake to add Qt5<Module>_EXECUTABLE_COMPILE_FLAGS to the
-# CMAKE_CXX_FLAGS so that the -fPIE flags are added to the compile flags if
-# necessary (as is the default with Qt 5).
-if (${CMAKE_MAJOR_VERSION} LESS 3)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-    # -fPIC
-    if (${CMAKE_COMPILER_IS_GNUCXX})
-        set(CMAKE_CXX_FLAGS "-fPIC ${CMAKE_CXX_FLAGS}")
-    endif()
+# Set minimum Qt version
+set(QT_MINIMUM_VERSION 5.6)
 
-    # Qt 5.7 requires C++11
-    if (NOT(${Qt5Core_VERSION} VERSION_LESS 5.7))
-        set(CMAKE_CXX_FLAGS "--std=gnu++11 ${CMAKE_CXX_FLAGS}")
-    endif()
-endif()
+find_package(Qt5Core ${QT_MINIMUM_VERSION})
+find_package(Qt5Gui ${QT_MINIMUM_VERSION})
+find_package(Qt5Widgets ${QT_MINIMUM_VERSION})
+find_package(Qt5Qml ${QT_MINIMUM_VERSION})
+find_package(Qt5Quick ${QT_MINIMUM_VERSION})
+find_package(Qt5Concurrent ${QT_MINIMUM_VERSION})
+find_package(Qt5PrintSupport ${QT_MINIMUM_VERSION})
+
+# Use c++11 or c++0x
+if (CMAKE_VERSION VERSION_LESS 3.1 AND CMAKE_COMPILER_IS_GNUCXX)
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
+    set (CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+  else ()
+    set (CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+  endif ()
+else ()
+  set (CMAKE_CXX_STANDARD 11)
+endif ()
 
 find_package(EPICS REQUIRED)
 
