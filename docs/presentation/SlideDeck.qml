@@ -212,7 +212,8 @@ Text {
         title: 'Source of this talk'
         contentWidth: width / 2
         content: [
-            "Repo: https://github.com/xiaoqiangwang/CSDataQuick"
+            "Repository: https://github.com/xiaoqiangwang/CSDataQuick",
+            "Reference: https://qmlbook.github.io/"
         ]
         CodeSection {
             text: readFile("SlideDeck.qml")
@@ -292,28 +293,14 @@ Text {
         ]
     }
 
-    CodeSlide {
-        title: "Slide Notes in Another Window"
-        code:
-"Presentation {
-    showNotes: true;
-
     Slide {
-        title: 'Slide One'
-        content: ['bullet point', 'bullet point'];
-        notes: 'Here cometh the notes...'
-    }
-
-    ...
-
-    // Check out examples/notes for a running example
-}
-"
-    }
-
-
-    Slide {
-        centeredText: "Now go make our own presentations\n\nEnjoy!"
+        title: "Interested?"
+        
+        content: [
+            "Compiled module: /afs/psi.ch/user/w/wang_x1/public/CSDataQuick-cmake/",
+            "Requires <code>yum --enablerepo=epel install qt5-qtquickcontrols</code>"
+            "Quick UI builder: <code>./bin/builder</code>"
+        ]
     }
 
     function readFile(fileUrl) {
