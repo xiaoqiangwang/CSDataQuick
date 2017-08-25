@@ -13,6 +13,8 @@ qtPrepareTool(QDOC, qdoc)
 
 QDOC_INDEXES += -indexdir $$[QT_INSTALL_DOCS/get]
 
-html.commands = $$QDOC $$QDOC_INDEXES $$QMAKE_DOCS
+QDOC_OUTPUTS += -outputdir $$OUT_PWD/html
+
+html.commands = $$QDOC $$QDOC_INDEXES $$QDOC_OUTPUTS $$QMAKE_DOCS
 
 QMAKE_EXTRA_TARGETS += html

@@ -6,8 +6,8 @@ find_program(QDOC_EXECUTABLE qdoc PATHS ${QT_BIN_DIR})
 if(QDOC_EXECUTABLE STREQUAL "QDOC_EXECUTABLE-NOTFOUND")
     message(WARNING "qdoc not found, documentation cannot be built")
 else()
-    add_custom_target(docs
-                      COMMAND ${QDOC_EXECUTABLE} --indexdir ${QT_DOC_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick.qdocconf
+    add_custom_target(html
+        COMMAND ${QDOC_EXECUTABLE} --indexdir ${QT_DOC_DIR} --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick.qdocconf
                       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                       COMMENT "Generate documents..."
                       SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick.qdocconf)
