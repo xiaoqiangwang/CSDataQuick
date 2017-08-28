@@ -13,6 +13,7 @@ Rectangle {
 
     FolderListModel {
         id: qmlFiles
+        folder: Qt.resolvedUrl('.')
         nameFilters: ["demo_*.qml"]
     }
 
