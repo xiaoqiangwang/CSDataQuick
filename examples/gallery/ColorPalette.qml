@@ -60,6 +60,7 @@ Rectangle {
                         colorPalette.color = color
                         hide()
                     }
+                    enabled: toolTip.opacity != 0
                     property color color: ColorMap['color%1'.arg(index)]
                 }
             }
