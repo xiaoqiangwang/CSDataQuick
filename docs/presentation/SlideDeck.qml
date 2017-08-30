@@ -298,7 +298,7 @@ Text {
         
         content: [
             "Compiled module: /afs/psi.ch/user/w/wang_x1/public/CSDataQuick-cmake/",
-            "Requires <code>yum --enablerepo=epel install qt5-qtquickcontrols</code>"
+            "Requires <code>yum --enablerepo=epel install qt5-qtquickcontrols</code>",
             "Quick UI builder: <code>./bin/builder</code>"
         ]
     }
