@@ -211,7 +211,7 @@ Item {
                     width: parent.width - 2 * padding
 
 
-                    font.pixelSize: 16
+                    font.pixelSize: 30
                     wrapMode: Text.WordWrap
 
                     property string notes: root.slides[root.currentSlide].notes;
