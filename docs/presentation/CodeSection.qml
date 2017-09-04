@@ -46,7 +46,7 @@ Rectangle
 {
     id: root
 
-    property string text
+    property alias text: textItem.text
     property bool readOnly: true
     property real fontSize: parent.baseFontSize / 2
 
@@ -68,7 +68,6 @@ Rectangle
         id: textItem
         anchors.fill: parent
         anchors.margins: 5
-        text: root.text;
         font.family: "Courier New"
         font.pixelSize: root.fontSize
         readOnly: root.readOnly
