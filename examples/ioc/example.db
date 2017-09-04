@@ -108,3 +108,19 @@ record(bo, "writable")
     field (ZNAM, "No Write")
     field (ONAM, "Writable")
 }
+
+record(mbbo, "filter")
+{
+    field (ZRST, "None")
+    field (ZRVL, "0")
+    field (ONST, "C100")
+    field (ONVL, "1")
+    field (TWST, "C100")
+    field (TWVL, "2")
+    field (THST, "Si100")
+    field (THVL, "3")
+    field (FRST, "Si100")
+    field (FRVL, "4")
+    field (FVST, "Ge100")
+    field (FVVL, "5")
+}
