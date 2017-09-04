@@ -340,6 +340,8 @@ ListView {
         content: [
             "Properties: source, value, fieldType, alarm, units, timeStamp, precision, range, accessRight",
             "Methods: setValue",
+            "Multiple source scheme, ca://, sim://",
+            "Plugin based CSDataEngine",
         ]
         notes: '
         In EPICS the access unity is process variable. PV is a piece of named data with describing metadata.
@@ -374,7 +376,7 @@ ListView {
         Of course there is a collection of standard items for display and control PVs.
         '
         GridLayout {
-            columns: 2
+            columns: 3
         CSSlider {
             source: 'catest'
             stepSize: 0.1
@@ -383,13 +385,17 @@ ListView {
 
         CSMessageButton {
             text: 'Reset Me!'
-            source: 'calc'
+            source: 'catest'
             foreground: 'yellow'
             offMessage: "0"
         }
 
         CSMenu {
             source: 'calc.SCAN'
+        }
+
+        CSByte {
+            source: 'calc'
         }
 
         CSChoiceButton {
