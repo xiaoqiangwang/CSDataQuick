@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtWebEngine 1.1
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
-import Qt.WebSockets 1.0
 
 Item {
 
