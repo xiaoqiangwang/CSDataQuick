@@ -1,8 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 
-import Qt.labs.presentation 1.0
+import CSDataQuick.Components 1.0
 
 Presentation
 {
@@ -10,6 +10,8 @@ Presentation
 
     width: 1280
     height: 720
+
+    showNotes: true
 
     SlideCounter {}
     Clock {}
@@ -36,13 +38,57 @@ Presentation
 
             text:"QtQuick/Qml, and EPICS<p><p>Dynamic GUI in the <i><b>Quick</b></i> Way"
         }
+        notes: '
+        You are all familiar with Qt since the universal introduction of caqtdm.
+
+        Today I am going to show another part of Qt, which is quite different from the classic Qt.
+        '
     }
+
+    Slide {
+        title: 'History and Now'
+        
+        notes: '
+        However they failed one by one. It seems impossible to gain a share of the market ruled by Android and IOS.
+        But as a technology, QtQuick survived. It is still a choice for cross platform mobile development.
+        It gets expanded into embedded system as well.
+
+        I cannot say much about desktop applications. But KDE shell has migrated to QtQuick.
+
+        '
+        content: [
+        "aka Qt Declarative",
+        "QtQuick 1 in Qt 4.7, 2010 - QtQuick 2.7 in Qt 5.9, 2017",
+        "Targeted towards mobile development at the era of Nokia", 
+        "Followed by Ubuntu Touch and BlackBerry 10",
+        "Mobile app development for IOS and Android",
+        "Embedded system, especially in-car control system", 
+        "Desktop applications, KDE Plasma 5"
+        ]
+    }
+
     Slide {
         centeredText: "Hello World!"
+
+        notes: '
+        This talk is to give you a flavor through simple examples.
+
+        And no example is simpler than hello world. 
+        
+        Before showing the QtQuick version, let us see how to program a hello world example in other toolkits.
+        '
     }
 
     Slide {
         title: "The Gtk Version"
+        notes: '
+        I am not a GTK user so this example is taken from its tutorial.
+        Even not an expert, we can see it first creates a window, 
+        and exit when this window gets closed. The text label is then created inside
+        the window. The last step is to show the window and enter into the
+        event loop.
+        That is quite a standard launching sequence for a GUI program.
+        '
         CodeSection {
             x: 0
             width: parent.width
@@ -74,6 +120,7 @@ int main (int argc, char **argv)
 }
 '
         }
+
     }
     
     Slide {
@@ -94,32 +141,35 @@ int main(int argc, char **argv)
 }
 '
         }
+        notes: '
+        Next it is the Qt verison. It is already simpler. QApplication does the right thing
+        to create the toplevel window and quit when the window is closed.
+        '
     }
    
     Slide {
         writeInText: 'Can it be shorter?'
     }
 
-    Slide {
+    DynamicCodeSlide {
         title: "The Quick Version"
-        CodeSection {
-            x: 0
-            width: parent.width
-            height: parent.height / 2
-            text: "
-import QtQuick 2.1
+        notes: '
+        The quick version is remarkably different. The import statement looks like many other languages.
+        It brings components from other modules into the namespace.
+        
+        The creation of the a text lable is nothing like previouse examples. Syntatically it is a structural text,
+        like a literal object in JavaScript. This object has a named type, and properties to describe it.
+
+        The text property holds the greeting string to display. We can control its appearance via other properties assignment.
+        Color, Font, Style
+        '
+        code: '
+import QtQuick 2.5
 
 Text {
-    text: 'Hello World!'
+    text: "Hello World!"
 }
-"
-        }
-        Text {
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: parent.height * 3 / 4
-            text: 'Hello World!'
-            font.pointSize: 20
-        }
+'
     }
 
     Slide {
@@ -127,21 +177,104 @@ Text {
         content: [
             "QML",
             " The language and the infrastructure engine",
-            " Declarative, JSON-like syntax",
+            " Declarative, JSON-like",
             " Javascript expression for dynamic property binding",
             " Extensible with C++",
             "QtQuick",
             " The standard library, visual items, animations, models/views",
-            " Scene graph based rendering with multiple backends",
+            " Scene Graph with multiple render backends",
         ]
+
+        notes:'
+        QML propabably stands for Qt Model Language, Qt Markup Language.
+        
+        OpenGL was the only render backend until Qt 5.6. Software render was added in case of bad OpenGL driver.
+        In Qt 5.10 Vulkan will be added, the successor to OpenGL.
+
+        Now I will intruduce some key aspect  through examples.
+        '
     }
 
-    Slide {
-        title: "Animation"
+    DynamicCodeSlide {
+        title: "Property Binding"
+        notes: '
+        This is the core feature of QML. It lets you specify relationship between different properties
+        from different objects.
+
+        Here the blue box top left is set to track the red box bottom right. It moves wherever the red
+        box goes.
+        '
+        readOnly: true
+        code: '
+import QtQuick 2.5
+
+Item {
+    anchors.fill: parent
+
+    Rectangle {
+        id: box_red
+        width: 80
+        height: 80
+        color: "red"
+
+        MouseArea {
+            anchors.fill: parent
+            drag.target: parent
+        }
+    }
+
+    Rectangle {
+        id: box_blue
+        x: box_red.x + 80
+        y: box_red.y + 80
+        width: 80
+        height: 80
+        color: "blue"
+    }
+}
+        '
+    }
+
+    DynamicCodeSlide {
+        title: "States/Transition/Animation"
+        notes: '
+        A state is set of property settings. The intial default state is defined by the assigned property values.
+        New states can be created by grouping different property changes.
+        Here we change the text color and font size.
+
+        To smooth the property changes between states, animations might be configured.
+        Here the font size changes in half a second and color changes in 1 second.
+
+        Together this creates a fluid user experience.
+        '
+        code: '
+import QtQuick 2.5
+
+TextInput {
+    id: helloText
+    text: "Hello World!"
+
+    states: State {
+        when: helloText.focus
+        PropertyChanges { target: helloText; font.pixelSize: 30 }
+        PropertyChanges { target: helloText; color: "red"}
+    }
+    transitions: Transition {
+        NumberAnimation {duration: 500}
+        ColorAnimation {duration: 1000}
+    }
+}
+        '
     }
 
     Slide {
         title: "Web"
+        notes: '
+        Qt has since long integrated WebKit. Writing a simple browser cannot be easier.
+        It is as simple as setting the url property to a WebView item.
+
+        It is possible to communicate from within the browser to Qt via WebSocket.
+        '
         SplitView {
             anchors.fill: parent
             SimpleWebview {
@@ -162,50 +295,139 @@ Text {
         }
     }
 
-    Slide {
-        id: mv
-        title: "Model/View"
-        QtObject {
-            id: d
-            property var rootItem: null
-        }
+    DynamicCodeSlide {
+        title: "Model/View/Delegate"
+        notes: '
+        Most toolkits use Model/View design pattern to separate data and its representation.
+        Qt uses the  term Model/View/Delegate.
+        
+        Model contains the data. In this case it is a list of fruits. Each fruit gets properties
+        like name and color.
+        View organises the data display. Here it is shown in a column.
+        Delegate decides how the data appears in the view. Here it simply displays the fruit name.
 
-        CodeSection {
-            id: codeMV
-            readOnly: false
-            text: '
-    ListModel {
-        id: fruitModel
-        ListElement {name: "Apple"}
-        ListElement {name: "Banana"}
-        ListElement {name: "Citron"}
-    }
+        But we can give it some color too.
+        '
+        segment: true
+        code: '
+ListModel {
+    id: fruitModel
+    ListElement {name: "Apple"; color: "red"}
+    ListElement {name: "Banana"; color: "yellow"}
+    ListElement {name: "Lime"; color: "green"}
+}
 
-    ListView {
-        model: fruitModel
-        anchors.fill: parent
-        delegate: Text {
-            text: index + name
-        }
+ListView {
+    height: 100
+    model: fruitModel
+    anchors.centerIn: parent
+    delegate: Text {
+        text: name
     }
+}
 '
-        }
-        Component.onCompleted: {
-            d.rootItem = Qt.createQmlObject('import QtQuick 2.0\nItem {\nanchors.fill: parent\n' + codeMV.text + '\n}', mv, '')
-        }
     }
 
     Slide {
         centeredText: "E P I C S ?"
+        notes: '
+        That all looks good. But how that integrates with our control system?
+        '
     }
 
     Slide {
-        title: "Double Slit"
-
+        title: "CSData"
+        content: [
+            "Properties: source, value, fieldType, alarm, units, timeStamp, precision, range, accessRight",
+            "Methods: setValue",
+        ]
+        notes: '
+        In EPICS the access unity is process variable. PV is a piece of named data with describing metadata.
+        I have taken a data-centric approach to represent PV with CSData.
+        '
     }
 
     Slide {
-        centeredText: "One last thing..."
+        title: "Filter Wheel"
+        notes: '
+        Hard x-ray beamlines often insert filters to attenuate the beam. In some cases, foils of different materials
+        and thickness are mounted on a wheel selector.
+
+        We can connect the mouse selection to change the PV value, and display the rotation process.
+        '
+        SplitView {
+            anchors.fill: parent
+            FilterWheel {
+                Layout.minimumWidth: 300
+                Layout.fillWidth: true
+            }
+            CodeSection {
+                id: sourceCodeFW
+                text: readFile("FilterWheel.qml")
+            }
+        }
+    }
+
+    Slide {
+        title: "CSDataComponents"
+        notes: '
+        Of course there is a collection of standard items for display and control PVs.
+        '
+        GridLayout {
+            columns: 2
+        CSSlider {
+            source: 'catest'
+            stepSize: 0.1
+            labelStyle: LabelStyle.Channel
+        }
+
+        CSMessageButton {
+            text: 'Reset Me!'
+            source: 'calc'
+            foreground: 'yellow'
+            offMessage: "0"
+        }
+
+        CSMenu {
+            source: 'calc.SCAN'
+        }
+
+        CSChoiceButton {
+            stacking: Stacking.Row
+            source: 'bo'
+        }
+
+        CSStripChart {
+            model: ListModel {
+                ListElement {
+                    channel: 'catest'
+                }
+            }
+        }
+        CSCartesianPlot {
+            model: ListModel{
+                ListElement {
+                    xchannel: "x"
+                    ychannel: "y"
+                    foreground: "black"
+                }
+            }
+        }
+        }
+    }
+
+    Slide {
+        title: "Interested?"
+
+        content: [
+            "Compiled module: /afs/psi.ch/user/w/wang_x1/public/CSDataQuick-cmake/",
+            "Documents: docs/html/csdataquick-overview.html"
+        ]
+    }
+
+
+    Slide {
+        centeredText: "By the way ..."
     }
 
     Slide {
@@ -218,89 +440,6 @@ Text {
         CodeSection {
             text: readFile("SlideDeck.qml")
         }
-    }
-
-    Slide {
-        id: fillAreaSlide
-        title: "Slide {}, continued"
-        content: ["The built-in property \"contentWidth\" can be used to let the bullet points fill a smaller area of the slide..."]
-
-        SequentialAnimation on contentWidth {
-            PropertyAction { value: fillAreaSlide.width }
-            PauseAnimation { duration: 2500 }
-            NumberAnimation { to: fillAreaSlide.width / 2; duration: 5000; easing.type: Easing.InOutCubic }
-            running: fillAreaSlide.visible
-        }
-
-        Rectangle {
-            height: parent.height
-            width: parent.contentWidth
-
-            color: "lightGray"
-            z: -1
-        }
-    }
-
-
-    Slide {
-        id: interactiveSlide
-
-        title: "Embed Interactive Content"
-
-        Rectangle {
-            id: box
-            width: parent.fontSize * 10
-            height: width
-            color: mouse.pressed ? "lightsteelblue" : "steelblue"
-
-            NumberAnimation on rotation { from: 0; to: 360; duration: 10000; loops: Animation.Infinite; running: visible }
-
-            Text {
-                text: "Click Me!"
-                anchors.centerIn: parent
-            }
-
-            MouseArea {
-                id: mouse
-                anchors.fill: parent
-                drag.target: box
-            }
-        }
-    }
-
-
-    Slide {
-        title: "Customizations"
-        titleColor: "white"
-
-        textColor: "green"
-        fontFamily: "Times New Roman"
-
-        Rectangle {
-            x: -parent.x
-            y: -parent.y
-            width: presentation.width
-            height: parent.y * 0.9
-            color: "black"
-        }
-
-        content: [
-            "Bullet points, centered text, write-in-text or code listings, can be changed using 'textColor'",
-            "Title can be changed with 'textColor'",
-            "Font can be changed using 'fontFamily'",
-            "Change 'fontScale' for bigger or smaller fonts",
-            "All can be set globally on the presentation (and then inherited in all Slide {} elements), or set directly on a specific Slide {} element."
-        ]
-    }
-
-    Slide {
-        title: "Interested?"
-        
-        content: [
-            "Compiled module: /afs/psi.ch/user/w/wang_x1/public/CSDataQuick-cmake/",
-            "Requires <code>yum --enablerepo=epel install qt5-qtquickcontrols</code>",
-            "Quick UI builder: <code>./bin/builder</code>"
-        ]
     }
 
     function readFile(fileUrl) {
