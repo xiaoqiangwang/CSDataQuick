@@ -260,7 +260,7 @@ TextInput {
         PropertyChanges { target: helloText; color: "red"}
     }
     transitions: Transition {
-        NumberAnimation {duration: 500}
+        NumberAnimation {property: "font.pixelSize"; duration: 500}
         ColorAnimation {duration: 1000}
     }
 }
