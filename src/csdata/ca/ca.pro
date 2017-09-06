@@ -1,7 +1,7 @@
 TEMPLATE = lib
 CONFIG += qt plugin
 TARGET = csdataengineca
-DESTDIR = $$OUT_PWD/../../../plugins
+DESTDIR = $$OUT_PWD/../../../plugins/csdataengine
 
 INCLUDEPATH += $$PWD/../core
 DEPENDPATH += $$PWD/../core

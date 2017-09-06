@@ -54,6 +54,7 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     QDir pluginsDir = QFileInfo(libraryFilePath).dir();
     pluginsDir.cdUp();
     pluginsDir.cd("plugins");
+    pluginsDir.cd("csdataengine");
     foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
         QPluginLoader loader(fileInfo.absoluteFilePath());
         QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
