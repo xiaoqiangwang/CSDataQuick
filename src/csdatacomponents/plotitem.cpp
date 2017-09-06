@@ -357,6 +357,11 @@ void GraphItem::setData(QVariant x, QVariant y)
         for(int i=0; i<=mX.length(); i++)
             mY.append(i);
 
+    if (mX.size() > mY.size())
+        mX.resize(mY.size());
+    else if (mY.size() > mX.size())
+        mY.resize(mX.size());
+
     if (mGraph) {
         mGraph->setData(mX, mY);
     }
@@ -376,6 +381,11 @@ void GraphItem::setData(QVariantList x, QVariant y)
     if (mY.isEmpty())
         for(int i=0; i<=mX.length(); i++)
             mY.append(i);
+
+    if (mX.size() > mY.size())
+        mX.resize(mY.size());
+    else if (mY.size() > mX.size())
+        mY.resize(mX.size());
 
     if (mGraph) {
         mGraph->setData(mX, mY);
