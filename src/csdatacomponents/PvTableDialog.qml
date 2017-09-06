@@ -66,11 +66,14 @@ Dialog {
             id: searchBox
             Layout.fillWidth: true
             Text {
-                anchors.fill: parent
-                anchors.leftMargin: 20
+                x: searchBox.focus ? 20 : (parent.width - implicitWidth) / 2
                 anchors.verticalCenter: parent.verticalCenter
                 text: "Look for a data source?"
-                visible: searchBox.text == '' && searchBox.focus == false
+                color: "gray"
+                visible: searchBox.text == ''
+                Behavior on x {
+                    NumberAnimation {duration:200}
+                }
             }
         }
     }

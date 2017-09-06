@@ -1,9 +1,10 @@
 import QtQuick 2.0
-import QtWebView 1.1
-import QtQuick.Controls 1.1
+import QtWebEngine 1.1
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 
 Item {
+
     ColumnLayout{
         anchors.fill: parent
         ToolBar {
@@ -29,7 +30,9 @@ Item {
                     onAccepted: webView.url = text
 
                     ProgressBar {
-                        anchors.fill: parent
+                        anchors.bottom: parent.bottom
+                        width: parent.width
+                        height: parent.font.pixelSize / 5
                         visible: webView.loading
                         minimumValue: 0
                         maximumValue: 100
@@ -42,7 +45,8 @@ Item {
                 }
             }
         }
-        WebView {
+
+        WebEngineView {
             id: webView
             Layout.fillHeight: true
             Layout.fillWidth: true

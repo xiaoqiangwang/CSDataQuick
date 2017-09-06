@@ -39,38 +39,23 @@
 **
 ****************************************************************************/
 
+
 import QtQuick 2.0
-import QtQuick.Controls 1.4
 
-Rectangle
-{
-    id: root
+Text {
+    id: counter;
 
-    property alias text: textItem.text
-    property bool readOnly: true
-    property real fontSize: parent.baseFontSize / 2
+    property real fontSize: parent.height * 0.05
+    property real fontScale: 0.5;
+    property color textColor: parent.textColor != undefined ? parent.textColor : "black"
+    property string fontFamily: parent.fontFamily != undefined ? parent.fontFamily : "Helvetica"
 
-    gradient: Gradient {
-        GradientStop { position: 0; color: "white" }
-        GradientStop { position: 1; color: "darkGray" }
-    }
+    text: "# " + (parent.currentSlide + 1) + " / " + parent.slides.length;
+    color: counter.textColor;
+    font.family: counter.fontFamily;
+    font.pixelSize: fontSize * fontScale;
 
-    color: "lightGray"
-    border.color: "darkGray"
-    border.width: 2
-    radius: 10
-
-    x: parent.width / 2
-    width: parent.width / 2
-    height: parent.height
-
-    TextArea {
-        id: textItem
-        anchors.fill: parent
-        anchors.margins: 5
-        font.family: "Courier New"
-        font.pixelSize: root.fontSize
-        readOnly: root.readOnly
-    }
-
+    anchors.right: parent.right;
+    anchors.bottom: parent.bottom;
+    anchors.margins: font.pixelSize;
 }

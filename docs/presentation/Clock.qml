@@ -39,38 +39,39 @@
 **
 ****************************************************************************/
 
+
+
 import QtQuick 2.0
-import QtQuick.Controls 1.4
 
-Rectangle
-{
-    id: root
+Text {
+    id: clock
 
-    property alias text: textItem.text
-    property bool readOnly: true
-    property real fontSize: parent.baseFontSize / 2
+    property real fontSize: parent.height * 0.05
+    property real fontScale: 0.5
+    property color textColor: parent.textColor != undefined ? parent.textColor : "black"
+    property string fontFamily: parent.fontFamily != undefined ? parent.fontFamily : "Helvetica"
 
-    gradient: Gradient {
-        GradientStop { position: 0; color: "white" }
-        GradientStop { position: 1; color: "darkGray" }
+    text: currentTime();
+
+    function currentTime() {
+        var d = new Date();
+        var m = d.getMinutes();
+        if (m < 10) m = "0" + m;
+        return d.getHours() + ":" + m;
     }
 
-    color: "lightGray"
-    border.color: "darkGray"
-    border.width: 2
-    radius: 10
+    color: textColor;
+    font.family: fontFamily;
+    font.pixelSize: fontSize * fontScale;
 
-    x: parent.width / 2
-    width: parent.width / 2
-    height: parent.height
+    anchors.bottom: parent.bottom;
+    anchors.left: parent.left;
+    anchors.margins: font.pixelSize;
 
-    TextArea {
-        id: textItem
-        anchors.fill: parent
-        anchors.margins: 5
-        font.family: "Courier New"
-        font.pixelSize: root.fontSize
-        readOnly: root.readOnly
+    Timer {
+        interval: 60000;
+        repeat: true;
+        running: true
+        onTriggered: clock.text = clock.currentTime();
     }
-
 }
