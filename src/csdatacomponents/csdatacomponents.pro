@@ -7,6 +7,9 @@ ios {
 win32-msvc* {
     DEFINES += _CRT_SECURE_NO_WARNINGS
 }
+macx {
+    QMAKE_CXXFLAGS += -Wno-inconsistent-missing-override
+}
 
 TARGET = csdatacomponentsplugin
 TARGETPATH = $$OUT_PWD/../../qml/CSDataQuick/Components

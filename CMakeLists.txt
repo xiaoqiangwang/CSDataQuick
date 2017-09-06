@@ -35,6 +35,10 @@ else ()
   set (CMAKE_CXX_STANDARD 11)
 endif ()
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.5)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-inconsistent-missing-override")
+endif ()
+
 find_package(EPICS REQUIRED)
 
 set(ENV{QML_IMPORT_PATH} )

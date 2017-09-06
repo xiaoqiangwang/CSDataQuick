@@ -126,6 +126,9 @@ class CustomPlotItem; // XW: QQuickItem to operate QCustomPlot
 #endif
 
 // define empty macro for Q_DECL_OVERRIDE if it doesn't exist (Qt < 5)
+#ifdef Q_DECL_OVERRIDE // clear Q_DECL_OVERRIDE
+#  undef Q_DECL_OVERRIDE
+#endif
 #ifndef Q_DECL_OVERRIDE
 #  define Q_DECL_OVERRIDE
 #endif
