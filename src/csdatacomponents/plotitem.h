@@ -10,6 +10,7 @@ class QCPColorMap;
 class QCPColorMapData;
 class QCPColorScale;
 class QCPAxis;
+class QCPTextElement;
 class GraphItem;
 class AxisItem;
 
@@ -67,7 +68,7 @@ protected slots:
 
 private:
     QCustomPlot *mPlot;
-    QCPPlotTitle *mTitle;
+    QCPTextElement *mTitle;
     QList<GraphItem*> mGraphs;
 };
 
@@ -131,7 +132,7 @@ private:
     QCPGraph *mGraph;
     QVector<double> mX;
     QVector<double> mY;
-    QColor _color;
+    QColor mColor;
     LineStyle mLineStyle;
     AxisItem *mXAxis;
     AxisItem *mYAxis;

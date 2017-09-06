@@ -65,6 +65,7 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     setAcceptedMouseButtons( Qt::AllButtons );
 
     mPlot = new QCustomPlot(this);
+    mPlot->setSelectionRectMode(QCP::srmZoom);
     mPlot->plotLayout()->clear();
     mPlot->plotLayout()->addElement(0, 0, new QCPAxisRect(mPlot, false));
     mPlot->plotLayout()->setRowSpacing(0);
@@ -74,7 +75,7 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     mPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom |  QCP::iSelectPlottables);
 
     // create title but leave it out until it has content
-    mTitle = new QCPPlotTitle(mPlot);
+    mTitle = new QCPTextElement(mPlot);
 }
 
 CustomPlotItem::~CustomPlotItem()
@@ -86,7 +87,7 @@ CustomPlotItem::~CustomPlotItem()
 void CustomPlotItem::componentComplete()
 {
     QQuickPaintedItem::componentComplete();
-
+    
     foreach(QObject *child, children()) {
         if (qobject_cast<GraphItem*>(child)) {
             GraphItem *graph = qobject_cast<GraphItem*>(child);
@@ -189,7 +190,7 @@ void CustomPlotItem::clearGraphs(QQmlListProperty<GraphItem> *list)
 
 void CustomPlotItem::replot()
 {
-    mPlot->replot();
+    mPlot->replot(QCustomPlot::rpQueuedReplot);
 }
 
 void CustomPlotItem::paint(QPainter *painter)
@@ -257,7 +258,8 @@ void GraphItem::init()
         return;
     mGraph = plot->plot()->addGraph(mXAxis->axis(), mYAxis->axis());
     connect(mGraph, SIGNAL(selectionChanged(bool)), this, SLOT(selectionChanged(bool)));
-    setColor(_color);
+    setColor(mColor);
+    setLineStyle(mLineStyle);
     mGraph->setData(mX, mY);
 }
 
@@ -278,11 +280,11 @@ void GraphItem::selectionChanged(bool selected)
 
 QColor GraphItem::color()
 {
-    return _color;
+    return mColor;
 }
 void GraphItem::setColor(QColor color)
 {
-    _color = color;
+    mColor = color;
     if (mGraph) {
         mGraph->setPen(color);
         mGraph->valueAxis()->setBasePen(color);
@@ -295,9 +297,6 @@ GraphItem::LineStyle GraphItem::lineStyle()
 }
 void GraphItem::setLineStyle(LineStyle lineStyle)
 {
-    if (mLineStyle == lineStyle)
-        return;
-
     mLineStyle = lineStyle;
     if (mGraph) {
         switch (lineStyle) {
@@ -309,9 +308,11 @@ void GraphItem::setLineStyle(LineStyle lineStyle)
             break;
         case Line:
             mGraph->setLineStyle(QCPGraph::lsLine);
+            mGraph->setBrush(Qt::NoBrush);
             break;
         case Fill:
-            mGraph->setBrush(_color);
+            mGraph->setLineStyle(QCPGraph::lsLine);
+            mGraph->setBrush(mColor);
             break;
         }
     }
@@ -409,7 +410,7 @@ void GraphItem::setData(QVariantList data)
 void GraphItem::clearData()
 {
     if (mGraph) {
-        mGraph->clearData();
+        mGraph->data()->clear();
     }
 }
 
@@ -439,7 +440,6 @@ void ColorMapItem::init()
     plot->plot()->axisRect()->setMarginGroup(QCP::msTop | QCP::msBottom, marginGroup);
     mColorScale->setMarginGroup(QCP::msTop | QCP::msBottom, marginGroup);
 
-    plot->plot()->addPlottable(mColorMap);
     plot->plot()->plotLayout()->addElement(0, 1, mColorScale);
 }
 
@@ -492,7 +492,7 @@ void ColorMapItem::setCell(int x, int y, double z)
 void ColorMapItem::clearData()
 {
     if (mColorMap) {
-        mColorMap->clearData();
+        mColorMap->data()->clear();
     }
 }
 
@@ -521,8 +521,6 @@ void AxisItem::componentComplete()
     if (plot == 0)
         return;
     mAxis = plot->plot()->axisRect()->addAxis(QCPAxis::AxisType(_type));
-    mAxis->setAutoTicks(true);
-    mAxis->setAutoTickLabels(true);
 
     int labelFont = calcLabelFontSize(mAxis->axisRect()->toRect());
     mAxis->setLabelFont(QFont("Courier", labelFont));
@@ -609,15 +607,13 @@ void AxisItem::setScale(AxisScale scale)
     if (mAxis) {
         switch(scale) {
         case Linear:
-            mAxis->setTickLabelType(QCPAxis::ltNumber);
             mAxis->setScaleType(QCPAxis::stLinear);
             break;
         case Logrithmic:
-            mAxis->setTickLabelType(QCPAxis::ltNumber);
-            mAxis->setScaleType(QCPAxis::stLinear);
+            mAxis->setScaleType(QCPAxis::stLogarithmic);
             break;
         case DateTime:
-            mAxis->setTickLabelType(QCPAxis::ltDateTime);
+            mAxis->setTicker(QSharedPointer<QCPAxisTickerDateTime>(new QCPAxisTickerDateTime));
             break;
         }
     }
@@ -628,7 +624,9 @@ void AxisItem::setDateFormat(QString format)
 {
     _dateFormat = format;
     if (mAxis) {
-        mAxis->setDateTimeFormat(format);
+        QSharedPointer<QCPAxisTickerDateTime> ticker = mAxis->ticker().dynamicCast<QCPAxisTickerDateTime>();
+        if (!ticker.isNull())
+            ticker->setDateTimeFormat(format);
     }
 }
 
@@ -636,7 +634,7 @@ void AxisItem::setTickCount(int count)
 {
     _tickCount = count;
     if (mAxis) {
-        mAxis->setAutoTickCount(count);
+        mAxis->ticker()->setTickCount(count);
     }
 }
 
