@@ -8,11 +8,6 @@ set(HEADERS
     sortfilterproxymodel.h
 )
 
-# When CMake 3.0.0 is required, remove this block (see CMP0042).
-if (NOT DEFINED CMAKEMACOSX_RPATH)
-    set(CMAKE_MACOSX_RPATH 0)
-endif()
-
 add_library(csdataplugin SHARED
     ${SOURCES}
     ${HEADERS}

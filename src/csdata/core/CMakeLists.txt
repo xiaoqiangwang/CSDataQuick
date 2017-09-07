@@ -15,11 +15,6 @@ set(HEADERS
     cs_global.h
 )
 
-# When CMake 3.0.0 is required, remove this block (see CMP0042).
-if (NOT DEFINED CMAKEMACOSX_RPATH)
-    set(CMAKE_MACOSX_RPATH 0)
-endif()
-
 add_library(csdata SHARED
     ${SOURCES}
     ${HEADERS}

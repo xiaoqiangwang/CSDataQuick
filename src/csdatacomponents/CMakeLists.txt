@@ -30,11 +30,6 @@ set(HEADERS
     mjpeg.h
 )
 
-# When CMake 3.0.0 is required, remove this block (see CMP0042).
-if (NOT DEFINED CMAKEMACOSX_RPATH)
-    set(CMAKE_MACOSX_RPATH 0)
-endif()
-
 add_library(csdatacomponentsplugin SHARED
     ${SOURCES}
     ${HEADERS}

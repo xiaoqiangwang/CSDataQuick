@@ -39,6 +39,11 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION V
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-inconsistent-missing-override")
 endif ()
 
+# When CMake 3.0.0 is required, remove this block (see CMP0042).
+if (NOT DEFINED CMAKEMACOSX_RPATH)
+    set(CMAKE_MACOSX_RPATH 1)
+endif()
+
 find_package(EPICS REQUIRED)
 
 set(ENV{QML_IMPORT_PATH} )
