@@ -14,6 +14,12 @@ Download and install EPICS base. Set the following environment variables,::
     $ export EPICS_BASE=/opt/epics/base-3.14.12
     $ export EPICS_HOST_ARCH=linux-x86_64
 
+On Windows also add the binary folder to the PATH,::
+
+    > set EPICS_BASE=c:/epics/base-3.14.12
+    > set EPICS_HOST_ARCH=windows-x64
+    > set PATH=%PATH%;%EPICS_BASE%/bin/%EPICS_HOST_ARCH%
+
 Get Qt5
 ~~~~~~~
 On RHEL/Centos/SL 6.x, install qt5.6 from EPEL repository::
@@ -54,6 +60,16 @@ Use cmake::
     $ cmake ../CSDataQuick
     $ make
 
+On Windows in the Qt SDK's prompt::
+
+    > mkdir CSDataQuick-cmake
+    > cd CSDataQuick-cmake
+    > "C:\Program Files\CMake\bin\cmake" -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" ../CSDataQuick
+    > nmake
+
+.. note:: On Windows CMake has Qt libraries for its GUI client.
+          Don't add it to the PATH.
+
 Demos
 -----
 First load the example EPICS database into an IOC, e.g.::
@@ -80,7 +96,7 @@ Designer
 --------
 Launch Qt Creator,::
 
-    $ export QML2_IMPORT_PATH=`pwd`/qml
+    $ export QML_IMPORT_PATH=`pwd`/qml
     $ qtcreator
 
 Open options dialog, Tools -> Options, select *Qt Quick* from the left list, then select 
