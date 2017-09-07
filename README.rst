@@ -123,3 +123,12 @@ Open options dialog, Tools -> Options, select *Qt Quick* from the left list, the
 *Qt Quick Designer* tab, in the *QML Enumlation Layer* group, select 
 *Use QML emulation layer that is built bythe selected Qt*.
 
+Documents
+---------
+
+The document is written in qdoc format. The html format can be created by::
+
+    $ cd docs
+    $ make html
+
+Or use the generated `online version <https://xiaoqiangwang.github.io/CSDataQuick-doc>`_.
