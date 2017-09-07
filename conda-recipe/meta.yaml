@@ -1,0 +1,25 @@
+
+package:
+  name: csdataquick
+  version: 1.0.0
+
+source:
+  path: ..
+
+requirements:
+  build:
+    - qt
+    - cmake
+    - epics-base
+
+  run:
+    - qt
+    - epics-base # [not win]
+
+about:
+  home: https://github.com/xiaoqiangwang/CSDataQuick
+  license: GPL
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
