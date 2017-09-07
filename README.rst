@@ -4,6 +4,26 @@ CSDataQuick
 This project brings EPICS control system data into QML programming.
 The control system data is modeled into CSData object.
 
+Binary Package
+--------------
+
+Anaconda
+~~~~~~~~
+
+This module can be installed into anaconda environment,::
+    
+    $ conda install -c paulscherrerinstitute csdataquick
+
+.. note:: Until Anaconda 4.4, on Linux the qt package has 
+          `no OpenGL support <https://github.com/ContinuumIO/anaconda-issues/issues/1267>`_.
+          One needs to install qt/pyqt package from conda-forge,::
+
+            $ conda install --force -c conda-forge icu qt sip pyqt
+
+.. note:: On Windows, install add also epics binary folder to the path,::
+
+            > set PATH=C:\Miniconda\epics\bin\windows-x64;%PATH%
+
 Install
 -------
 
