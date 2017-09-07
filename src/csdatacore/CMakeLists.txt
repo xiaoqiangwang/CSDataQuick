@@ -8,7 +8,7 @@ set(HEADERS
     sortfilterproxymodel.h
 )
 
-add_library(csdataplugin SHARED
+add_library(csdataplugin MODULE
     ${SOURCES}
     ${HEADERS}
 )

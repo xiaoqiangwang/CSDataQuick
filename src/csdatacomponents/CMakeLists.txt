@@ -30,7 +30,7 @@ set(HEADERS
     mjpeg.h
 )
 
-add_library(csdatacomponentsplugin SHARED
+add_library(csdatacomponentsplugin MODULE
     ${SOURCES}
     ${HEADERS}
 )

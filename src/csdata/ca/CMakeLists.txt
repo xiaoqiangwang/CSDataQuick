@@ -6,7 +6,7 @@ set(HEADERS
     csdataengineca.h
 )
 
-add_library(csdataengineca SHARED
+add_library(csdataengineca MODULE
     ${SOURCES}
     ${HEADERS}
 )
