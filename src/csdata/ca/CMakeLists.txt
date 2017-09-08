@@ -26,3 +26,8 @@ target_link_libraries(csdataengineca csdata)
 set_target_properties(csdataengineca PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csdataengine)
 
+if (APPLE)
+set_target_properties(csdataengineca PROPERTIES
+    SUFFIX ".dylib")
+endif ()
+
