@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
@@ -9,7 +10,7 @@ ApplicationWindow {
     width: 900
     height: 800
     color: ColorMap.windows_background
-    title: 'A demo of qml pv components'
+    title: 'Demo of CSDataQuick.Components'
 
     menuBar: MenuBar {
         Menu {
@@ -23,9 +24,16 @@ ApplicationWindow {
             title: 'Help'
             MenuItem {
                 text: 'About'
-                onTriggered: console.log('A demo of qml pv components')
+                onTriggered: aboutDialog.visible = true
             }
         }
+    }
+
+    MessageDialog {
+        id: aboutDialog
+        title: 'CSDataQuick Demo'
+        text: 'Demo of CSDataQuick.Components'
+        icon: StandardIcon.Information
     }
 
     Column {
