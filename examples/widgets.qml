@@ -142,6 +142,11 @@ ApplicationWindow {
                 }
             }
 
+            CSTextEntryArray {
+                source: 'waved'
+                count: 4
+            }
+
         }
         Text {text: 'Monitor'}
         Flow {
@@ -167,12 +172,6 @@ ApplicationWindow {
                 colorMode: ColorMode.Alarm
                 labelStyle: LabelStyle.Limits
             }
-            CSBar {
-                direction: Direction.Down
-                labelStyle: LabelStyle.Outline
-               source: 'catest'
-               colorMode: ColorMode.Alarm
-           }
             CSIndicator {
                 source: 'catest'
                 colorMode: ColorMode.Alarm
