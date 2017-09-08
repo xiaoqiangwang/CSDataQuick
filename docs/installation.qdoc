@@ -12,6 +12,13 @@
 \li (optional) cmake 2.8.10 or higher
 \endlist
 
+On RHEL/Centos/SL 6.x, install qt5 from EPEL repository,
+\code
+    # yum install yum-conf-epel
+    # yum --enablerepo=epel install qt5-qtdeclarative-devel
+    # yum --enablerepo=epel install qt5-qtquickcontrols
+\endcode
+
 In the following instructions, EPICS base is assumed to be
 in \c C:\epics\base-3.14.12 on Windows and \c /usr/local/epics/base on macOS or Linux.
 And the \c EPICS_BASE environment variable is pointing to it.
