@@ -496,6 +496,24 @@ void QCSData::setRange(double lower, double upper)
 }
 
 /*!
+    \property QCSData::extraProperties
+    This property holds any other properties specific to this instance.
+*/
+/*!
+    \qmlproperty map CSData::extraProperties
+    This property holds any other properties specific to this instance.
+*/
+QVariantMap QCSData::extraProperties() const
+{
+    return _extraProperties;
+}
+
+void QCSData::setExtraProperties(const QVariantMap properties)
+{
+    _extraProperties = properties;
+}
+
+/*!
     \property QCSData::value
     This property holds the value of the data.
 */

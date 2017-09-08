@@ -171,8 +171,8 @@ public:
     Q_INVOKABLE void setAlarm(QCSDataAlarm::Severity severity, int status, const QString message);
     Q_INVOKABLE void setRange(double lower, double upper);
 
-    QVariantMap extraProperties() const { return _extraProperties; }
-    void setExtraProperties(const QVariantMap properties) { _extraProperties = properties; }
+    QVariantMap extraProperties() const;
+    void setExtraProperties(const QVariantMap properties);
 
     Q_INVOKABLE void setExtraProperty(const QString name, const QVariant value) { _extraProperties[name] = value; }
     QVariant extraProperty(const QString name) { return _extraProperties[name]; }
