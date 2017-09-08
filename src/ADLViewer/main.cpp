@@ -98,7 +98,7 @@ int main(int argc, char **argv)
     parser.addOption(localOption);
 
     // A boolean option indicating launch mode (-cleanup)
-    QCommandLineOption cleanupOption(QStringList() << "c" << "cleanup", "Use this viewer as existing viewer.");
+    QCommandLineOption cleanupOption(QStringList() << "cleanup", "Use this viewer as existing viewer.");
     parser.addOption(cleanupOption);
 
     // A boolean option indicating launch mode (-noMsg)
