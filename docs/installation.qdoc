@@ -1,0 +1,117 @@
+/*!
+
+\page installation.html
+\title Installation
+
+\chapter Dependencies
+
+\list
+\li Qt 5.6 or higher
+\li EPICS base 3.14.12 or higher
+\li Git
+\li (optional) cmake 2.8.10 or higher
+\endlist
+
+In the following instructions, EPICS base is assumed to be
+in \c C:\epics\base-3.14.12 on Windows and \c /usr/local/epics/base on macOS or Linux.
+And the \c EPICS_BASE environment variable is pointing to it.
+The \c EPICS_HOST_ARCH environment variable is assumed to be 
+\table
+\header
+    \li OS
+    \li EPICS_HOST_ARCH
+\row
+    \li Windows
+    \li windows-x64
+\row
+    \li macOS
+    \li darwin-x86
+\row
+    \li Linux
+    \li linux-x86_64
+\endtable
+
+\chapter macOS or Linux
+
+\list
+
+\li Get the source from github
+\code
+    $ git clone https://github.com/xiaoqiangwang/CSDataQuick
+\endcode
+
+\li Create an out-of-source build directory
+\code
+    $ mkdir CSDataQuick-build
+    $ cd CSDataQuick-build
+\endcode
+
+\li Either use qmake, it could be named \c qmake-qt5 on many Linux distros.
+\code
+    $ qmake ../CSDataQuick
+\endcode
+or use cmake
+\code
+    $ cmake ../CSDataQuick
+\endcode
+\li Start the build process
+\code
+    $ make
+\endcode
+
+\endlist
+
+\chapter Windows
+
+\list
+
+\li Get the source from github
+\code
+    > git clone https://github.com/xiaoqiangwang/CSDataQuick
+\endcode
+
+\li Create an out-of-source build directory
+\code
+    > mkdir CSDataQuick-build
+    > cd CSDataQuick-build
+\endcode
+
+\li Add Visual C++, Qt SDK, EPICS base to the \c PATH
+\code
+    > set PATH=%PATH%;C:\Qt\5.7\msvc2015_64\bin;C:\epics\base-3.14.12\bin\windows-x64
+    > call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
+\endcode
+
+\li Either use qmake
+\code
+    > qmake ..\CSDataQuick
+\endcode
+or use cmake
+\code
+    > "C:\Program Files\CMake\bin\cmake" -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" ..\CSDataQuick
+\endcode
+\li Start the build process
+\code
+    > nmake
+\endcode
+
+\endlist
+
+
+\chapter Anaconda Packages
+Anaconda is a Python distribution. It provides a reproducible way to deploy binary packages, not limited to Python.
+This module provides packages for linux-64, win-64 and osx-64 platform.
+\code
+    $ conda install -c paulscherrerinstitute csdataquick
+\endcode
+
+On Windows, \e qt package needs to be installed manually.
+\code
+    > conda install qt
+\endcode
+If the module is not to be used by Python applications, the EPICS dll libraries have to be in path
+\code
+    > set PATH=%PATH%;C:\Miniconda3\epics\windows-x64
+\endcode
+
+*/

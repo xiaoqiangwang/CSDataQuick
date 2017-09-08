@@ -1,0 +1,60 @@
+/*!
+
+\page use-in-quickdesigner.html
+\title Use in Qt Quick Designer
+
+\chapter Setup Qt Quick Designer
+
+Unlike the Qt UI Designer, Qt Quick Designer is deeply integrated in Qt Creator.
+This has one advantage that one can switch to edit mode to fine tune the components.
+
+The CSDataQuick module must be in the import path before launching Qt Creator.
+\code
+    $ export QML_IMPORT_PATH=CSDataQuick-cmake/qml
+\endcode
+
+And after you have created your own collection of UI components, you could add them to
+this path as well. Imagine in a collaboraton environment, everyone could create device
+components and install them into a central location, e.g. /net/shared/qml/.
+To reuse these components, it is sufficient to add this central location to the path.
+\code
+    $ export QML_IMPORT_PATH=$QML_IMPORT_PATH:/net/shared/qml
+\endcode
+
+The designer works by creating invisible background renders (qmlpuppet). For modules
+with C++ plugins, like CSDataQuick, the qmlpuppet must be rebuilt with 
+the same Qt version as the plugin. To enable this, go to menu \e Tools -> \e Options, 
+select \e{Qt Quick} from the left list, then select  \e{Qt Quick Designer} tab, 
+in the \e{QML Enumlation Layer} group, select \e{Use QML emulation layer that is built bythe selected Qt}.
+
+\image config-qmldesigner.png "Configure Quick Designer"
+
+\chapter Using the designer
+
+Start with an empty template file, \e mydevice.qml
+\code
+    import QtQuick 2.5
+    import CSDataQuick.Components 1.0
+
+    BaseWindow {
+    }
+\endcode
+
+Open it with qtcreator,
+\code
+    $ qtcreator mydevice.qml
+\endcode
+
+The following video shows show to switch between edit and design modes.
+\raw HTML
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3RrCNwAp318" frameborder="0" allowfullscreen></iframe>
+\endraw
+
+\chapter What is not working
+
+\list
+\li The Dynamic Attributes editor
+\li The Cartesian Plot Entry editor
+\endlist
+
+*/

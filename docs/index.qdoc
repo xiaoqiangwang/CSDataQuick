@@ -1,0 +1,29 @@
+/*!
+
+\page index.html
+\title CSDataQuick Manual
+
+CSDataQuick provides an object model for control system data, 
+which are normally scalar/array values with describing metadata.
+It also includes a set of visual items to display and control the data.
+
+Given the declarative nature of QML, this made it
+suitable to design traditional GUI using clear structural text.
+Moreover it enables the easy creation of dynamic, fluid GUI experience.
+
+Here is an operation interface for a camera using areaDetector driver.
+\image areaDetector-control.png
+
+The content of the documentation:
+
+\list
+    \li \l{Installation}
+    \li \l{CSDataQuick Overview}
+    \list
+      \li \l{CSDataQuick.Data}{CSData Object}
+      \li \l{CSDataQuick.Components}{UI Components}
+    \endlist
+    \li \l{Use in Qt Quick Designer}
+\endlist
+
+*/
