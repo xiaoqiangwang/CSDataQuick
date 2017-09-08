@@ -109,6 +109,10 @@ ApplicationWindow {
                 labelStyle: LabelStyle.Channel
             }
 
+            CSWheelSwitch {
+                source: 'catest'
+            }
+
             CSMessageButton {
                 text: 'Click Me!'
                 onMessage: "1"
