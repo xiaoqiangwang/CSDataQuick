@@ -157,23 +157,21 @@ int main(int argc, char **argv)
         return 0;
     }
     // Do remote protocol if local option is not specified
-    if (!parser.isSet(localOption)) {
-        if (parser.isSet(attachOption)) {
-            bool existing = IPCClient::checkExistence();
-            if (existing) {
-                qDebug() << "Attaching to existing ADLViewer";
-                foreach(QString arg, args) {
-                    if (IPCClient::requestDispatch(arg, macroString, geometry))
-                        qDebug() << "  Dispatched: " << arg << macroString << geometry;
-                    else
-                        qDebug() << "  Dispatch failed for " << arg;
-                }
-                qCoreApp->quit();
-                return 0;
-            } else {
-                qWarning() << "\nCannot connect to existing ADLViewer because it is invalid\n"
-                           << "  Continuing with this one as if -cleanup were specified\n";
+    if (parser.isSet(attachOption)) {
+        bool existing = IPCClient::checkExistence();
+        if (existing) {
+            qDebug() << "Attaching to existing ADLViewer";
+            foreach(QString arg, args) {
+                if (IPCClient::requestDispatch(arg, macroString, geometry))
+                    qDebug() << "  Dispatched: " << arg << macroString << geometry;
+                else
+                    qDebug() << "  Dispatch failed for " << arg;
             }
+            qCoreApp->quit();
+            return 0;
+        } else {
+            qWarning() << "\nCannot connect to existing ADLViewer because it is invalid\n"
+                       << "  Continuing with this one as if -cleanup were specified\n";
         }
     }
     qCoreApp->quit();
@@ -214,7 +212,7 @@ int main(int argc, char **argv)
     else
         window->show();
 
-    if (!parser.isSet(localOption)) {
+    if (parser.isSet(attachOption) || parser.isSet(cleanupOption)) {
         IPCServer *server = new IPCServer();
         if (server->launchServer(true))
             QObject::connect(server, SIGNAL(dispatchRequestReceived(QVariant,QVariant,QVariant)),
