@@ -13,7 +13,7 @@
     \list
     \li fieldType - data native type
     \li host - host where the PV resides
-    \li connected - wether it is connected
+    \li connected - whether it is connected
     \li value - the data value it holds
     \li alarm - alarm status, severity
     \li timeStamp - time stamp of the PV change
@@ -24,11 +24,12 @@
     \li stateStrings - state string representation for enum type
     \endlist
 
-    In addition, the data can be requested to change to a new value.
+    In addition, the data can be requested to change to a new value by modify its value property.
 
     \section1 Visual Representation
 
-    \l CSDataQuick.Components provides a list of items to control or monitor
+    \l CSDataQuick.Components provides a collection of visual items to control or monitor
     data changes.
+    \image components-demo.png
 
 */
