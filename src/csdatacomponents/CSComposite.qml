@@ -85,6 +85,7 @@ BaseItem {
         createDisplay()
     }
 
+    /*! \internal */
     function createDisplay () {
         if (d.rootItem) {
             d.rootItem.destroy()

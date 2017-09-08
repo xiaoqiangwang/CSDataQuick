@@ -42,6 +42,7 @@ BaseItem {
         visible: !pv.connected
     }
 
+    /*! \internal */
     property Menu contextMenu: Menu {
         MenuItem {
             text: 'PV Info'

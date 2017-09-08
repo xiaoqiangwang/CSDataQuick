@@ -169,6 +169,7 @@ CSControl {
 
    onFormatChanged: formatString()
 
+    /*! \internal */
    function formatString () {
        if (pv.value === undefined)
            return
