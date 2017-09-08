@@ -38,6 +38,7 @@ ApplicationWindow {
             spacing: 10
 
             CSText {
+                width: 180
                 text: "Oh, A static label"
             }
 
