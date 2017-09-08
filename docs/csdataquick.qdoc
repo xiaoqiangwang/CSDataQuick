@@ -1,6 +1,6 @@
 /*!
-    \page csdataquick-overview.html overview
-    \title Control System Data in QtQuick
+    \page csdataquick-overview.html
+    \title CSDataQuick Overview
     \brief A set of components to bring control system data into QtQuick
 
     \section1 Control System Data
