@@ -16,6 +16,8 @@ Canvas {
 
     onBackendValueChanged: {
         points = eval(backendValue.expression)
+        if (!points)
+            points = []
         canvas.requestPaint()
     }
 
