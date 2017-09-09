@@ -12,11 +12,11 @@
 
     \list
     \li fieldType - data native type
-    \li host - host where the PV resides
+    \li host - host where the data resides
     \li connected - whether it is connected
     \li value - the data value it holds
     \li alarm - alarm status, severity
-    \li timeStamp - time stamp of the PV change
+    \li timeStamp - time stamp of the data change
     \li accessRight - read or/and write access
     \li range - display limits for numeric type
     \li precision - precision for numeric type
