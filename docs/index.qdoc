@@ -24,6 +24,9 @@ The content of the documentation:
       \li \l{CSDataQuick.Components}{UI Components}
     \endlist
     \li \l{Use in Qt Quick Designer}
+    \li \l{Demos and Gallery}
+    \li \l{ADLViewer and builder}
+    \li \l{Problems and Fixes}
 \endlist
 
 */

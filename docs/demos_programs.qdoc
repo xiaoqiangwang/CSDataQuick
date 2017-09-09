@@ -1,0 +1,205 @@
+/*!
+
+\page demos.html
+\title Demos and Gallery
+
+\list
+
+\li First load the example EPICS database into an IOC
+\code
+    $ cd examples/ioc
+    $ softIoc startup.script
+\endcode
+
+\li To have an overview of UI components
+\code
+    $ qmlscene -I qml examples/widgets.qml
+\endcode
+
+\li To explore possible options for each component::
+\code
+    $ qmlscene -I qml examples/gallery/main.qml
+\endcode
+
+\endlist
+
+*/
+
+/*!
+
+\page programs.html
+\title ADLViewer and builder
+
+\chapter ADLViewer
+
+ADLViewer parses an MEDM ASCII Display List(ADL) file and creates an equivalent display
+using CSDataQuick. Of course it accepts QML file as well. It can be a drop-in replacement to MEDM in execute mode.
+This document contains texts from
+\l {http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/MEDM.html}{MEDM Reference Manual}
+when applicable.
+
+\section1 Command Line
+
+\table
+\header
+\li Option
+\li Meaning
+\row
+\li -h, --help
+\li Displays usage.
+\row
+\li -v, --version
+\li Displays version information.
+\row
+\li -x, --execute
+\li Open in execute mode. (This is the default.)
+\row
+\li -c, --convert
+\li Open in conversion mode. The display list files are parsed and converted to QML files with the
+    same base name in the current directory.
+\row
+\li -e, --edit
+\li Open in editor mode. (Not implemented.)
+\row
+\li -l, --local
+\li Do not transfer operation to an existing viewer,
+    and do not allow transfer of operation from any other viewer. (This is the default.)
+\row
+\li -a, --attach
+\li Transfer operation to an existing viewer if there is one which is accepting transfers,
+    or have this one assume responsibility for accepting transfers if there is not one.
+    This can lead to more efficient operation and is appropriate if many screens are running
+    on one display, such as in a control room. You must give the first viewer time to
+    establish itself before attempting to attach to it.
+\row
+\li -cleanup
+\li Ignore any existing viewer and take over responsibility for accepting remote transfers.
+\row
+\li --noMsg
+\li Do not raise the main window. It can be brought up via the context menu
+    if you need to see it.
+\row
+\li -m, --macro \e{name=value}
+\li Apply macro substitution to replace occurences of $(\e{name}) with \e value in all
+    command-line specified display list files.
+\row
+\li --dg, --displayGeometry
+\li Specify the geometry (location and size) of the display window.
+    The geometry syntax is similar to the
+    \l {https://en.wikibooks.org/wiki/Guide_to_X11/Starting_Programs#Specifying_window_geometry}
+    {X Windows geometry option}.
+
+\endtable
+
+Start up two displays:
+\code
+    $ ADLViewer adc.adl bded.qml &
+\endcode
+
+Start up in execute mode, performing macro substitution of all occurrences of $(a) and $(c) in the display file, xyz.adl:
+\code
+    $ ADLViewer -x -macro "a=b,c=d" xyz.adl &
+\endcode
+
+Start up in execute mode; resize the display window corresponding to abc.adl to 100 by 100 pixels
+and move it to the location, x = 100 and y = 100:
+\code
+    $ ADLViewer -x -dg 100x100+100+100 abc.adl &
+\endcode
+
+\section1 Context Popup Menu
+Context popup menu is invoked by mouse right click anywhere on the background.
+
+\table
+\header
+\li Menu
+\li Function
+\row
+\li Print
+\li Prints the display.
+\row
+\li Close
+\li Close the display.
+\row
+\li Main Window
+\li Pops up the main windows. This is useful if you canno find it.
+\row
+\li Dsiplay List
+\li Brings up a dialog box with a list of the file names of all the displays currently open.
+    The displays are grouped by file names. And the same file name with different macro substitution
+    will be displayed under the same group.
+    Click on the macro substitution will raise the display.
+\row
+\li Data Engines
+\li Brings up a dialog box with a table of CSData objects created by all displays.
+\row
+\li Execute
+\li Submenu configured by \e MEDM_EXEC_LIST. \sa {Execute Menu}
+\endtable
+
+\section2 Execute Menu
+This menu is configured by \e MEDM_EXEC_LIST environment variable. This variable is of the form:
+\code
+name1; program1[[:name2; program2]...]
+\endcode
+
+The items between colons represent each menu item.  All of the characters up to the first semi-colon in each item are the text that appears on the menu.
+The remaining characters represent the system command that will be executed when the item is selected.
+Note that on UNIX, if the command is not run in the background (using & at the end), it will hold up MEDM until it finishes.
+On WIN32, if a colon is followed by a backslash (\\), then it will be assumed that it is part of a path name and it will not be counted as a menu-item delimiter.
+
+The system command can include the following special characters:
+\table
+\row
+\li &A
+\li The full path name of the ADL file associated with the display.
+\row
+\li &T
+\li The short name of the file.  (This should be the same as the title of the display.)
+\row
+\li &X
+\li The X window id of the ADL screen.  This can be used with commands like Xwd, for example.
+\row
+\li &?
+\li Truncate the command at this point and prompt the user to finish or otherwise edit the command.
+\endtable
+
+\section1 Environment Variables
+\table
+\header
+\li Variable
+\li Usage
+\row
+\li EPICS_DISPLAY_PATH
+\li A colon-separated (semi-colon-separated on WIN32) list of directories in which to look for display files
+    that do not have absolute path names or names that begin with "./" or "../".
+    Only looks in the current working directory if not specified.
+\row
+\li MEDM_EXEC_LIST
+\li A list of commands for the Execute-Mode Popup Menu. See the Execute Menu for the format.
+\endtable
+
+\section1 Differences to MEDM
+
+\list
+\li Command line options
+    \list
+    \li \e -cmap, \e -displayFont and \e -bigMousePointer are not applicable.
+    \li \e -dg option can only appear once before display files.
+    This makes it effectly only applicable to one display file.
+    \endlist
+\li Resizing displays. The contents of the display are not scaled at all.
+\li Execute Menu. The \e &P special character is not handled.
+\li Drag-And-Drop. It does not support drag-and-drop.
+    But the CSData source can be copied via context menu \e {Copy Source}.
+\endlist
+
+\chapter builder
+
+builder is a program to build one-time displays.
+User enters the CSData source and choose the visual item type.
+\image builder-edit.png
+The created items will be organised into a grid.
+\image builder-display.png
+
+*/
