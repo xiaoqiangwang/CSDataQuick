@@ -362,13 +362,13 @@ void QCSData::setCount(qulonglong count)
     \property QCSData::accessRight
     This property holds the access right of the data.
 
-    This is a bitwise or of CSData::AccessFlag.
+    This is a bitwise or of QCSData::AccessFlag.
 */
 /*!
     \qmlproperty int CSData::accessRight
     This property holds the access right of the data.
 
-    This is a bitwise or of CSData::AccessFlag.
+    This is a bitwise or of QCSData::AccessFlag.
 */
 int QCSData::accessRight() const
 {
