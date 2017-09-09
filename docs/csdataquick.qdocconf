@@ -13,7 +13,8 @@ headers += ../src/csdata/core/csdata.h \
            ../src/csdatacomponents/windowmanager.h \
            ../src/csdatacomponents/shapes.h \
            ../src/csdatacomponents/plotitem.h \
-           ../src/csdatacomponents/adimage.h
+           ../src/csdatacomponents/adimage.h \
+           ../src/csdatacomponents/enums.h
 
 sources += ../src/csdata/core/csdata.cpp \
            ../src/csdatacomponents/utils.cpp \
@@ -21,7 +22,8 @@ sources += ../src/csdata/core/csdata.cpp \
            ../src/csdatacomponents/windowmanager.cpp \
            ../src/csdatacomponents/shapes.cpp \
            ../src/csdatacomponents/plotitem.cpp \
-           ../src/csdatacomponents/adimage.cpp
+           ../src/csdatacomponents/adimage.cpp \
+           ../src/csdatacomponents/enums.cpp
 
 headers.fileextensions = "*.h"
 

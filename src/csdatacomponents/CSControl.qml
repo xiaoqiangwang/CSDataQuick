@@ -9,48 +9,29 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSControl
     \inqmlmodule CSDataQuick.Components
-    \brief Basic type to all PV controls
+    \brief Basic type to all controls
 
     CSControl is the base type for all control types.
-    It defines all the attributes that are common across PV controls.
+    It defines all the attributes that are common across controls.
 
 
 */
 BaseItem {
     id: root
 
-    background: ColorMap.controls_background
-    foreground: ColorMap.foreground
-
-    /*! qmlproperty enumeration CSControl::colorMode */
+    /*! This property indicates how foreground color changes. \sa ColorMode, */
     property int colorMode: ColorMode.Static
-
-    /*! \qmlproperty string CSControl::source
-        The data source url.
-    */
+    /*! This property holds the data source string */
     property string source
+    /*! This property holds the color based on the severity of the associated CSData.
 
-    /*! internal */
+        It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
+    */
+    property color alarmColor: ColorMap.invalid_alarm
+    /*! \internal */
     property var pv: CSData {
         source: root.source
     }
-
-    /*! dynamic attributes */
-    dynamicAttribute: DynamicAttribute {id: da}
-
-    /*! color based on the severity of the process variable */
-    property color alarmColor: ColorMap.invalid_alarm
-
-    visible: da.visibility
-
-    // Mask when PV disconnected
-    Rectangle {
-        z: 1
-        anchors.fill: parent
-        color: 'white'
-        visible: !pv.connected
-    }
-
     /*! \internal */
     property Menu contextMenu: Menu {
         MenuItem {
@@ -73,6 +54,19 @@ BaseItem {
                 Utils.copyToClipboard(root.source)
             }
         }
+    }
+
+    background: ColorMap.controls_background
+    foreground: ColorMap.foreground
+    dynamicAttribute: DynamicAttribute {id: da}
+    visible: da.visibility
+
+    // Mask when data is disconnected
+    Rectangle {
+        z: 1
+        anchors.fill: parent
+        color: 'white'
+        visible: !pv.connected
     }
 
     MouseArea {

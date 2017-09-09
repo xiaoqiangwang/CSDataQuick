@@ -57,12 +57,9 @@ import "utils.js" as UtilsJS
 
 BaseItem {
     id: root
-    implicitWidth: visual == RelatedDisplayVisual.Row ? displayModel.count * 50 : 50
-    implicitHeight: visual == RelatedDisplayVisual.Column ? displayModel.count * 20 : 20
-    background: ColorMap.controls_background
-    foreground: ColorMap.foreground
+
     /*!
-        text displayed on button
+        This property holds the text displayed on the button.
 
         Normally there are two overlapping squares on the button to denote a Related Display control.
         However, if the label text begins with  "-" (for example "-My Label"), the overlapping squares will not appear.
@@ -79,7 +76,7 @@ BaseItem {
     property int visual: RelatedDisplayVisual.Menu
 
     /*!
-        related display list model
+        This property holds the related display list model
 
         The model contains entries to display files. It can be ListModel or object array.
         In either case, each entry contains the following.
@@ -94,6 +91,11 @@ BaseItem {
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
+
+    implicitWidth: visual == RelatedDisplayVisual.Row ? displayModel.count * 50 : 50
+    implicitHeight: visual == RelatedDisplayVisual.Column ? displayModel.count * 20 : 20
+    background: ColorMap.controls_background
+    foreground: ColorMap.foreground
 
     Loader {
         anchors.fill: parent

@@ -14,17 +14,17 @@ import CSDataQuick.Components 1.0
     Currently there can be up to eight traces on a plot.  The first trace is plotted on the Y1 axis,
     and the remaining traces (if any) are all plotted on the Y2 axis.  But the Y axis, Y or Y2, can be selected for each trace.
     The X and Y1 axes may have a label, but the Y2 axis does not.
-    Each trace can (but does not have to) have a process variable from which to get the x values and
-    another from which to get the y values.  These process variables can be array process variables,
-    such as Waveforms, or they can be scalar process variables with only a single value.
+    Each trace can (but does not have to) have a CSData from which to get the x values and
+    another from which to get the y values.  These CSData can be of array type,
+    such as Waveforms record in EPICS, or they can be of scalar type with only a single value.
 
     There are eight possible kinds of traces as seen in the following table.
     The traces for a given plot do not all have to be of the same kind – they can be mixed.
 
-    In the table Nx is the number of elements in the process variable specified for x,
-    and Ny is the number of elements in the process variable specified for y.
-    The letter n denotes a number greater than one, and a blank indicates no process variable is specified.
-    The axis limits LOPR and HOPR denote the limits obtained from Channel Access for the process variable.
+    In the table Nx is the number of elements in the CSData specified for x,
+    and Ny is the number of elements in the CSData specified for y.
+    The letter n denotes a number greater than one, and a blank indicates no CSData is specified.
+    The axis limits LOPR and HOPR denote the limits obtained from CSData.
     Typically, these are the fields LOPR and HOPR in the associated record.
     Count is the specified Count for the Cartesian Plot, which is described in more detail below.
 
@@ -79,22 +79,18 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-    implicitWidth: 300
-    implicitHeight: 200
-    background: ColorMap.monitors_background
-    foreground: ColorMap.foreground
-    /*! Graph title */
+    /*! This property holds the graph title */
     property string title
-    /*! X axis label */
+    /*! This property holds the X axis label */
     property string xLabel
-    /*! Y axis label */
+    /*! This property holds the Y axis label */
     property string yLabel
     /*!
         \list
             \li false: Plot n points corresponding to the first n changes
-                of the process variable, then do not plot any more points.
+                of the data, then do not plot any more points.
             \li true: Plot n points corresponding to the last n changes
-                of the process variable, overwriting previous points.
+                of the data, overwriting previous points.
         \endlist
     */
     property bool eraseOldest: false
@@ -118,15 +114,15 @@ BaseItem {
     changes, the entire plot will be updated. */
     property string triggerPvName
     /*!
-    The Erase Channel is a process variable that causes erasing of the plot.
-    If there is an Erase Channel, the plot erases when the process variable
+    The Erase Channel is a CSData object that causes erasing of the plot.
+    If there is an Erase Channel, the plot erases when the CSData value
     turns either zero or non-zero, depending on the Erase Mode.
     */
     property string erasePvName
     /*!
     \list
-        \li 0: Erase the plot if the erase-channel process variable is not zero.
-        \li 1: Erase the plot if the erase-channel process variable is zero.
+        \li 0: Erase the plot if the erase-channel CSData is not zero.
+        \li 1: Erase the plot if the erase-channel CSData is zero.
     \endlist
     */
     property int eraseMode: EraseMode.IfNotZero
@@ -165,6 +161,10 @@ BaseItem {
     /*! \internal */
     property int  y2TimeFormat: CartesianPlotTimeFormat.HHMMSS
 
+    implicitWidth: 300
+    implicitHeight: 200
+    background: ColorMap.monitors_background
+    foreground: ColorMap.foreground
 
     QtObject {
         id: d

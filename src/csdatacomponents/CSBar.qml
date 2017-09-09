@@ -27,8 +27,6 @@ import "utils.js" as UtilsJS
 
 CSMonitor {
     id: root
-    implicitWidth: (direction == Direction.Left || direction == Direction.Right) ? 200 : 50
-    implicitHeight:  (direction == Direction.Left || direction == Direction.Right) ? 50 : 200
     /*!
         \qmlproperty enumeration label
         The decoration mode.
@@ -90,18 +88,18 @@ CSMonitor {
         \image bar-fillMode.png
     */
     property alias fillMode: bar.fillMode
-    /*!
-        Operation limits range and precision
-    */
-    limits: Limits {
-        precChannel: pv.precision
-    }
 
-   /*!
+    /*!
         \internal
         Determine the font based item total height, indepent of the orientation.
     */
     readonly property var font: UtilsJS.getBestFontSize(height / 10, true)
+
+    limits: Limits {
+        precChannel: pv.precision
+    }
+    implicitWidth: (direction == Direction.Left || direction == Direction.Right) ? 200 : 50
+    implicitHeight:  (direction == Direction.Left || direction == Direction.Right) ? 50 : 200
 
     Text {
         id: title

@@ -66,34 +66,23 @@ import CSDataQuick.Components 1.0
 
 BaseItem{
     id: root
+    /*! This property holds the graph title */
+    property string title
+    /*! This property holds the sscan record prefix of X dimension */
+    property string scanX
+    /*! This property holds the sscan record prefix of X dimension */
+    property string scanY
+    /*! This property holds the sscan record detector number of X dimension */
+    property int detX: 1
+    /*! This property holds the sscan record positioner number of X dimension */
+    property int posX: 1
+    /*! This property holds the sscan record positioner number of Y dimension */
+    property int posY: 1
+
     implicitWidth: 300
     implicitHeight: 200
     background: ColorMap.monitors_background
     foreground: ColorMap.foreground
-    /*!
-        Graph title
-    */
-    property string title
-    /*!
-        Set the sscan record prefix of X dimension
-    */
-    property string scanX
-    /*!
-        Set the sscan record prefix of Y dimension
-    */
-    property string scanY
-    /*!
-        Set the sscan record detector number
-     */
-    property int detX: 1
-    /*!
-        Set the sscan record positioner number of X dimension
-     */
-    property int posX: 1
-    /*!
-        Set the sscan record positioner number of Y dimension
-     */
-    property int posY: 1
 
     QtObject {
         id: d

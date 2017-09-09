@@ -12,35 +12,30 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-    implicitWidth: 300
-    implicitHeight: 200
-    background:  ColorMap.monitors_background
-    foreground: ColorMap.foreground
-    /*!
-        The title of the plot, displayed on top.
-    */
+
+    /*! This property holds the title of the plot, displayed on top. */
     property string title
-    /*!
-        The lable of x axis, shown below the axis.
-    */
+    /*! This property holds the lable of x axis, shown below the axis. */
     property string xLabel
-    /*!
-        The label of y axis, show next to the axis.
-    */
+    /*! This property holds the label of y axis, show next to the axis. */
     property string yLabel
     /*!
         \qmlproperty enumeration units
-        The time axis units.
+        This property holds the time axis units.
+
+        \list
+        \li TimeUnit.MilliSecond
+        \li TimeUnit.Second
+        \li TimeUnit.Minute
+        \endlist
     */
     property int units: TimeUnit.Second
-    /*!
-        The period is the time between updates
-    */
+    /*! This property holds the period of time between updates */
     property int period: 60
     /*!
-        The PV list model
+        This property holds the PV list model.
 
-        Each ListElement contains the following properties,
+        The model can be ListModel or array object. In any case, each element contains the following properties,
         \list
         \li channel  - the process variable to monitor.
         \li color - the color of the line for that channel,
@@ -51,6 +46,11 @@ BaseItem {
         \endlist
     */
     property var model
+
+    implicitWidth: 300
+    implicitHeight: 200
+    background:  ColorMap.monitors_background
+    foreground: ColorMap.foreground
 
     ListModel {
         id: traceModel

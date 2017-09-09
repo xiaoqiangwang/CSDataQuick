@@ -38,14 +38,16 @@ import CSDataQuick.Components 1.0
 
 CSGraphics {
     id: root
-    implicitWidth: 100
-    implicitHeight: 100
+
     /*!
         \qmltype list<Point> points
 
-        Trace of the polygon
+        This property holds the trace of the polygon as a list of points.
     */
     property alias points: polygon.points
+
+    implicitWidth: 100
+    implicitHeight: 100
 
     Polygon {
         id: polygon

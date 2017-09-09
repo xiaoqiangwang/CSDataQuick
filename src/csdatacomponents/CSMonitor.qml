@@ -8,40 +8,22 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSMonitor
     \inqmlmodule CSDataQuick.Components
-    \brief Basic type to all PV monitors
+    \brief Basic type to all monitors
 
 */
 
 BaseItem {
-    background: ColorMap.monitors_background
-    foreground: ColorMap.foreground
-    /*! qmlproperty enumeration CSGraphics::colorMode */
+    /*! This property indicates how foreground color changes. \sa ColorMode, */
     property int colorMode: ColorMode.Static
-    /*! control data source name */
+    /*! This property holds the data source string */
     property alias source: pv.source
-    /*! control data object */
-    property var pv: CSData { id: pv; }
+    /*! This property holds the color based on the severity of the associated CSData.
 
-    /*! dynamic attributes */
-    dynamicAttribute: DynamicAttribute {id: da}
-
-    /*! color based on the severity of the process variable */
+        It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
+    */
     property color alarmColor: ColorMap.invalid_alarm
-
-    visible: da.visibility
-
-    Rectangle {
-        anchors.fill: parent
-        color: background
-    }
-
-    Rectangle {
-        z: 1
-        anchors.fill: parent
-        color: 'white'
-        visible: !pv.connected
-    }
-
+    /*! \internal  */
+    property var pv: CSData { id: pv; }
     /*! \internal */
     property Menu contextMenu: Menu {
         MenuItem {
@@ -65,6 +47,24 @@ BaseItem {
             }
         }
     }
+
+    background: ColorMap.monitors_background
+    foreground: ColorMap.foreground
+    dynamicAttribute: DynamicAttribute {id: da}
+    visible: da.visibility
+
+    Rectangle {
+        anchors.fill: parent
+        color: background
+    }
+
+    Rectangle {
+        z: 1
+        anchors.fill: parent
+        color: 'white'
+        visible: !pv.connected
+    }
+
 
     MouseArea {
         z: 1

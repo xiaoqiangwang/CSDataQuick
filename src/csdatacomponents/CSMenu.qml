@@ -27,11 +27,12 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
+
+    implicitWidth: 100
+    implicitHeight: 20
 
     ComboBox {
         id: combo_control

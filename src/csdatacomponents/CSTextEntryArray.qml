@@ -40,8 +40,7 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-    implicitWidth: stacking == Stacking.Column ? 150 : count * 100
-    implicitHeight: stacking == Stacking.Column ? count * 20 : 40
+
     /*!
       Set the layout for the text entries. Default is Stacking.Column.
 
@@ -55,33 +54,29 @@ CSControl {
         \qmlproperty enumeration align
         Sets the horizontal alignment of the text within the item width.
 
+        The valid values for horizontalAlignment are Text.AlignLeft, Text.AlignRight, Text.AlignHCenter and Text.AlignJustify.
         The font used depends on the item height using function \l UtilsJS::getBestFontSize.
     */
     property int align: Text.AlignLeft
     /*!
-        \qmlproperty TextFormat format
+        This property indicates how the data value is formated to text display. \sa TextFormat,
+
+        For all of the formats, the result depends on the number and the precision in limits.
     */
     property int format: TextFormat.Decimal
-    /*!
-        \qmlproperty int index
-        Sets the start index
-    */
+    /*! This property holds the start index of the array data */
     property int index: 0
-    /*!
-        \qmlproperty int count
-        Sets the number of elements
-    */
+    /*! This property holds the number of elements starting from \l index */
     property int count: 1
-    /*!
-        Show the element label
-    */
+    /*! This property indicates whether to show the element label or not. */
     property bool labelVisible: true
-    /*!
-        Element label
-    */
+    /*! This property holds the label texts to the elements */
     property var label: []
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / count: height / 2, true)
+
+    implicitWidth: stacking == Stacking.Column ? 150 : count * 100
+    implicitHeight: stacking == Stacking.Column ? count * 20 : 40
 
     limits: Limits {
         precChannel: pv.precision

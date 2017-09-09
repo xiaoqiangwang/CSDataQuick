@@ -33,7 +33,7 @@ CSGraphics {
     /*!
         \qmltype list<Point> points
 
-        Trace of the polyline
+        This property holds the trace of the polyline as a list of points.
     */
     property alias points: polyline.points
 

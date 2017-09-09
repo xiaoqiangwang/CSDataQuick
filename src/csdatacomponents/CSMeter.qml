@@ -22,8 +22,7 @@ import "utils.js" as UtilsJS
 
 CSMonitor {
     id: root
-    implicitWidth: 150
-    implicitHeight: 50
+
     /*!
         \qmlproperty enumeration labelStyle
         The decoration mode.
@@ -37,13 +36,16 @@ CSMonitor {
         \endlist
     */
     property int labelStyle: LabelStyle.Frame
+    /*! \internal */
+    readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
+
+    implicitWidth: 150
+    implicitHeight: 50
 
     /*! The operation limits */
     limits: Limits {
         precChannel: pv.precision
     }
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
     Meter {
         id: meter

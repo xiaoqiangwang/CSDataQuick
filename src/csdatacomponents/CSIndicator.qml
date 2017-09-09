@@ -29,26 +29,46 @@ import "utils.js" as UtilsJS
 
 CSMonitor {
     id: root
-    implicitWidth: 200
-    implicitHeight: 50
     /*!
-        \qmlproperty enumeration labelStyle
-        The decoration mode.
+        \qmlproperty enumeration label
+        This property holds the decoration mode.
+
+        \list
+        \li LabelStyle.Frame - No extra features.
+        \li LabelStyle.None - Same as LabelStyle.Frame.
+        \li LabelStyle.Outline - Show the limits.
+        \li LabelStyle.Limits - Show limits and a box for the value.
+        \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
+        \endlist
     */
     property int labelStyle: LabelStyle.Frame
     /*!
         \qmlproperty enumeration direction
-        Indicate the maximumValue position.        .
+        This property indicates the maximumValue position.
+
+        \list
+        \li Direction.Up
+        \li Direction.Right
+        \li Direction.Down
+        \li Direction.Left
+        \endlist
+
+        By Direction.Up, the minimumValue is at the bottom and maximumValue at the top. And by Direction.Right,
+        the minimumValue is at the left and maximumValue at the right. The other two reverse the direction.
     */
     property int direction: Direction.Right
+    /*! \internal */
+    readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
+
+    implicitWidth: 200
+    implicitHeight: 50
+
     /*!
         Operation limits range and precision
     */
     limits: Limits {
         precChannel: pv.precision
     }
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
     Text {
         id: title

@@ -46,13 +46,14 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-    width: 400
-    height: 300
     /*!
         \qmlproperty string source
-        Set the NDPluginStdArrays prefix. e.g. 13SIM1:image1:
+        This property holds the NDPluginStdArrays prefix. e.g. 13SIM1:image1:
     */
     property alias source: ad.source
+
+    width: 400
+    height: 300
 
     ImageItem {
         id: img

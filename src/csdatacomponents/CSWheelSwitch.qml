@@ -87,12 +87,12 @@ CSControl {
     */
     property string format: ''
 
+    /*! \internal */
+    readonly property var font: UtilsJS.getBestFontSize(height, 1)
+
     limits: Limits {
         precChannel: pv.precision
     }
-
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height, 1)
 
     WheelSwitch {
         id: wheel

@@ -34,21 +34,27 @@ import "utils.js" as UtilsJS
 
 CSGraphics {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
+
     /*!
         \qmlproperty string text
-        The text to display. It can be plain text or richt text defined using HTML markup.
+        This property holds the text to display.
+
+        It can be plain text or richt text defined using HTML markup.
     */
     property alias text: text_control.text
     /*!
         \qmlproperty enumeration align
         Sets the horizontal alignment of the text within the item width.
+
+        The valid values for horizontalAlignment are Text.AlignLeft, Text.AlignRight, Text.AlignHCenter and Text.AlignJustify.
     */
     property alias align: text_control.horizontalAlignment
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height, false)
+
+    implicitWidth: 100
+    implicitHeight: 20
 
     Rectangle {
         color: background

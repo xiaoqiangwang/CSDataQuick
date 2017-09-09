@@ -11,9 +11,9 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSChoiceButton
     \inqmlmodule CSDataQuick.Components
-    \brief Display PV's enumerate
+    \brief Display data's enumerate
 
-    The Choice Button is used for ENUM process variables and is a means for picking
+    The Choice Button is used for ENUM data type and is a means for picking
     the ENUM choices via buttons.
 
     \qml
@@ -28,12 +28,8 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-
-    implicitHeight: stacking == Stacking.Column ? pv.stateStrings.length * 20 : 20
-    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? pv.stateStrings.length * 100 : 100
-
     /*!
-      Set the layout for the choice buttons. Default is Stacking.Column.
+      This property holds the layout for the choice buttons. Default is Stacking.Column.
 
       \list
         \li Stacking.Row: The buttons are arranged in a row
@@ -44,6 +40,9 @@ CSControl {
     property int stacking: Stacking.Column
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4, true)
+
+    implicitHeight: stacking == Stacking.Column ? pv.stateStrings.length * 20 : 20
+    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? pv.stateStrings.length * 100 : 100
 
     Connections {
         target: pv

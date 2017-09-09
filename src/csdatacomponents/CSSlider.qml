@@ -40,19 +40,24 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-    implicitWidth: 200
-    implicitHeight: 50
     /*!
         \qmlproperty enumeration direction
-        The incremental direction.
+        Indicate the maximumValue position.
+
+        \list
+        \li Direction.Up
+        \li Direction.Right
+        \li Direction.Down
+        \li Direction.Left
+        \endlist
+
+        By Direction.Up, the minimumValue is at the bottom and maximumValue at the top. And by Direction.Right,
+        the minimumValue is at the left and maximumValue at the right. The other two reverse the direction.
     */
     property int  direction: Direction.Right
-    /*! The operation limit and precision */
-    limits: Limits {
-        precChannel: pv.precision
-    }
+
     /*!
-        The amount of vaue to increament or decrement.
+        This property indicates the amount of vaue to increament or decrement.
 
         Clicking Btn1 in the space on either side of the slider button increments or decrements
         the value by an amount equal to the \l stepSize.
@@ -86,6 +91,13 @@ CSControl {
     /*! \internal */
     readonly property int orientation: (direction == Direction.Left || direction == Direction.Right) ? Qt.Horizontal : Qt.Vertical
 
+    implicitWidth: 200
+    implicitHeight: 50
+
+    /*! The operation limit and precision */
+    limits: Limits {
+        precChannel: pv.precision
+    }
 
     Rectangle {
         anchors.fill: parent

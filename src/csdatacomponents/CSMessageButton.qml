@@ -14,30 +14,31 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
     /*!
       \qmlproperty string text
-      Text on message button
+      This property holds the text on message button
     */
     property alias text: btn.text
     /*!
-        Value to set the process variable when button is pressed.
+        This property holds the value to set to the CSData object when button is pressed.
 
         This value should be commensurate with the type of the process variable.
-        (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
+        (It is not wise to send a non-numeric string to a DOUBLE type data, for example.)
     */
     property string onMessage
     /*!
-        Value to set the process variable when button is released
+        This property holds the value to set to the CSData object when button is released
 
-        This value should be commensurate with the type of the process variable.
+        This value should be commensurate with the type of the data.
         (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
     */
     property string offMessage
 
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
+
+    implicitWidth: 100
+    implicitHeight: 20
 
     StyledButton {
         id: btn

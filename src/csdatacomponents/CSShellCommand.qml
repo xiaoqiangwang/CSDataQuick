@@ -46,7 +46,7 @@ BaseItem {
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
     /*!
-        text on button
+        This property holds the text on the button.
 
         The Label is the optional label that appears on the button.
         Normally, whether there is a label or not, there is a “!” symbol on the button to denote a Shell Command control.
@@ -54,7 +54,7 @@ BaseItem {
     */
     property string label: ''
     /*!
-        command list model
+        The property holds the command list model.
 
         The model can be ListModel or array object. In any case, each element contains two properties:
         \list

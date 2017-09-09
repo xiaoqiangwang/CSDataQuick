@@ -80,11 +80,14 @@ CSControl {
         \qmlproperty enumeration align
         Sets the horizontal alignment of the text within the item width.
 
+        The valid values for horizontalAlignment are Text.AlignLeft, Text.AlignRight, Text.AlignHCenter and Text.AlignJustify.
         The font used depends on the item height using function \l UtilsJS::getBestFontSize.
     */
     property alias align: textEntry.horizontalAlignment
     /*!
-        \qmlproperty TextFormat format
+        This property indicates how the data value is formated to text display. \sa TextFormat,
+
+        For all of the formats, the result depends on the number and the precision in limits.
     */
     property int format: TextFormat.Decimal
     /*! \internal */

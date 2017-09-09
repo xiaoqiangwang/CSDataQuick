@@ -31,28 +31,18 @@ import CSDataQuick.Components 1.0
 
 BaseItem {
     id: root
-    implicitWidth: 400
-    implicitHeight: 300
     /*!
-        external source file to load components
+        This property holds the external source file to load components.
     */
     property string source
     /*!
-        macro substitution for external source file
+        This property holds the macro substitution for the external source file,
     */
     property string macro
 
-    /*!
-        \qmlproperty enumeration colorMode
-
-        It controls wether the item color changes according to alarm severity
-        of the associated process variable.
-    */
-    property int colorMode: ColorMode.Static
-
-    /*! dynamic attributes */
+    implicitWidth: 400
+    implicitHeight: 300
     dynamicAttribute: DynamicAttribute { id: da }
-
     visible: da.visibility
 
     /*! \internal */

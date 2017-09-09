@@ -20,8 +20,6 @@ import CSDataQuick.Components 1.0
 */
 CSMonitor {
     id: root
-    implicitWidth: orientation == Qt.Horizontal ? 160 : 20
-    implicitHeight: orientation == Qt.Vertical ? 160 : 20
     /*!
       \qmlproperty enumeration orientation
       \list
@@ -31,18 +29,20 @@ CSMonitor {
     */
     property int orientation: Qt.Horizontal
     /*!
-        The integer is in the range 0-31, specifying the starting bit to be displayed at the left or top.
+        This property indicates the starting bit to be displayed at the left or top. The integer is in the range 0-31,
     */
 
     property int start: 15
     /*!
-        The integer is in the range 0-31, specifying the ending bit to be displayed at the right or bottom.
+        This property indicates the ending bit to be displayed at the right or bottom. The integer is in the range 0-31.
         The ending bit can be smaller than starting bit, which causes the direction to appear reversed.
     */
     property int end: 0
-
     /*! \internal */
     property var digits: new Array(32)
+
+    implicitWidth: orientation == Qt.Horizontal ? 160 : 20
+    implicitHeight: orientation == Qt.Vertical ? 160 : 20
 
     Component {
         id: horz

@@ -6,32 +6,30 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSGraphics
     \inqmlmodule CSDataQuick.Components
-    \brief Basic type to all PV graphics shape
+    \brief Basic type to all graphics shapes
 
     CSGraphics is the base type for all graphics types.
     It defines all the attributes that are common across graphics shapes.
 
 */
 BaseItem {
-    background: ColorMap.graphics_background
-    foreground: ColorMap.foreground
-    /*! Draw outline only or fill the shape */
+    /*! This property indicates whether draw outline only or fill the shape. \sa FillStyle, */
     property int fillStyle: FillStyle.Solid
-    /*! Outline style */
+    /*! This property holds the outline style. \sa EdgeStyle, */
     property int edgeStyle: EdgeStyle.Solid
-    /*! Outline width */
+    /*! This property holds the outline width. */
     property int lineWidth: 0
-    /*!
-        \qmlproperty enumeration colorMode
-    */
+    /*! This property indicates how foreground color changes. \sa ColorMode, */
     property int colorMode: ColorMode.Static
+    /*! This property holds the color based on the severity of the associated CSData.
 
-    /*! dynamic attributes */
-    dynamicAttribute: DynamicAttribute {id: da}
-
-    /*! color based on the severity of the process variable */
+        It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
+    */
     property color alarmColor: ColorMap.invalid_alarm
 
+    background: ColorMap.graphics_background
+    foreground: ColorMap.foreground
+    dynamicAttribute: DynamicAttribute {id: da}
     visible: da.visibility
 
     Connections {

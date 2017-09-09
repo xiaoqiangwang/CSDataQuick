@@ -22,18 +22,19 @@ import CSDataQuick.Components 1.0
 
 CSGraphics {
     id: root
-    implicitWidth: 100
-    implicitHeight: 100
     /*!
       \qmlproperty real begin
-      The start of the arc in degrees.
+      This property holds the start of the arc in degrees.
     */
     property alias begin: arc.begin
     /*!
       \qmlproperty real span
-      The length of the arc in degrees.
+      This property holds the length of the arc in degrees.
     */
     property alias span: arc.span
+
+    implicitWidth: 100
+    implicitHeight: 100
 
     Arc {
         id: arc

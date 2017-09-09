@@ -19,16 +19,17 @@ import CSDataQuick.Components.Private 1.0
     \li Data Engines - popup the window to display data engine information
     \endlist
 
+    \e {Note: This is actually a Rectangle type, because Window derived types cannot be used in Qt Quick Designer.}
 */
 Rectangle {
     id: root
+    /*! This property holds the window title */
+    property string title
+
     implicitWidth: 640
     implicitHeight: 480
 
     color: ColorMap.windows_background
-
-    /*! window title */
-    property string title
 
     ContextMenu {
         anchors.fill: parent

@@ -36,33 +36,26 @@ import "utils.js" as UtilsJS
 
 CSMonitor {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
     /*!
         \qmlproperty enumeration align
         Set the horizontal alignment of the text within the item width.
+
+        The valid values for horizontalAlignment are Text.AlignLeft, Text.AlignRight, Text.AlignHCenter and Text.AlignJustify.
     */
     property alias align: label_control.horizontalAlignment
     /*!
-        \qmlproperty enumeration format
-        For all of the formats, the result depends on the number and the precision in limits.
+        This property indicates how the data value is formated to text display. \sa TextFormat,
 
-        \list
-        \li TextFormat.Decimal - Text with or without decimal point, e.g. 10.0 or 10.
-        \li TextFormat.Exponential - Exponential notation, e.g. 1.00e+04.
-        \li TextFormat.EngNotation - Engineering notation, e.g. 10.00e+03.
-        \li TextFormat.Compact - Either in decimal or exponential form to be most compact.
-        \li TextFormat.Truncated - Text is rounded to the largest integer, e.g 10000.
-        \li TextFormat.Hexadecimal - The text is rounded to the nearest integer and shown in hexadecimal, e.g. 0x3e8.
-        \li TextFormat.Octal - The text is rounded to the nearest integer and shown in octal, e.g. 01750.
-        \li TextFormat.String - Same as decimal except that for large numbers or precision, it can be in exponential format.
-        \endlist
+        For all of the formats, the result depends on the number and the precision in limits.
     */
     property int format: TextFormat.Decimal
-    /*! Display physical units if available */
+    /*! This property indicates whether to display the physical units if available */
     property bool unitsVisible: false
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height)
+
+    implicitWidth: 100
+    implicitHeight: 20
 
     limits: Limits {
         precChannel: pv.precision

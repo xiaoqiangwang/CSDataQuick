@@ -17,8 +17,6 @@ import CSDataQuick.Components 1.0
 
 CSGraphics {
     id: root
-    implicitWidth: animation.implicitWidth
-    implicitHeight: animation.implicitHeight
     /*!
       \qmlproperty url source
 
@@ -29,7 +27,7 @@ CSGraphics {
     /*!
         For multiple-frame images, the frame to display is defined by this expression.
 
-        The syntax for the Image CSlc expression is the same as that for the \l DynamicAttribute.
+        The syntax for the \l imageCalc expression is the same as that for the \l DynamicAttribute.
         The only difference is that the expression should return a frame number, not True or False.
         The Image will be black if the expression is invalid.
 
@@ -48,6 +46,9 @@ CSGraphics {
         this item will be given lower stacking order.
     */
     property int frameCount: 1
+
+    implicitWidth: animation.implicitWidth
+    implicitHeight: animation.implicitHeight
 
     Connections {
         target: dynamicAttribute
