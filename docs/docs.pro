@@ -5,9 +5,11 @@ QMAKE_DOCS = $$PWD/csdataquick.qdocconf
 
 OTHER_FILES = \
     $$PWD/csdataquick.qdocconf \
-    $$PWD/csdataquick.qdoc \
-    $$PWD/csdata.qml\
-    $$PWD/cscomponents.qml
+    $$PWD/*.qdoc \
+    $$PWD/offline.css \
+    $$PWD/images/*.png \
+    $$PWD/images/*.gif
+
 
 qtPrepareTool(QDOC, qdoc)
 
