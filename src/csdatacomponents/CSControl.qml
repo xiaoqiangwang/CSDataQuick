@@ -67,6 +67,12 @@ BaseItem {
                 UtilsJS.popupPvLimitsDialog(root)
             }
         }
+        MenuItem {
+            text: 'Copy Source'
+            onTriggered: {
+                Utils.copyToClipboard(root.source)
+            }
+        }
     }
 
     MouseArea {

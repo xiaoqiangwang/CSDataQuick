@@ -33,6 +33,7 @@ public:
     Q_INVOKABLE QVariantList vectorGet(QVariant v, int index=0, int count=-1);
     Q_INVOKABLE QVariantList parseExecList();
     Q_INVOKABLE QVariant getProperty(QObject *object, QString name);
+    Q_INVOKABLE void copyToClipboard(const QString &text);
 signals:
 
 public slots:

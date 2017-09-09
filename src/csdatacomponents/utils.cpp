@@ -21,7 +21,8 @@
 #include <QQuickWindow>
 #include <QQuickView>
 #include <QDesktopWidget>
-
+#include <QGuiApplication>
+#include <QClipboard>
 
 #include <QDir>
 #include <QFileInfo>
@@ -594,4 +595,14 @@ QVariant QCSUtils::getProperty(QObject *object, QString name)
             return QVariant();
     } else
         return object->property(name.toLocal8Bit());
+}
+
+/*!
+    \qmlmethod Utils::copyToClipboard(text)
+
+    Copy the text to the global clipboard.
+*/
+void QCSUtils::copyToClipboard(const QString& text)
+{
+    QGuiApplication::clipboard()->setText(text);
 }
