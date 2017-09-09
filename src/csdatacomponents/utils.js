@@ -94,7 +94,7 @@ function popupPromptDialog(parent, title, hint, input) {
 function dumpPvInfo(pv) {
     var date = new Date()
     var text
-    text = '           PV Infomation\n\n'
+    text = '           Data Infomation\n\n'
     text += date + '\n\n'
     text += pv.source + '\n'
     text += '======================================\n'

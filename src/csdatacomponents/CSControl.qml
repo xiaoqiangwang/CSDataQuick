@@ -54,14 +54,14 @@ BaseItem {
     /*! \internal */
     property Menu contextMenu: Menu {
         MenuItem {
-            text: 'PV Info'
+            text: 'Data Info'
             onTriggered: {
                 PvInfoDialog.info = UtilsJS.dumpPvInfo(pv)
                 PvInfoDialog.open()
             }
         }
         MenuItem {
-            text: 'PV Limits'
+            text: 'Data Limits'
             visible: root['limits'] ? true : false
             onTriggered: {
                 UtilsJS.popupPvLimitsDialog(root)

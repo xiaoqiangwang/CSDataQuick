@@ -4,7 +4,7 @@ import QtQuick.Dialogs 1.2
 
 Dialog {
     id: dialog
-    title: 'PV Info'
+    title: 'Data Info'
 
     property string info
 

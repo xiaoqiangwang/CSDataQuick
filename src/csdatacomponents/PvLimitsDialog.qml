@@ -14,7 +14,7 @@ Dialog {
     width: 300
     height: 180
 
-    title: 'PV Limits'
+    title: 'Data Limits'
 
     SystemPalette { id: palette; colorGroup: SystemPalette.Active }
 
