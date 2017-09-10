@@ -19,4 +19,6 @@ QDOC_OUTPUTS += -outputdir $$OUT_PWD/html
 
 html.commands = $$QDOC $$QDOC_INDEXES $$QDOC_OUTPUTS $$QMAKE_DOCS
 
+html.CONFIG = phony
+
 QMAKE_EXTRA_TARGETS += html
