@@ -229,7 +229,8 @@ void CustomPlotItem::mouseReleaseEvent(QMouseEvent *event)
 }
 void CustomPlotItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    mPlot->mouseDoubleClickEvent(event);
+    mPlot->rescaleAxes();
+    mPlot->replot();
 }
 void CustomPlotItem::wheelEvent(QWheelEvent *event)
 {
