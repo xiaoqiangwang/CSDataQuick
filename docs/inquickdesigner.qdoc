@@ -55,6 +55,7 @@ The following video shows show to switch between edit and design modes.
 \list
 \li The Limits editor
 \li The Dynamic Attributes editor
+\li The Polyline/Polygon Trace editor: if the item gets resized interactively by mouse, the new trace will not be updated. The workaround is direct changing of width/height via property editor.
 \endlist
 
 */
