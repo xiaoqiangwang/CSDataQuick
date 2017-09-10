@@ -79,6 +79,7 @@ set(QML_JS_FILES
     CSMenu.qml
     CSMessageButton.qml
     CSMeter.qml
+    CSMJPEGVideo.qml
     CSMonitor.qml
     CSOval.qml
     CSPolygon.qml

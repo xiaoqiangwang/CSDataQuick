@@ -170,6 +170,18 @@ MetaInfo {
         }
     }
     Type {
+        name: "CSDataQuick.Components.CSMJPEGVideo"
+        icon: "images/mjpegvideo.png"
+
+        ItemLibraryEntry {
+            name: "MJPEGVideo"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/mjpegvideo.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CSOval"
         icon: "images/oval.png"
 

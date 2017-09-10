@@ -19,6 +19,7 @@ QML_FILES += \
     $$PWD/CSMenu.qml \
     $$PWD/CSMessageButton.qml \
     $$PWD/CSMeter.qml \
+    $$PWD/CSMJPEGVideo.qml \
     $$PWD/CSMonitor.qml \
     $$PWD/CSOval.qml \
     $$PWD/CSPolygon.qml \
@@ -121,6 +122,7 @@ QML_FILES += \
     $$PWD/designer/images/menu.png \
     $$PWD/designer/images/messageButton.png \
     $$PWD/designer/images/meter.png \
+    $$PWD/designer/images/mjpegvideo.png \
     $$PWD/designer/images/oval.png \
     $$PWD/designer/images/polygon.png \
     $$PWD/designer/images/polyline.png \

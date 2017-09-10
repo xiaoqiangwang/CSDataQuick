@@ -18,6 +18,7 @@ CSIndicator     1.0 CSIndicator.qml
 CSMenu          1.0 CSMenu.qml 
 CSMessageButton 1.0 CSMessageButton.qml
 CSMeter         1.0 CSMeter.qml
+CSMJPEGVideo    1.0 CSMJPEGVideo.qml
 CSMonitor       1.0 CSMonitor.qml
 CSOval          1.0 CSOval.qml 
 CSPolygon       1.0 CSPolygon.qml
