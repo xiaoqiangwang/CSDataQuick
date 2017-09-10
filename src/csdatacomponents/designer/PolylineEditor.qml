@@ -11,6 +11,7 @@ Canvas {
     QtObject {
         id: d
         property size oldSize
+        property bool drawing: false
         property var pointMoving: null
     }
 
@@ -39,7 +40,6 @@ Canvas {
         updateToBackend()
     }
 
-    property bool __drawing: false
     onPaint: {
         console.log('paint', points)
         var ctx = getContext("2d")
@@ -61,14 +61,15 @@ Canvas {
 
         ctx.stroke()
     }
+
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
             // clear trace
-            if (!__drawing) {
+            if (!d.drawing) {
                 points.length = 0
-                __drawing = true
+                d.drawing = true
                 parent.requestPaint()
             }
             d.pointMoving = null
@@ -77,14 +78,14 @@ Canvas {
             parent.requestPaint()
         }
         onPositionChanged: {
-            if (!__drawing)
+            if (!d.drawing)
                 return
             d.pointMoving = Qt.point(mouse.x, mouse.y)
             parent.requestPaint()
         }
 
         onDoubleClicked: {
-            __drawing = false
+            d.drawing = false
             updateToBackend()
         }
     }
