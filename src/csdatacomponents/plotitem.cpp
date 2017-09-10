@@ -65,7 +65,6 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     setAcceptedMouseButtons( Qt::AllButtons );
 
     mPlot = new QCustomPlot(this);
-    mPlot->setSelectionRectMode(QCP::srmZoom);
     mPlot->plotLayout()->clear();
     mPlot->plotLayout()->addElement(0, 0, new QCPAxisRect(mPlot, false));
     mPlot->plotLayout()->setRowSpacing(0);
