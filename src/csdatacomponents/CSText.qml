@@ -53,7 +53,7 @@ CSGraphics {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height, false)
 
-    implicitWidth: 100
+    implicitWidth: text_control.implicitWidth
     implicitHeight: 20
 
     Rectangle {
