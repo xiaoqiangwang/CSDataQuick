@@ -1,4 +1,5 @@
 import QtQuick 2.1
+import QtQuick.Controls 1.0
 import HelperWidgets 2.0
 import QtQuick.Layouts 1.0
 
@@ -39,9 +40,47 @@ Column {
                 tooltip: qsTr("element label")
             }
             Column {
-                LineEdit {
-                    backendValue: backendValues.label
+                FieldEditor {
+                    property var backendValue: backendValues.label
+                    property var valueFromBackend: backendValue.expression
+                    onBackendValueChanged: {
+                        updateModel(backendValue.expression)
+                    }
+                    onValueFromBackendChanged: {
+                        updateModel(valueFromBackend)
+                    }
                     implicitWidth: 180
+                    placeholderText: 'label texts separated by ;'
+                    onAccepted: {
+                        if (!text) {
+                            backendValue.expression = '[]'
+                            return
+                        }
+
+                        var model = text.split(';')
+                        var expression = '['
+                        for(var i=0; i<model.length; i++) {
+                            expression += '"' + model[i] + '"'
+                            if (i != model.length -1)
+                                expression += ','
+                        }
+                        expression += ']'
+                        backendValue.expression = expression
+                    }
+                    function updateModel (expression) {
+                        if (!expression) {
+                            text = ''
+                            return
+                        }
+                        var model = eval(expression)
+                        var s = ''
+                        for(var i=0; i<model.length; i++) {
+                            s += model[i]
+                            if (i != model.length - 1)
+                                s += ';'
+                        }
+                        text = s
+                    }
                 }
                 CheckBox {
                     text: 'visible'
