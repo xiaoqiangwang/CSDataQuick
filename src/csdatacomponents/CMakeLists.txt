@@ -181,6 +181,7 @@ set(QML_JS_FILES
     designer/images/menu.png
     designer/images/messageButton.png
     designer/images/meter.png
+    designer/images/mjpegvideo.png
     designer/images/oval.png
     designer/images/polygon.png
     designer/images/polyline.png
