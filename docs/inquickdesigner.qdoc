@@ -45,6 +45,8 @@ Open it with qtcreator,
     $ qtcreator mydevice.qml
 \endcode
 
+New qml files created from Qt Creator have \e Item as the root item. Change manually the root item to \e BaseWindow.
+
 The following video shows show to switch between edit and design modes.
 \raw HTML
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3RrCNwAp318" frameborder="0" allowfullscreen></iframe>
@@ -54,7 +56,24 @@ The following video shows show to switch between edit and design modes.
 
 \list
 \li The Polyline/Polygon Trace editor: if the item gets resized interactively by mouse, the new trace will not be updated. The workaround is direct changing of width/height via property editor.
-\li The Display, Command, StripChar and CartesianPlot editor: if the model is given of \c ListModel form, it cannot be edited in designer. The workaround is to use JSON form.
+\li The Display, Command, StripChar and CartesianPlot editor: if the model is given of \c ListModel form, it cannot be edited in designer.
+\qml
+    model: ListModel {
+        ListElement {
+            label: 'list'
+            command: 'ls'
+        }
+    }
+\endqml
+The workaround is to use JSON object array form.
+\qml
+    model: [
+        {
+            'label': 'list',
+            'command': 'ls'
+        }
+    ]
+\endqml
 \endlist
 
 */
