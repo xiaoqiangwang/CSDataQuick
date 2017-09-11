@@ -8,6 +8,25 @@ import CSDataQuick.Components 1.0
     \inqmlmodule CSDataQuick.Components
     \brief Display a strip chart
 
+    A strip chart acquires the data and updates the plot in fixed period.
+    \l period and \l units together define the time span.
+
+    \qml
+    CSStripChart {
+        model: ListModel {
+            ListElement {
+                channel: 'catest'
+                color: 'red'
+            }
+            ListElement {
+                channel: 'catest2'
+                color: 'blue'
+            }
+        }
+    }
+    \endqml
+
+    \image stripchart.png
 */
 
 BaseItem {
