@@ -62,6 +62,8 @@ import CSDataQuick.Components 1.0
         }
     \endqml
 
+    \image sscan.png
+
 */
 
 BaseItem{
