@@ -27,7 +27,7 @@ Section {
         SecondColumnLayout {
             ComboBoxFix {
                 id: precSrc
-                currentIndex: backendValues.limits_precSrc
+                backendValue: backendValues.limits_precSrc
                 scope: "LimitsSource"
                 model: ["Channel", "Default", "User"]
             }
