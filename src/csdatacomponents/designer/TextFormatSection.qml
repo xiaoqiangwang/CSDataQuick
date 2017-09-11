@@ -14,11 +14,8 @@ Section {
             text: qsTr("alignment")
             tooltip: qsTr("text horizontal alignment")
         }
-        ComboBoxFix {
+        AligmentHorizontalButtonsFix {
             backendValue: backendValues.align
-            implicitWidth: 180
-            scope: "Text"
-            model: ["AlignLeft", "AlignRight", "AlignHCenter", "AlignJustify"]
         }
         Label {
             text: qsTr("precision")

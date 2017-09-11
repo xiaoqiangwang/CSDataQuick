@@ -28,11 +28,8 @@ Column {
                 tooltip: qsTr("text horizontal alignment")
             }
             SecondColumnLayout {
-                ComboBoxFix {
+                AligmentHorizontalButtonsFix {
                     backendValue: backendValues.align
-                    implicitWidth: 180
-                    scope: "Text"
-                    model: ["AlignLeft", "AlignRight", "AlignHCenter", "AlignJustify"]
                 }
             }
         }

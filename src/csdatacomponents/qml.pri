@@ -67,6 +67,7 @@ QML_FILES += \
     $$PWD/Private/images/groove_vert.png
 
 QML_FILES += \
+    $$PWD/designer/AligmentHorizontalButtonsFix.qml \
     $$PWD/designer/BaseWindowSpecifics.qml \
     $$PWD/designer/CS2DSscanSpecifics.qml \
     $$PWD/designer/CSADImageSpecifics.qml \
