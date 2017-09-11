@@ -18,12 +18,15 @@ ApplicationWindow {
             title: qsTr("File")
             MenuItem {
                 text: qsTr("&Open")
+                onTriggered: dialog.visible = true
             }
             MenuItem {
                 text: qsTr("&Save")
+                onTriggered: dialog.visible = true
             }
             MenuItem {
                 text: qsTr("&Save As ...")
+                onTriggered: dialog.visible = true
             }
             MenuItem {
                 text: qsTr("Exit")
@@ -41,6 +44,13 @@ ApplicationWindow {
                 onTriggered: tableVisible = true
             }
         }
+    }
+
+    MessageDialog {
+        id: dialog
+        title: 'CSDataQuick builder'
+        text: 'File saving/loading is not implemented yet!\nThe file format is yet to be decided.'
+        icon: StandardIcon.Information
     }
 
     ListModel {
