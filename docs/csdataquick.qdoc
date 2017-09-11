@@ -10,6 +10,8 @@
     It comprises a set of attributes (e.g. value, units, limits) and
     is indentified by a unique name CSData::source.
 
+    \e{References to Process Variable, PV, Channel might still appear in the documents in place of CSData.}
+
     \list
     \li fieldType - data native type
     \li host - host where the data resides
