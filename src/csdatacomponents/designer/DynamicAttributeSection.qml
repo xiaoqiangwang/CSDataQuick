@@ -29,7 +29,7 @@ Section {
                 backendValue: backendValues.dynamicAttribute_visibilityMode
                 implicitWidth: 180
                 scope: "VisibilityMode"
-                model: ["Static", "IfZero", "IfNotZero", "Calc"]
+                model: ["Static", "IfNotZero", "IfZero", "Calc"]
             }
         }
         Label {
