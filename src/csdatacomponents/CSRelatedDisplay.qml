@@ -181,6 +181,8 @@ BaseItem {
         \internal
     */
     function load(fileName, macro, replace) {
+        if (!fileName)
+            return
         // search the file
         var absFilePath = Utils.searchDisplayFile(fileName, baseWindow)
         if (absFilePath == '') {
