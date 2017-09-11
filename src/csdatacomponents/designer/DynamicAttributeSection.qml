@@ -33,6 +33,17 @@ Section {
             }
         }
         Label {
+            text: qsTr("Visibility Calc")
+            tooltip: qsTr("visibility calc")
+        }
+        SecondColumnLayout {
+            LineEdit {
+                backendValue: backendValues.dynamicAttribute_visibilityCalc
+                showTranslateCheckBox: false
+                implicitWidth: 180
+            }
+        }
+        Label {
             text: qsTr("channel A")
             tooltip: qsTr("channel A")
         }
