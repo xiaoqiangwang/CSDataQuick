@@ -32,8 +32,8 @@ CSControl {
       This property holds the layout for the choice buttons. Default is Stacking.Column.
 
       \list
-        \li Stacking.Row: The buttons are arranged in a row
         \li Stacking.Column: The buttons are arranged in a column
+        \li Stacking.Row: The buttons are arranged in a row
         \li Stacking.RowColumn: The buttons are automatically arranged in rows and columns
       \endlist
     */

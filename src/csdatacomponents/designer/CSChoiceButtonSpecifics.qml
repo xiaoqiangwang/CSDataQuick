@@ -23,7 +23,7 @@ Column {
                     backendValue: backendValues.stacking
                     implicitWidth: 180
                     scope: "Stacking"
-                    model: ["Row", "Column", "RowColumn"]
+                    model: ["Column", "Row", "RowColumn"]
                 }
             }
         }
