@@ -39,8 +39,8 @@ QML_FILES += \
     $$PWD/ColorMap.qml \
     $$PWD/DisplayListDialog.qml \
     $$PWD/DataInfoDialog.qml \
-    $$PWD/PvLimitsDialog.qml \
-    $$PWD/PvTableDialog.qml \
+    $$PWD/DataLimitsDialog.qml \
+    $$PWD/DataTableDialog.qml \
     $$PWD/PromptDialog.qml \
     $$PWD/Private/qmldir \
     $$PWD/Private/ContextMenu.qml \

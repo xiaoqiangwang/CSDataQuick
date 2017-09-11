@@ -30,7 +30,7 @@ import "utils.js" as UtilsJS
     If the number is larger than the format will hold or outside the low and high limits,
     the digits are replaced by astericks, but a minus sign remains if the value is negative.
 
-    The limits and precision can be changed via the PvLimits dialog.
+    The limits and precision can be changed via the DataLimits dialog.
 
     \qml
     CSWheelSwitch {

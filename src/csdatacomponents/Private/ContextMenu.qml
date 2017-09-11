@@ -48,7 +48,7 @@ MouseArea {
         MenuItem {
             text: 'Data Engines'
             onTriggered: {
-                PvTableDialog.open()
+                DataTableDialog.open()
             }
         }
         Menu {

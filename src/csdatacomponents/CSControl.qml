@@ -57,7 +57,7 @@ BaseItem {
             text: 'Data Limits'
             visible: root['limits'] ? true : false
             onTriggered: {
-                UtilsJS.popupPvLimitsDialog(root)
+                UtilsJS.popupDataLimitsDialog(root)
             }
         }
         MenuItem {

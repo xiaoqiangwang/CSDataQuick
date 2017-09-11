@@ -36,7 +36,7 @@ ApplicationWindow
             }
             MenuItem {
                 text: 'Data Engine'
-                onTriggered: PvTableDialog.open()
+                onTriggered: DataTableDialog.open()
             }
         }
 
@@ -101,9 +101,9 @@ ApplicationWindow
     }
 
     onClosing: {
-        PvInfoDialog.close()
+        DataInfoDialog.close()
         DisplayListDialog.close()
-        PvTableDialog.close()
+        DataTableDialog.close()
         WindowManager.closeAllWindow()
     }
 

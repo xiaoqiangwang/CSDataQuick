@@ -37,10 +37,10 @@ function getBestFontSize(widget_height, with_frame) {
 }
 
 /*!
-    \qmlmethod UtilsJS::popupPvLimitsDialog(parent)
+    \qmlmethod UtilsJS::popupDataLimitsDialog(parent)
 */
-function popupPvLimitsDialog(parent) {
-    var cmd = 'import CSDataQuick.Components 1.0; PvLimitsDialog {}'
+function popupDataLimitsDialog(parent) {
+    var cmd = 'import CSDataQuick.Components 1.0; DataLimitsDialog {}'
     var dialog = Qt.createQmlObject(cmd, parent, 'limitsDialog')
 
     dialog.channel = parent.source
@@ -76,7 +76,7 @@ function popupPvLimitsDialog(parent) {
 }
 
 /*!
-    \qmlmethod UtilsJS::popupPvLimitsDialog(parent)
+    \qmlmethod UtilsJS::popupPromptDialog(parent, title, hint, input)
 */
 function popupPromptDialog(parent, title, hint, input) {
     var cmd = 'import CSDataQuick.Components 1.0; PromptDialog {}'

@@ -99,8 +99,8 @@ set(QML_JS_FILES
     ColorMap.qml
     DisplayListDialog.qml
     DataInfoDialog.qml
-    PvLimitsDialog.qml
-    PvTableDialog.qml
+    DataLimitsDialog.qml
+    DataTableDialog.qml
     PromptDialog.qml
     Private/qmldir
     Private/ContextMenu.qml
