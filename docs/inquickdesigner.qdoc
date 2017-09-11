@@ -54,6 +54,7 @@ The following video shows show to switch between edit and design modes.
 
 \list
 \li The Polyline/Polygon Trace editor: if the item gets resized interactively by mouse, the new trace will not be updated. The workaround is direct changing of width/height via property editor.
+\li The Display, Command, StripChar and CartesianPlot editor: if the model is given of \c ListModel form, it cannot be edited in designer. The workaround is to use JSON form.
 \endlist
 
 */
