@@ -72,6 +72,18 @@ CSControl {
     property bool labelVisible: true
     /*! This property holds the label texts to the elements */
     property var label: []
+    /* \internal */
+    property alias limits_loprSrc: limits.loprSrc
+    /* \internal */
+    property alias limits_loprDefault: limits.loprDefault
+    /* \internal */
+    property alias limits_hoprSrc: limits.hoprSrc
+    /* \internal */
+    property alias limits_hoprDefault: limits.hoprDefault
+    /* \internal */
+    property alias limits_precSrc: limits.precSrc
+    /* \internal */
+    property alias limits_precDefault: limits.precDefault
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / count: height / 2, true)
 
@@ -79,6 +91,7 @@ CSControl {
     implicitHeight: stacking == Stacking.Column ? count * 20 : 40
 
     limits: Limits {
+        id: limits
         precChannel: pv.precision
     }
 

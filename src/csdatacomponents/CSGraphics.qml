@@ -26,6 +26,18 @@ BaseItem {
         It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
     */
     property color alarmColor: ColorMap.invalid_alarm
+    /*! \internal */
+    property alias dynamicAttribute_visibilityMode: da.visibilityMode
+    /*! \internal */
+    property alias dynamicAttribute_visibilityCalc: da.visibilityCalc
+    /*! \internal */
+    property alias dynamicAttribute_channel: da.channel
+    /*! \internal */
+    property alias dynamicAttribute_channelB: da.channelB
+    /*! \internal */
+    property alias dynamicAttribute_channelC: da.channelC
+    /*! \internal */
+    property alias dynamicAttribute_channelD: da.channelD
 
     background: ColorMap.graphics_background
     foreground: ColorMap.foreground

@@ -90,10 +90,23 @@ CSControl {
         For all of the formats, the result depends on the number and the precision in limits.
     */
     property int format: TextFormat.Decimal
+    /* \internal */
+    property alias limits_loprSrc: limits.loprSrc
+    /* \internal */
+    property alias limits_loprDefault: limits.loprDefault
+    /* \internal */
+    property alias limits_hoprSrc: limits.hoprSrc
+    /* \internal */
+    property alias limits_hoprDefault: limits.hoprDefault
+    /* \internal */
+    property alias limits_precSrc: limits.precSrc
+    /* \internal */
+    property alias limits_precDefault: limits.precDefault
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(height, true)
 
     limits: Limits {
+        id: limits
         precChannel: pv.precision
     }
 
