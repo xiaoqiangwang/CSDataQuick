@@ -98,6 +98,7 @@ QML_FILES += \
     $$PWD/designer/CartesianPlotEditor.qml \
     $$PWD/designer/ColorSection.qml \
     $$PWD/designer/ColorPalette.qml \
+    $$PWD/designer/ComboBoxFix.qml \
     $$PWD/designer/CommandEditor.qml \
     $$PWD/designer/DataSourceSection.qml \
     $$PWD/designer/DisplayEditor.qml \

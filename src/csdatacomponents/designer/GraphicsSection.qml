@@ -13,7 +13,7 @@ Section {
             tooltip: qsTr("graphics fill style")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 backendValue: backendValues.fillStyle
                 implicitWidth: 180
                 scope: "FillStyle"
@@ -25,7 +25,7 @@ Section {
             tooltip: qsTr("graphics edge style")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 backendValue: backendValues.edgeStyle
                 implicitWidth: 180
                 scope: "EdgeStyle"

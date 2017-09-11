@@ -156,6 +156,7 @@ set(QML_JS_FILES
     designer/CartesianPlotEditor.qml
     designer/ColorSection.qml
     designer/ColorPalette.qml
+    designer/ComboBoxFix.qml
     designer/CommandEditor.qml
     designer/DataSourceSection.qml
     designer/DisplayEditor.qml

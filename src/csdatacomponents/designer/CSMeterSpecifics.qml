@@ -19,7 +19,7 @@ Column {
                 tooltip: qsTr("set the decoration style")
             }
             SecondColumnLayout {
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.labelStyle
                     implicitWidth: 180
                     scope: "LabelStyle"

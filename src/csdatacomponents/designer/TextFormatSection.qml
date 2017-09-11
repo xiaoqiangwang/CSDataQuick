@@ -14,7 +14,7 @@ Section {
             text: qsTr("alignment")
             tooltip: qsTr("text horizontal alignment")
         }
-        ComboBox {
+        ComboBoxFix {
             backendValue: backendValues.align
             implicitWidth: 180
             scope: "Text"
@@ -25,7 +25,7 @@ Section {
             tooltip: qsTr("numbers after decimal point")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 id: precSrc
                 currentIndex: backendValues.limits_precSrc
                 scope: "LimitsSource"
@@ -42,7 +42,7 @@ Section {
             text: qsTr("format")
             tooltip: qsTr("text format")
         }
-        ComboBox {
+        ComboBoxFix {
             backendValue: backendValues.format
             implicitWidth: 180
             scope: "TextFormat"

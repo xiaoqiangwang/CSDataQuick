@@ -19,7 +19,7 @@ Column {
                 tooltip: qsTr("stacking")
             }
             SecondColumnLayout {
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.stacking
                     implicitWidth: 180
                     scope: "Stacking"

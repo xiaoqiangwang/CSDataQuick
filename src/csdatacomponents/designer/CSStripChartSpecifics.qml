@@ -45,7 +45,7 @@ Column {
                     backendValue: backendValues.period
                     maximumValue: 99999
                 }
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.units
                     scope: "TimeUnit"
                     model: ["Second", "Minute"]

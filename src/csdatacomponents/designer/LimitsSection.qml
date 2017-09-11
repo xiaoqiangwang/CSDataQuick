@@ -13,7 +13,7 @@ Section {
             tooltip: qsTr("lower operation limits")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 id: loprSrc
                 backendValue: backendValues.limits_loprSrc
                 scope: "LimitsSource"
@@ -32,7 +32,7 @@ Section {
             tooltip: qsTr("upper operation limits")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 id: hoprSrc
                 backendValue: backendValues.limits_hoprSrc
                 scope: "LimitsSource"
@@ -51,7 +51,7 @@ Section {
             tooltip: qsTr("precision for float number")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 id: precSrc
                 backendValue: backendValues.limits_precSrc
                 scope: "LimitsSource"

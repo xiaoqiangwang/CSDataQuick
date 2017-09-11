@@ -13,7 +13,7 @@ Section {
             tooltip: qsTr("color mode")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 backendValue: backendValues.colorMode
                 implicitWidth: 180
                 scope: "ColorMode"
@@ -25,7 +25,7 @@ Section {
             tooltip: qsTr("visibility mode")
         }
         SecondColumnLayout {
-            ComboBox {
+            ComboBoxFix {
                 backendValue: backendValues.dynamicAttribute_visibilityMode
                 implicitWidth: 180
                 scope: "VisibilityMode"

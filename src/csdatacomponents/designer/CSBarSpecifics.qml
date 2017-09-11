@@ -19,7 +19,7 @@ Column {
                 tooltip: qsTr("incremental direction")
             }
             SecondColumnLayout {
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.direction
                     implicitWidth: 180
                     scope: "Direction"
@@ -31,7 +31,7 @@ Column {
                 tooltip: qsTr("set the bar start position")
             }
             SecondColumnLayout {
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.fillMode
                     implicitWidth: 180
                     scope: "FillMode"
@@ -43,7 +43,7 @@ Column {
                 tooltip: qsTr("set the decoration style")
             }
             SecondColumnLayout {
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.labelStyle
                     implicitWidth: 180
                     scope: "LabelStyle"

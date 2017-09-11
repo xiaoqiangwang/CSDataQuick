@@ -28,7 +28,7 @@ Column {
                 tooltip: qsTr("visual form")
             }
             SecondColumnLayout {
-                ComboBox {
+                ComboBoxFix {
                     backendValue: backendValues.visual
                     implicitWidth: 180
                     scope: "RelatedDisplayVisual"
