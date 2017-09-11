@@ -66,7 +66,7 @@ MetaInfo {
         icon: "images/byte.png"
 
         ItemLibraryEntry {
-            name: "Byte"
+            name: "Bytes"
             category: "CSDataQuick - Components"
             libraryIcon: "images/byte.png"
             version: "1.0"
