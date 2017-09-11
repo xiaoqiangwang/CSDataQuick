@@ -58,7 +58,7 @@ MouseArea {
             Instantiator {
                 id: executeMenuInst
                 delegate: MenuItem {
-                    text: modelData.label
+                    text: modelData.label || ''
                     onTriggered: runCommand(modelData.command)
                 }
                 onObjectAdded: executeMenu.insertItem(index, object)
