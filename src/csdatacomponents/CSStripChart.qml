@@ -54,7 +54,7 @@ BaseItem {
     /*!
         This property holds the data list model.
 
-        The model can be ListModel or array object. In any case, each element contains the following properties,
+        The model can be ListModel or JSON object array. In any case, each element contains the following properties,
         \list
         \li channel  - the process variable to monitor.
         \li color - the color of the line for that channel,
@@ -63,6 +63,8 @@ BaseItem {
         \li hoprSrc - the upper range source.
         \li hoprDefault - the default upper range.
         \endlist
+
+        \e{Note: Only in the form of JSON object array, it can be used in Qt Quick Designer}
     */
     property var model
 

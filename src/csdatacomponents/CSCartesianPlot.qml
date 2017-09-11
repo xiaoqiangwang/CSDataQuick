@@ -196,12 +196,14 @@ BaseItem {
     /*!
         Trace list model.
 
-        Each element contains the following properties,
+        The model can be ListModel or JSON object array. In any case, each element contains the following properties,
         \list
         \li xchannel - data source for x
         \li ychannel - data source for y
         \li color - line color
         \endlist
+
+        \e{Note: Only in the form of JSON object array, it can be used in Qt Quick Designer}
     */
     property var model
 

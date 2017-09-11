@@ -25,10 +25,10 @@ import "utils.js" as UtilsJS
     If there is more than one item on the menu, the squares and/or label are at the left of the button.
 
     The new display can be configured by "replace" property to always replace the parent.
-     When the parent display is replaced by the new display, its upper-left corner should be at the former position of the parent,
-     unless the new display was already in existence.  In that case the existing display is popped up, and its position is not changed.
+    When the parent display is replaced by the new display, its upper-left corner should be at the former position of the parent,
+    unless the new display was already in existence.  In that case the existing display is popped up, and its position is not changed.
 
-     \qml
+    \qml
     Row {
         spacing: 10
         CSRelatedDisplay {
@@ -44,10 +44,10 @@ import "utils.js" as UtilsJS
             width: 100
             height: 60
             visual: RelatedDisplayVisual.Column
-            model: ListModel {
-                ListElement {label:'Monitors'; file: 'monitors.adl'; replace: true;}
-                ListElement {label:'Graphics'; file: 'graphics.adl'; replace: true;}
-            }
+            model: [
+                {"label":"Monitors", "file":"monitor.adl", "macro":"", "replace":true},
+                {"label":"Controls", "file":"control.adl", "macro":"", "replace":true}
+            ]
         }
     }
      \endqml
@@ -78,7 +78,7 @@ BaseItem {
     /*!
         This property holds the related display list model
 
-        The model contains entries to display files. It can be ListModel or object array.
+        The model contains entries to display files. It can be ListModel or JSON object array.
         In either case, each entry contains the following.
         \list
         \li label: text description
@@ -86,6 +86,8 @@ BaseItem {
         \li macro: macro substitution
         \li replace: replace the parent display if true
         \endlist
+
+        \e{Note: Only in the form of JSON object array, it can be used in Qt Quick Designer}
     */
     property var model
 

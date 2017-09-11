@@ -56,7 +56,7 @@ BaseItem {
     /*!
         The property holds the command list model.
 
-        The model can be ListModel or array object. In any case, each element contains two properties:
+        The model can be ListModel or JSON object array. In any case, each element contains two properties:
         \list
         \li label - the label on the menu item in the menu that is brought up when the Shell Command button is pressed.
         \li command - the string in command will be executed as a system command when the menu item with that label is selected.
@@ -64,6 +64,8 @@ BaseItem {
 
         The GUI will block until the command is executed, so it is almost always wise to include an “&” at the end of the command
         so that it will execute in the background.
+
+        \e{Note: Only in the form of JSON object array, it can be used in Qt Quick Designer}
     */
     property var model
 
