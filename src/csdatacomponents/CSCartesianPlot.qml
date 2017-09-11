@@ -125,18 +125,17 @@ BaseItem {
 
     /*! Number of points */
     property int count: 0
-    /*! Name of the PV from where to get number of points */
-    property string countPvName
-
-    /*! Name of the trigger PV. If configured, whenever the value of the trigger PV
+    /*! Source from where to get number of points */
+    property string countSource
+    /*! Source of the trigger. If configured, whenever the value of the trigger data
     changes, the entire plot will be updated. */
-    property string triggerPvName
+    property string triggerSource
     /*!
-    The Erase Channel is a CSData object that causes erasing of the plot.
-    If there is an Erase Channel, the plot erases when the CSData value
-    turns either zero or non-zero, depending on the Erase Mode.
+    The erase source is a CSData object that causes erasing of the plot.
+    If there is an erase source, the plot erases when the CSData value
+    turns either zero or non-zero, depending on the eraseMode.
     */
-    property string erasePvName
+    property string eraseSource
     /*!
     \list
         \li 0: Erase the plot if the erase-channel CSData is not zero.
@@ -272,13 +271,13 @@ BaseItem {
     }
 
     Component.onCompleted: {
-        if (countPvName != '') {
-            d.pvCount = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(countPvName), root, 'pvCount')
+        if (countSource != '') {
+            d.pvCount = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(countSource), root, 'pvCount')
             d.pvCount.valueChanged.connect(updateCount)
         }
 
-        if (erasePvName != '') {
-            d.pvErase = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(erasePvName), root, 'pvErase')
+        if (eraseSource != '') {
+            d.pvErase = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(eraseSource), root, 'pvErase')
             d.pvErase.valueChanged.connect(eraseGraph)
         }
 
@@ -339,8 +338,10 @@ BaseItem {
              (d.pvErase.value == 0 && root.eraseMode == EraseMode.IfZero) ) {
             for (var i=0; i<d.graphs.length; i++) {
                 d.graphs[i].clearData()
-                d.pvs[i][0].data.length = 0
-                d.pvs[i][1].data.length = 0
+                if (d.pvs[i][0])
+                    d.pvs[i][0].data.length = 0
+                if (d.pvs[i][1])
+                    d.pvs[i][1].data.length = 0
             }
             plot.replot()
         }

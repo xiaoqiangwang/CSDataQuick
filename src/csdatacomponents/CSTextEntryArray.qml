@@ -92,7 +92,7 @@ CSControl {
 
     limits: Limits {
         id: limits
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
 
     Component {
@@ -103,7 +103,7 @@ CSControl {
             font.pixelSize: root.font.size
             font.family: root.font.family
             horizontalAlignment: root.align
-            readOnly: pv.accessRight & CSData.WriteAccess == 0
+            readOnly: csdata.accessRight & CSData.WriteAccess == 0
             Layout.fillWidth: stacking == Stacking.Column
             Layout.fillHeight: stacking != Stacking.Column
             Layout.row: stacking == Stacking.Column ? index : 1
@@ -112,20 +112,20 @@ CSControl {
             onHasFocusChanged: formatString()
 
             onAccepted: {
-                if (pv.accessRight & CSData.WriteAccess == 0)
+                if (csdata.accessRight & CSData.WriteAccess == 0)
                     return
                 var value = text
-                if (pv.fieldType == CSData.Char && format == TextFormat.String) {
+                if (csdata.fieldType == CSData.Char && format == TextFormat.String) {
                     // if char is formated as string, convert string back into char code
                     value = text.charCodeAt(0)
-                } else if (pv.fieldType !== CSData.String) {
+                } else if (csdata.fieldType !== CSData.String) {
                     // if data type is numeric, parse the string input based on format
                     value = Utils.parse(format, text)
                 }
                 if (typeof value == 'string' || !isNaN(value)) {
-                    var array = pv.value
+                    var array = csdata.value
                     array[index + root.index] = value
-                    pv.value = array
+                    csdata.value = array
                 }
             }
         }
@@ -165,7 +165,7 @@ CSControl {
     }
 
    Connections {
-        target: pv
+        target: csdata
         onPrecisionChanged: formatString()
         onValueChanged: formatString()
    }
@@ -179,14 +179,14 @@ CSControl {
 
     /*! \internal */
    function formatString () {
-       if (pv.value === undefined)
+       if (csdata.value === undefined)
            return
        for(var i=0; i<count; i++) {
-           entries.itemAt(i).text = UtilsJS.formatString(pv.value[i],
+           entries.itemAt(i).text = UtilsJS.formatString(csdata.value[i],
                                                          format,
-                                                         pv.fieldType,
+                                                         csdata.fieldType,
                                                          limits.prec,
-                                                         pv.stateStrings)
+                                                         csdata.stateStrings)
        }
    }
 }

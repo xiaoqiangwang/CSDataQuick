@@ -33,7 +33,7 @@ BaseItem {
     /*! This property holds the period of time between updates */
     property int period: 60
     /*!
-        This property holds the PV list model.
+        This property holds the data list model.
 
         The model can be ListModel or array object. In any case, each element contains the following properties,
         \list

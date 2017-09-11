@@ -107,7 +107,7 @@ CSControl {
 
     limits: Limits {
         id: limits
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
 
     StyledTextEntry {
@@ -118,26 +118,26 @@ CSControl {
         font.pixelSize: root.font.size
         font.family: root.font.family
         horizontalAlignment: root.align
-        readOnly: pv.accessRight & CSData.WriteAccess == 0
+        readOnly: csdata.accessRight & CSData.WriteAccess == 0
 
         onHasFocusChanged: {
-            text = formatString(format, pv.value)
+            text = formatString(format, csdata.value)
         }
 
         onAccepted: {
-            if (pv.accessRight & CSData.WriteAccess == 0)
+            if (csdata.accessRight & CSData.WriteAccess == 0)
                 return
             var value
-            switch (pv.fieldType) {
+            switch (csdata.fieldType) {
             case CSData.String:
                 value = text
                 break
             case CSData.Enum:
                 var i
-                for(i=0; i<pv.stateStrings.length; i++)
-                    if (text == pv.stateStrings[i])
+                for(i=0; i<csdata.stateStrings.length; i++)
+                    if (text == csdata.stateStrings[i])
                         break
-                if (i < pv.stateStrings.length)
+                if (i < csdata.stateStrings.length)
                     value = i
                 else
                     value = Utils.parse(format, text)
@@ -152,24 +152,24 @@ CSControl {
                 value = Utils.parse(format, text)
             }
             if (value !== undefined && (typeof value == 'string' || !isNaN(value))) {
-                pv.value = value
+                csdata.value = value
             }
         }
     }
 
     Connections {
-        target: pv
+        target: csdata
 
         onSourceChanged: {
-            textEntry.text = formatString(format, pv.value)
+            textEntry.text = formatString(format, csdata.value)
         }
 
         onStateStringsChanged: {
-            textEntry.text = formatString(format, pv.value)
+            textEntry.text = formatString(format, csdata.value)
         }
 
         onValueChanged: {
-            textEntry.text = formatString(format, pv.value)
+            textEntry.text = formatString(format, csdata.value)
             if (!textEntry.hasFocus)
                 textEntry.cursorPosition = 0
         }
@@ -179,26 +179,26 @@ CSControl {
         target: limits
 
         onPrecChanged: {
-            textEntry.text = formatString(format, pv.value)
+            textEntry.text = formatString(format, csdata.value)
         }
     }
 
     onFormatChanged: {
-        textEntry.text = formatString(format, pv.value)
+        textEntry.text = formatString(format, csdata.value)
     }
 
     /*!
         \internal
-        Format the value based on PV type.
+        Format the value based on data type.
     */
     function formatString () {
-        if (pv.extraProperties['QmlPuppetMode'])
-            return pv.source
+        if (csdata.extraProperties['QmlPuppetMode'])
+            return csdata.source
 
-        return UtilsJS.formatString(pv.value,
+        return UtilsJS.formatString(csdata.value,
                                     format,
-                                    pv.fieldType,
+                                    csdata.fieldType,
                                     limits.prec,
-                                    pv.stateStrings)
+                                    csdata.stateStrings)
     }
 }

@@ -41,7 +41,7 @@ Column {
                 tooltip: qsTr("data count source")
             }
             LineEdit {
-                backendValue: backendValues.countPvName
+                backendValue: backendValues.countSource
                 showTranslateCheckBox: false
             }
         }

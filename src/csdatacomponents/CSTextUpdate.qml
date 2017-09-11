@@ -58,14 +58,14 @@ CSMonitor {
     implicitHeight: 20
 
     limits: Limits {
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
 
     RowLayout {
         anchors.fill: parent
         Text {
             id: label_control
-            //text: formatString(format, pv.value)
+            //text: formatString(format, csdata.value)
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
             font.pixelSize: root.font.size
@@ -79,23 +79,23 @@ CSMonitor {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
             visible: unitsVisible && text != ''
-            text: pv.units
+            text: csdata.units
         }
     }
 
     Connections {
-        target: pv
+        target: csdata
 
         onSourceChanged: {
-            label_control.text = formatString(format, pv.value)
+            label_control.text = formatString(format, csdata.value)
         }
 
         onStateStringsChanged: {
-            label_control.text = formatString(format, pv.value)
+            label_control.text = formatString(format, csdata.value)
         }
 
         onValueChanged: {
-            label_control.text = formatString(format, pv.value)
+            label_control.text = formatString(format, csdata.value)
             // MEDM Compat: automatic adjust font size only if it is not left aligned
             if (align == Text.AlignLeft)
                 return
@@ -109,24 +109,24 @@ CSMonitor {
         target: limits
 
         onPrecChanged: {
-            label_control.text = formatString(format, pv.value)
+            label_control.text = formatString(format, csdata.value)
         }
     }
 
     onFormatChanged: {
-        label_control.text = formatString(format, pv.value)
+        label_control.text = formatString(format, csdata.value)
     }
 
     /*! \internal */
     function formatString () {
-        if (pv.extraProperties['QmlPuppetMode'])
-            return pv.source
+        if (csdata.extraProperties['QmlPuppetMode'])
+            return csdata.source
 
-        return UtilsJS.formatString(pv.value,
+        return UtilsJS.formatString(csdata.value,
                                     format,
-                                    pv.fieldType,
+                                    csdata.fieldType,
                                     limits.prec,
-                                    pv.stateStrings)
+                                    csdata.stateStrings)
     }
 }
 

@@ -37,11 +37,11 @@ CSControl {
     ComboBox {
         id: combo_control
         anchors.fill: parent
-        enabled: pv.accessRight & CSData.WriteAccess
-        model: pv.stateStrings
+        enabled: csdata.accessRight & CSData.WriteAccess
+        model: csdata.stateStrings
         onModelChanged: {
-            if (pv.value !== undefined)
-                currentIndex = pv.value
+            if (csdata.value !== undefined)
+                currentIndex = csdata.value
         }
 
         style: ComboBoxStyle {
@@ -104,13 +104,13 @@ CSControl {
         }
 */
         onActivated: {
-            pv.setValue(index)
+            csdata.setValue(index)
         }
     }
     Connections {
-        target: pv
+        target: csdata
         onValueChanged: {
-            combo_control.currentIndex = pv.value
+            combo_control.currentIndex = csdata.value
         }
     }
 }

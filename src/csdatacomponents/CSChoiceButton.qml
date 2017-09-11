@@ -39,14 +39,14 @@ CSControl {
     */
     property int stacking: Stacking.Column
     /*! \internal */
-    property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / pv.stateStrings.length - 4 : height - 4, true)
+    property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / csdata.stateStrings.length - 4 : height - 4, true)
 
-    implicitHeight: stacking == Stacking.Column ? pv.stateStrings.length * 20 : 20
-    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? pv.stateStrings.length * 100 : 100
+    implicitHeight: stacking == Stacking.Column ? csdata.stateStrings.length * 20 : 20
+    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? csdata.stateStrings.length * 100 : 100
 
     Connections {
-        target: pv
-        onValueChanged: loader.item.children[pv.value].checked = true
+        target: csdata
+        onValueChanged: loader.item.children[csdata.value].checked = true
     }
 
     ExclusiveGroup { id: radioInputGroup }
@@ -54,14 +54,14 @@ CSControl {
     Loader {
         id: loader
         anchors.fill: parent
-        enabled: pv.accessRight & CSData.WriteAccess
+        enabled: csdata.accessRight & CSData.WriteAccess
         sourceComponent: (stacking == Stacking.Row || stacking == Stacking.Column) ? layoutStyle : flowStyle
     }
 
     Component {
         id: button
         StyledButton {
-            text: pv.stateStrings[index]
+            text: csdata.stateStrings[index]
             foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             backgroundColor: root.background
             font.pixelSize: root.font.size
@@ -70,7 +70,7 @@ CSControl {
             exclusiveGroup: radioInputGroup
             Layout.fillWidth: true
             Layout.fillHeight: true
-            onClicked: pv.setValue(index)
+            onClicked: csdata.setValue(index)
         }
     }
 
@@ -79,7 +79,7 @@ CSControl {
         Flow {
             spacing: 0
             Repeater {
-                model: pv.stateStrings.length
+                model: csdata.stateStrings.length
                 delegate: button
             }
         }
@@ -88,12 +88,12 @@ CSControl {
     Component {
         id: layoutStyle
         GridLayout {
-            rows: stacking == Stacking.Row ? 1 : pv.stateStrings.length
-            columns: stacking == Stacking.Column ? 1 : pv.stateStrings.length
+            rows: stacking == Stacking.Row ? 1 : csdata.stateStrings.length
+            columns: stacking == Stacking.Column ? 1 : csdata.stateStrings.length
             rowSpacing: 0
             columnSpacing: 0
             Repeater {
-                model: pv.stateStrings.length
+                model: csdata.stateStrings.length
                 delegate: button
             }
         }

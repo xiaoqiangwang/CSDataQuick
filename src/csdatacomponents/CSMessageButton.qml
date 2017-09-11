@@ -50,9 +50,9 @@ CSControl {
 
         onPressedChanged: {
             if (pressed && onMessage)
-                pv.setValue(onMessage)
+                csdata.setValue(onMessage)
             else if(!pressed && offMessage)
-                pv.setValue(offMessage)
+                csdata.setValue(offMessage)
         }
     }
 }

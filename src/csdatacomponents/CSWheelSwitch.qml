@@ -104,7 +104,7 @@ CSControl {
 
     limits: Limits {
         id: limits
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
 
     WheelSwitch {
@@ -114,18 +114,18 @@ CSControl {
         hilim: limits.hopr
         prec: limits.prec
         format: root.format
-        value: pv.value
+        value: csdata.value
         foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         background: root.background
-        onNewValueChanged: pv.value = newValue
+        onNewValueChanged: csdata.value = newValue
     }
 
     Connections {
-        target: pv
+        target: csdata
         onRangeChanged: {
-            if (pv.range.isValid()) {
-                limits.loprChannel = pv.range.lower
-                limits.hoprChannel = pv.range.upper
+            if (csdata.range.isValid()) {
+                limits.loprChannel = csdata.range.lower
+                limits.hoprChannel = csdata.range.upper
             }
         }
     }

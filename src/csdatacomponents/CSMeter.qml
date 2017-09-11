@@ -57,7 +57,7 @@ CSMonitor {
     /*! The operation limits */
     limits: Limits {
         id: limits
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
 
     Meter {
@@ -81,15 +81,15 @@ CSMonitor {
     }
 
     Connections {
-        target: pv
+        target: csdata
         onRangeChanged: {
-            if (pv.range.isValid()) {
-                limits.loprChannel = pv.range.lower
-                limits.hoprChannel = pv.range.upper
+            if (csdata.range.isValid()) {
+                limits.loprChannel = csdata.range.lower
+                limits.hoprChannel = csdata.range.upper
             }
         }
         onValueChanged: {
-            meter.value = Number(pv.value).toFixed(limits.prec)
+            meter.value = Number(csdata.value).toFixed(limits.prec)
         }
     }
 }

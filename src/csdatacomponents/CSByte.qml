@@ -86,13 +86,13 @@ CSMonitor {
     }
 
     Connections {
-        target: pv
+        target: csdata
         onValueChanged: {
             // qml isn't notified when an array changes element
             // so the workaround is to re assign the whole array
             var tmp = digits
             for (var i=0; i<32; i++) {
-                tmp[i] = ((pv.value & (1 << i)) != 0)
+                tmp[i] = ((csdata.value & (1 << i)) != 0)
             }
             digits = tmp
         }

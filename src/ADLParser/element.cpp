@@ -2688,9 +2688,9 @@ void CartesianPlot::toQML(std::ostream &fstream)
     this->plotcom.toQML(fstream);
     fstream << indent << "    plotStyle: " << qmlValueTable[this->style] << std::endl;
     fstream << indent << "    count: " << this->count << std::endl;
-    fstream << indent << "    countPvName: \"" << this->countPvName << "\"" << std::endl;
-    fstream << indent << "    triggerPvName: \"" << this->trigger << "\"" << std::endl;
-    fstream << indent << "    erasePvName: \"" << this->erase << "\"" << std::endl;
+    fstream << indent << "    countSource: \"" << this->countPvName << "\"" << std::endl;
+    fstream << indent << "    triggerSource: \"" << this->trigger << "\"" << std::endl;
+    fstream << indent << "    eraseSource: \"" << this->erase << "\"" << std::endl;
     fstream << indent << "    eraseMode: " << qmlValueTable[this->eraseMode] << std::endl;
     fstream << indent << "    eraseOldest: " << (this->erase_oldest == ERASE_OLDEST_ON ? "true" : "false") << std::endl;
 

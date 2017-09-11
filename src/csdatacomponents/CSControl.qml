@@ -41,7 +41,7 @@ BaseItem {
     /*! \internal */
     property alias dynamicAttribute_channelD: da.channelD
     /*! \internal */
-    property var pv: CSData {
+    property var csdata: CSData {
         source: root.source
     }
     /*! \internal */
@@ -49,7 +49,7 @@ BaseItem {
         MenuItem {
             text: 'Data Info'
             onTriggered: {
-                DataInfoDialog.info = UtilsJS.dumpCSData(pv)
+                DataInfoDialog.info = UtilsJS.dumpCSData(csdata)
                 DataInfoDialog.open()
             }
         }
@@ -78,22 +78,22 @@ BaseItem {
         z: 1
         anchors.fill: parent
         color: 'white'
-        visible: !pv.connected
+        visible: !csdata.connected
     }
 
     MouseArea {
         z: 1
         anchors.fill: parent
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
-        cursorShape: pv.accessRight & CSData.WriteAccess ? Qt.ArrowCursor : Qt.ForbiddenCursor
+        cursorShape: csdata.accessRight & CSData.WriteAccess ? Qt.ArrowCursor : Qt.ForbiddenCursor
         onReleased: contextMenu.popup()
     }
 
     Connections {
-        target: pv
+        target: csdata
 
         onAlarmChanged: {
-            switch (pv.alarm.severity) {
+            switch (csdata.alarm.severity) {
                 case 0: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;

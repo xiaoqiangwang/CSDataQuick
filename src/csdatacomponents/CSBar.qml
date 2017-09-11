@@ -109,7 +109,7 @@ CSMonitor {
 
     limits: Limits {
         id: limits
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
     implicitWidth: (direction == Direction.Left || direction == Direction.Right) ? 200 : 50
     implicitHeight:  (direction == Direction.Left || direction == Direction.Right) ? 50 : 200
@@ -160,7 +160,7 @@ CSMonitor {
         anchors.bottom: root.bottom
         anchors.horizontalCenter: root.horizontalCenter
 
-        text: Utils.convert(TextFormat.Decimal, pv.value, limits.prec)
+        text: Utils.convert(TextFormat.Decimal, csdata.value, limits.prec)
         horizontalAlignment: Text.AlignHCenter
 
         font.family: root.font.family
@@ -176,15 +176,15 @@ CSMonitor {
     }
 
     Connections {
-        target: pv
+        target: csdata
         onRangeChanged: {
-            if (pv.range.isValid()) {
-                limits.loprChannel = pv.range.lower
-                limits.hoprChannel = pv.range.upper
+            if (csdata.range.isValid()) {
+                limits.loprChannel = csdata.range.lower
+                limits.hoprChannel = csdata.range.upper
             }
         }
         onValueChanged: {
-            bar.value = pv.value
+            bar.value = csdata.value
         }
     }
 }

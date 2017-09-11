@@ -16,7 +16,7 @@ BaseItem {
     /*! This property indicates how foreground color changes. \sa ColorMode, */
     property int colorMode: ColorMode.Static
     /*! This property holds the data source string */
-    property alias source: pv.source
+    property string source
     /*! This property holds the color based on the severity of the associated CSData.
 
         It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
@@ -35,13 +35,15 @@ BaseItem {
     /*! \internal */
     property alias dynamicAttribute_channelD: da.channelD
     /*! \internal  */
-    property var pv: CSData { id: pv; }
+    property var csdata: CSData {
+        source: root.source
+    }
     /*! \internal */
     property Menu contextMenu: Menu {
         MenuItem {
             text: 'Data Info'
             onTriggered: {
-                DataInfoDialog.info = UtilsJS.dumpCSData(pv)
+                DataInfoDialog.info = UtilsJS.dumpCSData(csdata)
                 DataInfoDialog.open()
             }
         }
@@ -74,7 +76,7 @@ BaseItem {
         z: 1
         anchors.fill: parent
         color: 'white'
-        visible: !pv.connected
+        visible: !csdata.connected
     }
 
 
@@ -86,10 +88,10 @@ BaseItem {
     }
 
     Connections {
-        target: pv
+        target: csdata
 
         onAlarmChanged: {
-            switch (pv.alarm.severity) {
+            switch (csdata.alarm.severity) {
                 case CSDataAlarm.NoAlarm: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;

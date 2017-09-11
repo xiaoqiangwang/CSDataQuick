@@ -80,7 +80,7 @@ CSMonitor {
     */
     limits: Limits {
         id: limits
-        precChannel: pv.precision
+        precChannel: csdata.precision
     }
 
     Text {
@@ -130,7 +130,7 @@ CSMonitor {
         anchors.bottom: root.bottom
         anchors.horizontalCenter: root.horizontalCenter
 
-        text: Utils.convert(TextFormat.Decimal, pv.value, limits.prec)
+        text: Utils.convert(TextFormat.Decimal, csdata.value, limits.prec)
         horizontalAlignment: Text.AlignHCenter
 
         font.family: root.font.family
@@ -146,15 +146,15 @@ CSMonitor {
     }
 
     Connections {
-        target: pv
+        target: csdata
         onRangeChanged: {
-            if (pv.range.isValid()) {
-                limits.loprChannel = pv.range.lower
-                limits.hoprChannel = pv.range.upper
+            if (csdata.range.isValid()) {
+                limits.loprChannel = csdata.range.lower
+                limits.hoprChannel = csdata.range.upper
             }
         }
         onValueChanged: {
-            indicator.value = pv.value
+            indicator.value = csdata.value
         }
     }
 }

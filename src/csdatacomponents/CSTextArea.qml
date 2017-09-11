@@ -46,7 +46,7 @@ CSControl {
     }
 
     Connections {
-        target: pv
+        target: csdata
         onValueChanged: {
            textArea.text = formatString()
         }
@@ -80,14 +80,14 @@ CSControl {
 
     /*! \internal */
     function apply() {
-        pv.value = d.text
+        csdata.value = d.text
     }
     /*! \internal */
     function formatString() {
-        if (pv.fieldType == CSData.String)
-            return pv.value
-        else if (pv.fieldType == CSData.Char)
-            return String.fromCharCode.apply(null, pv.value).replace(/\0/g, '')
+        if (csdata.fieldType == CSData.String)
+            return csdata.value
+        else if (csdata.fieldType == CSData.Char)
+            return String.fromCharCode.apply(null, csdata.value).replace(/\0/g, '')
         else
             return ''
     }
