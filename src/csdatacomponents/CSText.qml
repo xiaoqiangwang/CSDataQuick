@@ -8,7 +8,7 @@ import "utils.js" as UtilsJS
     \inqmlmodule CSDataQuick.Components
     \brief Display a text label
 
-    It can display both plain and rich text. The text may extend beyond the height and width specified for the Text item
+    It can display both plain and rich text in HTML-style markup. The text may extend beyond the height and width specified for the Text item
     or may not use up all the specified height and width. The text typically does not fill all of the specified height for the Text item.
 
     The font used depends on the item height using function \l UtilsJS::getBestFontSize.
@@ -75,5 +75,6 @@ CSGraphics {
         font.family: root.font.family
         font.pixelSize: root.font.size
         verticalAlignment: Text.AlignHCenter
+        onLinkActivated: Qt.openUrlExternally(link)
     }
 }
