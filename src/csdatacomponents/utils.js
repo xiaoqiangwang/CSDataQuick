@@ -89,42 +89,42 @@ function popupPromptDialog(parent, title, hint, input) {
 }
 
 /*!
-    \qmlmethod UtilsJS::dumpPvInfo(pv)
+    \qmlmethod UtilsJS::dumpCSData(data)
 */
-function dumpPvInfo(pv) {
+function dumpCSData(data) {
     var date = new Date()
     var text
     text = '           Data Infomation\n\n'
     text += date + '\n\n'
-    text += pv.source + '\n'
+    text += data.source + '\n'
     text += '======================================\n'
-    if (!pv.connected) {
+    if (!data.connected) {
         text += 'diconnected'
         return text
     }
 
-    text += 'TYPE: %1\n'.arg(pv.fieldType)
-    text += 'COUNT: %1\n'.arg(pv.count)
+    text += 'TYPE: %1\n'.arg(data.fieldType)
+    text += 'COUNT: %1\n'.arg(data.count)
     text += 'ACCESS: '
-    if (pv.accessRight & Core.CSData.ReadAccess)
+    if (data.accessRight & Core.CSData.ReadAccess)
         text += 'R'
-    if (pv.accessRight & Core.CSData.WriteAccess)
+    if (data.accessRight & Core.CSData.WriteAccess)
         text += 'W'
     text += '\n'
-    text += 'HOST: %1\n'.arg(pv.host)
-    text += 'VALUE: %1\n'.arg(pv.value)
-    text += 'STAMP: %1\n'.arg(pv.timeStamp)
-    // PV type specific information
+    text += 'HOST: %1\n'.arg(data.host)
+    text += 'VALUE: %1\n'.arg(data.value)
+    text += 'STAMP: %1\n'.arg(data.timeStamp)
+    // Data type specific information
     text += '\n'
-    if (pv.fieldType == Core.CSData.Float || pv.fieldType == Core.CSData.Double)
-        text += 'PRECISION: %1\n'.arg(pv.precision)
-    if (pv.range.lower != pv.range.upper)
-        text += 'HOPR: %1  LOPR %2\n'.arg(pv.range.upper).arg(pv.range.lower)
+    if (data.fieldType == Core.CSData.Float || data.fieldType == Core.CSData.Double)
+        text += 'PRECISION: %1\n'.arg(data.precision)
+    if (data.range.lower != data.range.upper)
+        text += 'HOPR: %1  LOPR %2\n'.arg(data.range.upper).arg(data.range.lower)
 
-    if (pv.stateStrings.length)
-        text += 'STATES: %1\n'.arg(pv.stateStrings.length)
-    for(var i=0; i<pv.stateStrings.length; i++) {
-        text += 'STATE %1: %2\n'.arg(i).arg(pv.stateStrings[i])
+    if (data.stateStrings.length)
+        text += 'STATES: %1\n'.arg(data.stateStrings.length)
+    for(var i=0; i<data.stateStrings.length; i++) {
+        text += 'STATE %1: %2\n'.arg(i).arg(data.stateStrings[i])
     }
     return text
 }
@@ -142,7 +142,7 @@ function modelFromArray(model, array)
 
 /*!
     \qmlmethod UtilsJS::formatString(value, format, type, precision)
-    Format the value based on PV type.
+    Format the value based on data type.
 */
 function formatString(value, format, type, precision, states) {
     if (value === undefined) {

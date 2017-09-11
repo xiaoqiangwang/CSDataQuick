@@ -98,7 +98,7 @@ set(QML_JS_FILES
     utils.js
     ColorMap.qml
     DisplayListDialog.qml
-    PvInfoDialog.qml
+    DataInfoDialog.qml
     PvLimitsDialog.qml
     PvTableDialog.qml
     PromptDialog.qml

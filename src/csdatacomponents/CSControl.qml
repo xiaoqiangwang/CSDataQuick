@@ -49,8 +49,8 @@ BaseItem {
         MenuItem {
             text: 'Data Info'
             onTriggered: {
-                PvInfoDialog.info = UtilsJS.dumpPvInfo(pv)
-                PvInfoDialog.open()
+                DataInfoDialog.info = UtilsJS.dumpCSData(pv)
+                DataInfoDialog.open()
             }
         }
         MenuItem {

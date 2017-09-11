@@ -38,7 +38,7 @@ QML_FILES += \
     $$PWD/utils.js \
     $$PWD/ColorMap.qml \
     $$PWD/DisplayListDialog.qml \
-    $$PWD/PvInfoDialog.qml \
+    $$PWD/DataInfoDialog.qml \
     $$PWD/PvLimitsDialog.qml \
     $$PWD/PvTableDialog.qml \
     $$PWD/PromptDialog.qml \
