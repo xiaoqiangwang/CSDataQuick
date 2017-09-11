@@ -8,4 +8,6 @@
     import CSDataQuick.Components 1.0
     \endcode
 
+    Most components name, style, function inspired by \l{http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/MEDM.html#MEDMObjects}{MEDM objects}. Some document texts are literally copied and the designer item icons are converted from MEDM xpm data.
+
 */
