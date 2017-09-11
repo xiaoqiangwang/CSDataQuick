@@ -75,6 +75,24 @@ import CSDataQuick.Components 1.0
         \li Y Scalar
         \li i, y
     \endtable
+
+    Mouse interactions include,
+    \table
+    \row
+        \li Click
+        \li Select the trace for zooming/panning.
+    \row
+        \li Double Click
+        \li Reset the zoom
+    \row
+        \li Wheel
+        \li Zoom the selected trace's axes. If the mouse hovers over a certain axis, only that axis gets zoomed.
+    \row
+        \li Drag
+        \li Pan view of the selected trace.
+    \endtable
+
+    \image cartesianplot.png
 */
 
 BaseItem {
