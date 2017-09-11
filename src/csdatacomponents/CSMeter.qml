@@ -36,17 +36,17 @@ CSMonitor {
         \endlist
     */
     property int labelStyle: LabelStyle.Frame
-    /* \internal */
+    /*! \internal */
     property alias limits_loprSrc: limits.loprSrc
-    /* \internal */
+    /*! \internal */
     property alias limits_loprDefault: limits.loprDefault
-    /* \internal */
+    /*! \internal */
     property alias limits_hoprSrc: limits.hoprSrc
-    /* \internal */
+    /*! \internal */
     property alias limits_hoprDefault: limits.hoprDefault
-    /* \internal */
+    /*! \internal */
     property alias limits_precSrc: limits.precSrc
-    /* \internal */
+    /*! \internal */
     property alias limits_precDefault: limits.precDefault
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
