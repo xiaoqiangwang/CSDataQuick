@@ -226,7 +226,6 @@ void CustomPlotItem::mouseMoveEvent(QMouseEvent *event)
 void CustomPlotItem::mouseReleaseEvent(QMouseEvent *event)
 {
     mPlot->mouseReleaseEvent(event);
-    emit mouseReleased(event);
 }
 void CustomPlotItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
@@ -599,8 +598,10 @@ void AxisItem::setRangeLower(double lower)
         return;
     _lower = lower;
 
-    if (mAxis && !autoScale())
+    if (mAxis && !autoScale()) {
         mAxis->setRangeLower(lower);
+        mAxis->parentPlot()->replot();
+    }
     emit rangeLowerChanged();
 }
 
@@ -614,8 +615,10 @@ void AxisItem::setRangeUpper(double upper)
         return;
     _upper = upper;
 
-    if (mAxis && !autoScale())
+    if (mAxis && !autoScale()) {
         mAxis->setRangeUpper(upper);
+        mAxis->parentPlot()->replot();
+    }
     emit rangeUpperChanged();
 }
 
@@ -667,6 +670,8 @@ void AxisItem::setAutoScale(bool on)
         mAxis->rescale();
     else
         mAxis->setRange(_lower, _upper);
+
+    mAxis->parentPlot()->replot();
 }
 
 void AxisItem::rescale()
@@ -678,4 +683,6 @@ void AxisItem::rescale()
         mAxis->rescale();
     else
         mAxis->setRange(_lower, _upper);
+
+    mAxis->parentPlot()->replot();
 }
