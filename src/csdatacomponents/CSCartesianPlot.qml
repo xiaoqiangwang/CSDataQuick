@@ -344,7 +344,7 @@ BaseItem {
                 implicitWidth: 80
                 text: yRangeUpper
                 validator: DoubleValidator {}
-                enabled: yangeStyle == CartesianPlotRangeStyle.User
+                enabled: yRangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: yRangeUpper = parseFloat(text)
             }
             Text {
