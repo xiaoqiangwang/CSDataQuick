@@ -44,6 +44,15 @@ Column {
                 backendValue: backendValues.countSource
                 showTranslateCheckBox: false
             }
+            Label {
+                text: qsTr("plot style")
+                tooltip: qsTr("plot style")
+            }
+            ComboBoxFix {
+                backendValue: backendValues.plotStyle
+                scope: 'PlotStyle'
+                model: ['Point', 'Line', 'FillUnder']
+            }
         }
     }
 
