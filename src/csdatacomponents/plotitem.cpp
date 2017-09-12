@@ -307,10 +307,12 @@ void GraphItem::setLineStyle(LineStyle lineStyle)
         }
             break;
         case Line:
+            mGraph->setScatterStyle(QCPScatterStyle());
             mGraph->setLineStyle(QCPGraph::lsLine);
             mGraph->setBrush(Qt::NoBrush);
             break;
         case Fill:
+            mGraph->setScatterStyle(QCPScatterStyle());
             mGraph->setLineStyle(QCPGraph::lsLine);
             mGraph->setBrush(mColor);
             break;
