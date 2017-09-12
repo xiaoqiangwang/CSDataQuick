@@ -1,4 +1,7 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.0
+import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Components 1.0
 
@@ -262,6 +265,114 @@ BaseItem {
         Axis {
             type: Axis.Right
             tickVisible: false
+        }
+    }
+
+    ListModel {
+        id: sourceModel
+        ListElement {
+            text: 'Channel';
+            value: CartesianPlotRangeStyle.Channel;
+        }
+        ListElement {
+            text: 'User';
+            value: CartesianPlotRangeStyle.User;
+        }
+        ListElement {
+            text: 'Auto';
+            value: CartesianPlotRangeStyle.Auto;
+        }
+    }
+
+    Dialog {
+        id: dialog
+        title: 'Define Axis Range'
+
+        contentItem: GridLayout {
+            anchors.fill: parent
+            columns: 4
+            rowSpacing: 2
+            anchors.margins: 5
+
+            Text {
+                text: 'X'
+                horizontalAlignment: Text.AlignRight
+            }
+            ComboBox {
+                model: sourceModel
+                textRole: "text"
+                currentIndex: xRangeStyle
+                onCurrentIndexChanged: {
+                    xRangeStyle = sourceModel.get(currentIndex).value
+                }
+            }
+            TextField {
+                implicitWidth: 80
+                text: xRangeLower
+                validator: DoubleValidator {}
+                enabled: xRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: xRangeLower = parseFloat(text)
+            }
+            TextField {
+                implicitWidth: 80
+                text: xRangeUpper
+                validator: DoubleValidator {}
+                enabled: xRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: xRangeUpper = parseFloat(text)
+            }
+
+            Text {
+                text: 'Y'
+                horizontalAlignment: Text.AlignRight
+            }
+            ComboBox {
+                model: sourceModel
+                textRole: "text"
+                currentIndex: yRangeStyle
+                onCurrentIndexChanged: {
+                    yRangeStyle = sourceModel.get(currentIndex).value
+                }
+            }
+            TextField {
+                implicitWidth: 80
+                text: yRangeLower
+                validator: DoubleValidator {}
+                enabled: yRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: yRangeLower = parseFloat(text)
+            }
+            TextField {
+                implicitWidth: 80
+                text: yRangeUpper
+                validator: DoubleValidator {}
+                enabled: yangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: yRangeUpper = parseFloat(text)
+            }
+            Text {
+                text: 'Y2'
+                horizontalAlignment: Text.AlignRight
+            }
+            ComboBox {
+                model: sourceModel
+                textRole: "text"
+                currentIndex: y2RangeStyle
+                onCurrentIndexChanged: {
+                    y2RangeStyle = sourceModel.get(currentIndex).value
+                }
+            }
+            TextField {
+                implicitWidth: 80
+                text: y2RangeLower
+                validator: DoubleValidator {}
+                enabled: y2RangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: y2RangeLower = parseFloat(text)
+            }
+            TextField {
+                implicitWidth: 80
+                text: y2RangeUpper
+                validator: DoubleValidator {}
+                enabled: y2RangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: y2RangeUpper = parseFloat(text)
+            }
         }
     }
 
