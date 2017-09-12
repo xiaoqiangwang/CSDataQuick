@@ -62,6 +62,7 @@ public:
 signals:
     void foregroundChanged();
     void backgroundChanged();
+    void contextMenuRequested();
 
 protected slots:
     void onCustomReplot();

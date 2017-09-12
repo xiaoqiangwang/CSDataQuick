@@ -266,6 +266,16 @@ BaseItem {
             type: Axis.Right
             tickVisible: false
         }
+
+        onContextMenuRequested: contextMenu.popup()
+    }
+
+    Menu {
+        id: contextMenu
+        MenuItem {
+            text: 'Axes Range'
+            onTriggered: dialog.open()
+        }
     }
 
     ListModel {
@@ -372,6 +382,14 @@ BaseItem {
                 validator: DoubleValidator {}
                 enabled: y2RangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: y2RangeUpper = parseFloat(text)
+            }
+            Button {
+                id: ok
+                text: 'Done'
+                onClicked: {
+                    dialog.accepted()
+                    dialog.close()
+                }
             }
         }
     }

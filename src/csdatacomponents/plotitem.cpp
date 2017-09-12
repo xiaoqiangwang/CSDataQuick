@@ -225,7 +225,10 @@ void CustomPlotItem::mouseMoveEvent(QMouseEvent *event)
 }
 void CustomPlotItem::mouseReleaseEvent(QMouseEvent *event)
 {
-    mPlot->mouseReleaseEvent(event);
+    if (event->button() == Qt::RightButton && event->modifiers() == Qt::NoModifier)
+        emit contextMenuRequested();
+    else
+        mPlot->mouseReleaseEvent(event);
 }
 void CustomPlotItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
