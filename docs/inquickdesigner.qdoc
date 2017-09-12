@@ -8,9 +8,11 @@
 Unlike the Qt UI Designer, Qt Quick Designer is deeply integrated in Qt Creator.
 This has one advantage that one can switch to edit mode to fine tune the components.
 
+\section1 macOS and Linux
+
 The CSDataQuick module must be in the import path before launching Qt Creator.
 \code
-    $ export QML_IMPORT_PATH=CSDataQuick-cmake/qml
+    $ export QML_IMPORT_PATH=CSDataQuick-qmake/qml
 \endcode
 
 And after you have created your own collection of UI components, you could add them to
@@ -28,6 +30,21 @@ select \e{Qt Quick} from the left list, then select  \e{Qt Quick Designer} tab,
 in the \e{QML Enumlation Layer} group, select \e{Use QML emulation layer that is built bythe selected Qt}.
 
 \image config-qmldesigner.png "Configure Quick Designer"
+
+\section1 Windows
+
+On Windows the situation is a lot more subtle. The safest approach is to build against the same Qt version as the Qt Creator.
+For example, Qt Creator 4.4 uses Qt 5.9.1 msvc2015 32bit.
+
+In addition, add the \e bin to PATH. Suppose the build path is \c C:\CSDataQuick-qmake
+\code
+    > set PATH=C:\CSDataQuick-qmake\bin;C:\epics\base-3.14.12\bin\win32-x86;%PATH%
+    > set QML_IMPORT_PATH=C:\CSDataQuick-qmake\qml
+    > C:\Qt\Tools\QtCreator\bin\qtcreator.exe
+\endcode
+
+The long answer is that, Qt Creator needs to know which Qt version to be used to create \e qml2puppet.
+One can create an empty project, using the same Qt version used to build CSDataQuick. And then open/create qml displays from there.
 
 \chapter Using the designer
 
