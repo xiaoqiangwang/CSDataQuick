@@ -226,10 +226,16 @@ void CustomPlotItem::mouseMoveEvent(QMouseEvent *event)
 void CustomPlotItem::mouseReleaseEvent(QMouseEvent *event)
 {
     mPlot->mouseReleaseEvent(event);
+    emit mouseReleased(event);
 }
 void CustomPlotItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
-    mPlot->rescaleAxes();
+    foreach(QObject *child, children()) {
+        if (qobject_cast<AxisItem*>(child)) {
+            AxisItem *axis = qobject_cast<AxisItem*>(child);
+            axis->rescale();
+        }
+    }
     mPlot->replot();
 }
 void CustomPlotItem::wheelEvent(QWheelEvent *event)
