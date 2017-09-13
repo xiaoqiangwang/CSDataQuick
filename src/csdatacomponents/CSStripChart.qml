@@ -1,4 +1,7 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.0
+import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
@@ -131,6 +134,116 @@ BaseItem {
             id: yAxis2
             type: Axis.Right
             tickVisible: false
+        }
+        onContextMenuRequested: contextMenu.popup()
+    }
+
+    Menu {
+        id: contextMenu
+        MenuItem {
+            text: 'Axes Range'
+            onTriggered: {
+                dialog.pvs = d.pvs
+                dialog.open()
+            }
+        }
+    }
+
+    ListModel {
+        id: sourceModel
+        ListElement {
+            text: 'Channel'
+            value: LimitsSource.Channel
+        }
+        ListElement {
+            text: 'Default'
+            value: LimitsSource.Default
+        }
+        ListElement {
+            text: 'User'
+            value: LimitsSource.User
+        }
+    }
+
+    Dialog {
+        id: dialog
+        title: 'Define Axis Range'
+
+        property var pvs
+
+        contentItem: GridLayout {
+            anchors.fill: parent
+            columns: 5
+            rowSpacing: 2
+            anchors.margins: 5
+
+            Repeater {
+                model: dialog.pvs
+                Text {
+                    text: modelData.source
+                    horizontalAlignment: Text.AlignRight
+                    Layout.row: index
+                    Layout.column: 0
+                }
+            }
+            Repeater {
+                model: dialog.pvs
+                ComboBox {
+                    model: sourceModel
+                    textRole: "text"
+                    currentIndex: modelData.limits.loprSrc
+                    onCurrentIndexChanged: {
+                        modelData.limits.loprSrc = sourceModel.get(currentIndex).value
+                    }
+                    Layout.row: index
+                    Layout.column: 1
+                }
+            }
+            Repeater {
+                model: dialog.pvs
+                TextField {
+                    implicitWidth: 80
+                    text: modelData.limits.lopr
+                    validator: DoubleValidator {}
+                    enabled: modelData.limits.loprSrc == LimitsSource.User
+                    onAccepted: modelData.limits.loprUser = parseFloat(text)
+                    Layout.row: index
+                    Layout.column: 2
+                }
+            }
+            Repeater {
+                model: dialog.pvs
+                ComboBox {
+                    model: sourceModel
+                    textRole: "text"
+                    currentIndex: modelData.limits.hoprSrc
+                    onCurrentIndexChanged: {
+                        modelData.limits.hoprSrc = sourceModel.get(currentIndex).value
+                    }
+                    Layout.row: index
+                    Layout.column: 3
+                }
+            }
+            Repeater {
+                model: dialog.pvs
+                TextField {
+                    implicitWidth: 80
+                    text: modelData.limits.hopr
+                    validator: DoubleValidator {}
+                    enabled: modelData.limits.hoprSrc == LimitsSource.User
+                    onAccepted: modelData.limits.hoprUser = parseFloat(text)
+                    Layout.row: index
+                    Layout.column: 4
+                }
+            }
+            Button {
+                id: ok
+                text: 'Done'
+                onClicked: {
+                    dialog.accepted()
+                    dialog.close()
+                }
+            }
         }
     }
 
