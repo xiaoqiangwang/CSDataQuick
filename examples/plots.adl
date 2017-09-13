@@ -1,6 +1,6 @@
 
 file {
-	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/tests/plot.adl"
+	name="/Users/wang/Development/CSDataQuick/examples/plots.adl"
 	version=030109
 }
 display {
@@ -328,7 +328,7 @@ text {
 "cartesian plot" {
 	object {
 		x=575
-		y=105
+		y=31
 		width=236
 		height=184
 	}
@@ -343,7 +343,7 @@ text {
 		yaxis=0
 	}
 	trace[1] {
-		ydata="sin"
+		ydata="cos"
 		data_clr=16
 		yaxis=1
 	}
@@ -355,5 +355,33 @@ text {
 	}
 	y2_axis {
 		rangeStyle="auto-scale"
+	}
+}
+"strip chart" {
+	object {
+		x=576
+		y=263
+		width=234
+		height=229
+	}
+	plotcom {
+		clr=14
+		bclr=5
+	}
+	pen[0] {
+		chan="sin"
+		clr=14
+		limits {
+			loprSrc="default"
+			loprDefault=-1
+		}
+	}
+	pen[1] {
+		chan="cos"
+		clr=53
+		limits {
+			loprSrc="default"
+			loprDefault=-1
+		}
 	}
 }
