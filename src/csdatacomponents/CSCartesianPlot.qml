@@ -426,8 +426,8 @@ BaseItem {
             var xAxis = plot.xAxis
             var yAxis = traceModel.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
-            graph.name = Qt.binding(function() {return traceModel.get(i).label;})
-            graph.color = Qt.binding(function() {return traceModel.get(i).color ? traceModel.get(i).color : 'black';})
+            graph.name = Qt.binding(function() {return traceModel.get(i).label || '';})
+            graph.color = Qt.binding(function() {return traceModel.get(i).color || 'black';})
             graph.lineStyle = Qt.binding(function () {return root.plotStyle;})
 
             var xpv = null, ypv = null
