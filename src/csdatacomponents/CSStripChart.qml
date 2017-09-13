@@ -56,7 +56,8 @@ BaseItem {
 
         The model can be ListModel or JSON object array. In any case, each element contains the following properties,
         \list
-        \li channel  - the process variable to monitor.
+        \li channel  - the data source to monitor.
+        \li label - the descriptive text.
         \li color - the color of the line for that channel,
         \li loprSrc - the lower range source.
         \li loprDefault - the default lower range.
@@ -152,6 +153,7 @@ BaseItem {
             var graph = plot.addGraph(plot.xAxis, axis)
             if (pen.color)
                 graph.color = pen.color
+            graph.name = pen.label || pen.channel
             d.graphs.push(graph)
             // create pv object
             var cmd =

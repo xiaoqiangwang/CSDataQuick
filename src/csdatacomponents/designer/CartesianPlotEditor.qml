@@ -31,12 +31,13 @@ Column {
         GridLayout {
             columns: 2
             width: parent.width
+
             FieldEditor {
-                implicitWidth: 180
-                text: model.xchannel
-                placeholderText: 'x source'
+                implicitWidth: 150
+                text: model.label
+                placeholderText: 'trace label'
                 onAccepted: {
-                    listView.model.setProperty(index, "xchannel", text)
+                    listView.model.setProperty(index, "label", text)
                 }
             }
             ColorPalette {
@@ -50,46 +51,38 @@ Column {
                     }
                 }
             }
+
             FieldEditor {
-                implicitWidth: 180
+                implicitWidth: 150
+                text: model.xchannel
+                placeholderText: 'x source'
+                onAccepted: {
+                    listView.model.setProperty(index, "xchannel", text)
+                }
+            }
+            ExpandingSpacer {
+            }
+
+            FieldEditor {
+                implicitWidth: 150
                 text: model.ychannel
                 placeholderText: 'y source'
                 onAccepted: {
                     listView.model.setProperty(index, "ychannel", text)
                 }
             }
-            Row {
-                IconButton {
-                    iconSource: 'images/arrow_up.png'
-                    tooltip: 'move up'
-                    onClicked: {
-                        console.log(index)
-                        if (index > 0)
-                            listView.model.move(index, index - 1, 1)
-                    }
-                }
-                IconButton {
-                    iconSource: 'images/arrow_down.png'
-                    tooltip: 'move down'
-                    onClicked: {
-                        console.log(index)
-                        if (index < listView.model.count - 1)
-                            listView.model.move(index, index + 1, 1)
-                    }
-                }
-                IconButton {
-                    tooltip: 'remove'
-                    iconSource: 'images/delete.png'
-                    onClicked: listView.model.remove(index)
-                }
-            }  
+            IconButton {
+                tooltip: 'remove'
+                iconSource: 'images/delete.png'
+                onClicked: listView.model.remove(index)
+            }
         }
     }
     Row {
         IconButton {
             iconSource: 'images/add.png'
             onClicked: {
-                listView.model.append({'xchannel':'', 'ychannel':'', 'color':'black'})
+                listView.model.append({'label':'', 'xchannel':'', 'ychannel':'', 'color':'black'})
             }
         }
         IconButton {
@@ -100,7 +93,7 @@ Column {
                     var m = listView.model.get(i)
                     if (!m.xchannel && !m.ychannel)
                         continue
-                    model.push({'xchannel':m.xchannel, 'ychannel':m.ychannel, 'color':m.color})
+                    model.push({'label':m.label, 'xchannel':m.xchannel, 'ychannel':m.ychannel, 'color':m.color})
                 }
                 backendValue.expression = JSON.stringify(model)
             }

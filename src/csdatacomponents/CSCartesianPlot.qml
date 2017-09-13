@@ -201,6 +201,7 @@ BaseItem {
 
         The model can be ListModel or JSON object array. In any case, each element contains the following properties,
         \list
+        \li label - trace label
         \li xchannel - data source for x
         \li ychannel - data source for y
         \li color - line color
@@ -422,6 +423,7 @@ BaseItem {
             var xAxis = plot.xAxis
             var yAxis = traceModel.get(i).yaxis ? plot.y2Axis : plot.yAxis
             var graph = plot.addGraph(xAxis, yAxis)
+            graph.name = Qt.binding(function() {return traceModel.get(i).label;})
             graph.color = Qt.binding(function() {return traceModel.get(i).color ? traceModel.get(i).color : 'black';})
             graph.lineStyle = Qt.binding(function () {return root.plotStyle;})
 
