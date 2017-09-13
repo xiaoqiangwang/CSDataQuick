@@ -37,6 +37,13 @@ Column {
                 showTranslateCheckBox: false
             }
             Label {
+                text: qsTr("legend visible")
+                tooltip: qsTr("graph y axis label")
+            }
+            CheckBox {
+                backendValue: backendValues.legendVisible
+            }
+            Label {
                 text: qsTr("count source")
                 tooltip: qsTr("data count source")
             }
