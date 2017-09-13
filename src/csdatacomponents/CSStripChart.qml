@@ -116,7 +116,7 @@ BaseItem {
         legendVisible: root.legendVisible
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: xLabel ? xLabel : (yLabel ? "Time (%1)".arg(getTimeLabel(root.units)) : '')
+            label: xLabel || "Time (%1)".arg(getTimeLabel(root.units))
             rangeLower: -period
             rangeUpper: 0
             autoScale: false
@@ -334,7 +334,7 @@ BaseItem {
            case TimeUnit.Minute:
                return "min";
            default:
-               return "s";
+               return "sec";
         }
     }
     /*! \internal */
