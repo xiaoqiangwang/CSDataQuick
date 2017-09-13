@@ -255,7 +255,7 @@ void CustomPlotItem::onCustomReplot()
  */
 
 GraphItem::GraphItem(QObject *parent)
-    : QObject(parent), mGraph(0),mXAxis(0),mYAxis(0)
+    : QObject(parent),mName(""),mGraph(0),mXAxis(0),mYAxis(0)
 {
 }
 
@@ -266,6 +266,7 @@ void GraphItem::init()
         return;
     mGraph = plot->plot()->addGraph(mXAxis->axis(), mYAxis->axis());
     connect(mGraph, SIGNAL(selectionChanged(bool)), this, SLOT(selectionChanged(bool)));
+    setName(mName);
     setColor(mColor);
     setLineStyle(mLineStyle);
     mGraph->setData(mX, mY);
@@ -286,6 +287,19 @@ void GraphItem::selectionChanged(bool selected)
     }
 }
 
+QString GraphItem::name()
+{
+    return mName;
+}
+void GraphItem::setName(QString name)
+{
+    mName = name;
+    if (mGraph) {
+        mGraph->setName(name);
+    }
+    emit nameChanged();
+}
+
 QColor GraphItem::color()
 {
     return mColor;
@@ -297,6 +311,7 @@ void GraphItem::setColor(QColor color)
         mGraph->setPen(color);
         mGraph->valueAxis()->setBasePen(color);
     }
+    emit colorChanged();
 }
 
 GraphItem::LineStyle GraphItem::lineStyle()
@@ -375,6 +390,8 @@ void GraphItem::setData(QVariant x, QVariant y)
     if (mGraph) {
         mGraph->setData(mX, mY);
     }
+
+    emit dataChanged();
 }
 void GraphItem::setData(QVariantList x, QVariant y)
 {
@@ -400,6 +417,8 @@ void GraphItem::setData(QVariantList x, QVariant y)
     if (mGraph) {
         mGraph->setData(mX, mY);
     }
+
+    emit dataChanged();
 }
 
 void GraphItem::setData(QVariantList x, QVariantList y)
@@ -412,6 +431,8 @@ void GraphItem::setData(QVariantList x, QVariantList y)
     if (mGraph) {
         mGraph->setData(mX, mY);
     }
+
+    emit dataChanged();
 }
 
 void GraphItem::setData(QVariantList data)
@@ -425,13 +446,18 @@ void GraphItem::setData(QVariantList data)
     if (mGraph) {
         mGraph->setData(mX, mY);
     }
+
+    emit dataChanged();
 }
 
 void GraphItem::clearData()
 {
+    mX.clear();mY.clear();
     if (mGraph) {
         mGraph->data()->clear();
     }
+
+    emit dataChanged();
 }
 
 /*

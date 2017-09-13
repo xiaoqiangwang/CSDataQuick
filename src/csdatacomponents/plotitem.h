@@ -79,6 +79,7 @@ class GraphItem : public QObject, public QQmlParserStatus
     Q_INTERFACES(QQmlParserStatus)
 
     Q_ENUMS(LineStyle)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(LineStyle lineStyle READ lineStyle WRITE setLineStyle NOTIFY lineStyleChanged)
     Q_PROPERTY(QVariantList data READ data WRITE setData NOTIFY dataChanged)    
@@ -100,6 +101,9 @@ public:
     void init();
 
     //properties
+    void setName(QString name);
+    QString name();
+
     void setData(QVariantList data);
     QVariantList data();
 
@@ -125,7 +129,8 @@ public slots:
     void selectionChanged(bool selected);
 
 signals:
-    void dataChanged(GraphItem *item);
+    void dataChanged();
+    void nameChanged();
     void colorChanged();
     void lineStyleChanged();
 
@@ -133,6 +138,7 @@ private:
     QCPGraph *mGraph;
     QVector<double> mX;
     QVector<double> mY;
+    QString mName;
     QColor mColor;
     LineStyle mLineStyle;
     AxisItem *mXAxis;
