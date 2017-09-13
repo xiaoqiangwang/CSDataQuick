@@ -106,6 +106,8 @@ BaseItem {
     property string xLabel
     /*! This property holds the Y axis label */
     property string yLabel
+    /*! This property indicates whether the legend is visible. */
+    property bool legendVisible: false
     /*!
         \list
             \li false: Plot n points corresponding to the first n changes
@@ -235,6 +237,7 @@ BaseItem {
         title: root.title
         foreground: root.foreground
         background: root.background
+        legendVisible: root.legendVisible
         property var xAxis: Axis {
             type: Axis.Bottom
             label: root.xLabel

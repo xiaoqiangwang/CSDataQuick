@@ -20,6 +20,7 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QColor foreground READ foreground WRITE setForeground NOTIFY foregroundChanged)
     Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
+    Q_PROPERTY(bool legendVisible READ legendVisible WRITE setLegendVisible)
     Q_PROPERTY(QQmlListProperty<GraphItem> graphs READ graphs)
 
 public:
@@ -37,6 +38,8 @@ public:
     void setForeground(QColor color);
     QColor background();
     void setBackground(QColor color);
+    bool legendVisible();
+    void setLegendVisible(bool visible);
 
     // graphs
     QQmlListProperty<GraphItem> graphs();

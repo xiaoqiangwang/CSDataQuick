@@ -66,8 +66,15 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
 
     mPlot = new QCustomPlot(this);
     mPlot->plotLayout()->clear();
-    mPlot->plotLayout()->addElement(0, 0, new QCPAxisRect(mPlot, false));
+    QCPAxisRect *defaultAxisRect = new QCPAxisRect(mPlot, false);
+    mPlot->plotLayout()->addElement(0, 0, defaultAxisRect);
     mPlot->plotLayout()->setRowSpacing(0);
+    QCPLegend *legend = new QCPLegend();
+    defaultAxisRect->insetLayout()->addElement(legend, Qt::AlignRight|Qt::AlignTop);
+    defaultAxisRect->insetLayout()->setMargins(QMargins(12, 12, 12, 12));
+    legend->setLayer("legend");
+    legend->setVisible(false);
+    mPlot->legend = legend;
 
     connect(mPlot, &QCustomPlot::afterReplot, this, &CustomPlotItem::onCustomReplot);
 
@@ -152,6 +159,16 @@ void CustomPlotItem::setBackground(QColor color)
 {
     mPlot->setBackground(color);
     mPlot->replot();
+}
+
+bool CustomPlotItem::legendVisible()
+{
+    return mPlot->legend->visible();
+}
+
+void CustomPlotItem::setLegendVisible(bool visible)
+{
+    mPlot->legend->setVisible(visible);
 }
 
 QQmlListProperty<GraphItem> CustomPlotItem::graphs()

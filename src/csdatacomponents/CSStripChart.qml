@@ -38,6 +38,8 @@ BaseItem {
     property string xLabel
     /*! This property holds the label of y axis, show next to the axis. */
     property string yLabel
+    /*! This property indicates whether the legend is visible. */
+    property bool legendVisible: false
     /*!
         \qmlproperty enumeration units
         This property holds the time axis units.
@@ -108,6 +110,7 @@ BaseItem {
         title: root.title
         foreground: root.foreground
         background: root.background
+        legendVisible: root.legendVisible
         property var xAxis: Axis {
             type: Axis.Bottom
             label: xLabel ? xLabel : (yLabel ? "Time (%1)".arg(getTimeLabel(root.units)) : '')
