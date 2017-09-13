@@ -157,6 +157,7 @@ BaseItem {
             if (pen.color)
                 graph.color = pen.color
             graph.name = pen.label || pen.channel
+            graph.lineStyle = PlotStyle.Line
             d.graphs.push(graph)
             // create pv object
             var cmd =
