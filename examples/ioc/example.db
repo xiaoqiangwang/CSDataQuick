@@ -54,6 +54,12 @@ record(calc, "sin")
     field (PREC, "3")
     field (FLNK, "y")
 }
+record(calc, "cos")
+{
+    field (INPA, "calc CP")
+    field (CALC, "cos(A/10*PI)")
+    field (PREC, "3")
+}
 record(compress, "y")
 {
     field (INP, "sin")
