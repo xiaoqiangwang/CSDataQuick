@@ -208,12 +208,12 @@ void propertyCallbackC(struct event_handler_args args)
         break;
     }
 
+    // Set connected after first get succeeds
+    QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, true));
+
     // Subscribe to value and alarm changes
     QVariant v = data->extraProperty("evidMonitor");
     if (!v.isValid()) {
-        // Set connected after first get succeeds
-        QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, true));
-
         evid evidMonitor;
         chtype reqtype = dbf_type_to_DBR_TIME(ca_field_type(args.chid));
         status = ca_create_subscription(reqtype,
