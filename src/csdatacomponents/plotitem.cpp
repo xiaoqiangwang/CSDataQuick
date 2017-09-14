@@ -718,6 +718,7 @@ void AxisItem::setAutoScale(bool on)
         mAxis->setRange(_lower, _upper);
 
     mAxis->parentPlot()->replot();
+    emit autoScaleChanged();
 }
 
 void AxisItem::rescale()
