@@ -726,7 +726,7 @@ void AxisItem::rescale()
     if (!mAxis)
         return;
 
-    if (autoScale())
+    if (autoScale() || _lower >= _upper)
         mAxis->rescale();
     else
         mAxis->setRange(_lower, _upper);
