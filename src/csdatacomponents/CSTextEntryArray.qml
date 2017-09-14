@@ -124,7 +124,11 @@ CSControl {
                 }
                 if (typeof value == 'string' || !isNaN(value)) {
                     var array = csdata.value
-                    array[index + root.index] = value
+                    if (Utils.qtVersion() < 0x050700) {
+                        array = Utils.vectorSet(array, value, index + root.index)
+                    } else {
+                        array[index + root.index] = value
+                    }
                     csdata.value = array
                 }
             }
@@ -181,8 +185,13 @@ CSControl {
    function formatString () {
        if (csdata.value === undefined)
            return
+       var varlist = csdata.value
+       if (Utils.qtVersion() < 0x050700) {
+           varlist = []
+           Utils.vectorGet(csdata.value, varlist, index, count)
+       }
        for(var i=0; i<count; i++) {
-           entries.itemAt(i).text = UtilsJS.formatString(csdata.value[i],
+           entries.itemAt(i).text = UtilsJS.formatString(varlist[i],
                                                          format,
                                                          csdata.fieldType,
                                                          limits.prec,
