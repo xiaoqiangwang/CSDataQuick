@@ -425,7 +425,9 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
     if (!window) {
         if(qobject_cast<QQuickItem *>(topLevel)) {
             QQuickView* qxView = new QQuickView(engine, NULL);
-            qxView->setResizeMode(QQuickView::SizeViewToRootObject);
+            qxView->setResizeMode(QQuickView::SizeRootObjectToView);
+            qxView->setWidth(topLevel->property("width").toInt());
+            qxView->setHeight(topLevel->property("height").toInt());
             qxView->setContent(filePath, &component, topLevel);
             // object without parent returned to QML will be garbage collected
             // if not referenced anymore. so we declare the ownership.
