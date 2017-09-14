@@ -158,8 +158,14 @@ function formatString(value, format, type, precision, states) {
     if (type == Core.CSData.Char && format == Components.TextFormat.String) {
         if (value instanceof Array)
             return String.fromCharCode.apply(null, value).replace(/\0/g, '')
-        else
-            return String.fromCharCode(value).replace(/\0/g, '')
+        else {
+            if (Components.Utils.qtVersion() < 0x050700) {
+                var varlist = []
+                Components.Utils.vectorGet(value, varlist);
+                return String.fromCharCode.apply(null, varlist).replace(/\0/g, '')
+            } else
+                return String.fromCharCode(value).replace(/\0/g, '')
+        }
     }
     if (value instanceof Array)
         value = value[0]
