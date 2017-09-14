@@ -147,6 +147,12 @@ BaseItem {
                 dialog.open()
             }
         }
+        MenuItem {
+            text: 'Legend'
+            checkable: true
+            checked: plot.legendVisible
+            onTriggered: plot.legendVisible = checked
+        }
     }
 
     ListModel {
