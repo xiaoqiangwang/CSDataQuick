@@ -288,12 +288,8 @@ BaseItem {
               cmd +='        hoprSrc: %1\n'.arg(limitsEnumString(pen.hoprSrc))
             if (pen.hoprDefault)
               cmd +='        hoprDefault: %1\n'.arg(pen.hoprDefault)
-              cmd +='    }\n' +
-                    '    onRangeChanged: {\n' +
-                    '        if (range.isValid()) {\n' +
-                    '            limits.loprChannel = range.lower\n' +
-                    '            limits.hoprChannel = range.upper\n' +
-                    '        }\n' +
+              cmd +='        loprChannel: range.lower\n' +
+                    '        hoprChannel: range.upper\n' +
                     '    }\n' +
                     '}'
             var pv = Qt.createQmlObject(cmd, root, 'pv'+i)
@@ -361,6 +357,7 @@ BaseItem {
             else
                 d.pvs[i].data.push(Number.NaN)
             d.graphs[i].setData(d.time, d.pvs[i].data)
+            d.graphs[i].y.rescale()
         }
         plot.replot()
     }
