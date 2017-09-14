@@ -61,41 +61,40 @@ QCSUtils::QCSUtils(QObject *parent)
 
 
 /*!
-    \qmlmethod QVariant Utils::vectorGet(QVariant v, int index, int count)
+    \qmlmethod Utils::vectorGet(QVariant v, Array d, int index, int count)
 
     Get the subarray from a vector, starting at position \a index (default 0).
     If \a count is -1 (the default), all elements after \a index are included.
     \sa QVector::mid()
 */
-QVariantList QCSUtils::vectorGet(QVariant v, int index, int count)
+void QCSUtils::vectorGet(QVariant v, QJSValue j, int index, int count)
 {
-    QVariantList value;
+    int i = 0;
 
     if (v.userType() == qMetaTypeId< QVector<double> >()) {
         foreach(double d, v.value< QVector<double> >().mid(index, count))
-            value.append(d);
+            j.setProperty(i++, d);
     }
     else if (v.userType() == qMetaTypeId< QVector<float> >()) {
         foreach(float d, v.value< QVector<float> >().mid(index, count))
-            value.append(d);
+            j.setProperty(i++, d);
     }
     else if (v.userType() == qMetaTypeId< QVector<int> >()) {
         foreach(int d, v.value< QVector<int> >().mid(index, count))
-            value.append(d);
+            j.setProperty(i++, d);
     }
     else if (v.userType() == qMetaTypeId< QVector<ushort> >()) {
         foreach(ushort d, v.value< QVector<ushort> >().mid(index, count))
-            value.append(d);
+            j.setProperty(i++, d);
     }
     else if (v.userType() == qMetaTypeId< QVector<uchar> >()) {
         foreach(uchar d, v.value< QVector<uchar> >().mid(index, count))
-            value.append(d);
+            j.setProperty(i++, d);
     }
     else if (v.userType() == QVariant::StringList) {
         foreach(QString d, v.value<QStringList>().mid(index, count))
-            value.append(d);
+            j.setProperty(i++, d);
     }
-    return value;
 }
 
 
@@ -607,4 +606,14 @@ QVariant QCSUtils::getProperty(QObject *object, QString name)
 void QCSUtils::copyToClipboard(const QString& text)
 {
     QGuiApplication::clipboard()->setText(text);
+}
+
+/*!
+    \qmlmethod Utils::qtVersion()
+
+    Return the QT_VERSION macro.
+*/
+int QCSUtils::qtVersion()
+{
+    return QT_VERSION;
 }

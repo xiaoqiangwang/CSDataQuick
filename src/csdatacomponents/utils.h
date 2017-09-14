@@ -5,6 +5,7 @@
 #include <QVariant>
 #include <QUrl>
 #include <QPoint>
+#include <QJSValue>
 
 class QWindow;
 class QQuickItem;
@@ -30,10 +31,11 @@ public:
     Q_INVOKABLE QString currentDateTime();
     Q_INVOKABLE QWindow *parentWindow(QQuickItem *item);
     Q_INVOKABLE QPoint mapToGlobal(QQuickItem *item, const QPoint point);
-    Q_INVOKABLE QVariantList vectorGet(QVariant v, int index=0, int count=-1);
+    Q_INVOKABLE void vectorGet(QVariant v, QJSValue j, int index=0, int count=-1);
     Q_INVOKABLE QVariantList parseExecList();
     Q_INVOKABLE QVariant getProperty(QObject *object, QString name);
     Q_INVOKABLE void copyToClipboard(const QString &text);
+    Q_INVOKABLE int qtVersion();
 signals:
 
 public slots:
