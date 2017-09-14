@@ -61,42 +61,67 @@ QCSUtils::QCSUtils(QObject *parent)
 
 
 /*!
-    \qmlmethod Utils::vectorGet(QVariant v, Array d, int index, int count)
+    \qmlmethod Utils::vectorGet(vector, array, index, count)
 
-    Get the subarray from a vector, starting at position \a index (default 0).
+    Get the subarray from a \l vector into \l array, starting at position \a index (default 0).
     If \a count is -1 (the default), all elements after \a index are included.
     \sa QVector::mid()
 */
-void QCSUtils::vectorGet(QVariant v, QJSValue j, int index, int count)
+void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
 {
     int i = 0;
 
-    if (v.userType() == qMetaTypeId< QVector<double> >()) {
-        foreach(double d, v.value< QVector<double> >().mid(index, count))
-            j.setProperty(i++, d);
+    if (vector.userType() == qMetaTypeId< QVector<double> >()) {
+        foreach(double d, vector.value< QVector<double> >().mid(index, count))
+            array.setProperty(i++, d);
     }
-    else if (v.userType() == qMetaTypeId< QVector<float> >()) {
-        foreach(float d, v.value< QVector<float> >().mid(index, count))
-            j.setProperty(i++, d);
+    else if (vector.userType() == qMetaTypeId< QVector<float> >()) {
+        foreach(float d, vector.value< QVector<float> >().mid(index, count))
+            array.setProperty(i++, d);
     }
-    else if (v.userType() == qMetaTypeId< QVector<int> >()) {
-        foreach(int d, v.value< QVector<int> >().mid(index, count))
-            j.setProperty(i++, d);
+    else if (vector.userType() == qMetaTypeId< QVector<int> >()) {
+        foreach(int d, vector.value< QVector<int> >().mid(index, count))
+            array.setProperty(i++, d);
     }
-    else if (v.userType() == qMetaTypeId< QVector<ushort> >()) {
-        foreach(ushort d, v.value< QVector<ushort> >().mid(index, count))
-            j.setProperty(i++, d);
+    else if (vector.userType() == qMetaTypeId< QVector<ushort> >()) {
+        foreach(ushort d, vector.value< QVector<ushort> >().mid(index, count))
+            array.setProperty(i++, d);
     }
-    else if (v.userType() == qMetaTypeId< QVector<uchar> >()) {
-        foreach(uchar d, v.value< QVector<uchar> >().mid(index, count))
-            j.setProperty(i++, d);
+    else if (vector.userType() == qMetaTypeId< QVector<uchar> >()) {
+        foreach(uchar d, vector.value< QVector<uchar> >().mid(index, count))
+            array.setProperty(i++, d);
     }
-    else if (v.userType() == QVariant::StringList) {
-        foreach(QString d, v.value<QStringList>().mid(index, count))
-            j.setProperty(i++, d);
+    else if (vector.userType() == QVariant::StringList) {
+        foreach(QString d, vector.value<QStringList>().mid(index, count))
+            array.setProperty(i++, d);
     }
 }
+/*!
 
+    \qmlmethod Utils::vectorSet(vector, value, index)
+
+    Set the \l index element from \l vector to \l value.
+*/
+QVariant QCSUtils::vectorSet(QVariant vector, QJSValue value, int index)
+{
+    QVariant v;
+
+    if (vector.userType() == QMetaType::QStringList) {
+        QStringList list = qvariant_cast<QStringList>(vector);
+        while (index >= list.size())
+            list.append("");
+        list.replace(index, value.toString());
+        v.setValue(list);
+    } else {
+        QVector<double> list = qvariant_cast< QVector<double> >(vector);
+        while (index >= list.size())
+            list.append(0);
+        list.replace(index, value.toNumber());
+        v.setValue(list);
+    }
+
+    return v;
+}
 
 /*!
     \qmlmethod QString Utils::format(QString format, double number)
