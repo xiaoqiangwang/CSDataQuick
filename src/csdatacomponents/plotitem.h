@@ -20,7 +20,7 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QColor foreground READ foreground WRITE setForeground NOTIFY foregroundChanged)
     Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
-    Q_PROPERTY(bool legendVisible READ legendVisible WRITE setLegendVisible)
+    Q_PROPERTY(bool legendVisible READ legendVisible WRITE setLegendVisible NOTIFY legendVisibleChanged)
     Q_PROPERTY(QQmlListProperty<GraphItem> graphs READ graphs)
 
 public:
@@ -65,6 +65,7 @@ public:
 signals:
     void foregroundChanged();
     void backgroundChanged();
+    void legendVisibleChanged();
     void contextMenuRequested();
 
 protected slots:

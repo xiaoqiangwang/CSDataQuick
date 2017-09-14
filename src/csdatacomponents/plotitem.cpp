@@ -169,6 +169,7 @@ bool CustomPlotItem::legendVisible()
 void CustomPlotItem::setLegendVisible(bool visible)
 {
     mPlot->legend->setVisible(visible);
+    emit legendVisibleChanged();
 }
 
 QQmlListProperty<GraphItem> CustomPlotItem::graphs()
