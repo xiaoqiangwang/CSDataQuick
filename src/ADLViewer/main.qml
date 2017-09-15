@@ -10,7 +10,7 @@ ApplicationWindow
     id: root
     property ListModel logModel: ListModel {}
 
-    width: 300
+    width: 480
     height: 100
     title: app.applicationName
     visible: true
@@ -70,30 +70,36 @@ ApplicationWindow
     ScrollView {
         anchors.fill: parent
 
+        Component {
+            id: messageItem
+            Column {
+                width: parent.width
+                Text {
+                    id: headerText
+                    wrapMode: Text.WordWrap
+                    text: time + ' ' + header
+                    color: colorForType(type)
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            bodyText.visible = !bodyText.visible
+                        }
+                    }
+                }
+                Text {
+                    id: bodyText
+                    wrapMode: Text.WordWrap
+                    text: body
+                    color: colorForType(type)
+                    visible: false
+                }
+            }
+        }
+
         ListView {
             id: logView
             model: logModel
-            delegate: Text {
-                width: parent.width
-                wrapMode: Text.WordWrap
-                text: time + ' ' + message
-                color: {
-                    switch (type) {
-                    case LogLevel.Debug:
-                        return "#373737"
-                    case LogLevel.Info:
-                        return "#0000EE"
-                    case LogLevel.Warning:
-                        return "#FAFA37"
-                    case LogLevel.Critical:
-                        return "#CC0000"
-                    case LogLevel.Fatal:
-                        return "#FFFF00"
-                    default:
-                        return "#000000"
-                    }
-                }
-            }
+            delegate: messageItem
             onCountChanged: {
                 positionViewAtIndex(count-1, ListView.Beginning)
             }
@@ -178,13 +184,34 @@ ApplicationWindow
         WindowManager.appendWindow(window)
     }
 
+    function colorForType(type) {
+        switch (type) {
+        case LogLevel.Debug:
+            return "#373737"
+        case LogLevel.Info:
+            return "#0000EE"
+        case LogLevel.Warning:
+            return "#FAFA37"
+        case LogLevel.Critical:
+            return "#CC0000"
+        case LogLevel.Fatal:
+            return "#FFFF00"
+        default:
+            return "#000000"
+        }
+    }
+
     function outputMessage(type, message)
     {
         // when the number of log entries exceeds 1000, remove the 100 from the begining
         // but leave the first entry which is the information about the current process.
         if (logModel.count > 1000)
-            logModel.remove(1, 1000)
-        logModel.append({'time': Utils.currentDateTime(), 'type': type, 'message': message})
+            logModel.remove(1, 100)
+        // split at the first occurance of newline to find out header and body
+        var m = message.indexOf('\n')
+        var header = message.slice(0, m)
+        var body = m==-1 ? '' : message.substr(m+1)
+        logModel.append({'time': Utils.currentDateTime(), 'type': type, 'header': header, 'body': body})
     }
 }
 
