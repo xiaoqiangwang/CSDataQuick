@@ -129,7 +129,7 @@ BaseItem {
     property int plotStyle: PlotStyle.Point
 
     /*! Number of points */
-    property int count: 1
+    property int count: 0
     /*!
     Source from where to get number of points.
 
