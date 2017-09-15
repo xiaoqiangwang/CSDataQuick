@@ -241,10 +241,22 @@ QCSData::~QCSData()
 /*!
     \property QCSData::source
     This property holds the data's source name.
+
+    The source name is of form "[engine://]data_id". \e{engine://} selects the data engine where this data comes.
+    If it is omitted, the default data engine is selected, which is EPICS channel access engine.
+    \e{data_id} is the unique id to the data inside the selected data engine.
+
+    "ca://my_pv" or simply "my_pv" both specify the data comes from process variable \e my_pv.
 */
 /*!
     \qmlproperty string CSData::source
     This property holds the data's source name.
+
+    The source name is of form "[engine://]data_id". \e{engine://} selects the data engine where this data comes.
+    If it is omitted, the default data engine is selected, which is EPICS channel access engine.
+    \e{data_id} is the unique id to the data inside the selected data engine.
+
+    "ca://my_pv" or simply "my_pv" both specify the data comes from process variable \e my_pv.
 */
 QString QCSData::source() const
 {
