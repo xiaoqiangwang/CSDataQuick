@@ -63,7 +63,7 @@ QCSUtils::QCSUtils(QObject *parent)
 /*!
     \qmlmethod Utils::vectorGet(vector, array, index, count)
 
-    Get the subarray from a \l vector into \l array, starting at position \a index (default 0).
+    Get the subarray from a \a vector into \a array, starting at position \a index (default 0).
     If \a count is -1 (the default), all elements after \a index are included.
     \sa QVector::mid()
 */
@@ -100,7 +100,7 @@ void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
 
     \qmlmethod Utils::vectorSet(vector, value, index)
 
-    Set the \l index element from \l vector to \l value.
+    Set the \a index element from \a vector to \a value and return the modified copy.
 */
 QVariant QCSUtils::vectorSet(QVariant vector, QJSValue value, int index)
 {
