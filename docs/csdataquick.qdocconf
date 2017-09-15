@@ -8,6 +8,7 @@ Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
 sourcedirs = . ../src/csdata/core ../src/csdatacomponents
 sources.fileextensions += "*.qdoc *.qml *.js"
 headers += ../src/csdata/core/csdata.h \
+           ../src/csdata/core/csdataengine.h \
            ../src/csdatacomponents/utils.h \
            ../src/csdatacomponents/baseitem.h \
            ../src/csdatacomponents/windowmanager.h \
@@ -17,6 +18,7 @@ headers += ../src/csdata/core/csdata.h \
            ../src/csdatacomponents/enums.h
 
 sources += ../src/csdata/core/csdata.cpp \
+           ../src/csdata/core/csdataengine.cpp \
            ../src/csdatacomponents/utils.cpp \
            ../src/csdatacomponents/baseitem.cpp \
            ../src/csdatacomponents/windowmanager.cpp \
