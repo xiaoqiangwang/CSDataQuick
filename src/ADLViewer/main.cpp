@@ -184,7 +184,7 @@ int main(int argc, char **argv)
     qMyApp->setOrganizationName("Paul Scherrer Institut");
     qMyApp->setOrganizationDomain("psi.ch");
     qMyApp->setApplicationName("ADLViewer");
-    qMyApp->setApplicationVersion("0.1");
+    qMyApp->setApplicationVersion("1.0.0b1");
 
     QQmlEngine *engine = new QQmlEngine();
     engine->rootContext()->setContextProperty("app", qMyApp);
