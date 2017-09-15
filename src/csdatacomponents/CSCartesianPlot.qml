@@ -129,7 +129,7 @@ BaseItem {
     property int plotStyle: PlotStyle.Point
 
     /*! Number of points */
-    property int count: 0
+    property int count: 1
     /*! Source from where to get number of points */
     property string countSource
     /*! Source of the trigger. If configured, whenever the value of the trigger data
@@ -413,8 +413,13 @@ BaseItem {
 
     Component.onCompleted: {
         if (countSource != '') {
-            d.pvCount = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(countSource), root, 'pvCount')
-            d.pvCount.valueChanged.connect(updateCount)
+            var n = Number(countSource)
+            if (n.isNaN()) {
+                d.pvCount = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(countSource), root, 'pvCount')
+                d.pvCount.valueChanged.connect(updateCount)
+            } else {
+                count = n
+            }
         }
 
         if (eraseSource != '') {
