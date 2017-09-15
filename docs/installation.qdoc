@@ -38,6 +38,8 @@ The \c EPICS_HOST_ARCH environment variable is assumed to be
     \li linux-x86_64
 \endtable
 
+\e {Note: If it is going to be used in Qt Quick Designer, different setup might be required on \l {Use in Qt Quick Designer} {Windows}. }
+
 \chapter macOS or Linux
 
 \list
@@ -121,4 +123,8 @@ If the module is not to be used by Python applications, the EPICS dll libraries 
     > set PATH=%PATH%;C:\Miniconda3\epics\windows-x64
 \endcode
 
+On Linux, the default \e qt package does not have OpenGL builtin. The version from \e conda-forge has to be used instead.
+\code
+    $ conda install -c conda-forge qt
+\endcode
 */
