@@ -153,13 +153,22 @@ void QCSDataRange::reset()
 /*!
     \class QCSData
     \inmodule CSDataQuick.Data
-    \brief This class provides access to control system data.
+    \brief This class represents control system data.
+
+    The class is modeled after the EPICS process variable for control system data,
+    which normally is a scalar or array value with describing meta data. In this
+    class these are all represented as properties.
+
+    It is the \l source property that connects it to the control system, i.e. data engines.
+    The data engine manages the conntions to the control system, populates the data properties.
+
+    \sa QCSDataEngine,
 */
 /*!
     \qmltype CSData
     \inqmlmodule CSDataQuick.Data
     \instantiates QCSData
-    \brief Object that provides access to control system data.
+    \brief Object that represents control system data.
 
     Example:
     \qml
