@@ -130,7 +130,11 @@ BaseItem {
 
     /*! Number of points */
     property int count: 1
-    /*! Source from where to get number of points */
+    /*!
+    Source from where to get number of points.
+
+    This may be an integer or the data source. If the value is of non-number form, then it is considered to be a data source, and the value of \l count will come from the data source. Otherwise the \l count is the converted number.
+    */
     property string countSource
     /*! Source of the trigger. If configured, whenever the value of the trigger data
     changes, the entire plot will be updated. */
@@ -414,12 +418,15 @@ BaseItem {
     Component.onCompleted: {
         if (countSource != '') {
             var n = Number(countSource)
-            if (n.isNaN()) {
+            if (isNaN(n)) {
                 d.pvCount = Qt.createQmlObject('import CSDataQuick.Data 1.0; CSData{source: "%1"}'.arg(countSource), root, 'pvCount')
                 d.pvCount.valueChanged.connect(updateCount)
             } else {
                 count = n
+                countChanged();
             }
+        } else {
+            countChanged();
         }
 
         if (eraseSource != '') {
