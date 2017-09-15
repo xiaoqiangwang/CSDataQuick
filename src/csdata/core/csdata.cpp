@@ -166,13 +166,14 @@ void QCSDataRange::reset()
         CSData {
             id: voltagePV
             source: 'MTEST:Voltage'
+            onValueChanged: console.log(timeStamp, ' voltage = ', value)
         }
     \endqml
 */
 /*!
     \enum QCSData::FieldType
         \value Invalid
-               Invalid or disconnected PV object
+               Invalid or disconnected data object
         \value String
                String of 8bit charactors.
         \value Enum
@@ -516,10 +517,21 @@ void QCSData::setExtraProperties(const QVariantMap properties)
 /*!
     \property QCSData::value
     This property holds the value of the data.
+
+    The value can of scalar, array type or anything that the underlying data engine provides.
 */
 /*!
-    \qmlproperty QVariant CSData::value
+    \qmlproperty var CSData::value
     This property holds the value of the data.
+
+    The value can be of scalar, array type or anything that the underlying data engine provides.
+    However it might be upcasted to \l {QML Basic Types}. In case of array type, the Javascript
+    environment can only understand QVector<int>, QVector<double>.
+
+    \e{Note: Qt 5.6 and below does not understand QVector type at all. It requires helper functions
+    for element-wise operation.}
+
+    \sa Utils::vectorGet, Utils::vectorSet
 */
 QVariant QCSData::value() const
 {
