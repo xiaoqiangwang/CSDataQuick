@@ -10,8 +10,8 @@ ApplicationWindow
     id: root
     property ListModel logModel: ListModel {}
 
-    width: 480
-    height: 100
+    width: 450
+    height: 150
     title: app.applicationName
     visible: true
     color: ColorMap.color4
@@ -76,18 +76,21 @@ ApplicationWindow
                 width: parent.width
                 Text {
                     id: headerText
+                    width: parent.width
                     wrapMode: Text.WordWrap
                     text: time + ' ' + header
                     color: colorForType(type)
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            bodyText.visible = !bodyText.visible
+                            if (bodyText.text)
+                                bodyText.visible = !bodyText.visible
                         }
                     }
                 }
                 Text {
                     id: bodyText
+                    width: parent.width
                     wrapMode: Text.WordWrap
                     text: body
                     color: colorForType(type)
