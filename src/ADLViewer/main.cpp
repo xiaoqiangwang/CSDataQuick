@@ -66,7 +66,7 @@ int main(int argc, char **argv)
     qCoreApp->setOrganizationName("Paul Scherrer Institut");
     qCoreApp->setOrganizationDomain("psi.ch");
     qCoreApp->setApplicationName("ADLViewer");
-    qCoreApp->setApplicationVersion("0.1");
+    qCoreApp->setApplicationVersion("1.0.0b1");
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
 
