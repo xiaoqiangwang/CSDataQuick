@@ -177,17 +177,17 @@ int main(int argc, char **argv)
     qCoreApp->quit();
     delete qCoreApp;
 
-    // Now start the real application
+    // Now start the main application
     // It is enough to use QGuiApplication mostly.
     // However the print dialog depends still on QtWidgets and thus QApplication.
-    QApplication *qMyApp = new QApplication(argc, argv);
-    qMyApp->setOrganizationName("Paul Scherrer Institut");
-    qMyApp->setOrganizationDomain("psi.ch");
-    qMyApp->setApplicationName("ADLViewer");
-    qMyApp->setApplicationVersion("1.0.0b1");
+    QApplication *qMainApp = new QApplication(argc, argv);
+    qMainApp->setOrganizationName("Paul Scherrer Institut");
+    qMainApp->setOrganizationDomain("psi.ch");
+    qMainApp->setApplicationName("ADLViewer");
+    qMainApp->setApplicationVersion("1.0.0b1");
 
     QQmlEngine *engine = new QQmlEngine();
-    engine->rootContext()->setContextProperty("app", qMyApp);
+    engine->rootContext()->setContextProperty("app", qMainApp);
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../qml/");
     QQmlComponent component(engine, QUrl("qrc:/main.qml"));
     while(!component.isReady()) {
@@ -205,7 +205,7 @@ int main(int argc, char **argv)
 
     qInstallMessageHandler(myMessageOutput);
 
-    qDebug().noquote() << qMyApp->applicationName() << "started with PID:" << qMyApp->applicationPid();
+    qDebug().noquote() << qMainApp->applicationName() << "started with PID:" << qMainApp->applicationPid();
 
     if (parser.isSet(noMsgOption))
         window->showMinimized();
@@ -228,5 +228,5 @@ int main(int argc, char **argv)
                              Q_ARG(QVariant, geometry));
     }
 
-    return qMyApp->exec();
+    return qMainApp->exec();
 }
