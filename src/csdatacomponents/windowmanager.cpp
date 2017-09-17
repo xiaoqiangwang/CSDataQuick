@@ -42,7 +42,7 @@ WindowManager::WindowManager(QObject *parent)
 
 }
 /*!
-    \qmlmethod WindowManager::appendWindow(QWindow *window)
+    \qmlmethod WindowManager::appendWindow(window)
 
     Append an opened window instance \a window.
  */
@@ -65,7 +65,7 @@ void WindowManager::appendWindow(QWindow *window)
 }
 
 /*!
-    \qmlmethod WindowManager::closeWindow(QWindow *window)
+    \qmlmethod WindowManager::closeWindow(window)
 
     Close and delete a window instance \a window.
  */
@@ -93,7 +93,7 @@ void WindowManager::removeWindow(QWindow *window)
 }
 
 /*!
-    \qmlmethod WindowManager::findWindow(QUrl absFilePath, QString macro)
+    \qmlmethod Window WindowManager::findWindow(absFilePath, macro)
 
     Search for a window instance opened with \a absFilePath and \a macro.
     It will return the found instance or null otherwise.
@@ -112,7 +112,7 @@ QWindow* WindowManager::findWindow(QUrl absFilePath, QString macro)
 }
 
 /*!
-    \qmlmethod WindowManager::printWindow(QWindow *window)
+    \qmlmethod WindowManager::printWindow(window)
     \brief Grab a screenshot of \a window and send to printer.
 
     The actual printing is performed by Qt Print Support.
@@ -160,9 +160,9 @@ void WindowManager::onClosingWindow(QQuickCloseEvent *event)
 }
 
 /*!
-    \qmlproperty list WindowManager::entries
+    \qmlproperty list<Object> WindowManager::entries
 
-    The list of all opened windows. Each entry has the follow field,
+    The list of all opened windows. Each entry object has the follow properties,
     \list
     \li filePath - absolute file path this window represents
     \li macro - macro expansion used to create this window

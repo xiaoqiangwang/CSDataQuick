@@ -11,9 +11,17 @@
 
 
 /*!
-    \qmlmethod UtilsJS::getBestFontSize(widget_height, with_frame)
+    \qmlmethod UtilsJS::getBestFontSize(item_height, with_frame)
+    Calculates the font size/family based on item height.
+
+    This function uses an imperically determined (item height, font size) table.
+    Actually two sets of tables are defined. One for items without enclosing frame, e.g. CSText.
+    One for items with a border frame, e.g. CSTextEntry. The reason for this manual tweak is to
+    match MEDM displays.
+
+    The font family is either \e{Dejavu Sans Mono} for font size less than 20 or \e Helvetica otherwise.
 */
-function getBestFontSize(widget_height, with_frame) {
+function getBestFontSize(item_height, with_frame) {
     var fsize_label = [[ 8,8], [ 9,9], [10,10], [13,11], [14,12], [15,13], [16,14], [20,16], [21,18], [26,22], [27, 28],[35,32]]
     var fsize_frame = [[14,8], [15,9], [16,10], [20,11], [21,12], [22,13], [23,14], [27,16], [32,18], [34,22]]
 
@@ -23,7 +31,7 @@ function getBestFontSize(widget_height, with_frame) {
 
     var font_size = fsize[fsize.length - 1][1]
     for(var i=1; i<fsize.length; i++) {
-        if(widget_height < fsize[i][0]) {
+        if(item_height < fsize[i][0]) {
             font_size = fsize[i - 1][1]
             break
         }
@@ -38,6 +46,8 @@ function getBestFontSize(widget_height, with_frame) {
 
 /*!
     \qmlmethod UtilsJS::popupDataLimitsDialog(parent)
+
+    This function popups up a dialog for user to configure the limits settings.
 */
 function popupDataLimitsDialog(parent) {
     var cmd = 'import CSDataQuick.Components 1.0; DataLimitsDialog {}'
@@ -77,6 +87,8 @@ function popupDataLimitsDialog(parent) {
 
 /*!
     \qmlmethod UtilsJS::popupPromptDialog(parent, title, hint, input)
+
+    This function popups a dialog to obtains user's input.
 */
 function popupPromptDialog(parent, title, hint, input) {
     var cmd = 'import CSDataQuick.Components 1.0; PromptDialog {}'
@@ -90,6 +102,8 @@ function popupPromptDialog(parent, title, hint, input) {
 
 /*!
     \qmlmethod UtilsJS::dumpCSData(data)
+
+    This function returns a printable string representation of the \a data object.
 */
 function dumpCSData(data) {
     var date = new Date()
@@ -130,19 +144,28 @@ function dumpCSData(data) {
 }
 
 /*!
-    \qmlmethod UtilsJS::modelFromArray(array)
-*/
-function modelFromArray(model, array)
-{
-    model.clear()
-    for(var i=0; i<array.length; i++)
-        model.append(array[i])
-    return model
-}
-
-/*!
-    \qmlmethod UtilsJS::formatString(value, format, type, precision)
+    \qmlmethod UtilsJS::formatString(value, format, type, precision, states)
     Format the value based on data type.
+
+    \table
+    \header
+    \li type
+    \li output
+    \row
+    \li Enum
+    \li string at the \a value index from the \a states list.
+    \row
+    \li String
+    \li as it is.
+    \row
+    \li Char
+    \li string by joinning the char array with ending null character removed.
+    \row
+    \li Number
+    \li string determined by \a format and \a precision.
+    \endtable
+
+     \sa Utils::convert,
 */
 function formatString(value, format, type, precision, states) {
     if (value === undefined) {

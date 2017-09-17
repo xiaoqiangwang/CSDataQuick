@@ -26,7 +26,7 @@
     \li stateStrings - state string representation for enum type
     \endlist
 
-    In addition, the data can be requested to change to a new value by modify its value property.
+    In addition, the data can be requested to change to a new value by setting its value property.
 
     \section1 Visual Representation
 

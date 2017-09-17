@@ -40,7 +40,7 @@ CSGraphics {
     id: root
 
     /*!
-        \qmltype list<Point> points
+        \qmlproperty list<point> points
 
         This property holds the trace of the polygon as a list of points.
     */

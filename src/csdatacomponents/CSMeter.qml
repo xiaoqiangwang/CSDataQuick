@@ -9,7 +9,7 @@ import "utils.js" as UtilsJS
     \inqmlmodule CSDataQuick.Components
     \brief Displays the value on a cirular dial panel.
 
-    The value of the process variable is displayed by a needle within an arc.
+    The value of the dta is displayed by a needle within an arc.
     \qml
     CSMeter {
         source: 'catest'
@@ -32,7 +32,7 @@ CSMonitor {
         \li LabelStyle.None - Same as LabelStyle.Frame.
         \li LabelStyle.Outline - Show the limits.
         \li LabelStyle.Limits - Show limits and a box for the value.
-        \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the process variable name.
+        \li LabelStyle.Channel - In addition to LabelStyle.Limits, show the data source name.
         \endlist
     */
     property int labelStyle: LabelStyle.Frame

@@ -63,9 +63,9 @@ QCSUtils::QCSUtils(QObject *parent)
 /*!
     \qmlmethod Utils::vectorGet(vector, array, index, count)
 
-    Get the subarray from a \a vector into \a array, starting at position \a index (default 0).
+    Get the subarray from a \a vector variant into \a array, starting at position \a index (default 0).
     If \a count is -1 (the default), all elements after \a index are included.
-    \sa QVector::mid()
+    \sa QVector::mid,
 */
 void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
 {
@@ -100,7 +100,7 @@ void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
 
     \qmlmethod Utils::vectorSet(vector, value, index)
 
-    Set the \a index element from \a vector to \a value and return the modified copy.
+    Set the \a index element from \a vector variant to \a value and return the modified copy.
 */
 QVariant QCSUtils::vectorSet(QVariant vector, QJSValue value, int index)
 {
@@ -124,7 +124,7 @@ QVariant QCSUtils::vectorSet(QVariant vector, QJSValue value, int index)
 }
 
 /*!
-    \qmlmethod QString Utils::format(QString format, double number)
+    \qmlmethod string Utils::format(format, number)
 
     Format a number with given format, \sa QString::sprintf()
 */
@@ -134,9 +134,10 @@ QString QCSUtils::format(QString format, double number)
 }
 
 /*!
-    \qmlmethod double Utils::calculate(QString expr, QVariantList input)
+    \qmlmethod double Utils::calculate(expression, input)
 
-    Evalute an expression based on given input.
+    Evalute an \a expression based on given \a input variables.
+    This calls \c postfix and \c calcPerform functions from EPICS base.
 */
 double QCSUtils::calculate(QString expr, QVariantList input)
 {
@@ -161,7 +162,7 @@ double QCSUtils::calculate(QString expr, QVariantList input)
 }
 
 /*!
-    \qmlmethod bool Utils::execute(QString program)
+    \qmlmethod bool Utils::execute(program)
 
     Execute a program. If \a program ends with "&", the new process will be detached.
     Otherwise it will wait for the new process to finish and return the exit code.
@@ -186,9 +187,10 @@ bool QCSUtils::execute(QString program)
 }
 
 /*!
-    \qmlmethod QString Utils::convert(TextFormat format, real value, int precision)
+    \qmlmethod string Utils::convert(TextFormat format, real value, int precision)
 
-    Convert a number with given format.
+    Convert a number \a value with given \a format.
+    This routine calls cvsFast functions from EPICS base and also functions from MEDM for certain special formats.
 */
 QString QCSUtils::convert(int format, QVariant value, int precision)
 {
@@ -283,9 +285,9 @@ double QCSUtils::parse(int format, QString textValue)
 }
 
 /*!
-    \qmlmethod QUrl Utils::searchDisplayFile(QString fileName, QWindow *window)
+    \qmlmethod url Utils::searchDisplayFile(fileName, window)
 
-    Search \a fileName from the current directory, the file path of \a window
+    Search a display file with given \a fileName from the current directory, the file path of \a window
     and EPICS_DISPLAY_PATH (.adl) or QML_DISPLAY_PATH (.qml) environment variable.
  */
 QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
@@ -336,9 +338,9 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
 }
 
 /*!
-    \qmlmethod QString Utils::openADLDisplay(QUrl fileName, QString macro)
+    \qmlmethod string Utils::openADLDisplay(fileName, macro)
 
-    Parse \a fileName with \a macro expansion, and convert to QML source.
+    Parse an ADL file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
     The root item is BaseWindow.
  */
 QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
@@ -359,11 +361,12 @@ QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
     return QString::fromStdString(qmlBody);
 }
 /*!
-    \qmlmethod QString Utils::openADLComposite(QUrl fileName, QString macro)
+    \qmlmethod string Utils::openADLComposite(fileName, macro)
 
-    Parse \a fileName with \a macro expansion, and convert to QML source.
-    The difference from Utils::openADLDisplay is that this will only return the children items.
- */
+    Parse an ADL file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
+    The difference from Utils::openADLDisplay is that this will only return the children items. Also the children
+    items might be shifted so the boundary rect equals the contents rect.
+*/
 
 QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
 {
@@ -383,10 +386,10 @@ QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
     return QString::fromStdString(qmlBody);
 }
 /*!
-    \qmlmethod QString Utils::openQMLDisplay(QUrl fileName, QString macro)
+    \qmlmethod string Utils::openQMLDisplay(fileName, macro)
 
-    Open \a fileName with \a macro expansion.
- */
+    Open a QML file with given \a fileName, and return the file contents with \a macro expansion performed.
+*/
 
 QString QCSUtils::openQMLDisplay(QUrl fileName, QString macro)
 {
@@ -418,7 +421,7 @@ QString QCSUtils::openQMLDisplay(QUrl fileName, QString macro)
 }
 
 /*!
-    \qmlmethod QWindow* Utils::createDisplay(QString qml, QObject *display, QUrl filePath)
+    \qmlmethod Window Utils::createDisplay(qml, display, filePath)
 
     Create a top level window based on \a qml source, represented by \a filePath.
     The QQmlEngine used is which \a display was created in.
@@ -495,9 +498,13 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
 }
 
 /*!
-    \qmlmethod QWindow* Utils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
+    \qmlmethod Window Utils::createDisplayByFile(display, filePath, macro)
 
-    Create a top level window from \a filePath with \a macro expansion.
+    Create a top level window from a file with given \a filePath with \a macro expansion.
+    The file can be either ADL or QML.
+
+    It calls Utils::openADLDisplay or Utils::openQMLDisplay
+    to create the qml source, and then calls Utils::createDisplay to actually create the display window.
     The QQmlEngine used is which \a display was created in.
  */
 QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
@@ -511,14 +518,14 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
     return createDisplay(qml, display, filePath, macro);
 }
 /*!
-    \qmlmethod Utils::parseX11Geometry(QString geometry)
+    \qmlmethod object Utils::parseX11Geometry(geometry)
 
     Parse a token of a X11 geometry specification, e.g. "200x100+10-20".
     The returned map contains the following fields,
     \list
     \li xOffset - x offset
     \li yOffset - y offset
-    \li corner - the corner from where the offset counts
+    \li corner - the corner from where the offset counts, see Qt::Corner.
     \li width - window width
     \li height - window height
     \endlist
@@ -529,7 +536,7 @@ QVariantMap QCSUtils::parseX11Geometry(QString geometry)
 }
 
 /*!
-    \qmlmethod Utils::currentDateTime()
+    \qmlmethod string Utils::currentDateTime()
 
     Return the current time in the form of "yyyy-MM-dd HH:mm:ss".
  */
@@ -539,9 +546,9 @@ QString QCSUtils::currentDateTime()
 }
 
 /*!
-    \qmlmethod QWindow * Utils::parentWindow(QQuickItem *item)
+    \qmlmethod Window Utils::parentWindow(item)
 
-    Return the parent window for item.
+    Return the parent window for \a item.
 */
 QWindow *QCSUtils::parentWindow(QQuickItem *item)
 {
@@ -551,9 +558,12 @@ QWindow *QCSUtils::parentWindow(QQuickItem *item)
     return item->window();
 }
 /*!
-    \qmlmethod QWindow * Utils::parentWindow(QQuickItem *item)
+    \qmlmethod point Utils::mapToGlobal(item, point)
 
-    Return the parent window for item.
+    Maps the given \a point in this item's coordinate system to the equivalent point
+    within global screen coordinate system, and returns the mapped coordinate.
+
+    This is an equivalent implementation of QQuickItem::mapToGlobal that first appeared in Qt 5.7.
 */
 QPoint QCSUtils::mapToGlobal(QQuickItem *item, const QPoint point)
 {
@@ -567,9 +577,14 @@ QPoint QCSUtils::mapToGlobal(QQuickItem *item, const QPoint point)
     return window->mapToGlobal(item->mapToItem(Q_NULLPTR, point).toPoint());
 }
 /*!
-    \qmlmethod Utils::parseExecList()
+    \qmlmethod list<object> Utils::parseExecList()
 
-    Return the command list defined by MEDM_EXEC_LIST environment variable.
+    Return the command list defined by \e MEDM_EXEC_LIST environment variable.
+    Each command object contains the following property,
+    \list
+    \li label - menu text
+    \li command - system command
+    \endlist
 */
 QVariantList QCSUtils::parseExecList()
 {
@@ -609,7 +624,9 @@ QVariantList QCSUtils::parseExecList()
 }
 
 /*!
-    \qmlmethod Utils::getProperty(name)
+    \qmlmethod var Utils::getProperty(object, name)
+
+    Returns the value of the \a object's \a name property.
 */
 QVariant QCSUtils::getProperty(QObject *object, QString name)
 {
@@ -626,7 +643,7 @@ QVariant QCSUtils::getProperty(QObject *object, QString name)
 /*!
     \qmlmethod Utils::copyToClipboard(text)
 
-    Copy the text to the global clipboard.
+    Copy the \a text to the global clipboard.
 */
 void QCSUtils::copyToClipboard(const QString& text)
 {
@@ -634,7 +651,7 @@ void QCSUtils::copyToClipboard(const QString& text)
 }
 
 /*!
-    \qmlmethod Utils::qtVersion()
+    \qmlmethod int Utils::qtVersion()
 
     Return the QT_VERSION macro.
 */

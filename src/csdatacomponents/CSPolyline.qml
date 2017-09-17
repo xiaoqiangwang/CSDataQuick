@@ -31,7 +31,7 @@ CSGraphics {
     implicitWidth: 100
     implicitHeight: 100
     /*!
-        \qmltype list<Point> points
+        \qmlproperty list<point> points
 
         This property holds the trace of the polyline as a list of points.
     */

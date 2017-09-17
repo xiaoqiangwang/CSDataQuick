@@ -73,6 +73,12 @@ BaseItemAttached::BaseItemAttached(QObject *object)
     item = qobject_cast<BaseItem*>(object);
 }
 
+/*!
+    \qmlattachedproperty string BaseItem::filePath
+    This attached property holds the absolute file path of the display in which this item resides.
+
+    It is attached to each instance of BaseItem. This property maybe give the items awareness of the global context.
+*/
 QString BaseItemAttached::filePath() const
 {
     return item->window()->filePath();

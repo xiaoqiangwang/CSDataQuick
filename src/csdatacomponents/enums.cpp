@@ -82,7 +82,7 @@
     \inqmlmodule CSDataQuick.Components
     \brief Enums of dynamic color rules
 
-    This class holds the enums of the dynamic color rules. \sa Utils::convert
+    This class holds the enums of the dynamic color rules.
 */
 
 /*!
