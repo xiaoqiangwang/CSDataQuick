@@ -130,3 +130,9 @@ record(mbbo, "filter")
     field (FVST, "Ge100")
     field (FVVL, "5")
 }
+
+record(ai, "timestamp")
+{
+    field (DTYP, "Soft Timestamp")
+    field (SCAN, "1 second")
+}
