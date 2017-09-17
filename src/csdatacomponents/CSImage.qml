@@ -13,6 +13,15 @@ import CSDataQuick.Components 1.0
     If the image file has multiple frames, the designer can choose to animate the images or to display a specified frame.
     The default is to animate if there is more than one frame.  To display a specific frame, enter an expression for
     the \l imageCalc that returns a frame number.
+
+    \qml
+            CSImage {
+                source: 'LED.gif'
+                dynamicAttribute.channel: 'catest'
+                imageCalc: 'A*10'
+            }
+    \endqml
+
 */
 
 CSGraphics {
