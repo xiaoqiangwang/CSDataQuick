@@ -10,7 +10,7 @@ ApplicationWindow {
     visible: true
     width: 400
     height: 400
-    title: qsTr("Hello World")
+    title: qsTr("Builder")
     color: ColorMap.windows_background
 
     menuBar: MenuBar {
