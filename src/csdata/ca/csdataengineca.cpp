@@ -48,7 +48,7 @@ void exception_handler(exception_handler_args args)
     severity	= VP.severity;
 
 #define ConvertTime(VP) \
-    timeStamp.setMSecsSinceEpoch(qint64(VP.stamp.secPastEpoch + POSIX_TIME_AT_EPICS_EPOCH) * 1000 + qint64(VP.stamp.nsec / 1000));
+    timeStamp.setMSecsSinceEpoch(qint64(VP.stamp.secPastEpoch + POSIX_TIME_AT_EPICS_EPOCH) * 1000 + qint64(VP.stamp.nsec / 1000000));
 
 #define ConvertCtrl(VP) \
     QMetaObject::invokeMethod(data, "setUnits", Q_ARG(QString, VP.units));\
