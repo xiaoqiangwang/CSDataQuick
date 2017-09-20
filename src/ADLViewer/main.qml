@@ -67,37 +67,38 @@ ApplicationWindow
     }
 
     // content item is a log message viewer
-    ScrollView {
-        anchors.fill: parent
-
-        Component {
-            id: messageItem
-            Column {
+    // Component has to be outside of ScrollView, see https://bugreports.qt.io/browse/QTBUG-46126
+    Component {
+        id: messageItem
+        Column {
+            width: parent.width
+            Text {
+                id: headerText
                 width: parent.width
-                Text {
-                    id: headerText
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    text: time + ' ' + header
-                    color: colorForType(type)
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (bodyText.text)
-                                bodyText.visible = !bodyText.visible
-                        }
+                wrapMode: Text.WordWrap
+                text: time + ' ' + header
+                color: colorForType(type)
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (bodyText.text)
+                            bodyText.visible = !bodyText.visible
                     }
                 }
-                Text {
-                    id: bodyText
-                    width: parent.width
-                    wrapMode: Text.WordWrap
-                    text: body
-                    color: colorForType(type)
-                    visible: false
-                }
+            }
+            Text {
+                id: bodyText
+                width: parent.width
+                wrapMode: Text.WordWrap
+                text: body
+                color: colorForType(type)
+                visible: false
             }
         }
+    }
+
+    ScrollView {
+        anchors.fill: parent
 
         ListView {
             id: logView
