@@ -266,6 +266,18 @@ MetaInfo {
         }
     }
     Type {
+        name: "CSDataQuick.Components.CSSpinBox"
+        icon: "images/spinbox.png"
+
+        ItemLibraryEntry {
+            name: "SpinBox"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/spinbox.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CSStripChart"
         icon: "images/stripChart.png"
 

@@ -28,6 +28,7 @@ QML_FILES += \
     $$PWD/CSRelatedDisplay.qml \
     $$PWD/CSShellCommand.qml \
     $$PWD/CSSlider.qml \
+    $$PWD/CSSpinBox.qml \
     $$PWD/CSStripChart.qml \
     $$PWD/CSTextArea.qml \
     $$PWD/CSTextEntry.qml \
@@ -89,6 +90,7 @@ QML_FILES += \
     $$PWD/designer/CSRelatedDisplaySpecifics.qml \
     $$PWD/designer/CSShellCommandSpecifics.qml \
     $$PWD/designer/CSSliderSpecifics.qml \
+    $$PWD/designer/CSSpinBoxSpecifics.qml \
     $$PWD/designer/CSStripChartSpecifics.qml \
     $$PWD/designer/CSTextSpecifics.qml \
     $$PWD/designer/CSTextAreaSpecifics.qml \
@@ -132,6 +134,7 @@ QML_FILES += \
     $$PWD/designer/images/relatedDisplay.png \
     $$PWD/designer/images/shellCommand.png \
     $$PWD/designer/images/slider.png \
+    $$PWD/designer/images/spinbox.png \
     $$PWD/designer/images/stripChart.png \
     $$PWD/designer/images/text.png \
     $$PWD/designer/images/textArea.png \

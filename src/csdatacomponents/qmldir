@@ -27,6 +27,7 @@ CSRect          1.0 CSRect.qml
 CSRelatedDisplay 1.0 CSRelatedDisplay.qml
 CSShellCommand  1.0 CSShellCommand.qml
 CSSlider        1.0 CSSlider.qml 
+CSSpinBox       1.0 CSSpinBox.qml
 CSStripChart    1.0 CSStripChart.qml
 CSText          1.0 CSText.qml
 CSTextArea      1.0 CSTextArea.qml

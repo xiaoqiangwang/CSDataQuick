@@ -88,6 +88,7 @@ set(QML_JS_FILES
     CSRelatedDisplay.qml
     CSShellCommand.qml
     CSSlider.qml
+    CSSpinBox.qml
     CSStripChart.qml
     CSTextArea.qml
     CSTextEntry.qml
@@ -147,6 +148,7 @@ set(QML_JS_FILES
     designer/CSRelatedDisplaySpecifics.qml
     designer/CSShellCommandSpecifics.qml
     designer/CSSliderSpecifics.qml
+    designer/CSSpinBoxSpecifics.qml
     designer/CSStripChartSpecifics.qml
     designer/CSTextSpecifics.qml
     designer/CSTextAreaSpecifics.qml
@@ -190,6 +192,7 @@ set(QML_JS_FILES
     designer/images/relatedDisplay.png
     designer/images/shellCommand.png
     designer/images/slider.png
+    designer/images/spinbox.png
     designer/images/stripChart.png
     designer/images/text.png
     designer/images/textArea.png
