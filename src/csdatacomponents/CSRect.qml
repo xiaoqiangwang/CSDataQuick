@@ -20,7 +20,14 @@ import CSDataQuick.Components 1.0
             width: 100
             height: 100
             lineWidth: 5
-            fill: FillStyle.Outline
+            fillStyle: FillStyle.Outline
+        }
+        CSRect {
+            width: 150
+            height: 30
+            radiusX: 10
+            radiusY: 10
+            fillStyle: FillStyle.Outline
         }
     }
     \endqml
@@ -30,11 +37,18 @@ import CSDataQuick.Components 1.0
 
 CSGraphics {
     id: root
+    /*! the x radius of the ellipses defining the corners of the rounded rectangle */
+    property real radiusX: 0
+    /*! the y radius of the ellipses defining the corners of the rounded rectangle */
+    property real radiusY: 0
+
     implicitWidth: 100
     implicitHeight: 100
     PaintedRectangle {
         id: rect
         anchors.fill: parent
+        radiusX: root.radiusX
+        radiusY: root.radiusY
         lineWidth: root.lineWidth
         foreground: (colorMode == ColorMode.Alarm
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static

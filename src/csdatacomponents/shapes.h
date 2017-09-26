@@ -161,11 +161,26 @@ private:
 class PaintedRectangletem : public ShapeItem
 {
     Q_OBJECT
+    Q_PROPERTY(double radiusX MEMBER _radiusX WRITE setRadiusX)
+    Q_PROPERTY(double radiusY MEMBER _radiusY WRITE setRadiusY)
 public:
     PaintedRectangletem(QQuickItem *parent=0);
 
+    void setRadiusX(double rx) {
+        _radiusX = rx;
+        rebuildPath();
+        update();
+    }
+    void setRadiusY(double ry) {
+        _radiusY = ry;
+        rebuildPath();
+        update();
+    }
 protected:
     QPainterPath buildPath();
+private:
+    double _radiusX;
+    double _radiusY;
 };
 
 class OvalItem : public ShapeItem

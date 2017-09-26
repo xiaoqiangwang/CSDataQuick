@@ -87,7 +87,7 @@ QPainterPath PolygonItem::buildPath()
 }
 
 PaintedRectangletem::PaintedRectangletem(QQuickItem *parent)
-    : ShapeItem(parent)
+    : ShapeItem(parent), _radiusX(0), _radiusY(0)
 {
 }
 
@@ -95,7 +95,7 @@ QPainterPath PaintedRectangletem::buildPath()
 {
     QPainterPath path;
     QRectF rc = getDrawArea();
-    path.addRect(rc);
+    path.addRoundedRect(rc, _radiusX, _radiusY);
     return path;
 }
 
