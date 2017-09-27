@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QPointF>
 #include <QPainterPath>
+#include <QtMath>
 
 #include "enums.h"
 #include "utils.h"
@@ -50,6 +51,16 @@ protected:
                           boundingRect.width() - 2*margin,
                           boundingRect.height() - 2*margin);
         return rect;
+    }
+
+    QPolygonF createArrow(const QPointF pt, double angle) {
+        double tx = pt.x() - qCos(angle - M_PI / 6) * 10;
+        double ty = pt.y() - qSin(angle - M_PI / 6) * 10;
+        double bx = pt.x() - qCos(angle + M_PI / 6) * 10;
+        double by = pt.y() - qSin(angle + M_PI / 6) * 10;
+        QPolygonF arrow;
+        arrow << QPointF(tx, ty) << pt <<  QPointF(bx, by);
+        return arrow;
     }
 
 protected:
