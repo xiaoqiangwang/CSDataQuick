@@ -36,6 +36,12 @@ CSGraphics {
         This property holds the trace of the polyline as a list of points.
     */
     property alias points: polyline.points
+    /*!
+        \qmlproperty int arrowPosition
+
+        This property indicates where the arrow is draw. \sa ArrowPosition,
+    */
+    property int arrowPosition: ArrowPosition.None
 
     Polyline {
         id: polyline
@@ -46,5 +52,6 @@ CSGraphics {
                     ? root.alarmColor :root.foreground
         lineWidth: root.lineWidth
         edgeStyle: root.edgeStyle
+        arrowPosition: root.arrowPosition
     }
 }

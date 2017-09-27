@@ -322,4 +322,19 @@ private:
     DISABLE_CREATION(CartesianPlotAxisStyle)
 };
 
+class ArrowPosition : public QObject
+{
+    Q_OBJECT
+    Q_ENUMS(ArrowPositionEnum)
+public:
+    enum ArrowPositionEnum {
+        None = 0,
+        Start,
+        End,
+        Both
+    };
+private:
+    DISABLE_CREATION(ArrowPosition)
+};
+
 #endif // ENUMS_H

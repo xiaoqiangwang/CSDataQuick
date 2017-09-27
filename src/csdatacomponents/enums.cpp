@@ -179,3 +179,19 @@
         \li LimitsSource.Unused
     \endlist
 */
+
+/*!
+    \qmltype ArrowPosition
+    \inqmlmodule CSDataQuick.Components
+    \brief Enums of where the arrow is placed
+*/
+
+/*!
+    \qmlproperty enumeration ArrowPosition::ArrowPosition
+    \list
+        \li ArrowPosition.None
+        \li ArrowPosition.Start
+        \li ArrowPosition.End
+        \li ArrowPosition.Both
+    \endlist
+*/

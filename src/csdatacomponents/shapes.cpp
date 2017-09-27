@@ -62,7 +62,7 @@ QPainterPath ArcItem::buildPath()
 }
 
 PolylineItem::PolylineItem(QQuickItem *parent)
-    : ShapeItem(parent)
+    : ShapeItem(parent), _arrowPosition(ArrowPosition::None)
 {
 }
 
@@ -70,6 +70,28 @@ QPainterPath PolylineItem::buildPath()
 {
     QPainterPath path;
     path.addPolygon(QPolygonF(_points));
+    if (_points.length() >= 2) {
+        if (_arrowPosition == ArrowPosition::Start || _arrowPosition == ArrowPosition::Both) {
+            double angle1 = QLineF(_points.at(1), _points.at(0)).angle() / 180 * M_PI;
+            double tx = _points.at(0).x() + qCos(M_PI - angle1 - M_PI / 6) * 10;
+            double ty = _points.at(0).y() + qSin(M_PI - angle1 - M_PI / 6) * 10;
+            double bx = _points.at(0).x() + qCos(M_PI - angle1 + M_PI / 6) * 10;
+            double by = _points.at(0).y() + qSin(M_PI - angle1 + M_PI / 6) * 10;
+            QPolygonF arrow;
+            arrow << QPointF(tx, ty) << _points.at(0) <<  QPointF(bx, by);
+            path.addPolygon(arrow);
+        }
+        if (_arrowPosition == ArrowPosition::End || _arrowPosition == ArrowPosition::Both) {
+            double angle1 = QLineF(_points.at(_points.length()-2), _points.last()).angle() / 180 * M_PI;
+            double tx = _points.last().x() + qCos(M_PI - angle1 - M_PI / 6) * 10;
+            double ty = _points.last().y() + qSin(M_PI - angle1 - M_PI / 6) * 10;
+            double bx = _points.last().x() + qCos(M_PI - angle1 + M_PI / 6) * 10;
+            double by = _points.last().y() + qSin(M_PI - angle1 + M_PI / 6) * 10;
+            QPolygonF arrow;
+            arrow << QPointF(tx, ty) << _points.last() <<  QPointF(bx, by);
+            path.addPolygon(arrow);
+        }
+    }
     return path;
 }
 

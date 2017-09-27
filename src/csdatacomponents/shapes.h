@@ -96,6 +96,7 @@ class PolylineItem : public ShapeItem
 {
     Q_OBJECT
 
+    Q_PROPERTY(ArrowPosition::ArrowPositionEnum arrowPosition MEMBER _arrowPosition WRITE setArrowPosition)
     Q_PROPERTY(QVariantList points READ points WRITE setPoints NOTIFY pointsChanged)
 public:
     PolylineItem(QQuickItem *parent=0);
@@ -114,7 +115,11 @@ public:
         rebuildPath();
         update();
     }
-
+    void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition) {
+        _arrowPosition = arrowPosition;
+        rebuildPath();
+        update();
+    }
 signals:
     void pointsChanged();
 
@@ -122,6 +127,7 @@ protected:
     QPainterPath buildPath();
 
 private:
+    ArrowPosition::ArrowPositionEnum _arrowPosition;
     QVector<QPointF> _points;
 };
 

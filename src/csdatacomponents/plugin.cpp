@@ -78,6 +78,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<CartesianPlotRangeStyle>(uri, 1, 0, "CartesianPlotRangeStyle", "CartesianPlotRangeStyle Enum");
     qmlRegisterUncreatableType<CartesianPlotYAxis>(uri, 1, 0, "CartesianPlotYAxis", "CartesianPlotYAxis Enum");
     qmlRegisterUncreatableType<CartesianPlotAxisStyle>(uri, 1, 0, "CartesianPlotAxisStyle", "CartesianPlotAxisStyle Enum");
+    qmlRegisterUncreatableType<ArrowPosition>(uri, 1, 0, "ArrowPosition", "ArrowPosition Enum");
 }
 
 void CSDataComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
