@@ -72,19 +72,32 @@ Canvas {
                 d.drawing = true
                 parent.requestPaint()
             }
-            d.pointMoving = null
-            points.push(Qt.point((mouse.x), (mouse.y)))
+            if (d.pointMoving) {
+                points.push(Qt.point(d.pointMoving.x, d.pointMoving.y))
+                d.pointMoving = null
+            }
+            else
+                points.push(Qt.point(mouse.x, mouse.y))
             updateToBackend()
             parent.requestPaint()
         }
         onPositionChanged: {
             if (!d.drawing)
                 return
-            d.pointMoving = Qt.point(mouse.x, mouse.y)
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                var pt = points[points.length-1]
+                if (Math.abs(mouse.y - pt.y) > Math.abs(mouse.x - pt.x))
+                    d.pointMoving = Qt.point(pt.x, mouse.y)
+                else
+                    d.pointMoving = Qt.point(mouse.x, pt.y)
+            } else {
+                d.pointMoving = Qt.point(mouse.x, mouse.y)
+            }
             parent.requestPaint()
         }
 
         onDoubleClicked: {
+            d.pointMoving = null
             d.drawing = false
             updateToBackend()
         }
