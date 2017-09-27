@@ -17,6 +17,28 @@ ShapeItem::ShapeItem(QQuickItem *parent)
     _edgeStyle = EdgeStyle::Solid;
 }
 
+QRectF ShapeItem::getDrawArea()
+{
+    QRectF boundingRect = contentsBoundingRect();
+    int margin = _fillStyle == FillStyle::Outline ?  (_lineWidth + 1) /2 : 0;
+    QRectF rect = QRectF(boundingRect.x() + margin,
+                      boundingRect.y() + margin,
+                      boundingRect.width() - 2*margin,
+                      boundingRect.height() - 2*margin);
+    return rect;
+}
+
+QPolygonF ShapeItem::createArrow(const QPointF pt, double angle)
+{
+    double tx = pt.x() - qCos(angle - M_PI / 6) * 10;
+    double ty = pt.y() - qSin(angle - M_PI / 6) * 10;
+    double bx = pt.x() - qCos(angle + M_PI / 6) * 10;
+    double by = pt.y() - qSin(angle + M_PI / 6) * 10;
+    QPolygonF arrow;
+    arrow << QPointF(tx, ty) << pt <<  QPointF(bx, by);
+    return arrow;
+}
+
 void ShapeItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry)
 {
     QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
@@ -47,6 +69,27 @@ ArcItem::ArcItem(QQuickItem *parent)
 {
     _begin = 0;
     _span = 90;
+}
+
+void ArcItem::setBegin(double begin)
+{
+    _begin = begin;
+    rebuildPath();
+    update();
+}
+
+void ArcItem::setSpan(double span)
+{
+    _span = span;
+    rebuildPath();
+    update();
+}
+
+void ArcItem::setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition)
+{
+    _arrowPosition = arrowPosition;
+    rebuildPath();
+    update();
 }
 
 QPainterPath ArcItem::buildPath()
@@ -81,6 +124,31 @@ PolylineItem::PolylineItem(QQuickItem *parent)
 {
 }
 
+QVariantList PolylineItem::points()
+{
+    QVariantList list;
+    foreach(QPointF point, _points)
+        list.append(point);
+    return list;
+}
+
+void PolylineItem::setPoints(QVariantList points)
+{
+    _points.clear();
+    foreach(QVariant v, points)
+        _points.append(v.toPointF());
+    emit pointsChanged();
+    rebuildPath();
+    update();
+}
+
+void PolylineItem::setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition)
+{
+    _arrowPosition = arrowPosition;
+    rebuildPath();
+    update();
+}
+
 QPainterPath PolylineItem::buildPath()
 {
     QPainterPath path;
@@ -103,6 +171,24 @@ PolygonItem::PolygonItem(QQuickItem *parent)
 {
 }
 
+QVariantList PolygonItem::points()
+{
+    QVariantList list;
+    foreach(QPointF point, _points)
+        list.append(point);
+    return list;
+}
+
+void PolygonItem::setPoints(QVariantList points)
+{
+    _points.clear();
+    foreach(QVariant v, points)
+        _points.append(v.toPointF());
+    emit pointsChanged();
+    rebuildPath();
+    update();
+}
+
 QPainterPath PolygonItem::buildPath()
 {
     QPainterPath path;
@@ -114,6 +200,20 @@ QPainterPath PolygonItem::buildPath()
 PaintedRectangletem::PaintedRectangletem(QQuickItem *parent)
     : ShapeItem(parent), _radiusX(0), _radiusY(0)
 {
+}
+
+void PaintedRectangletem::setRadiusX(double rx)
+{
+    _radiusX = rx;
+    rebuildPath();
+    update();
+}
+
+void PaintedRectangletem::setRadiusY(double ry)
+{
+    _radiusY = ry;
+    rebuildPath();
+    update();
 }
 
 QPainterPath PaintedRectangletem::buildPath()

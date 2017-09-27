@@ -5,7 +5,6 @@
 #include <QVector>
 #include <QPointF>
 #include <QPainterPath>
-#include <QtMath>
 
 #include "enums.h"
 #include "utils.h"
@@ -43,25 +42,9 @@ protected:
     /* The subclass must implement this to return a painter path */
     virtual QPainterPath buildPath() = 0;
 
-    QRectF getDrawArea() {
-        QRectF boundingRect = contentsBoundingRect();
-        int margin = _fillStyle == FillStyle::Outline ?  (_lineWidth + 1) /2 : 0;
-        QRectF rect = QRectF(boundingRect.x() + margin,
-                          boundingRect.y() + margin,
-                          boundingRect.width() - 2*margin,
-                          boundingRect.height() - 2*margin);
-        return rect;
-    }
-
-    QPolygonF createArrow(const QPointF pt, double angle) {
-        double tx = pt.x() - qCos(angle - M_PI / 6) * 10;
-        double ty = pt.y() - qSin(angle - M_PI / 6) * 10;
-        double bx = pt.x() - qCos(angle + M_PI / 6) * 10;
-        double by = pt.y() - qSin(angle + M_PI / 6) * 10;
-        QPolygonF arrow;
-        arrow << QPointF(tx, ty) << pt <<  QPointF(bx, by);
-        return arrow;
-    }
+    /* helper functions */
+    QRectF getDrawArea();
+    QPolygonF createArrow(const QPointF pt, double angle);
 
 protected:
     QColor _foreground;
@@ -76,32 +59,16 @@ class ArcItem : public ShapeItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(double begin READ begin WRITE setBegin)
-    Q_PROPERTY(double span READ span WRITE setSpan)
+    Q_PROPERTY(double begin MEMBER _begin WRITE setBegin)
+    Q_PROPERTY(double span MEMBER _span WRITE setSpan)
     Q_PROPERTY(ArrowPosition::ArrowPositionEnum arrowPosition MEMBER _arrowPosition WRITE setArrowPosition)
 
 public:
     ArcItem(QQuickItem *parent=0);
 
-    double begin() { return _begin; }
-    void setBegin(double begin) {
-        _begin = begin;
-        rebuildPath();
-        update();
-    }
-
-    double span() { return _span; }
-    void setSpan(double span) {
-        _span = span;
-        rebuildPath();
-        update();
-    }
-
-    void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition) {
-        _arrowPosition = arrowPosition;
-        rebuildPath();
-        update();
-    }
+    void setBegin(double begin);
+    void setSpan(double span);
+    void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition);
 
 protected:
     QPainterPath buildPath();
@@ -120,25 +87,10 @@ class PolylineItem : public ShapeItem
 public:
     PolylineItem(QQuickItem *parent=0);
 
-    QVariantList points() {
-        QVariantList list;
-        foreach(QPointF point, _points)
-            list.append(point);
-        return list;
-    }
-    void setPoints(QVariantList points) {
-        _points.clear();
-        foreach(QVariant v, points)
-            _points.append(v.toPointF());
-        emit pointsChanged();
-        rebuildPath();
-        update();
-    }
-    void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition) {
-        _arrowPosition = arrowPosition;
-        rebuildPath();
-        update();
-    }
+    QVariantList points();
+    void setPoints(QVariantList points);
+    void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition);
+
 signals:
     void pointsChanged();
 
@@ -158,20 +110,8 @@ class PolygonItem : public ShapeItem
 public:
     PolygonItem(QQuickItem *parent=0);
 
-    QVariantList points() {
-        QVariantList list;
-        foreach(QPointF point, _points)
-            list.append(point);
-        return list;
-    }
-    void setPoints(QVariantList points) {
-        _points.clear();
-        foreach(QVariant v, points)
-            _points.append(v.toPointF());
-        emit pointsChanged();
-        rebuildPath();
-        update();
-    }
+    QVariantList points();
+    void setPoints(QVariantList points);
 
 signals:
     void pointsChanged();
@@ -188,21 +128,16 @@ class PaintedRectangletem : public ShapeItem
     Q_OBJECT
     Q_PROPERTY(double radiusX MEMBER _radiusX WRITE setRadiusX)
     Q_PROPERTY(double radiusY MEMBER _radiusY WRITE setRadiusY)
+
 public:
     PaintedRectangletem(QQuickItem *parent=0);
 
-    void setRadiusX(double rx) {
-        _radiusX = rx;
-        rebuildPath();
-        update();
-    }
-    void setRadiusY(double ry) {
-        _radiusY = ry;
-        rebuildPath();
-        update();
-    }
+    void setRadiusX(double rx);
+    void setRadiusY(double ry);
+
 protected:
     QPainterPath buildPath();
+
 private:
     double _radiusX;
     double _radiusY;
