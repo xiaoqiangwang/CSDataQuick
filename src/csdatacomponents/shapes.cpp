@@ -43,7 +43,7 @@ void ShapeItem::paint(QPainter *painter)
 }
 
 ArcItem::ArcItem(QQuickItem *parent)
-    : ShapeItem(parent)
+    : ShapeItem(parent), _arrowPosition(ArrowPosition::None)
 {
     _begin = 0;
     _span = 90;
@@ -53,11 +53,38 @@ QPainterPath ArcItem::buildPath()
 {
     QRectF rc = getDrawArea();
     QPainterPath path;
-    if (fillStyle() == FillStyle::Solid)
+    if (fillStyle() == FillStyle::Solid) {
         path.moveTo(rc.center());
-    else
+        path.arcTo(rc, _begin, _span);
+    }
+    else {
         path.arcMoveTo(rc, _begin);
-    path.arcTo(rc, _begin, _span);
+        QPointF ptStart = path.currentPosition();
+
+        path.arcTo(rc, _begin, _span);
+        QPointF ptEnd = path.currentPosition();
+
+        if (_arrowPosition == ArrowPosition::Start || _arrowPosition == ArrowPosition::Both) {
+            double angle1 = M_PI_2 -_begin / 180 * M_PI;
+            double tx = ptStart.x() - qCos(angle1 - M_PI / 6) * 10;
+            double ty = ptStart.y() - qSin(angle1 - M_PI / 6) * 10;
+            double bx = ptStart.x() - qCos(angle1 + M_PI / 6) * 10;
+            double by = ptStart.y() - qSin(angle1 + M_PI / 6) * 10;
+            QPolygonF arrow;
+            arrow << QPointF(tx, ty) << ptStart <<  QPointF(bx, by);
+            path.addPolygon(arrow);
+        }
+        if (_arrowPosition == ArrowPosition::End || _arrowPosition == ArrowPosition::Both) {
+            double angle1 = M_PI_2 + M_PI - (_begin + _span)/ 180 * M_PI;
+            double tx = ptEnd.x() - qCos(angle1 - M_PI / 6) * 10;
+            double ty = ptEnd.y() - qSin(angle1 - M_PI / 6) * 10;
+            double bx = ptEnd.x() - qCos(angle1 + M_PI / 6) * 10;
+            double by = ptEnd.y() - qSin(angle1 + M_PI / 6) * 10;
+            QPolygonF arrow;
+            arrow << QPointF(tx, ty) << ptEnd <<  QPointF(bx, by);
+            path.addPolygon(arrow);
+        }
+    }
     return path;
 }
 
@@ -72,21 +99,21 @@ QPainterPath PolylineItem::buildPath()
     path.addPolygon(QPolygonF(_points));
     if (_points.length() >= 2) {
         if (_arrowPosition == ArrowPosition::Start || _arrowPosition == ArrowPosition::Both) {
-            double angle1 = QLineF(_points.at(1), _points.at(0)).angle() / 180 * M_PI;
-            double tx = _points.at(0).x() + qCos(M_PI - angle1 - M_PI / 6) * 10;
-            double ty = _points.at(0).y() + qSin(M_PI - angle1 - M_PI / 6) * 10;
-            double bx = _points.at(0).x() + qCos(M_PI - angle1 + M_PI / 6) * 10;
-            double by = _points.at(0).y() + qSin(M_PI - angle1 + M_PI / 6) * 10;
+            double angle1 = - QLineF(_points.at(1), _points.at(0)).angle() / 180 * M_PI;
+            double tx = _points.at(0).x() - qCos(angle1 - M_PI / 6) * 10;
+            double ty = _points.at(0).y() - qSin(angle1 - M_PI / 6) * 10;
+            double bx = _points.at(0).x() - qCos(angle1 + M_PI / 6) * 10;
+            double by = _points.at(0).y() - qSin(angle1 + M_PI / 6) * 10;
             QPolygonF arrow;
             arrow << QPointF(tx, ty) << _points.at(0) <<  QPointF(bx, by);
             path.addPolygon(arrow);
         }
         if (_arrowPosition == ArrowPosition::End || _arrowPosition == ArrowPosition::Both) {
-            double angle1 = QLineF(_points.at(_points.length()-2), _points.last()).angle() / 180 * M_PI;
-            double tx = _points.last().x() + qCos(M_PI - angle1 - M_PI / 6) * 10;
-            double ty = _points.last().y() + qSin(M_PI - angle1 - M_PI / 6) * 10;
-            double bx = _points.last().x() + qCos(M_PI - angle1 + M_PI / 6) * 10;
-            double by = _points.last().y() + qSin(M_PI - angle1 + M_PI / 6) * 10;
+            double angle1 = - QLineF(_points.at(_points.length()-2), _points.last()).angle() / 180 * M_PI;
+            double tx = _points.last().x() - qCos(angle1 - M_PI / 6) * 10;
+            double ty = _points.last().y() - qSin(angle1 - M_PI / 6) * 10;
+            double bx = _points.last().x() - qCos(angle1 + M_PI / 6) * 10;
+            double by = _points.last().y() - qSin(angle1 + M_PI / 6) * 10;
             QPolygonF arrow;
             arrow << QPointF(tx, ty) << _points.last() <<  QPointF(bx, by);
             path.addPolygon(arrow);

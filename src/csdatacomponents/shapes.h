@@ -67,6 +67,7 @@ class ArcItem : public ShapeItem
 
     Q_PROPERTY(double begin READ begin WRITE setBegin)
     Q_PROPERTY(double span READ span WRITE setSpan)
+    Q_PROPERTY(ArrowPosition::ArrowPositionEnum arrowPosition MEMBER _arrowPosition WRITE setArrowPosition)
 
 public:
     ArcItem(QQuickItem *parent=0);
@@ -85,11 +86,18 @@ public:
         update();
     }
 
+    void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition) {
+        _arrowPosition = arrowPosition;
+        rebuildPath();
+        update();
+    }
+
 protected:
     QPainterPath buildPath();
 
 private:
     double _begin, _span;
+    ArrowPosition::ArrowPositionEnum _arrowPosition;
 };
 
 class PolylineItem : public ShapeItem

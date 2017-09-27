@@ -9,6 +9,7 @@ import CSDataQuick.Components 1.0
 
     The arc is drawn beginning at \l begin and extending \l span degrees
     counter clockwise. Negative \l span will effectively draw in clockwise.
+    An arrow can be drawn by either or both ends depending on \l arrowPosition.
 
     \qml
         CSArc {
@@ -32,6 +33,12 @@ CSGraphics {
       This property holds the length of the arc in degrees.
     */
     property alias span: arc.span
+    /*!
+        \qmlproperty int arrowPosition
+
+        This property indicates where the arrow is draw. \sa ArrowPosition,
+    */
+    property int arrowPosition: ArrowPosition.None
 
     implicitWidth: 100
     implicitHeight: 100
@@ -39,6 +46,7 @@ CSGraphics {
     Arc {
         id: arc
         anchors.fill: parent
+        arrowPosition: root.arrowPosition
         lineWidth: root.lineWidth
         fillStyle: root.fillStyle
         edgeStyle: root.edgeStyle
