@@ -1,5 +1,5 @@
 macx {
-    QMAKE_RPATHDIR += @loader_path/../lib
+    QMAKE_RPATHDIR += @loader_path/../../../../lib
     QMAKE_RPATHDIR += @loader_path/../../../lib
     QMAKE_RPATHDIR += @executable_path
 } else:linux-* {

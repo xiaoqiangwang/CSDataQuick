@@ -16,7 +16,6 @@ SOURCES += \
     main.cpp
 
 mac {
-    CONFIG -= app_bundle
     LIBS += -framework Security
 }
 

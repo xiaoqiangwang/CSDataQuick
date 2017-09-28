@@ -188,7 +188,11 @@ int main(int argc, char **argv)
 
     QQmlEngine *engine = new QQmlEngine();
     engine->rootContext()->setContextProperty("app", qMainApp);
+#ifdef Q_OS_MAC
+    engine->addImportPath(QGuiApplication::applicationDirPath() + "/../../../../qml/");
+#else
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../qml/");
+#endif
     QQmlComponent component(engine, QUrl("qrc:/main.qml"));
     while(!component.isReady()) {
         if (component.isError()) {

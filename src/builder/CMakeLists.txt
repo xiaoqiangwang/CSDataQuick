@@ -13,11 +13,17 @@ else ()
         main.qrc
     )
 endif()
+if(APPLE)
+add_executable(builder MACOSX_BUNDLE
+    ${SOURCES}
+    ${RESOURCES}
+)
+else()
 add_executable(builder
     ${SOURCES}
     ${RESOURCES}
 )
-
+endif()
 include_directories(
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}

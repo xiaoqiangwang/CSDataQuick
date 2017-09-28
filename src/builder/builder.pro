@@ -2,8 +2,6 @@ TEMPLATE = app
 
 QT += qml quick
 
-CONFIG -= app_bundle
-
 DESTDIR = ../../bin/
 
 SOURCES += main.cpp

@@ -18,11 +18,20 @@ else ()
         main.qrc
     )
 endif()
+
+if(APPLE)
+add_executable(ADLViewer MACOSX_BUNDLE
+    ${SOURCES}
+    ${HEADERS}
+    ${RESOURCES}
+)
+else()
 add_executable(ADLViewer
     ${SOURCES}
     ${HEADERS}
     ${RESOURCES}
 )
+endif()
 
 include_directories(
     ${Qt5Qt_INCLUDE_DIRS}
