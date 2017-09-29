@@ -229,3 +229,5 @@ foreach(FILE ${QML_JS_FILES})
     )
 endforeach()
 
+install(TARGETS csdatacomponentsplugin DESTINATION qml/CSDataQuick/Components)
+install(FILES ${QML_JS_FILES} DESTINATION qml/CSDataQuick/Components)

@@ -35,3 +35,5 @@ target_link_libraries(builder
 
 SET_TARGET_PROPERTIES(builder PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
     ${CMAKE_BINARY_DIR}/bin)
+
+install(TARGETS builder DESTINATION bin)

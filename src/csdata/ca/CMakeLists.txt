@@ -31,3 +31,4 @@ set_target_properties(csdataengineca PROPERTIES
     SUFFIX ".dylib")
 endif ()
 
+install(TARGETS csdataengineca DESTINATION plugins/csdataengine)
