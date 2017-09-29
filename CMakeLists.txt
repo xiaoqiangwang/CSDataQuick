@@ -40,7 +40,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION V
 endif ()
 
 # When CMake 3.0.0 is required, remove this block (see CMP0042).
-if (NOT DEFINED CMAKEMACOSX_RPATH)
+if (NOT DEFINED CMAKE_MACOSX_RPATH)
     set(CMAKE_MACOSX_RPATH 1)
 endif()
 
