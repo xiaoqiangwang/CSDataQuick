@@ -1,8 +1,6 @@
 TEMPLATE = lib
 CONFIG += qt
 TARGET = csdata
-DESTDIR = $$OUT_PWD/../../../lib
-win32:DLLDESTDIR=$$OUT_PWD/../../../bin
 DEFINES += QCS_EXPORT
 
 osx:QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
@@ -23,3 +21,4 @@ HEADERS += \
     $$PWD/cs_global.h
 
 include(../../../epics.pri)
+include(../../../deployment.pri)

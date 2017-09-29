@@ -4,9 +4,7 @@ TEMPLATE = app
 QT += quick widgets
 
 INCLUDEPATH += $$PWD/../ADLParser $$PWD/../csdata/core
-LIBS += -L$$OUT_PWD/../../lib/ -lADLParser
-
-DESTDIR = ../../bin/
+LIBS += -L$$top_builddir/lib/ -lADLParser
 
 HEADERS += \
     ipcserver.h
@@ -22,3 +20,4 @@ mac {
 RESOURCES += \
     main.qrc
 
+include(../../deployment.pri)

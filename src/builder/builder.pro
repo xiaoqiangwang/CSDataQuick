@@ -12,5 +12,5 @@ RESOURCES += main.qrc
 QML_IMPORT_PATH = $$OUT_PWD/../../qml
 
 # Default rules for deployment.
-include(deployment.pri)
+include(../../deployment.pri)
 

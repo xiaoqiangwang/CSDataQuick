@@ -2,9 +2,7 @@ INCLUDEPATH += $$PWD/../ADLParser
 INCLUDEPATH += $$PWD/../csdata/core/
 DEPENDPATH += $$PWD/../ADLParser
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser -lcsdata
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib -lADLParser -lcsdata
-else:unix: LIBS += -L$$OUT_PWD/../../lib/ -lADLParser -lcsdata
+LIBS += -L$$top_builddir/lib/ -lADLParser -lcsdata
 
 SOURCES += \
     $$PWD/plugin.cpp \
@@ -37,3 +35,6 @@ HEADERS += \
     $$PWD/mjpeg.h
 
 include(../../epics.pri)
+
+target.path = $$PREFIX/qml/$$TARGETPATH
+INSTALLS += target

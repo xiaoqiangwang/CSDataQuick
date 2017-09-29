@@ -4,15 +4,13 @@ TEMPLATE = lib
 CONFIG += qt plugin
 QT += quick
 TARGET = csdataplugin
-TARGETPATH = $$OUT_PWD/../../qml/CSDataQuick/Data
-DESTDIR = $${TARGETPATH}
+TARGETPATH = CSDataQuick/Data
+DESTDIR = $$top_builddir/qml/$$TARGETPATH
 
 INCLUDEPATH += $$PWD/../csdata/core
 DEPENDPATH += $$PWD/../csdata/core
 
-win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../../lib -lcsdata
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../../lib -lcsdata
-else:unix: LIBS += -L$$OUT_PWD/../../lib -lcsdata
+LIBS += -L$$top_builddir/lib -lcsdata
 
 SOURCES += \
     $$PWD/plugin.cpp \
@@ -25,6 +23,9 @@ HEADERS += \
 QML_FILES = \
     $$PWD/qmldir \
     $$PWD/plugins.qmltypes
+
+target.path = $$PREFIX/qml/$$TARGETPATH
+INSTALLS += target
 
 include(../../rpath.pri)
 include(../../qmlmodule.pri)

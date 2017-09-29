@@ -12,8 +12,8 @@ macx {
 }
 
 TARGET = csdatacomponentsplugin
-TARGETPATH = $$OUT_PWD/../../qml/CSDataQuick/Components
-DESTDIR = $${TARGETPATH}
+TARGETPATH = CSDataQuick/Components
+DESTDIR = $$top_builddir/qml/$${TARGETPATH}
 
 include(qml.pri)
 include(plugin.pri)
