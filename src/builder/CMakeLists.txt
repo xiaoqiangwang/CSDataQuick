@@ -36,4 +36,10 @@ target_link_libraries(builder
 SET_TARGET_PROPERTIES(builder PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
     ${CMAKE_BINARY_DIR}/bin)
 
+if(APPLE)
+SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
+    INSTALL_RPATH "@loader_path/../../../../lib"
+)
+endif()
+
 install(TARGETS builder DESTINATION bin)

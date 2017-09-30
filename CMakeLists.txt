@@ -52,3 +52,40 @@ add_subdirectory(src)
 add_subdirectory(docs)
 add_subdirectory(examples)
 add_subdirectory(tools)
+
+if(APPLE)
+    # Copy QtGui plugins
+    foreach(plugin ${Qt5Gui_PLUGINS})
+      get_target_property(_loc ${plugin} LOCATION)
+      get_filename_component(_plugindir ${_loc} PATH)
+      get_filename_component(_pluginname ${_plugindir} NAME)
+      install(CODE "
+      file(COPY ${_loc} DESTINATION \${CMAKE_INSTALL_PREFIX}/plugins/${_pluginname})
+          " COMPONENT Runtime)
+    endforeach()
+    # Copy Qt frameworks
+    foreach(QtLIB Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Qml Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
+        get_target_property(QT_LIBRARY_DIR ${QtLIB} LOCATION)
+        get_filename_component(QT_LIBRARY_DIR ${QT_LIBRARY_DIR} PATH)
+        install(DIRECTORY ${QT_LIBRARY_DIR} DESTINATION lib
+            PATTERN "Headers" EXCLUDE
+            PATTERN "*_debug" EXCLUDE
+            PATTERN "*.prl" EXCLUDE
+        )
+    endforeach()
+    # Copy QtQuick 2
+    get_target_property (QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    function(_QT5_QUERY_QMAKE VAR RESULT)
+      execute_process(COMMAND "${QT_QMAKE_EXECUTABLE}" -query ${VAR}
+        RESULT_VARIABLE return_code
+        OUTPUT_VARIABLE output
+        OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_STRIP_TRAILING_WHITESPACE)
+      if(NOT return_code)
+        file(TO_CMAKE_PATH "${output}" output)
+        set(${RESULT} ${output} PARENT_SCOPE)
+      endif()
+    endfunction()
+
+    _qt5_query_qmake(QT_INSTALL_QML QT_QML_DIR)
+    install(DIRECTORY ${QT_QML_DIR}/ DESTINATION qml)
+endif()

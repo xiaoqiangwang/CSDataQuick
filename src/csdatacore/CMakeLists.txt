@@ -25,6 +25,11 @@ target_link_libraries(csdataplugin Qt5::Core Qt5::Qml)
 set_target_properties(csdataplugin PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/)
 
+if(APPLE)
+    set_target_properties(csdataplugin PROPERTIES
+        INSTALL_RPATH "@loader_path/../../../lib")
+endif()
+
 set(QML_JS_FILES
     qmldir
     plugins.qmltypes

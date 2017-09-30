@@ -59,6 +59,12 @@ target_link_libraries(csdatacomponentsplugin csdata)
 set_target_properties(csdatacomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
 
+if(APPLE)
+set_target_properties(csdatacomponentsplugin PROPERTIES
+    INSTALL_RPATH "@loader_path/../../../lib"
+)
+endif()
+
 set(QML_JS_FILES
     qmldir
     plugins.qmltypes
@@ -230,4 +236,7 @@ foreach(FILE ${QML_JS_FILES})
 endforeach()
 
 install(TARGETS csdatacomponentsplugin DESTINATION qml/CSDataQuick/Components)
-install(FILES ${QML_JS_FILES} DESTINATION qml/CSDataQuick/Components)
+foreach (file ${QML_JS_FILES})
+    get_filename_component(dir ${file} DIRECTORY)
+    install(FILES ${file} DESTINATION qml/CSDataQuick/Components/${dir})
+endforeach()
