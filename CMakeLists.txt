@@ -87,5 +87,8 @@ if(APPLE)
     endfunction()
 
     _qt5_query_qmake(QT_INSTALL_QML QT_QML_DIR)
-    install(DIRECTORY ${QT_QML_DIR}/ DESTINATION qml)
+    install(DIRECTORY ${QT_QML_DIR}/ DESTINATION qml
+        PATTERN "*_debug.dylib" EXCLUDE
+        PATTERN "*.dSYM" EXCLUDE
+    )
 endif()
