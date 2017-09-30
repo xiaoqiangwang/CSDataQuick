@@ -216,6 +216,13 @@ set(QML_JS_FILES
 )
 
 foreach(FILE ${QML_JS_FILES})
+    set(DST_QML_JS_FILES ${DST_QML_JS_FILES} ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${FILE})
+endforeach()
+
+add_custom_target(CopyQMLFiles ALL
+    DEPENDS ${DST_QML_JS_FILES})
+
+foreach(FILE ${QML_JS_FILES})
     # make subdirectory if not existing
     if (${CMAKE_MAJOR_VERSION} LESS 3)
         get_filename_component(DIR ${FILE} PATH)
@@ -228,12 +235,14 @@ foreach(FILE ${QML_JS_FILES})
     endif()
     # copy qml files prebuild
     add_custom_command(
-        TARGET csdatacomponentsplugin PRE_BUILD
+        OUTPUT ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${FILE}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FILE} ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${DIR}
-        DEPENDS ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${FILE}
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${FILE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 endforeach()
+
+add_dependencies(csdatacomponentsplugin CopyQMLFiles)
 
 install(TARGETS csdatacomponentsplugin DESTINATION qml/CSDataQuick/Components)
 foreach (file ${QML_JS_FILES})
