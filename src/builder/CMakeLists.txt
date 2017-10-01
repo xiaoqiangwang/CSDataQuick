@@ -37,9 +37,14 @@ SET_TARGET_PROPERTIES(builder PROPERTIES RUNTIME_OUTPUT_DIRECTORY
     ${CMAKE_BINARY_DIR}/bin)
 
 if(APPLE)
-SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
-    INSTALL_RPATH "@loader_path/../../../../lib"
+SET_TARGET_PROPERTIES(builder PROPERTIES
+    INSTALL_RPATH "@executable_path/../../../../lib"
 )
 endif()
 
 install(TARGETS builder DESTINATION bin)
+if (APPLE)
+install(CODE "
+    file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/builder.app/Contents/Resources/qt.conf\" \"[Paths]\nPrefix=../../..\")
+" COMPONENT Runtime)
+endif()

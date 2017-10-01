@@ -36,10 +36,10 @@ endif()
 include_directories(
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Network_INCLUDE_DIRS}
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
-    ${Qt5PrintSupport_INCLUDE_DIRS}
     ../ADLParser
     ../csdata/core
 )
@@ -47,8 +47,9 @@ target_link_libraries(ADLViewer
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
+    Qt5::Qml
     Qt5::Quick
-    Qt5::PrintSupport
+    Qt5::Network
     ADLParser
 )
 if(APPLE)
@@ -62,8 +63,13 @@ SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
 
 if(APPLE)
 SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
-    INSTALL_RPATH "@loader_path/../../../../lib"
+    INSTALL_RPATH "@executable_path/../../../../lib"
 )
 endif()
 
 install(TARGETS ADLViewer DESTINATION bin)
+if (APPLE)
+install(CODE "
+    file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/ADLViewer.app/Contents/Resources/qt.conf\" \"[Paths]\nPrefix=../../..\")
+" COMPONENT Runtime)
+endif()
