@@ -60,9 +60,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char **argv)
 {
-    // First create QCoreApplication to work on command  line argument parsing
-    // and dispatch request.
-    QCoreApplication *qCoreApp =  new QCoreApplication(argc, argv);
+    // If there are command line arguments, create QCoreApplication to parse
+    // and dispatch request, otherwise create the final QApplication.
+    QCoreApplication *qCoreApp = NULL;
+#ifdef Q_OS_DARWIN
+        qCoreApp = new QApplication(argc, argv);
+#else
+        qCoreApp = new QCoreApplication(argc, argv);
+#endif
     qCoreApp->setOrganizationName("Paul Scherrer Institut");
     qCoreApp->setOrganizationDomain("psi.ch");
     qCoreApp->setApplicationName("ADLViewer");
@@ -174,17 +179,20 @@ int main(int argc, char **argv)
                        << "  Continuing with this one as if -cleanup were specified\n";
         }
     }
-    qCoreApp->quit();
-    delete qCoreApp;
-
-    // Now start the main application
+    // Now start the main application if qCoreApp is not QApplication
     // It is enough to use QGuiApplication mostly.
     // However the print dialog depends still on QtWidgets and thus QApplication.
-    QApplication *qMainApp = new QApplication(argc, argv);
-    qMainApp->setOrganizationName("Paul Scherrer Institut");
-    qMainApp->setOrganizationDomain("psi.ch");
-    qMainApp->setApplicationName("ADLViewer");
-    qMainApp->setApplicationVersion("1.0.0b1");
+    QApplication *qMainApp = qobject_cast<QApplication*>(qCoreApp);
+    if (qMainApp == NULL) {
+        qCoreApp->quit();
+        delete qCoreApp;
+
+        qMainApp = new QApplication(argc, argv);
+        qMainApp->setOrganizationName("Paul Scherrer Institut");
+        qMainApp->setOrganizationDomain("psi.ch");
+        qMainApp->setApplicationName("ADLViewer");
+        qMainApp->setApplicationVersion("1.0.0b1");
+    }
 
     QQmlEngine *engine = new QQmlEngine();
     engine->rootContext()->setContextProperty("app", qMainApp);
