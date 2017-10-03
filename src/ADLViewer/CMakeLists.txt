@@ -63,8 +63,10 @@ SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
 
 if(APPLE)
 SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
-    INSTALL_RPATH "@executable_path/../../../../lib"
-)
+    INSTALL_RPATH "@executable_path/../../../../lib")
+elseif(UNIX)
+SET_TARGET_PROPERTIES(ADLViewer PROPERTIES
+    INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
 install(TARGETS ADLViewer DESTINATION bin)
