@@ -75,6 +75,9 @@ foreach(QtLIB Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Qml Qt5::Quick Q
     elseif(UNIX)
         get_target_property(QT_LIBRARY_DIR ${QtLIB} LOCATION)
         install(FILES ${QT_LIBRARY_DIR} DESTINATION lib)
+    elseif(WIN32)
+        get_target_property(QT_LIBRARY_DIR ${QtLIB} LOCATION)
+        install(FILES ${QT_LIBRARY_DIR} DESTINATION bin)
     endif ()
 endforeach()
 # Copy QtQuick 2
@@ -94,4 +97,10 @@ _qt5_query_qmake(QT_INSTALL_QML QT_QML_DIR)
 install(DIRECTORY ${QT_QML_DIR}/ DESTINATION qml
     PATTERN "*_debug.dylib" EXCLUDE
     PATTERN "*.dSYM" EXCLUDE
+    PATTERN "*.pdb" EXCLUDE
+    PATTERN "*.qmlc" EXCLUDE
 )
+# Copy EPICS (Windows only)
+if(WIN32)
+    install(FILES ${EPICS_SHARED_LIBRARIES} DESTINATION bin)
+endif()
