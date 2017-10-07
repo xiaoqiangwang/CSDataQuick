@@ -13,16 +13,8 @@ set(CMAKE_AUTOMOC ON)
 
 cmake_policy(SET CMP0020 NEW)
 
-# Set minimum Qt version
-set(QT_MINIMUM_VERSION 5.6)
-
-find_package(Qt5Core ${QT_MINIMUM_VERSION})
-find_package(Qt5Gui ${QT_MINIMUM_VERSION})
-find_package(Qt5Widgets ${QT_MINIMUM_VERSION})
-find_package(Qt5Qml ${QT_MINIMUM_VERSION})
-find_package(Qt5Quick ${QT_MINIMUM_VERSION})
-find_package(Qt5Concurrent ${QT_MINIMUM_VERSION})
-find_package(Qt5PrintSupport ${QT_MINIMUM_VERSION})
+find_package(Qt5 5.6
+    COMPONENTS Core Gui Widgets Qml Quick Concurrent PrintSupport)
 
 # Use c++11 or c++0x
 if (CMAKE_VERSION VERSION_LESS 3.1 AND CMAKE_COMPILER_IS_GNUCXX)
