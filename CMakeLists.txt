@@ -49,3 +49,5 @@ add_subdirectory(tools)
 if(WIN32)
     install(FILES ${EPICS_SHARED_LIBRARIES} DESTINATION bin)
 endif()
+
+include(package.cmake)
