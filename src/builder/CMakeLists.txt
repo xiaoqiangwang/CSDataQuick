@@ -18,6 +18,11 @@ add_executable(builder MACOSX_BUNDLE
     ${SOURCES}
     ${RESOURCES}
 )
+elseif(WIN32)
+add_executable(builder WIN32
+    ${SOURCES}
+    ${RESOURCES}
+)
 else()
 add_executable(builder
     ${SOURCES}

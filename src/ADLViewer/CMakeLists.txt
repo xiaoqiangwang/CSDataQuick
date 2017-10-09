@@ -25,6 +25,12 @@ add_executable(ADLViewer MACOSX_BUNDLE
     ${HEADERS}
     ${RESOURCES}
 )
+elseif(WIN32)
+    add_executable(ADLViewer WIN32
+    ${SOURCES}
+    ${HEADERS}
+    ${RESOURCES}
+)
 else()
 add_executable(ADLViewer
     ${SOURCES}
