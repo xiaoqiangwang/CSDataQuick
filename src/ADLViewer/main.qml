@@ -62,7 +62,36 @@ ApplicationWindow
         title: "Open file ..."
         nameFilters: ["ADL files (*.adl)", "QML files (*.qml)"]
         onAccepted: {
-            createADLDisplay(fileUrl, "", "")
+            var request = new XMLHttpRequest()
+            request.open('GET', fileUrl)
+            request.onreadystatechange = function(event) {
+                if (request.readyState === XMLHttpRequest.DONE) {
+                    if (request.responseText.search(/\$\(.+\)/i) != -1) {
+                        macroDialog.fileUrl = fileUrl
+                        macroDialog.open()
+                    }
+                    else
+                        createADLDisplay(fileUrl, "", "")
+                }
+            }
+            request.send()
+        }
+    }
+
+    Dialog {
+        id: macroDialog
+        property string fileUrl
+
+        title: "Specify macros"
+        standardButtons: StandardButton.Ok | StandardButton.Cancel
+
+        onAccepted: {
+            createADLDisplay(fileUrl, macroInput.text, "")
+        }
+
+        TextField {
+            id: macroInput
+            width: parent.width
         }
     }
 
@@ -213,9 +242,11 @@ ApplicationWindow
             logModel.remove(1, 100)
         // split at the first occurance of newline to find out header and body
         var m = message.indexOf('\n')
-        var header = message.slice(0, m)
-        var body = m==-1 ? '' : message.substr(m+1)
-        logModel.append({'time': Utils.currentDateTime(), 'type': type, 'header': header, 'body': body})
+        if (m === -1) {
+            logModel.append({'time': Utils.currentDateTime(), 'type': type, 'header': message, 'body':''})
+        } else {
+            logModel.append({'time': Utils.currentDateTime(), 'type': type, 'header': message.slice(0, m), 'body': message.substr(m+1)})
+        }
     }
 }
 
