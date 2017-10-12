@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Layouts 1.0
 import QtQuick.Controls.Styles 1.0
 
 import CSDataQuick.Components 1.0
@@ -43,9 +44,9 @@ Button {
             implicitWidth: row.implicitWidth
             implicitHeight: row.implicitHeight
 
-            Row {
+            RowLayout {
                 id: row
-                anchors.fill: parent
+                anchors.horizontalCenter: align == Text.AlignHCenter ? parent.horizontalCenter : undefined
                 DoubleRect {
                     id: rect
                     width: Math.min(control.height, control.width) - 6
@@ -63,7 +64,6 @@ Button {
                     text: control.text
                     clip: true
                     verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: root.align
                     color: control.foreground
                     font: control.font
                 }
