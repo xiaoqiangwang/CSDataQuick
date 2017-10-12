@@ -8,6 +8,8 @@
 Unlike the Qt UI Designer, Qt Quick Designer is deeply integrated in Qt Creator.
 This has one advantage that one can switch to edit mode to fine tune the components.
 
+The following setup is not necessary for the bundled binary package from https://github.com/xiaoqiangwang/CSDataQuick/releases.
+
 \section1 macOS and Linux
 
 The CSDataQuick module must be in the import path before launching Qt Creator.
