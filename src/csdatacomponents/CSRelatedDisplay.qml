@@ -138,6 +138,7 @@ BaseItem {
             background: root.background
             foreground: root.foreground
             showIcon: root.label.charAt(0) != '-'
+            align: displayModel.count <= 1 ? Text.AlignHCenter : Text.AlignLeft
             menu: displayModel.count > 1 ? popupMenu : null
             Menu {
                 id: popupMenu
