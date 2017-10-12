@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.3
+import QtQuick.Layouts 1.2
 import QtQuick.Window 2.0
 import QtQuick.Dialogs 1.2
 
@@ -66,8 +67,10 @@ ApplicationWindow
             request.open('GET', fileUrl)
             request.onreadystatechange = function(event) {
                 if (request.readyState === XMLHttpRequest.DONE) {
-                    if (request.responseText.search(/\$\(.+\)/i) != -1) {
+                    var macros = unique(request.responseText.match(/\$\(.+?\)/g))
+                    if (macros.length > 0) {
                         macroDialog.fileUrl = fileUrl
+                        macroDialog.macros = macros
                         macroDialog.open()
                     }
                     else
@@ -81,17 +84,44 @@ ApplicationWindow
     Dialog {
         id: macroDialog
         property string fileUrl
+        property var macros: []
 
         title: "Specify macros"
         standardButtons: StandardButton.Ok | StandardButton.Cancel
 
         onAccepted: {
-            createADLDisplay(fileUrl, macroInput.text, "")
+            var macroString = ''
+            for (var i=0; i<macros.length; i++) {
+                if (macroInputs.itemAt(i).text !== '')
+                    macroString += macroLabels.itemAt(i).text + '=' + macroInputs.itemAt(i).text + ','
+            }
+            // strip off the last comma ","
+            macroString = macroString.slice(0, -1)
+            createADLDisplay(fileUrl, macroString, "")
         }
 
-        TextField {
-            id: macroInput
-            width: parent.width
+        GridLayout {
+            anchors.fill: parent
+            columns: 2
+            Repeater {
+                id: macroLabels
+                model: macroDialog.macros
+                Text {
+                    text: modelData.slice(2, -1)
+                    Layout.column: 0
+                    Layout.row: index
+                }
+            }
+
+            Repeater {
+                id: macroInputs
+                model: macroDialog.macros.length
+                TextField {
+                    Layout.column: 1
+                    Layout.row: index
+                    Layout.fillWidth: true
+                }
+            }
         }
     }
 
@@ -247,6 +277,19 @@ ApplicationWindow
         } else {
             logModel.append({'time': Utils.currentDateTime(), 'type': type, 'header': message.slice(0, m), 'body': message.substr(m+1)})
         }
+    }
+
+    function unique(a) {
+        var seen = {}
+        var output = []
+        var j = 0
+        for(var i=0; i<a.length; i++) {
+            if (seen[a[i]] !== 1) {
+                seen[a[i]] = 1
+                output[j++] = a[i]
+            }
+        }
+        return output
     }
 }
 
