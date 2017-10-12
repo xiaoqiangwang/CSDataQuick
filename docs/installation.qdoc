@@ -3,6 +3,32 @@
 \page installation.html
 \title Installation
 
+\chapter Binary pacakges
+
+\section1 Packages bundled with Qt Creator
+To facilitate the usage, packages bundled with Qt Creator are available at https://github.com/xiaoqiangwang/CSDataQuick/releases. The packages are self-contained, including Qt libraries, EPICS base libraries.
+
+\section1 Anaconda Packages
+Anaconda is a Python distribution. It provides a reproducible way to deploy binary packages, not limited to Python.
+This module provides packages for linux-64, win-64 and osx-64 platform.
+\code
+    $ conda install -c paulscherrerinstitute csdataquick
+\endcode
+
+On Windows, \e qt package needs to be installed manually.
+\code
+    > conda install qt
+\endcode
+If the module is not to be used by Python applications, the EPICS dll libraries have to be in path
+\code
+    > set PATH=%PATH%;C:\Miniconda3\epics\windows-x64
+\endcode
+
+On Linux, the default \e qt package does not have OpenGL builtin. The version from \e conda-forge has to be used instead.
+\code
+    $ conda install -c conda-forge qt
+\endcode
+
 \chapter Dependencies
 
 \list
@@ -107,24 +133,4 @@ or use cmake
 \endlist
 
 
-\chapter Anaconda Packages
-Anaconda is a Python distribution. It provides a reproducible way to deploy binary packages, not limited to Python.
-This module provides packages for linux-64, win-64 and osx-64 platform.
-\code
-    $ conda install -c paulscherrerinstitute csdataquick
-\endcode
-
-On Windows, \e qt package needs to be installed manually.
-\code
-    > conda install qt
-\endcode
-If the module is not to be used by Python applications, the EPICS dll libraries have to be in path
-\code
-    > set PATH=%PATH%;C:\Miniconda3\epics\windows-x64
-\endcode
-
-On Linux, the default \e qt package does not have OpenGL builtin. The version from \e conda-forge has to be used instead.
-\code
-    $ conda install -c conda-forge qt
-\endcode
 */
