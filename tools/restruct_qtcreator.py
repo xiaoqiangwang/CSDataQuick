@@ -1,17 +1,19 @@
-import logging
 import os
 import platform
 import re
 import sys
 import shutil
+import subprocess
 
 app_bundle = sys.argv[1]
 target_path = sys.argv[2]
 
 bin_dir = os.path.join(target_path, 'bin')
 lib_dir = os.path.join(target_path, 'lib')
+libexec_dir = os.path.join(target_path, 'libexec')
 plugins_dir = os.path.join(target_path, 'plugins')
 qml_dir = os.path.join(target_path, 'qml')
+
 
 def restruct_app_bundle():
     bundle_name = os.path.basename(app_bundle)
@@ -27,14 +29,14 @@ def restruct_app_bundle():
     os.makedirs(lib_dir, exist_ok=True)
     src_frameworks_dir = os.path.join(bin_dir, bundle_name, 'Contents', 'Frameworks')
     for d in os.listdir(src_frameworks_dir):
-        if re.match('Qt.*\.framework', d):
+        if re.match(b'Qt.*\.framework', d):
             shutil.move(os.path.join(src_frameworks_dir, d), lib_dir)
 
     # Move out Qt plugins
     os.makedirs(plugins_dir, exist_ok=True)
     src_plugins_dir = os.path.join(bin_dir, bundle_name, 'Contents', 'PlugIns')
-    for plugin in ['bearer', 'designer', 'iconengines', 'imageformats', 
-            'platforms', 'printsupport', 'sqldrivers']:
+    for plugin in ['bearer', 'designer', 'iconengines', 'imageformats',
+                   'platforms', 'printsupport', 'sqldrivers']:
         shutil.move(os.path.join(src_plugins_dir, plugin), plugins_dir)
 
     # Move out QtQuick modules
@@ -58,6 +60,7 @@ def restruct_app_bundle():
                 else:
                     open(fname, 'w').write('[Paths]\nPrefix = %s\n' % os.path.relpath(target_path, root))
 
+
 def restruct_windows():
     # Copy the entire directory
     for d in ['bin', 'lib', 'share']:
@@ -73,7 +76,39 @@ def restruct_windows():
     open(os.path.join(bin_dir, 'qt.conf'), 'w').write('[Paths]\nPrefix = ..\n')
 
 
+def restruct_linux():
+    qmake = sys.argv[3]
+    # Copy the entire directory
+    for d in ['bin', 'lib', 'libexec', 'share']:
+        shutil.copytree(os.path.join(app_bundle, d), os.path.join(target_path, d))
+
+    # Copy Qt libs
+    qtlibs_dir = subprocess.check_output('%s -query QT_INSTALL_LIBS' % qmake, shell=True).strip()
+    for lib in ['Core', 'Gui', 'Widgets', 'Concurrent', 'Network', 'PrintSupport',
+                'Qml', 'Quick', 'QuickWidgets', 'Xml', 'Svg', 'XcbQpa', 'Sql']:
+        shutil.copy(os.path.join(qtlibs_dir, 'libQt5%s.so.5'%lib), lib_dir)
+
+    # Copy Qt plugins
+    qtplugins_dir = subprocess.check_output('%s -query QT_INSTALL_PLUGINS' % qmake, shell=True).strip()
+    os.makedirs(plugins_dir)
+    for plugin in ['bearer', 'designer', 'iconengines', 'imageformats',
+                   'platforms', 'sqldrivers', 'xcbglintegrations']:
+        shutil.copytree(os.path.join(qtplugins_dir, plugin), os.path.join(plugins_dir, plugin))
+    # Copy QtQuick modules
+    qtqml_dir = subprocess.check_output('%s -query QT_INSTALL_QML' % qmake, shell=True).strip()
+    shutil.copytree(qtqml_dir, qml_dir)
+    # Fix qt.conf
+    open(os.path.join(bin_dir, 'qt.conf'), 'w').write('[Paths]\nPrefix = ..\n')
+    open(os.path.join(libexec_dir, 'qtcreator', 'qt.conf'), 'w').write('[Paths]\nPrefix = ../..\n')
+    # Fix rpath of executibles under libexec
+    for f in os.listdir(os.path.join(libexec_dir, 'qtcreator')):
+        cmd = "chrpath -r '$ORIGIN/../../lib/qtcreator:$ORIGIN/../../lib:' " + os.path.join(libexec_dir, 'qtcreator', f)
+        os.system(cmd)
+
+
 if platform.system() == 'Darwin':
     restruct_app_bundle()
 elif platform.system() == 'Windows':
     restruct_windows()
+elif platform.system() == 'Linux':
+    restruct_linux()
