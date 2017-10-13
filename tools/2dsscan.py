@@ -1,4 +1,8 @@
 #/usr/bin/env python
+"""
+This script creates an 25x25 image to display a 2d gaussian profile,
+which represents the result of a 2d sscan.
+"""
 import numpy
 import Image
 
