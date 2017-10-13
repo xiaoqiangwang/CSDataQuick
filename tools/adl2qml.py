@@ -3,7 +3,9 @@
 """
 A module to parse adl display file created by MEDM.
 
-
+.. note:: This script was used to understand ADL file parsing.
+          And it is not complete and out of sync. The ADLParser
+          library provides the same function.
 """
 
 
