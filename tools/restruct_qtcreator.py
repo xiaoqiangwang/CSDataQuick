@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+This script re-constucts the Qt Creator package as distributed by Qt installer on Windows and macOS.
+On Linux it expects the Qt Creator is a local installation.
+"""
 import os
 import platform
 import re
