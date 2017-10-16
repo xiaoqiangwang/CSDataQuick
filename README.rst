@@ -10,4 +10,4 @@ inside the Qt Quick Designer by a drag-n-drop.
 A viewer program can then display the created QML files. For convenience it can also parse ADL files
 and create the display with equivalent QtQuick items.
 
-Checkout the `documents <https://xiaoqiangwang.github.io/CSDataQuick-doc>`_ to get started.
+Checkout the `documents <http://epics.web.psi.ch/software/CSDataQuick/docs>`_ to get started.

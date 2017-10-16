@@ -6,7 +6,7 @@
 \chapter Binary pacakges
 
 \section1 Packages bundled with Qt Creator
-To facilitate the usage, packages bundled with Qt Creator are available at https://github.com/xiaoqiangwang/CSDataQuick/releases. The packages are self-contained, including Qt libraries, EPICS base libraries.
+To facilitate the usage, packages bundled with Qt Creator are available at http://epics.web.psi.ch/software/CSDataQuick/downloads. The packages are self-contained, including Qt libraries, EPICS base libraries, and a stripped down version of Qt Creator.
 
 \section1 Anaconda Packages
 Anaconda is a Python distribution. It provides a reproducible way to deploy binary packages, not limited to Python.
