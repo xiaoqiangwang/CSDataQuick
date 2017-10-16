@@ -1,0 +1,16 @@
+/*!
+    \page releases.html
+    \title Release Notes
+
+    \section1 1.0.0b2 (16-10-2017)
+    \list
+    \li Add package creation using CPack.
+    \li Add macro input prompt to ADLViewer open file dialog.
+    \li Add an option to draw arrows at the end of an CSPolyline item.
+    \endlist
+
+    \section1 1.0.0b1 (15-09-2017)
+    \list
+    \li First public beta release.
+    \endlist
+*/
