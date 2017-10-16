@@ -30,41 +30,6 @@ set(HEADERS
     mjpeg.h
 )
 
-add_library(csdatacomponentsplugin MODULE
-    ${SOURCES}
-    ${HEADERS}
-)
-
-include_directories(
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDE_DIRS}
-    ${Qt5Qml_INCLUDE_DIRS}
-    ${Qt5Quick_INCLUDE_DIRS}
-    ${Qt5Concurrent_INCLUDE_DIRS}
-    ${Qt5PrintSupport_INCLUDE_DIRS}
-    ${EPICS_INCLUDE_DIRS}
-    ../ADLParser
-    ../csdata/core
-)
-
-add_definitions(${EPICS_DEFINITIONS})
-add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-
-target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
-target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
-target_link_libraries(csdatacomponentsplugin ADLParser)
-target_link_libraries(csdatacomponentsplugin csdata)
-set_target_properties(csdatacomponentsplugin PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
-
-if(APPLE)
-set_target_properties(csdatacomponentsplugin PROPERTIES
-    INSTALL_RPATH "@loader_path/../../../lib"
-)
-endif()
-
 set(QML_JS_FILES
     qmldir
     plugins.qmltypes
@@ -214,6 +179,42 @@ set(QML_JS_FILES
     designer/images/delete.png
     designer/csdatacomponents.metainfo
 )
+
+add_library(csdatacomponentsplugin MODULE
+    ${SOURCES}
+    ${HEADERS}
+    ${QML_JS_FILES}
+)
+
+include_directories(
+    ${Qt5Qt_INCLUDE_DIRS}
+    ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Widgets_INCLUDE_DIRS}
+    ${Qt5Qml_INCLUDE_DIRS}
+    ${Qt5Quick_INCLUDE_DIRS}
+    ${Qt5Concurrent_INCLUDE_DIRS}
+    ${Qt5PrintSupport_INCLUDE_DIRS}
+    ${EPICS_INCLUDE_DIRS}
+    ../ADLParser
+    ../csdata/core
+)
+
+add_definitions(${EPICS_DEFINITIONS})
+add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+
+target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
+target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
+target_link_libraries(csdatacomponentsplugin ADLParser)
+target_link_libraries(csdatacomponentsplugin csdata)
+set_target_properties(csdatacomponentsplugin PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
+
+if(APPLE)
+set_target_properties(csdatacomponentsplugin PROPERTIES
+    INSTALL_RPATH "@loader_path/../../../lib"
+)
+endif()
 
 foreach(FILE ${QML_JS_FILES})
     set(DST_QML_JS_FILES ${DST_QML_JS_FILES} ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/${FILE})
