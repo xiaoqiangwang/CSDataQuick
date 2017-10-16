@@ -12,7 +12,7 @@ set (CPACK_MONOLITHIC_INSTALL TRUE)
 if (APPLE)
     set (CPACK_GENERATOR "DragNDrop")
     set (CPACK_PACKAGING_INSTALL_PREFIX "/CSDataQuick")
-else (UNIX)
+elseif (UNIX)
     set (CPACK_GENERATOR "TGZ")
 endif()
 
