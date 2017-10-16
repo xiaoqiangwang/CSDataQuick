@@ -41,7 +41,6 @@ Canvas {
     }
 
     onPaint: {
-        console.log('paint', points)
         var ctx = getContext("2d")
         ctx.fillStyle = "black"
         ctx.fillRect(0, 0, width, height)
