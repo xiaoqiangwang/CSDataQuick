@@ -106,7 +106,9 @@ def restruct_linux():
     # Fix qt.conf
     open(os.path.join(bin_dir, 'qt.conf'), 'w').write('[Paths]\nPrefix = ..\n')
     open(os.path.join(libexec_dir, 'qtcreator', 'qt.conf'), 'w').write('[Paths]\nPrefix = ../..\n')
-    # Fix rpath of executibles under libexec
+    # Fix rpath of qtcreator and executibles under libexec
+    cmd = "chrpath -r '$ORIGIN/../lib/qtcreator:$ORIGIN/../lib:' " + os.path.join(bin_dir, 'qtcreator')
+    os.system(cmd)
     for f in os.listdir(os.path.join(libexec_dir, 'qtcreator')):
         cmd = "chrpath -r '$ORIGIN/../../lib/qtcreator:$ORIGIN/../../lib:' " + os.path.join(libexec_dir, 'qtcreator', f)
         os.system(cmd)
