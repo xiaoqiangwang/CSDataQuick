@@ -1,3 +1,4 @@
+import QtQml 2.1
 import QtQuick 2.0
 import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.2
@@ -280,6 +281,9 @@ ApplicationWindow
     }
 
     function unique(a) {
+        if (a === null)
+            return []
+
         var seen = {}
         var output = []
         var j = 0
