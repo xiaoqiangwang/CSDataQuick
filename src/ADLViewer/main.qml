@@ -4,6 +4,7 @@ import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.0
 import QtQuick.Dialogs 1.2
+import Qt.labs.settings 1.0
 
 import CSDataQuick.Components 1.0
 
@@ -52,6 +53,13 @@ ApplicationWindow
     }
 
     Component.onCompleted: WindowManager.setMainWindow(root)
+
+    Settings {
+        property alias x: root.x
+        property alias y: root.y
+        property alias width: root.width
+        property alias height: root.height
+    }
 
     MessageDialog {
         id: aboutDialog
