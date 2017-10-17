@@ -59,6 +59,7 @@ ApplicationWindow
         property alias y: root.y
         property alias width: root.width
         property alias height: root.height
+        property alias lastFilePath: fileDialog.folder
     }
 
     MessageDialog {
