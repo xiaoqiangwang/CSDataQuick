@@ -15,7 +15,16 @@ Canvas {
         property var pointMoving: null
     }
 
+    Timer {
+        id: timer
+        interval: 500;
+        onTriggered: updateToBackend()
+    }
+
     onBackendValueChanged: {
+        // stop active timer in case a different object is selected
+        timer.stop()
+
         points = eval(backendValue.expression)
         if (!points)
             points = []
@@ -37,7 +46,7 @@ Canvas {
             points[i].y = points[i].y * canvasSize.height / d.oldSize.height
         }
         d.oldSize = canvasSize
-        updateToBackend()
+        timer.restart()
     }
 
     onPaint: {
