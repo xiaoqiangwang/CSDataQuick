@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<externaltool id="adlviewer">
+    <description>Runs the current QML file with ADLViewer.</description>
+    <displayname>Preview</displayname>
+    <category>CSDataQuick</category>
+    <order>1</order>
+    <executable>
+        <path>ADLViewer</path>
+        <arguments>%{CurrentDocument:FilePath}</arguments>
+        <workingdirectory>%{CurrentDocument:Path}</workingdirectory>
+    </executable>
+</externaltool>

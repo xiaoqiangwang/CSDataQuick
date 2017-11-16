@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "supportedProjectTypes": [ ],
+    "id": "C.CSDataQuick.1",
+    "category": "R.CSDataQuick",
+    "trDescription": "Creates a CSDataQuick display.",
+    "trDisplayName": "Display File (QML)",
+    "trDisplayCategory": "CSDataQuick",
+    "iconText": "qml",
+    "enabled": "%{JS: [ %{Plugins} ].indexOf('QmlJSEditor') >= 0}",
+
+    "pages" :
+    [
+        {
+            "trDisplayName": "Location",
+            "trShortTitle": "Location",
+            "typeId": "File"
+        }
+    ],
+    "generators" :
+    [
+        {
+            "typeId": "File",
+            "data":
+            {
+                "source": "file.qml.tpl",
+                "target": "%{JS: Util.fileName('%{TargetPath}', '%{JS: Util.preferredSuffix('text/x-qml')}')}",
+                "openInEditor": true
+            }
+        }
+    ]
+}
