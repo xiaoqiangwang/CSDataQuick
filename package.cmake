@@ -19,6 +19,18 @@ endif()
 # Include Qt Creator
 if (QTC_PACKAGE)
     set (CPACK_INSTALLED_DIRECTORIES ${QTC_PACKAGE} ".")
+    if (APPLE)
+        set (QTC_RESOURCE "${QTC_PACKAGE}/bin/Qt Creator.app/Contents/Resources")
+    elseif (WIN32)
+        set (QTC_RESOURCE "${QTC_PACKAGE}/share/qtcreator")
+    else ()
+        set (QTC_RESOURCE "${QTC_PACKAGE}/share/qtcreator")
+    endif()
+    # Copy templates
+    file (COPY ${CMAKE_SOURCE_DIR}/share/qtcreator/templates/wizards/files/csdataquick
+        DESTINATION ${QTC_RESOURCE}/templates/wizards/files)
+    file (COPY ${CMAKE_SOURCE_DIR}/share/qtcreator/externaltools/adlviewer.xml
+        DESTINATION ${QTC_RESOURCE}/externaltools)
 endif()
 
 include(CPack)
