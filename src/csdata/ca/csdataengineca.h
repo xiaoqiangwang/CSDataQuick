@@ -29,6 +29,9 @@ signals:
 private slots:
     void notifyDataChange();
 
+protected:
+    void timerEvent(QTimerEvent *);
+
 private:
     void dataChanged();
 

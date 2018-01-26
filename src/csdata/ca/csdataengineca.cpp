@@ -229,7 +229,6 @@ void propertyCallbackC(struct event_handler_args args)
             QMetaObject::invokeMethod(data, "setExtraProperty",
                                       Q_ARG(const QString, "evidMonitor"),
                                       Q_ARG(const QVariant, QVariant::fromValue((void*)evidMonitor)));
-            ca_flush_io();
         }
     }
 }
@@ -287,7 +286,6 @@ void connectCallbackC(struct connection_handler_args args)
             qCritical() << "ca_replace_access_rights_event:" << ca_message(status);
             return;
         }
-        ca_flush_io();
     } else {
         QMetaObject::invokeMethod(data, "setConnected", Q_ARG(bool, false));
         QMetaObject::invokeMethod(data, "setFieldType", Q_ARG(QCSData::FieldType, QCSData::Invalid));
@@ -311,6 +309,8 @@ QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
     _cac = ca_current_context();
 
     ca_add_exception_event(exception_handler, 0);
+
+    startTimer(1000);
 }
 
 QCSDataEngineCA::~QCSDataEngineCA()
@@ -356,8 +356,6 @@ void QCSDataEngineCA::create(QCSData *data)
         _data->append(data);
         dataChanged();
     }
-
-    ca_flush_io();
 }
 void QCSDataEngineCA::close(QCSData *data)
 {
@@ -375,8 +373,6 @@ void QCSDataEngineCA::close(QCSData *data)
     data->setExtraProperty("chid", QVariant());
     data->setExtraProperty("evidProperty", QVariant());
     data->setExtraProperty("evidMonitor", QVariant());
-
-    ca_flush_io();
 
     _data->remove(data);
     dataChanged();
@@ -458,7 +454,6 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     if (status != ECA_NORMAL) {
         qWarning() << "ca_array_put:" << data->source() << ca_message(status);
     }
-    ca_flush_io();
 }
 
 ObjectModel* QCSDataEngineCA::allData()
@@ -486,4 +481,9 @@ void QCSDataEngineCA::notifyDataChange()
     _last_update = QDateTime::currentMSecsSinceEpoch();
     _update_scheduled = false;
     emit allDataChanged();
+}
+
+void QCSDataEngineCA::timerEvent(QTimerEvent *)
+{
+    ca_flush_io();
 }
