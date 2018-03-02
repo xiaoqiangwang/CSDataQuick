@@ -89,7 +89,7 @@ def restruct_linux():
     qmake = sys.argv[3]
     # Copy the entire directory
     for d in ['bin', 'lib', 'libexec', 'share']:
-        shutil.copytree(os.path.join(app_bundle, d), os.path.join(target_path, d))
+        shutil.copytree(os.path.join(app_bundle, d), os.path.join(target_path, d), symlinks=True)
 
     # Copy Qt libs
     qtlibs_dir = subprocess.getoutput('%s -query QT_INSTALL_LIBS' % qmake).strip()
