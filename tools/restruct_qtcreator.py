@@ -11,6 +11,9 @@ import sys
 import shutil
 import subprocess
 
+if sys.hexversion < 0x03000000:
+    subprocess.getoutput = lambda cmd: subprocess.check_output(cmd, shell=True)
+
 app_bundle = sys.argv[1]
 target_path = sys.argv[2]
 
@@ -89,19 +92,19 @@ def restruct_linux():
         shutil.copytree(os.path.join(app_bundle, d), os.path.join(target_path, d))
 
     # Copy Qt libs
-    qtlibs_dir = subprocess.check_output('%s -query QT_INSTALL_LIBS' % qmake, shell=True).strip()
+    qtlibs_dir = subprocess.getoutput('%s -query QT_INSTALL_LIBS' % qmake).strip()
     for lib in ['Core', 'Gui', 'Widgets', 'Concurrent', 'Network', 'PrintSupport',
                 'Qml', 'Quick', 'QuickWidgets', 'Xml', 'Svg', 'XcbQpa', 'Sql']:
         shutil.copy(os.path.join(qtlibs_dir, 'libQt5%s.so.5'%lib), lib_dir)
 
     # Copy Qt plugins
-    qtplugins_dir = subprocess.check_output('%s -query QT_INSTALL_PLUGINS' % qmake, shell=True).strip()
+    qtplugins_dir = subprocess.getoutput('%s -query QT_INSTALL_PLUGINS' % qmake).strip()
     os.makedirs(plugins_dir)
     for plugin in ['bearer', 'designer', 'iconengines', 'imageformats',
                    'platforms', 'sqldrivers', 'xcbglintegrations']:
         shutil.copytree(os.path.join(qtplugins_dir, plugin), os.path.join(plugins_dir, plugin))
     # Copy QtQuick modules
-    qtqml_dir = subprocess.check_output('%s -query QT_INSTALL_QML' % qmake, shell=True).strip()
+    qtqml_dir = subprocess.getoutput('%s -query QT_INSTALL_QML' % qmake).strip()
     shutil.copytree(qtqml_dir, qml_dir)
     # Fix qt.conf
     open(os.path.join(bin_dir, 'qt.conf'), 'w').write('[Paths]\nPrefix = ..\n')
