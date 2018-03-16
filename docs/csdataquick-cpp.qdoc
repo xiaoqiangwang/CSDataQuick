@@ -1,0 +1,6 @@
+/*!
+    \module CSDataQuick.Data
+    \title CSDataQuick C++ Classes
+    \brief The CSDataQuick module provides classes for implementing custom data engines.
+
+*/

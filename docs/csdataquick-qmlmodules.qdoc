@@ -1,0 +1,45 @@
+/*!
+    \page csdataquick-qmlmodules.html
+    \title CSDataQuick QML Types
+    \brief List of qml types
+
+    \section1 Control System Data
+
+    CSData is modeled after the Process Variable (PV) as implemented in EPICS control system.
+    It comprises a set of attributes (e.g. value, units, limits) and is indentified by a unique name CSData::source.
+
+    \e{References to Process Variable, PV, Channel might still appear in the documents in place of CSData.}
+
+    \code
+    import CSDataQuick.Data 1.0
+    \endcode
+
+    \generatelist qmltypesbymodule CSDataQuick.Data
+
+
+    \section1 Visual Components
+
+    \code
+    import CSDataQuick.Components 1.0
+    \endcode
+
+    Most components name, style, function inspired by \l{http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/MEDM.html#MEDMObjects}{MEDM objects}.
+    Some document texts are literally copied and the designer item icons are converted from MEDM xpm data.
+
+    \image components-demo.png
+
+    \section2 Base Types
+    \annotatedlist csdataquick.components.bases
+
+    \section2 Graphics
+    \annotatedlist csdataquick.components.graphics
+
+    \section2 Monitors
+    \annotatedlist csdataquick.components.monitors
+
+    \section2 Controls
+    \annotatedlist csdataquick.components.controls
+
+
+    \noautolist
+*/

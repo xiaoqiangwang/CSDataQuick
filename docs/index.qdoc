@@ -1,7 +1,6 @@
 /*!
-
 \page index.html
-\title CSDataQuick Manual
+\keyword CSDataQuick Documentation
 
 CSDataQuick provides an object model for control system data, 
 which are normally scalar/array values with describing metadata.
@@ -18,12 +17,8 @@ The content of the documentation:
 
 \list
     \li \l{Installation}
-    \li \l{CSDataQuick Overview}
-    \list
-      \li \l{CSDataQuick.Data}{CSData Object}
-      \li \l{CSDataQuick.Components}{UI Components}
-    \endlist
-    \li \l{Use in Qt Quick Designer}
+    \li \l{CSDataQuick QML Types}{QML Types}
+    \li \l{Use in Qt Quick Designer}{Quick Designer}
     \li \l{Demos and Gallery}
     \li \l{ADLViewer and builder}
     \li \l{Problems and Fixes}

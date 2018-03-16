@@ -1,6 +1,7 @@
 project = CSDataQuick
 description = CSDataQuick Documentation
-url = https://github.com/xiaoqiangwang/CSDataQuick
+url = https://epics.web.psi.ch/software/CSDataQuick
+
 version = 1.0
 
 Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
@@ -29,20 +30,24 @@ sources += ../src/csdata/core/csdata.cpp \
 
 headers.fileextensions = "*.h"
 
-imagedirs   = images
+imagedirs   = images style
+
+navigation.homepage = "CSDataQuick Documentation"
+navigation.qmltypespage = "CSDataQuick QML Types"
+navigation.cppclassespage = "CSDataQuick C++ Classes"
 
 # include qt indexes to create cross reference
 depends = qtcore qtdoc qtgui qtwidgets qtqml qtquick
 
-outputdir = html
-outputformats = HTML
 syntaxhighlighting = true
 
 HTML.templatedir = .
-HTML.extraimages += images/ico_out.png
+HTML.extraimages += style/arrow_bc.png style/bullet_dn.png \
+                    style/bgrContent.png  style/cookiebar-x.png \
+                    style/doc_search.png  style/list_arrow.png \
+                    style/list_expand.png
+
+HTML.nonavigationbar = false
 HTML.nobreadcrumbs = true
-HTML.stylesheets = offline.css
-HTML.headerstyles = \
-  "<link rel=\"stylesheet\" type=\"text/css\" href=\"style/offline.css\" />\n"
-HTML.endheader = "</head>\n"
-HTML.footer = "<div class=\"footer\">Copyright (C) 2012-2017 Xiaoqiang Wang, Paul Scherrer Institute.</div>\n"
+
+
