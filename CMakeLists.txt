@@ -44,6 +44,7 @@ add_subdirectory(src)
 add_subdirectory(docs)
 add_subdirectory(examples)
 add_subdirectory(tools)
+add_subdirectory(tests)
 
 # Copy EPICS (Windows only)
 if(WIN32)
