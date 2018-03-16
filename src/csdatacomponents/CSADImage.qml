@@ -6,6 +6,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSADImage
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Display an image from areaDetector
 
     \l {http://cars9.uchicago.edu/software/epics/areaDetector.html}{areaDetector} is a generic EPICS framework to integrate detectors.

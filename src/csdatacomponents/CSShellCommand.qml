@@ -9,6 +9,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSShellCommand
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Run shell commands
 
     It is a menu button that usually has a graphic consisting of an “!” and a \l label.

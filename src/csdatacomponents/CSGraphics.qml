@@ -6,6 +6,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSGraphics
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.bases
     \brief Basic type to all graphics shapes
 
     CSGraphics is the base type for all graphics types.

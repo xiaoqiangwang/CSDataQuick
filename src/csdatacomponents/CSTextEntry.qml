@@ -8,6 +8,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSTextEntry
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Display an editable text
 
     The Text Entry provides a means of displaying the value of a process variable in an entry box,

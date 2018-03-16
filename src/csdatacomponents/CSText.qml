@@ -6,6 +6,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSText
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.graphics
     \brief Display a text label
 
     It can display both plain and rich text in HTML-style markup. The text may extend beyond the height and width specified for the Text item

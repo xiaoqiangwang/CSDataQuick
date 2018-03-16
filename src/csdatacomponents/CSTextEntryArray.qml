@@ -10,6 +10,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSTextEntryArray
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Display text entry for array data
 
     Functionally it is the same as \l CSTextEntry, only that it allows to display and change an array data.

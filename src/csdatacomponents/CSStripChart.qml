@@ -9,6 +9,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSStripChart
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Display a strip chart
 
     A strip chart acquires the data and updates the plot in fixed period.

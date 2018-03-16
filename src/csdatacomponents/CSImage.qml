@@ -5,6 +5,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSImage
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.graphics
     \brief Show a static or dynamic image
 
     The image can be any any image format supported by Qt, loaded from any URL scheme supported by Qt.

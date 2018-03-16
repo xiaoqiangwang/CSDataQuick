@@ -7,6 +7,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSMessageButton
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Displays a push button
 
     The Message Button sets the CSData value when the button is pressed or released.

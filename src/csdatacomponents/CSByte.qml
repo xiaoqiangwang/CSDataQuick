@@ -5,6 +5,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSByte
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Display bits of an unsigned integer.
 
     It display values in binary.  It masks off the lower 32 bits and treats them as an unsigned integer.

@@ -5,6 +5,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSPolygon
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.graphics
     \brief Display a polyline
 
     Draws the polyline defined by the \l points array.

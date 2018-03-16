@@ -8,6 +8,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSCartesianPlot
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Display XY Plot
 
     A Cartesian Plot consists of an X and one or two Y axes on which data can be plotted.

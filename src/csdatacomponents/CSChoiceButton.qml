@@ -11,6 +11,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSChoiceButton
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Display data's enumerate
 
     The Choice Button is used for ENUM data type and is a means for picking

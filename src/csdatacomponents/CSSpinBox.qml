@@ -9,6 +9,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSSpinBox
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Display a spin box control
 
     It allows the user to choose a value by clicking the up or down buttons, or by pressing up or down on the keyboard.

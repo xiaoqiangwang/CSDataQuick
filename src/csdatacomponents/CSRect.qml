@@ -5,6 +5,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSRect
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.graphics
     \brief Display a rectangle
 
     The rectangle is drawn always within the item boundary.

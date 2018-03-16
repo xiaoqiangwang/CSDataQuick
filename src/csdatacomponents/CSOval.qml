@@ -6,6 +6,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSOval
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.graphics
     \brief Display a circle or ellipse.
 
     The ellipse is drawn always within the item boundary.

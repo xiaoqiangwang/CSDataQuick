@@ -5,6 +5,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSComposite
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.graphics
     \brief Display grouped items or include external files.
 
     A Composite is a group of any items. These items can be created directly.

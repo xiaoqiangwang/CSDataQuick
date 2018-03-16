@@ -6,6 +6,7 @@ import CSDataQuick.Components 1.0
 /*!
     \qmltype CSMJPEGVideo
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Display a video from MJPEG video stream
 
     This is not related to CSData, but provided for convenience.

@@ -7,6 +7,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSIndicator
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief The Indicator displays the value on a scale.
 
     The Indicator can have several decorations as specified by the \l labelStyle.

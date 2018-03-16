@@ -7,6 +7,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSWheelSwitch
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Control a number with individual digit manipulation.
 
     The WheelSwitch displays a number value. It has arrow buttons above and below the digits that are used to change individual digits.

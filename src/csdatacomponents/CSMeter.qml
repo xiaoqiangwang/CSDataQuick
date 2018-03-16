@@ -7,6 +7,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSMeter
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Displays the value on a cirular dial panel.
 
     The value of the dta is displayed by a needle within an arc.

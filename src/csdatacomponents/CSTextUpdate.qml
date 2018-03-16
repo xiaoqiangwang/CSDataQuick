@@ -8,6 +8,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSTextUpdate
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.monitors
     \brief Display the value in given format.
 
     The value is format to string using \l format.

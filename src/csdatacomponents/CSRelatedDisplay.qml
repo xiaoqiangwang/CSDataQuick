@@ -9,6 +9,7 @@ import "utils.js" as UtilsJS
 /*!
     \qmltype CSRelatedDisplay
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.controls
     \brief Brings up more displays
 
     The Related Display provides a means of bringing up more displays.
