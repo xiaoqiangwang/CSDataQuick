@@ -281,6 +281,14 @@ void QCSData::setSource(const QString source)
         emit sourceChanged();
         return;
     }
+    // only disconnect if source is empty
+    if (source.isEmpty()) {
+        if (_engine) {
+            _engine->close(this);
+        }
+        reset();
+        return;
+    }
     // request data engine
     QCSDataEngine * engine = engineManager->engineForName(source);
     if (!engine) {
