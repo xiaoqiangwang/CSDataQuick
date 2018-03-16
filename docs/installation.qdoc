@@ -4,12 +4,12 @@
 \title Installation
 \ingroup toc
 
-\chapter Binary pacakges
+\section1 Binary pacakges
 
-\section1 Packages bundled with Qt Creator
+\section2 Packages bundled with Qt Creator
 To facilitate the usage, packages bundled with Qt Creator are available at http://epics.web.psi.ch/software/CSDataQuick/downloads. The packages are self-contained, including Qt libraries, EPICS base libraries, and a stripped down version of Qt Creator.
 
-\section1 Anaconda Packages
+\section2 Anaconda Packages
 Anaconda is a Python distribution. It provides a reproducible way to deploy binary packages, not limited to Python.
 This module provides packages for linux-64, win-64 and osx-64 platform.
 \code
@@ -30,13 +30,13 @@ On Linux, the default \e qt package does not have OpenGL builtin. The version fr
     $ conda install -c conda-forge qt
 \endcode
 
-\chapter Dependencies
+\section1 Dependencies
 
 \list
 \li Qt 5.6 or higher
 \li EPICS base 3.14.12 or higher
 \li Git
-\li (optional) cmake 2.8.10 or higher
+\li cmake 2.8.10 or higher
 \endlist
 
 On RHEL/Centos/SL 6.x, install qt5 from EPEL repository,
@@ -67,7 +67,7 @@ The \c EPICS_HOST_ARCH environment variable is assumed to be
 
 \e {Note: If it is going to be used in Qt Quick Designer, different setup might be required on \l {Use in Qt Quick Designer} {Windows}. }
 
-\chapter macOS or Linux
+\section1 macOS or Linux
 
 \list
 
@@ -82,14 +82,11 @@ The \c EPICS_HOST_ARCH environment variable is assumed to be
     $ cd CSDataQuick-build
 \endcode
 
-\li Either use qmake, it could be named \c qmake-qt5 on many Linux distros.
-\code
-    $ qmake ../CSDataQuick
-\endcode
-or use cmake
+\li Use cmake to config the build
 \code
     $ cmake ../CSDataQuick
 \endcode
+
 \li Start the build process
 \code
     $ make
@@ -97,7 +94,7 @@ or use cmake
 
 \endlist
 
-\chapter Windows
+\section1 Windows
 
 \list
 
@@ -114,15 +111,11 @@ or use cmake
 
 \li Add Visual C++, Qt SDK, EPICS base to the \c PATH
 \code
-    > set PATH=%PATH%;C:\Qt\5.7\msvc2015_64\bin;C:\epics\base-3.14.12\bin\windows-x64
+    > set PATH=%PATH%;C:\Qt\5.9.4\msvc2015_64\bin;C:\epics\base-3.14.12\bin\windows-x64
     > call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64
 \endcode
 
-\li Either use qmake
-\code
-    > qmake ..\CSDataQuick
-\endcode
-or use cmake
+\li Use cmake to config the build
 \code
     > "C:\Program Files\CMake\bin\cmake" -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" ..\CSDataQuick
 \endcode
