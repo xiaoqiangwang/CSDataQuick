@@ -3,4 +3,7 @@
     \title CSDataQuick C++ Classes
     \brief The CSDataQuick module provides classes for implementing custom data engines.
 
+    \l QCSData provides the abstract of any control system data. Upon creation or QCSData::source
+    change, \l QCSDataEngineManager will look for the registered \l QCSDataEngine reponsible for this type of data.
+    The data engine will connect to the control system and fill the data object if successful.
 */

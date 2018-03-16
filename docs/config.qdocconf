@@ -10,6 +10,7 @@ sourcedirs = . ../src/csdata/core ../src/csdatacomponents
 sources.fileextensions += "*.qdoc *.qml *.js"
 headers += ../src/csdata/core/csdata.h \
            ../src/csdata/core/csdataengine.h \
+           ../src/csdata/core/csdataenginemanager.h \
            ../src/csdatacomponents/utils.h \
            ../src/csdatacomponents/baseitem.h \
            ../src/csdatacomponents/windowmanager.h \
@@ -20,6 +21,7 @@ headers += ../src/csdata/core/csdata.h \
 
 sources += ../src/csdata/core/csdata.cpp \
            ../src/csdata/core/csdataengine.cpp \
+           ../src/csdata/core/csdataenginemanager.cpp \
            ../src/csdatacomponents/utils.cpp \
            ../src/csdatacomponents/baseitem.cpp \
            ../src/csdatacomponents/windowmanager.cpp \

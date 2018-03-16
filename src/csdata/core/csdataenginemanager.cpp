@@ -45,6 +45,16 @@ BOOL WINAPI DllMain(
 
 QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 
+/*!
+    \class QCSDataEngineManager
+    \inmodule CSDataQuick.Data
+    \brief Singleton object to load/query data engines.
+
+
+    The engine manager loads all data engine plugins in 
+    path ../plugins/csdataengine relative to the library itself.
+*/
+
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     : QObject(parent)
 {
@@ -70,6 +80,9 @@ QCSDataEngineManager::~QCSDataEngineManager()
     qDeleteAll(_engines);
 }
 
+/*!
+    Returns the singleton instance
+ */
 QCSDataEngineManager *QCSDataEngineManager::instance()
 {
     if(!_manager)
@@ -77,6 +90,7 @@ QCSDataEngineManager *QCSDataEngineManager::instance()
     return _manager;
 }
 
+/*! \internal */
 QCSDataEngine *QCSDataEngineManager::defaultEngine() const
 {
     foreach (QCSDataEngine *engine, _engines) {
@@ -86,6 +100,10 @@ QCSDataEngine *QCSDataEngineManager::defaultEngine() const
     return Q_NULLPTR;
 }
 
+/*!
+    Returns the data engine registered for the scheme of \a source. If no scheme specified,
+    the default engine is returned, i.e. "ca".
+  */
 QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
 {
     QCSDataSourceName dataSourceName(source);
@@ -99,6 +117,10 @@ QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
     return Q_NULLPTR;
 }
 
+/*!
+    \property QCSDataEngineManager::engines
+    List of all available data engines.
+*/
 QList<QObject*> QCSDataEngineManager::engines() const
 {
     QList<QObject *> objects;
