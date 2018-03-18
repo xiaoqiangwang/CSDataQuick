@@ -52,6 +52,8 @@
 /*!
     \qmlproperty int CSDataAlarm::status
     This property holds the alarm status.
+
+    The actual meaning depends on data engine.
 */
 /*!
     \property QCSDataAlarm::message
@@ -256,6 +258,9 @@ QCSData::~QCSData()
     \e{data_id} is the unique id to the data inside the selected data engine.
 
     "ca://my_pv" or simply "my_pv" both specify the data comes from process variable \e my_pv.
+
+    \note If empty source name is assigned, the data will be be disconnected from the data engine if connected,
+    and reset to its initial state.
 */
 /*!
     \qmlproperty string CSData::source
@@ -266,6 +271,9 @@ QCSData::~QCSData()
     \e{data_id} is the unique id to the data inside the selected data engine.
 
     "ca://my_pv" or simply "my_pv" both specify the data comes from process variable \e my_pv.
+
+    \note If empty source name is assigned, the data will be be disconnected from the data engine if connected,
+    and reset to its initial state.
 */
 QString QCSData::source() const
 {
@@ -557,8 +565,8 @@ void QCSData::setExtraProperties(const QVariantMap properties)
     However it might be upcasted to \l {QML Basic Types}. In case of array type, the Javascript
     environment can only understand QVector<int>, QVector<double>.
 
-    \e{Note: Qt 5.6 and below does not understand QVector type at all. It requires helper functions
-    for element-wise operation.}
+    \note Qt 5.6 and below does not understand QVector type at all. It requires helper functions
+    for element-wise operation.
 
     \sa Utils::vectorGet, Utils::vectorSet
 */
