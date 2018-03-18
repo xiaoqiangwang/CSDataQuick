@@ -14,10 +14,10 @@ add_library(csdataplugin MODULE
 )
 
 include_directories(
-    ../csdata/core/
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
 target_link_libraries(csdataplugin csdata)

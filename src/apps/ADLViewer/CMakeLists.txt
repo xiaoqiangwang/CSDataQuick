@@ -46,8 +46,8 @@ include_directories(
     ${Qt5Gui_INCLUDE_DIRS}
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
-    ../ADLParser
-    ../csdata/core
+    ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
+    ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 target_link_libraries(ADLViewer
     Qt5::Core

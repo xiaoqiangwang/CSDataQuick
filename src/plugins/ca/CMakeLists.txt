@@ -12,10 +12,10 @@ add_library(csdataengineca MODULE
 )
 
 include_directories(
-    ../core
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
 add_definitions(${EPICS_DEFINITIONS})

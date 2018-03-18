@@ -10,7 +10,7 @@ set(HEADERS
 )
 
 include_directories(
-    ../csdata/core
+    ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
 add_library(ADLParser SHARED
