@@ -1,12 +1,12 @@
 set(SOURCES
     element.cpp
-    parser.cpp
+    ADLParser.cpp
 )
 
 set(HEADERS
     common.h
     element.h
-    parser.h
+    ADLParser.h
 )
 
 include_directories(

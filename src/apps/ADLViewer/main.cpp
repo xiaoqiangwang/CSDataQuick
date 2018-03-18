@@ -23,7 +23,7 @@
 
 #include <QtDebug>
 
-#include "parser.h"
+#include "ADLParser.h"
 
 QPointer<QQuickWindow> window;
 

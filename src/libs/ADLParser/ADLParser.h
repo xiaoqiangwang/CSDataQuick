@@ -1,5 +1,5 @@
-#ifndef PARSER_H
-#define PARSER_H
+#ifndef ADLPARSER_H
+#define ADLPARSER_H
 
 #include <string>
 #include <istream>
