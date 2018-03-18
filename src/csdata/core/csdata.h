@@ -48,7 +48,7 @@ public:
         MajorAlarm,
         InvalidAlarm,
     };
-    Q_ENUMS(Severity)
+    Q_ENUM(Severity)
 
     QCSDataAlarm(QObject *parent=0);
     void setAlarm(Severity severity, int status, const QString message);
@@ -118,7 +118,7 @@ public:
         ReadAccess  = 0x01,
         WriteAccess = 0x02,
     };
-    Q_ENUMS(AccessFlag)
+    Q_ENUM(AccessFlag)
     Q_DECLARE_FLAGS(AccessFlags, AccessFlag)
 
     enum FieldType {
@@ -132,7 +132,7 @@ public:
         Float = 6,
         Double = 7,
     };
-    Q_ENUMS(FieldType)
+    Q_ENUM(FieldType)
 
     QString source() const;
     void setSource(const QString source);

@@ -57,8 +57,6 @@ class SortFilterProxyModel : public QSortFilterProxyModel
     Q_PROPERTY(QString filterString READ filterString WRITE setFilterString)
     Q_PROPERTY(FilterSyntax filterSyntax READ filterSyntax WRITE setFilterSyntax)
 
-    Q_ENUMS(FilterSyntax)
-
 public:
     explicit SortFilterProxyModel(QObject *parent = 0);
 
@@ -81,6 +79,7 @@ public:
         Wildcard,
         FixedString
     };
+    Q_ENUM(FilterSyntax)
 
     FilterSyntax filterSyntax() const;
     void setFilterSyntax(FilterSyntax syntax);

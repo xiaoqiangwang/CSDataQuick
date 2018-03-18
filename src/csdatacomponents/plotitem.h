@@ -82,7 +82,6 @@ class GraphItem : public QObject, public QQmlParserStatus
     Q_OBJECT
     Q_INTERFACES(QQmlParserStatus)
 
-    Q_ENUMS(LineStyle)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(LineStyle lineStyle READ lineStyle WRITE setLineStyle NOTIFY lineStyleChanged)
@@ -96,6 +95,7 @@ public:
         Line,
         Fill
     };
+    Q_ENUM(LineStyle)
 
     explicit GraphItem(QObject *parent=0);
 
@@ -211,8 +211,6 @@ class AxisItem : public QObject, public QQmlParserStatus
     Q_PROPERTY(int tickCount READ tickCount WRITE setTickCount)
     Q_PROPERTY(bool tickVisible READ tickVisible WRITE setTickVisible)
     Q_PROPERTY(bool autoScale READ autoScale WRITE setAutoScale NOTIFY autoScaleChanged)
-    Q_ENUMS(AxisType)
-    Q_ENUMS(AxisScale)
 
 public:
     explicit AxisItem(QObject *parent=0);
@@ -222,11 +220,13 @@ public:
         Top    = 0x04,
         Bottom = 0x08,
     };
+    Q_ENUM(AxisType)
     enum AxisScale {
         Linear,
         Logrithmic,
         DateTime,
     };
+    Q_ENUM(AxisScale)
 
     QCPAxis *axis() {return mAxis;}
 

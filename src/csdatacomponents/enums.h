@@ -12,7 +12,6 @@
 class LogLevel : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(LogLevelEnum)
 public:
     enum LogLevelEnum {
         Debug = QtDebugMsg,
@@ -26,6 +25,8 @@ public:
         Fatal = QtFatalMsg,
         System = QtSystemMsg
     };
+    Q_ENUM(LogLevelEnum)
+
 private:
     DISABLE_CREATION(LogLevel)
 };
@@ -33,13 +34,14 @@ private:
 class FrameShadow : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(FrameShadowEnum)
 public:
     enum FrameShadowEnum {
         Flat = 0,
         Raise,
         Sunken
     };
+    Q_ENUM(FrameShadowEnum)
+
 private:
     DISABLE_CREATION(FrameShadow)
 };
@@ -47,7 +49,6 @@ private:
 class TextFormat : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(TextFormatEnum)
 public:
     enum TextFormatEnum {
         Decimal = 0,
@@ -62,6 +63,7 @@ public:
         SexagesimalDMS,
         SexagesimalHMS
     };
+    Q_ENUM(TextFormatEnum)
 private:
     DISABLE_CREATION(TextFormat)
 };
@@ -69,13 +71,13 @@ private:
 class ColorMode : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(ColorModeEnum)
 public:
     enum ColorModeEnum {
         Static = 0,
         Alarm,
         Discrete
     };
+    Q_ENUM(ColorModeEnum)
 private:
     DISABLE_CREATION(ColorMode)
 };
@@ -83,7 +85,6 @@ private:
 class Direction : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(DirectionEnum)
 public:
     enum DirectionEnum {
         Up = 0,
@@ -91,6 +92,7 @@ public:
         Down,
         Left
     };
+    Q_ENUM(DirectionEnum)
 private:
     DISABLE_CREATION(Direction)
 };
@@ -98,12 +100,12 @@ private:
 class EdgeStyle : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(EdgeStyleEnum)
 public:
     enum EdgeStyleEnum {
         Solid = 0,
         Dash
     };
+    Q_ENUM(EdgeStyleEnum)
 private:
     DISABLE_CREATION(EdgeStyle)
 };
@@ -111,12 +113,12 @@ private:
 class FillStyle : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(FillStyleEnum)
 public:
     enum FillStyleEnum {
         Solid = 0,
         Outline
     };
+    Q_ENUM(FillStyleEnum)
 private:
     DISABLE_CREATION(FillStyle)
 };
@@ -124,7 +126,6 @@ private:
 class VisibilityMode : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(VisibilityModeEnum)
 public:
     enum VisibilityModeEnum {
         Static = 0,
@@ -132,6 +133,7 @@ public:
         IfZero,
         Calc
     };
+    Q_ENUM(VisibilityModeEnum)
 private:
     DISABLE_CREATION(VisibilityMode)
 };
@@ -139,7 +141,6 @@ private:
 class LimitsSource : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(LimitsSourceEnum)
 public:
     enum LimitsSourceEnum {
         Channel = 0,
@@ -147,6 +148,7 @@ public:
         User,
         Unused
     };
+    Q_ENUM(LimitsSourceEnum)
 private:
     DISABLE_CREATION(LimitsSource)
 };
@@ -154,7 +156,6 @@ private:
 class RelatedDisplayVisual : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(RelatedDisplayVisualEnum)
 public:
     enum RelatedDisplayVisualEnum {
         Menu = 0,
@@ -162,6 +163,7 @@ public:
         Column,
         Hidden
     };
+    Q_ENUM(RelatedDisplayVisualEnum)
 private:
     DISABLE_CREATION(RelatedDisplayVisual)
 };
@@ -169,12 +171,12 @@ private:
 class RelatedDisplayMode : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(RelatedDisplayModeEnum)
 public:
     enum RelatedDisplayModeEnum {
         New = 0,
         Replace
     };
+    Q_ENUM(RelatedDisplayModeEnum)
 private:
     DISABLE_CREATION(RelatedDisplayMode)
 };
@@ -182,7 +184,6 @@ private:
 class LabelStyle : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(LabelStyleEnum)
 public:
     enum LabelStyleEnum {
         Frame = 0,
@@ -191,6 +192,7 @@ public:
         Limits,
         Channel
     };
+    Q_ENUM(LabelStyleEnum)
 private:
     DISABLE_CREATION(LabelStyle)
 };
@@ -198,13 +200,13 @@ private:
 class TimeUnit : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(TimeUnitEnum)
 public:
     enum TimeUnitEnum {
         MilliSecond = 0,
         Second,
         Minute,
     };
+    Q_ENUM(TimeUnitEnum)
 private:
     DISABLE_CREATION(TimeUnit)
 };
@@ -212,13 +214,13 @@ private:
 class PlotStyle : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(PlotStyleEnum)
 public:
     enum PlotStyleEnum {
         Point = 0,
         Line,
         FillUnder
     };
+    Q_ENUM(PlotStyleEnum)
 private:
     DISABLE_CREATION(PlotStyle)
 };
@@ -226,13 +228,13 @@ private:
 class Stacking : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(StackingEnum)
 public:
     enum StackingEnum {
         Column = 0,
         Row,
         RowColumn
     };
+    Q_ENUM(StackingEnum)
 private:
     DISABLE_CREATION(Stacking)
 };
@@ -240,12 +242,12 @@ private:
 class FillMode : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(FillModeEnum)
 public:
     enum FillModeEnum {
         FromEdge = 0,
         FromCenter
     };
+    Q_ENUM(FillModeEnum)
 private:
     DISABLE_CREATION(FillMode)
 };
@@ -253,12 +255,12 @@ private:
 class EraseMode : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(EraseModeEnum)
 public:
     enum EraseModeEnum {
         IfNotZero = 0,
         IfZero
     };
+    Q_ENUM(EraseModeEnum)
 private:
     DISABLE_CREATION(EraseMode)
 };
@@ -266,7 +268,6 @@ private:
 class CartesianPlotTimeFormat : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(CartesianPlotTimeFormatEnum)
 public:
     enum CartesianPlotTimeFormatEnum {
         HHMMSS = 0,
@@ -277,6 +278,7 @@ public:
         MMDDHH00,
         WDHH00
     };
+    Q_ENUM(CartesianPlotTimeFormatEnum)
 private:
     DISABLE_CREATION(CartesianPlotTimeFormat)
 };
@@ -284,13 +286,13 @@ private:
 class CartesianPlotRangeStyle : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(CartesianPlotRangeStyleEnum)
 public:
     enum CartesianPlotRangeStyleEnum {
         Channel = 0,
         User,
         Auto
     };
+    Q_ENUM(CartesianPlotRangeStyleEnum)
 private:
     DISABLE_CREATION(CartesianPlotRangeStyle)
 };
@@ -298,12 +300,12 @@ private:
 class CartesianPlotYAxis : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(CartesianPlotYAxisEnum)
 public:
     enum CartesianPlotYAxisEnum {
         Y = 0,
         Y2
     };
+    Q_ENUM(CartesianPlotYAxisEnum)
 private:
     DISABLE_CREATION(CartesianPlotYAxis)
 };
@@ -311,13 +313,13 @@ private:
 class CartesianPlotAxisStyle : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(CartesianPlotAxisStyleEnum)
 public:
     enum CartesianPlotAxisStyleEnum {
         Linear = 0,
         Log10,
         Time
     };
+    Q_ENUM(CartesianPlotAxisStyleEnum)
 private:
     DISABLE_CREATION(CartesianPlotAxisStyle)
 };
@@ -325,7 +327,6 @@ private:
 class ArrowPosition : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(ArrowPositionEnum)
 public:
     enum ArrowPositionEnum {
         None = 0,
@@ -333,6 +334,7 @@ public:
         End,
         Both
     };
+    Q_ENUM(ArrowPositionEnum)
 private:
     DISABLE_CREATION(ArrowPosition)
 };

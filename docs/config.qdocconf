@@ -4,7 +4,7 @@ url = https://epics.web.psi.ch/software/CSDataQuick
 
 version = 1.0
 
-Cpp.ignoredirectives = Q_ENUMS Q_INTERFACES
+Cpp.ignoredirectives = Q_ENUMS Q_ENUM Q_INTERFACES
 
 sourcedirs = . ../src/csdata/core ../src/csdatacomponents
 sources.fileextensions += "*.qdoc *.qml *.js"
