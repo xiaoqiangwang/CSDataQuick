@@ -310,7 +310,7 @@ QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
 
     ca_add_exception_event(exception_handler, 0);
 
-    startTimer(1000);
+    startTimer(100);
 }
 
 QCSDataEngineCA::~QCSDataEngineCA()
@@ -485,5 +485,5 @@ void QCSDataEngineCA::notifyDataChange()
 
 void QCSDataEngineCA::timerEvent(QTimerEvent *)
 {
-    ca_flush_io();
+    ca_poll();
 }
