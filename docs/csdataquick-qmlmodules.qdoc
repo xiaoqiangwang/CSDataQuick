@@ -43,3 +43,11 @@
 
     \noautolist
 */
+
+/*!
+    \qmlmodule CSDataQuick.Data 1.0
+*/
+
+/*!
+    \qmlmodule CSDataQuick.Components 1.0
+*/
