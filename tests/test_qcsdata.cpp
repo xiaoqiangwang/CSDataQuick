@@ -1,8 +1,8 @@
 #include "csdata.h"
 
 #include <QCoreApplication>
-#include <QThread>
 #include <QtDebug>
+#include <QTimer>
 
 int main(int argc, char **argv)
 {
@@ -11,20 +11,27 @@ int main(int argc, char **argv)
     QCSData *data = new QCSData();
     QCSDataAlarm *alarm = data->property("alarm").value<QCSDataAlarm*>();
     QCSDataRange *range = data->property("range").value<QCSDataRange*>();
-
     data->setSource("bo");
-    // wait for connection
-    while (!data->connected() || data->timeStamp().toMSecsSinceEpoch() == 0)
-        app.processEvents(QEventLoop::AllEvents, 100);
 
-    qDebug() << data->source() << "\n"
-             << "Host:      " << data->host() << "\n"
-             << "Type:      " << data->fieldType() << "\n"
-             << "Value:     " << data->value().toDouble() << "\n"
-             << "Alarm:     " << alarm->property("severity") << alarm->property("status") <<  alarm->property("message")<< "\n"
-             << "Timestamp: " << data->timeStamp().toString() << "\n"
-             << "Range:     " << range->property("lower").toDouble() << ", " << range->property("upper").toDouble();
+    // enter event loop for 2000 ms
+    QTimer::singleShot(2000, &app, SLOT(quit()));
+    app.exec();
 
-    data->setSource("");
-    data->deleteLater();
+    // dump data
+    qDebug().noquote()
+        << data->source() << "\n"
+        << "State:     " << (data->connected() ? "Connected" : "Not connected") << "\n"
+        << "Host:      " << data->host() << "\n"
+        << "Type:      " << data->fieldType() << "\n"
+        << "Count:     " << data->count() << "\n"
+        << "Value:     " << data->value().toDouble() << "\n"
+        << "Alarm:\n"
+        << "    Severity: " << alarm->property("severity").toString() << "\n"
+        << "    Status:   " << alarm->property("status").toInt() << "\n"
+        << "    Message:  " << alarm->property("message").toString() << "\n"
+        << "Timestamp: " << data->timeStamp().toString() << "\n"
+        << "Range:      [" << range->property("lower").toDouble() << "," << range->property("upper").toDouble() << "]\n"
+        << "Units:     " << data->units() << "\n"
+        << "Enums:     " << data->stateStrings();
+
 }
