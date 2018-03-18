@@ -2,6 +2,16 @@
     \page releases.html
     \title Release Notes
 
+    \section1 1.0.0 (xx-03-2018)
+    \list
+    \li Fix handling of empty CSData::source to disconnect and reset the data.
+    \li Save/restore main windows's geometry.
+    \li Optimise ca data engine to call ca_pend_io every 100ms. It used to call ca_flush_io for every operation.
+    \li Remove qmake project files and use cmake only.
+    \li Restructure documents.
+    \li Restructure and clean up source code.
+    \endlist
+
     \section1 1.0.0b2 (16-10-2017)
     \list
     \li Add package creation using CPack.
