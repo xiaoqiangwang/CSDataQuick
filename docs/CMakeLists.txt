@@ -8,13 +8,21 @@ if(QDOC_EXECUTABLE STREQUAL "QDOC_EXECUTABLE-NOTFOUND")
 else()
     file (GLOB QDOC_FILES *.qdocconf *.qdoc style/*)
     add_custom_target(html-offline
-        COMMAND ${QDOC_EXECUTABLE} --indexdir ${QT_DOC_DIR} --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-offline ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-offline.qdocconf
-                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                      COMMENT "Generate offline documents..."
-                      SOURCES ${QDOC_FILES})
+        COMMAND ${QDOC_EXECUTABLE}
+            -D CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
+            --indexdir ${QT_DOC_DIR}
+            --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-offline
+            ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-offline.qdocconf
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generate offline documents..."
+        SOURCES ${QDOC_FILES})
     add_custom_target(html-online
-        COMMAND ${QDOC_EXECUTABLE} --indexdir ${QT_DOC_DIR} --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-online ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-online.qdocconf
-                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                      COMMENT "Generate online documents..."
-                      SOURCES ${QDOC_FILES})
+        COMMAND ${QDOC_EXECUTABLE}
+            -D CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
+            --indexdir ${QT_DOC_DIR}
+            --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-online
+            ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-online.qdocconf
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generate online documents..."
+        SOURCES ${QDOC_FILES})
 endif()
