@@ -6,7 +6,7 @@ version = $(CSDATAQUICK_VERSION)
 
 Cpp.ignoredirectives = Q_ENUMS Q_ENUM Q_INTERFACES
 
-sourcedirs = . ../src/libs/csdata ../src/imports/components
+sourcedirs = src ../src/libs/csdata ../src/imports/components
 sources.fileextensions += "*.qdoc *.qml *.js"
 headers += ../src/libs/csdata/csdata.h \
            ../src/libs/csdata/csdataengine.h \
