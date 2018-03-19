@@ -2,27 +2,42 @@
 \page index.html
 \keyword CSDataQuick Documentation
 
-CSDataQuick provides an object model for control system data, 
-which are normally scalar/array values with describing metadata.
-It also includes a set of visual items to display and control the data.
+\image areaDetector-control.png
 
-Given the declarative nature of QML, this made it
+CSDataQuick provides an \l {CSData}{object model} for control system data,
+which are normally scalar/array values with describing metadata,
+and a set of \l {Visual Components}{visual items} to display and control the data.
+Given the declarative nature of \l {Qt QML}, this made it
 suitable to design traditional GUI using clear structural text.
 Moreover it enables the easy creation of dynamic, fluid GUI experience.
 
-Here is an operation interface for a camera using areaDetector driver.
-\image areaDetector-control.png
-
 The content of the documentation:
 
-\list
-    \li \l{Installation}
-    \li \l{CSDataQuick QML Types}{QML Types}
-    \li \l{Use in Qt Quick Designer}{Quick Designer}
-    \li \l{Demos and Gallery}
-    \li \l{ADLViewer and builder}
-    \li \l{Problems and Fixes}
-    \li \l{Release Notes}
-\endlist
+\table
+    \row
+    \li Get Started
+    \list
+        \li \l{Installation}
+        \li \l{Demos and Gallery}
+        \li \l{Use in Qt Quick Designer}{Quick Designer}
+        \li \l{ADLViewer and builder}
+    \endlist
+    \li Extend
+    \list
+        \li Customization
+        \li Add a new data engine
+        \li Add a new visual item
+    \endlist
+    \li Reference
+    \list
+        \li \l{CSDataQuick QML Types}{QML Types}
+        \li \l{CSDataQuick C++ Classes}{C++ Classes}
+    \endlist
+    \li Help
+    \list
+        \li \l{Problems and Fixes}
+        \li \l{Release Notes}
+    \endlist
+\endtable
 
 */
