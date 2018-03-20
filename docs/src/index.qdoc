@@ -14,30 +14,35 @@ Moreover it enables the easy creation of dynamic, fluid GUI experience.
 The content of the documentation:
 
 \table
+    \header
+        \li \inlineimage ico_getstarted.png Get Started
+        \li \inlineimage ico_qml.png Customize and Extend
+        \li \inlineimage ico_api.png API Reference
+        \li \inlineimage ico_help.png Questions
     \row
-    \li Get Started
-    \list
-        \li \l{Installation}
-        \li \l{Demos and Gallery}
-        \li \l{Use in Qt Quick Designer}{Quick Designer}
-        \li \l{ADLViewer and builder}
-    \endlist
-    \li Extend
-    \list
-        \li Customization
-        \li Add a new data engine
-        \li Add a new visual item
-    \endlist
-    \li Reference
-    \list
-        \li \l{CSDataQuick QML Types}{QML Types}
-        \li \l{CSDataQuick C++ Classes}{C++ Classes}
-    \endlist
-    \li Help
-    \list
-        \li \l{Problems and Fixes}
-        \li \l{Release Notes}
-    \endlist
+        \li
+            \list
+                \li \l{Installation}
+                \li \l{Demos and Gallery}
+                \li \l{Use in Qt Quick Designer}{Quick Designer}
+                \li \l{ADLViewer and builder}
+            \endlist
+        \li
+            \list
+                \li Customization
+                \li Add a new data engine
+                \li Add a new visual item
+            \endlist
+        \li
+            \list
+                \li \l{CSDataQuick QML Types}{QML Types}
+                \li \l{CSDataQuick C++ Classes}{C++ Classes}
+            \endlist
+        \li
+            \list
+                \li \l{Problems and Fixes}
+                \li \l{Release Notes}
+            \endlist
 \endtable
 
 */
