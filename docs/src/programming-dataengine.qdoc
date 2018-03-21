@@ -1,0 +1,8 @@
+/*!
+\page new-dataengine.html
+\title Add a new data engine
+
+Writting a new data engine is bascilly to derive from CSDataEngine and implement the pure virtual methods.
+Please refer to the builtin simulation data engine for example.
+
+*/

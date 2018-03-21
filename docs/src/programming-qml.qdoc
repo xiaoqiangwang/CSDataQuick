@@ -1,0 +1,129 @@
+/*!
+\page new-visual-item.html
+\title Add a new visual item
+
+Suppose you want to have a new edit control, which postpones writting its value
+to the data engine until an apply button is clicked.
+
+\section1 Create the visual item
+
+This new item fits to the \e controls category of visual items. So we start
+with CSControl as the root item, and call it ApplyEdit.qml.
+
+\qml
+import QtQuick 2.0
+import QtQuick.Layouts 1.0
+import QtQuick.Controls 1.4
+import CSDataQuick.Components 1.0
+
+CSControl {
+    id: root
+    width: 150
+    height: 20
+}
+\endqml
+
+The TextInput and apply Button could be inside a horizontal RowLayout. The TextInput expands horizontally to take all free space.
+\qml
+    RowLayout {
+        anchors.fill: parent
+
+        TextInput {
+            id: input
+            Layout.fillWidth: true
+        }
+        Button {
+            id: apply
+            text: 'Apply'
+        }
+    }
+\endqml
+
+And then in the Button clicked signal handler, we set the input value to the data engine.
+\qml
+        Button {
+            id: apply
+            text: 'Apply'
+            onClicked: csdata.setValue(input.text)
+        }
+\endqml
+
+Now in you can simply use it like this elsewhere
+\qml
+ApplyEdit {
+    source: 'ao'
+}
+\endqml
+
+\section1 Add it to the components library
+
+This new item is automatically available if you put it in your current directory.
+This is very convenient for prototyping and testing. Eventually you might decide it is ready
+to be shared by creating a components library, e.g. AwesomeItems.
+
+First you create a directory named \e AwesomeItems, and place the \e ApplyEdit.qml file inside.
+Still inside the directory, create a file \l {Directory Listing qmldir Files}{qmldir} with the following content
+\code
+    module AwesomeItems
+
+    ApplyEdit  1.0 ApplyEdit.qml
+\endcode
+
+By default the qml serarch path is limited to builtin paths. 
+Extra paths can be incuded by setting \e QML_IMPORT_PATH environment variable. 
+Suppose the full path is \e /your/modules/repository/AwesomeItems, 
+then \e QML_IMPORT_PATH will be the containing path.
+\code
+    export QML_IMPORT_PATH=/your/modules/repository
+\endcode
+
+Now you can access \e AwesomeItems library as
+\code
+    import AwesomeItems 1.0
+
+    ApplyEdit {
+        source: 'ao'
+    }
+\endcode
+
+\section1 Make it available in designer
+
+Create a directory \e designer under \e AwesomeItems, and within a file
+\e awesomeitems.metainfo with the following content:
+\code
+MetaInfo {                                                                                                             
+    Type {                                                                                                             
+        name: "AwesomeItems.ApplyEdit"                                                                       
+
+        ItemLibraryEntry {
+            name: "ApplyEdit"
+            category: "AwesomeItems"
+            version: "1.0"                        
+            requiredImport: "AwesomeItems"
+        }                                           
+    }
+}
+\endcode
+
+The property editor panel could also be customized, create a file \e ApplyEditSpecifics.qml.
+\code
+import QtQuick 2.1
+import CSDataQuick.Components.designer 1.0
+
+Column {
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+    DataSourceSection {}
+    ColorSection {}
+    DynamicAttributeSection {}
+}
+\endcode
+
+\section1 Further
+
+The item is only made for demonstrating the process. To use it for real, there are still improvements
+to done. For example the text input and button background color, the input text color are not connected
+to the CSControl attributes, and the data value is not updated to text input field.
+
+*/

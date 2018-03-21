@@ -29,9 +29,8 @@ The content of the documentation:
             \endlist
         \li
             \list
-                \li Customization
-                \li Add a new data engine
-                \li Add a new visual item
+                \li \l {Add a new data engine}
+                \li \l {Add a new visual item}
             \endlist
         \li
             \list
