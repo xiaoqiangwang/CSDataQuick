@@ -1,0 +1,8 @@
+module CSDataQuick.Component.designer
+
+ColorSection            1.0 ColorSection.qml
+DataSourceSection       1.0 DataSourceSection.qml
+DynamicAttributeSection 1.0 DynamicAttributeSection.qml
+GraphicsSection         1.0 GraphicsSection.qml
+LimitsSection           1.0 LimitsSection.qml
+TextFormatSection       1.0 TextFormatSection.qml

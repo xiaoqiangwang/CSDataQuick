@@ -97,6 +97,7 @@ set(QML_JS_FILES
     Private/images/focusframe.png
     Private/images/groove_horz.png
     Private/images/groove_vert.png
+    designer/qmldir
     designer/AligmentHorizontalButtonsFix.qml
     designer/BaseWindowSpecifics.qml
     designer/CS2DSscanSpecifics.qml
