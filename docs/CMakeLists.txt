@@ -6,7 +6,7 @@ find_program(QDOC_EXECUTABLE qdoc HINTS ${QT_BIN_DIR})
 if(QDOC_EXECUTABLE STREQUAL "QDOC_EXECUTABLE-NOTFOUND")
     message(WARNING "qdoc not found, documentation cannot be built")
 else()
-    file (GLOB QDOC_FILES *.qdocconf *.qdoc style/*)
+    file (GLOB QDOC_FILES *.qdocconf src/*.qdoc style/*)
     add_custom_target(html-offline
         COMMAND ${QDOC_EXECUTABLE}
             -D CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
