@@ -1,0 +1,18 @@
+environment:
+    matrix:
+        - MINICONDA: C:\Miniconda3
+          EPICS_HOST_ARCH: win32-x86
+          QTDIR: C:\Qt\5.9\msvc2015
+        - MINICONDA: C:\Miniconda3-x64
+          EPICS_HOST_ARCH: windows-x64
+          QTDIR: C:\Qt\5.9\msvc2015_64
+
+install:
+    # Setup epics base from Miniconda
+    - "%MINICONDA%\Script\activate.bat"
+    - conda install -y -c paulscherrerinstitute epics-base
+    - "set EPICS_BASE=%MINICONDA%\\epics"
+
+build_script:
+    - cmake . -DCMAKE_PREFIX_PATH="%QTDIR%" -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles"
+    - nmake
