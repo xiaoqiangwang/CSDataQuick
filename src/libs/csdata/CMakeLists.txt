@@ -2,7 +2,6 @@ set(SOURCES
     csdata.cpp
     csdataengine.cpp
     csdataenginemanager.cpp
-    csdataenginesim.cpp
     objectmodel.cpp
 )
 
@@ -10,7 +9,6 @@ set(HEADERS
     csdata.h
     csdataengine.h
     csdataenginemanager.h
-    csdataenginesim.h
     objectmodel.h
     cs_global.h
 )

@@ -1,5 +1,5 @@
 #include "csdataenginemanager.h"
-#include "csdataenginesim.h"
+#include "csdataengine.h"
 #include "csdata.h"
 
 #include <QDir>
@@ -58,9 +58,6 @@ QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     : QObject(parent)
 {
-    _engines.append(new QCSDataEngineSim(this));
-
-
     QDir pluginsDir = QFileInfo(libraryFilePath).dir();
     pluginsDir.cdUp();
     pluginsDir.cd("plugins");
