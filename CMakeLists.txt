@@ -51,4 +51,4 @@ if(WIN32)
     install(FILES ${EPICS_SHARED_LIBRARIES} DESTINATION bin)
 endif()
 
-include(package.cmake)
+include(Packaging)
