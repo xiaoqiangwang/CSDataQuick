@@ -1,17 +1,20 @@
 environment:
     matrix:
-        - MINICONDA: C:\Miniconda3
-          EPICS_HOST_ARCH: win32-x86
+        - ARCH: x86
           QTDIR: C:\Qt\5.9\msvc2015
-        - MINICONDA: C:\Miniconda3-x64
-          EPICS_HOST_ARCH: windows-x64
+          MINICONDA: C:\Miniconda36
+          EPICS_HOST_ARCH: win32-x86
+        - ARCH: x64
           QTDIR: C:\Qt\5.9\msvc2015_64
+          MINICONDA: C:\Miniconda36-x64
+          EPICS_HOST_ARCH: windows-x64
 
 install:
     # Setup epics base from Miniconda
     - "%MINICONDA%\\Scripts\\activate.bat"
     - conda install -y -c paulscherrerinstitute epics-base
     - "set EPICS_BASE=%MINICONDA%\\epics"
+    - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %ARCH%
 
 build_script:
     - cmake . -DCMAKE_PREFIX_PATH="%QTDIR%" -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles"
