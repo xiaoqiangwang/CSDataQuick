@@ -9,6 +9,8 @@ set(HEADERS
     ADLParser.h
 )
 
+add_definitions(-DQCS_EXPORT)
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
