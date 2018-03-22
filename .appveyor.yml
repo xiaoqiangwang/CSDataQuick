@@ -9,7 +9,7 @@ environment:
 
 install:
     # Setup epics base from Miniconda
-    - "%MINICONDA%\Script\activate.bat"
+    - "%MINICONDA%\\Script\\activate.bat"
     - conda install -y -c paulscherrerinstitute epics-base
     - "set EPICS_BASE=%MINICONDA%\\epics"
 
