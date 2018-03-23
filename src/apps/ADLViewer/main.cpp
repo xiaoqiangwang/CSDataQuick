@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     qCoreApp->setOrganizationName("Paul Scherrer Institut");
     qCoreApp->setOrganizationDomain("psi.ch");
     qCoreApp->setApplicationName("ADLViewer");
-    qCoreApp->setApplicationVersion("1.0.0b2");
+    qCoreApp->setApplicationVersion("1.0.0");
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
 
@@ -191,7 +191,7 @@ int main(int argc, char **argv)
         qMainApp->setOrganizationName("Paul Scherrer Institut");
         qMainApp->setOrganizationDomain("psi.ch");
         qMainApp->setApplicationName("ADLViewer");
-        qMainApp->setApplicationVersion("1.0.0b2");
+        qMainApp->setApplicationVersion("1.0.0");
     }
 
     QQmlEngine *engine = new QQmlEngine();
