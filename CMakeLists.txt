@@ -38,7 +38,7 @@ endif()
 
 find_package(EPICS REQUIRED)
 
-set(ENV{QML_IMPORT_PATH} )
+set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/qml CACHE STRING "QML Import Paths")
 
 add_subdirectory(src)
 add_subdirectory(docs)
