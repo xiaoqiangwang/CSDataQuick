@@ -2,7 +2,7 @@
     \page releases.html
     \title Release Notes
 
-    \section1 1.0.0 (xx-03-2018)
+    \section1 1.0.0 (23-03-2018)
     \list
     \li Fix handling of empty CSData::source to disconnect and reset the data.
     \li Save/restore main windows's geometry.
