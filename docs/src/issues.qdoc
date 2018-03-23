@@ -5,9 +5,10 @@
     This is a collection of known problems, and hopfully their fixes.
 
     \list
+
     \li QtQuick could perform badly or not at all on systems without decent OpenGL driver. This
-    is also true when X11 remote session is used. For Qt 5.7 and above, the workaround is to use 
-    software render.
+    is also true through X11 remote session or Windows remote desktop.
+    For Qt 5.7 and above, the workaround is to use software render.
     \code
         $ export QMLSCENE_DEVICE=softwarecontext
     \endcode
@@ -17,7 +18,7 @@
         $ cd qtdeclarative-render2d
         $ git checkout 5.6.0
         $ qmake
-        $ make install
+        $ [sudo] make install
     \endcode
 
     \endlist
