@@ -28,6 +28,11 @@ include_directories(
 
 target_link_libraries(csdata Qt5::Core)
 
+set_target_properties(csdata PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib
+)
+
 install(TARGETS csdata
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
