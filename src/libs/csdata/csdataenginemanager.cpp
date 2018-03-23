@@ -31,6 +31,9 @@ static void init(void) {
     dladdr((void*)init, &dl_info);
     strncpy(libraryFilePath, dl_info.dli_fname, MAX_PATH-1);
     libraryFilePath[MAX_PATH-1] = '\0';
+
+    qRegisterMetaType<QCSDataAlarm::Severity>();
+    qRegisterMetaType<QCSData::FieldType>();
 }
 #elif defined(Q_OS_WIN32)
 BOOL WINAPI DllMain(
@@ -39,6 +42,9 @@ BOOL WINAPI DllMain(
         __in  LPVOID lpvReserved) {
 
     GetModuleFileNameA(hinstDLL, libraryFilePath, MAX_PATH);
+
+    qRegisterMetaType<QCSDataAlarm::Severity>();
+    qRegisterMetaType<QCSData::FieldType>();
     return TRUE;
 }
 #endif
