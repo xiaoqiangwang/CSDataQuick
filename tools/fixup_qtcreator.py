@@ -130,7 +130,8 @@ def smartCopy(src, dst, follow_symlinks=True, ignore=None):
 
 def deployQtLibraries():
     libs = ['Core', 'Gui', 'Widgets', 'Concurrent', 'Network', 'PrintSupport',
-            'Qml', 'Quick', 'QuickWidgets', 'Xml', 'Svg', 'Sql', 'Help']
+            'Qml', 'Quick', 'QuickWidgets', 'QuickControls2', 'QuickTemplates2', 'QuickParticles',
+            'Xml', 'Svg', 'Sql', 'Help']
     qtlibs_dir = subprocess.getoutput('%s -query QT_INSTALL_LIBS' % qmake).strip()
     dst_dir = lib_dir
     lib_pattern = 'libQt5%s.so*'
