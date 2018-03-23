@@ -16,6 +16,11 @@ MJPEG::~MJPEG()
 
 void MJPEG::setSource(QString source)
 {
+    if (qgetenv("QML_PUPPET_MODE") == "true") {
+        _source = source;
+        return;
+    }
+
     if (source.isEmpty()) {
         if (_reply) {
             disconnect(_reply, SIGNAL(readyRead()), this, SLOT(readStream()));
