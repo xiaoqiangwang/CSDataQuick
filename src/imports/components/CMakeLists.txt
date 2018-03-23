@@ -203,6 +203,7 @@ include_directories(
 
 add_definitions(${EPICS_DEFINITIONS})
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DQT_QML_DEBUG ")
 
 target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
 target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
