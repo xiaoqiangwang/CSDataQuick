@@ -113,6 +113,7 @@ set(QML_JS_FILES
     designer/CSMenuSpecifics.qml
     designer/CSMessageButtonSpecifics.qml
     designer/CSMeterSpecifics.qml
+    designer/CSMJPEGVideoSpecifics.qml
     designer/CSOvalSpecifics.qml
     designer/CSPolygonSpecifics.qml
     designer/CSPolylineSpecifics.qml
