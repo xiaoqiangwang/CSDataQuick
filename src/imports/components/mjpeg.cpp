@@ -18,6 +18,7 @@ void MJPEG::setSource(QString source)
 {
     if (qgetenv("QML_PUPPET_MODE") == "true") {
         _source = source;
+        emit imageChanged(QImage(":/images/blank_video.jpg"));
         return;
     }
 
