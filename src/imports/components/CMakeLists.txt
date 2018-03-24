@@ -1,3 +1,5 @@
+set(CMAKE_AUTORCC ON)
+
 set(SOURCES
     enums.cpp
     plugin.cpp
@@ -29,6 +31,16 @@ set(HEADERS
     csimageitem.h
     mjpeg.h
 )
+
+if (CMAKE_VERSION VERSION_LESS 3.0)
+    qt5_add_resources(RESOURCES
+        components.qrc
+    )
+else ()
+    set(RESOURCES
+        components.qrc
+    )
+endif()
 
 set(QML_JS_FILES
     qmldir
@@ -185,6 +197,7 @@ set(QML_JS_FILES
 add_library(csdatacomponentsplugin MODULE
     ${SOURCES}
     ${HEADERS}
+    ${RESOURCES}
     ${QML_JS_FILES}
 )
 
