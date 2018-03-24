@@ -5,11 +5,13 @@
 #   EPICS_LIBRARIES: epics Com and ca libraries required by the linker.
 #   EPICS_SHARED_LIBRARIES: epics Com and ca shared libraries.
 #   EPICS_DEFINITIONS: Compiler definitions.
-SET(EPICS_BASE $ENV{EPICS_BASE})
+
+# Derive EPICS_BASE from evironment variable "EPICS_BASE" and "EPICS"
 IF (NOT EPICS_BASE)
-    SET (EPICS_ROOT $ENV{EPICS})
-    IF (EPICS_ROOT)
-        SET(EPICS_BASE "${EPICS_ROOT}/base")
+    IF (DEFINED ENV{EPICS_BASE})
+        SET(EPICS_BASE $ENV{EPICS_BASE})
+    ELSEIF (DEFINED ENV{EPICS})
+        SET(EPICS_BASE $ENV{EPICS}/base)
     ENDIF ()
 ENDIF ()
 
