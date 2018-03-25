@@ -528,7 +528,7 @@ body.qt-account #navbar .navbar-oneQt h2 {
 .cookies_yum .close {
   width:15px;
   height:15px;
-  background-image:url("cookiebar-x.png");
+  background-image:url("../images/cookiebar-x.png");
   background-size:15px 30px;
   background-position:top left;
   cursor:pointer;
@@ -542,7 +542,7 @@ body.qt-account #navbar .navbar-oneQt h2 {
   height:14px;
   background-size:24px 28px;
   cursor:pointer;
-  background-image:url("list_expand.png");
+  background-image:url("../images/list_expand.png");
   float:right
 }
 #sidebar-toggle.collapsed,
@@ -795,7 +795,7 @@ body.qt-account #navbar .navbar-oneQt h2 {
   color:#eee
 }
 #footerbar .theqtcompany {
-  background:url("theqtcompany.png") no-repeat;
+  background:url("../images/theqtcompany.png") no-repeat;
   background-size:100%;
   width:215px;
   height:68px;
@@ -1263,7 +1263,7 @@ li a.active {
   background-color:#f9f9f9
 }
 .context ul>li,.doc-column ul>li {
-  list-style-image:url("list_arrow.png");
+  list-style-image:url("../images/list_arrow.png");
   margin-left:15px;
   color:#404244;
   line-height:1.16em
@@ -1674,7 +1674,7 @@ input.gsc-search-button {
   height: 35px !important;
   width: 25px !important;
   color: transparent !important;
-  background-image: url("doc_search.png") !important;
+  background-image: url("../images/doc_search.png") !important;
   background-size: 25px auto;
   background-position: 0px 5px;
   background-repeat: no-repeat;
