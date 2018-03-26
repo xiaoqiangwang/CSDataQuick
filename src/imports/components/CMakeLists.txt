@@ -211,6 +211,7 @@ include_directories(
     ${Qt5Concurrent_INCLUDE_DIRS}
     ${Qt5PrintSupport_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
+    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )

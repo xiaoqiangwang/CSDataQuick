@@ -1,3 +1,4 @@
+add_subdirectory(include)
 add_subdirectory(apps)
 add_subdirectory(imports)
 add_subdirectory(libs)

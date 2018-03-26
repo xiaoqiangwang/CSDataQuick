@@ -15,6 +15,7 @@ include_directories(
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
+    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 

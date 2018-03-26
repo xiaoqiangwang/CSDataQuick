@@ -2,6 +2,7 @@ add_executable(test_qcsdata
     test_qcsdata.cpp
 )
 include_directories(
+    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 

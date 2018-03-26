@@ -12,7 +12,7 @@ set(HEADERS
 add_definitions(-DQCS_EXPORT)
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/src/libs/csdata
+    ${CMAKE_BINARY_DIR}/src/include
 )
 
 add_library(ADLParser SHARED

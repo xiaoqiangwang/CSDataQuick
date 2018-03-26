@@ -13,6 +13,7 @@ add_library(csdataenginesim MODULE
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 

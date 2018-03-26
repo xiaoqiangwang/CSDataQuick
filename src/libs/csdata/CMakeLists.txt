@@ -10,7 +10,6 @@ set(HEADERS
     csdataengine.h
     csdataenginemanager.h
     objectmodel.h
-    cs_global.h
 )
 
 add_library(csdata SHARED
@@ -24,6 +23,7 @@ include_directories(
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
+    ${CMAKE_BINARY_DIR}/src/include
 )
 
 target_link_libraries(csdata Qt5::Core)
