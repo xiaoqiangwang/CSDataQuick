@@ -52,6 +52,7 @@ CSControl {
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
+                clip: true
                 color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
                 font.pixelSize: root.font.size
                 font.family: root.font.family
