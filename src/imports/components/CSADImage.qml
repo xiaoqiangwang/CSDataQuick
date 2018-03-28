@@ -1,5 +1,4 @@
 import QtQuick 2.1
-import QtQuick.Controls 1.0
 
 import CSDataQuick.Components 1.0
 
