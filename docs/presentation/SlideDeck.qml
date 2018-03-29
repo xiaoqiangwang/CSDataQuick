@@ -426,8 +426,8 @@ ListView {
         title: "Interested?"
 
         content: [
-            "Compiled module: /afs/psi.ch/user/w/wang_x1/public/CSDataQuick-cmake/",
-            "Documents: docs/html/csdataquick-overview.html"
+            "Compiled module: http://epics.web.psi.ch/software/CSDataQuick",
+            "Documents: http://epics.web.psi.ch/software/CSDataQuick/docs"
         ]
     }
 
