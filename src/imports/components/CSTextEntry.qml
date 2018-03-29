@@ -193,7 +193,7 @@ CSControl {
         Format the value based on data type.
     */
     function formatString () {
-        if (csdata.extraProperties['QmlPuppetMode'])
+        if (Utils.inPuppet)
             return csdata.source
 
         return UtilsJS.formatString(csdata.value,

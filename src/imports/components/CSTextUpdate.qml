@@ -120,7 +120,7 @@ CSMonitor {
 
     /*! \internal */
     function formatString () {
-        if (csdata.extraProperties['QmlPuppetMode'])
+        if (Utils.inPuppet)
             return csdata.source
 
         return UtilsJS.formatString(csdata.value,
