@@ -1,16 +1,6 @@
 #ifndef CS_GLOBAL_H
 #define CS_GLOBAL_H
 
-#ifdef _WIN32
-    #if defined(QCS_EXPORT)
-        #define QCS_DLLSPEC __declspec(dllexport)
-    #else
-        #define QCS_DLLSPEC __declspec(dllimport)
-    #endif
-#else
-    #define QCS_DLLSPEC
-#endif
-
 #define CSDATAQUICK_VERSION  "@CSDATAQUICK_VERSION@"
 
 #endif // CS_GLOBAL_H

@@ -6,6 +6,7 @@ set(SOURCES
 )
 
 set(HEADERS
+    csdata_global.h
     csdata.h
     csdataengine.h
     csdataenginemanager.h
@@ -17,7 +18,7 @@ add_library(csdata SHARED
     ${HEADERS}
 )
 
-add_definitions(-DQCS_EXPORT)
+add_definitions(-DCSDATA_LIBRARY)
 
 include_directories(
     ${Qt5Qt_INCLUDE_DIRS}

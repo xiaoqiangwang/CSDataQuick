@@ -7,11 +7,13 @@ set(HEADERS
     common.h
     element.h
     ADLParser.h
+    ADLParser_global.h
 )
 
-add_definitions(-DQCS_EXPORT)
+add_definitions(-DADLPARSER_LIBRARY)
 
 include_directories(
+    ${Qt5Core_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
 )
 

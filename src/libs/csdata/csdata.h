@@ -7,7 +7,7 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVariantMap>
-#include "cs_global.h"
+#include "csdata_global.h"
 
 class QCSDataEngine;
 
@@ -35,7 +35,7 @@ private:
     QString _source;
 };
 
-class QCS_DLLSPEC QCSDataAlarm : public QObject
+class CSDATA_EXPORT QCSDataAlarm : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(Severity severity MEMBER _severity   NOTIFY alarmChanged)
@@ -63,7 +63,7 @@ private:
     QString _message;
 };
 
-class QCS_DLLSPEC QCSDataRange : public QObject
+class CSDATA_EXPORT QCSDataRange : public QObject
 {
     Q_OBJECT
 
@@ -83,7 +83,7 @@ private:
     double _upper;
 };
 
-class QCS_DLLSPEC QCSData : public QObject
+class CSDATA_EXPORT QCSData : public QObject
 {
     Q_OBJECT
 

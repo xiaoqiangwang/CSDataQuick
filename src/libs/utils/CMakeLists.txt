@@ -8,6 +8,7 @@ set(SOURCES
 set(HEADERS
     enums.h
     utils.h
+    utils_global.h
 )
 
 add_library(csutils SHARED
@@ -17,6 +18,8 @@ add_library(csutils SHARED
 
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
+    ${Qt5Gui_INCLUDE_DIRS}
+    ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
@@ -26,10 +29,12 @@ include_directories(
 
 add_definitions(${EPICS_DEFINITIONS})
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-add_definitions(-DQCS_EXPORT)
+add_definitions(-DUTILS_LIBRARY)
 
 target_link_libraries(csutils
     Qt5::Core
+    Qt5::Gui
+    Qt5::Qml
     Qt5::Quick
     ${EPICS_LIBRARIES}
     ADLParser

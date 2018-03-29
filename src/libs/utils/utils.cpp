@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "enums.h"
 #include "csdata.h"
+#include "ADLParser.h"
 
 #include <postfix.h>
 #include <cvtFast.h>
@@ -28,7 +29,6 @@
 #include <QProcessEnvironment>
 #include <QDateTime>
 
-#include "ADLParser.h"
 
 /*!
     \qmltype Utils

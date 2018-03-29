@@ -3,13 +3,15 @@
 
 #include <QObject>
 
+#include "utils_global.h"
+
 #define DISABLE_CREATION(CLASSNAME) \
     CLASSNAME();\
     CLASSNAME(QObject*);\
     CLASSNAME(const CLASSNAME&);\
     CLASSNAME& operator=(const CLASSNAME&);
 
-class LogLevel : public QObject
+class UTILS_EXPORT LogLevel : public QObject
 {
     Q_OBJECT
 public:
@@ -31,7 +33,7 @@ private:
     DISABLE_CREATION(LogLevel)
 };
 
-class FrameShadow : public QObject
+class UTILS_EXPORT FrameShadow : public QObject
 {
     Q_OBJECT
 public:
@@ -46,7 +48,7 @@ private:
     DISABLE_CREATION(FrameShadow)
 };
 
-class TextFormat : public QObject
+class UTILS_EXPORT TextFormat : public QObject
 {
     Q_OBJECT
 public:
@@ -68,7 +70,7 @@ private:
     DISABLE_CREATION(TextFormat)
 };
 
-class ColorMode : public QObject
+class UTILS_EXPORT ColorMode : public QObject
 {
     Q_OBJECT
 public:
@@ -82,7 +84,7 @@ private:
     DISABLE_CREATION(ColorMode)
 };
 
-class Direction : public QObject
+class UTILS_EXPORT Direction : public QObject
 {
     Q_OBJECT
 public:
@@ -97,7 +99,7 @@ private:
     DISABLE_CREATION(Direction)
 };
 
-class EdgeStyle : public QObject
+class UTILS_EXPORT EdgeStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -110,7 +112,7 @@ private:
     DISABLE_CREATION(EdgeStyle)
 };
 
-class FillStyle : public QObject
+class UTILS_EXPORT FillStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -123,7 +125,7 @@ private:
     DISABLE_CREATION(FillStyle)
 };
 
-class VisibilityMode : public QObject
+class UTILS_EXPORT VisibilityMode : public QObject
 {
     Q_OBJECT
 public:
@@ -138,7 +140,7 @@ private:
     DISABLE_CREATION(VisibilityMode)
 };
 
-class LimitsSource : public QObject
+class UTILS_EXPORT LimitsSource : public QObject
 {
     Q_OBJECT
 public:
@@ -153,7 +155,7 @@ private:
     DISABLE_CREATION(LimitsSource)
 };
 
-class RelatedDisplayVisual : public QObject
+class UTILS_EXPORT RelatedDisplayVisual : public QObject
 {
     Q_OBJECT
 public:
@@ -168,7 +170,7 @@ private:
     DISABLE_CREATION(RelatedDisplayVisual)
 };
 
-class RelatedDisplayMode : public QObject
+class UTILS_EXPORT RelatedDisplayMode : public QObject
 {
     Q_OBJECT
 public:
@@ -181,7 +183,7 @@ private:
     DISABLE_CREATION(RelatedDisplayMode)
 };
 
-class LabelStyle : public QObject
+class UTILS_EXPORT LabelStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -197,7 +199,7 @@ private:
     DISABLE_CREATION(LabelStyle)
 };
 
-class TimeUnit : public QObject
+class UTILS_EXPORT TimeUnit : public QObject
 {
     Q_OBJECT
 public:
@@ -211,7 +213,7 @@ private:
     DISABLE_CREATION(TimeUnit)
 };
 
-class PlotStyle : public QObject
+class UTILS_EXPORT PlotStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -225,7 +227,7 @@ private:
     DISABLE_CREATION(PlotStyle)
 };
 
-class Stacking : public QObject
+class UTILS_EXPORT Stacking : public QObject
 {
     Q_OBJECT
 public:
@@ -239,7 +241,7 @@ private:
     DISABLE_CREATION(Stacking)
 };
 
-class FillMode : public QObject
+class UTILS_EXPORT FillMode : public QObject
 {
     Q_OBJECT
 public:
@@ -252,7 +254,7 @@ private:
     DISABLE_CREATION(FillMode)
 };
 
-class EraseMode : public QObject
+class UTILS_EXPORT EraseMode : public QObject
 {
     Q_OBJECT
 public:
@@ -265,7 +267,7 @@ private:
     DISABLE_CREATION(EraseMode)
 };
 
-class CartesianPlotTimeFormat : public QObject
+class UTILS_EXPORT CartesianPlotTimeFormat : public QObject
 {
     Q_OBJECT
 public:
@@ -283,7 +285,7 @@ private:
     DISABLE_CREATION(CartesianPlotTimeFormat)
 };
 
-class CartesianPlotRangeStyle : public QObject
+class UTILS_EXPORT CartesianPlotRangeStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -297,7 +299,7 @@ private:
     DISABLE_CREATION(CartesianPlotRangeStyle)
 };
 
-class CartesianPlotYAxis : public QObject
+class UTILS_EXPORT CartesianPlotYAxis : public QObject
 {
     Q_OBJECT
 public:
@@ -310,7 +312,7 @@ private:
     DISABLE_CREATION(CartesianPlotYAxis)
 };
 
-class CartesianPlotAxisStyle : public QObject
+class UTILS_EXPORT CartesianPlotAxisStyle : public QObject
 {
     Q_OBJECT
 public:
@@ -324,7 +326,7 @@ private:
     DISABLE_CREATION(CartesianPlotAxisStyle)
 };
 
-class ArrowPosition : public QObject
+class UTILS_EXPORT ArrowPosition : public QObject
 {
     Q_OBJECT
 public:

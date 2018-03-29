@@ -5,12 +5,12 @@
 #include <QVariant>
 #include <QObject>
 
-#include "cs_global.h"
+#include "csdata_global.h"
 
 class QCSData;
 class ObjectModel;
 
-class QCS_DLLSPEC QCSDataEngine : public QObject
+class CSDATA_EXPORT QCSDataEngine : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(ObjectModel* allData READ allData NOTIFY allDataChanged)

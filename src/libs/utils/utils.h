@@ -7,13 +7,13 @@
 #include <QPoint>
 #include <QJSValue>
 
-#include "cs_global.h"
+#include "utils_global.h"
 
 class QWindow;
 class QQuickItem;
 class QCSData;
 
-class QCS_DLLSPEC QCSUtils : public QObject
+class UTILS_EXPORT QCSUtils : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool inPuppet MEMBER _inPuppet CONSTANT)

@@ -4,9 +4,9 @@
 #include <string>
 #include <istream>
 #include <map>
-#include "cs_global.h"
+#include "ADLParser_global.h"
 
-QCS_DLLSPEC std::string parseADLDisplay(std::string filename, std::map<std::string, std::string> macros);
-QCS_DLLSPEC std::string parseADLComposite(std::string filename, std::map<std::string, std::string> macros);
+ADLPARSER_EXPORT std::string parseADLDisplay(std::string filename, std::map<std::string, std::string> macros);
+ADLPARSER_EXPORT std::string parseADLComposite(std::string filename, std::map<std::string, std::string> macros);
 
 #endif
