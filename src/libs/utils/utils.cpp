@@ -665,12 +665,14 @@ int QCSUtils::qtVersion()
 
     Convert control system \a data according to \a format and \a precision.
  */
-QString QCSUtils::formatString(QCSData* data, int format, int precision)
+QString QCSUtils::formatString(QCSData* data, int format, int precision, QVariant value)
 {
     if (_inPuppet)
         return data->source();
 
-    QVariant value = data->value();
+    if (!value.isValid())
+        value = data->value();
+
     switch(data->fieldType()) {
     case QCSData::Enum:
         return data->stateStrings().at(value.toInt());

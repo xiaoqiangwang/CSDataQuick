@@ -28,6 +28,6 @@ int main(int argc, char **argv)
     qDebug().noquote() << "wavec: ";
     qDebug().noquote() << "    String:  "  << utils.formatString(wavec, TextFormat::String, 5);
     qDebug().noquote() << "    Decimal: " << utils.formatString(wavec, TextFormat::Decimal, 5);
-    qDebug().noquote() << "ao:    " << utils.formatString(ao, TextFormat::String, 5);
+    qDebug().noquote() << "ao:    " << utils.formatString(ao, TextFormat::String, 5, 1.234);
     qDebug().noquote() << "bo:    " << utils.formatString(bo, TextFormat::String, 5);
 }
