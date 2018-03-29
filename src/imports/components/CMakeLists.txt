@@ -1,16 +1,12 @@
 set(CMAKE_AUTORCC ON)
 
 set(SOURCES
-    enums.cpp
     plugin.cpp
-    utils.cpp
     shapes.cpp
-    conversion.c
     qcustomplot.cpp
     plotitem.cpp
     baseitem.cpp
     windowmanager.cpp
-    geometryspecification.cpp
     attribute.cpp
     adimage.cpp
     csimageitem.cpp
@@ -18,9 +14,7 @@ set(SOURCES
 )
 
 set(HEADERS
-    enums.h
     plugin.h
-    utils.h
     shapes.h
     qcustomplot.h
     plotitem.h
@@ -214,6 +208,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
+    ${CMAKE_SOURCE_DIR}/src/libs/utils
 )
 
 add_definitions(${EPICS_DEFINITIONS})
@@ -224,6 +219,7 @@ target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5
 target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
 target_link_libraries(csdatacomponentsplugin ADLParser)
 target_link_libraries(csdatacomponentsplugin csdata)
+target_link_libraries(csdatacomponentsplugin csutils)
 set_target_properties(csdatacomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
 
