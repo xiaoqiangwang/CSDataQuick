@@ -26,8 +26,8 @@ int main(int argc, char **argv)
     // format the value
     QCSUtils utils;
     qDebug().noquote() << "wavec: ";
-    qDebug().noquote() << "    String:  "  << utils.toString(wavec, TextFormat::String, 5);
-    qDebug().noquote() << "    Decimal: " << utils.toString(wavec, TextFormat::Decimal, 5);
-    qDebug().noquote() << "ao:    " << utils.toString(ao, TextFormat::String, 5);
-    qDebug().noquote() << "bo:    " << utils.toString(bo, TextFormat::String, 5);
+    qDebug().noquote() << "    String:  "  << utils.formatString(wavec, TextFormat::String, 5);
+    qDebug().noquote() << "    Decimal: " << utils.formatString(wavec, TextFormat::Decimal, 5);
+    qDebug().noquote() << "ao:    " << utils.formatString(ao, TextFormat::String, 5);
+    qDebug().noquote() << "bo:    " << utils.formatString(bo, TextFormat::String, 5);
 }

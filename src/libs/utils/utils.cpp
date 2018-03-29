@@ -661,11 +661,11 @@ int QCSUtils::qtVersion()
 }
 
 /*!
-    \qmlmethod string Utils::toString(data, format, precision)
+    \qmlmethod string Utils::formatString(data, format, precision)
 
     Convert control system \a data according to \a format and \a precision.
  */
-QString QCSUtils::toString(QCSData* data, int format, int precision)
+QString QCSUtils::formatString(QCSData* data, int format, int precision)
 {
     if (_inPuppet)
         return data->source();
