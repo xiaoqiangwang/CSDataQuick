@@ -24,6 +24,7 @@
 #include <QtDebug>
 
 #include "ADLParser.h"
+#include "cs_global.h"
 
 QPointer<QQuickWindow> window;
 
