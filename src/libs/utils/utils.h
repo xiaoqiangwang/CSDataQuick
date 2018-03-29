@@ -9,6 +9,7 @@
 
 class QWindow;
 class QQuickItem;
+class QCSData;
 
 class QCSUtils : public QObject
 {
@@ -38,6 +39,7 @@ public:
     Q_INVOKABLE QVariant getProperty(QObject *object, QString name);
     Q_INVOKABLE void copyToClipboard(const QString &text);
     Q_INVOKABLE int qtVersion();
+    Q_INVOKABLE QString toString(QCSData* data, int format, int precision);
 signals:
 
 public slots:

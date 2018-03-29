@@ -4,6 +4,7 @@
 
 #include "utils.h"
 #include "enums.h"
+#include "csdata.h"
 
 #include <postfix.h>
 #include <cvtFast.h>
@@ -13,14 +14,11 @@
 #include <QProcess>
 #include <QtDebug>
 
-#include <QApplication>
-
 #include <QQuickItem>
 #include <QQmlEngine>
 #include <QQmlComponent>
 #include <QQuickWindow>
 #include <QQuickView>
-#include <QDesktopWidget>
 #include <QGuiApplication>
 #include <QClipboard>
 
@@ -660,4 +658,47 @@ void QCSUtils::copyToClipboard(const QString& text)
 int QCSUtils::qtVersion()
 {
     return QT_VERSION;
+}
+
+/*!
+    \qmlmethod string Utils::toString(data, format, precision)
+
+    Convert control system \a data according to \a format and \a precision.
+ */
+QString QCSUtils::toString(QCSData* data, int format, int precision)
+{
+    if (_inPuppet)
+        return data->source();
+
+    QVariant value = data->value();
+    switch(data->fieldType()) {
+    case QCSData::Enum:
+        return data->stateStrings().at(value.toInt());
+    case QCSData::String:
+        return value.toString();
+    case QCSData::Char:
+        if (format == TextFormat::String) {
+            if (value.canConvert<QVariantList>()) {
+                QString res;
+                foreach(QVariant v, value.value<QSequentialIterable>()) {
+                    QChar c = v.toChar();
+                    if (c.isNull())
+                        break;
+                    res += c;
+                }
+                return res;
+            } else {
+                QChar c = value.toChar();
+                if (c.isNull())
+                    return "";
+                else
+                    return c;
+            }
+        }
+        /* fall through if format is other than string*/
+    default:
+        if (value.canConvert<QVariantList>())
+            value = value.value<QSequentialIterable>().at(0);
+        return convert(format, value, precision);
+    }
 }
