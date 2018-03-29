@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <QProcessEnvironment>
 #include <QDateTime>
 
 #include "ADLParser.h"
@@ -57,6 +58,7 @@ QCSUtils::QCSUtils(QObject *parent)
     : QObject(parent)
 {
 
+    _inPuppet = QProcessEnvironment::systemEnvironment().contains("QML_PUPPET_MODE");
 }
 
 

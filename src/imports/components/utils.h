@@ -13,6 +13,7 @@ class QQuickItem;
 class QCSUtils : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(bool inPuppet MEMBER _inPuppet CONSTANT)
 public:
     explicit QCSUtils(QObject *parent = 0);
 
@@ -41,5 +42,7 @@ signals:
 
 public slots:
 
+private:
+    bool _inPuppet;
 };
 #endif // UTILS_H
