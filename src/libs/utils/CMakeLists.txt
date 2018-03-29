@@ -26,6 +26,7 @@ include_directories(
 
 add_definitions(${EPICS_DEFINITIONS})
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+add_definitions(-DQCS_EXPORT)
 
 target_link_libraries(csutils
     Qt5::Core
