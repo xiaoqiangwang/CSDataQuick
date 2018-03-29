@@ -122,7 +122,7 @@ CSControl {
         readOnly: csdata.accessRight & CSData.WriteAccess == 0
 
         onHasFocusChanged: {
-            text = formatString(format, csdata.value)
+            text = Utils.formatString(csdata, format, limits.prec);
         }
 
         onAccepted: {
@@ -162,15 +162,15 @@ CSControl {
         target: csdata
 
         onSourceChanged: {
-            textEntry.text = formatString(format, csdata.value)
+            textEntry.text = Utils.formatString(csdata, format, limits.prec);
         }
 
         onStateStringsChanged: {
-            textEntry.text = formatString(format, csdata.value)
+            textEntry.text = Utils.formatString(csdata, format, limits.prec);
         }
 
         onValueChanged: {
-            textEntry.text = formatString(format, csdata.value)
+            textEntry.text = Utils.formatString(csdata, format, limits.prec);
             if (!textEntry.hasFocus)
                 textEntry.cursorPosition = 0
         }
@@ -180,26 +180,11 @@ CSControl {
         target: limits
 
         onPrecChanged: {
-            textEntry.text = formatString(format, csdata.value)
+            textEntry.text = Utils.formatString(csdata, format, limits.prec);
         }
     }
 
     onFormatChanged: {
-        textEntry.text = formatString(format, csdata.value)
-    }
-
-    /*!
-        \internal
-        Format the value based on data type.
-    */
-    function formatString () {
-        if (Utils.inPuppet)
-            return csdata.source
-
-        return UtilsJS.formatString(csdata.value,
-                                    format,
-                                    csdata.fieldType,
-                                    limits.prec,
-                                    csdata.stateStrings)
+        textEntry.text = Utils.formatString(csdata, format, limits.prec);
     }
 }

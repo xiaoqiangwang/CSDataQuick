@@ -192,11 +192,7 @@ CSControl {
            Utils.vectorGet(csdata.value, varlist, index, count)
        }
        for(var i=0; i<count; i++) {
-           entries.itemAt(i).text = UtilsJS.formatString(varlist[i],
-                                                         format,
-                                                         csdata.fieldType,
-                                                         limits.prec,
-                                                         csdata.stateStrings)
+           entries.itemAt(i).text = Utils.formatString(csdata, format, limits.prec, varlist[i])
        }
    }
 }

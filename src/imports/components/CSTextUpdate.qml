@@ -66,7 +66,6 @@ CSMonitor {
         anchors.fill: parent
         Text {
             id: label_control
-            //text: formatString(format, csdata.value)
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
             font.pixelSize: root.font.size
@@ -88,15 +87,15 @@ CSMonitor {
         target: csdata
 
         onSourceChanged: {
-            label_control.text = formatString(format, csdata.value)
+            label_control.text = Utils.formatString(csdata, format, limits.prec);
         }
 
         onStateStringsChanged: {
-            label_control.text = formatString(format, csdata.value)
+            label_control.text = Utils.formatString(csdata, format, limits.prec);
         }
 
         onValueChanged: {
-            label_control.text = formatString(format, csdata.value)
+            label_control.text = Utils.formatString(csdata, format, limits.prec);
             // MEDM Compat: automatic adjust font size only if it is not left aligned
             if (align == Text.AlignLeft)
                 return
@@ -110,24 +109,12 @@ CSMonitor {
         target: limits
 
         onPrecChanged: {
-            label_control.text = formatString(format, csdata.value)
+            label_control.text = Utils.formatString(csdata, format, limits.prec);
         }
     }
 
     onFormatChanged: {
-        label_control.text = formatString(format, csdata.value)
-    }
-
-    /*! \internal */
-    function formatString () {
-        if (Utils.inPuppet)
-            return csdata.source
-
-        return UtilsJS.formatString(csdata.value,
-                                    format,
-                                    csdata.fieldType,
-                                    limits.prec,
-                                    csdata.stateStrings)
+        label_control.text = Utils.formatString(csdata, format, limits.prec);
     }
 }
 
