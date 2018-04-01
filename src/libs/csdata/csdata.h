@@ -96,7 +96,7 @@ class CSDATA_EXPORT QCSData : public QObject
     Q_PROPERTY(QVariant     value       READ value        WRITE setValue       NOTIFY valueChanged)
 
     Q_PROPERTY(int  accessRight         READ accessRight  WRITE setAccessRight NOTIFY accessRightChanged)
-    Q_PROPERTY(QCSDataAlarm* alarm       MEMBER _alarm     NOTIFY alarmChanged)
+    Q_PROPERTY(QCSDataAlarm* alarm      MEMBER _alarm     READ  alarm          NOTIFY alarmChanged)
     Q_PROPERTY(QDateTime    timeStamp   READ timeStamp    WRITE setTimeStamp   NOTIFY timeStampChanged)
 
     // numeric type
@@ -168,7 +168,10 @@ public:
     QStringList stateStrings() const;
     Q_INVOKABLE void setStateStrings(const QStringList stateStrings);
 
+    QCSDataAlarm *alarm();
     Q_INVOKABLE void setAlarm(QCSDataAlarm::Severity severity, int status, const QString message);
+
+    QCSDataRange *range();
     Q_INVOKABLE void setRange(double lower, double upper);
 
     QVariantMap extraProperties() const;

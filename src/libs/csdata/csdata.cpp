@@ -533,6 +533,16 @@ void QCSData::setRange(double lower, double upper)
     _range->setRange(lower, upper);
 }
 
+QCSDataRange *QCSData::range()
+{
+    return _range;
+}
+
+QCSDataAlarm *QCSData::alarm()
+{
+    return _alarm;
+}
+
 /*!
     \property QCSData::extraProperties
     This property holds any other properties specific to this instance.
