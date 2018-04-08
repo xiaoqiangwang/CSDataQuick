@@ -1,6 +1,6 @@
 
 file {
-	name="/Users/wang/Development/epicsqml-qmake/../epicsqml/examples/graphics.adl"
+	name="/Users/wang/Development/CSDataQuick/examples/graphics.adl"
 	version=030109
 }
 display {
@@ -168,6 +168,11 @@ polyline {
 	"basic attribute" {
 		clr=14
 		fill="outline"
+	}
+	"dynamic attribute" {
+		vis="calc"
+		calc="A%2=0"
+		chan="calc"
 	}
 	points {
 		(148,94)
