@@ -35,7 +35,6 @@ CSTextEntry     1.0 CSTextEntry.qml
 CSTextEntryArray 1.0 CSTextEntryArray.qml
 CSTextUpdate    1.0 CSTextUpdate.qml
 CSWheelSwitch   1.0 CSWheelSwitch.qml
-DynamicAttribute 1.0 DynamicAttribute.qml
 DataLimitsDialog  1.0 DataLimitsDialog.qml
 PromptDialog    1.0 PromptDialog.qml
 singleton ColorMap 1.0 ColorMap.qml

@@ -1,10 +1,274 @@
 #include "attribute.h"
+#include "csdata.h"
+#include "utils.h"
 
 #include <QtDebug>
+/*!
+    \qmltype DynamicAttribute
+    \inqmlmodule CSDataQuick.Components
+    \brief Specifies items visibility.
+
+    Four process variables can be speficied for the calculation.
+*/
+
+/*!
+    \qmlproperty string DynamicAttribute::channel
+    Name of the main process variable
+*/
+/*!
+    \qmlproperty string DynamicAttribute::channelB
+    Name of the second process variable
+*/
+/*!
+    \qmlproperty string DynamicAttribute::channelC
+    Name of the third process variable
+*/
+/*!
+    \qmlproperty string DynamicAttribute::channelD
+    Name of the forth process variable
+*/
+/*!
+    \qmlproperty bool DynamicAttribute::connected
+    Whether all process variables are connected
+*/
+/*!
+    \qmlproperty enumeration DynamicAttribute::visibilityMode
+    \list
+    \li VisibilityMode.Static - No visiblity change.
+    \li VisibilityMode.IfZero - Visible if \l channel has value zero.
+    \li VisibilityMode.IfNotZero - Visible if \l channel has value no-zero.
+    \li VisibilityMode.Calc - Visible if \l visibilityCalc expression returns true.
+    \endlist
+*/
+/*!
+    \qmlproperty string DynamicAttribute::visibilityCalc
+    An expression that determines whether the object is displayed or not.
+    The expression should return 0 for false and anything else for true.
+    The following symbols can be used in the expression.
+    \list
+    \li A - main process variable value
+    \li B - second process variable value
+    \li C - third process variable value
+    \li D - forth process variable value
+    \li E - Not used
+    \li F - Not used
+    \li G - main process variable element count
+    \li H - main process variable upper limit
+    \li I - main process variable alarm status
+    \li J - main process variable alarm severity
+    \li K - main process variable precision
+    \li L - main process variable lower limit
+    \endlist
+*/
+
+/*!
+    \qmlproperty bool DynamicAttribute::visibility
+    true or false as determined by visibilityMode and visibilityCalc.
+*/
+
+/*!
+    \qmlproperty string DynamicAttribute::altCalc
+    An alternative expression with the same syntax as visibilityCalc.
+*/
+
+/*!
+    \qmlproperty string DynamicAttribute::altCalcResult
+    Result from altCalc expression.
+*/
+
 
 DynamicAttributeBase::DynamicAttributeBase(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),_pChannel(Q_NULLPTR),_pChannelB(Q_NULLPTR),
+      _pChannelC(Q_NULLPTR),_pChannelD(Q_NULLPTR),
+      _connected(true),_connectionFlag(0),_connectionMask(0),
+      _altCalcResult(0),_visibilityMode(VisibilityMode::Static),_visibility(true)
 {
+    for (int i=0; i<12; i++)
+        _args << 0;
+}
+
+DynamicAttributeBase::~DynamicAttributeBase()
+{
+    delete _pChannel;
+    delete _pChannelB;
+    delete _pChannelC;
+    delete _pChannelD;
+}
+
+void DynamicAttributeBase::setChannel(QString channel)
+{
+    if (channel != _channel) {
+        _channel = channel;
+        addChannel(_channel, &_pChannel, 0x01);
+        emit channelChanged();
+    }
+}
+
+void DynamicAttributeBase::setChannelB(QString channel)
+{
+    if (channel != _channelB) {
+        _channelB = channel;
+        addChannel(_channelB, &_pChannelB, 0x02);
+        emit channelChanged();
+    }
+}
+
+void DynamicAttributeBase::setChannelC(QString channel)
+{
+    if (channel != _channelC) {
+        _channelC = channel;
+        addChannel(_channelC, &_pChannelC, 0x04);
+        emit channelChanged();
+    }
+}
+
+void DynamicAttributeBase::setChannelD(QString channel)
+{
+    if (channel != _channelD) {
+        _channelD = channel;
+        addChannel(_channelD, &_pChannelD, 0x08);
+        emit channelChanged();
+    }
+}
+
+void DynamicAttributeBase::addChannel(QString channel, QCSData **ppChannel, int mask)
+{
+    if (*ppChannel == Q_NULLPTR)
+        *ppChannel = new QCSData();
+
+    if (channel.isEmpty()) {
+        disconnect(*ppChannel);
+        _connectionFlag &= ~mask;
+        _connectionMask &= ~mask;
+        setConnected(_connectionFlag == _connectionMask);
+    } else {
+        _connected = false;
+        _connectionMask |= mask;
+        connect(*ppChannel, SIGNAL(valueChanged()), this, SLOT(updateValue()));
+        connect(*ppChannel, SIGNAL(connectionChanged()), this, SLOT(updateConnection()));
+        // only monitor alarm changes for channel A
+        if (mask == 0x01)
+            connect(*ppChannel, SIGNAL(alarmChanged()), this, SLOT(updateAlarm()));
+    }
+
+    (*ppChannel)->setSource(channel);
+}
+
+void DynamicAttributeBase::setConnected(bool connected)
+{
+    if (connected == _connected)
+        return;
+    _connected = connected;
+    emit connectionChanged();
+}
+
+void DynamicAttributeBase::setVisibilityCalc(QString calc)
+{
+    if (calc != _visibilityCalc) {
+        _visibilityCalc = calc;
+        emit visibilityCalcChanged();
+
+        if (_visibilityMode == VisibilityMode::Calc)
+            updateCalc();
+    }
+}
+
+void DynamicAttributeBase::setAltCalc(QString calc)
+{
+    if (calc != _altCalc) {
+        _altCalc = calc;
+        emit altCalcChanged();
+        updateCalc();
+    }
+}
+
+void DynamicAttributeBase::updateAlarm()
+{
+    if (_visibilityMode == VisibilityMode::Calc) {
+        _args[8] = _pChannel->alarm()->property("status").toDouble();
+        _args[9] = _pChannel->alarm()->property("severity").toDouble();
+        updateCalc();
+    }
+    emit statusChanged();
+}
+
+void DynamicAttributeBase::updateValue()
+{
+    QCSData *pChannel = qobject_cast<QCSData*>(sender());
+
+    if (pChannel == _pChannel) {
+        _args[0] = pChannel->value().toDouble();
+        _args[6] = pChannel->count();
+        _args[7] = pChannel->range()->property("upper").toDouble();
+        _args[10] = pChannel->precision();
+        _args[11] = pChannel->range()->property("lower").toDouble();
+    } else if (pChannel == _pChannelB) {
+        _args[1] = pChannel->value().toDouble();
+    } else if (pChannel == _pChannelC) {
+        _args[2] = pChannel->value().toDouble();
+    } else if (pChannel == _pChannelD) {
+        _args[3] = pChannel->value().toDouble();
+    }
+
+    updateCalc();
+}
+
+void DynamicAttributeBase::updateConnection()
+{
+    QCSData *pChannel = qobject_cast<QCSData*>(sender());
+
+    int mask = 0;
+    if (pChannel == _pChannel) {
+        mask = 0x01;
+    } else if (pChannel == _pChannelB) {
+        mask = 0x02;
+    } else if (pChannel == _pChannelC) {
+        mask = 0x04;
+    } else if (pChannel == _pChannelD) {
+        mask = 0x08;
+    } else {
+        return;
+    }
+
+    if (pChannel->connected())
+        _connectionFlag |= mask;
+    else
+        _connectionFlag &= ~mask;
+
+    setConnected(_connectionFlag == _connectionMask);
+}
+
+void DynamicAttributeBase::updateCalc()
+{
+    bool visibility = _visibility;
+
+    switch (_visibilityMode) {
+    case VisibilityMode::Static:
+        visibility = true;
+    break;
+    case VisibilityMode::IfZero:
+        visibility = (_args[0] == 0);
+    break;
+    case VisibilityMode::IfNotZero:
+        visibility = (_args[0] != 0);
+    break;
+    case VisibilityMode::Calc:
+        visibility = (QCSUtils::calculate(_visibilityCalc, _args) != 0);
+    break;
+    }
+
+    if (visibility != _visibility) {
+        _visibility = visibility;
+        emit visibilityChanged();
+    }
+
+    if (!_altCalc.isEmpty()) {
+        double altCalcResult = QCSUtils::calculate(_altCalc, _args);
+        if (altCalcResult != _altCalcResult) {
+            _altCalcResult = altCalcResult;
+            emit altCalcResultChanged();
+        }
+    }
 }
 
 LimitsBase::LimitsBase(QObject *parent)

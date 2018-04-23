@@ -13,6 +13,7 @@ headers += ../src/libs/csdata/csdata.h \
            ../src/libs/csdata/csdataenginemanager.h \
            ../src/libs/utils/utils.h \
            ../src/libs/utils/enums.h \
+           ../src/imports/components/attribute.h \
            ../src/imports/components/baseitem.h \
            ../src/imports/components/windowmanager.h \
            ../src/imports/components/shapes.h \
@@ -24,6 +25,7 @@ sources += ../src/libs/csdata/csdata.cpp \
            ../src/libs/csdata/csdataenginemanager.cpp \
            ../src/libs/utils/utils.cpp \
            ../src/libs/utils/enums.cpp \
+           ../src/imports/components/attribute.cpp \
            ../src/imports/components/baseitem.cpp \
            ../src/imports/components/windowmanager.cpp \
            ../src/imports/components/shapes.cpp \

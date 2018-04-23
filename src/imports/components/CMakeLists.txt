@@ -40,7 +40,6 @@ set(QML_JS_FILES
     qmldir
     plugins.qmltypes
     BaseWindow.qml
-    DynamicAttribute.qml
     CS2DSscan.qml
     CSADImage.qml
     CSArc.qml

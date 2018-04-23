@@ -60,11 +60,13 @@ CSGraphics {
     implicitWidth: animation.implicitWidth
     implicitHeight: animation.implicitHeight
 
+    onImageCalcChanged: dynamicAttribute.altCalc = imageCalc
+
     Connections {
         target: dynamicAttribute
-        onUpdate: {
-            if (imageCalc != '') {
-                var frame = Utils.calculate(imageCalc, dynamicAttribute.d.args)
+        onAltCalcResultChanged: {
+            if (imageCalc !== '') {
+                var frame = dynamicAttribute.altCalcResult;
                 animation.visible = !isNaN(frame)
                 animation.currentFrame = Math.max(0, Math.min(frame, animation.frameCount))
             }

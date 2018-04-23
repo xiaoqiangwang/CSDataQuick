@@ -4,36 +4,78 @@
 #include <QObject>
 #include "enums.h"
 
+class QCSData;
+
 class DynamicAttributeBase : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString visibilityCalc MEMBER _visibilityCalc NOTIFY visibilityCalcChanged)
-    Q_PROPERTY(ColorMode::ColorModeEnum colorMode MEMBER _colorMode NOTIFY colorModeChanged)
+    Q_PROPERTY(QString channel  MEMBER _channel  WRITE setChannel  NOTIFY channelChanged)
+    Q_PROPERTY(QString channelB MEMBER _channelB WRITE setChannelB NOTIFY channelChanged)
+    Q_PROPERTY(QString channelC MEMBER _channelC WRITE setChannelC NOTIFY channelChanged)
+    Q_PROPERTY(QString channelD MEMBER _channelD WRITE setChannelD NOTIFY channelChanged)
+    Q_PROPERTY(QCSData *pvA MEMBER _pChannel)
+    Q_PROPERTY(QCSData *pvB MEMBER _pChannelB)
+    Q_PROPERTY(QCSData *pvC MEMBER _pChannelC)
+    Q_PROPERTY(QCSData *pvD MEMBER _pChannelD)
+    Q_PROPERTY(bool connected  MEMBER  _connected WRITE setConnected NOTIFY connectionChanged)
+
+    Q_PROPERTY(QString altCalc        MEMBER _altCalc        WRITE setAltCalc        NOTIFY altCalcChanged)
+    Q_PROPERTY(double  altCalcResult  MEMBER _altCalcResult  NOTIFY altCalcResultChanged)
+
     Q_PROPERTY(VisibilityMode::VisibilityModeEnum visibilityMode MEMBER _visibilityMode NOTIFY visibilityModeChanged)
-    Q_PROPERTY(QString channel MEMBER _channel NOTIFY channelChanged)
-    Q_PROPERTY(QString channelB MEMBER _channelB NOTIFY channelChanged)
-    Q_PROPERTY(QString channelC MEMBER _channelC NOTIFY channelChanged)
-    Q_PROPERTY(QString channelD MEMBER _channelD NOTIFY channelChanged)
+    Q_PROPERTY(QString visibilityCalc MEMBER _visibilityCalc WRITE setVisibilityCalc NOTIFY visibilityCalcChanged)
+    Q_PROPERTY(bool visibility MEMBER _visibility NOTIFY visibilityChanged)
 
 public:
     explicit DynamicAttributeBase(QObject *parent = 0);
+    ~DynamicAttributeBase();
+
+    void setChannel(QString channel);
+    void setChannelB(QString channel);
+    void setChannelC(QString channel);
+    void setChannelD(QString channel);
+    void setConnected(bool connected);
+
+    void setVisibilityCalc(QString calc);
+    void setAltCalc(QString calc);
 
 signals:
     void channelChanged();
+    void statusChanged();
     void colorModeChanged();
     void visibilityModeChanged();
     void visibilityCalcChanged();
+    void visibilityChanged();
+    void connectionChanged();
+    void altCalcChanged();
+    void altCalcResultChanged();
 
 public slots:
+    void updateValue();
+    void updateAlarm();
+    void updateConnection();
+
+protected:
+    void addChannel(QString channel, QCSData **ppChannel, int mask);
+    void updateCalc();
 
 private:
-    QString _channel;
-    QString _channelB;
-    QString _channelC;
-    QString _channelD;
+    QString _channel;  QCSData *_pChannel;
+    QString _channelB; QCSData *_pChannelB;
+    QString _channelC; QCSData *_pChannelC;
+    QString _channelD; QCSData *_pChannelD;
     ColorMode::ColorModeEnum _colorMode;
     VisibilityMode::VisibilityModeEnum _visibilityMode;
     QString _visibilityCalc;
+    bool _visibility;
+    QString _altCalc;
+    double _altCalcResult;
+
+    bool _connected;
+    int _connectionFlag;
+    int _connectionMask;
+
+    QVariantList _args;
 };
 
 class LimitsBase : public QObject
