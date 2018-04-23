@@ -35,7 +35,7 @@ BaseItem::BaseItem(QQuickItem *parent) :
 {
     _foreground = Qt::black;
     _background = Qt::transparent;
-    _dynamicAttribute = new DynamicAttributeBase(this);
+    _dynamicAttribute = Q_NULLPTR;
     _limits = Q_NULLPTR;
     setClip(false);
 }
