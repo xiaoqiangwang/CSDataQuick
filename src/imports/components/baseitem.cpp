@@ -10,6 +10,7 @@
 /*!
     \qmltype BaseItem
     \inqmlmodule CSDataQuick.Components
+    \ingroup csdataquick.components.bases
     \brief Base item which all visual items derive.
 */
 /*!
