@@ -102,7 +102,7 @@ class CSDATA_EXPORT QCSData : public QObject
     // numeric type
     Q_PROPERTY(int          precision   READ precision    WRITE setPrecision   NOTIFY precisionChanged)
     Q_PROPERTY(QString      units       READ units        WRITE setUnits       NOTIFY unitsChanged)
-    Q_PROPERTY(QCSDataRange* range       MEMBER _range     NOTIFY rangeChanged)
+    Q_PROPERTY(QCSDataRange* range      READ range        MEMBER _range        NOTIFY rangeChanged)
 
     // enum type
     Q_PROPERTY(QStringList  stateStrings READ stateStrings  WRITE setStateStrings  NOTIFY stateStringsChanged)
