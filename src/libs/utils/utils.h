@@ -20,27 +20,27 @@ class UTILS_EXPORT QCSUtils : public QObject
 public:
     explicit QCSUtils(QObject *parent = 0);
 
-    Q_INVOKABLE double calculate(QString expr, QVariantList input);
-    Q_INVOKABLE bool execute(QString program);
-    Q_INVOKABLE QString format(QString format, double number);
-    Q_INVOKABLE QString convert(int format, QVariant value, int precision);
-    Q_INVOKABLE double parse(int format, QString textValue);
-    Q_INVOKABLE QUrl searchDisplayFile(QString fileName, QWindow *window);
-    Q_INVOKABLE QString openQMLDisplay(QUrl fileName, QString macro);
-    Q_INVOKABLE QString openADLDisplay(QUrl fileName, QString macro);
-    Q_INVOKABLE QString openADLComposite(QUrl fileName, QString macro);
-    Q_INVOKABLE QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);
-    Q_INVOKABLE QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
-    Q_INVOKABLE QVariantMap parseX11Geometry(QString geometry);
-    Q_INVOKABLE QString currentDateTime();
-    Q_INVOKABLE QWindow *parentWindow(QQuickItem *item);
-    Q_INVOKABLE QPoint mapToGlobal(QQuickItem *item, const QPoint point);
-    Q_INVOKABLE void vectorGet(QVariant variant, QJSValue array, int index=0, int count=-1);
-    Q_INVOKABLE QVariant vectorSet(QVariant variant, QJSValue value, int index);
-    Q_INVOKABLE QVariantList parseExecList();
-    Q_INVOKABLE QVariant getProperty(QObject *object, QString name);
-    Q_INVOKABLE void copyToClipboard(const QString &text);
-    Q_INVOKABLE int qtVersion();
+    Q_INVOKABLE static double calculate(QString expr, QVariantList input);
+    Q_INVOKABLE static bool execute(QString program);
+    Q_INVOKABLE static QString format(QString format, double number);
+    Q_INVOKABLE static QString convert(int format, QVariant value, int precision);
+    Q_INVOKABLE static double parse(int format, QString textValue);
+    Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QWindow *window);
+    Q_INVOKABLE static QString openQMLDisplay(QUrl fileName, QString macro);
+    Q_INVOKABLE static QString openADLDisplay(QUrl fileName, QString macro);
+    Q_INVOKABLE static QString openADLComposite(QUrl fileName, QString macro);
+    Q_INVOKABLE static QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);
+    Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
+    Q_INVOKABLE static QVariantMap parseX11Geometry(QString geometry);
+    Q_INVOKABLE static QString currentDateTime();
+    Q_INVOKABLE static QWindow *parentWindow(QQuickItem *item);
+    Q_INVOKABLE static QPoint mapToGlobal(QQuickItem *item, const QPoint point);
+    Q_INVOKABLE static void vectorGet(QVariant variant, QJSValue array, int index=0, int count=-1);
+    Q_INVOKABLE static QVariant vectorSet(QVariant variant, QJSValue value, int index);
+    Q_INVOKABLE static QVariantList parseExecList();
+    Q_INVOKABLE static QVariant getProperty(QObject *object, QString name);
+    Q_INVOKABLE static void copyToClipboard(const QString &text);
+    Q_INVOKABLE static int qtVersion();
     Q_INVOKABLE QString formatString(QCSData* data, int format, int precision, QVariant value=QVariant());
 signals:
 
