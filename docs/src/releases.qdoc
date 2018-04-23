@@ -2,6 +2,13 @@
     \page releases.html
     \title Release Notes
 
+    \section1 1.1.0 (XX-XX-2018)
+    \list
+    \li Re-implement UtilsJS.formatString and DynamicAttribute in C++.
+    \li Refactor utils.cpp to a shared library.
+    \li Add custom property editor for CSMJPEGVideo in quick designer.
+    \endlist
+
     \section1 1.0.0 (23-03-2018)
     \list
     \li Fix handling of empty CSData::source to disconnect and reset the data.
