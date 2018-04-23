@@ -8,8 +8,9 @@ if(QDOC_EXECUTABLE STREQUAL "QDOC_EXECUTABLE-NOTFOUND")
 else()
     file (GLOB QDOC_FILES *.qdocconf src/*.qdoc style/*)
     add_custom_target(html-offline
-        COMMAND ${QDOC_EXECUTABLE}
-            -D CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
+        COMMAND ${CMAKE_COMMAND}
+            -E env CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
+            ${QDOC_EXECUTABLE}
             --indexdir ${QT_DOC_DIR}
             --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-offline
             ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-offline.qdocconf
@@ -17,8 +18,9 @@ else()
         COMMENT "Generate offline documents..."
         SOURCES ${QDOC_FILES})
     add_custom_target(html-online
-        COMMAND ${QDOC_EXECUTABLE}
-            -D CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
+        COMMAND ${CMAKE_COMMAND}
+            -E env CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
+            ${QDOC_EXECUTABLE}
             --indexdir ${QT_DOC_DIR}
             --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-online
             ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-online.qdocconf
