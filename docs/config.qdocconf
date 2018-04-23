@@ -2,7 +2,7 @@ project = CSDataQuick
 description = CSDataQuick Documentation
 url = https://epics.web.psi.ch/software/CSDataQuick
 
-version = $(CSDATAQUICK_VERSION)
+version = $CSDATAQUICK_VERSION
 
 Cpp.ignoredirectives = Q_ENUMS Q_ENUM Q_INTERFACES
 
