@@ -111,6 +111,11 @@ CSControl {
         precChannel: csdata.precision
     }
 
+    onSourceChanged: {
+        if (Utils.inPuppet)
+            textEntry.text = source
+    }
+
     TextFormatter {
         id: formatter
         data: csdata
