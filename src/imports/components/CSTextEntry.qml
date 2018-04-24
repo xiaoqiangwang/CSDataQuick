@@ -111,6 +111,18 @@ CSControl {
         precChannel: csdata.precision
     }
 
+    TextFormatter {
+        id: formatter
+        data: csdata
+        format: root.format
+        precision: limits.prec
+        onTextChanged: {
+            textEntry.text = text
+            if (!textEntry.hasFocus)
+                textEntry.cursorPosition = 0
+        }
+    }
+
     StyledTextEntry {
         id: textEntry
         anchors.fill: parent
@@ -122,69 +134,42 @@ CSControl {
         readOnly: csdata.accessRight & CSData.WriteAccess == 0
 
         onHasFocusChanged: {
-            text = Utils.formatString(csdata, format, limits.prec);
+            text = formatter.text
         }
 
         onAccepted: {
-            if (csdata.accessRight & CSData.WriteAccess == 0)
-                return
-            var value
-            switch (csdata.fieldType) {
-            case CSData.String:
-                value = text
-                break
-            case CSData.Enum:
-                var i
-                for(i=0; i<csdata.stateStrings.length; i++)
-                    if (text == csdata.stateStrings[i])
-                        break
-                if (i < csdata.stateStrings.length)
-                    value = i
-                else
-                    value = Utils.parse(format, text)
-                break
-            case CSData.Char:
-                if (format == TextFormat.String)
-                    value = text
-                else
-                    value = Utils.parse(format, text)
-                break
-            default:
-                value = Utils.parse(format, text)
-            }
+            var value = textToValue(text)
             if (value !== undefined && (typeof value == 'string' || !isNaN(value))) {
                 csdata.value = value
             }
         }
     }
 
-    Connections {
-        target: csdata
-
-        onSourceChanged: {
-            textEntry.text = Utils.formatString(csdata, format, limits.prec);
+    function textToValue(text) {
+        var value
+        switch (csdata.fieldType) {
+        case CSData.String:
+            value = text
+            break
+        case CSData.Enum:
+            var i
+            for(i=0; i<csdata.stateStrings.length; i++)
+                if (text == csdata.stateStrings[i])
+                    break
+            if (i < csdata.stateStrings.length)
+                value = i
+            else
+                value = Utils.parse(format, text)
+            break
+        case CSData.Char:
+            if (format == TextFormat.String)
+                value = text
+            else
+                value = Utils.parse(format, text)
+            break
+        default:
+            value = Utils.parse(format, text)
         }
-
-        onStateStringsChanged: {
-            textEntry.text = Utils.formatString(csdata, format, limits.prec);
-        }
-
-        onValueChanged: {
-            textEntry.text = Utils.formatString(csdata, format, limits.prec);
-            if (!textEntry.hasFocus)
-                textEntry.cursorPosition = 0
-        }
-    }
-
-    Connections {
-        target: limits
-
-        onPrecChanged: {
-            textEntry.text = Utils.formatString(csdata, format, limits.prec);
-        }
-    }
-
-    onFormatChanged: {
-        textEntry.text = Utils.formatString(csdata, format, limits.prec);
+        return value
     }
 }

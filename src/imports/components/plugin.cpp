@@ -14,6 +14,7 @@
 #include "csimageitem.h"
 #include "adimage.h"
 #include "mjpeg.h"
+#include "textformatter.h"
 
 #include <qqml.h>
 
@@ -53,6 +54,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<CSImageItem>(uri, 1, 0, "ImageItem");
     qmlRegisterType<ADImage>(uri, 1, 0, "ADImage");
     qmlRegisterType<MJPEG>(uri, 1, 0, "MJPEG");
+    qmlRegisterType<TextFormatter>(uri, 1, 0, "TextFormatter");
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);

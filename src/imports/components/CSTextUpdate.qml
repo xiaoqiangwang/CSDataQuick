@@ -62,10 +62,25 @@ CSMonitor {
         precChannel: csdata.precision
     }
 
+    TextFormatter {
+        id: formatter
+        data: csdata
+        format: root.format
+        precision: limits.prec
+        onTextChanged: {
+            if (align == Text.AlignLeft)
+                return
+            while(label_control.font.pixelSize > 6 && label_control.paintedWidth > label_control.width) {
+                label_control.font.pixelSize -= 1
+            }
+        }
+    }
+
     RowLayout {
         anchors.fill: parent
         Text {
             id: label_control
+            text: formatter.text
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
             font.pixelSize: root.font.size
@@ -81,40 +96,6 @@ CSMonitor {
             visible: unitsVisible && text != ''
             text: csdata.units
         }
-    }
-
-    Connections {
-        target: csdata
-
-        onSourceChanged: {
-            label_control.text = Utils.formatString(csdata, format, limits.prec);
-        }
-
-        onStateStringsChanged: {
-            label_control.text = Utils.formatString(csdata, format, limits.prec);
-        }
-
-        onValueChanged: {
-            label_control.text = Utils.formatString(csdata, format, limits.prec);
-            // MEDM Compat: automatic adjust font size only if it is not left aligned
-            if (align == Text.AlignLeft)
-                return
-            while(label_control.font.pixelSize > 6 && label_control.paintedWidth > label_control.width) {
-                label_control.font.pixelSize -= 1
-            }
-        }
-    }
-
-    Connections {
-        target: limits
-
-        onPrecChanged: {
-            label_control.text = Utils.formatString(csdata, format, limits.prec);
-        }
-    }
-
-    onFormatChanged: {
-        label_control.text = Utils.formatString(csdata, format, limits.prec);
     }
 }
 
