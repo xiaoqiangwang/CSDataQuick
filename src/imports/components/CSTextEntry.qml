@@ -117,7 +117,7 @@ CSControl {
         format: root.format
         precision: limits.prec
         onTextChanged: {
-            textEntry.text = text
+            textEntry.text = Utils.inPuppet ? source : text
             if (!textEntry.hasFocus)
                 textEntry.cursorPosition = 0
         }
@@ -134,7 +134,7 @@ CSControl {
         readOnly: csdata.accessRight & CSData.WriteAccess == 0
 
         onHasFocusChanged: {
-            text = formatter.text
+            text = Utils.inPuppet ? source : formatter.text
         }
 
         onAccepted: {

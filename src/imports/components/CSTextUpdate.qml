@@ -80,7 +80,7 @@ CSMonitor {
         anchors.fill: parent
         Text {
             id: label_control
-            text: formatter.text
+            text: Utils.inPuppet ? source : formatter.text
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
             font.pixelSize: root.font.size
