@@ -3,7 +3,7 @@
 #include "csdata.h"
 
 #include <QCoreApplication>
-#include <QTimer.h>
+#include <QTimer>
 #include <QtDebug>
 
 int main(int argc, char **argv)
