@@ -116,7 +116,7 @@ CSControl {
                 if (csdata.accessRight & CSData.WriteAccess == 0)
                     return
                 var value = text
-                if (csdata.fieldType == CSData.Char && format == TextFormat.String) {
+                if (csdata.fieldType === CSData.Char && format === TextFormat.String) {
                     // if char is formated as string, convert string back into char code
                     value = text.charCodeAt(0)
                 } else if (csdata.fieldType !== CSData.String) {

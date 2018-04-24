@@ -258,18 +258,19 @@ BaseItem {
 
     /*! \internal */
     function createTraces() {
+        var i
         var length = period * getInterval()
-        for (var i=1; i<=length; i++) {
+        for (i=1; i<=length; i++) {
             d.time.push((i - length) / getInterval())
         }
-        for(var i=0; i<traceModel.count; i++) {
+        for(i=0; i<traceModel.count; i++) {
             var pen = traceModel.get(i);
 
             if (!pen.channel)
                 continue
             // create graph with its own left axis
             var axis
-            if (i == 0)
+            if (i === 0)
                 axis = plot.yAxis
             else
                 axis = Qt.createQmlObject('import CSDataQuick.Components 1.0; Axis {type: Axis.Left; autoScale: false}', plot, 'yaxis' + i)

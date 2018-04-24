@@ -1,3 +1,4 @@
+import QtQml 2.2
 import QtQuick 2.1
 import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
@@ -170,13 +171,14 @@ BaseItem {
     onModelChanged: generateModel()
     /*! \internal */
     function generateModel() {
+        var i
         if (model instanceof Array) {
             displayModel.clear()
-            for(var i=0; i<model.length; i++)
+            for(i=0; i<model.length; i++)
                 displayModel.append(model[i])
         } else {
             displayModel.clear()
-            for(var i=0; i<model.count; i++)
+            for(i=0; i<model.count; i++)
                 displayModel.append(model.get(i))
         }
     }
@@ -189,7 +191,7 @@ BaseItem {
             return
         // search the file
         var absFilePath = Utils.searchDisplayFile(fileName, baseWindow)
-        if (absFilePath == '') {
+        if (absFilePath === '') {
             console.error("Failed to find file ", fileName)
             return
         }
@@ -203,11 +205,11 @@ BaseItem {
             return
         }
         // open new display
-        if (fileName.substr(-4) == '.adl') {
+        if (fileName.substr(-4) === '.adl') {
             var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
             window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
         }
-        if (fileName.substr(-4) == '.qml') {
+        if (fileName.substr(-4) === '.qml') {
             window = Utils.createDisplayByFile(root, absFilePath, macro)
         }
         if (!window) {

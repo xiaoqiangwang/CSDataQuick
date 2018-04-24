@@ -225,13 +225,14 @@ BaseItem {
     onModelChanged: generateModel()
     /*! \internal */
     function generateModel() {
+        var i
         if (model instanceof Array) {
             traceModel.clear()
-            for(var i=0; i<model.length; i++)
+            for(i=0; i<model.length; i++)
                 traceModel.append(model[i])
         } else {
             traceModel.clear()
-            for(var i=0; i<model.count; i++)
+            for(i=0; i<model.count; i++)
                 traceModel.append(model.get(i))
         }
     }
@@ -509,7 +510,7 @@ BaseItem {
         var graph = d.graphs[i]
         var xv = null
         if (xpv) {
-            if (xpv.count == 1) {
+            if (xpv.count === 1) {
                 if (ypv && ypv.count > 1)
                     xv = xpv.value
                 else
@@ -524,7 +525,7 @@ BaseItem {
 
         var yv = null
         if (ypv) {
-            if (ypv.count == 1) {
+            if (ypv.count === 1) {
                 if (xpv && xpv.count > 1)
                     yv = ypv.value
                 else

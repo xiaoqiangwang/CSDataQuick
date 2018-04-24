@@ -85,9 +85,9 @@ CSControl {
     }
     /*! \internal */
     function formatString() {
-        if (csdata.fieldType == CSData.String)
+        if (csdata.fieldType === CSData.String)
             return csdata.value
-        else if (csdata.fieldType == CSData.Char)
+        else if (csdata.fieldType === CSData.Char)
             return String.fromCharCode.apply(null, csdata.value).replace(/\0/g, '')
         else
             return ''

@@ -159,7 +159,7 @@ CSControl {
         case CSData.Enum:
             var i
             for(i=0; i<csdata.stateStrings.length; i++)
-                if (text == csdata.stateStrings[i])
+                if (text === csdata.stateStrings[i])
                     break
             if (i < csdata.stateStrings.length)
                 value = i

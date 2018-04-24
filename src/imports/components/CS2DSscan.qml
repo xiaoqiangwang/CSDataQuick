@@ -96,7 +96,7 @@ BaseItem{
         property var valX: CSData {
             source: scanX + '.VAL'
             onValueChanged: {
-                if (d.cptX.value == 0)
+                if (d.cptX.value === 0)
                     return
                 cm.setCell(d.cptX.value - 1, d.cptY.value, d.detX.value)
                 plot.replot()
@@ -120,7 +120,7 @@ BaseItem{
         property var runX: CSData {
             source: scanX + '.EXSC'
             onValueChanged: {
-                if (value == 1) {
+                if (value === 1) {
                     cm.setXRange(d.spX.value, d.epX.value, d.nptsX.value)
                 }
             }
@@ -144,7 +144,7 @@ BaseItem{
         property var runY: CSData {
             source: scanY + '.EXSC'
             onValueChanged: {
-                if (value == 1) {
+                if (value === 1) {
                     cm.clearData()
                     cm.setYRange(d.spY.value, d.epY.value, d.nptsY.value)
                 }

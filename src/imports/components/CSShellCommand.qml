@@ -100,7 +100,7 @@ BaseItem {
 
     StyledButton {
         anchors.fill: parent
-        text: root.label[0] == '-' ? root.label.substring(1) : ('! ' + root.label)
+        text: root.label[0] === '-' ? root.label.substring(1) : ('! ' + root.label)
         foregroundColor: root.foreground
         backgroundColor: root.background
         font.pixelSize: root.font.size
@@ -133,13 +133,14 @@ BaseItem {
     onModelChanged: generateModel()
     /*! \internal */
     function generateModel() {
+        var i
         if (model instanceof Array) {
             commandModel.clear()
-            for(var i=0; i<model.length; i++)
+            for(i=0; i<model.length; i++)
                 commandModel.append(model[i]) 
         } else {
             commandModel.clear()
-            for(var i=0; i<model.count; i++)
+            for(i=0; i<model.count; i++)
                 commandModel.append(model.get(i)) 
         }
     }
