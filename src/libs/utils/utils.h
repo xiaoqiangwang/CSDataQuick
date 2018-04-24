@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE static QVariant getProperty(QObject *object, QString name);
     Q_INVOKABLE static void copyToClipboard(const QString &text);
     Q_INVOKABLE static int qtVersion();
-    Q_INVOKABLE QString formatString(QCSData* data, int format, int precision, QVariant value=QVariant());
+    Q_INVOKABLE static QString formatString(QCSData* data, int format, int precision, QVariant value=QVariant());
 signals:
 
 public slots:

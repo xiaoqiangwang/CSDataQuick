@@ -667,9 +667,6 @@ int QCSUtils::qtVersion()
  */
 QString QCSUtils::formatString(QCSData* data, int format, int precision, QVariant value)
 {
-    if (_inPuppet)
-        return data->source();
-
     if (!value.isValid())
         value = data->value();
 
