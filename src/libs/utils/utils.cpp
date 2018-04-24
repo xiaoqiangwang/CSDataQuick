@@ -194,7 +194,7 @@ bool QCSUtils::execute(QString program)
 */
 QString QCSUtils::convert(int format, QVariant value, int precision)
 {
-    char textField[128];
+    char textField[128] = {0};
     int status;
 
     switch (format) {
