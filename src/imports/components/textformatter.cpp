@@ -1,8 +1,10 @@
 #include "textformatter.h"
 #include "csdata.h"
 #include "utils.h"
+#include "enums.h"
 
-TextFormatter::TextFormatter(QObject *parent) : QObject(parent), _data(Q_NULLPTR)
+TextFormatter::TextFormatter(QObject *parent)
+    : QObject(parent), _data(Q_NULLPTR), _format(TextFormat::Decimal), _precision(0)
 {
 }
 
