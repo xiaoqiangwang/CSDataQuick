@@ -104,7 +104,7 @@ CSControl {
             font.pixelSize: root.font.size
             font.family: root.font.family
             horizontalAlignment: root.align
-            readOnly: csdata.accessRight & CSData.WriteAccess == 0
+            readOnly: !(csdata.accessRight & CSData.WriteAccess)
             Layout.fillWidth: stacking == Stacking.Column
             Layout.fillHeight: stacking != Stacking.Column
             Layout.row: stacking == Stacking.Column ? index : 1
@@ -113,7 +113,7 @@ CSControl {
             onHasFocusChanged: formatString()
 
             onAccepted: {
-                if (csdata.accessRight & CSData.WriteAccess == 0)
+                if (readOnly)
                     return
                 var value = text
                 if (csdata.fieldType === CSData.Char && format === TextFormat.String) {

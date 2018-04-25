@@ -136,13 +136,15 @@ CSControl {
         font.pixelSize: root.font.size
         font.family: root.font.family
         horizontalAlignment: root.align
-        readOnly: csdata.accessRight & CSData.WriteAccess == 0
+        readOnly: !(csdata.accessRight & CSData.WriteAccess)
 
         onHasFocusChanged: {
             text = Utils.inPuppet ? source : formatter.text
         }
 
         onAccepted: {
+            if (readOnly)
+                return
             var value = textToValue(text)
             if (value !== undefined && (typeof value == 'string' || !isNaN(value))) {
                 csdata.value = value
