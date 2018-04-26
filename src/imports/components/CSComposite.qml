@@ -98,7 +98,7 @@ BaseItem {
             return
 
         var absFilePath = Utils.searchDisplayFile(source, baseWindow)
-        if (!absFilePath) {
+        if (absFilePath == '') {
             console.error("Failed to find file ", source)
             return
         }
