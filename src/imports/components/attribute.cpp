@@ -99,6 +99,8 @@ void DynamicAttributeBase::setChannel(QString channel)
 {
     if (channel != _channel) {
         _channel = channel;
+        _args[0] = 0;_args[6] = 0;_args[7] = 0;_args[8] = 0;
+        _args[9] = 0;_args[10] = 0;_args[11] = 0;
         addChannel(_channel, &_pChannel, 0x01);
         emit channelChanged();
     }
@@ -108,6 +110,7 @@ void DynamicAttributeBase::setChannelB(QString channel)
 {
     if (channel != _channelB) {
         _channelB = channel;
+        _args[1] = 0;
         addChannel(_channelB, &_pChannelB, 0x02);
         emit channelChanged();
     }
@@ -117,6 +120,7 @@ void DynamicAttributeBase::setChannelC(QString channel)
 {
     if (channel != _channelC) {
         _channelC = channel;
+        _args[2] = 0;
         addChannel(_channelC, &_pChannelC, 0x04);
         emit channelChanged();
     }
@@ -126,6 +130,7 @@ void DynamicAttributeBase::setChannelD(QString channel)
 {
     if (channel != _channelD) {
         _channelD = channel;
+        _args[3] = 0;
         addChannel(_channelD, &_pChannelD, 0x08);
         emit channelChanged();
     }
@@ -140,9 +145,8 @@ void DynamicAttributeBase::addChannel(QString channel, QCSData **ppChannel, int 
         disconnect(*ppChannel);
         _connectionFlag &= ~mask;
         _connectionMask &= ~mask;
-        setConnected(_connectionFlag == _connectionMask);
     } else {
-        _connected = false;
+        _connectionFlag &= ~mask;
         _connectionMask |= mask;
         connect(*ppChannel, SIGNAL(valueChanged()), this, SLOT(updateValue()));
         connect(*ppChannel, SIGNAL(connectionChanged()), this, SLOT(updateConnection()));
@@ -150,6 +154,9 @@ void DynamicAttributeBase::addChannel(QString channel, QCSData **ppChannel, int 
         if (mask == 0x01)
             connect(*ppChannel, SIGNAL(alarmChanged()), this, SLOT(updateAlarm()));
     }
+
+    setConnected(_connectionFlag == _connectionMask);
+    updateCalc();
 
     (*ppChannel)->setSource(channel);
 }
