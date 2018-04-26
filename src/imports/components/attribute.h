@@ -22,7 +22,7 @@ class DynamicAttributeBase : public QObject
     Q_PROPERTY(QString altCalc        MEMBER _altCalc        WRITE setAltCalc        NOTIFY altCalcChanged)
     Q_PROPERTY(double  altCalcResult  MEMBER _altCalcResult  NOTIFY altCalcResultChanged)
 
-    Q_PROPERTY(VisibilityMode::VisibilityModeEnum visibilityMode MEMBER _visibilityMode NOTIFY visibilityModeChanged)
+    Q_PROPERTY(VisibilityMode::VisibilityModeEnum visibilityMode MEMBER _visibilityMode WRITE setVisibilityMode NOTIFY visibilityModeChanged)
     Q_PROPERTY(QString visibilityCalc MEMBER _visibilityCalc WRITE setVisibilityCalc NOTIFY visibilityCalcChanged)
     Q_PROPERTY(bool visibility MEMBER _visibility NOTIFY visibilityChanged)
 
@@ -36,6 +36,7 @@ public:
     void setChannelD(QString channel);
     void setConnected(bool connected);
 
+    void setVisibilityMode(VisibilityMode::VisibilityModeEnum mode);
     void setVisibilityCalc(QString calc);
     void setAltCalc(QString calc);
 

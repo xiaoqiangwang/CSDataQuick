@@ -162,6 +162,15 @@ void DynamicAttributeBase::setConnected(bool connected)
     emit connectionChanged();
 }
 
+void DynamicAttributeBase::setVisibilityMode(VisibilityMode::VisibilityModeEnum mode)
+{
+    if (mode != _visibilityMode) {
+        _visibilityMode = mode;
+        emit visibilityModeChanged();
+        updateCalc();
+    }
+}
+
 void DynamicAttributeBase::setVisibilityCalc(QString calc)
 {
     if (calc != _visibilityCalc) {
