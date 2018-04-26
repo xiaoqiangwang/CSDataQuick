@@ -365,6 +365,8 @@ void QCSDataEngineCA::close(QCSData *data)
     }
     // Clear channel
     chid _chid = (chid)data->extraProperty("chid").value<void*>();
+    if (!_chid)
+        return;
     int status = ca_clear_channel(_chid);
     if(status != ECA_NORMAL)
         qWarning() << "ca_clear_channel:" << ca_message(status);
