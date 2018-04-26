@@ -122,7 +122,7 @@ void ADImage::updateImage()
         QtConcurrent::blockingMap(v16i.begin(), v16i.begin() + _size, std::bind(rescale2<unsigned short>, std::placeholders::_1, v16i.data(), data, _lowLevel, _highLevel, _ratio));
     }
         break;
-    case QCSData::Long:
+    case QCSData::Integer:
     {
         QVector<int> v32i = _data.value< QVector<int> >();
         if (v32i.size() < _size)
