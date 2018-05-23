@@ -51,7 +51,7 @@ Button {
                     id: rect
                     width: Math.min(control.height, control.width) - 6
                     height: width
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                     foreground: root.foreground
                     visible: showIcon
                 }
@@ -59,7 +59,7 @@ Button {
                 Text {
                     id: text
                     height: parent.height
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
 
                     text: control.text
                     clip: true
