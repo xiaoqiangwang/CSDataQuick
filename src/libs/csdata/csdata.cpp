@@ -218,24 +218,17 @@ QCSData::QCSData(QObject *parent)
     : QObject(parent),
       _alarm(new QCSDataAlarm(this)),
       _range(new QCSDataRange(this)),
-      _engine(Q_NULLPTR)
+      _engine(Q_NULLPTR),
+      _inPuppet(false)
 {
+    if (qgetenv("QML_PUPPET_MODE") == "true") {
+        _inPuppet = true;
+    }
+    _extraProperties["QmlPuppetMode"] = _inPuppet;
+
     reset();
     connect(_alarm, SIGNAL(alarmChanged()), this, SIGNAL(alarmChanged()));
     connect(_range, SIGNAL(rangeChanged()), this, SIGNAL(rangeChanged()));
-
-    _inPuppet = false;
-
-    if (qgetenv("QML_PUPPET_MODE") == "true") {
-        _inPuppet = true;
-        _connected = true;
-        _fieldType = Double;
-        _count = 1;
-        _accessRight = ReadAccess | WriteAccess;
-        _stateStrings << "OFF" << "ON";
-        _alarm->setAlarm(QCSDataAlarm::NoAlarm, 0, "NoAlarm");
-    }
-    _extraProperties["QmlPuppetMode"] = _inPuppet;
 }
 /*!
     \brief Delete the data object and disconnect from data engine.
@@ -602,22 +595,40 @@ void QCSData::updateValue(const QVariant value)
 /*! \internal */
 void QCSData::reset()
 {
-    _source.clear();
-    _host.clear();
-    _connected = false;
+    if (_inPuppet) {
+        _host = "puppet";
+        _connected = true;
+        _fieldType = Double;
+        _count = 1;
+        _value = 0;
 
-    _fieldType = Invalid;
-    _count = 0;
-    _value = QVariant();
+        _accessRight = ReadAccess | WriteAccess;
+        _alarm->setAlarm(QCSDataAlarm::NoAlarm, 0, "NoAlarm");
+        _timeStamp.setMSecsSinceEpoch(0);
 
-    _accessRight = NoAccess;
-    _alarm->reset();
-    _timeStamp.setMSecsSinceEpoch(0);
+        _precision = 0;
+        _units.clear();
+        _range->reset();
 
-    _precision = 0;
-    _units.clear();
-    _range->reset();
+        _stateStrings << "OFF" << "ON";
+    } else {
+        _source.clear();
+        _host.clear();
+        _connected = false;
 
-    _stateStrings.clear();
+        _fieldType = Invalid;
+        _count = 0;
+        _value = QVariant();
+
+        _accessRight = NoAccess;
+        _alarm->reset();
+        _timeStamp.setMSecsSinceEpoch(0);
+
+        _precision = 0;
+        _units.clear();
+        _range->reset();
+
+        _stateStrings.clear();
+    }
 }
 
