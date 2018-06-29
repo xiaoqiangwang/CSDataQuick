@@ -51,11 +51,23 @@ CSGraphics {
     */
     property alias align: text_control.horizontalAlignment
 
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height, false)
+    /*!
+        \qmlproperty font font
+        The text font.
+    */
+    property alias font: text_control.font
+
+    /*!
+        \qmlproperty enumeration fontSizeMode
+
+        \sa Text.fontSizeMode
+    */
+    property int fontSizeMode: Text.VerticalFit
 
     implicitWidth: text_control.implicitWidth
     implicitHeight: 20
+
+    font.pixelSize: height
 
     Rectangle {
         color: background
@@ -73,8 +85,8 @@ CSGraphics {
         id: text_control
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         anchors.fill: parent
-        font.family: root.font.family
-        font.pixelSize: root.font.size
+        fontSizeMode: root.fontSizeMode
+        minimumPixelSize: 4
         verticalAlignment: Text.AlignHCenter
         onLinkActivated: Qt.openUrlExternally(link)
     }
