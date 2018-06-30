@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <algorithm>
 #include <cctype>
 #include <iomanip>
 
@@ -22,6 +23,7 @@ struct ObjectTable_t {
     {"activeXRegTextClass", EL_Text},
 /* monitor */
     {"activeBarClass", EL_Bar},
+    {"activeVsBarClass", EL_Bar},
     {"ByteClass", EL_Byte},
     {"xyGraphClass", EL_CartesianPlot},
     {"indicator", EL_Indicator},
@@ -31,7 +33,7 @@ struct ObjectTable_t {
     {"TextupdateClass", EL_TextUpdate},
     {"RegTextupdateClass", EL_TextUpdate},
 /* control*/
-    {"activeChoiceButton", EL_ChoiceButton},
+    {"activeChoiceButtonClass", EL_ChoiceButton},
     {"activeMenuButtonClass", EL_Menu},
     {"activeMessageButtonClass", EL_MessageButton},
     {"activeButtonClass", EL_MessageButton},
@@ -286,6 +288,19 @@ std::string Object::getFont(std::string fontname)
     return font;
 }
 
+std::vector<std::string> Object::getList(std::string listname)
+{
+    std::vector<std::string> list;
+
+    auto it =  properties.find(listname);
+    if (it != properties.end()) {
+        for(int i=1; i<it->second.size(); i+=2)
+            list.push_back(it->second[i]);
+    }
+
+    return list;
+}
+
 std::string Object::getText(std::string textname)
 {
     auto it =  properties.find(textname);
@@ -379,6 +394,231 @@ void Object::parseGroup(std::istream &fstream)
     }
 }
 
+void Object::arcToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSArc {" << std::endl;
+    rectToQML(ostream);
+
+    if (getBool("fill"))
+        ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
+    else {
+        ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
+        ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
+    }
+
+    std::string lineWidth = getText("lineWidth");
+    if (!lineWidth.empty())
+        ostream << indent << "    lineWidth: " << lineWidth << std::endl;
+
+    std::string lineStyle = getText("lineStyle");
+    if (lineStyle == "dash")
+        ostream << indent << "    edgeStyle: EdgeStyle.Dash" << std::endl;
+
+    std::string begin = getText("startAngle");
+    if (!begin.empty())
+        ostream << indent << "    begin: " << begin << std::endl;
+
+    std::string span = getText("totalAngle");
+    if (!span.empty())
+        ostream << indent << "    span: " << span << std::endl;
+
+    attr = getDynamicAttribute(indent);
+    if (!attr.empty())
+        ostream << attr << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::circleToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSOval {" << std::endl;
+    rectToQML(ostream);
+
+    if (getBool("fill"))
+        ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
+    else {
+        ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
+        ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
+    }
+
+    std::string lineWidth = getText("lineWidth");
+    if (!lineWidth.empty())
+        ostream << indent << "    lineWidth: " << lineWidth << std::endl;
+
+    std::string lineStyle = getText("lineStyle");
+    if (lineStyle == "dash")
+        ostream << indent << "    edgeStyle: EdgeStyle.Dash" << std::endl;
+
+
+    attr = getDynamicAttribute(indent);
+    if (!attr.empty())
+        ostream << attr << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::imageToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSImage {" << std::endl;
+    rectToQML(ostream);
+
+    std::string filename = getText("file");
+    if (!filename.empty())
+    ostream << indent << "    source: '" << filename << "'" << std::endl;
+    
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::linesToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    if (getBool("fill") || getBool("closePolygon"))
+    ostream << indent << "CSPolygon {" << std::endl;
+    else
+    ostream << indent << "CSPolyline {" << std::endl;
+
+    rectToQML(ostream);
+
+    auto xp = getList("xPoints");
+    auto yp = getList("yPoints");
+
+    ostream << indent << "    points: [";
+    for (int i=0; i<xp.size(); i++) {
+        ostream << "Qt.point(" << std::stoi(xp[i]) - this->_rect.x << ","
+            << std::stoi(yp[i]) - this->_rect.y << ")";
+        if (i != xp.size() -1)
+            ostream << ",";
+    }
+    ostream << "]" << std::endl;
+
+    std::string arrows = getText("arrows");
+    if (arrows == "from")
+        ostream << indent << "    arrowPosition: ArrowPosition.Start" << std::endl;
+    else if (arrows == "to")
+        ostream << indent << "    arrowPosition: ArrowPosition.End" << std::endl;
+    else if (arrows == "both")
+        ostream << indent << "    arrowPosition: ArrowPosition.Both" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::compositeToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSComposite {" << std::endl;
+    rectToQML(ostream);
+
+    std::string filename = getText("file");
+    if (!filename.empty()) {
+        if (filename.substr(filename.size() - 4) != ".edl")
+            filename += ".edl";
+        ostream << indent << "    source: '" << filename << "'" << std::endl;
+        std::string macro = screen()->macroString();
+        if (!macro.empty())
+        ostream << indent << "    macro: '" << macro << "'" << std::endl;
+    } else {
+        for (auto it = objects.begin(); it != objects.end(); ++it) {
+            (*it)->toQML(ostream);
+        }
+    }
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::rectangleToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSRect {" << std::endl;
+    rectToQML(ostream);
+
+    if (getBool("fill"))
+        ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
+    else {
+        ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
+        ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
+    }
+
+    std::string lineWidth = getText("lineWidth");
+    if (!lineWidth.empty())
+        ostream << indent << "    lineWidth: " << lineWidth << std::endl;
+
+    std::string lineStyle = getText("lineStyle");
+    if (lineStyle == "dash")
+        ostream << indent << "    edgeStyle: EdgeStyle.Dash" << std::endl;
+
+    attr = getDynamicAttribute(indent);
+    if (!attr.empty())
+        ostream << attr << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::relatedDisplayToQML(std::ostream& ostream)
+{
+    std::map<std::string, std::vector<std::string> >::iterator it;
+    std::string attr;
+
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSRelatedDisplay {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    label: '" << getText("buttonLabel") << "'" << std::endl;
+
+    auto entries = getList("displayFileName");
+    auto labels = getList("menuLabel");
+
+    if (entries.size() > 0) {
+        ostream << indent << "    model: ListModel {" << std::endl;
+        for(int i=0; i<entries.size(); i++) {
+            ostream << indent << "        ListElement {" << std::endl;
+            std::string filename = entries[i];
+            if (filename.substr(filename.size() - 4) != ".edl")
+                filename += ".edl";
+            ostream << indent << "              file: '" <<  filename << "'" << std::endl;
+            ostream << indent << "              label: '" << (i < labels.size() ? labels[i] : "") << "'" << std::endl;
+            ostream << indent << "              macro: '" << screen()->macroString() << "'" << std::endl;
+            ostream << indent << "        }" << std::endl;
+        }
+        ostream << indent << "    }" << std::endl;
+    }
+
+    ostream << indent << "}" << std::endl;
+}
+
 void Object::textToQML(std::ostream& ostream)
 {
     std::map<std::string, std::vector<std::string> >::iterator it;
@@ -386,7 +626,7 @@ void Object::textToQML(std::ostream& ostream)
 
     int indent_level = level();
     std::string indent(indent_level * 4, ' ');
-    
+
     ostream << indent << "CSText {" << std::endl;
     rectToQML(ostream);
 
@@ -430,16 +670,225 @@ void Object::textToQML(std::ostream& ostream)
 
 void Object::genericToQML(std::ostream& ostream)
 {
+    std::cerr << "Type " << this->type() << " using generic output" << std::endl;
     int indent_level = level();
     std::string indent(indent_level * 4, ' ');
-    
+
     ostream << indent << "Item {" << std::endl;
     rectToQML(ostream);
-    
+
     for (std::list<Object*>::iterator it = objects.begin(); it != objects.end(); ++it) {
         (*it)->toQML(ostream);
     }
  
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::barToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSBar {" << std::endl;
+    rectToQML(ostream);
+
+    std::string fgColor = getColor("indicatorColor");
+    if (fgColor.empty())
+        fgColor = getColor("indicatorColour");
+    ostream << indent << "    foreground: " << fgColor << std::endl;
+
+    std::string bgColor = getColor("bgColor");
+    if (bgColor.empty())
+        bgColor = getColor("bgColour");
+     ostream << indent << "    background: " << bgColor << std::endl;
+
+    std::string orien = getText("orientation");
+    if (orien == "vertical")
+        ostream << indent << "    direction: Direction.Down" << std::endl;
+
+    // activeVsBarClass (Variable Scale Bar)
+    std::string maxPv = getText("maxPv");
+    if (!maxPv.empty()) {
+        ostream << indent << "    CSData {" << std::endl;
+        ostream << indent << "        source: '" << maxPv << "'" << std::endl;
+        ostream << indent << "        onValueChanged: limits.hoprDefault = value" << std::endl;
+        ostream << indent << "    }" << std::endl;
+        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+
+        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+    } else if (!getBool("limitsFromDb")) {
+        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+
+        ostream << indent << "    limits.loprDefault: " << getText("min") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getText("max") << std::endl;
+        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+    }
+
+    ostream << indent << "    source: '" << getText("indicatorPv") << "'" << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::byteToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSByte {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("onColor") << std::endl;
+    ostream << indent << "    background: " << getColor("offColor") << std::endl;
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+
+    std::string shiftS = getText("shift");
+    int shift = 0;
+    if (!shiftS.empty())
+        shift = std::stoi(shiftS);
+
+    std::string numBitsS = getText("numBits");
+    int numBits = 16;
+    if (!numBitsS.empty())
+        numBits = std::stoi(numBitsS);
+
+    std::string endian = getText("endian");
+    if (endian == "little") {
+        ostream << indent << "    start: " << shift + numBits - 1 << std::endl;
+        ostream << indent << "    end: " << shift << std::endl;
+    } else {
+        ostream << indent << "    start: " << shift + numBits - 1 << std::endl;
+        ostream << indent << "    end: " << shift << std::endl;
+    }
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::textUpdateToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSTextUpdate {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+    if (getBool("fgAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+    ostream << indent << "    format: TextFormat.String" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::choiceButtonToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSChoiceButton {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+    if (getBool("fgAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::menuToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSMenu {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+    if (getBool("fgAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::messageButtonToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSMessageButton {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("onColor") << std::endl;
+    ostream << indent << "    text: '" << getText("onLabel") << "'" << std::endl;
+
+    std::string pressValue = getText("pressValue");
+    if (!pressValue.empty())
+    ostream << indent << "    onMessage: '" << pressValue << "'" << std::endl;
+    std::string releaseValue = getText("releaseValue");
+    if (!releaseValue.empty())
+    ostream << indent << "    offMessage: '" << releaseValue << "'" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::shellCommandToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSShellCommand {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+    ostream << indent << "    label: '" << getText("buttonLabel") << "'" << std::endl;
+
+    int numCmds = std::stoi(getText("numCmds"));
+    auto commands = getList("command");
+    auto labels = getList("commandLabel");
+
+    ostream << indent << "    model: ListModel {" << std::endl;
+    for(int i=0; i<numCmds; i++) {
+    ostream << indent << "        ListElement {" << std::endl;
+    ostream << indent << "            command: '" << commands[i] << "'" << std::endl;
+    ostream << indent << "            label: '" << (i < labels.size() ? labels[i] : "") << "'" << std::endl;
+    ostream << indent << "        }" << std::endl;
+    }
+    ostream << indent << "    }" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+
+void Object::textEntryToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    if (getBool("editable"))
+    ostream << indent << "CSTextEntry {" << std::endl;
+    else
+    ostream << indent << "CSTextUpdate {" << std::endl;
+
+    rectToQML(ostream);
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+    if (getBool("fgAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+    ostream << indent << "    format: TextFormat.String" << std::endl;
+
     ostream << indent << "}" << std::endl;
 }
 
@@ -465,8 +914,53 @@ void Object::rectToQML(std::ostream& ostream)
 void Object::toQML(std::ostream& ostream)
 {
     switch(type()) {
+        case EL_Arc:
+        arcToQML(ostream);
+        break;
+        case EL_Circle:
+        circleToQML(ostream);
+        break;
+        case EL_Image:
+        imageToQML(ostream);
+        break;
+        case EL_Lines:
+        linesToQML(ostream);
+        break;
         case EL_Text:
         textToQML(ostream);
+        break;
+        case EL_Composite:
+        compositeToQML(ostream);
+        break;
+        case EL_Rectangle:
+        rectangleToQML(ostream);
+        break;
+        case EL_Bar:
+        barToQML(ostream);
+        break;
+        case EL_Byte:
+        byteToQML(ostream);
+        break;
+        case EL_TextUpdate:
+        textUpdateToQML(ostream);
+        break;
+        case EL_ChoiceButton:
+        choiceButtonToQML(ostream);
+        break;
+        case EL_Menu:
+        menuToQML(ostream);
+        break;
+        case EL_MessageButton:
+        messageButtonToQML(ostream);
+        break;
+        case EL_ShellCommand:
+        shellCommandToQML(ostream);
+        break;
+        case EL_TextEntry:
+        textEntryToQML(ostream);
+        break;
+        case EL_RelatedDisplay:
+        relatedDisplayToQML(ostream);
         break;
         default:
         genericToQML(ostream);
@@ -493,7 +987,7 @@ void Screen :: parse(std::istream &fstream)
     }
     int version = std::stoi(tokens[0]) << 16 | std::stoi(tokens[1]) << 8 | std::stoi(tokens[2]);
     if (version < 0x040000) {
-        std::cerr << "EDL version is not supported." << std::endl;
+        std::cerr << file << ": EDL version " << tokens[0] << "." << tokens[1] << "." << tokens[2] << " is not supported." << std::endl;
         return;
     }
 
@@ -562,6 +1056,7 @@ void Screen::parseScreen(std::istream &fstream)
 void Screen::toQML(std::ostream& ostream)
 {
     ostream << "import QtQuick 2.0\n";
+    ostream << "import CSDataQuick.Data 1.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
     ostream << "BaseWindow {\n";
     Object::rectToQML(ostream);
@@ -585,20 +1080,30 @@ void Screen::toQML(std::ostream& ostream)
 
 void Screen::toPartialQML(std::ostream& ostream)
 {
+    /* find out the bounding rect */
+    int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
+    for (auto it = objects.begin(); it != objects.end(); ++it) {
+        Object *object = (*it);
+        Rect rc = object->rect();
+        minX = std::min(rc.x, minX);
+        minY = std::min(rc.y, minY);
+        maxX = std::max(rc.x + rc.width, maxX);
+        maxY = std::max(rc.y + rc.height, maxY);
+    }
 
-}
+    /* enlarge composite if necessary */
+    _rect.width = std::max(maxX - minX, _rect.width);
+    _rect.height = std::max(maxY - minY, _rect.height);
 
-int main(int argc, char **argv)
-{
-    std::string filename = std::string(argv[1]);
-    Screen screen;
+    /* shift all components accordingly */
+    int offsetX = - minX, offsetY =  - minY;
+    for (auto it = objects.begin(); it != objects.end(); ++it) {
+        Object *object = (*it);
+        Rect rc = object->rect();
+        rc.x = rc.x + offsetX;
+        rc.y = rc.y + offsetY;
+        object->setRect(rc);
 
-    std::vector<std::string> tokens;
-    std::ifstream ifstream(filename.c_str());
-
-    screen.parse(ifstream);
-
-    std::ostringstream osstream;
-    screen.toQML(osstream);
-    std::cout << osstream.str() << std::endl;
+        object->toQML(ostream);
+    }
 }

@@ -99,9 +99,33 @@ public:
     virtual void parse(std::istream& fstream);
     void parsePropertyValue(std::istream &fstream);
     void parseGroup(std::istream& fstream);
-    void rectToQML(std::ostream& ostream);
+
+
+    void arcToQML(std::ostream& ostream);
+    void circleToQML(std::ostream& ostream);
+    void imageToQML(std::ostream& ostream);
+    void linesToQML(std::ostream& ostream);
+    void rectangleToQML(std::ostream& ostream);
+    void relatedDisplayToQML(std::ostream& ostream);
     void textToQML(std::ostream& ostream);
+
+    void barToQML(std::ostream& ostream);
+    void byteToQML(std::ostream& ostream);
+    //void cartesianPlotToQML(std::ostream& ostream);
+    //void messageBoxToQML(std::ostream& ostream);
+    //void meterToQML(std::ostream& ostream);
+    //void stripChartToQML(std::ostream& ostream);
+    void textUpdateToQML(std::ostream& ostream);
+
+    void choiceButtonToQML(std::ostream& ostream);
+    void menuToQML(std::ostream& ostream);
+    void messageButtonToQML(std::ostream& ostream);
+    void shellCommandToQML(std::ostream& ostream);
+    void textEntryToQML(std::ostream& ostream);
+
+    void compositeToQML(std::ostream& ostream);
     void genericToQML(std::ostream& ostream);
+    void rectToQML(std::ostream& ostream);
 
     virtual void toQML(std::ostream& ostream);
 
@@ -113,6 +137,7 @@ public:
     std::string getColor(std::string colorname);
     std::string getDynamicAttribute(std::string indent);
     std::string getFont(std::string fontname);
+    std::vector<std::string> getList(std::string listname);
     std::string getText(std::string textname);
 protected:
     Screen *_screen;

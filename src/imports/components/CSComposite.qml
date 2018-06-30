@@ -64,6 +64,13 @@ BaseItem {
         property var rootItem: null
     }
 
+    // delay createDisplay until attached to a window instance
+    Timer {
+        id: delay
+        interval: 50
+        onTriggered: createDisplay()
+    }
+
     // Mask when PVs disconnected
     Rectangle {
         z: 1
@@ -85,7 +92,7 @@ BaseItem {
     }
 
     Component.onCompleted: {
-        createDisplay()
+        delay.start()
     }
 
     /*! \internal */
@@ -94,6 +101,7 @@ BaseItem {
             d.rootItem.destroy()
             d.rootItem = null;
         }
+
         if (!source)
             return
 
@@ -105,6 +113,13 @@ BaseItem {
         var qmlCmd
         if (/.adl$/i.test(absFilePath)) {
             var qmlBody = Utils.openADLComposite(absFilePath, macro)
+            qmlCmd = 'import QtQuick 2.0\n' +
+                    'import QtQuick.Controls 1.0\n' +
+                    'import CSDataQuick.Components 1.0\n' +
+                    'Item { anchors.fill: parent\n' +
+                    qmlBody + '\n}';
+        } else if (/.edl$/i.test(absFilePath)) {
+            var qmlBody = Utils.openEDLComposite(absFilePath, macro)
             qmlCmd = 'import QtQuick 2.0\n' +
                     'import QtQuick.Controls 1.0\n' +
                     'import CSDataQuick.Components 1.0\n' +

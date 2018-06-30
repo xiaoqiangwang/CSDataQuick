@@ -209,6 +209,10 @@ BaseItem {
             var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
             window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
         }
+        if (fileName.substr(-4) === '.edl') {
+            var qmlCmd = Utils.openEDLDisplay(absFilePath, macro)
+            window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
+        }
         if (fileName.substr(-4) === '.qml') {
             window = Utils.createDisplayByFile(root, absFilePath, macro)
         }

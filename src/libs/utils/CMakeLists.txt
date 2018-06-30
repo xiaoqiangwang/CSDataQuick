@@ -24,6 +24,7 @@ include_directories(
     ${EPICS_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
+    ${CMAKE_SOURCE_DIR}/src/libs/EDLParser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
@@ -38,6 +39,7 @@ target_link_libraries(csutils
     Qt5::Quick
     ${EPICS_LIBRARIES}
     ADLParser
+    EDLParser
     csdata
 )
 

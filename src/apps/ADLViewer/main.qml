@@ -71,7 +71,7 @@ ApplicationWindow
     FileDialog {
         id: fileDialog
         title: "Open file ..."
-        nameFilters: ["Display files (*.adl  *.qml)"]
+        nameFilters: ["Display files (*.adl  *.edl *.qml)"]
         onAccepted: {
             var request = new XMLHttpRequest()
             request.open('GET', fileUrl)

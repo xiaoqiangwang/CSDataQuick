@@ -29,6 +29,8 @@ public:
     Q_INVOKABLE static QString openQMLDisplay(QUrl fileName, QString macro);
     Q_INVOKABLE static QString openADLDisplay(QUrl fileName, QString macro);
     Q_INVOKABLE static QString openADLComposite(QUrl fileName, QString macro);
+    Q_INVOKABLE static QString openEDLDisplay(QUrl fileName, QString macro);
+    Q_INVOKABLE static QString openEDLComposite(QUrl fileName, QString macro);
     Q_INVOKABLE static QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);
     Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
     Q_INVOKABLE static QVariantMap parseX11Geometry(QString geometry);
