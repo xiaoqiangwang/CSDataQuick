@@ -26,7 +26,7 @@ struct ObjectTable_t {
     {"activeVsBarClass", EL_Bar},
     {"ByteClass", EL_Byte},
     {"xyGraphClass", EL_CartesianPlot},
-    {"indicator", EL_Indicator},
+    {"activeIndicatorClass", EL_Indicator},
     {"activeMeterClass", EL_Meter},
     {"StripClass", EL_StripChart},
     {"activeXTextDspClass:noedit", EL_TextUpdate},
@@ -42,12 +42,14 @@ struct ObjectTable_t {
     {"activeMotifSliderClass", EL_Slider},
     {"TextentryClass", EL_TextEntry},
     {"activeXTextDspClass", EL_TextEntry},
+    {"activeUpdownButtonClass", EL_UpDownButton},
     {"wheel switch", EL_WheelSwitch},
 /* misc */
     {"activeGroupClass", EL_Composite},
     {"activePipClass", EL_Composite},
     {"activeDynSymbolClass", EL_Symbols},
-    {"relatedDisplayClass", EL_RelatedDisplay}
+    {"relatedDisplayClass", EL_RelatedDisplay},
+    {"activeExitButtonClass", EL_ExitButton}
 };
 #define NUM_ELEMENTS sizeof(ObjectTable) / sizeof(ObjectTable[0])
 
@@ -766,6 +768,62 @@ void Object::byteToQML(std::ostream& ostream)
     ostream << indent << "}" << std::endl;
 }
 
+void Object::indicatorToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSIndicator {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("indicatorColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+
+    std::string orien = getText("orientation");
+    if (orien == "vertical")
+        ostream << indent << "    direction: Direction.Up" << std::endl;
+
+    if (!getBool("limitsFromDb")) {
+        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+
+        ostream << indent << "    limits.loprDefault: " << getText("min") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getText("max") << std::endl;
+        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+    }
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::meterToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSMeter {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+
+    if (!getBool("scaleLimitsFromDb")) {
+        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+
+        ostream << indent << "    limits.loprDefault: " << getText("scaleMin") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getText("scaleMax") << std::endl;
+        ostream << indent << "    limits.precDefault: " << getText("scalePrecision") << std::endl;
+    }
+
+    ostream << indent << "    source: '" << getText("readPv") << "'" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
 void Object::textUpdateToQML(std::ostream& ostream)
 {
     int indent_level = level();
@@ -869,6 +927,31 @@ void Object::shellCommandToQML(std::ostream& ostream)
     ostream << indent << "}" << std::endl;
 }
 
+void Object::sliderToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSSlider {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+
+    if (!getBool("scaleLimitsFromDb")) {
+        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+
+        ostream << indent << "    limits.loprDefault: " << getText("scaleMin") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getText("scaleMax") << std::endl;
+        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+    }
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
 
 void Object::textEntryToQML(std::ostream& ostream)
 {
@@ -889,6 +972,48 @@ void Object::textEntryToQML(std::ostream& ostream)
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
     ostream << indent << "    format: TextFormat.String" << std::endl;
 
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::updownButtonToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSSpinBox {" << std::endl;
+
+    rectToQML(ostream);
+
+    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+
+    if (!getBool("scaleLimitsFromDb")) {
+        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+
+        ostream << indent << "    limits.loprDefault: " << getText("scaleMin") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getText("scaleMax") << std::endl;
+    }
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::exitButtonToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "BaseItem {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    StyledButton {" << std::endl;
+    ostream << indent << "        anchors.fill: parent" << std::endl;
+    ostream << indent << "        foregroundColor: " << getColor("fgColor") << std::endl;
+    ostream << indent << "        backgroundColor: " << getColor("bgColor") << std::endl;
+    ostream << indent << "        text: '" << getText("label") << "'" << std::endl;
+    ostream << indent << "        onClicked: parent.baseWindow.close()" << std::endl;
+    ostream << indent << "     }" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -941,6 +1066,12 @@ void Object::toQML(std::ostream& ostream)
         case EL_Byte:
         byteToQML(ostream);
         break;
+        case EL_Indicator:
+        indicatorToQML(ostream);
+        break;
+        case EL_Meter:
+        meterToQML(ostream);
+        break;
         case EL_TextUpdate:
         textUpdateToQML(ostream);
         break;
@@ -961,6 +1092,9 @@ void Object::toQML(std::ostream& ostream)
         break;
         case EL_RelatedDisplay:
         relatedDisplayToQML(ostream);
+        break;
+        case EL_ExitButton:
+        exitButtonToQML(ostream);
         break;
         default:
         genericToQML(ostream);
@@ -1058,6 +1192,7 @@ void Screen::toQML(std::ostream& ostream)
     ostream << "import QtQuick 2.0\n";
     ostream << "import CSDataQuick.Data 1.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
+    ostream << "import CSDataQuick.Components.Private 1.0\n";
     ostream << "BaseWindow {\n";
     Object::rectToQML(ostream);
     

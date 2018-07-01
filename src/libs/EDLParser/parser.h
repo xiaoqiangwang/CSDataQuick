@@ -24,12 +24,12 @@ enum ObjectType {
     EL_Bar,
     EL_Byte,
     EL_CartesianPlot,
+    EL_Indicator,
     EL_MessageBox,
     EL_Meter,
     EL_StripChart,
     EL_TextUpdate,
-    
-    EL_Indicator,
+
     EL_TextEntry,
     EL_Slider,
     EL_Button,
@@ -39,8 +39,10 @@ enum ObjectType {
     EL_MessageButton,
     EL_RelatedDisplay,
     EL_ShellCommand,
+    EL_UpDownButton,
     EL_WheelSwitch,
 
+    EL_ExitButton,
     EL_Composite
 };
 
@@ -111,9 +113,10 @@ public:
 
     void barToQML(std::ostream& ostream);
     void byteToQML(std::ostream& ostream);
+    void indicatorToQML(std::ostream& ostream);
     //void cartesianPlotToQML(std::ostream& ostream);
     //void messageBoxToQML(std::ostream& ostream);
-    //void meterToQML(std::ostream& ostream);
+    void meterToQML(std::ostream& ostream);
     //void stripChartToQML(std::ostream& ostream);
     void textUpdateToQML(std::ostream& ostream);
 
@@ -121,11 +124,15 @@ public:
     void menuToQML(std::ostream& ostream);
     void messageButtonToQML(std::ostream& ostream);
     void shellCommandToQML(std::ostream& ostream);
+    void sliderToQML(std::ostream& ostream);
+    void updownButtonToQML(std::ostream& ostream);
     void textEntryToQML(std::ostream& ostream);
 
     void compositeToQML(std::ostream& ostream);
     void genericToQML(std::ostream& ostream);
     void rectToQML(std::ostream& ostream);
+
+    void exitButtonToQML(std::ostream& ostream);
 
     virtual void toQML(std::ostream& ostream);
 
