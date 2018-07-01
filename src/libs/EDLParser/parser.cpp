@@ -704,19 +704,19 @@ void Object::barToQML(std::ostream& ostream)
 
     std::string orien = getText("orientation");
     if (orien == "vertical")
-        ostream << indent << "    direction: Direction.Down" << std::endl;
+        ostream << indent << "    direction: Direction.Up" << std::endl;
 
     // activeVsBarClass (Variable Scale Bar)
     std::string maxPv = getText("maxPv");
     if (!maxPv.empty()) {
-        ostream << indent << "    CSData {" << std::endl;
+        ostream << indent << "    property var _maxPv: CSData {" << std::endl;
         ostream << indent << "        source: '" << maxPv << "'" << std::endl;
-        ostream << indent << "        onValueChanged: limits.hoprDefault = value" << std::endl;
         ostream << indent << "    }" << std::endl;
         ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
 
+        ostream << indent << "    limits.hoprDefault: _maxPv.value === undefined ? 1 : _maxPv.value" << std::endl;
         ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
     } else if (!getBool("limitsFromDb")) {
         ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
