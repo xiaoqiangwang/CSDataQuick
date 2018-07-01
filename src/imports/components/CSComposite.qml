@@ -122,6 +122,7 @@ BaseItem {
             var qmlBody = Utils.openEDLComposite(absFilePath, macro)
             qmlCmd = 'import QtQuick 2.0\n' +
                     'import QtQuick.Controls 1.0\n' +
+                    'import CSDataQuick.Data 1.0\n' +
                     'import CSDataQuick.Components 1.0\n' +
                     'Item { anchors.fill: parent\n' +
                     qmlBody + '\n}';
