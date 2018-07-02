@@ -40,6 +40,7 @@ include_directories(
 
 target_link_libraries(test_edlparser
     EDLParser
+    Qt5::Core
 )
 
 SET_TARGET_PROPERTIES(test_edlparser PROPERTIES
