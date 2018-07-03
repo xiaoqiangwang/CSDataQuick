@@ -23,7 +23,7 @@ int ObjectModel::rowCount(const QModelIndex &parent) const
 
 QVariant ObjectModel::data(const QModelIndex &index, int role) const
 {
-    const QObject *object = _objects.at(index.row());
+    QObject *object = _objects.at(index.row());
     if (!object)
         return QVariant();
 
@@ -31,7 +31,10 @@ QVariant ObjectModel::data(const QModelIndex &index, int role) const
     if (roleName.isEmpty())
         return QVariant();
 
-    return object->property(roleName);
+    if (roleName == "object")
+        return QVariant::fromValue<QObject*>(object);
+    else
+        return object->property(roleName);
 }
 
 void ObjectModel::append(QObject *object)

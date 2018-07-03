@@ -18,10 +18,12 @@ public:
 
     template <typename ObjectType>
     void setup(const QByteArrayList roles) {
+        _roles.insert(Qt::UserRole, "object");
+
         for(int i=0; i<roles.count(); i++) {
             QByteArray role = roles.at(i);
 
-            _roles.insert(Qt::UserRole + i, role);
+            _roles.insert(Qt::UserRole + 1 + i, role);
             // find the corresponding role's property and its signal
             const QMetaObject meta = ObjectType::staticMetaObject;
             int index = meta.indexOfProperty(role);
