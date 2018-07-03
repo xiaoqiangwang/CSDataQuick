@@ -553,6 +553,8 @@ void Object::circleToQML(std::ostream& ostream)
         ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
     }
+    if (getBool("lineAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     std::string lineWidth = getText("lineWidth");
     if (!lineWidth.empty())
@@ -607,6 +609,8 @@ void Object::linesToQML(std::ostream& ostream)
     ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
     else
     ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
+    if (getBool("lineAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     std::string lineWidth = getText("lineWidth");
     if (!lineWidth.empty())
@@ -732,6 +736,8 @@ void Object::rectangleToQML(std::ostream& ostream)
         ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
     }
+    if (getBool("lineAlarm") || getBool("fillAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     std::string lineWidth = getText("lineWidth");
     if (!lineWidth.empty())
@@ -759,7 +765,7 @@ void Object::relatedDisplayToQML(std::ostream& ostream)
     ostream << indent << "CSRelatedDisplay {" << std::endl;
     rectToQML(ostream);
 
-    ostream << indent << "    label: '" << getText("buttonLabel") << "'" << std::endl;
+    ostream << indent << "    label: '" << (getBool("icon")?"":"-") << getText("buttonLabel") << "'" << std::endl;
 
     auto entries = getList("displayFileName");
     auto labels = getList("menuLabel");
@@ -831,6 +837,9 @@ void Object::textToQML(std::ostream& ostream)
         if (!attr.empty())
             ostream << indent << "    background: " <<  attr << std::endl;
     }
+
+    if (getBool("fgAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     attr = getDynamicAttribute(indent);
     if (!attr.empty())
