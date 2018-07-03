@@ -7,11 +7,15 @@
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
+    if (argc != 2) {
+        qCritical() << "test_qcsdata <data_source>";
+        return -1;
+    }
 
     QCSData *data = new QCSData();
     QCSDataAlarm *alarm = data->property("alarm").value<QCSDataAlarm*>();
     QCSDataRange *range = data->property("range").value<QCSDataRange*>();
-    data->setSource("bo");
+    data->setSource(argv[1]);
 
     // enter event loop for 2000 ms
     QTimer::singleShot(2000, &app, SLOT(quit()));
