@@ -352,10 +352,18 @@ std::string Object::getPv(std::string pvname)
     std::string::size_type pos = 0;
     std::string value;
 
-    // local pv is of form "LOC\<NAME>=<type>:<value>[,enum0,enum1...]"
-    //
-    if (pv.substr(0, 4) != "LOC\\")
+    // pv is of form "[EPICS\|LOC|\CALC\]<NAME>=<type>:<value>[,enum0,enum1...]"
+    pos = pv.find('\\');
+    if (pos == std::string::npos)
         return pv;
+
+    std::string pvtype = pv.substr(0, pos);
+    if (pvtype == "EPICS")
+        return pv.substr(pos+1);
+    else if (pvtype != "LOC") {
+        std::cerr << "Unsupported PV type '" << pvtype << "': " << pv << std::endl;
+        return "";
+    }
 
     std::stringstream sstream(pv.substr(4));
     std::string name;
