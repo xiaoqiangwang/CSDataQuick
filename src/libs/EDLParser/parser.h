@@ -177,7 +177,13 @@ public:
             delete *it;
     }
 
-    //std::string color(int index) {return colormap.value(index); }
+    std::string color(int index) {
+        auto it = colormap.find(index);
+        if (it != colormap.end())
+            return it->second;
+        else
+            return "";
+    }
 
     void setFileName(std::string filename) { file = filename;}
     std::string fileName() { return file; }
@@ -210,6 +216,7 @@ public:
 
 protected:
     void parseScreen(std::istream &fstream);
+    void parseColors();
 
 private:
     std::string nameValueString;
@@ -222,6 +229,5 @@ private:
     /* display */
     int clr, bclr;
 
-    std::string cmap;
-    //ColorMap colormap;
+    std::map<int, std::string> colormap;
 };
