@@ -24,6 +24,7 @@ enum ObjectType {
     EL_Bar,
     EL_Byte,
     EL_CartesianPlot,
+    EL_CoefTable,
     EL_Indicator,
     EL_MessageBox,
     EL_Meter,
@@ -37,6 +38,7 @@ enum ObjectType {
     EL_ChoiceButton,
     EL_RadioBox,
     EL_MessageButton,
+    EL_MultilineText,
     EL_RelatedDisplay,
     EL_ShellCommand,
     EL_UpDownButton,
@@ -102,7 +104,6 @@ public:
     void parsePropertyValue(std::istream &fstream);
     void parseGroup(std::istream& fstream);
 
-
     void arcToQML(std::ostream& ostream);
     void circleToQML(std::ostream& ostream);
     void imageToQML(std::ostream& ostream);
@@ -113,6 +114,7 @@ public:
 
     void barToQML(std::ostream& ostream);
     void byteToQML(std::ostream& ostream);
+    void coefTableToQML(std::ostream& ostream);
     void indicatorToQML(std::ostream& ostream);
     //void cartesianPlotToQML(std::ostream& ostream);
     //void messageBoxToQML(std::ostream& ostream);
@@ -123,6 +125,7 @@ public:
     void choiceButtonToQML(std::ostream& ostream);
     void menuToQML(std::ostream& ostream);
     void messageButtonToQML(std::ostream& ostream);
+    void multilineTextToQML(std::ostream& ostream);
     void shellCommandToQML(std::ostream& ostream);
     void sliderToQML(std::ostream& ostream);
     void updownButtonToQML(std::ostream& ostream);
@@ -141,11 +144,13 @@ public:
     void parseAndSkip(std::istream &fstream);
     /* access object */
     bool getBool(std::string boolname);
+    int getInteger(std::string intname, int defaultvalue=0);
     std::string getColor(std::string colorname);
     std::string getDynamicAttribute(std::string indent);
     std::string getFont(std::string fontname);
     std::vector<std::string> getList(std::string listname);
     std::string getText(std::string textname);
+    std::string getPv(std::string pvname);
 protected:
     Screen *_screen;
     Object *_parent;

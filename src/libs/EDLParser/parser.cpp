@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <algorithm>
+#include <climits>
 #include <cctype>
 #include <iomanip>
 
@@ -23,11 +24,13 @@ struct ObjectTable_t {
     {"activeXRegTextClass", EL_Text},
 /* monitor */
     {"activeBarClass", EL_Bar},
+    {"activeCoefTableClass", EL_CoefTable},
     {"activeVsBarClass", EL_Bar},
     {"ByteClass", EL_Byte},
     {"xyGraphClass", EL_CartesianPlot},
     {"activeIndicatorClass", EL_Indicator},
     {"activeMeterClass", EL_Meter},
+    {"multiLineTextUpdateClass", EL_MultilineText},
     {"StripClass", EL_StripChart},
     {"activeXTextDspClass:noedit", EL_TextUpdate},
     {"TextupdateClass", EL_TextUpdate},
@@ -36,6 +39,7 @@ struct ObjectTable_t {
     {"activeChoiceButtonClass", EL_ChoiceButton},
     {"activeMenuButtonClass", EL_Menu},
     {"activeMessageButtonClass", EL_MessageButton},
+    {"multiLineTextEntryClass", EL_MultilineText},
     {"activeButtonClass", EL_MessageButton},
     {"shellCmdClass", EL_ShellCommand},
     {"activeSliderClass", EL_Slider},
@@ -212,6 +216,16 @@ bool Object::getBool(std::string boolname)
     return it->second[0] == "1";
 }
 
+int Object::getInteger(std::string intname, int defaultvalue)
+{
+    auto it = properties.find(intname);
+    if (it == properties.end()) {
+        return defaultvalue;
+    }
+    
+    return std::stoi(it->second[0]);
+}
+
 std::string Object::getColor(std::string colorname)
 {
 
@@ -240,8 +254,8 @@ std::string Object::getColor(std::string colorname)
 
 std::string Object::getDynamicAttribute(std::string indent)
 {
-    std::string alarmPv = getText("alarmPv");
-    std::string visPv = getText("visPv");
+    std::string alarmPv = getPv("alarmPv");
+    std::string visPv = getPv("visPv");
     std::string min = getText("visMin");
     std::string max = getText("visMax");
     std::string visInvert = getBool("visInvert") ? "!" : "";
@@ -320,6 +334,90 @@ std::string Object::getText(std::string textname)
     }
 
     return osstream.str();
+}
+
+std::string Object::getPv(std::string pvname)
+{
+    auto it = properties.find(pvname);
+    if (it == properties.end()) {
+        return "";
+    }
+    std::string pv = it->second[0];
+    std::string::size_type pos = 0;
+    std::string value;
+
+    // local pv is of form "LOC\<NAME>=<type>:<value>[,enum0,enum1...]"
+    //
+    if (pv.substr(0, 4) != "LOC\\")
+        return pv;
+
+    std::stringstream sstream(pv.substr(4));
+    std::string name;
+
+    if (!std::getline(sstream, name, '='))
+        return "loc://" + name;
+    
+    std::stringstream json; 
+    // find the type
+    char type = sstream.get();
+    if (sstream.peek() != ':') {
+        type = 's';
+        sstream.unget();
+    } else {
+        sstream.get();
+    }
+    // parse the value
+    switch(type) {
+        case 'e':
+        {
+            json << "{\"type\":\"enum\";";
+            bool first = true;
+            std::string item;
+            std::vector<std::string> enums;
+            while (std::getline(sstream, item, ',')) {
+                if (first) {
+                    json << "\"value\":" << item << ";";
+                    first = false;
+                } else {
+                    enums.push_back(item);
+                }
+            }
+            for (auto it = enums.begin(); it!=enums.end(); it++) {
+                if (it == enums.begin())
+                    json << "\"enums\":[";
+                json << "\"" << *it << "\"";
+                if (it == enums.end() -1)
+                    json << "]";
+                else
+                    json << ",";
+            }
+            json << "}";
+        }
+        break;
+        case 'd':
+        {
+            double d;
+            sstream >> d;
+            json << "{" << "\"type\":\"double\";" << "\"value\":" << d << "}";
+        }
+        break;
+        case 'i':
+        {
+            int i;
+            sstream >> i;
+            json << "{" << "\"type\":\"int\";" << "\"value\":" << i << "}";
+        }
+        break;
+        case 's':
+        default:
+        {
+            std::string s;
+            std::getline(sstream, s);
+            json << "{" << "\"type\":\"string\";" << "\"value\":\"" << s << "\"}";
+        }
+    }
+
+    return "loc://" + name + "." + json.str();
 }
 
 
@@ -497,12 +595,25 @@ void Object::linesToQML(std::ostream& ostream)
     int indent_level = level();
     std::string indent(indent_level * 4, ' ');
 
-    if (getBool("fill") || getBool("closePolygon"))
+    if (getBool("closePolygon") || getBool("fill"))
     ostream << indent << "CSPolygon {" << std::endl;
     else
     ostream << indent << "CSPolyline {" << std::endl;
 
     rectToQML(ostream);
+
+    if (getBool("closePolygon") || getBool("fill"))
+    ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
+    else
+    ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
+
+    std::string lineWidth = getText("lineWidth");
+    if (!lineWidth.empty())
+        ostream << indent << "    lineWidth: " << lineWidth << std::endl;
+
+    std::string lineStyle = getText("lineStyle");
+    if (lineStyle == "dash")
+        ostream << indent << "    edgeStyle: EdgeStyle.Dash" << std::endl;
 
     auto xp = getList("xPoints");
     auto yp = getList("yPoints");
@@ -524,6 +635,10 @@ void Object::linesToQML(std::ostream& ostream)
     else if (arrows == "both")
         ostream << indent << "    arrowPosition: ArrowPosition.Both" << std::endl;
 
+    attr = getDynamicAttribute(indent);
+    if (!attr.empty())
+        ostream << attr << std::endl;
+
     ostream << indent << "}" << std::endl;
 }
 
@@ -538,19 +653,28 @@ void Object::compositeToQML(std::ostream& ostream)
     ostream << indent << "CSComposite {" << std::endl;
     rectToQML(ostream);
 
-    std::string filename = getText("file");
-    if (!filename.empty()) {
-        if (filename.substr(filename.size() - 4) != ".edl")
-            filename += ".edl";
-        ostream << indent << "    source: '" << filename << "'" << std::endl;
-        std::string macro = screen()->macroString();
-        if (!macro.empty())
-        ostream << indent << "    macro: '" << macro << "'" << std::endl;
+    std::string displaySource = getText("displaySource");
+    if (displaySource == "stringPv" || displaySource == "menu") {
+        std::cerr << "activePipClass: displaySource '" << displaySource << "' not supported" << std::endl;
+    } else if (displaySource == "file") {
+        std::string filename = getText("file");
+        if (!filename.empty()) {
+            if (filename.substr(filename.size() - 4) != ".edl")
+                filename += ".edl";
+            ostream << indent << "    source: '" << filename << "'" << std::endl;
+            std::string macro = screen()->macroString();
+            if (!macro.empty())
+            ostream << indent << "    macro: '" << macro << "'" << std::endl;
+        }
     } else {
         for (auto it = objects.begin(); it != objects.end(); ++it) {
             (*it)->toQML(ostream);
         }
+        attr = getDynamicAttribute(indent);
+        if (!attr.empty())
+            ostream << attr << std::endl;
     }
+
     ostream << indent << "}" << std::endl;
 }
 
@@ -602,6 +726,8 @@ void Object::relatedDisplayToQML(std::ostream& ostream)
 
     auto entries = getList("displayFileName");
     auto labels = getList("menuLabel");
+    auto symbols = getList("symbols");
+    auto closeActions = getList("closeAction");
 
     if (entries.size() > 0) {
         ostream << indent << "    model: ListModel {" << std::endl;
@@ -612,7 +738,14 @@ void Object::relatedDisplayToQML(std::ostream& ostream)
                 filename += ".edl";
             ostream << indent << "              file: '" <<  filename << "'" << std::endl;
             ostream << indent << "              label: '" << (i < labels.size() ? labels[i] : "") << "'" << std::endl;
-            ostream << indent << "              macro: '" << screen()->macroString() << "'" << std::endl;
+            std::string macro = screen()->macroString();
+            if (i < symbols.size() && !symbols[i].empty())
+                macro += (macro.empty() ? "" : ",") + symbols[i]; 
+            if (!macro.empty())
+            ostream << indent << "              macro: '" << macro << std::endl;
+            ostream << "'" << std::endl;
+            if (i < closeActions.size() && closeActions[i] == "1")
+            ostream << indent << "              replace: true" << std::endl;
             ostream << indent << "        }" << std::endl;
         }
         ostream << indent << "    }" << std::endl;
@@ -704,12 +837,18 @@ void Object::barToQML(std::ostream& ostream)
         bgColor = getColor("bgColour");
      ostream << indent << "    background: " << bgColor << std::endl;
 
+    if (getBool("fgAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
     std::string orien = getText("orientation");
     if (orien == "vertical")
         ostream << indent << "    direction: Direction.Up" << std::endl;
 
+    if (!getText("origin").empty())
+    ostream << indent << "    fillMode: FillMode.FromCenter" << std::endl;
+
     // activeVsBarClass (Variable Scale Bar)
-    std::string maxPv = getText("maxPv");
+    std::string maxPv = getPv("maxPv");
     if (!maxPv.empty()) {
         ostream << indent << "    property var _maxPv: CSData {" << std::endl;
         ostream << indent << "        source: '" << maxPv << "'" << std::endl;
@@ -719,18 +858,23 @@ void Object::barToQML(std::ostream& ostream)
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
 
         ostream << indent << "    limits.hoprDefault: _maxPv.value === undefined ? 1 : _maxPv.value" << std::endl;
-        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+        ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
     } else if (!getBool("limitsFromDb")) {
         ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
 
-        ostream << indent << "    limits.loprDefault: " << getText("min") << std::endl;
-        ostream << indent << "    limits.hoprDefault: " << getText("max") << std::endl;
-        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+        ostream << indent << "    limits.loprDefault: " << getInteger("min") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getInteger("max", 1) << std::endl;
+        ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
     }
 
-    ostream << indent << "    source: '" << getText("indicatorPv") << "'" << std::endl;
+    if (getText("labelType") == "pvName")
+    ostream << indent << "    labelStyle: LabelStyle.Channel" << std::endl;
+    else if (getBool("showScale"))
+    ostream << indent << "    labelStyle: LabelStyle.Outline" << std::endl;
+
+    ostream << indent << "    source: '" << getPv("indicatorPv") << "'" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
@@ -745,7 +889,7 @@ void Object::byteToQML(std::ostream& ostream)
     ostream << indent << "    foreground: " << getColor("onColor") << std::endl;
     ostream << indent << "    background: " << getColor("offColor") << std::endl;
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
 
     std::string shiftS = getText("shift");
     int shift = 0;
@@ -768,6 +912,20 @@ void Object::byteToQML(std::ostream& ostream)
     ostream << indent << "}" << std::endl;
 }
 
+void Object::coefTableToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSTextEntryArray {" << std::endl;
+    rectToQML(ostream);
+    
+    ostream << indent << "    source: '" << getText("pv") << "'" << std::endl;
+    ostream << indent << "    index: " << getInteger("firstElement") << std::endl;
+    ostream << indent << "    count: " << getInteger("numElements", 1) << std::endl;
+    ostream << indent << "}" << std::endl;
+}
+
 void Object::indicatorToQML(std::ostream& ostream)
 {
     int indent_level = level();
@@ -779,21 +937,29 @@ void Object::indicatorToQML(std::ostream& ostream)
     ostream << indent << "    foreground: " << getColor("indicatorColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
 
+    if (getBool("fgAlarm") || getBool("indicatorAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
     std::string orien = getText("orientation");
     if (orien == "vertical")
-        ostream << indent << "    direction: Direction.Up" << std::endl;
+    ostream << indent << "    direction: Direction.Up" << std::endl;
 
     if (!getBool("limitsFromDb")) {
-        ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
-        ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
-        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+    ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
+    ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
+    ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
 
-        ostream << indent << "    limits.loprDefault: " << getText("min") << std::endl;
-        ostream << indent << "    limits.hoprDefault: " << getText("max") << std::endl;
-        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+    ostream << indent << "    limits.loprDefault: " << getInteger("min") << std::endl;
+    ostream << indent << "    limits.hoprDefault: " << getInteger("max", 1) << std::endl;
+    ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
     }
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    if (getText("labelType") == "pvName")
+    ostream << indent << "    labelStyle: LabelStyle.Channel" << std::endl;
+    else if (getBool("showScale"))
+    ostream << indent << "    labelStyle: LabelStyle.Outline" << std::endl;
+
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -814,12 +980,12 @@ void Object::meterToQML(std::ostream& ostream)
         ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
 
-        ostream << indent << "    limits.loprDefault: " << getText("scaleMin") << std::endl;
-        ostream << indent << "    limits.hoprDefault: " << getText("scaleMax") << std::endl;
-        ostream << indent << "    limits.precDefault: " << getText("scalePrecision") << std::endl;
+        ostream << indent << "    limits.loprDefault: " << getInteger("scaleMin") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getInteger("scaleMax", 1) << std::endl;
+        ostream << indent << "    limits.precDefault: " << getInteger("scalePrecision") << std::endl;
     }
 
-    ostream << indent << "    source: '" << getText("readPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("readPv") << "'" << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -832,11 +998,23 @@ void Object::textUpdateToQML(std::ostream& ostream)
     ostream << indent << "CSTextUpdate {" << std::endl;
     rectToQML(ostream);
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+
     if (getBool("fgAlarm"))
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
+    std::string format = getText("displayMode");
+    if (format == "decimal")
+    ostream << indent << "    format: TextFormat.Decimal" << std::endl;
+    else if (format == "hex")
+    ostream << indent << "    format: TextFormat.Hexadecimal" << std::endl;
+    else if (format == "engineer")
+    ostream << indent << "    format: TextFormat.EngNotation" << std::endl;
+    else if (format == "exp")
+    ostream << indent << "    format: TextFormat.Exponential" << std::endl;
+    else
     ostream << indent << "    format: TextFormat.String" << std::endl;
 
     ostream << indent << "}" << std::endl;
@@ -850,7 +1028,7 @@ void Object::choiceButtonToQML(std::ostream& ostream)
     ostream << indent << "CSChoiceButton {" << std::endl;
     rectToQML(ostream);
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
     if (getBool("fgAlarm"))
@@ -867,7 +1045,7 @@ void Object::menuToQML(std::ostream& ostream)
     ostream << indent << "CSMenu {" << std::endl;
     rectToQML(ostream);
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
     if (getBool("fgAlarm"))
@@ -884,7 +1062,7 @@ void Object::messageButtonToQML(std::ostream& ostream)
     ostream << indent << "CSMessageButton {" << std::endl;
     rectToQML(ostream);
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("onColor") << std::endl;
     ostream << indent << "    text: '" << getText("onLabel") << "'" << std::endl;
@@ -895,6 +1073,25 @@ void Object::messageButtonToQML(std::ostream& ostream)
     std::string releaseValue = getText("releaseValue");
     if (!releaseValue.empty())
     ostream << indent << "    offMessage: '" << releaseValue << "'" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::multilineTextToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSTextArea {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("fgColour") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColour") << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
+
+    std::string font = getFont("font");
+    if (!font.empty())
+        ostream << indent << "    " << font << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -948,7 +1145,7 @@ void Object::sliderToQML(std::ostream& ostream)
         ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
     }
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -965,7 +1162,7 @@ void Object::textEntryToQML(std::ostream& ostream)
 
     rectToQML(ostream);
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
     if (getBool("fgAlarm"))
@@ -984,7 +1181,7 @@ void Object::updownButtonToQML(std::ostream& ostream)
 
     rectToQML(ostream);
 
-    ostream << indent << "    source: '" << getText("controlPv") << "'" << std::endl;
+    ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
 
@@ -1066,6 +1263,9 @@ void Object::toQML(std::ostream& ostream)
         case EL_Byte:
         byteToQML(ostream);
         break;
+        case EL_CoefTable:
+        coefTableToQML(ostream);
+        break;
         case EL_Indicator:
         indicatorToQML(ostream);
         break;
@@ -1084,6 +1284,9 @@ void Object::toQML(std::ostream& ostream)
         case EL_MessageButton:
         messageButtonToQML(ostream);
         break;
+        case EL_MultilineText:
+        multilineTextToQML(ostream);
+        break;
         case EL_ShellCommand:
         shellCommandToQML(ostream);
         break;
@@ -1092,6 +1295,9 @@ void Object::toQML(std::ostream& ostream)
         break;
         case EL_RelatedDisplay:
         relatedDisplayToQML(ostream);
+        break;
+        case EL_UpDownButton:
+        updownButtonToQML(ostream);
         break;
         case EL_ExitButton:
         exitButtonToQML(ostream);
