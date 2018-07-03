@@ -134,6 +134,7 @@ public:
     void compositeToQML(std::ostream& ostream);
     void genericToQML(std::ostream& ostream);
     void rectToQML(std::ostream& ostream);
+    void listToQML(std::ostream& ostream, std::vector<std::string> list);
 
     void exitButtonToQML(std::ostream& ostream);
 

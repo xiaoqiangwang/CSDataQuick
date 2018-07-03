@@ -354,9 +354,11 @@ std::string Object::getPv(std::string pvname)
     std::stringstream sstream(pv.substr(4));
     std::string name;
 
-    if (!std::getline(sstream, name, '='))
-        return "loc://" + name;
+    std::getline(sstream, name, '=');
     
+    if (sstream.eof())
+        return "loc://" + name;
+   
     std::stringstream json; 
     // find the type
     char type = sstream.get();
@@ -370,13 +372,13 @@ std::string Object::getPv(std::string pvname)
     switch(type) {
         case 'e':
         {
-            json << "{\"type\":\"enum\";";
+            json << "{\"type\":\"enum\",";
             bool first = true;
             std::string item;
             std::vector<std::string> enums;
             while (std::getline(sstream, item, ',')) {
                 if (first) {
-                    json << "\"value\":" << item << ";";
+                    json << "\"value\":" << item << ",";
                     first = false;
                 } else {
                     enums.push_back(item);
@@ -398,14 +400,14 @@ std::string Object::getPv(std::string pvname)
         {
             double d;
             sstream >> d;
-            json << "{" << "\"type\":\"double\";" << "\"value\":" << d << "}";
+            json << "{" << "\"type\":\"double\"," << "\"value\":" << d << "}";
         }
         break;
         case 'i':
         {
             int i;
             sstream >> i;
-            json << "{" << "\"type\":\"int\";" << "\"value\":" << i << "}";
+            json << "{" << "\"type\":\"int\"," << "\"value\":" << i << "}";
         }
         break;
         case 's':
@@ -413,13 +415,12 @@ std::string Object::getPv(std::string pvname)
         {
             std::string s;
             std::getline(sstream, s);
-            json << "{" << "\"type\":\"string\";" << "\"value\":\"" << s << "\"}";
+            json << "{" << "\"type\":\"string\"," << "\"value\":\"" << s << "\"}";
         }
     }
 
     return "loc://" + name + "." + json.str();
 }
-
 
 void Object::parse(std::istream &fstream)
 {
@@ -654,8 +655,44 @@ void Object::compositeToQML(std::ostream& ostream)
     rectToQML(ostream);
 
     std::string displaySource = getText("displaySource");
-    if (displaySource == "stringPv" || displaySource == "menu") {
-        std::cerr << "activePipClass: displaySource '" << displaySource << "' not supported" << std::endl;
+    if (displaySource == "stringPv") {
+        auto filePv = getPv("filePv");
+        ostream << indent << "    property var filePv: CSData {" << std::endl;
+        ostream << indent << "        source: '" << filePv << "'" << std::endl;
+        ostream << indent << "    }" << std::endl;
+        ostream << indent << "    source: filePv.value" << std::endl;
+    } else if  (displaySource == "menu") {
+        auto filenames = getList("displayFileName");
+        auto macros = getList("symbols");
+        auto filePv = getPv("filePv");
+
+        ostream << indent << "    property var fileNames: ";
+        for(int i=0; i<filenames.size(); i++)  {
+            // append ".edl" suffix if necessary
+            std::string filename = filenames[i];
+            if (filename.substr(filename.size() - 4) != ".edl")
+                filename += ".edl";
+    
+            if (i == 0)
+                ostream << "[";
+            else
+                ostream << ",";
+            ostream << "\"" << filename << "\"";
+            if (i == filenames.size() -1)
+                ostream << "]";
+        }
+        ostream << std::endl;
+
+        ostream << indent << "    property var macros: ";
+        listToQML(ostream, macros);
+        ostream << std::endl;
+
+        ostream << indent << "    property var filePv: CSData {" << std::endl;
+        ostream << indent << "        source: '" << filePv << "'" << std::endl;
+        ostream << indent << "    }" << std::endl;
+
+        ostream << indent << "    source: fileNames[filePv.value]" << std::endl;
+        ostream << indent << "    macro: macros[filePv.value]" << std::endl;
     } else if (displaySource == "file") {
         std::string filename = getText("file");
         if (!filename.empty()) {
@@ -742,8 +779,7 @@ void Object::relatedDisplayToQML(std::ostream& ostream)
             if (i < symbols.size() && !symbols[i].empty())
                 macro += (macro.empty() ? "" : ",") + symbols[i]; 
             if (!macro.empty())
-            ostream << indent << "              macro: '" << macro << std::endl;
-            ostream << "'" << std::endl;
+            ostream << indent << "              macro: '" << macro << "'" << std::endl;
             if (i < closeActions.size() && closeActions[i] == "1")
             ostream << indent << "              replace: true" << std::endl;
             ostream << indent << "        }" << std::endl;
@@ -1034,6 +1070,10 @@ void Object::choiceButtonToQML(std::ostream& ostream)
     if (getBool("fgAlarm"))
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
+    std::string orien = getText("orientation");
+    if (orien == "horizontal")
+        ostream << indent << "    stacking: Stacking.Row" << std::endl;
+
     ostream << indent << "}" << std::endl;
 }
 
@@ -1135,7 +1175,7 @@ void Object::sliderToQML(std::ostream& ostream)
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
 
-    if (!getBool("scaleLimitsFromDb")) {
+    if (!getBool("limitsFromDb")) {
         ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
@@ -1233,6 +1273,19 @@ void Object::rectToQML(std::ostream& ostream)
     ostream << indent << "height: " << this->_rect.height << std::endl;
 }
 
+void Object::listToQML(std::ostream& ostream, std::vector<std::string> list)
+{
+    for(int i=0; i<list.size(); i++)  {
+        if (i == 0)
+            ostream << "[";
+        else
+            ostream << ",";
+        ostream << "\"" << list[i] << "\"";
+        if (i == list.size() -1)
+            ostream << "]";
+    }
+}
+
 void Object::toQML(std::ostream& ostream)
 {
     switch(type()) {
@@ -1289,6 +1342,9 @@ void Object::toQML(std::ostream& ostream)
         break;
         case EL_ShellCommand:
         shellCommandToQML(ostream);
+        break;
+        case EL_Slider:
+        sliderToQML(ostream);
         break;
         case EL_TextEntry:
         textEntryToQML(ostream);
