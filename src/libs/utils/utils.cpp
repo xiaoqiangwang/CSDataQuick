@@ -394,6 +394,15 @@ QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
  */
 QString QCSUtils::openEDLDisplay(QUrl fileName, QString macro)
 {
+    QString globalMacro = QString("!A=%1,!W=%2")
+        .arg(qApp->applicationPid(), 0, 16)
+        .arg((qlonglong)QDateTime::currentMSecsSinceEpoch, 0, 16);
+
+    if (macro.isEmpty())
+        macro = globalMacro;
+    else
+        macro += "," + globalMacro;
+
     std::map<std::string, std::string> macroMap;
 
     foreach(QString m, macro.split(',')) {
@@ -687,8 +696,12 @@ QVariant QCSUtils::getProperty(QObject *object, QString name)
             return window->winId();
         else
             return QVariant();
-    } else
-        return object->property(name.toLocal8Bit());
+    } else {
+        if (object)
+            return object->property(name.toLocal8Bit());
+        else
+            return QVariant();
+    }
 }
 
 /*!
