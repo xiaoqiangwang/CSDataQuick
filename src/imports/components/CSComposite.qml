@@ -80,14 +80,10 @@ BaseItem {
     }
 
     onMacroChanged: {
-        if (Component.status != Component.Ready)
-            return
         createDisplay()
     }
 
     onSourceChanged: {
-        if (Component.status != Component.Ready)
-            return
         createDisplay()
     }
 
@@ -110,16 +106,18 @@ BaseItem {
             console.error("Failed to find file ", source)
             return
         }
+        var windowMacro = Utils.getProperty(baseWindow, "macro")
+
         var qmlCmd
         if (/.adl$/i.test(absFilePath)) {
-            var qmlBody = Utils.openADLComposite(absFilePath, macro)
+            var qmlBody = Utils.openADLComposite(absFilePath, macro ? macro : windowMacro)
             qmlCmd = 'import QtQuick 2.0\n' +
                     'import QtQuick.Controls 1.0\n' +
                     'import CSDataQuick.Components 1.0\n' +
                     'Item { anchors.fill: parent\n' +
                     qmlBody + '\n}';
         } else if (/.edl$/i.test(absFilePath)) {
-            var qmlBody = Utils.openEDLComposite(absFilePath, macro)
+            var qmlBody = Utils.openEDLComposite(absFilePath, join(windowMacro, macro))
             qmlCmd = 'import QtQuick 2.0\n' +
                     'import QtQuick.Controls 1.0\n' +
                     'import CSDataQuick.Data 1.0\n' +
@@ -127,11 +125,20 @@ BaseItem {
                     'Item { anchors.fill: parent\n' +
                     qmlBody + '\n}';
         } else if (/.qml$/i.test(absFilePath)) {
-            qmlCmd = Utils.openQMLDisplay(absFilePath, macro)
+            qmlCmd = Utils.openQMLDisplay(absFilePath, macro ? macro : windowMacro)
         }
         d.rootItem  = Qt.createQmlObject(qmlCmd, root, absFilePath)
         // override rootItem position property
         d.rootItem.x = 0
         d.rootItem.y = 0
+    }
+
+    /* \internal */
+    function join(s1, s2) {
+        if (!s1)
+            return s2
+        if (!s2)
+            return s1
+        return s1 + "," + s2
     }
 }
