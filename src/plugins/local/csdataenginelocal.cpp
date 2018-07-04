@@ -49,9 +49,9 @@ void QCSDataEngineLocal::create(QCSData *data)
     }
 
     // find out the root name and json object if present
-    QStringList parts = source.split('.', QString::SkipEmptyParts);
-    QString rootName = parts[0];
-    if (parts.length() == 1) {
+    int npos = source.indexOf('.');
+    QString rootName = source.left(npos);
+    if (npos == -1) {
         data->setProperty("rootName", rootName);
         // group CSData instances of the same source for convenience
         _dataMap[rootName].append(data);
@@ -59,12 +59,14 @@ void QCSDataEngineLocal::create(QCSData *data)
         if (_objectsMap.contains(rootName)) {
             notifyDataChange(data, rootName);
         }
-    } else if (parts.length() == 2) {
+    } else {
         data->setProperty("rootName", rootName);
         // the supplied json object configures this source if it does not yet exits
-        QJsonDocument json = QJsonDocument::fromJson(parts[1].toLocal8Bit());
-        if (!json.isObject())
+        QJsonDocument json = QJsonDocument::fromJson(source.mid(npos+1).toLocal8Bit());
+        if (!json.isObject()) {
+            qCritical() << "Invalid JSON configuration" << source;
             return;
+        }
         if (!_objectsMap.contains(rootName)) {
             _objectsMap.insert(rootName, json.object());
         }
@@ -75,9 +77,6 @@ void QCSDataEngineLocal::create(QCSData *data)
             QCSData *d = _dataMap[rootName][i];
             notifyDataChange(d, rootName);
         }
-    } else {
-        qCritical() << "Not supported source" << source;
-        return;
     }
     // update common constant properties
     QString type = _objectsMap[rootName]["type"].toString();
