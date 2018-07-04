@@ -310,8 +310,14 @@ std::vector<std::string> Object::getList(std::string listname)
 
     auto it =  properties.find(listname);
     if (it != properties.end()) {
-        for(int i=1; i<it->second.size(); i+=2)
-            list.push_back(it->second[i]);
+        auto tokens = it->second;
+        for(int i=0; i<it->second.size(); i+=2) {
+            int index = std::stoi(tokens[i]);
+            std::string value = tokens[i+1];
+            while (index >= list.size())
+                list.push_back("");
+            list[index] = value;
+        }
     }
 
     return list;
@@ -513,6 +519,9 @@ void Object::arcToQML(std::ostream& ostream)
         ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
     }
 
+    if (getBool("lineAlarm") || getBool("fillAlarm"))
+    ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
     std::string lineWidth = getText("lineWidth");
     if (!lineWidth.empty())
         ostream << indent << "    lineWidth: " << lineWidth << std::endl;
@@ -521,13 +530,8 @@ void Object::arcToQML(std::ostream& ostream)
     if (lineStyle == "dash")
         ostream << indent << "    edgeStyle: EdgeStyle.Dash" << std::endl;
 
-    std::string begin = getText("startAngle");
-    if (!begin.empty())
-        ostream << indent << "    begin: " << begin << std::endl;
-
-    std::string span = getText("totalAngle");
-    if (!span.empty())
-        ostream << indent << "    span: " << span << std::endl;
+    ostream << indent << "    begin: " << getInteger("startAngle") << std::endl;
+    ostream << indent << "    span: " << getInteger("totalAngle", 180) << std::endl;
 
     attr = getDynamicAttribute(indent);
     if (!attr.empty())
@@ -603,13 +607,23 @@ void Object::linesToQML(std::ostream& ostream)
     else
     ostream << indent << "CSPolyline {" << std::endl;
 
+    // fix zero width/height for straight lines
+    if (this->_rect.width <= 1)
+        this->_rect.width = std::max(1, getInteger("lineWidth"));
+    if (this->_rect.height <= 1)
+        this->_rect.height = std::max(1, getInteger("lineWidth"));
+    this->_rect.x -= getInteger("lineWidth")/2;
+    this->_rect.y -= getInteger("lineWidth")/2;
+    this->_rect.width += getInteger("lineWidth");
+    this->_rect.height += getInteger("lineWidth");
     rectToQML(ostream);
 
+    
     if (getBool("closePolygon") || getBool("fill"))
     ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
     else
     ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
-    if (getBool("lineAlarm"))
+    if (getBool("lineAlarm") || getBool("fillAlarm"))
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     std::string lineWidth = getText("lineWidth");
@@ -625,8 +639,8 @@ void Object::linesToQML(std::ostream& ostream)
 
     ostream << indent << "    points: [";
     for (int i=0; i<xp.size(); i++) {
-        ostream << "Qt.point(" << std::stoi(xp[i]) - this->_rect.x << ","
-            << std::stoi(yp[i]) - this->_rect.y << ")";
+        ostream << "Qt.point(" << std::stoi(xp[i]) - this->_rect.x + getInteger("lineWidth")/2<< ","
+            << std::stoi(yp[i]) - this->_rect.y + getInteger("lineWidth")/2<< ")";
         if (i != xp.size() -1)
             ostream << ",";
     }
@@ -810,19 +824,13 @@ void Object::textToQML(std::ostream& ostream)
     attr = getText("value");
     ostream << indent << "    text: '" << attr << "'" << std::endl;
 
-    it = properties.find("fontAlign");
-    if (it != properties.end()) {
-        std::string align = properties["fontAlign"][0];
-        std::string qml = "";
-        if (align == "left")
-            qml = "Text.AlignLeft";
-        else if (align == "center")
-            qml = "Text.AlignHCenter";
-        else if (align == "right")
-            qml = "Text.AlignRight";
-        if (!qml.empty())
-            ostream << indent << "    align: " <<  qml << std::endl;
-    }
+    std::string align = getText("fontAlign");
+    if (align == "left")
+        ostream << indent << "    align: Text.AlignLeft" << std::endl;
+    else if (align == "center")
+        ostream << indent << "    align: Text.AlignHCenter" << std::endl;
+    else if (align == "right")
+        ostream << indent << "    align: Text.AlignRight" << std::endl;
 
     attr = getFont("font");
     if (!attr.empty())
@@ -838,7 +846,7 @@ void Object::textToQML(std::ostream& ostream)
             ostream << indent << "    background: " <<  attr << std::endl;
     }
 
-    if (getBool("fgAlarm"))
+    if (getBool("fgAlarm") || getBool("bgAlarm"))
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     attr = getDynamicAttribute(indent);
@@ -1050,7 +1058,7 @@ void Object::textUpdateToQML(std::ostream& ostream)
     if (getBool("fgAlarm"))
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
-    std::string format = getText("displayMode");
+    std::string format = getText("format");
     if (format == "decimal")
     ostream << indent << "    format: TextFormat.Decimal" << std::endl;
     else if (format == "hex")
@@ -1061,6 +1069,19 @@ void Object::textUpdateToQML(std::ostream& ostream)
     ostream << indent << "    format: TextFormat.Exponential" << std::endl;
     else
     ostream << indent << "    format: TextFormat.String" << std::endl;
+
+    if (!getText("precision").empty()) {
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
+    }
+
+    std::string align = getText("fontAlign");
+    if (align == "left")
+        ostream << indent << "    align: Text.AlignLeft" << std::endl;
+    else if (align == "center")
+        ostream << indent << "    align: Text.AlignHCenter" << std::endl;
+    else if (align == "right")
+        ostream << indent << "    align: Text.AlignRight" << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -1189,9 +1210,9 @@ void Object::sliderToQML(std::ostream& ostream)
         ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
 
-        ostream << indent << "    limits.loprDefault: " << getText("scaleMin") << std::endl;
-        ostream << indent << "    limits.hoprDefault: " << getText("scaleMax") << std::endl;
-        ostream << indent << "    limits.precDefault: " << getText("precision") << std::endl;
+        ostream << indent << "    limits.loprDefault: " << getInteger("scaleMin") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getInteger("scaleMax", 1) << std::endl;
+        ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
     }
 
     ostream << indent << "    source: '" << getPv("controlPv") << "'" << std::endl;
@@ -1204,10 +1225,7 @@ void Object::textEntryToQML(std::ostream& ostream)
     int indent_level = level();
     std::string indent(indent_level * 4, ' ');
 
-    if (getBool("editable"))
     ostream << indent << "CSTextEntry {" << std::endl;
-    else
-    ostream << indent << "CSTextUpdate {" << std::endl;
 
     rectToQML(ostream);
 
@@ -1216,7 +1234,31 @@ void Object::textEntryToQML(std::ostream& ostream)
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
     if (getBool("fgAlarm"))
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
+
+    std::string format = getText("format");
+    if (format == "decimal")
+    ostream << indent << "    format: TextFormat.Decimal" << std::endl;
+    else if (format == "hex")
+    ostream << indent << "    format: TextFormat.Hexadecimal" << std::endl;
+    else if (format == "engineer")
+    ostream << indent << "    format: TextFormat.EngNotation" << std::endl;
+    else if (format == "exp")
+    ostream << indent << "    format: TextFormat.Exponential" << std::endl;
+    else
     ostream << indent << "    format: TextFormat.String" << std::endl;
+
+    if (!getText("precision").empty() || !getBool("limitsFromDb")) {
+        ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
+        ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
+    }
+
+    std::string align = getText("fontAlign");
+    if (align == "left")
+        ostream << indent << "    align: Text.AlignLeft" << std::endl;
+    else if (align == "center")
+        ostream << indent << "    align: Text.AlignHCenter" << std::endl;
+    else if (align == "right")
+        ostream << indent << "    align: Text.AlignRight" << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -1238,8 +1280,8 @@ void Object::updownButtonToQML(std::ostream& ostream)
         ostream << indent << "    limits.loprSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << std::endl;
 
-        ostream << indent << "    limits.loprDefault: " << getText("scaleMin") << std::endl;
-        ostream << indent << "    limits.hoprDefault: " << getText("scaleMax") << std::endl;
+        ostream << indent << "    limits.loprDefault: " << getInteger("scaleMin") << std::endl;
+        ostream << indent << "    limits.hoprDefault: " << getInteger("scaleMax", 1) << std::endl;
     }
 
     ostream << indent << "}" << std::endl;
