@@ -505,12 +505,11 @@ void Object::parseGroup(std::istream &fstream)
                     break;
                 }
             }
+            if (!found) {
+                std::cout << tokens[1] << " Not Implemented" << std::endl;
+                parseAndSkip(fstream);
+            }
         }
-        if (!found) {
-            std::cout << tokens[1] << " Not Implemented" << std::endl;
-            parseAndSkip(fstream);
-        }
-        
         tokens = getLine(fstream);
     }
 }
@@ -1073,13 +1072,14 @@ void Object::textUpdateToQML(std::ostream& ostream)
     ostream << indent << "    colorMode: ColorMode.Alarm" << std::endl;
 
     std::string format = getText("format");
-    if (format == "decimal")
+    std::string displayMode = getText("displayMode");
+    if (format == "decimal" || displayMode == "decimal")
     ostream << indent << "    format: TextFormat.Decimal" << std::endl;
-    else if (format == "hex")
+    else if (format == "hex" || displayMode == "hex")
     ostream << indent << "    format: TextFormat.Hexadecimal" << std::endl;
-    else if (format == "engineer")
+    else if (format == "engineer" || displayMode == "engineer")
     ostream << indent << "    format: TextFormat.EngNotation" << std::endl;
-    else if (format == "exp")
+    else if (format == "exp" || displayMode == "exp")
     ostream << indent << "    format: TextFormat.Exponential" << std::endl;
     else
     ostream << indent << "    format: TextFormat.String" << std::endl;
@@ -1513,12 +1513,11 @@ void Screen :: parse(std::istream &fstream)
                     break;
                 }
             }
+            if (!found) {
+                std::cerr << tokens[1] << " Not Implemented" << std::endl;
+                parseAndSkip(fstream);
+            }
         }
-        if (!found) {
-            std::cerr << tokens[1] << " Not Implemented" << std::endl;
-            parseAndSkip(fstream);
-        }
-        
         tokens = getLine(fstream);
     }
 }
