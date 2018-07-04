@@ -6,6 +6,7 @@
 #include <climits>
 #include <cctype>
 #include <iomanip>
+#include <cstdlib>
 
 #include "parser.h"
 
@@ -101,7 +102,7 @@ TOKEN Object :: getToken(std::istream &fstream, char *word)
             break;
         case INCOMMENT:
             switch(c) {
-            case '\n': state = NEUTRAL; *w = '\0'; return(T_COMMENT);
+            case '\n': state = NEUTRAL; *w = '\0'; fstream.unget(); return(T_COMMENT);
             default  : *w++ = c; break;
             }
             break;
@@ -231,20 +232,25 @@ std::string Object::getColor(std::string colorname)
 
     auto it = properties.find(colorname);
     if (it == properties.end()) {
-        return "";
+        return "''";
     }
 
     std::string color;
 
     auto colors = it->second;
-    if (colors[0] == "index")
-        color = "ColorMap.color" + colors[1];
+    if (colors[0] == "index") {
+        color = screen()->color(std::stoi(colors[1]));
+        if (color.empty())
+            color = "ColorMap.color" + colors[1];
+        else
+            color = "'" + color + "'";
+    }
     else if (colors[0] == "rgb") {
         std::stringstream sstream;
-        sstream << "'#" << std::setfill('0') << std::setw(4) << std::hex
-            << std::stoi(colors[1])
-            << std::stoi(colors[2])
-            << std::stoi(colors[3])
+        sstream << "'#" << std::setfill('0') << std::hex
+            << std::setw(4) << std::stoi(colors[1])
+            << std::setw(4) << std::stoi(colors[2])
+            << std::setw(4) << std::stoi(colors[3])
             << "'";
         color = sstream.str();
     }
@@ -352,10 +358,18 @@ std::string Object::getPv(std::string pvname)
     std::string::size_type pos = 0;
     std::string value;
 
-    // local pv is of form "LOC\<NAME>=<type>:<value>[,enum0,enum1...]"
-    //
-    if (pv.substr(0, 4) != "LOC\\")
+    // pv is of form "[EPICS\|LOC|\CALC\]<NAME>=<type>:<value>[,enum0,enum1...]"
+    pos = pv.find('\\');
+    if (pos == std::string::npos)
         return pv;
+
+    std::string pvtype = pv.substr(0, pos);
+    if (pvtype == "EPICS")
+        return pv.substr(pos+1);
+    else if (pvtype != "LOC") {
+        std::cerr << "Unsupported PV type '" << pvtype << "': " << pv << std::endl;
+        return "";
+    }
 
     std::stringstream sstream(pv.substr(4));
     std::string name;
@@ -1418,6 +1432,50 @@ void Object::toQML(std::ostream& ostream)
 Screen :: Screen ()
     : Object(EL_Screen, 0)
 {
+    parseColors();
+}
+
+void Screen :: parseColors()
+{
+    std::string edmFilesPath = std::getenv("EDMFILES");
+    std::string filename = edmFilesPath + "/colors.list";
+    std::ifstream fstream(filename.c_str());
+
+    if (!fstream.is_open() && !edmFilesPath.empty()) {
+        std::cerr << "Failed to open colors list \"" << filename << "\"" << std::endl;
+        return;
+    }
+
+    std::vector<std::string> tokens;
+
+    /* version */
+    tokens = getLine(fstream);
+    if (tokens.size() != 3) {
+        std::cerr << "Wrong color list format" << std::endl;
+    }
+    int version = std::stoi(tokens[0]) << 16 | std::stoi(tokens[1]) << 8 | std::stoi(tokens[2]);
+    if (version < 0x040000) {
+        std::cerr << filename << ": color list version " << tokens[0] << "." << tokens[1] << "." << tokens[2] << " is not supported." << std::endl;
+        return;
+    }
+    /* static colors */
+    tokens = getLine(fstream);
+    while ( tokens.size() > 0) {
+        if (tokens[0] == "static") {
+            int index = std::stoi(tokens[1]);
+            std::string name = tokens[2];
+
+            std::stringstream sstream;
+            sstream << "#" << std::setfill('0') << std::hex
+                << std::setw(4) << std::stoi(tokens[3])
+                << std::setw(4) << std::stoi(tokens[4])
+                << std::setw(4) << std::stoi(tokens[5]);
+            std::string color = sstream.str();
+
+            colormap[index] = color;
+        }
+        tokens = getLine(fstream);
+    }
 }
 
 void Screen :: parse(std::istream &fstream) 

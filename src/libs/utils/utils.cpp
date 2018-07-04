@@ -308,6 +308,8 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
     QByteArray paths;
     if (QString::compare(fi.suffix(), "adl", Qt::CaseInsensitive) == 0)
         paths = qgetenv("EPICS_DISPLAY_PATH");
+    else if (QString::compare(fi.suffix(), "edl", Qt::CaseInsensitive) == 0)
+        paths = qgetenv("EDMDATAFILES");
     else if (QString::compare(fi.suffix(), "qml", Qt::CaseInsensitive) == 0)
         paths = qgetenv("QML_DISPLAY_PATH");
 
