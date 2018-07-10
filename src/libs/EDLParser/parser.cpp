@@ -1437,7 +1437,9 @@ Screen :: Screen ()
 
 void Screen :: parseColors()
 {
-    std::string edmFilesPath = std::getenv("EDMFILES");
+    std::string edmFilesPath = ".";
+    if (std::getenv("EDMFILES"))
+        edmFilesPath = std::getenv("EDMFILES");
     std::string filename = edmFilesPath + "/colors.list";
     std::ifstream fstream(filename.c_str());
 
