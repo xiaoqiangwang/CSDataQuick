@@ -44,6 +44,8 @@ CSMonitor {
         The valid values for horizontalAlignment are Text.AlignLeft, Text.AlignRight, Text.AlignHCenter and Text.AlignJustify.
     */
     property alias align: label_control.horizontalAlignment
+    property alias font: label_control.font
+    property alias fontSizeMode: label_control.fontSizeMode
     /*!
         This property indicates how the data value is formated to text display. \sa TextFormat,
 
@@ -53,7 +55,9 @@ CSMonitor {
     /*! This property indicates whether to display the physical units if available */
     property bool unitsVisible: false
     /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height)
+    font.family: UtilsJS.getBestFontSize(height).family
+    font.pixelSize: UtilsJS.getBestFontSize(height).size
+    fontSizeMode: Text.Fit
 
     implicitWidth: 100
     implicitHeight: 20
@@ -67,13 +71,6 @@ CSMonitor {
         data: csdata
         format: root.format
         precision: limits.prec
-        onTextChanged: {
-            if (align == Text.AlignLeft)
-                return
-            while(label_control.font.pixelSize > 6 && label_control.paintedWidth > label_control.width) {
-                label_control.font.pixelSize -= 1
-            }
-        }
     }
 
     RowLayout {
@@ -83,8 +80,6 @@ CSMonitor {
             text: Utils.inPuppet ? source : formatter.text
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
-            font.pixelSize: root.font.size
-            font.family: root.font.family
             Layout.fillWidth: true
         }
         Text {

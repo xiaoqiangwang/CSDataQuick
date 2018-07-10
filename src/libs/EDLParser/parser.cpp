@@ -213,8 +213,12 @@ bool Object::getBool(std::string boolname)
     if (it == properties.end()) {
         return false;
     }
-    
-    return it->second[0] == "1";
+
+    auto values = it->second;
+    if (values.size() < 1)
+        return true;
+    else
+        return values[0] == "1";
 }
 
 int Object::getInteger(std::string intname, int defaultvalue)
@@ -223,21 +227,17 @@ int Object::getInteger(std::string intname, int defaultvalue)
     if (it == properties.end()) {
         return defaultvalue;
     }
-    
-    return std::stoi(it->second[0]);
+
+    auto values = it->second;
+    if (values.size() < 1)
+        return defaultvalue;
+    else
+        return std::stoi(values[0]);
 }
 
-std::string Object::getColor(std::string colorname)
+std::string Object::getColor(std::vector<std::string> colors)
 {
-
-    auto it = properties.find(colorname);
-    if (it == properties.end()) {
-        return "''";
-    }
-
     std::string color;
-
-    auto colors = it->second;
     if (colors[0] == "index") {
         color = screen()->color(std::stoi(colors[1]));
         if (color.empty())
@@ -256,6 +256,47 @@ std::string Object::getColor(std::string colorname)
     }
 
     return color;
+}
+
+std::string Object::getColor(std::string colorname)
+{
+
+    auto it = properties.find(colorname);
+    if (it == properties.end()) {
+        return "''";
+    }
+    return getColor(it->second);
+}
+
+std::vector<std::string> Object::getColorList(std::string colorname)
+{
+    std::vector<std::string> colorlist;
+
+    auto it = properties.find(colorname);
+    if (it == properties.end()) {
+        return colorlist;
+    }
+
+    auto colors = it->second;
+    auto cit = colors.begin();
+    while (cit != colors.end()) {
+        int index = std::stoi(*cit);
+        while (index >= colorlist.size())
+            colorlist.push_back("'black'");
+        cit++;
+        if ((*cit) == "index") {
+            std::vector<std::string> color;
+            std::copy_n(cit, 2, std::back_inserter(color));
+            colorlist[index] = getColor(color);
+            cit += 2;
+        } else if ((*cit) == "rgb") {
+            std::vector<std::string> color;
+            std::copy_n(cit, 4, std::back_inserter(color));
+            colorlist[index] = getColor(color);
+            cit += 4;
+        }
+    }
+    return colorlist;
 }
 
 std::string Object::getDynamicAttribute(std::string indent)
@@ -348,13 +389,8 @@ std::string Object::getText(std::string textname)
     return osstream.str();
 }
 
-std::string Object::getPv(std::string pvname)
+std::string Object::parsePv(std::string pv)
 {
-    auto it = properties.find(pvname);
-    if (it == properties.end()) {
-        return "";
-    }
-    std::string pv = it->second[0];
     std::string::size_type pos = 0;
     std::string value;
 
@@ -442,6 +478,35 @@ std::string Object::getPv(std::string pvname)
     return "loc://" + name + "." + json.str();
 }
 
+
+std::string Object::getPv(std::string pvname)
+{
+    auto it = properties.find(pvname);
+    if (it == properties.end()) {
+        return "";
+    }
+    return parsePv(it->second[0]);
+}
+
+std::vector<std::string> Object::getPvList(std::string listname)
+{
+    std::vector<std::string> pvlist;
+
+    auto it =  properties.find(listname);
+    if (it != properties.end()) {
+        auto tokens = it->second;
+        for(int i=0; i<it->second.size(); i+=2) {
+            int index = std::stoi(tokens[i]);
+            std::string pv = parsePv(tokens[i+1]);
+            while (index >= pvlist.size())
+                pvlist.push_back("");
+            pvlist[index] = pv;
+        }
+    }
+
+    return pvlist;
+}
+
 void Object::parse(std::istream &fstream)
 {
     std::vector<std::string> tokens;
@@ -467,14 +532,12 @@ void Object::parse(std::istream &fstream)
             _version |= std::stoi(tokens[1]) << 8;
         else if (tokens[0] == "release")
             _version |= std::stoi(tokens[1]);
-        else if (tokens[0] == "beginGroup") {
+        else if (tokens[0] == "beginGroup")
             this->parseGroup(fstream);
-        }
-        else if (tokens.size() == 1)
-            this->properties[tokens[0]].push_back("1");
         else {
-            for (int i=1; i<tokens.size(); i++)
-                this->properties[tokens[0]].push_back(tokens[i]);
+            std::copy(tokens.begin() + 1,
+                    tokens.end(),
+                    std::back_inserter(this->properties[tokens[0]]));
         }
         tokens = getLine(fstream);
     }
@@ -835,7 +898,7 @@ void Object::textToQML(std::ostream& ostream)
     rectToQML(ostream);
 
     attr = getText("value");
-    ostream << indent << "    text: '" << attr << "'" << std::endl;
+    ostream << indent << "    text: \"" << attr << "\"" << std::endl;
 
     std::string align = getText("fontAlign");
     if (align == "left")
@@ -978,6 +1041,77 @@ void Object::byteToQML(std::ostream& ostream)
     ostream << indent << "}" << std::endl;
 }
 
+void Object::cartesianPlotToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSCartesianPlot {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+    ostream << indent << "    title: \"" << getText("graphTitle") << "\"" << std::endl;
+    ostream << indent << "    xLabel: \"" << getText("xLabel") << "\"" << std::endl;
+    ostream << indent << "    yLabel: \"" << getText("yLabel") << "\"" << std::endl;
+
+    std::string xAxisSrc = getText("xAxisSrc");
+    if (xAxisSrc == "AutoScale")
+    ostream << indent << "    xRangeStyle: CartesianPlotRangeStyle.Auto" << std::endl;
+    else if (xAxisSrc == "fromUser")
+    ostream << indent << "    xRangeStyle: CartesianPlotRangeStyle.User" << std::endl;
+    else
+    ostream << indent << "    xRangeStyle: CartesianPlotRangeStyle.Channel" << std::endl;
+    ostream << indent << "    xRangeLower: " << getInteger("xMin") << std::endl;
+    ostream << indent << "    xRangeUpper: " << getInteger("xMax") << std::endl;
+
+    std::string yAxisSrc = getText("yAxisSrc");
+    if (yAxisSrc == "AutoScale")
+    ostream << indent << "    yRangeStyle: CartesianPlotRangeStyle.Auto" << std::endl;
+    else if (yAxisSrc == "fromUser")
+    ostream << indent << "    yRangeStyle: CartesianPlotRangeStyle.User" << std::endl;
+    else
+    ostream << indent << "    yRangeStyle: CartesianPlotRangeStyle.Channel" << std::endl;
+    ostream << indent << "    yRangeLower: " << getInteger("yMin") << std::endl;
+    ostream << indent << "    yRangeUpper: " << getInteger("yMax") << std::endl;
+
+    std::string y2AxisSrc = getText("y2AxisSrc");
+    if (y2AxisSrc == "AutoScale")
+    ostream << indent << "    y2RangeStyle: CartesianPlotRangeStyle.Auto" << std::endl;
+    else if (y2AxisSrc == "fromUser")
+    ostream << indent << "    y2RangeStyle: CartesianPlotRangeStyle.User" << std::endl;
+    else
+    ostream << indent << "    y2RangeStyle: CartesianPlotRangeStyle.Channel" << std::endl;
+    ostream << indent << "    y2RangeLower: " << getInteger("y2Min") << std::endl;
+    ostream << indent << "    y2RangeUpper: " << getInteger("y2Max") << std::endl;
+
+    int numTraces = getInteger("numTraces");
+    auto xpvs = getPvList("xPv");
+    auto ypvs = getPvList("yPv");
+    auto colors = getColorList("plotColor");
+    auto y2axis = getList("useY2Axis");
+    if (numTraces > 0) {
+        ostream << indent << "    model: ListModel {" << std::endl;
+        for (int i=0; i<numTraces; i++) {
+            ostream << indent << "        ListElement {" << std::endl;
+            if (i<xpvs.size())
+            ostream << indent << "            xchannel: '" << xpvs[i] << "'" << std::endl;
+            if (i<ypvs.size())
+            ostream << indent << "            ychannel: '" << ypvs[i] << "'" << std::endl;
+            if (i<colors.size())
+            ostream << indent << "            color: " << colors[i] << std::endl;
+            if (i<y2axis.size())
+            ostream << indent << "            yaxis: " << y2axis[i] << std::endl;
+            ostream << indent << "        }" << std::endl;
+        }
+        ostream << indent << "    }" << std::endl;
+    }
+    
+    ostream << indent << "    count: " << getInteger("nPts") << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
 void Object::coefTableToQML(std::ostream& ostream)
 {
     int indent_level = level();
@@ -985,7 +1119,7 @@ void Object::coefTableToQML(std::ostream& ostream)
 
     ostream << indent << "CSTextEntryArray {" << std::endl;
     rectToQML(ostream);
-    
+
     ostream << indent << "    source: '" << getText("pv") << "'" << std::endl;
     ostream << indent << "    index: " << getInteger("firstElement") << std::endl;
     ostream << indent << "    count: " << getInteger("numElements", 1) << std::endl;
@@ -1052,6 +1186,35 @@ void Object::meterToQML(std::ostream& ostream)
     }
 
     ostream << indent << "    source: '" << getPv("readPv") << "'" << std::endl;
+
+    ostream << indent << "}" << std::endl;
+}
+
+void Object::stripChartToQML(std::ostream& ostream)
+{
+    int indent_level = level();
+    std::string indent(indent_level * 4, ' ');
+
+    ostream << indent << "CSStripChart {" << std::endl;
+    rectToQML(ostream);
+
+    ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
+    ostream << indent << "    background: " << getColor("bgColor") << std::endl;
+
+    int numPvs = getInteger("numPvs");
+    auto pvs = getPvList("yPv");
+    auto colors = getColorList("plotColor");
+    if (numPvs > 0) {
+        ostream << indent << "    model: ListModel {" << std::endl;
+        for (int i=0; i<numPvs; i++) {
+            ostream << indent << "        ListElement {" << std::endl;
+            ostream << indent << "            channel: '" << pvs[i] << "'" << std::endl;
+            ostream << indent << "            color: " << colors[i] << std::endl;
+            ostream << indent << "        }" << std::endl;
+        }
+        ostream << indent << "    }" << std::endl;
+    }
+    ostream << indent << "    period: " << getInteger("updateTime") << std::endl;
 
     ostream << indent << "}" << std::endl;
 }
@@ -1381,6 +1544,9 @@ void Object::toQML(std::ostream& ostream)
         case EL_Byte:
         byteToQML(ostream);
         break;
+        case EL_CartesianPlot:
+        cartesianPlotToQML(ostream);
+        break;
         case EL_CoefTable:
         coefTableToQML(ostream);
         break;
@@ -1389,6 +1555,9 @@ void Object::toQML(std::ostream& ostream)
         break;
         case EL_Meter:
         meterToQML(ostream);
+        break;
+        case EL_StripChart:
+        stripChartToQML(ostream);
         break;
         case EL_TextUpdate:
         textUpdateToQML(ostream);
@@ -1549,8 +1718,6 @@ void Screen::parseScreen(std::istream &fstream)
             _version |= std::stoi(tokens[1]) << 8;
         else if (tokens[0] == "release")
             _version |= std::stoi(tokens[1]);
-        else if (tokens.size() == 1)
-            this->properties[tokens[0]].push_back("1");
         else {
             for (int i=1; i<tokens.size(); i++)
                 this->properties[tokens[0]].push_back(tokens[i]);

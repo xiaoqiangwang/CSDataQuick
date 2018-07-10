@@ -56,13 +56,15 @@ CSGraphics {
         The text font.
     */
     property alias font: text_control.font
+    
+    property alias fontSizeMode: text_control.fontSizeMode
 
     /*!
         \qmlproperty enumeration fontSizeMode
 
         \sa Text.fontSizeMode
     */
-    property int fontSizeMode: Text.VerticalFit
+    fontSizeMode: Text.VerticalFit
 
     implicitWidth: text_control.implicitWidth
     implicitHeight: 20
@@ -85,7 +87,6 @@ CSGraphics {
         id: text_control
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         anchors.fill: parent
-        fontSizeMode: root.fontSizeMode
         minimumPixelSize: 4
         verticalAlignment: Text.AlignHCenter
         onLinkActivated: Qt.openUrlExternally(link)

@@ -114,12 +114,12 @@ public:
 
     void barToQML(std::ostream& ostream);
     void byteToQML(std::ostream& ostream);
+    void cartesianPlotToQML(std::ostream& ostream);
     void coefTableToQML(std::ostream& ostream);
     void indicatorToQML(std::ostream& ostream);
-    //void cartesianPlotToQML(std::ostream& ostream);
     //void messageBoxToQML(std::ostream& ostream);
     void meterToQML(std::ostream& ostream);
-    //void stripChartToQML(std::ostream& ostream);
+    void stripChartToQML(std::ostream& ostream);
     void textUpdateToQML(std::ostream& ostream);
 
     void choiceButtonToQML(std::ostream& ostream);
@@ -146,12 +146,17 @@ public:
     /* access object */
     bool getBool(std::string boolname);
     int getInteger(std::string intname, int defaultvalue=0);
+    std::string getColor(std::vector<std::string> colors);
     std::string getColor(std::string colorname);
+    std::vector<std::string> getColorList(std::string colorname);
     std::string getDynamicAttribute(std::string indent);
     std::string getFont(std::string fontname);
     std::vector<std::string> getList(std::string listname);
     std::string getText(std::string textname);
+    std::string parsePv(std::string pv);
     std::string getPv(std::string pvname);
+    std::vector<std::string> getPvList(std::string listname);
+
 protected:
     Screen *_screen;
     Object *_parent;
