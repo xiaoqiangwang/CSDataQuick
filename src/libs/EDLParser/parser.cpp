@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include <algorithm>
+#include <iterator>
 #include <climits>
 #include <cctype>
 #include <iomanip>
