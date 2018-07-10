@@ -263,7 +263,7 @@ std::string Object::getColor(std::string colorname)
 
     auto it = properties.find(colorname);
     if (it == properties.end()) {
-        return "''";
+        return "";
     }
     return getColor(it->second);
 }
