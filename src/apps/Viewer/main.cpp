@@ -24,6 +24,7 @@
 #include <QtDebug>
 
 #include "ADLParser.h"
+#include "EDLParser.h"
 #include "cs_global.h"
 
 QPointer<QQuickWindow> window;
@@ -71,17 +72,17 @@ int main(int argc, char **argv)
 #endif
     qCoreApp->setOrganizationName("Paul Scherrer Institut");
     qCoreApp->setOrganizationDomain("psi.ch");
-    qCoreApp->setApplicationName("ADLViewer");
+    qCoreApp->setApplicationName("Viewer");
     qCoreApp->setApplicationVersion(CSDATAQUICK_VERSION);
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
 
     QCommandLineParser parser;
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
-    parser.setApplicationDescription("adl viewer");
+    parser.setApplicationDescription("adl/edl/qml viewer");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument("adl file", QCoreApplication::translate("main", "adl file to open."));
+    parser.addPositionalArgument("adl/edl/qml file", QCoreApplication::translate("main", "adl/edl/qml file to open."));
 
     // A boolean option indicating execution mode (-x, --execute)
     QCommandLineOption execOption(QStringList() << "x" << "execute", "Open in execute mode.");
@@ -139,7 +140,7 @@ int main(int argc, char **argv)
         QDir::addSearchPath("displays", path);
     }
 
-    // adl files is in args
+    // adl/edl/qml files is in args
     const QStringList args = parser.positionalArguments();
 
     // Do conversion
@@ -153,10 +154,16 @@ int main(int argc, char **argv)
                 qWarning() << "Cannot find file " << arg;
                 continue;
             }
-            std::string qml = parseADLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
-            QFile file(fi.baseName() + ".qml");
-            if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                file.write(qml.c_str());
+            std::string qml;
+            if (fi.suffix() == "adl")
+                qml = parseADLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
+            else if (fi.suffix() == "edl")
+                qml = parseEDLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
+
+            if (!qml.empty()) {
+                QFile file(fi.baseName() + ".qml");
+                if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+                    file.write(qml.c_str());
             }
         }
         qCoreApp->quit();
@@ -166,7 +173,7 @@ int main(int argc, char **argv)
     if (parser.isSet(attachOption)) {
         bool existing = IPCClient::checkExistence();
         if (existing) {
-            qDebug() << "Attaching to existing ADLViewer";
+            qDebug() << "Attaching to existing Viewer";
             foreach(QString arg, args) {
                 if (IPCClient::requestDispatch(arg, macroString, geometry))
                     qDebug() << "  Dispatched: " << arg << macroString << geometry;
@@ -176,7 +183,7 @@ int main(int argc, char **argv)
             qCoreApp->quit();
             return 0;
         } else {
-            qWarning() << "\nCannot connect to existing ADLViewer because it is invalid\n"
+            qWarning() << "\nCannot connect to existing Viewer because it is invalid\n"
                        << "  Continuing with this one as if -cleanup were specified\n";
         }
     }
@@ -191,7 +198,7 @@ int main(int argc, char **argv)
         qMainApp = new QApplication(argc, argv);
         qMainApp->setOrganizationName("Paul Scherrer Institut");
         qMainApp->setOrganizationDomain("psi.ch");
-        qMainApp->setApplicationName("ADLViewer");
+        qMainApp->setApplicationName("Viewer");
         qMainApp->setApplicationVersion(CSDATAQUICK_VERSION);
     }
 

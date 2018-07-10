@@ -6,7 +6,9 @@
     \list
     \li Re-implement UtilsJS.formatString and DynamicAttribute in C++.
     \li Refactor utils.cpp to a shared library.
+    \li Add EDL file parser.
     \li Add custom property editor for CSMJPEGVideo in quick designer.
+    \li Rename ADLViewer to Viewer since it displays more than just adl files.
     \endlist
 
     \section1 1.0.0 (23-03-2018)

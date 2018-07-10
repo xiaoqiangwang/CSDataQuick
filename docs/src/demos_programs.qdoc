@@ -28,11 +28,11 @@
 /*!
 
 \page programs.html
-\title ADLViewer and builder
+\title Viewer and Builder
 
-\chapter ADLViewer
+\chapter Viewer
 
-ADLViewer parses an MEDM ASCII Display List(ADL) file and creates an equivalent display
+Viewer parses an MEDM ASCII Display List(ADL) file, or EDM (EDL) file and creates an equivalent display
 using CSDataQuick. Of course it accepts QML file as well. It can be a drop-in replacement to MEDM in execute mode.
 This document contains texts from
 \l {http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/MEDM.html}{MEDM Reference Manual}
@@ -93,18 +93,18 @@ when applicable.
 
 Start up two displays:
 \code
-    $ ADLViewer adc.adl bded.qml &
+    $ Viewer adc.adl bded.qml &
 \endcode
 
 Start up in execute mode, performing macro substitution of all occurrences of $(a) and $(c) in the display file, xyz.adl:
 \code
-    $ ADLViewer -x -macro "a=b,c=d" xyz.adl &
+    $ Viewer -x -macro "a=b,c=d" xyz.adl &
 \endcode
 
 Start up in execute mode; resize the display window corresponding to abc.adl to 100 by 100 pixels
 and move it to the location, x = 100 and y = 100:
 \code
-    $ ADLViewer -x -dg 100x100+100+100 abc.adl &
+    $ Viewer -x -dg 100x100+100+100 abc.adl &
 \endcode
 
 \section1 Context Popup Menu
@@ -152,13 +152,13 @@ The system command can include the following special characters:
 \table
 \row
 \li &A
-\li The full path name of the ADL file associated with the display.
+\li The full path name of the display file associated with the display.
 \row
 \li &T
 \li The short name of the file.  (This should be the same as the title of the display.)
 \row
 \li &X
-\li The X window id of the ADL screen.  This can be used with commands like Xwd, for example.
+\li The X window id of the display screen.  This can be used with commands like Xwd, for example.
 \row
 \li &?
 \li Truncate the command at this point and prompt the user to finish or otherwise edit the command.
@@ -193,6 +193,20 @@ The system command can include the following special characters:
 \li Drag-And-Drop. It does not support drag-and-drop.
     But the CSData source can be copied via context menu \e {Copy Source}.
 \endlist
+
+\section1 Differences to EDM
+
+\list
+\li Command line options
+    \list
+    \li \e -x, \e -m options are supported.
+    \li Use \e -attach in place of \e -server.
+    \li Any other options are not supported.
+    \endlist
+\li Pv types \e {CALC} and \e {LOG} are not supported.
+\li Dynamic colors are not supported.
+\endlist
+
 
 \chapter builder
 

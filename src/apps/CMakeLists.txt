@@ -1,2 +1,2 @@
-add_subdirectory(ADLViewer)
+add_subdirectory(Viewer)
 add_subdirectory(builder)
