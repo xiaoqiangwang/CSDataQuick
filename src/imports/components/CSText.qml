@@ -83,11 +83,11 @@ CSGraphics {
         id: text_control
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         anchors.fill: parent
-        minimumPixelSize: 4
-        fontSizeMode: Text.VerticalFit
+        minimumPixelSize: 8
+        fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(height).family
-        font.pixelSize: root.height
-        verticalAlignment: Text.AlignHCenter
+        font.pixelSize: parent.height
+        verticalAlignment: Text.AlignVCenter
         onLinkActivated: Qt.openUrlExternally(link)
     }
 }

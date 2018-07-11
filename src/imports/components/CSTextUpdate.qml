@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.6
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
@@ -81,11 +81,14 @@ CSMonitor {
 
     RowLayout {
         anchors.fill: parent
+        anchors.margins: 1
         Text {
             id: label_control
-            fontSizeMode: Text.VerticalFit
+            fontSizeMode: Text.Fit
+            minimumPixelSize: 8
             font.family: UtilsJS.getBestFontSize(root.height).family
-            font.pixelSize: root.height
+            font.pixelSize: parent.height
+            verticalAlignment: Text.AlignVCenter
             text: Utils.inPuppet ? source : formatter.text
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
@@ -94,7 +97,7 @@ CSMonitor {
         Text {
             id: units
             font: label_control.font
-            color: root.foreground
+            color: label_control.color
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignRight
             visible: unitsVisible && text != ''
