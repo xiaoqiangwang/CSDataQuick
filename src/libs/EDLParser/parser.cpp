@@ -772,7 +772,7 @@ void Object::compositeToQML(std::ostream& ostream)
                 ostream << "[";
             else
                 ostream << ",";
-            ostream << "\"" << filename << "\"";
+            ostream << "'" << filename << "'";
             if (i == filenames.size() -1)
                 ostream << "]";
         }
@@ -899,7 +899,7 @@ void Object::textToQML(std::ostream& ostream)
     rectToQML(ostream);
 
     attr = getText("value");
-    ostream << indent << "    text: \"" << attr << "\"" << std::endl;
+    ostream << indent << "    text: '" << attr << "'" << std::endl;
 
     std::string align = getText("fontAlign");
     if (align == "left")
@@ -1052,9 +1052,9 @@ void Object::cartesianPlotToQML(std::ostream& ostream)
 
     ostream << indent << "    foreground: " << getColor("fgColor") << std::endl;
     ostream << indent << "    background: " << getColor("bgColor") << std::endl;
-    ostream << indent << "    title: \"" << getText("graphTitle") << "\"" << std::endl;
-    ostream << indent << "    xLabel: \"" << getText("xLabel") << "\"" << std::endl;
-    ostream << indent << "    yLabel: \"" << getText("yLabel") << "\"" << std::endl;
+    ostream << indent << "    title: '" << getText("graphTitle") << "'" << std::endl;
+    ostream << indent << "    xLabel: '" << getText("xLabel") << "'" << std::endl;
+    ostream << indent << "    yLabel: '" << getText("yLabel") << "'" << std::endl;
 
     std::string xAxisSrc = getText("xAxisSrc");
     if (xAxisSrc == "AutoScale")
@@ -1252,6 +1252,10 @@ void Object::textUpdateToQML(std::ostream& ostream)
         ostream << indent << "    limits.precSrc: LimitsSource.Default" << std::endl;
         ostream << indent << "    limits.precDefault: " << getInteger("precision") << std::endl;
     }
+
+    std::string font = getFont("font");
+    if (!font.empty())
+        ostream << indent << "    " << font << std::endl;
 
     std::string align = getText("fontAlign");
     if (align == "left")
