@@ -44,7 +44,17 @@ CSMonitor {
         The valid values for horizontalAlignment are Text.AlignLeft, Text.AlignRight, Text.AlignHCenter and Text.AlignJustify.
     */
     property alias align: label_control.horizontalAlignment
+
+    /*!
+        \qmlproperty font font
+        The text font.
+    */
     property alias font: label_control.font
+    /*!
+        \qmlproperty enumeration fontSizeMode
+
+        \sa Text.fontSizeMode
+    */
     property alias fontSizeMode: label_control.fontSizeMode
     /*!
         This property indicates how the data value is formated to text display. \sa TextFormat,
@@ -54,10 +64,6 @@ CSMonitor {
     property int format: TextFormat.Decimal
     /*! This property indicates whether to display the physical units if available */
     property bool unitsVisible: false
-    /*! \internal */
-    font.family: UtilsJS.getBestFontSize(height).family
-    font.pixelSize: UtilsJS.getBestFontSize(height).size
-    fontSizeMode: Text.Fit
 
     implicitWidth: 100
     implicitHeight: 20
@@ -77,6 +83,9 @@ CSMonitor {
         anchors.fill: parent
         Text {
             id: label_control
+            fontSizeMode: Text.VerticalFit
+            font.family: UtilsJS.getBestFontSize(root.height).family
+            font.pixelSize: root.height
             text: Utils.inPuppet ? source : formatter.text
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
