@@ -9,10 +9,14 @@ import "utils.js" as UtilsJS
     \ingroup csdataquick.components.graphics
     \brief Display a text label
 
-    It can display both plain and rich text in HTML-style markup. The text may extend beyond the height and width specified for the Text item
-    or may not use up all the specified height and width. The text typically does not fill all of the specified height for the Text item.
+    It can display both plain and rich text in HTML-style markup. 
 
-    The font used depends on the item height using function \l UtilsJS::getBestFontSize.
+    The \l font property can specify the font family, pixelSize, weight, style etc. If unspecified font family is returned from
+    function \l UtilsJS::getBestFontSize.
+
+    If \l fontSizeMode is Text.Fit, the font pixelSize will fit within the item width and height. If \l fontSizeMode is Text.FixedSize,
+    Text.VerticalFit or Text.HorizontalFit, the text may extend beyond the height and width specified for the Text item
+    or may not use up all the specified height and width. The text typically does not fill all of the specified height for the Text item.
 
     \qml
     Column {
