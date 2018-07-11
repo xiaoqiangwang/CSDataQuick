@@ -3198,6 +3198,9 @@ void TextUpdate::toQML(std::ostream &ostream)
         ostream << indent << "    format: " << qmlValueTable[this->format] << std::endl;
     if (this->align != HORIZ_LEFT)
         ostream << indent << "    align: " << qmlValueTable[this->align] << std::endl;
+    else
+        ostream << indent << "    fontSizeMode: Text.VerticalFit"<< std::endl;
+
     ostream << indent << "}" << std::endl;
 }
 
