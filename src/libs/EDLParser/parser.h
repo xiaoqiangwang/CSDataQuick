@@ -1,7 +1,5 @@
 #pragma once
 
-#include <fstream>
-#include <sstream>
 #include <iostream>
 #include <list>
 #include <map>
@@ -9,6 +7,7 @@
 #include <vector>
 #include <string>
 
+/* EDM object types */
 enum ObjectType {
     EL_Object = 0,
     EL_Screen,
@@ -71,6 +70,8 @@ typedef struct {
 } Rect;
 
 class Screen;
+
+/* Object represents EDM widget */
 class Object
 {
 public:
@@ -89,7 +90,10 @@ public:
             p = p->parent();
         }
     }
-    virtual ~Object() {}
+    virtual ~Object() {
+        for (std::list<Object*>::iterator it = objects.begin(); it != objects.end(); ++it)
+            delete *it;
+    }
 
     ObjectType type() const {return _type;}
     Object *parent() const {return _parent;}
@@ -100,10 +104,19 @@ public:
     Rect rect() const {return _rect; }
     void setRect(Rect rect) { this->_rect = rect;}
 
+    /* parse EDL file stream */
     virtual void parse(std::istream& fstream);
+
+    /* QML output */
+    virtual void toQML(std::ostream& ostream);
+
+    TOKEN getToken(std::istream &fstream, char *word);
+    std::vector<std::string> getLine(std::istream &fstream);
     void parsePropertyValue(std::istream &fstream);
     void parseGroup(std::istream& fstream);
+    void parseAndSkip(std::istream &fstream);
 
+    /* graphics */
     void arcToQML(std::ostream& ostream);
     void circleToQML(std::ostream& ostream);
     void imageToQML(std::ostream& ostream);
@@ -111,7 +124,7 @@ public:
     void rectangleToQML(std::ostream& ostream);
     void relatedDisplayToQML(std::ostream& ostream);
     void textToQML(std::ostream& ostream);
-
+    /* monitors */
     void barToQML(std::ostream& ostream);
     void byteToQML(std::ostream& ostream);
     void cartesianPlotToQML(std::ostream& ostream);
@@ -121,7 +134,7 @@ public:
     void meterToQML(std::ostream& ostream);
     void stripChartToQML(std::ostream& ostream);
     void textUpdateToQML(std::ostream& ostream);
-
+    /* controls */
     void choiceButtonToQML(std::ostream& ostream);
     void menuToQML(std::ostream& ostream);
     void messageButtonToQML(std::ostream& ostream);
@@ -130,7 +143,7 @@ public:
     void sliderToQML(std::ostream& ostream);
     void updownButtonToQML(std::ostream& ostream);
     void textEntryToQML(std::ostream& ostream);
-
+    /* misc */
     void compositeToQML(std::ostream& ostream);
     void genericToQML(std::ostream& ostream);
     void rectToQML(std::ostream& ostream);
@@ -138,11 +151,6 @@ public:
 
     void exitButtonToQML(std::ostream& ostream);
 
-    virtual void toQML(std::ostream& ostream);
-
-    TOKEN getToken(std::istream &fstream, char *word);
-    std::vector<std::string> getLine(std::istream &fstream);
-    void parseAndSkip(std::istream &fstream);
     /* access object */
     bool getBool(std::string boolname);
     int getInteger(std::string intname, int defaultvalue=0);
@@ -168,6 +176,7 @@ protected:
     std::map<std::string, std::vector<std::string> > properties;
 };
 
+/* Screen represents EDM display */
 class Screen : public Object
 {
 public:
@@ -176,11 +185,6 @@ public:
     void parse(std::istream &fstream);
     void toQML(std::ostream& ostream);
     void toPartialQML(std::ostream &ostream);
-
-    virtual ~Screen() {
-        for (std::list<Object*>::iterator it = objects.begin(); it != objects.end(); ++it)
-            delete *it;
-    }
 
     std::string color(int index) {
         auto it = colormap.find(index);
@@ -230,9 +234,6 @@ private:
 
     /* file */
     std::string file;
-
-    /* display */
-    int clr, bclr;
 
     std::map<int, std::string> colormap;
 };

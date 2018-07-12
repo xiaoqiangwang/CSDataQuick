@@ -1,16 +1,17 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <algorithm>
 #include <iterator>
 #include <climits>
 #include <cctype>
 #include <iomanip>
 #include <cstdlib>
+#include <sstream>
+#include <fstream>
+
+#include <string.h>
 
 #include "parser.h"
 
+/* EDM class name to object type conversion table */
 struct ObjectTable_t {
     const char* name;
     ObjectType type;
