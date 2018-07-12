@@ -912,6 +912,8 @@ void Object::textToQML(std::ostream& ostream)
     attr = getFont("font");
     if (!attr.empty())
         ostream << indent << "    " << attr << std::endl;
+    
+    ostream << indent << "    fontSizeMode: Text.FixedSize" << std::endl;
 
     attr = getColor("fgColor");
     if (!attr.empty())
@@ -1256,6 +1258,8 @@ void Object::textUpdateToQML(std::ostream& ostream)
     std::string font = getFont("font");
     if (!font.empty())
         ostream << indent << "    " << font << std::endl;
+
+    ostream << indent << "    fontSizeMode: Text.FixedSize" << std::endl;
 
     std::string align = getText("fontAlign");
     if (align == "left")
