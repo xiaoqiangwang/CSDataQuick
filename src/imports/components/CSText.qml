@@ -63,8 +63,9 @@ CSGraphics {
     
     /*!
         \qmlproperty enumeration fontSizeMode
+        This property specifies how the font size of the displayed text is determined.
 
-        \sa Text.fontSizeMode
+        \sa {Text::} {fontSizeMode}
     */
     property alias fontSizeMode: text_control.fontSizeMode
 

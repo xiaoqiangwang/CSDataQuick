@@ -56,8 +56,9 @@ CSMonitor {
     property alias font: label_control.font
     /*!
         \qmlproperty enumeration fontSizeMode
+        This property specifies how the font size of the displayed text is determined.
 
-        \sa Text.fontSizeMode
+        \sa {Text::} {fontSizeMode}
     */
     property alias fontSizeMode: label_control.fontSizeMode
     /*!

@@ -133,7 +133,7 @@ BaseItem {
         d.rootItem.y = 0
     }
 
-    /* \internal */
+    /*! \internal */
     function join(s1, s2) {
         if (!s1)
             return s2

@@ -152,6 +152,7 @@ CSControl {
         }
     }
 
+    /*! \internal */
     function textToValue(text) {
         var value
         switch (csdata.fieldType) {
