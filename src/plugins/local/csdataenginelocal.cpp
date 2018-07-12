@@ -33,6 +33,31 @@ QString QCSDataEngineLocal::description()
     return "Local Data Engine";
 }
 
+void QCSDataEngineLocal::initializeData(QCSData *data, QString name)
+{
+    data->updateValue(_objectsMap[name]["value"].toVariant());
+    // update common constant properties
+    QString type = _objectsMap[name]["type"].toString();
+    if (type == "string")
+        data->setProperty("fieldType", QCSData::String);
+    else if (type == "int")
+        data->setProperty("fieldType", QCSData::Integer);
+    else if (type == "double")
+        data->setProperty("fieldType", QCSData::Double);
+    else if (type == "enum") {
+        data->setProperty("fieldType", QCSData::Enum);
+        data->setProperty("stateStrings", _objectsMap[name]["enums"].toArray().toVariantList());
+    }
+    data->setProperty("count", 1);
+    data->setProperty("accessRight", int(QCSData::ReadAccess | QCSData::WriteAccess));
+
+    data->setProperty("host", "local data");
+    data->setProperty("connected", true);
+    QCSDataAlarm *alarm= qvariant_cast<QCSDataAlarm*>(data->property("alarm"));
+    if (alarm)
+        alarm->setProperty("severity", QCSDataAlarm::NoAlarm);
+}
+
 void QCSDataEngineLocal::notifyDataChange(QCSData *data, QString name)
 {
     data->updateValue(_objectsMap[name]["value"].toVariant());
@@ -57,7 +82,7 @@ void QCSDataEngineLocal::create(QCSData *data)
         _dataMap[rootName].append(data);
         // if this source is already configured, populate CSData instance
         if (_objectsMap.contains(rootName)) {
-            notifyDataChange(data, rootName);
+            initializeData(data, rootName);
         }
     } else {
         data->setProperty("rootName", rootName);
@@ -75,30 +100,9 @@ void QCSDataEngineLocal::create(QCSData *data)
         // populate CSData instances referring this source
         for(int i=0; i<_dataMap[rootName].length(); i++) {
             QCSData *d = _dataMap[rootName][i];
-            notifyDataChange(d, rootName);
+            initializeData(d, rootName);
         }
     }
-    // update common constant properties
-    QString type = _objectsMap[rootName]["type"].toString();
-    if (type == "string")
-        data->setProperty("fieldType", QCSData::String);
-    else if (type == "int")
-        data->setProperty("fieldType", QCSData::Integer);
-    else if (type == "double")
-        data->setProperty("fieldType", QCSData::Double);
-    else if (type == "enum") {
-        data->setProperty("fieldType", QCSData::Enum);
-        data->setProperty("stateStrings", _objectsMap[rootName]["enums"].toArray().toVariantList());
-    }
-    data->setProperty("count", 1);
-    data->setProperty("accessRight", int(QCSData::ReadAccess | QCSData::WriteAccess));
-
-    data->setProperty("host", "local data");
-    data->setProperty("connected", true);
-    QCSDataAlarm *alarm= qvariant_cast<QCSDataAlarm*>(data->property("alarm"));
-    if (alarm)
-        alarm->setProperty("severity", QCSDataAlarm::NoAlarm);
-
     _data->append(data);
     emit allDataChanged();
 }

@@ -25,6 +25,7 @@ public:
 
 protected:
     void notifyDataChange(QCSData *data, QString name);
+    void initializeData(QCSData *data, QString name);
 
 private:
     ObjectModel *_data;
