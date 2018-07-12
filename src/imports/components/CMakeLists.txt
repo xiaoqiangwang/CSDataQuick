@@ -151,6 +151,7 @@ set(QML_JS_FILES
     designer/PolylineEditor.qml
     designer/StripChartEditor.qml
     designer/TextFormatSection.qml
+    designer/TextFontSection.qml
     designer/images/2dsscan.png
     designer/images/areaDetector.png
     designer/images/arc.png

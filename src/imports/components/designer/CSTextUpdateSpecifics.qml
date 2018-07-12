@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.0
 Column {
     DataSourceSection {}
     TextFormatSection {}
+    TextFontSection {}
     ColorSection {}
     DynamicAttributeSection {}
 }

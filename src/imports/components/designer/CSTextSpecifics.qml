@@ -34,6 +34,8 @@ Column {
             }
         }
     }
+    TextFontSection {
+    }
     ColorSection {
     }
     DynamicAttributeSection {

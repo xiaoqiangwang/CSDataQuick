@@ -84,6 +84,7 @@ CSMonitor {
     }
 
     RowLayout {
+        id: mainLayout
         anchors.fill: parent
         anchors.margins: 1
         Text {
@@ -91,7 +92,10 @@ CSMonitor {
             fontSizeMode: Text.Fit
             minimumPixelSize: 8
             font.family: UtilsJS.getBestFontSize(root.height).family
-            font.pixelSize: parent.height
+            Binding on font.pixelSize {
+                when: fontSizeMode != Text.FixedSize
+                value: mainLayout.height
+            }
             verticalAlignment: Text.AlignVCenter
             text: Utils.inPuppet ? source : formatter.text
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
