@@ -1,9 +1,11 @@
 set(SOURCES
+    ui4.cpp
     parser.cpp
     UIParser.cpp
 )
 
 set(HEADERS
+    ui4.h
     UIParser.h
     UIParser_global.h
 )

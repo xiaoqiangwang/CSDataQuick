@@ -1,10 +1,19 @@
 #pragma once
 
+#include <QTextStream>
 #include <QXmlStreamReader>
-#include <iostream>
+
 #include <set>
 #include <map>
 #include <string>
+
+class DomUI;
+class DomColor;
+class DomLayout;
+class DomLayoutItem;
+class DomRect;
+class DomFont;
+class DomWidget;
 
 class UI
 {
@@ -13,8 +22,16 @@ public:
     ~UI();
     
     void parse(QXmlStreamReader &reader);
-    void toQML(std::ostream& ostream);
-    void toPartialQML(std::ostream &ostream);
+    void toQML(QTextStream& ostream);
+    void toPartialQML(QTextStream &ostream);
+
+    QString colorToQML(DomColor *v);
+    void rectToQML(QTextStream &ostream, DomRect *r, int level=0);
+    void fontToQML(QTextStream &ostream, DomFont *r, int level=0);
+    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
+
+    void tabWidgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 
     void setFileName(std::string filename) { file = filename;}
     std::string fileName() { return file; }
@@ -52,4 +69,6 @@ private:
 
     /* file */
     std::string file;
+    /* DomUI */
+    DomUI *ui;
 };

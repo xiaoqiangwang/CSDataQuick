@@ -1,8 +1,9 @@
 #include "UIParser.h"
 #include "parser.h"
 
-#include <fstream>
 #include <sstream>
+
+#include <QFile>
 
 std::string parseUIDisplay(std::string filename, std::map<std::string, std::string> macros)
 {
@@ -10,14 +11,18 @@ std::string parseUIDisplay(std::string filename, std::map<std::string, std::stri
     displayInfo.setFileName(filename);
     displayInfo.setMacros(macros);
 
-    QXmlStreamReader reader(filename.c_str());
+    QFile file(filename.c_str());
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+
+    QXmlStreamReader reader(&file);
     displayInfo.parse(reader);
 
-    std::ostringstream osstream;
-    displayInfo.toQML(osstream);
-    osstream.flush(); 
+    QString qml;
+    QTextStream ostream(&qml);
+    displayInfo.toQML(ostream);
 
-    return osstream.str();
+    return qml.toStdString();
 }
 
 std::string parseUIComposite(std::string filename, std::map<std::string, std::string> macros)
@@ -26,12 +31,16 @@ std::string parseUIComposite(std::string filename, std::map<std::string, std::st
     displayInfo.setFileName(filename);
     displayInfo.setMacros(macros);
 
-    QXmlStreamReader reader(filename.c_str());
+    QFile file(filename.c_str());
+    if (!file.open(QIODevice::ReadOnly))
+        return "";
+
+    QXmlStreamReader reader(&file);
     displayInfo.parse(reader);
 
-    std::ostringstream osstream;
-    displayInfo.toPartialQML(osstream);
-    osstream.flush();
+    QString qml;
+    QTextStream ostream(&qml);
+    displayInfo.toPartialQML(ostream);
 
-    return osstream.str();
+    return qml.toStdString();
 }
