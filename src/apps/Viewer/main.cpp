@@ -25,6 +25,7 @@
 
 #include "ADLParser.h"
 #include "EDLParser.h"
+#include "UIParser.h"
 #include "cs_global.h"
 
 QPointer<QQuickWindow> window;
@@ -79,10 +80,10 @@ int main(int argc, char **argv)
 
     QCommandLineParser parser;
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
-    parser.setApplicationDescription("adl/edl/qml viewer");
+    parser.setApplicationDescription("adl/edl/ui/qml viewer");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument("adl/edl/qml file", QCoreApplication::translate("main", "adl/edl/qml file to open."));
+    parser.addPositionalArgument("adl/edl/ui/qml file", QCoreApplication::translate("main", "adl/edl/ui/qml file to open."));
 
     // A boolean option indicating execution mode (-x, --execute)
     QCommandLineOption execOption(QStringList() << "x" << "execute", "Open in execute mode.");
@@ -140,7 +141,7 @@ int main(int argc, char **argv)
         QDir::addSearchPath("displays", path);
     }
 
-    // adl/edl/qml files is in args
+    // adl/edl/ui/qml files is in args
     const QStringList args = parser.positionalArguments();
 
     // Do conversion
@@ -159,7 +160,8 @@ int main(int argc, char **argv)
                 qml = parseADLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
             else if (fi.suffix() == "edl")
                 qml = parseEDLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
-
+            else if (fi.suffix() == "ui")
+                qml = parseUIDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
             if (!qml.empty()) {
                 QFile file(fi.baseName() + ".qml");
                 if (file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -242,7 +244,7 @@ int main(int argc, char **argv)
     }
 
     foreach (QString fileName, args) {
-        QMetaObject::invokeMethod(window, "createADLDisplay",
+        QMetaObject::invokeMethod(window, "createDisplay",
                              Q_ARG(QVariant, fileName),
                              Q_ARG(QVariant, macroString),
                              Q_ARG(QVariant, geometry));

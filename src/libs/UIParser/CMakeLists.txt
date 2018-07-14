@@ -22,6 +22,8 @@ add_library(UIParser SHARED
     ${HEADERS}
 )
 
+target_link_libraries(UIParser Qt5::Core)
+
 set_target_properties(UIParser PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib

@@ -71,7 +71,7 @@ ApplicationWindow
     FileDialog {
         id: fileDialog
         title: "Open file ..."
-        nameFilters: ["Display files (*.adl  *.edl *.qml)"]
+        nameFilters: ["Display files (*.adl  *.edl *.ui *.qml)"]
         onAccepted: {
             var request = new XMLHttpRequest()
             request.open('GET', fileUrl)
@@ -84,7 +84,7 @@ ApplicationWindow
                         macroDialog.open()
                     }
                     else
-                        createADLDisplay(fileUrl, "", "")
+                        createDisplay(fileUrl, "", "")
                 }
             }
             request.send()
@@ -107,7 +107,7 @@ ApplicationWindow
             }
             // strip off the last comma ","
             macroString = macroString.slice(0, -1)
-            createADLDisplay(fileUrl, macroString, "")
+            createDisplay(fileUrl, macroString, "")
         }
 
         GridLayout {
@@ -193,10 +193,10 @@ ApplicationWindow
              '  fileName = ' + fileName + '\n' +
              '  macro = ' + macro + '\n' +
              '  geometry = ' + geometry)
-        createADLDisplay(fileName, macro, geometry);
+        createDisplay(fileName, macro, geometry);
     }
 
-    function createADLDisplay(fileName, macro, geometry)
+    function createDisplay(fileName, macro, geometry)
     {
         // search the file
         var absFilePath = Utils.searchDisplayFile(fileName, root)

@@ -51,6 +51,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
     ${CMAKE_SOURCE_DIR}/src/libs/EDLParser
+    ${CMAKE_SOURCE_DIR}/src/libs/UIParser
 )
 target_link_libraries(${APPNAME}
     Qt5::Core
@@ -61,6 +62,7 @@ target_link_libraries(${APPNAME}
     Qt5::Network
     ADLParser
     EDLParser
+    UIParser
 )
 if(APPLE)
     find_library(OSXSecurity Security)

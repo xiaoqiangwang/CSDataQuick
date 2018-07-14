@@ -124,7 +124,15 @@ BaseItem {
                     'import CSDataQuick.Components 1.0\n' +
                     'Item { anchors.fill: parent\n' +
                     qmlBody + '\n}';
-        } else if (/.qml$/i.test(absFilePath)) {
+        } else if (/.ui$/i.test(absFilePath)) {
+            var qmlBody = Utils.openUIComposite(absFilePath, join(windowMacro, macro))
+            qmlCmd = 'import QtQuick 2.0\n' +
+                    'import QtQuick.Controls 1.0\n' +
+                    'import CSDataQuick.Data 1.0\n' +
+                    'import CSDataQuick.Components 1.0\n' +
+                    'Item { anchors.fill: parent\n' +
+                    qmlBody + '\n}';
+         } else if (/.qml$/i.test(absFilePath)) {
             qmlCmd = Utils.openQMLDisplay(absFilePath, macro ? macro : windowMacro)
         }
         d.rootItem  = Qt.createQmlObject(qmlCmd, root, absFilePath)
