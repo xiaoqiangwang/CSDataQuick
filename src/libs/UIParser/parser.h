@@ -26,43 +26,6 @@ public:
     void toQML(QTextStream& ostream);
     void toPartialQML(QTextStream &ostream);
 
-    QString colorToQML(DomColor *v);
-    QString directionToQML(QString direction);
-    QString formatToQML(QString format);
-    QString labelStyleToQML(QString style);
-
-    bool dynamicAttributeToQML(QTextStream &ostream, DomProperty *w, int level=0);
-    bool limitsToQML(QTextStream &ostream, DomProperty *w, int level=0);
-    void rectToQML(QTextStream &ostream, DomRect *r, int level=0);
-    void fontToQML(QTextStream &ostream, DomFont *r, int level=0);
-    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
-
-    void compositeToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void frameToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void graphicsToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void imageToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void labelToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void polylineToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-
-    void barToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void byteToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void stripChartToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void textUpdateToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-
-    void choiceButtonToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void menuToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void messageButtonToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void relatedDisplayToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void shellCommandToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void sliderToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void spinBoxToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void textEntryToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    void wheelSwitchToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-
-    void tabWidgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    
-    void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-
     void setFileName(std::string filename) { file = filename;}
     std::string fileName() { return file; }
 
@@ -91,6 +54,50 @@ public:
     void addUnmatchedMacro(std::string macro) {
         unmatchedNames.insert(macro);
     }
+
+protected:
+    // helper methods to convert standard properties to QML
+    QString colorToQML(DomColor *v);
+    QString directionToQML(QString direction);
+    QString formatToQML(QString format);
+    QString labelStyleToQML(QString style);
+
+    bool dynamicAttributeToQML(QTextStream &ostream, DomProperty *w, int level=0);
+    bool limitsToQML(QTextStream &ostream, DomProperty *w, int level=0);
+    void rectToQML(QTextStream &ostream, DomRect *r, int level=0);
+    void fontToQML(QTextStream &ostream, DomFont *r, int level=0);
+    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
+
+    // graphics widgets
+    void compositeToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void frameToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void graphicsToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void imageToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void labelToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void polylineToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+
+    // monitior widgets
+    void barToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void byteToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void stripChartToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void textUpdateToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+
+    // control widgets
+    void choiceButtonToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void menuToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void messageButtonToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void relatedDisplayToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void shellCommandToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void sliderToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void spinBoxToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void textEntryToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void wheelSwitchToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+
+    // Qt standard widgets
+    void tabWidgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+
+    void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    QVector<DomWidget*> orderedChildWidgets(DomWidget *w);
 
 private:
     std::string nameValueString;

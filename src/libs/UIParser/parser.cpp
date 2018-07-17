@@ -10,6 +10,7 @@ UI::UI()
 
 UI::~UI()
 {
+    delete ui;
 }
 
 void UI::parse(QXmlStreamReader& reader)
@@ -312,8 +313,7 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
 {
     QString indent(level * 4, ' ');
 
-    ostream << indent << "CSRect {" << endl;
-    ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
+    ostream << indent << "CSComposite {" << endl;
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -322,7 +322,7 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
             ;
     }
 
-    for (DomWidget *child : w->elementWidget()) {
+    for (DomWidget *child : orderedChildWidgets(w)) {
         widgetToQML(ostream, child, level+1);
     }
 
@@ -534,7 +534,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "xyPairs") {
             QString xyPairs = v->elementString()->text();
             ostream << indent << "    points: [";
-            for (QString xyPair : xyPairs.split(';')) {
+            for (QString xyPair : xyPairs.split(';', QString::SkipEmptyParts)) {
                 ostream << "Qt.point(" << xyPair << "),";
             }
             ostream << "]" << endl;
@@ -1189,10 +1189,27 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     ostream << indent << "}" << endl;
 }
 
+QVector<DomWidget*> UI::orderedChildWidgets(DomWidget *w)
+{
+    if (w->elementZOrder().size() == 0)
+        return w->elementWidget();
+
+    QVector<DomWidget*>  ordered;
+    for (QString widgetName : w->elementZOrder()) {
+        for (DomWidget *child : w->elementWidget()) {
+            if (child->attributeName() == widgetName) {
+                ordered.push_back(child);
+                break;
+            }
+        }
+    }
+    return ordered;
+}
+
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
-
+    
     QString widgetClass = w->attributeClass();
     if (widgetClass == "QTabWidget")
         tabWidgetToQML(ostream, w, level, i);
@@ -1236,12 +1253,12 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         wheelSwitchToQML(ostream, w, level, i);
     else if (widgetClass == "QMenuBar" || widgetClass == "QStatusBar")
         qCritical() << "widget " << widgetClass << "not supported";
-    else if (widgetClass == "QWidget" && w->attributeName() == "centralWidget") {
+    else if (widgetClass == "QWidget") {
         for (DomLayout *child : w->elementLayout())
             layoutToQML(ostream, child, level+1);
-        for (DomWidget *child : w->elementWidget())
+        for (DomWidget *child : orderedChildWidgets(w))
             widgetToQML(ostream, child, level+1);
-    }
+     }
     else {
         qDebug() << "Use CSRect for widget class " << widgetClass << endl;
         ostream << indent << "CSRect {" << endl;
@@ -1266,7 +1283,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         for (DomLayout *child : w->elementLayout())
             layoutToQML(ostream, child, level+1);
 
-        for (DomWidget *child : w->elementWidget())
+        for (DomWidget *child : orderedChildWidgets(w))
             widgetToQML(ostream, child, level+1);
 
         ostream << indent << "}" << endl;
@@ -1292,7 +1309,7 @@ void UI::toQML(QTextStream& ostream)
         }
     }
 
-    for (DomWidget *child : mainWidget->elementWidget())
+    for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child, 1);
 
     ostream << "}" << endl;
@@ -1304,6 +1321,6 @@ void UI::toPartialQML(QTextStream& ostream)
     if (!mainWidget)
         return;
 
-    for (DomWidget *child : mainWidget->elementWidget())
+    for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child);
 }
