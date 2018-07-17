@@ -807,13 +807,11 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         else if  (v->attributeName() == "stackingMode") {
             QString stacking = v->elementEnum();
             if (stacking == "caChoice::Column")
-                ostream << indent << "    stacking: Stacking.Column" << endl;
-            else if (stacking == "caChoice::Row" || stacking == "caChoice::RowInverse")
                 ostream << indent << "    stacking: Stacking.Row" << endl;
-            else
+            else if (stacking == "caChoice::Row" || stacking == "caChoice::RowInverse")
+                ostream << indent << "    stacking: Stacking.Column" << endl;
+            else if (stacking == "caChoice::RowColumn")
                 ostream << indent << "    stacking: Stacking.RowColumn" << endl;
-
-
         }
     }
 
