@@ -57,13 +57,14 @@ QString UI::colorToQML(DomColor *v)
     QString color;
     QTextStream ostream(&color);
 
-    ostream << "#" << hex << qSetFieldWidth(2) << qSetPadChar('0')
-        << v->elementRed()
-        << v->elementGreen()
-        << v->elementBlue();
+    ostream << "#" << hex << qSetFieldWidth(2) << qSetPadChar('0');
 
     if (v->hasAttributeAlpha())
         ostream << v->attributeAlpha();
+
+    ostream << v->elementRed()
+        << v->elementGreen()
+        << v->elementBlue();
 
     return color;
 }
