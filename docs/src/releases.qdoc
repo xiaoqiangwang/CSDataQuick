@@ -9,6 +9,7 @@
     \li Add a new type of data engine \e local. The source scheme is loc://<source>[.{json object}]
         The trailing json object could be used to configure the data type and value.
     \li Add an EDL file parser.
+    \li Add a UI file parser.
     \li Refactor utils.cpp to a shared library.
     \endlist
 
