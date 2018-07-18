@@ -467,9 +467,12 @@ QString QCSUtils::openUIDisplay(QUrl fileName, QString macro)
             qWarning() << "macro unclear" << m;
     }
 
-    std::string qmlBody = parseUIDisplay(fileName.toLocalFile().toStdString(), macroMap);
+    QString qml = QString::fromStdString(parseUIDisplay(fileName.toLocalFile().toStdString(), macroMap));
+    for(auto pair : macroMap) {
+        qml.replace("$("+QString::fromStdString(pair.first)+")", QString::fromStdString(pair.second));
+    }
 
-    return QString::fromStdString(qmlBody);
+    return qml;
 }
 /*!
     \qmlmethod string Utils::openUIComposite(fileName, macro)
@@ -492,9 +495,12 @@ QString QCSUtils::openUIComposite(QUrl fileName, QString macro)
             qWarning() << "macro unclear" << m;
     }
 
-    std::string qmlBody = parseUIComposite(fileName.toLocalFile().toStdString(), macroMap);
+    QString qml = QString::fromStdString(parseUIComposite(fileName.toLocalFile().toStdString(), macroMap));
+    for(auto pair : macroMap) {
+        qml.replace("$("+QString::fromStdString(pair.first)+")", QString::fromStdString(pair.second));
+    }
 
-    return QString::fromStdString(qmlBody);
+    return qml;
 }
 /*!
     \qmlmethod string Utils::openQMLDisplay(fileName, macro)
