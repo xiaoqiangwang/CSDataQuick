@@ -940,6 +940,10 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             for (int i=0; i<files.size(); i++) {
                 if (i >= entries.size())
                     entries.append(Entry());
+                // replace .adl suffix with .ui
+                if (files[i].endsWith(".adl")) {
+                    files[i].replace(files[i].size() - 4, 4, ".ui");
+                }
                 entries[i].file = files[i];
             }
          }
