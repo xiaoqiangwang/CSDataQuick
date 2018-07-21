@@ -79,6 +79,8 @@ protected:
     // monitior widgets
     void barToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void byteToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void indicatorToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void meterToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void stripChartToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void textUpdateToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 

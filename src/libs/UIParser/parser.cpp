@@ -322,6 +322,8 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
+    for (DomLayout *child : w->elementLayout())
+        layoutToQML(ostream, child, level+1);
 
     for (DomWidget *child : orderedChildWidgets(w)) {
         widgetToQML(ostream, child, level+1);
@@ -386,7 +388,7 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             ostream << indent << "    rotation: " << v->elementNumber() << endl;
         else if (v->attributeName() == "linestyle") {
             if (v->elementEnum() == "caGraphics::Dash")
-                ostream << indent << "    edgeSyle: EdgeStyle.Dash" << endl;
+                ostream << indent << "    edgeStyle: EdgeStyle.Dash" << endl;
         }
         else if (v->attributeName() == "fillstyle") {
             if (v->elementEnum() == "caGraphics::Filled")
@@ -621,6 +623,70 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
         }
         else if (limitsToQML(ostream, v, level))
             ;
+    }
+
+    ostream << indent << "}" << endl;
+}
+
+void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "CSIndicator {" << endl;
+
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "channel") {
+            ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if  (v->attributeName() == "colorMode") {
+            if (v->elementEnum().contains("Alarm"))
+                ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
+        }
+        else if  (v->attributeName() == "direction") {
+            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+        }
+        else if  (v->attributeName() == "look") {
+            ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
+        }
+        else if (limitsToQML(ostream, v, level))
+            ;
+    }
+
+    ostream << indent << "}" << endl;
+}
+
+void UI::meterToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "CSMeter {" << endl;
+
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "channel") {
+            ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if  (v->attributeName() == "colorMode") {
+            if (v->elementEnum().contains("Alarm"))
+                ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
+        }
     }
 
     ostream << indent << "}" << endl;
@@ -1232,6 +1298,10 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         byteToQML(ostream, w, level, i);
     else if (widgetClass == "caThermo")
         barToQML(ostream, w, level, i);
+    else if (widgetClass == "caLinearGauge")
+        indicatorToQML(ostream, w, level, i);
+    else if (widgetClass == "caCircularGauge")
+        meterToQML(ostream, w, level, i);
     else if (widgetClass == "caStripPlot")
         stripChartToQML(ostream, w, level, i);
     else if (widgetClass == "caLineEdit" || widgetClass == "caMultiLineString")
@@ -1257,10 +1327,12 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     else if (widgetClass == "QMenuBar" || widgetClass == "QStatusBar")
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
+        ostream << indent << "Item {" << endl;
         for (DomLayout *child : w->elementLayout())
-            layoutToQML(ostream, child, level+1);
+            layoutToQML(ostream, child, level+2);
         for (DomWidget *child : orderedChildWidgets(w))
-            widgetToQML(ostream, child, level+1);
+            widgetToQML(ostream, child, level+2);
+        ostream << indent << "}" << endl;
      }
     else {
         qDebug() << "Use CSRect for widget class " << widgetClass << endl;
