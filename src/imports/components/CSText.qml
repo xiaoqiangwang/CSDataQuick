@@ -93,7 +93,7 @@ CSGraphics {
         font.family: UtilsJS.getBestFontSize(height).family
         Binding on font.pixelSize {
             when: fontSizeMode != Text.FixedSize
-            value: parent.height
+            value: height
         }
         verticalAlignment: Text.AlignVCenter
         onLinkActivated: Qt.openUrlExternally(link)
