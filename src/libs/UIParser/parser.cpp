@@ -1,3 +1,4 @@
+#include <QRegularExpression>
 #include <QtDebug>
 
 #include "parser.h"
@@ -148,6 +149,22 @@ bool UI::dynamicAttributeToQML(QTextStream &ostream, DomProperty *v, int level)
     return true;
 }
 
+void UI::layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, int level)
+{
+    if (i == nullptr)
+        return;
+
+    QString indent(level * 4, ' ');
+    if (i->hasAttributeRow())
+        ostream << indent << "    Layout.row: " << QString::number(i->attributeRow()) << endl;
+    if (i->hasAttributeColumn())
+        ostream << indent << "    Layout.column: " << QString::number(i->attributeColumn()) << endl;
+    if (i->hasAttributeColSpan())
+        ostream << indent << "    Layout.columnSpan: " << QString::number(i->attributeColSpan()) << endl;
+    if (i->hasAttributeRowSpan())
+        ostream << indent << "    Layout.rowSpan: " << QString::number(i->attributeRowSpan()) << endl;
+}
+
 bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
 {
     QString indent(level * 4, ' ');
@@ -239,19 +256,73 @@ void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
     ostream << indent << "}" << endl;
 }
 
+void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "GroupBox {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "title") {
+            ostream << "    title: '" << v->elementString()->text() << "'" << endl;
+        }
+    }
+
+    for (DomLayout *child : w->elementLayout())
+        layoutToQML(ostream, child, level+1);
+
+    for (DomWidget *child : orderedChildWidgets(w)) {
+        widgetToQML(ostream, child, level+1);
+    }
+
+    ostream << indent << "}" << endl;
+}
+
+void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "TextEdit {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "font") {
+            fontToQML(ostream, v->elementFont(), level);
+        }
+        else if (v->attributeName() == "readOnly") {
+            ostream << "    readOnly: " << v->elementBool() << endl;
+        }
+        else if (v->attributeName() == "plainText") {
+            QString text = v->elementString()->text();
+            // escape single quote if not escaped yet
+            text.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
+            ostream << "    text: '" << text << "'" << endl;
+        }
+        else if (v->attributeName() == "html") {
+            QString text = v->elementString()->text();
+            // escape single quote if not escaped yet
+            text.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
+            ostream << "    textFormat: TextEdit.RichText" << endl;
+            ostream << "    text: '" << text << "'" << endl;
+        }
+    }
+
+    ostream << indent << "}" << endl;
+}
+
 void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
 
     ostream << indent << "TabView {" << endl;
-    if (i && i->hasAttributeRow())
-        ostream << indent << "    Layout.row: " << QString::number(i->attributeRow()) << endl;
-    if (i && i->hasAttributeColumn())
-        ostream << indent << "    Layout.column: " << QString::number(i->attributeColumn()) << endl;
-    if (i && i->hasAttributeColSpan())
-        ostream << indent << "    Layout.columnSpan: " << QString::number(i->attributeColSpan()) << endl;
-    if (i && i->hasAttributeRowSpan())
-        ostream << indent << "    Layout.rowSpan: " << QString::number(i->attributeRowSpan()) << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -289,12 +360,17 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSComposite {" << endl;
+    layoutItemToQML(ostream, i, level);
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "filename") {
-            ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
+            QString file = v->elementString()->text();
+            if (file.endsWith(".adl")) {
+                file.replace(file.size() - 4, 4, ".ui");
+            }
+            ostream << indent << "    source: '" << file << "'" << endl;
         }
         else if (v->attributeName() == "macro") {
             ostream << indent << "    macro: '" << v->elementString()->text() << "'" << endl;
@@ -315,6 +391,7 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSComposite {" << endl;
+    layoutItemToQML(ostream, i, level);
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -376,6 +453,7 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             << "Qt.point(" << rect->elementWidth() << "," << rect->elementHeight() << ")]" << endl;
     }
 
+    layoutItemToQML(ostream, i, level);
     rectToQML(ostream, rect, level);
 
     bool fill = false;
@@ -420,6 +498,7 @@ void UI::imageToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSImage {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -443,6 +522,7 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSText {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     bool up = false;
 
@@ -463,8 +543,20 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         else if (v->attributeName() == "font") {
             fontToQML(ostream, v->elementFont(), level);
         }
+        else if (v->attributeName() == "fontScaleMode") {
+            QString fontSizeMode = v->elementEnum();
+            if (fontSizeMode == "ESimpleLabel::None")
+                ostream << indent << "    fontSizeMode: Text.FixedSize" << endl;
+            else if (fontSizeMode == "ESimpleLabel::Height")
+                ostream << indent << "    fontSizeMode: Text.VerticalFit" << endl;
+            else if (fontSizeMode == "ESimpleLabel::WidthAndHeight")
+                ostream << indent << "    fontSizeMode: Text.Fit" << endl;
+        }
         else if (v->attributeName() == "text") {
-            ostream << indent << "    text: \"" << v->elementString()->text() << "\"" << endl;
+            QString text = v->elementString()->text();
+            // escape single quote if not escaped yet
+            text.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
+            ostream << indent << "    text: '" <<  text << "'" << endl;
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
@@ -482,7 +574,7 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
-    
+
     if (w->attributeClass() == "caLabelVertical") {
         ostream << indent << "    // caLabelVertical" << endl;
         ostream << indent << "    rotation: " << (up ? -90 : 90) << endl;
@@ -507,6 +599,8 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         ostream << indent << "CSPolygon {" << endl;
     else
         ostream << indent << "CSPolyline {" << endl;
+
+    layoutItemToQML(ostream, i, level);
 
     bool fill = false;
     for (DomProperty *v : w->elementProperty()) {
@@ -556,6 +650,7 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSByte {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -591,12 +686,100 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
 
     ostream << indent << "}" << endl;
 }
- 
+
+void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    class Trace {
+        public:
+        Trace () {
+            xchannel = "";
+            ychannel = "";
+            color = "#000000";
+        };
+        QString xchannel;
+        QString ychannel;
+        QString color;
+    };
+
+    ostream << indent << "CSCartesianPlot {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    Trace traces[8];
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "Title") {
+            ostream << indent << "    title: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "TitleX") {
+            ostream << indent << "    xLabel: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "TitleY") {
+            ostream << indent << "    yLabel: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "countNumOrChannel") {
+            ostream << indent << "    countSource: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "XaxisScaling") {
+            if (v->elementEnum().endsWith("User"))
+                ostream << indent << "    xRangeStyle: CartesianPlotRangeStyle.User" << endl;
+        }
+        else if (v->attributeName() == "YaxisScaling") {
+            if (v->elementEnum().endsWith("User"))
+                ostream << indent << "    yRangeStyle: CartesianPlotRangeStyle.User" << endl;
+        }
+        else if (v->attributeName() == "XaxisLimits") {
+            QStringList limits = v->elementString()->text().split(';');
+            ostream << indent << "    xRangeLower: " << limits[0] << endl;
+            ostream << indent << "    xRangeUpper: " << limits[1] << endl;
+        }
+        else if (v->attributeName() == "YaxisLimits") {
+            QStringList limits = v->elementString()->text().split(';');
+            ostream << indent << "    yRangeLower: " << limits[0] << endl;
+            ostream << indent << "    yRangeUpper: " << limits[1] << endl;
+        }
+        else if (v->attributeName().startsWith("channels_")) {
+            int index = v->attributeName().mid(9).toInt();
+            QStringList channels = v->elementString()->text().split(';');
+            traces[index].xchannel = channels[0];
+            traces[index].ychannel = channels[1];
+        }
+        else if (v->attributeName().startsWith("color_")) {
+            int index = v->attributeName().mid(6).toInt();
+            traces[index].color = colorToQML(v->elementColor());
+        }
+    }
+
+    ostream << indent << "    model: ListModel {" << endl;
+    for (int i=0; i<8; i++) {
+        if (traces[i].xchannel.isEmpty() && traces[i].ychannel.isEmpty())
+            continue;
+        ostream << indent << "        ListElement {" << endl;
+        ostream << indent << "            xchannel: '" << traces[i].xchannel << "'" << endl;
+        ostream << indent << "            ychannel: '" << traces[i].ychannel << "'" << endl;
+        ostream << indent << "            color: '" << traces[i].color << "'" << endl;
+        ostream << indent << "        }" << endl;
+    }
+    ostream << indent << "    }" << endl;
+
+    ostream << indent << "}" << endl;
+}
+
 void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSBar {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -633,6 +816,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSIndicator {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -664,11 +848,53 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     ostream << indent << "}" << endl;
 }
 
+void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    bool rect = false;
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "rectangular") {
+            rect = v->elementBool() == "true";
+            break;
+        }
+    }
+
+    if (rect)
+        ostream << indent << "CSRect {" << endl;
+    else
+        ostream << indent << "CSOval {" << endl;
+
+    layoutItemToQML(ostream, i, level);
+
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "channel") {
+            ostream << indent << "    dynamicAttribute.channel: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if  (v->attributeName() == "colorMode") {
+            if (v->elementEnum().contains("Alarm"))
+                ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
+        }
+    }
+
+    ostream << indent << "}" << endl;
+}
+
 void UI::meterToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMeter {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -697,6 +923,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSStripChart {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     class Trace {
         public:
@@ -794,6 +1021,7 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextUpdate {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -844,7 +1072,7 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
- 
+
     ostream << indent << "}" << endl;
 }
 
@@ -853,6 +1081,7 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSChoiceButton {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -890,6 +1119,7 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMenu {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -918,6 +1148,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMessageButton {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -955,6 +1186,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSRelatedDisplay {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     class Entry {
         public:
@@ -1043,7 +1275,50 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
         ostream << indent << "        }" << endl;
     }
     ostream << indent << "    }" << endl;
- 
+
+    ostream << indent << "}" << endl;
+}
+
+void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "CSShellCommand {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    QString command;
+    for (DomProperty *v : w->elementProperty()) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "label") {
+            ostream << indent << "    label: '-" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "scriptCommand") {
+            command += v->elementString()->text();
+        }
+        else if (v->attributeName() == "scriptParameter") {
+            command += "\n\"";
+            command += v->elementString()->text();
+            command += " \"&";
+        }
+    }
+
+    if (!command.isEmpty()) {
+        ostream << indent << "    model: ListModel {" << endl;
+        ostream << indent << "        ListElement {" << endl;
+        ostream << indent << "            label: ''" << endl;
+        ostream << indent << "            command: '" << command << "'" << endl;
+        ostream << indent << "        }" << endl;
+        ostream << indent << "    }" << endl;
+    }
+
     ostream << indent << "}" << endl;
 }
 
@@ -1052,6 +1327,7 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSShellCommand {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     class Entry {
         public:
@@ -1115,7 +1391,7 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         ostream << indent << "        }" << endl;
     }
     ostream << indent << "    }" << endl;
- 
+
     ostream << indent << "}" << endl;
 }
 
@@ -1124,6 +1400,7 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSSlider {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -1160,6 +1437,7 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSSpinBox {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -1190,6 +1468,7 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextEntry {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -1232,6 +1511,7 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSWheelSwitch {" << endl;
+    layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
@@ -1252,7 +1532,7 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
         }
         else if (limitsToQML(ostream, v, level))
             ;
-  
+
     }
 
     ostream << indent << "}" << endl;
@@ -1278,10 +1558,14 @@ QVector<DomWidget*> UI::orderedChildWidgets(DomWidget *w)
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
-    
+
     QString widgetClass = w->attributeClass();
     if (widgetClass == "QTabWidget")
         tabWidgetToQML(ostream, w, level, i);
+    else if (widgetClass == "QPlainTextEdit" || widgetClass == "QTextEdit")
+        textEditToQML(ostream, w, level, i);
+    else if (widgetClass == "QGroupBox")
+        groupBoxToQML(ostream, w, level, i);
     else if (widgetClass == "caInclude")
         compositeToQML(ostream, w, level, i);
     else if (widgetClass == "caLabel" || widgetClass == "QLabel" || widgetClass == "caLabelVertical")
@@ -1298,8 +1582,12 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         byteToQML(ostream, w, level, i);
     else if (widgetClass == "caThermo")
         barToQML(ostream, w, level, i);
+    else if (widgetClass == "caCartesianPlot")
+        cartesianPlotToQML(ostream, w, level, i);
     else if (widgetClass == "caLinearGauge")
         indicatorToQML(ostream, w, level, i);
+    else if (widgetClass == "caLed")
+        ledToQML(ostream, w, level, i);
     else if (widgetClass == "caCircularGauge")
         meterToQML(ostream, w, level, i);
     else if (widgetClass == "caStripPlot")
@@ -1314,6 +1602,8 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         messageButtonToQML(ostream, w, level, i);
     else if (widgetClass == "caRelatedDisplay")
         relatedDisplayToQML(ostream, w, level, i);
+    else if (widgetClass == "caScriptButton")
+        scriptButtonToQML(ostream, w, level, i);
     else if (widgetClass == "caShellCommand")
         shellCommandToQML(ostream, w, level, i);
     else if (widgetClass == "caSlider")
@@ -1340,14 +1630,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         ostream << indent << "    implicitHeight: 20" << endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
 
-        if (i && i->hasAttributeRow())
-            ostream << indent << "    Layout.row: " << QString::number(i->attributeRow()) << endl;
-        if (i && i->hasAttributeColumn())
-            ostream << indent << "    Layout.column: " << QString::number(i->attributeColumn()) << endl;
-        if (i && i->hasAttributeColSpan())
-            ostream << indent << "    Layout.columnSpan: " << QString::number(i->attributeColSpan()) << endl;
-        if (i && i->hasAttributeRowSpan())
-            ostream << indent << "    Layout.rowSpan: " << QString::number(i->attributeRowSpan()) << endl;
+        layoutItemToQML(ostream, i, level);
 
         for (DomProperty *v : w->elementProperty()) {
             if (v->attributeName() == "geometry") {

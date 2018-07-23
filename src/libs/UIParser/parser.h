@@ -63,10 +63,10 @@ protected:
     QString labelStyleToQML(QString style);
 
     bool dynamicAttributeToQML(QTextStream &ostream, DomProperty *w, int level=0);
+    void fontToQML(QTextStream &ostream, DomFont *r, int level=0);
+    void layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, int level=0);
     bool limitsToQML(QTextStream &ostream, DomProperty *w, int level=0);
     void rectToQML(QTextStream &ostream, DomRect *r, int level=0);
-    void fontToQML(QTextStream &ostream, DomFont *r, int level=0);
-    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
 
     // graphics widgets
     void compositeToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
@@ -79,7 +79,9 @@ protected:
     // monitior widgets
     void barToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void byteToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void cartesianPlotToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void indicatorToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void ledToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void meterToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void stripChartToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void textUpdateToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
@@ -89,6 +91,7 @@ protected:
     void menuToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void messageButtonToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void relatedDisplayToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void shellCommandToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void sliderToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void spinBoxToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
@@ -96,8 +99,11 @@ protected:
     void wheelSwitchToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 
     // Qt standard widgets
+    void groupBoxToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void textEditToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void tabWidgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 
+    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
     void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     QVector<DomWidget*> orderedChildWidgets(DomWidget *w);
 
