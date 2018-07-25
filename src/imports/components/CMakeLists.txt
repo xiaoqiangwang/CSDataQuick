@@ -208,7 +208,7 @@ include_directories(
     ${Qt5PrintSupport_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
-    ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
+    ${CMAKE_SOURCE_DIR}/src/libs/parser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
     ${CMAKE_SOURCE_DIR}/src/libs/utils
 )
@@ -219,7 +219,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DQT_QML_DEBUG ")
 
 target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
 target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
-target_link_libraries(csdatacomponentsplugin ADLParser)
+target_link_libraries(csdatacomponentsplugin parser)
 target_link_libraries(csdatacomponentsplugin csdata)
 target_link_libraries(csdatacomponentsplugin csutils)
 set_target_properties(csdatacomponentsplugin PROPERTIES

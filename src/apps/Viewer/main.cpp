@@ -23,9 +23,8 @@
 
 #include <QtDebug>
 
-#include "ADLParser.h"
-#include "EDLParser.h"
-#include "UIParser.h"
+#include "parsermanager.h"
+#include "parser.h"
 #include "cs_global.h"
 
 QPointer<QQuickWindow> window;
@@ -77,13 +76,14 @@ int main(int argc, char **argv)
     qCoreApp->setApplicationVersion(CSDATAQUICK_VERSION);
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
+    QString supportedExtensions = parserManager->supportedExtensions().join("/");
 
     QCommandLineParser parser;
     parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
-    parser.setApplicationDescription("adl/edl/ui/qml viewer");
+    parser.setApplicationDescription(supportedExtensions + " viewer");
     parser.addHelpOption();
     parser.addVersionOption();
-    parser.addPositionalArgument("adl/edl/ui/qml file", QCoreApplication::translate("main", "adl/edl/ui/qml file to open."));
+    parser.addPositionalArgument("file", supportedExtensions + " file");
 
     // A boolean option indicating execution mode (-x, --execute)
     QCommandLineOption execOption(QStringList() << "x" << "execute", "Open in execute mode.");
@@ -141,7 +141,7 @@ int main(int argc, char **argv)
         QDir::addSearchPath("displays", path);
     }
 
-    // adl/edl/ui/qml files is in args
+    // display files is in args
     const QStringList args = parser.positionalArguments();
 
     // Do conversion
@@ -155,17 +155,17 @@ int main(int argc, char **argv)
                 qWarning() << "Cannot find file " << arg;
                 continue;
             }
-            std::string qml;
-            if (fi.suffix() == "adl")
-                qml = parseADLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
-            else if (fi.suffix() == "edl")
-                qml = parseEDLDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
-            else if (fi.suffix() == "ui")
-                qml = parseUIDisplay(fi.absoluteFilePath().toStdString(), std::map<std::string, std::string>());
-            if (!qml.empty()) {
+            QCSParser *parser = parserManager->parserForExtension(fi.suffix());
+            if (!parser) {
+                qCritical() << fi.absoluteFilePath() << " is not supported";
+                continue;
+            }
+
+            QString qml = parser->parseDisplayFile(fi.absoluteFilePath(), QMap<QString, QString>());
+            if (!qml.isEmpty()) {
                 QFile file(fi.baseName() + ".qml");
                 if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-                    file.write(qml.c_str());
+                    file.write(qml.toUtf8());
             }
         }
         qCoreApp->quit();

@@ -9,7 +9,7 @@
 
 #include <string.h>
 
-#include "parser.h"
+#include "edl_parser.h"
 
 /* EDM class name to object type conversion table */
 struct ObjectTable_t {
@@ -1787,7 +1787,16 @@ void Screen::toPartialQML(std::ostream& ostream)
         rc.x = rc.x + offsetX;
         rc.y = rc.y + offsetY;
         object->setRect(rc);
-
-        object->toQML(ostream);
     }
+    /* output to QML with item as root */
+    ostream << "import QtQuick 2.0\n";
+    ostream << "import CSDataQuick.Data 1.0\n";
+    ostream << "import CSDataQuick.Components 1.0\n";
+    ostream << "import CSDataQuick.Components.Private 1.0\n";
+    ostream << "Item {\n";
+    ostream << "    anchors.fill: parent\n";
+    for (auto it = objects.begin(); it != objects.end(); ++it) {
+        (*it)->toQML(ostream);
+    }
+    ostream << "}" << std::endl;
 }

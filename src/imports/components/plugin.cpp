@@ -15,8 +15,18 @@
 #include "adimage.h"
 #include "mjpeg.h"
 #include "textformatter.h"
+#include "parser.h"
+#include "parsermanager.h"
 
 #include <qqml.h>
+
+static QObject *parsermanager_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    return parserManager;
+}
 
 static QObject *utils_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -58,6 +68,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
 
     qmlRegisterSingletonType<QCSUtils>(uri, 1, 0, "Utils", utils_provider);
     qmlRegisterSingletonType<WindowManager>(uri, 1, 0, "WindowManager", windowmanager_provider);
+    qmlRegisterSingletonType<QCSParserManager>(uri, 1, 0, "ParserManager", parsermanager_provider);
 
     qmlRegisterUncreatableType<LogLevel>(uri, 1, 0, "LogLevel", "LogLevel Enum");
     qmlRegisterUncreatableType<FrameShadow>(uri, 1, 0, "FrameShadow", "FrameShadow Enum");

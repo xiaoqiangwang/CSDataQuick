@@ -5,9 +5,8 @@
 #include "utils.h"
 #include "enums.h"
 #include "csdata.h"
-#include "ADLParser.h"
-#include "EDLParser.h"
-#include "UIParser.h"
+#include "parser.h"
+#include "parsermanager.h"
 
 #include <postfix.h>
 #include <cvtFast.h>
@@ -342,200 +341,11 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
     else
         return QUrl::fromLocalFile(fi.absoluteFilePath());
 }
-
-/*!
-    \qmlmethod string Utils::openADLDisplay(fileName, macro)
-
-    Parse an ADL file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
-    The root item is BaseWindow.
- */
-QString QCSUtils::openADLDisplay(QUrl fileName, QString macro)
-{
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    std::string qmlBody = parseADLDisplay(fileName.toLocalFile().toStdString(), macroMap);
-
-    return QString::fromStdString(qmlBody);
-}
-/*!
-    \qmlmethod string Utils::openADLComposite(fileName, macro)
-
-    Parse an ADL file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
-    The difference from Utils::openADLDisplay is that this will only return the children items. Also the children
-    items might be shifted so the boundary rect equals the contents rect.
-*/
-
-QString QCSUtils::openADLComposite(QUrl fileName, QString macro)
-{
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    std::string qmlBody = parseADLComposite(fileName.toLocalFile().toStdString(), macroMap);
-
-    return QString::fromStdString(qmlBody);
-}
-/*!
-    \qmlmethod string Utils::openEDLDisplay(fileName, macro)
-
-    Parse an EDL file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
-    The root item is BaseWindow.
- */
-QString QCSUtils::openEDLDisplay(QUrl fileName, QString macro)
-{
-    QString globalMacro = QString("!A=%1,!W=%2")
-        .arg(qApp->applicationPid(), 0, 16)
-        .arg((qlonglong)QDateTime::currentMSecsSinceEpoch, 0, 16);
-
-    if (macro.isEmpty())
-        macro = globalMacro;
-    else
-        macro += "," + globalMacro;
-
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    std::string qmlBody = parseEDLDisplay(fileName.toLocalFile().toStdString(), macroMap);
-
-    return QString::fromStdString(qmlBody);
-}
-/*!
-    \qmlmethod string Utils::openEDLComposite(fileName, macro)
-
-    Parse an EDL file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
-    The difference from Utils::openEDLDisplay is that this will only return the children items. Also the children
-    items might be shifted so the boundary rect equals the contents rect.
-*/
-
-QString QCSUtils::openEDLComposite(QUrl fileName, QString macro)
-{
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    std::string qmlBody = parseEDLComposite(fileName.toLocalFile().toStdString(), macroMap);
-
-    return QString::fromStdString(qmlBody);
-}
-/*!
-    \qmlmethod string Utils::openUIDisplay(fileName, macro)
-
-    Parse an UI file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
-    The root item is BaseWindow.
- */
-QString QCSUtils::openUIDisplay(QUrl fileName, QString macro)
-{
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    QString qml = QString::fromStdString(parseUIDisplay(fileName.toLocalFile().toStdString(), macroMap));
+/*
     for(auto pair : macroMap) {
         qml.replace("$("+QString::fromStdString(pair.first)+")", QString::fromStdString(pair.second));
     }
-
-    return qml;
-}
-/*!
-    \qmlmethod string Utils::openUIComposite(fileName, macro)
-
-    Parse an UI file with the given \a fileName with \a macro expansion, and return the equivalent QML source.
-    The difference from Utils::openUIDisplay is that this will only return the children items. Also the children
-    items might be shifted so the boundary rect equals the contents rect.
 */
-
-QString QCSUtils::openUIComposite(QUrl fileName, QString macro)
-{
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    QString qml = QString::fromStdString(parseUIComposite(fileName.toLocalFile().toStdString(), macroMap));
-    for(auto pair : macroMap) {
-        qml.replace("$("+QString::fromStdString(pair.first)+")", QString::fromStdString(pair.second));
-    }
-
-    return qml;
-}
-/*!
-    \qmlmethod string Utils::openQMLDisplay(fileName, macro)
-
-    Open a QML file with given \a fileName, and return the file contents with \a macro expansion performed.
-*/
-
-QString QCSUtils::openQMLDisplay(QUrl fileName, QString macro)
-{
-    std::map<std::string, std::string> macroMap;
-
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() == 2)
-            macroMap[paires[0].trimmed().toStdString()] =  paires[1].trimmed().toStdString();
-        else
-            qWarning() << "macro unclear" << m;
-    }
-
-    QFile file(fileName.toLocalFile());
-    if(!file.open(QFile::ReadOnly)) {
-        qWarning() << "Unable to open file " << fileName;
-        return QString();
-    }
-    QString qml = file.readAll();
-    foreach(QString m, macro.split(',')) {
-        if (m.isEmpty()) continue;
-        QStringList paires = m.split('=');
-        if (paires.length() != 2) continue;
-        qml.replace("$("+paires[0]+")", paires[1]);
-    }
-
-    return qml;
-}
 
 /*!
     \qmlmethod Window Utils::createDisplay(qml, display, filePath)
@@ -620,24 +430,104 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
     Create a top level window from a file with given \a filePath with \a macro expansion.
     The file can be either ADL or QML.
 
-    It calls Utils::openADLDisplay or Utils::openQMLDisplay
-    to create the qml source, and then calls Utils::createDisplay to actually create the display window.
+    It calls parser library to create the qml source, and then calls Utils::createDisplay to actually create the display window.
     The QQmlEngine used is which \a display was created in.
  */
 QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
 {
+    QMap<QString, QString> macroMap;
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() == 2)
+            macroMap[paires[0].trimmed()] =  paires[1].trimmed();
+        else
+            qWarning() << "macro unclear" << m;
+    }
+
     QFileInfo fi(filePath.toLocalFile());
-    QString qml;
-    if (QString::compare(fi.suffix(), "adl", Qt::CaseInsensitive) == 0)
-        qml = openADLDisplay(filePath, macro);
-    else if (QString::compare(fi.suffix(), "edl", Qt::CaseInsensitive) == 0)
-        qml = openEDLDisplay(filePath, macro);
-    else if (QString::compare(fi.suffix(), "ui", Qt::CaseInsensitive) == 0)
-        qml = openUIDisplay(filePath, macro);
-    else if (QString::compare(fi.suffix(), "qml", Qt::CaseInsensitive) == 0)
-        qml = openQMLDisplay(filePath, macro);
+    QCSParser *parser = parserManager->parserForExtension(fi.suffix());
+    if (!parser) {
+        qCritical() << fi.absoluteFilePath() << " is not supported";
+        return Q_NULLPTR;
+    }
+
+    QString qml = parser->parseDisplayFile(fi.absoluteFilePath(), macroMap);
+    if (qml.isEmpty()) {
+        qCritical() << "parser cannot parse " << fi.absoluteFilePath();
+        return Q_NULLPTR;
+    }
+
     return createDisplay(qml, display, filePath, macro);
 }
+/*!
+    \qmlmethod Window Utils::createComponentByFile(display, filePath, macro)
+
+    Create a qml component from a file with given \a filePath with \a macro expansion.
+
+    It calls parser library to create the qml source, and then call QQmlComponent to create an instance.
+    The QQmlEngine used is which \a display was created in.
+ */
+QQuickItem * QCSUtils::createComponentByFile(QQuickItem *display, QUrl filePath, QString macro)
+{
+    QString globalMacro = QString("!A=%1,!W=%2")
+        .arg(qApp->applicationPid(), 0, 16)
+        .arg((qlonglong)QDateTime::currentMSecsSinceEpoch, 0, 16);
+
+    if (macro.isEmpty())
+        macro = globalMacro;
+    else
+        macro += "," + globalMacro;
+
+    QMap<QString, QString> macroMap;
+    foreach(QString m, macro.split(',')) {
+        if (m.isEmpty()) continue;
+        QStringList paires = m.split('=');
+        if (paires.length() == 2)
+            macroMap[paires[0].trimmed()] =  paires[1].trimmed();
+        else
+            qWarning() << "macro unclear" << m;
+    }
+
+    QFileInfo fi(filePath.toLocalFile());
+    QCSParser *parser = parserManager->parserForExtension(fi.suffix());
+    if (!parser) {
+        qCritical() << fi.absoluteFilePath() << " is not supported";
+        return Q_NULLPTR;
+    }
+
+    QString qml = parser->parseDisplayFile(fi.absoluteFilePath(), macroMap, true);
+    if (qml.isEmpty()) {
+        qCritical() << "parser cannot parse " << fi.absoluteFilePath();
+        return Q_NULLPTR;
+    }
+
+    QQmlEngine *engine = qmlEngine(display);
+    if (!engine) {
+        qCritical() << "No valid QML engine from object" << display->objectName();
+        return Q_NULLPTR;
+    }
+
+    QQmlComponent component(engine);
+    component.setData(qml.toLocal8Bit(), filePath);
+    if(!component.isReady()) {
+        qDebug() << qml;
+        qWarning() << component.errorString();
+        return Q_NULLPTR;
+    }
+
+    QQuickItem *item = qobject_cast<QQuickItem *>(component.create());
+    if (!item) {
+        qCritical() << component.errorString();
+        return Q_NULLPTR;
+    }
+    engine->setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
+
+    item->setParentItem(display);
+
+    return item;
+}
+
 /*!
     \qmlmethod object Utils::parseX11Geometry(geometry)
 

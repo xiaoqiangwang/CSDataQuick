@@ -71,7 +71,18 @@ ApplicationWindow
     FileDialog {
         id: fileDialog
         title: "Open file ..."
-        nameFilters: ["Display files (*.adl  *.edl *.ui *.qml)"]
+        //nameFilters: ["Display files (*.adl  *.edl *.ui *.qml)"]
+        nameFilters: {
+            var filter = "Display files (";
+            var extensions = ParserManager.supportedExtensions();
+            for(var i=0; i<extensions.length; i++) {
+                filter += "*." + extensions[i];
+                if (i != extensions.length -1)
+                    filter += " ";
+            }
+            filter += ")";
+            return [filter];
+        }
         onAccepted: {
             var request = new XMLHttpRequest()
             request.open('GET', fileUrl)

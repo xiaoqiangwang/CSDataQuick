@@ -49,9 +49,7 @@ include_directories(
     ${Qt5Qml_INCLUDE_DIRS}
     ${Qt5Quick_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
-    ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
-    ${CMAKE_SOURCE_DIR}/src/libs/EDLParser
-    ${CMAKE_SOURCE_DIR}/src/libs/UIParser
+    ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 target_link_libraries(${APPNAME}
     Qt5::Core
@@ -60,9 +58,7 @@ target_link_libraries(${APPNAME}
     Qt5::Qml
     Qt5::Quick
     Qt5::Network
-    ADLParser
-    EDLParser
-    UIParser
+    parser
 )
 if(APPLE)
     find_library(OSXSecurity Security)

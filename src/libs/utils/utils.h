@@ -10,6 +10,7 @@
 #include "utils_global.h"
 
 class QWindow;
+class QQmlComponent;
 class QQuickItem;
 class QCSData;
 
@@ -26,15 +27,10 @@ public:
     Q_INVOKABLE static QString convert(int format, QVariant value, int precision);
     Q_INVOKABLE static double parse(int format, QString textValue);
     Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QWindow *window);
-    Q_INVOKABLE static QString openQMLDisplay(QUrl fileName, QString macro);
-    Q_INVOKABLE static QString openADLDisplay(QUrl fileName, QString macro);
-    Q_INVOKABLE static QString openADLComposite(QUrl fileName, QString macro);
-    Q_INVOKABLE static QString openEDLDisplay(QUrl fileName, QString macro);
-    Q_INVOKABLE static QString openEDLComposite(QUrl fileName, QString macro);
-    Q_INVOKABLE static QString openUIDisplay(QUrl fileName, QString macro);
-    Q_INVOKABLE static QString openUIComposite(QUrl fileName, QString macro);
-    Q_INVOKABLE static QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);
+
+    Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display, QUrl filePath, QString macro);
     Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
+
     Q_INVOKABLE static QVariantMap parseX11Geometry(QString geometry);
     Q_INVOKABLE static QString currentDateTime();
     Q_INVOKABLE static QWindow *parentWindow(QQuickItem *item);
@@ -49,6 +45,9 @@ public:
 signals:
 
 public slots:
+
+protected:
+    static QWindow* createDisplay(QString qml, QObject *display, QUrl filePath, QString macro);
 
 private:
     bool _inPuppet;

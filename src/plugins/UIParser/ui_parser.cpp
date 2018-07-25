@@ -1,7 +1,7 @@
 #include <QRegularExpression>
 #include <QtDebug>
 
-#include "parser.h"
+#include "ui_parser.h"
 #include "ui4.h"
 
 UI::UI()

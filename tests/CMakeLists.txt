@@ -35,15 +35,11 @@ add_executable(test_parser
 )
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/src/libs/ADLParser
-    ${CMAKE_SOURCE_DIR}/src/libs/EDLParser
-    ${CMAKE_SOURCE_DIR}/src/libs/UIParser
+    ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 
 target_link_libraries(test_parser
-    ADLParser
-    EDLParser
-    UIParser
+    parser
     Qt5::Core
 )
 

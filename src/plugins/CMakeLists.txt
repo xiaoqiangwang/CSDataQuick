@@ -1,3 +1,6 @@
+add_subdirectory(ADLParser)
+add_subdirectory(EDLParser)
+add_subdirectory(UIParser)
 add_subdirectory(local)
 add_subdirectory(sim)
 add_subdirectory(ca)

@@ -1102,8 +1102,13 @@ void Display::toPartialQML(std::ostream &ostream)
             ((Composite *) element)->moveChildren(offsetX, offsetY);
     }
 
-    /* output to QML for each component */
+    ostream << "import QtQuick 2.0\n";
+    ostream << "import CSDataQuick.Components 1.0\n";
+    ostream << "Item {\n";
+    ostream << "    anchors.fill: parent\n";
+     /* output to QML for each component */
     outputWidgets(ostream, widgets);
+    ostream << "}" << std::endl;
 }
 
 Composite::Composite(Element *parent)

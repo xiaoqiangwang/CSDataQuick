@@ -1,5 +1,3 @@
-add_subdirectory(ADLParser)
-add_subdirectory(EDLParser)
-add_subdirectory(UIParser)
+add_subdirectory(parser)
 add_subdirectory(csdata)
 add_subdirectory(utils)

@@ -205,21 +205,7 @@ BaseItem {
             return
         }
         // open new display
-        if (fileName.substr(-4) === '.adl') {
-            var qmlCmd = Utils.openADLDisplay(absFilePath, macro)
-            window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
-        }
-        if (fileName.substr(-4) === '.edl') {
-            var qmlCmd = Utils.openEDLDisplay(absFilePath, macro)
-            window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
-        }
-        if (fileName.substr(-3) === '.ui') {
-            var qmlCmd = Utils.openUIDisplay(absFilePath, macro)
-            window = Utils.createDisplay(qmlCmd, root, absFilePath, macro)
-        }
-         if (fileName.substr(-4) === '.qml') {
-            window = Utils.createDisplayByFile(root, absFilePath, macro)
-        }
+        window = Utils.createDisplayByFile(root, absFilePath, macro)
         if (!window) {
             console.error("Failed to create window from ", fileName)
             return
