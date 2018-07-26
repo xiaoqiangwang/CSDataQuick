@@ -341,11 +341,6 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
     else
         return QUrl::fromLocalFile(fi.absoluteFilePath());
 }
-/*
-    for(auto pair : macroMap) {
-        qml.replace("$("+QString::fromStdString(pair.first)+")", QString::fromStdString(pair.second));
-    }
-*/
 
 /*!
     \qmlmethod Window Utils::createDisplay(qml, display, filePath)
