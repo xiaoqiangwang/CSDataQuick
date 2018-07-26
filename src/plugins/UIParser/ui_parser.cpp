@@ -268,7 +268,7 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "title") {
-            ostream << "    title: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    title: '" << v->elementString()->text() << "'" << endl;
         }
     }
 
@@ -866,10 +866,27 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
         ostream << indent << "CSOval {" << endl;
 
     layoutItemToQML(ostream, i, level);
+    ostream << indent << "    implicitWidth: 18" << endl;
+    ostream << indent << "    implicitHeight: 18" << endl; 
 
+    bool scaleContents = false;
+    int x = 0, y = 0, width = 0, height = 0;
+    int ledWidth = 18, ledHeight = 18;
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "geometry") {
-            rectToQML(ostream, v->elementRect(), level);
+            x = v->elementRect()->elementX();
+            y = v->elementRect()->elementY();
+            width = v->elementRect()->elementWidth();
+            height = v->elementRect()->elementHeight();
+        }
+        else if (v->attributeName() == "scaleContents") {
+            scaleContents = (v->elementBool() == "true");
+        }
+        else if (v->attributeName() == "ledWidth") {
+            ledWidth = v->elementNumber();
+        }
+        else if (v->attributeName() == "ledHeight") {
+            ledHeight = v->elementNumber();
         }
         else if (v->attributeName() == "channel") {
             ostream << indent << "    dynamicAttribute.channel: '" << v->elementString()->text() << "'" << endl;
@@ -884,6 +901,18 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
+    }
+
+    if (scaleContents) {
+        ostream << indent << "    x: " << x << endl;
+        ostream << indent << "    y: " << y << endl;
+        ostream << indent << "    width: " << width << endl;
+        ostream << indent << "    height: " << height << endl;
+    } else {
+        ostream << indent << "    x: " << x + (width - ledWidth) / 2 << endl;
+        ostream << indent << "    y: " << y + (height - ledHeight) / 2 << endl;
+        ostream << indent << "    width: " << ledWidth << endl;
+        ostream << indent << "    height: " << ledHeight << endl;
     }
 
     ostream << indent << "}" << endl;
@@ -1618,10 +1647,15 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
         ostream << indent << "Item {" << endl;
+        for (DomProperty *v : w->elementProperty()) {
+            if (v->attributeName() == "geometry") {
+                rectToQML(ostream, v->elementRect(), level);
+            }
+        }
         for (DomLayout *child : w->elementLayout())
-            layoutToQML(ostream, child, level+2);
+            layoutToQML(ostream, child, level+1);
         for (DomWidget *child : orderedChildWidgets(w))
-            widgetToQML(ostream, child, level+2);
+            widgetToQML(ostream, child, level+1);
         ostream << indent << "}" << endl;
      }
     else {
