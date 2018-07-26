@@ -465,15 +465,6 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
  */
 QQuickItem * QCSUtils::createComponentByFile(QQuickItem *display, QUrl filePath, QString macro)
 {
-    QString globalMacro = QString("!A=%1,!W=%2")
-        .arg(qApp->applicationPid(), 0, 16)
-        .arg((qlonglong)QDateTime::currentMSecsSinceEpoch, 0, 16);
-
-    if (macro.isEmpty())
-        macro = globalMacro;
-    else
-        macro += "," + globalMacro;
-
     QMap<QString, QString> macroMap;
     foreach(QString m, macro.split(',')) {
         if (m.isEmpty()) continue;
