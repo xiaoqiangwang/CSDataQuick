@@ -169,13 +169,13 @@ bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
 {
     QString indent(level * 4, ' ');
     if (v->attributeName() == "precisionMode") {
-        if (v->elementEnum() == "caLineEdit::User")
+        if (v->elementEnum().endsWith("User"))
             ostream << indent << "    limits.precSrc: LimitsSource.Default" << endl;
     }
     else if (v->attributeName() == "precision")
         ostream << indent << "    limits.precDefault: " << v->elementNumber() << endl;
     else if (v->attributeName() == "limitsMode") {
-        if (v->elementEnum() == "caLineEdit::User") {
+        if (v->elementEnum().endsWith("User")) {
             ostream << indent << "    limits.loprSrc: LimitsSource.Default" << endl;
             ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << endl;
         }
@@ -361,8 +361,11 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
 
     ostream << indent << "CSComposite {" << endl;
     layoutItemToQML(ostream, i, level);
+
+    bool geometry_set = false; // adl2ui sometimes set geometry twice
     for (DomProperty *v : w->elementProperty()) {
-        if (v->attributeName() == "geometry") {
+        if (v->attributeName() == "geometry" && !geometry_set) {
+            geometry_set = true;
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "filename") {
@@ -465,15 +468,15 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "tiltAngle")
             ostream << indent << "    rotation: " << v->elementNumber() << endl;
         else if (v->attributeName() == "linestyle") {
-            if (v->elementEnum() == "caGraphics::Dash")
+            if (v->elementEnum().endsWith("Dash"))
                 ostream << indent << "    edgeStyle: EdgeStyle.Dash" << endl;
         }
         else if (v->attributeName() == "fillstyle") {
-            if (v->elementEnum() == "caGraphics::Filled")
+            if (v->elementEnum().endsWith("Filled"))
                 fill = true;
         }
         else if  (v->attributeName() == "colorMode") {
-            if (v->elementEnum() == "caGraphics::Alarm")
+            if (v->elementEnum().endsWith("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if (v->attributeName() == "lineSize") {
@@ -590,7 +593,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     bool polygon = false;
     for (DomProperty *v : w->elementProperty()) {
         if (v->attributeName() == "polystyle") {
-            if (v->elementEnum() == "caPolyLine::Polygon")
+            if (v->elementEnum().endsWith("Polygon"))
                 polygon = true;
         }
     }
@@ -614,15 +617,15 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "tiltAngle")
             ostream << indent << "    rotation: " << v->elementNumber() << endl;
         else if (v->attributeName() == "linestyle") {
-            if (v->elementEnum() == "caPolyLine::Dash")
+            if (v->elementEnum().endsWith("Dash"))
                 ostream << indent << "    edgeStyle: EdgeStyle.Dash" << endl;
         }
         else if (v->attributeName() == "fillstyle") {
-            if (v->elementEnum() == "caPolyLine::Filled")
+            if (v->elementEnum().endsWith("Filled"))
                 fill = true;
         }
         else if  (v->attributeName() == "colorMode") {
-            if (v->elementEnum() == "caPolyLine::Alarm")
+            if (v->elementEnum().endsWith("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if (v->attributeName() == "lineSize") {
@@ -999,7 +1002,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
                 ostream << indent << "    units: TimeUnit.Minute" << endl;
         }
         else if (v->attributeName() == "period")
-            ostream << indent << "    period: " << v->elementNumber() << endl;
+            ostream << indent << "    period: " << v->elementDouble() << endl;
         else if (v->attributeName() == "channels") {
             QStringList channels = v->elementString()->text().split(';');
             for (int i=0; i<channels.size(); i++) {
@@ -1033,7 +1036,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         if (traces[i].source.isEmpty())
             continue;
         ostream << indent << "        ListElement {" << endl;
-        ostream << indent << "            source: '" << traces[i].source << "'" << endl;
+        ostream << indent << "            channel: '" << traces[i].source << "'" << endl;
         ostream << indent << "            color: '" << traces[i].color << "'" << endl;
         ostream << indent << "            loprSrc: " << traces[i].loprSrc << endl;
         ostream << indent << "            hoprSrc: " << traces[i].hoprSrc << endl;
@@ -1699,6 +1702,20 @@ void UI::toQML(QTextStream& ostream)
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect());
         }
+        else if (v->attributeName() == "styleSheet") {
+            QString css = v->elementString()->text();
+            auto match = QRegularExpression("background: rgba?\\((?<r>\\d+), (?<g>\\d+), (?<b>\\d+)(, (?<a>\\d+)\\))?").match(css);
+            if (match.hasMatch()) {
+                QString background = "#";
+                if (!match.captured("a").isEmpty())
+                    background += QString("%1").arg(match.captured("a").toShort(), 2, 16, QChar('0'));
+                background += QString("%1%2%3")
+                    .arg(match.captured("r").toShort(), 2, 16, QChar('0'))
+                    .arg(match.captured("g").toShort(), 2, 16, QChar('0'))
+                    .arg(match.captured("b").toShort(), 2, 16, QChar('0'));
+                ostream << "    color: '" << background << "'" << endl;
+            }
+        }
     }
 
     for (DomWidget *child : orderedChildWidgets(mainWidget))
@@ -1713,6 +1730,16 @@ void UI::toPartialQML(QTextStream& ostream)
     if (!mainWidget)
         return;
 
+    ostream << "import QtQuick 2.0\n";
+    ostream << "import QtQuick.Layouts 1.0\n";
+    ostream << "import QtQuick.Controls 1.0\n";
+    ostream << "import CSDataQuick.Components 1.0\n";
+    ostream << "import CSDataQuick.Components.Private 1.0\n";
+    ostream << "Item {\n";
+    ostream << "    anchors.fill: parent\n";
+
     for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child);
+    
+    ostream << "}" << endl;
 }
