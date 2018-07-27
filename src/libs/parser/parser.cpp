@@ -8,6 +8,7 @@ QCSParser::QCSParser(QObject *parent)
 
 /*!
     \class QCSParser
+    \inmodule CSDataQuick
     \brief The QCSParser class defines the interface of display file parser.
 
     This is the base class for display file parsers, which parses various display files and output equivalent QML files.
@@ -16,8 +17,8 @@ QCSParser::QCSParser(QObject *parent)
 */
 
 /*!
-    \property QCSParser::extensions
-    List of file extensions supported by this parser.
+    \property QCSParser::extension
+    File extension supported by this parser.
 */
 
 /*!
@@ -26,7 +27,7 @@ QCSParser::QCSParser(QObject *parent)
 */
 
 /*!
-    \fn QString parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
+    \fn QString QCSParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
     Parse the given display file.
 
     The file parser must implements this to parse the given \a filename with \a macros substitution.

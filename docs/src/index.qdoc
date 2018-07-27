@@ -31,6 +31,7 @@ The content of the documentation:
             \list
                 \li \l {Add a new data engine}
                 \li \l {Add a new visual item}
+                \li \l {Add a new display file parser}
             \endlist
         \li
             \list

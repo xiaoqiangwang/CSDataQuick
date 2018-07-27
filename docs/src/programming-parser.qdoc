@@ -1,0 +1,7 @@
+/*!
+\page new-parser.html
+\title Add a new display file parser
+
+Writting a new display file parser is bascilly to derive from QCSParser and implement the pure virtual methods.
+
+*/
