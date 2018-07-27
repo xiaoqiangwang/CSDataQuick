@@ -1,4 +1,5 @@
 #include <QRegularExpression>
+#include <QSet>
 #include <QtDebug>
 
 #include "ui_parser.h"
@@ -263,7 +264,7 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     ostream << indent << "GroupBox {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -289,7 +290,7 @@ void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     ostream << indent << "TextEdit {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -324,7 +325,7 @@ void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     ostream << indent << "TabView {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         } else if (v->attributeName() == "tabPosition") {
@@ -362,10 +363,8 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     ostream << indent << "CSComposite {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    bool geometry_set = false; // adl2ui sometimes set geometry twice
-    for (DomProperty *v : w->elementProperty()) {
-        if (v->attributeName() == "geometry" && !geometry_set) {
-            geometry_set = true;
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "filename") {
@@ -395,7 +394,7 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
 
     ostream << indent << "CSComposite {" << endl;
     layoutItemToQML(ostream, i, level);
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -419,7 +418,7 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString form = "caGraphics::Rectangle";
     DomRect *rect = nullptr;
     QString arrowMode = "caGraphics::Single";
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "form") {
             form = v->elementEnum();
         } else if (v->attributeName() == "geometry") {
@@ -460,7 +459,7 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     rectToQML(ostream, rect, level);
 
     bool fill = false;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "foreground")
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "background")
@@ -503,7 +502,7 @@ void UI::imageToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     ostream << indent << "CSImage {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -529,7 +528,7 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
 
     bool up = false;
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -591,7 +590,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     bool polygon = false;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "polystyle") {
             if (v->elementEnum().endsWith("Polygon"))
                 polygon = true;
@@ -606,7 +605,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     layoutItemToQML(ostream, i, level);
 
     bool fill = false;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -655,7 +654,7 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     ostream << indent << "CSByte {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -710,7 +709,7 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     layoutItemToQML(ostream, i, level);
 
     Trace traces[8];
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -784,7 +783,7 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
     ostream << indent << "CSBar {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -821,7 +820,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     ostream << indent << "CSIndicator {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -856,7 +855,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
     QString indent(level * 4, ' ');
 
     bool rect = false;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "rectangular") {
             rect = v->elementBool() == "true";
             break;
@@ -875,7 +874,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
     bool scaleContents = false;
     int x = 0, y = 0, width = 0, height = 0;
     int ledWidth = 18, ledHeight = 18;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             x = v->elementRect()->elementX();
             y = v->elementRect()->elementY();
@@ -928,7 +927,7 @@ void UI::meterToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*
     ostream << indent << "CSMeter {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -981,7 +980,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     };
 
     Trace traces[8];
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry")
             rectToQML(ostream, v->elementRect(), level);
         else if (v->attributeName() == "foreground")
@@ -1055,7 +1054,7 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     ostream << indent << "CSTextUpdate {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1115,7 +1114,7 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     ostream << indent << "CSChoiceButton {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1134,11 +1133,11 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         }
         else if  (v->attributeName() == "stackingMode") {
             QString stacking = v->elementEnum();
-            if (stacking == "caChoice::Column")
+            if (stacking.endsWith("Column"))
                 ostream << indent << "    stacking: Stacking.Row" << endl;
-            else if (stacking == "caChoice::Row" || stacking == "caChoice::RowInverse")
+            else if (stacking.endsWith("Row") || stacking.endsWith("RowInverse"))
                 ostream << indent << "    stacking: Stacking.Column" << endl;
-            else if (stacking == "caChoice::RowColumn")
+            else if (stacking.endsWith("RowColumn"))
                 ostream << indent << "    stacking: Stacking.RowColumn" << endl;
         }
     }
@@ -1153,7 +1152,7 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     ostream << indent << "CSMenu {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1182,7 +1181,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     ostream << indent << "CSMessageButton {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1235,7 +1234,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
     };
 
     QVector<Entry> entries;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1319,7 +1318,7 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
     layoutItemToQML(ostream, i, level);
 
     QString command;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1374,7 +1373,7 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     };
 
     QVector<Entry> entries;
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1434,7 +1433,7 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     ostream << indent << "CSSlider {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1471,7 +1470,7 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
     ostream << indent << "CSSpinBox {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1502,7 +1501,7 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     ostream << indent << "CSTextEntry {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1545,7 +1544,7 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     ostream << indent << "CSWheelSwitch {" << endl;
     layoutItemToQML(ostream, i, level);
 
-    for (DomProperty *v : w->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
@@ -1585,6 +1584,22 @@ QVector<DomWidget*> UI::orderedChildWidgets(DomWidget *w)
         }
     }
     return ordered;
+}
+
+QList<DomProperty*> UI::uniqueProperties(QList<DomProperty*> p)
+{
+    QList<DomProperty*> u;
+    QList<QString> names;
+    for (DomProperty *v : p) {
+        int index = names.indexOf(v->attributeName());
+        if (index == -1) {
+            names.append(v->attributeName());
+            u.append(v);
+        } else {
+            u[index] = v;
+        }
+    }
+    return u;
 }
 
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
@@ -1650,7 +1665,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
         ostream << indent << "Item {" << endl;
-        for (DomProperty *v : w->elementProperty()) {
+        for (DomProperty *v : uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
                 rectToQML(ostream, v->elementRect(), level);
             }
@@ -1669,7 +1684,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
 
         layoutItemToQML(ostream, i, level);
 
-        for (DomProperty *v : w->elementProperty()) {
+        for (DomProperty *v : uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
                 rectToQML(ostream, v->elementRect(), level);
             }
@@ -1698,7 +1713,7 @@ void UI::toQML(QTextStream& ostream)
     if (!mainWidget)
         return;
 
-    for (DomProperty *v : mainWidget->elementProperty()) {
+    for (DomProperty *v : uniqueProperties(mainWidget->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect());
         }

@@ -106,6 +106,7 @@ protected:
     void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
     void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     QVector<DomWidget*> orderedChildWidgets(DomWidget *w);
+    QList<DomProperty*> uniqueProperties(QList<DomProperty*> p);
 
 private:
     std::string nameValueString;
