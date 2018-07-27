@@ -673,7 +673,13 @@ QString QCSUtils::formatString(QCSData* data, int format, int precision, QVarian
 
     switch(data->fieldType()) {
     case QCSData::Enum:
-        return data->stateStrings().at(value.toInt());
+    {
+        int index = value.toInt();
+        if (index < data->stateStrings().length())
+            return data->stateStrings().at(index);
+        else
+            return QString::number(index);
+    }
     case QCSData::String:
         return value.toString();
     case QCSData::Char:
