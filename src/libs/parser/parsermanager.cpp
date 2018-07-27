@@ -65,7 +65,6 @@ QCSParserManager::QCSParserManager(QObject *parent)
         QCSParser *parser = qobject_cast<QCSParser*>(loader.instance());
         if (parser) {
             _parsers.append(parser);
-            qDebug() << "Loaded " << parser->description();
         }
     }
 }
