@@ -271,7 +271,7 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "title") {
-            ostream << indent << "    title: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
     }
 
@@ -303,17 +303,11 @@ void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             ostream << "    readOnly: " << v->elementBool() << endl;
         }
         else if (v->attributeName() == "plainText") {
-            QString text = v->elementString()->text();
-            // escape single quote if not escaped yet
-            text.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
-            ostream << "    text: '" << text << "'" << endl;
+            ostream << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "html") {
-            QString text = v->elementString()->text();
-            // escape single quote if not escaped yet
-            text.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
             ostream << "    textFormat: TextEdit.RichText" << endl;
-            ostream << "    text: '" << text << "'" << endl;
+            ostream << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
     }
 
@@ -347,7 +341,7 @@ void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         ostream << indent << "    Tab {" << endl;
         for (DomProperty *v : child->elementAttribute()) {
             if (v->attributeName() == "title") {
-                ostream << indent << "        title: '" << v->elementString()->text() << "'" << endl;
+                ostream << indent << "        title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
                 break;
             }
         }
@@ -557,10 +551,7 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
                 ostream << indent << "    fontSizeMode: Text.Fit" << endl;
         }
         else if (v->attributeName() == "text") {
-            QString text = v->elementString()->text();
-            // escape single quote if not escaped yet
-            text.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
-            ostream << indent << "    text: '" <<  text << "'" << endl;
+            ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
@@ -1349,7 +1340,7 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
         ostream << indent << "    model: ListModel {" << endl;
         ostream << indent << "        ListElement {" << endl;
         ostream << indent << "            label: ''" << endl;
-        ostream << indent << "            command: '" << command << "'" << endl;
+        ostream << indent << "            command: '" << escapedSingleQuote(command) << "'" << endl;
         ostream << indent << "        }" << endl;
         ostream << indent << "    }" << endl;
     }
@@ -1422,7 +1413,7 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
             continue;
         ostream << indent << "        ListElement {" << endl;
         ostream << indent << "            label: '" << entry.label << "'" << endl;
-        ostream << indent << "            command: '" << entry.file << " " << entry.arg << "'" << endl;
+        ostream << indent << "            command: '" << escapedSingleQuote(entry.file) << " " << escapedSingleQuote(entry.arg) << "'" << endl;
         ostream << indent << "        }" << endl;
     }
     ostream << indent << "    }" << endl;
@@ -1606,6 +1597,12 @@ QList<DomProperty*> UI::uniqueProperties(QList<DomProperty*> p)
     return u;
 }
 
+QString UI::escapedSingleQuote(QString s)
+{
+    // escape single quote if not escaped yet
+    return s.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
+}
+
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
@@ -1681,7 +1678,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         ostream << indent << "}" << endl;
      }
     else {
-        qDebug() << "Use CSRect for widget class " << widgetClass << endl;
+        qWarning() << "Use CSRect for widget class " << widgetClass << endl;
         ostream << indent << "CSRect {" << endl;
         ostream << indent << "    implicitHeight: 20" << endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
