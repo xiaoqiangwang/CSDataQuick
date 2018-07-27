@@ -27,12 +27,6 @@ QString UIParser::parseDisplayFile(QString filename, QMap<QString, QString> macr
     UI displayInfo;
     displayInfo.setFileName(filename.toStdString());
 
-    // QMap to std::map
-    std::map<std::string, std::string> smacros;
-    for(auto it = macros.begin(); it != macros.end(); it++)
-        smacros[it.key().toStdString()] = it.value().toStdString();
-    displayInfo.setMacros(smacros);
-
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly))
         return "";
@@ -47,6 +41,10 @@ QString UIParser::parseDisplayFile(QString filename, QMap<QString, QString> macr
         displayInfo.toPartialQML(ostream);
     else
         displayInfo.toQML(ostream);
+
+    for(auto it=macros.begin(); it != macros.end(); it++) {
+        qml.replace("$("+it.key()+")", it.value());
+    }
 
     return qml;
 }
