@@ -251,7 +251,9 @@ void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
     ostream << indent << "    anchors.fill: parent" << endl;
 
     for (DomLayoutItem *child : l->elementItem()) {
-        widgetToQML(ostream, child->elementWidget(), level+1, child);
+        DomWidget *w = child->elementWidget();
+        if (w)
+            widgetToQML(ostream, w, level+1, child);
     }
 
     ostream << indent << "}" << endl;
@@ -752,8 +754,10 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
         else if (v->attributeName().startsWith("channels_")) {
             int index = v->attributeName().mid(9).toInt();
             QStringList channels = v->elementString()->text().split(';');
-            traces[index].xchannel = channels[0];
-            traces[index].ychannel = channels[1];
+            if (channels.size() == 2) {
+                traces[index].xchannel = channels[0];
+                traces[index].ychannel = channels[1];
+            }
         }
         else if (v->attributeName().startsWith("color_")) {
             int index = v->attributeName().mid(6).toInt();
