@@ -178,6 +178,10 @@ bool QCSUtils::execute(QString program)
     if (program.startsWith("medm")) {
         program = qApp->applicationFilePath() + program.mid(4);
     }
+    // replace caqtdm with ADLViewer
+    if (program.startsWith("caqtdm")) {
+        program = qApp->applicationFilePath() + program.mid(6);
+    }
     // only if program ends with "&", start detached
     if (program.endsWith("&")) {
         program.chop(1);
