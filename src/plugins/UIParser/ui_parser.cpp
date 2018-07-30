@@ -24,8 +24,7 @@ void UI::parse(QXmlStreamReader& reader)
                 && !ui) {
                 double version = reader.attributes().value("version").toDouble();
                 if (version < 4.0) {
-                    const QString msg = QString::fromLatin1("UIParser: File generated with too old version of Qt Designer (%1)").arg(version);
-                    fprintf(stderr, "%s\n", qPrintable(msg));
+                    qCritical() << QString("UIParser: File generated with too old version of Qt Designer (%1)").arg(version);
                     return;
                 }
                 ui = new DomUI();
@@ -38,9 +37,11 @@ void UI::parse(QXmlStreamReader& reader)
     if (reader.hasError()) {
         delete ui;
         ui = nullptr;
-        fprintf(stderr, "%s\n", qPrintable(QString::fromLatin1("UIParser: Error in line %1, column %2 : %3")
-                                    .arg(reader.lineNumber()).arg(reader.columnNumber())
-                                    .arg(reader.errorString())));
+        qCritical() <<
+            QString("UIParser: Error in line %1, column %2 : %3")
+                .arg(reader.lineNumber())
+                .arg(reader.columnNumber())
+                .arg(reader.errorString());
     }
 }
 
@@ -1703,16 +1704,19 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
 
 void UI::toQML(QTextStream& ostream)
 {
+    if (!ui)
+        return;
+
+    DomWidget *mainWidget = ui->elementWidget();
+    if (!mainWidget)
+        return;
+
     ostream << "import QtQuick 2.0\n";
     ostream << "import QtQuick.Layouts 1.0\n";
     ostream << "import QtQuick.Controls 1.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
     ostream << "import CSDataQuick.Components.Private 1.0\n";
     ostream << "BaseWindow {\n";
-
-    DomWidget *mainWidget = ui->elementWidget();
-    if (!mainWidget)
-        return;
 
     for (DomProperty *v : uniqueProperties(mainWidget->elementProperty())) {
         if (v->attributeName() == "geometry") {
@@ -1742,6 +1746,9 @@ void UI::toQML(QTextStream& ostream)
 
 void UI::toPartialQML(QTextStream& ostream)
 {
+    if (!ui)
+        return;
+
     DomWidget *mainWidget = ui->elementWidget();
     if (!mainWidget)
         return;
@@ -1756,6 +1763,6 @@ void UI::toPartialQML(QTextStream& ostream)
 
     for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child);
-    
+
     ostream << "}" << endl;
 }

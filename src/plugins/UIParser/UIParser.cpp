@@ -24,14 +24,13 @@ QString UIParser::description()
 
 QString UIParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
 {
-    UI displayInfo;
-    displayInfo.setFileName(filename.toStdString());
 
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly))
         return "";
 
     QXmlStreamReader reader(&file);
+    UI displayInfo;
     displayInfo.parse(reader);
 
     QString qml;
