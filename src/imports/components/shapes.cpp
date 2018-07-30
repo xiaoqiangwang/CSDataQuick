@@ -85,6 +85,13 @@ void ArcItem::setSpan(double span)
     update();
 }
 
+void ArcItem::setClosure(ClosureEnum closure)
+{
+    _closure = closure;
+    rebuildPath();
+    update();
+}
+
 void ArcItem::setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition)
 {
     _arrowPosition = arrowPosition;
@@ -97,15 +104,24 @@ QPainterPath ArcItem::buildPath()
     QRectF rc = getDrawArea();
     QPainterPath path;
     if (fillStyle() == FillStyle::Solid) {
-        path.moveTo(rc.center());
+        if (_closure == ClosureEnum::Chord)
+            path.arcMoveTo(rc, _begin);
+        else
+            path.moveTo(rc.center());
         path.arcTo(rc, _begin, _span);
     }
     else {
-        path.arcMoveTo(rc, _begin);
+        if (_closure == ClosureEnum::Pie) 
+            path.moveTo(rc.center());
+        else
+            path.arcMoveTo(rc, _begin);
         QPointF ptStart = path.currentPosition();
 
         path.arcTo(rc, _begin, _span);
         QPointF ptEnd = path.currentPosition();
+
+        if (_closure != ClosureEnum::Open)
+            path.closeSubpath();
 
         if (_arrowPosition == ArrowPosition::Start || _arrowPosition == ArrowPosition::Both) {
             double angle = M_PI_2 -_begin / 180 * M_PI;

@@ -31,7 +31,7 @@ public:
     void setFillStyle(FillStyle::FillStyleEnum style) {_fillStyle = style; rebuildPath(); update();}
 
     int lineWidth() { return _lineWidth;}
-    void setLineWidth(int width) {_lineWidth = width; update();}
+    void setLineWidth(int width) {_lineWidth = width; rebuildPath(); update();}
 
     void paint(QPainter * painter);
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -62,19 +62,29 @@ class ArcItem : public ShapeItem
     Q_PROPERTY(double begin MEMBER _begin WRITE setBegin)
     Q_PROPERTY(double span MEMBER _span WRITE setSpan)
     Q_PROPERTY(ArrowPosition::ArrowPositionEnum arrowPosition MEMBER _arrowPosition WRITE setArrowPosition)
+    Q_PROPERTY(ClosureEnum closure MEMBER _closure WRITE setClosure)
 
 public:
     ArcItem(QQuickItem *parent=0);
 
+    enum ClosureEnum {
+        Open = 0,
+        Chord,
+        Pie
+    };
+    Q_ENUM(ClosureEnum)
+
     void setBegin(double begin);
     void setSpan(double span);
     void setArrowPosition(ArrowPosition::ArrowPositionEnum arrowPosition);
+    void setClosure(ClosureEnum closure);
 
 protected:
     QPainterPath buildPath();
 
 private:
     double _begin, _span;
+    ClosureEnum _closure;
     ArrowPosition::ArrowPositionEnum _arrowPosition;
 };
 
