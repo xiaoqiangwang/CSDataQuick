@@ -1195,7 +1195,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if (v->attributeName() == "label") {
-            ostream << indent << "    text: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "pressMessage") {
             ostream << indent << "    onMessage: '" << v->elementString()->text() << "'" << endl;
@@ -1241,7 +1241,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
         else if (v->attributeName() == "label") {
-            ostream << indent << "    label: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    label: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "stackingMode") {
             QString stacking = v->elementEnum();
@@ -1380,7 +1380,7 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
         else if (v->attributeName() == "label") {
-            ostream << indent << "    label: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    label: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "labels") {
             QStringList labels = v->elementString()->text().split(';');
