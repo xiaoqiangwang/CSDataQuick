@@ -275,6 +275,10 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
     }
+    // zero top padding
+    ostream << indent << "    style: GroupBoxStyle {" << endl;
+    ostream << indent << "        padding.top: 0" << endl;
+    ostream << indent << "    }" << endl;
 
     for (DomLayout *child : w->elementLayout())
         layoutToQML(ostream, child, level+1);
