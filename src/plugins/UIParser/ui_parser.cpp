@@ -576,6 +576,11 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         ostream << indent << "    rotation: " << (up ? -90 : 90) << endl;
     }
 
+    if (w->attributeClass() == "QLabel") {
+        ostream << indent << "    // QLabel" << endl;
+        ostream << indent << "    fontSizeMode: Text.FixedSize";
+    }
+
     ostream << indent << "}" << endl;
 }
 
