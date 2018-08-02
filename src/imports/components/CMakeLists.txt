@@ -73,6 +73,7 @@ set(QML_JS_FILES
     CSTextEntryArray.qml
     CSTextUpdate.qml
     CSText.qml
+    CSToggleButton.qml
     CSWheelSwitch.qml
     utils.js
     ColorMap.qml
@@ -86,11 +87,13 @@ set(QML_JS_FILES
     Private/Indicator.qml
     Private/Meter.qml
     Private/RDButton.qml
+    Private/TextSingleton.qml
     Private/SliderControl.qml
     Private/StyledAxis.qml
     Private/StyledBar.qml
     Private/StyledButton.qml
     Private/StyledButton2.qml
+    Private/StyledCheckBox.qml
     Private/StyledFrame.qml
     Private/StyledTextEntry.qml
     Private/WheelDigit.qml

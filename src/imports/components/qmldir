@@ -34,6 +34,7 @@ CSTextArea      1.0 CSTextArea.qml
 CSTextEntry     1.0 CSTextEntry.qml
 CSTextEntryArray 1.0 CSTextEntryArray.qml
 CSTextUpdate    1.0 CSTextUpdate.qml
+CSToggleButton  1.0 CSToggleButton.qml
 CSWheelSwitch   1.0 CSWheelSwitch.qml
 DataLimitsDialog  1.0 DataLimitsDialog.qml
 PromptDialog    1.0 PromptDialog.qml
