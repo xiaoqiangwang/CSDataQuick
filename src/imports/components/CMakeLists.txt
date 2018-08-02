@@ -84,6 +84,7 @@ set(QML_JS_FILES
     PromptDialog.qml
     Private/qmldir
     Private/ContextMenu.qml
+    Private/GroupBoxStyle.qml
     Private/Indicator.qml
     Private/Meter.qml
     Private/RDButton.qml
@@ -107,6 +108,7 @@ set(QML_JS_FILES
     Private/images/focusframe.png
     Private/images/groove_horz.png
     Private/images/groove_vert.png
+    Private/images/groupbox.png
     designer/qmldir
     designer/AligmentHorizontalButtonsFix.qml
     designer/BaseWindowSpecifics.qml

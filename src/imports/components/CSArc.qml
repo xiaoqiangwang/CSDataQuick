@@ -35,6 +35,11 @@ CSGraphics {
     */
     property alias span: arc.span
     /*!
+      \qmlproperty int closure
+      This property indicates how to close the gap.
+    */
+    property alias closure: arc.closure
+    /*!
         \qmlproperty int arrowPosition
 
         This property indicates where the arrow is draw. \sa ArrowPosition,

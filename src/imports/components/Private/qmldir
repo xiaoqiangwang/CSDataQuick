@@ -1,6 +1,7 @@
 module CSData.Components.Private
 ContextMenu     1.0 ContextMenu.qml
 StyledFrame     1.0 StyledFrame.qml
+GroupBoxStyle   1.0 GroupBoxStyle.qml
 Indicator       1.0 Indicator.qml
 Meter           1.0 Meter.qml
 RDButton        1.0 RDButton.qml

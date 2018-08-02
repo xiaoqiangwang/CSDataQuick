@@ -37,6 +37,16 @@ Column {
                 }
             }
             Label {
+                text: qsTr("closure")
+                tooltip: qsTr("gap closure")
+            }
+            ComboBoxFix {
+                backendValue: backendValues.closure
+                implicitWidth: 180
+                scope: "Arc"
+                model: ["Open", "Pie", "Chord"]
+            }
+            Label {
                 text: qsTr("arrow")
                 tooltip: qsTr("arrow position")
             }
