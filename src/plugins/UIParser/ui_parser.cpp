@@ -1574,6 +1574,54 @@ void UI::toggleButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     ostream << indent << "}" << endl;
 }
 
+void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "CSTextEntryArray {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "channel") {
+            ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if  (v->attributeName() == "colorMode") {
+            if (v->elementEnum().contains("Alarm"))
+                ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
+        }
+        else if (v->attributeName() == "alignment") {
+            QString align = v->elementSet();
+            if (align.contains("Qt::AlignRight") || align == "caLabelVertical::AlignRight")
+                ostream << indent << "    align: Text.AlignRight" << endl;
+            else if (align.contains("Qt::AlignHCenter") || align == "caLabelVertical::AlignCenter")
+                ostream << indent << "    align: Text.AlignHCenter" << endl;
+            else if (align.contains("Qt::AlignJustify"))
+                ostream << indent << "    align: Text.AlignJustify" << endl;
+        }
+        else if (v->attributeName() == "formatType") {
+            ostream << indent << "    format: " << formatToQML(v->elementEnum()) << endl;
+        }
+        else if (v->attributeName() == "numberOfRows") {
+            ostream << indent << "    count: " << v->elementNumber() << endl;
+        }
+        else if (limitsToQML(ostream, v, level))
+            ;
+
+    }
+
+    ostream << indent << "}" << endl;
+}
+
+
 void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
@@ -1704,6 +1752,8 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         textEntryToQML(ostream, w, level, i);
     else if (widgetClass == "caToggleButton")
         toggleButtonToQML(ostream, w, level, i);
+    else if (widgetClass == "caWaveTable")
+        waveTableToQML(ostream, w, level, i);
     else if (widgetClass == "caNumeric" || widgetClass == "caApplyNumeric")
         wheelSwitchToQML(ostream, w, level, i);
     else if (widgetClass == "QMenuBar" || widgetClass == "QStatusBar")
