@@ -1,5 +1,6 @@
 import QtQuick 2.0
 
+import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
 import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
@@ -10,7 +11,7 @@ import "utils.js" as UtilsJS
     \ingroup csdataquick.components.controls
     \brief Displays a checkbox to toggle a boolean value
 
-    The Toggle Buttonsets the CSData value when the button is checked or cleared.
+    The Toggle Button sets the CSData value when the button is checked or cleared.
 */
 
 CSControl {
@@ -49,8 +50,16 @@ CSControl {
             when: fontSizeMode != Text.FixedSize
             value: height
         }
+        enabled: csdata.accessRight & CSData.WriteAccess
         onCheckedChanged: {
             csdata.setValue(checked)
+        }
+    }
+
+    Connections {
+        target: csdata
+        onValueChanged: {
+            btn.checked = csdata.value
         }
     }
 }
