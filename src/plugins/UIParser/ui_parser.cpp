@@ -2,6 +2,8 @@
 #include <QSet>
 #include <QtDebug>
 
+#include <utility>
+
 #include "ui_parser.h"
 #include "ui4.h"
 
@@ -657,6 +659,8 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     ostream << indent << "CSByte {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Down";
+    int start = 0, end = 31;
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -675,19 +679,32 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            QString direction = v->elementEnum();
-            if (direction.endsWith("Up") || direction.endsWith("Down"))
-                ostream << indent << "    orientation: Qt.Vertical" << endl;
-            else
-                ostream << indent << "    orientation: Qt.Horizontal" << endl;
+            direction = v->elementEnum();
         }
         else if  (v->attributeName() == "startBit") {
-            ostream << indent << "    start: " << v->elementNumber() << endl;
+            start = v->elementNumber();
         }
         else if  (v->attributeName() == "endBit") {
-            ostream << indent << "    end: " << v->elementNumber() << endl;
+            end = v->elementNumber();
         }
     }
+    if (direction.endsWith("Up")) {
+        std::swap(start, end);
+        ostream << indent << "    orientation: Qt.Vertical" << endl;
+    }
+    else if (direction.endsWith("Down")) {
+        ostream << indent << "    orientation: Qt.Vertical" << endl;
+    }
+    else if (direction.endsWith("Left")) {
+        std::swap(start, end);
+        ostream << indent << "    orientation: Qt.Horizontal" << endl;
+    }
+    else if (direction.endsWith("Right")) {
+        ostream << indent << "    orientation: Qt.Horizontal" << endl;
+    }
+
+    ostream << indent << "    start: " << start << endl;
+    ostream << indent << "    end: " << end << endl;
 
     ostream << indent << "}" << endl;
 }
