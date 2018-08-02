@@ -1533,6 +1533,38 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     ostream << indent << "}" << endl;
 }
 
+void UI::toggleButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "CSToggleButton {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "channel") {
+            ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
+        }
+        else if (v->attributeName() == "text") {
+            ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
+        }
+        else if (v->attributeName() == "foreground") {
+            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "background") {
+            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if  (v->attributeName() == "colorMode") {
+            if (v->elementEnum().contains("Alarm"))
+                ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
+        }
+    }
+
+    ostream << indent << "}" << endl;
+}
+
 void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
@@ -1661,6 +1693,8 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         spinBoxToQML(ostream, w, level, i);
     else if (widgetClass == "caTextEntry")
         textEntryToQML(ostream, w, level, i);
+    else if (widgetClass == "caToggleButton")
+        toggleButtonToQML(ostream, w, level, i);
     else if (widgetClass == "caNumeric" || widgetClass == "caApplyNumeric")
         wheelSwitchToQML(ostream, w, level, i);
     else if (widgetClass == "QMenuBar" || widgetClass == "QStatusBar")
