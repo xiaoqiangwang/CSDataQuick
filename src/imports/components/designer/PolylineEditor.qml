@@ -18,17 +18,27 @@ Canvas {
     Timer {
         id: timer
         interval: 500;
-        onTriggered: updateToBackend()
+        onTriggered: {
+            updateToBackend()
+        }
+    }
+
+    Connections {
+        target: modelNodeBackend
+        onSelectionToBeChanged: {
+            timer.stop()
+            updateToBackend()
+        }
+        onModelNodeChanged: {
+            console.log('model changed')
+            updateFromBackend()
+        }
     }
 
     onBackendValueChanged: {
-        // stop active timer in case a different object is selected
+        // stop active timer in case value changed outside of editor
         timer.stop()
-
-        points = eval(backendValue.expression)
-        if (!points)
-            points = []
-        canvas.requestPaint()
+        updateFromBackend()
     }
 
     onVisibleChanged: canvas.requestPaint()
@@ -119,5 +129,11 @@ Canvas {
         }
         expr += ']'
         backendValue.expression = expr
+    }
+    function updateFromBackend() {
+        points = eval(backendValue.expression)
+        if (!points)
+            points = []
+        canvas.requestPaint()
     }
 }
