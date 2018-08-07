@@ -88,7 +88,9 @@ QString UI::directionToQML(QString direction)
 
 QString UI::formatToQML(QString format)
 {
-    if (format.endsWith("decimal"))
+    if (format.endsWith("hexadecimal"))
+        return "TextFormat.Hexadecimal";
+    else if (format.endsWith("decimal"))
         return "TextFormat.Decimal";
     else if (format.endsWith("exponential"))
         return "TextFormat.Exponential";
@@ -98,8 +100,6 @@ QString UI::formatToQML(QString format)
         return "TextFormat.Compact";
     else if (format.endsWith("truncated"))
         return "TextFormat.Truncated";
-    else if (format.endsWith("hexadecimal"))
-        return "TextFormat.Hexadecimal";
     else if (format.endsWith("octal"))
         return "TextFormat.Octal";
     else if (format.endsWith("sexagesimal"))
