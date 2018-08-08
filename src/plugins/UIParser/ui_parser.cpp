@@ -1311,7 +1311,8 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             for (int i=0; i<remove.size(); i++) {
                 if (i >= entries.size())
                     entries.append(Entry());
-                entries[i].remove = remove[i];
+                if (!remove[i].isEmpty())
+                    entries[i].remove = remove[i];
             }
          }
      }
