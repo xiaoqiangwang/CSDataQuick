@@ -562,11 +562,11 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight") || align == "caLabelVertical::AlignRight")
+            if (align.contains("AlignRight"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
-            else if (align.contains("Qt::AlignHCenter") || align == "caLabelVertical::AlignCenter")
+            else if (align.contains("AlignHCenter") || align.contains("AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
-            else if (align.contains("Qt::AlignJustify"))
+            else if (align.contains("AlignJustify"))
                 ostream << indent << "    align: Text.AlignJustify" << endl;
         }
         else if (v->attributeName() == "direction") {
