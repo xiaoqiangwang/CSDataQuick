@@ -395,15 +395,42 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
 {
     QString indent(level * 4, ' ');
 
-    ostream << indent << "CSComposite {" << endl;
+    ostream << indent << "CSRect {" << endl;
     layoutItemToQML(ostream, i, level);
+
+    bool filled = false;
+    bool framed = false;
+    QString foreground = "#a0a0a4";
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (v->attributeName() == "frameShape") {
+            framed = ! v->elementEnum().endsWith("NoFrame");
+        }
+        else if (v->attributeName() == "background")
+            foreground = colorToQML(v->elementColor());
+        else if (v->attributeName() == "backgroundMode") {
+            if (v->elementEnum().endsWith("Filled")) {
+                filled = true;
+            }
+        }
+        else if (v->attributeName() == "lineWidth") {
+            ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
+        }
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
+    if (filled)
+        ostream << indent << "    foreground: '" << foreground << "'" << endl;
+    else {
+        if (framed)
+            ostream << indent << "    foreground: '" << foreground << "'" << endl;
+        else
+            ostream << indent << "    foreground: 'transparent'" << endl;
+        ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
+    }
+
     for (DomLayout *child : w->elementLayout())
         layoutToQML(ostream, child, level+1);
 
@@ -593,6 +620,40 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         ostream << indent << "    // QLabel" << endl;
         ostream << indent << "    fontSizeMode: Text.FixedSize";
     }
+
+    ostream << indent << "}" << endl;
+}
+
+void UI::lineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "CSPolyline {" << endl;
+
+    layoutItemToQML(ostream, i, level);
+ 
+    int width, height;
+    QString orientation = "Qt::Horizontal";
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "geometry") {
+            width = v->elementRect()->elementWidth();
+            height = v->elementRect()->elementHeight();
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (v->attributeName() == "lineWidth") {
+            ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
+        }
+        else if (v->attributeName() == "orientation") {
+            orientation = v->elementEnum();
+        }
+    }
+
+    if (orientation.endsWith("Vertical"))
+        ostream << indent << "    points: [Qt.point(" << width / 2 << ",0),"
+            << "Qt.point(" << width / 2 << "," << height << ")]" << endl;
+    else
+        ostream << indent << "    points: [Qt.point(0," << height / 2 << "),"
+            << "Qt.point(" << width << "," << height / 2 << ")]" << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -1739,6 +1800,8 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         graphicsToQML(ostream, w, level, i);
     else if (widgetClass == "caImage")
         imageToQML(ostream, w, level, i);
+    else if (widgetClass == "Line")
+        lineToQML(ostream, w, level, i);
     else if (widgetClass == "caPolyLine")
         polylineToQML(ostream, w, level, i);
     else if (widgetClass == "caByte")
@@ -1836,6 +1899,7 @@ void UI::toQML(QTextStream& ostream)
     ostream << "import CSDataQuick.Components.Private 1.0\n";
     ostream << "BaseWindow {\n";
 
+    QString background = "#e0dfde"; // Qt window default background
     for (DomProperty *v : uniqueProperties(mainWidget->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect());
@@ -1844,17 +1908,17 @@ void UI::toQML(QTextStream& ostream)
             QString css = v->elementString()->text();
             auto match = QRegularExpression("background: rgba?\\((?<r>\\d+), (?<g>\\d+), (?<b>\\d+)(, (?<a>\\d+)\\))?").match(css);
             if (match.hasMatch()) {
-                QString background = "#";
+                background = "#";
                 if (!match.captured("a").isEmpty())
                     background += QString("%1").arg(match.captured("a").toShort(), 2, 16, QChar('0'));
                 background += QString("%1%2%3")
                     .arg(match.captured("r").toShort(), 2, 16, QChar('0'))
                     .arg(match.captured("g").toShort(), 2, 16, QChar('0'))
                     .arg(match.captured("b").toShort(), 2, 16, QChar('0'));
-                ostream << "    color: '" << background << "'" << endl;
             }
         }
     }
+    ostream << "    color: '" << background << "'" << endl;
 
     for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child, 1);

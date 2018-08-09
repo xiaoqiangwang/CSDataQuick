@@ -45,6 +45,7 @@ protected:
     void graphicsToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void imageToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void labelToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
+    void lineToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void polylineToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 
     // monitior widgets
