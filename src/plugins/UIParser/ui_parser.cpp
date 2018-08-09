@@ -663,14 +663,19 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     bool polygon = false;
+    QStringList xyList;
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "polystyle") {
             if (v->elementEnum().endsWith("Polygon"))
                 polygon = true;
         }
+        else if (v->attributeName() == "xyPairs") {
+            QString xyPairs = v->elementString()->text();
+            xyList = xyPairs.split(';', QString::SkipEmptyParts);
+        }
     }
 
-    if (polygon)
+    if (polygon && xyList.size() >= 3)
         ostream << indent << "CSPolygon {" << endl;
     else
         ostream << indent << "CSPolyline {" << endl;
