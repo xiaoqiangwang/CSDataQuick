@@ -1327,6 +1327,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
     };
 
     QVector<Entry> entries;
+    QString stacking = "caRowColMenu::Row";
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1341,13 +1342,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             ostream << indent << "    label: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "stackingMode") {
-            QString stacking = v->elementEnum();
-            if (stacking.endsWith("Column"))
-                ostream << indent << "    visual: RelatedDisplayVisual.Column" << endl;
-            else if (stacking.endsWith("Row"))
-                ostream << indent << "    visual: RelatedDisplayVisual.Row" << endl;
-            else
-                ostream << indent << "    visual: RelatedDisplayVisual.Menu" << endl;
+            stacking = v->elementEnum();
         }
         else if (v->attributeName() == "labels") {
             QStringList labels = v->elementString()->text().split(';');
@@ -1387,6 +1382,12 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             }
          }
      }
+    if (stacking.endsWith("Row"))
+        ostream << indent << "    visual: RelatedDisplayVisual.Column" << endl;
+    if (stacking.endsWith("Column"))
+        ostream << indent << "    visual: RelatedDisplayVisual.Row" << endl;
+    else
+        ostream << indent << "    visual: RelatedDisplayVisual.Menu" << endl;
 
     ostream << indent << "    model: ListModel {" << endl;
     for (Entry entry : entries) {
