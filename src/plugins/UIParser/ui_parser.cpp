@@ -228,9 +228,9 @@ void UI::fontToQML(QTextStream& ostream, DomFont *v, int level)
     if (v->hasElementBold())
         ostream << indent << "    font.bold: " << (v->elementBold() ? "true" : "false") << endl;
     if (v->hasElementUnderline())
-        ostream << indent << "    font.underline" << (v->elementUnderline() ? "true" : "false") << endl;
+        ostream << indent << "    font.underline: " << (v->elementUnderline() ? "true" : "false") << endl;
     if (v->hasElementStrikeOut())
-        ostream << indent << "    font.strikeout" << (v->elementStrikeOut() ? "true" : "false") << endl;
+        ostream << indent << "    font.strikeout: " << (v->elementStrikeOut() ? "true" : "false") << endl;
 }
 
 void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
