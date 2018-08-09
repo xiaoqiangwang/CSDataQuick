@@ -1384,7 +1384,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
      }
     if (stacking.endsWith("Row"))
         ostream << indent << "    visual: RelatedDisplayVisual.Column" << endl;
-    if (stacking.endsWith("Column"))
+    else if (stacking.endsWith("Column"))
         ostream << indent << "    visual: RelatedDisplayVisual.Row" << endl;
     else
         ostream << indent << "    visual: RelatedDisplayVisual.Menu" << endl;
