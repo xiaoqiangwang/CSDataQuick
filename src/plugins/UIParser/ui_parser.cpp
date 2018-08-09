@@ -1582,6 +1582,9 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
+        else if (v->attributeName() == "decimalDigits") {
+            ostream << indent << "    limits.precDefault: " << v->elementNumber() << endl;
+        }
         else if (limitsToQML(ostream, v, level))
             ;
     }
