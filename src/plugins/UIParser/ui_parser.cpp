@@ -964,6 +964,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
     bool scaleContents = false;
     int x = 0, y = 0, width = 0, height = 0;
     int ledWidth = 18, ledHeight = 18;
+    QString trueColor = "#00FF00", falseColor = "#FF0000";
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             x = v->elementRect()->elementX();
@@ -982,12 +983,13 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
         }
         else if (v->attributeName() == "channel") {
             ostream << indent << "    dynamicAttribute.channel: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    dynamicAttribute.altCalc: 'A!=0'" << endl;
         }
-        else if (v->attributeName() == "foreground") {
-            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+        else if (v->attributeName() == "trueColor") {
+            trueColor = colorToQML(v->elementColor());
         }
-        else if (v->attributeName() == "background") {
-            ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        else if (v->attributeName() == "falseColor") {
+            falseColor = colorToQML(v->elementColor());
         }
         else if  (v->attributeName() == "colorMode") {
             if (v->elementEnum().contains("Alarm"))
@@ -1007,6 +1009,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
         ostream << indent << "    height: " << ledHeight << endl;
     }
 
+    ostream << indent << "    foreground: dynamicAttribute.altCalcResult ? '" << trueColor << "' : '" << falseColor << "'" << endl;
     ostream << indent << "}" << endl;
 }
 
