@@ -336,6 +336,18 @@ MetaInfo {
         }
     }
     Type {
+        name: "CSDataQuick.Components.CSToggleButton"
+        icon: "images/toggleButton.png"
+
+        ItemLibraryEntry {
+            name: "ToggleButton"
+            category: "CSDataQuick - Components"
+            libraryIcon: "images/toggleButton.png"
+            version: "1.0"
+            requiredImport: "CSDataQuick.Components"
+        }
+    }
+    Type {
         name: "CSDataQuick.Components.CSWheelSwitch"
         icon: "images/wheelSwitch.png"
 

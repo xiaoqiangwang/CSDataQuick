@@ -140,6 +140,7 @@ set(QML_JS_FILES
     designer/CSTextEntrySpecifics.qml
     designer/CSTextEntryArraySpecifics.qml
     designer/CSTextUpdateSpecifics.qml
+    designer/CSToggleButtonSpecifics.qml
     designer/CSWheelSwitchSpecifics.qml
     designer/CartesianPlotEditor.qml
     designer/ColorSection.qml
@@ -185,6 +186,7 @@ set(QML_JS_FILES
     designer/images/textEntry.png
     designer/images/textEntryArray.png
     designer/images/textUpdate.png
+    designer/images/toggleButton.png
     designer/images/wheelSwitch.png
     designer/images/window.png
     designer/images/add.png
