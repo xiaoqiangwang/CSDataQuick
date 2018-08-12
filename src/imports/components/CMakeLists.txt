@@ -192,6 +192,8 @@ set(QML_JS_FILES
     designer/images/arrow_down.png
     designer/images/arrow_up.png
     designer/images/delete.png
+    designer/images/cursor-arrow.png
+    designer/images/cursor-cross.png
     designer/csdatacomponents.metainfo
 )
 
