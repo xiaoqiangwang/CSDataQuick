@@ -14,4 +14,5 @@ StyledCheckBox  1.0 StyledCheckBox.qml
 StyledTextEntry 1.0 StyledTextEntry.qml
 WheelDigit      1.0 WheelDigit.qml
 WheelSwitch     1.0 WheelSwitch.qml
+singleton Palette       1.0 Palette.qml
 singleton TextSingleton 1.0 TextSingleton.qml

@@ -87,6 +87,7 @@ set(QML_JS_FILES
     Private/GroupBoxStyle.qml
     Private/Indicator.qml
     Private/Meter.qml
+    Private/Palette.qml
     Private/RDButton.qml
     Private/TextSingleton.qml
     Private/SliderControl.qml
