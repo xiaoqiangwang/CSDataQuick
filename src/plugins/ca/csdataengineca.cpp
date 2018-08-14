@@ -7,6 +7,7 @@
 #define epicsAlarmGLOBAL
 #include <alarm.h>
 
+#include <QTextCodec>
 #include <QTimer>
 #include <QtDebug>
 
@@ -39,6 +40,18 @@ void exception_handler(exception_handler_args args)
       args.pFile?args.lineNo:0);
 }
 
+QString charToString(const char *s)
+{
+    QTextCodec::ConverterState state;
+    // default to use utf-8 encoding, if that failed use latin1
+    QTextCodec *utf8 = QTextCodec::codecForName("utf8");
+    QString string = utf8->toUnicode(s, strlen(s), &state);
+    if (state.invalidChars > 0) {
+        string = QString::fromLatin1(s);
+    }
+    return string;
+}
+
 //
 // Get Callback
 //
@@ -51,7 +64,7 @@ void exception_handler(exception_handler_args args)
     timeStamp.setMSecsSinceEpoch(qint64(VP.stamp.secPastEpoch + POSIX_TIME_AT_EPICS_EPOCH) * 1000 + qint64(VP.stamp.nsec / 1000000));
 
 #define ConvertCtrl(VP) \
-    QMetaObject::invokeMethod(data, "setUnits", Q_ARG(QString, VP.units));\
+    QMetaObject::invokeMethod(data, "setUnits", Q_ARG(QString, charToString(VP.units)));\
     QMetaObject::invokeMethod(data, "setRange", Q_ARG(double, VP.lower_disp_limit),\
                                                 Q_ARG(double, VP.upper_disp_limit));
 
@@ -101,7 +114,7 @@ void monitorCallbackC(struct event_handler_args args)
         ConvertSTS(val->tshrtval)
         ConvertTime(val->tshrtval)
         for(unsigned long i=0; i<count; i++)
-            strList.push_back(*(dbr_string_t_ptr)(&(val->tstrval.value) + i));
+            strList.push_back(charToString(*(dbr_string_t_ptr)(&(val->tstrval.value) + i)));
         value.setValue(strList);
         break;
     case DBR_TIME_SHORT:
@@ -169,7 +182,7 @@ void propertyCallbackC(struct event_handler_args args)
     case DBR_CTRL_STRING:
         ConvertSTS(val->cstrval)
         for(qulonglong i=0; i<count; i++)
-            strList.push_back(*(dbr_string_t_ptr)(&(val->cstrval.value) + i));
+            strList.push_back(charToString(*(dbr_string_t_ptr)(&(val->cstrval.value) + i)));
         value.setValue(strList);
         break;
     case DBR_CTRL_SHORT:
@@ -186,7 +199,7 @@ void propertyCallbackC(struct event_handler_args args)
     case DBR_CTRL_ENUM:
         ConvertSTS(val->cenmval);
         for(int i=0; i<val->cenmval.no_str; i++)
-            strList.append(val->cenmval.strs[i]);
+            strList.append(charToString(val->cenmval.strs[i]));
         QMetaObject::invokeMethod(data, "setStateStrings", Q_ARG(QStringList, strList));
         ConvertValue(val->cenmval,dbr_enum_t,int)
         break;
