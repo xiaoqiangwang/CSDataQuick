@@ -141,6 +141,7 @@ set(QML_JS_FILES
     designer/CSTextEntrySpecifics.qml
     designer/CSTextEntryArraySpecifics.qml
     designer/CSTextUpdateSpecifics.qml
+    designer/CSToggleButtonSpecifics.qml
     designer/CSWheelSwitchSpecifics.qml
     designer/CartesianPlotEditor.qml
     designer/ColorSection.qml
@@ -186,6 +187,7 @@ set(QML_JS_FILES
     designer/images/textEntry.png
     designer/images/textEntryArray.png
     designer/images/textUpdate.png
+    designer/images/toggleButton.png
     designer/images/wheelSwitch.png
     designer/images/window.png
     designer/images/add.png
@@ -193,6 +195,8 @@ set(QML_JS_FILES
     designer/images/arrow_down.png
     designer/images/arrow_up.png
     designer/images/delete.png
+    designer/images/cursor-arrow.png
+    designer/images/cursor-cross.png
     designer/csdatacomponents.metainfo
 )
 
