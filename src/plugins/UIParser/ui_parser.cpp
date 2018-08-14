@@ -121,7 +121,7 @@ QString UI::labelStyleToQML(QString style)
     else if (style.endsWith("ChannelV"))
         return "LabelStyle.Channel";
     else
-        return "LabelStyle.None";
+        return "LabelStyle.Frame";
 }
 
 bool UI::dynamicAttributeToQML(QTextStream &ostream, DomProperty *v, int level)
@@ -181,6 +181,16 @@ bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
     else if (v->attributeName() == "limitsMode") {
         if (v->elementEnum().endsWith("User")) {
             ostream << indent << "    limits.loprSrc: LimitsSource.Default" << endl;
+            ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << endl;
+        }
+    }
+    else if (v->attributeName() == "lowLimitMode") {
+        if (v->elementEnum().endsWith("User")) {
+            ostream << indent << "    limits.loprSrc: LimitsSource.Default" << endl;
+        }
+    }
+    else if (v->attributeName() == "highLimitMode") {
+        if (v->elementEnum().endsWith("User")) {
             ostream << indent << "    limits.hoprSrc: LimitsSource.Default" << endl;
         }
     }
@@ -901,6 +911,10 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
         else if  (v->attributeName() == "look") {
             ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
         }
+        else if  (v->attributeName() == "type") {
+            if (v->elementEnum().endsWith("FromCenter"))
+                ostream << indent << "    fillMode: FillMode.FromCenter" << endl;
+        }
         else if (limitsToQML(ostream, v, level))
             ;
     }
@@ -1296,7 +1310,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
-        else if (v->attributeName() == "label") {
+        else if (v->attributeName() == "text") {
             ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "pressMessage") {
@@ -1552,9 +1566,6 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         }
         else if  (v->attributeName() == "direction") {
             ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
-        }
-        else if  (v->attributeName() == "look") {
-            ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
         }
         else if (limitsToQML(ostream, v, level))
             ;
