@@ -1293,6 +1293,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     ostream << indent << "CSMessageButton {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString text;
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1310,8 +1311,8 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
-        else if (v->attributeName() == "text") {
-            ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
+        else if (v->attributeName() == "text" || v->attributeName() == "label") {
+            text = v->elementString()->text();
         }
         else if (v->attributeName() == "pressMessage") {
             ostream << indent << "    onMessage: '" << v->elementString()->text() << "'" << endl;
@@ -1320,6 +1321,8 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             ostream << indent << "    offMessage: '" << v->elementString()->text() << "'" << endl;
         }
      }
+    
+    ostream << indent << "    text: '" << escapedSingleQuote(text) << "'" << endl;
 
     ostream << indent << "}" << endl;
 }
