@@ -496,7 +496,8 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     }
 
     layoutItemToQML(ostream, i, level);
-    rectToQML(ostream, rect, level);
+    if (rect)
+        rectToQML(ostream, rect, level);
 
     bool fill = false;
     QString foreground("black"), lineColor("black");
