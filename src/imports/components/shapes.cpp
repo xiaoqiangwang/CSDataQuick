@@ -65,7 +65,7 @@ void ShapeItem::paint(QPainter *painter)
 }
 
 ArcItem::ArcItem(QQuickItem *parent)
-    : ShapeItem(parent), _arrowPosition(ArrowPosition::None)
+    : ShapeItem(parent), _arrowPosition(ArrowPosition::None), _closure(ClosureEnum::Open)
 {
     _begin = 0;
     _span = 90;
