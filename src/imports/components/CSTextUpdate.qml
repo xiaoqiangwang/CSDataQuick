@@ -91,7 +91,7 @@ CSMonitor {
         Text {
             id: label_control
             fontSizeMode: Text.Fit
-            minimumPixelSize: 8
+            minimumPixelSize: 6
             font.family: UtilsJS.getBestFontSize(root.height).family
             Binding on font.pixelSize {
                 when: fontSizeMode != Text.FixedSize

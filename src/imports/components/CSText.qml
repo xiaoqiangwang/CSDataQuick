@@ -88,7 +88,7 @@ CSGraphics {
         id: text_control
         color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
         anchors.fill: parent
-        minimumPixelSize: 8
+        minimumPixelSize: 6
         fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(height).family
         Binding on font.pixelSize {
