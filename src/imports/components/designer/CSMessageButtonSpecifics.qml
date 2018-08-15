@@ -47,6 +47,7 @@ Column {
         }
     }
 
+    TextFontSection {}
     ColorSection {}
     DynamicAttributeSection {}
 }

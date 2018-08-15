@@ -36,5 +36,6 @@ Column {
         }
     }
 
+    TextFontSection {}
     ColorSection {}
 }

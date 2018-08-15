@@ -34,21 +34,30 @@ CSControl {
         (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
     */
     property string offMessage
+    /*!
+        \qmlproperty font font
+        The text font.
+    */
+    property alias font: btn.font
+    
+    /*!
+        \qmlproperty enumeration fontSizeMode
+        This property specifies how the font size of the displayed text is determined.
 
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
+        \sa {Text::} {fontSizeMode}
+    */
+    property alias fontSizeMode: btn.fontSizeMode
 
     implicitWidth: 100
     implicitHeight: 20
 
     StyledButton {
         id: btn
+        anchors.fill: parent
         backgroundColor: root.background
         foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
-        font.pixelSize: root.font.size
-        font.family: root.font.family
-        anchors.fill: parent
-
+        fontSizeMode: Text.Fit
+        font.family: UtilsJS.getBestFontSize(height - 4, true).family
         onPressedChanged: {
             if (pressed && onMessage)
                 csdata.setValue(onMessage)

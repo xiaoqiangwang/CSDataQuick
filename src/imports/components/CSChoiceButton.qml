@@ -39,8 +39,21 @@ CSControl {
       \endlist
     */
     property int stacking: Stacking.Column
-    /*! \internal */
-    property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / csdata.stateStrings.length - 4 : height - 4, true)
+    /*!
+        \qmlproperty font font
+        The text font.
+    */
+    property alias font: hiddenText.font
+    
+    /*!
+        \qmlproperty enumeration fontSizeMode
+        This property specifies how the font size of the displayed text is determined.
+
+        \sa {Text::} {fontSizeMode}
+    */
+    property int fontSizeMode: Text.Fit
+    
+    font.family: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / csdata.stateStrings.length - 4 : height - 4, true).family
 
     implicitHeight: stacking == Stacking.Column ? csdata.stateStrings.length * 20 : 20
     implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? csdata.stateStrings.length * 100 : 100
@@ -59,14 +72,30 @@ CSControl {
         sourceComponent: (stacking == Stacking.Row || stacking == Stacking.Column) ? layoutStyle : flowStyle
     }
 
+    Text {
+        id: hiddenText
+    }
+
     Component {
         id: button
         StyledButton {
             text: csdata.stateStrings[index]
             foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             backgroundColor: root.background
-            font.pixelSize: root.font.size
-            font.family: root.font.family
+            fontSizeMode: root.fontSizeMode
+            // bind font properties
+            font.bold: hiddenText.font.bold
+            font.capitalization: hiddenText.font.capitalization
+            font.family: hiddenText.font.family
+            font.hintingPreference: hiddenText.font.hintingPreference
+            font.italic: hiddenText.font.italic
+            font.letterSpacing: hiddenText.font.letterSpacing
+            font.pixelSize: hiddenText.font.pixelSize
+            font.strikeout: hiddenText.font.strikeout
+            font.styleName: hiddenText.font.styleName
+            font.underline: hiddenText.font.underline
+            font.weight: hiddenText.font.weight
+            font.wordSpacing: hiddenText.font.wordSpacing
             checkable: true
             exclusiveGroup: radioInputGroup
             Layout.fillWidth: true

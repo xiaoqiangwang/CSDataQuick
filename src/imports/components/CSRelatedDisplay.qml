@@ -132,14 +132,20 @@ BaseItem {
     }
 
     Component {
+        id: doubleRect
+        DoubleRect {
+        }
+    }
+
+    Component {
         id: menuStyle
-        RDButton {
+        StyledButton {
             text: root.label.replace(/^-/, '')
             font.family: root.font.family
             font.pixelSize: root.font.size
-            background: root.background
-            foreground: root.foreground
-            showIcon: root.label.charAt(0) != '-'
+            backgroundColor: root.background
+            foregroundColor: root.foreground
+            icon: root.label.charAt(0) != '-' ? doubleRect : null
             align: displayModel.count <= 1 ? Text.AlignHCenter : Text.AlignLeft
             menu: displayModel.count > 1 ? popupMenu : null
             Menu {

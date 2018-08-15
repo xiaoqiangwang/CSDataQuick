@@ -69,9 +69,19 @@ BaseItem {
         \e{Note: Only in the form of JSON object array, it can be used in Qt Quick Designer}
     */
     property var model
+    /*!
+        \qmlproperty font font
+        The text font.
+    */
+    property alias font: btn.font
+    
+    /*!
+        \qmlproperty enumeration fontSizeMode
+        This property specifies how the font size of the displayed text is determined.
 
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(root.height - 4, true)
+        \sa {Text::} {fontSizeMode}
+    */
+    property alias fontSizeMode: btn.fontSizeMode
 
     /*!
         \internal
@@ -99,12 +109,13 @@ BaseItem {
     }
 
     StyledButton {
+        id: btn
         anchors.fill: parent
         text: root.label[0] === '-' ? root.label.substring(1) : ('! ' + root.label)
         foregroundColor: root.foreground
         backgroundColor: root.background
-        font.pixelSize: root.font.size
-        font.family: root.font.family
+        fontSizeMode: Text.Fit
+        font.family: UtilsJS.getBestFontSize(root.height - 4, true).family
         menu: commandModel.count > 1 ? popupMenu : null
         onClicked: {
             if (commandModel.count == 1) {

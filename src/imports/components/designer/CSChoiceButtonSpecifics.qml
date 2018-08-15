@@ -29,6 +29,7 @@ Column {
         }
     }
 
+    TextFontSection {}
     ColorSection {}
     DynamicAttributeSection {}
 }
