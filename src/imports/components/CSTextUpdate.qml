@@ -87,7 +87,6 @@ CSMonitor {
     RowLayout {
         id: mainLayout
         anchors.fill: parent
-        anchors.margins: 1
         Text {
             id: label_control
             fontSizeMode: Text.Fit
@@ -102,6 +101,7 @@ CSMonitor {
             color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
             clip: true
             Layout.fillWidth: true
+            Layout.fillHeight: true
         }
         Text {
             id: units
@@ -111,6 +111,7 @@ CSMonitor {
             horizontalAlignment: Text.AlignRight
             visible: unitsVisible && text != ''
             text: csdata.units
+            Layout.fillHeight: true
         }
     }
 }
