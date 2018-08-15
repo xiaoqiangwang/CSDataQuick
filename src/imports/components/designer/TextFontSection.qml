@@ -38,21 +38,12 @@ Section {
     property bool showStyle: false
 
     property variant fontFamily: backendValues.font_family
-    property variant pointSize: backendValues.font_pointSize
     property variant pixelSize: backendValues.font_pixelSize
 
     property variant boldStyle: backendValues.font_bold
     property variant italicStyle: backendValues.font_italic
     property variant underlineStyle: backendValues.font_underline
     property variant strikeoutStyle: backendValues.font_strikeout
-
-    onPointSizeChanged: {
-        sizeWidget.setPointPixelSize();
-    }
-
-    onPixelSizeChanged: {
-        sizeWidget.setPointPixelSize();
-    }
 
 
     SectionLayout {
@@ -69,71 +60,16 @@ Section {
             text: qsTr("Size")
         }
 
-        RowLayout {
-            id: sizeWidget
-            property bool selectionFlag: selectionChanged
-
-            property bool pixelSize: sizeType.currentText === "pixels"
-            property bool isSetup;
-
-
-            function setPointPixelSize() {
-                sizeWidget.isSetup = true;
-                sizeType.currentIndex = 1
-                if (fontSection.pixelSize.isInModel)
-                    sizeType.currentIndex = 0
-                sizeWidget.isSetup = false;
+        SecondColumnLayout {
+            SpinBox {
+                minimumValue: 0
+                maximumValue: 400
+                backendValue: backendValues.font_pixelSize
+                enabled: sizeModeWidget.currentIndex == 1
             }
-
-            onSelectionFlagChanged: {
-                sizeWidget.setPointPixelSize();
+            Label {
+                text: qsTr("pixel")
             }
-
-            Item {
-                width: sizeSpinBox.width
-                height: sizeSpinBox.height
-
-                SpinBox {
-                    id: sizeSpinBox
-                    minimumValue: 0
-                    visible: !sizeWidget.pixelSize
-                    z: !sizeWidget.pixelSize ? 1 : 0
-                    maximumValue: 400
-                    backendValue: pointSize
-                }
-
-                SpinBox {
-                    minimumValue: 0
-                    visible: sizeWidget.pixelSize
-                    z: sizeWidget.pixelSize ? 1 : 0
-                    maximumValue: 400
-                    backendValue: pixelSize
-                }
-            }
-
-            Controls.ComboBox {
-                id: sizeType
-                model: ["pixels", "points"]
-                property color textColor: Theme.color(Theme.PanelTextColorLight)
-                onCurrentIndexChanged: {
-                    if (sizeWidget.isSetup)
-                        return;
-                    if (currentText == "pixels") {
-                        pointSize.resetValue();
-                        pixelSize.value = 8;
-                    } else {
-                        pixelSize.resetValue();
-                    }
-
-                }
-
-                Layout.fillWidth: true
-
-                style: CustomComboBoxStyle {
-                }
-
-            }
-
         }
 
         Label {
@@ -141,10 +77,17 @@ Section {
         }
 
         ComboBox {
+            id: sizeModeWidget
             Layout.fillWidth: true
             backendValue: backendValues.fontSizeMode
             model:  ["Fit", "FixedSize", "HorizontalFit", "VerticalFit"]
             scope: "Text"
+            onCurrentIndexChanged: {
+                if (currentIndex == 1)
+                    pixelSize.expression = '12'
+                else
+                    pixelSize.resetValue() 
+            }
         }
 
         Label {
