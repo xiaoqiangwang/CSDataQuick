@@ -68,6 +68,18 @@ BaseItem {
     */
     property string label: ''
     /*!
+        \qmlproperty font font
+        The text font.
+    */
+    property alias font: hiddenText.font
+    /*!
+        \qmlproperty enumeration fontSizeMode
+        This property specifies how the font size of the displayed text is determined.
+
+        \sa {Text::} {fontSizeMode}
+    */
+    property int fontSizeMode: Text.Fit
+    /*!
         \qmlproperty enumeration visual
         \list
             \li RelatedDisplayVisual.Menu: Use a pull down menu for the choices.
@@ -93,8 +105,7 @@ BaseItem {
     */
     property var model
 
-    /*! \internal */
-    readonly property var font: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true)
+    font.family: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true).family
 
     implicitWidth: visual == RelatedDisplayVisual.Row ? displayModel.count * 50 : 50
     implicitHeight: visual == RelatedDisplayVisual.Column ? displayModel.count * 20 : 20
@@ -104,6 +115,10 @@ BaseItem {
     Loader {
         anchors.fill: parent
         sourceComponent: visual == RelatedDisplayVisual.Menu || displayModel.count == 1 ? menuStyle : buttonStyle
+    }
+
+    Text {
+        id: hiddenText
     }
 
     Component {
@@ -117,8 +132,8 @@ BaseItem {
                 model: displayModel.count
                 StyledButton {
                     text: displayModel.get(index).label
-                    font.family: root.font.family
-                    font.pixelSize: root.font.size
+                    font: root.font
+                    fontSizeMode: root.fontSizeMode
                     backgroundColor: root.background
                     foregroundColor: root.foreground
                     Layout.fillHeight: true
@@ -141,8 +156,8 @@ BaseItem {
         id: menuStyle
         StyledButton {
             text: root.label.replace(/^-/, '')
-            font.family: root.font.family
-            font.pixelSize: root.font.size
+            font: root.font
+            fontSizeMode: root.fontSizeMode
             backgroundColor: root.background
             foregroundColor: root.foreground
             icon: root.label.charAt(0) != '-' ? doubleRect : null

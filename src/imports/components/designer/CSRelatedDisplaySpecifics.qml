@@ -48,5 +48,6 @@ Column {
         }
     }
 
+    TextFontSection {}
     ColorSection {}
 }
