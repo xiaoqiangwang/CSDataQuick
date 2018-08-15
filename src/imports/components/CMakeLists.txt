@@ -88,7 +88,6 @@ set(QML_JS_FILES
     Private/Indicator.qml
     Private/Meter.qml
     Private/Palette.qml
-    Private/RDButton.qml
     Private/TextSingleton.qml
     Private/SliderControl.qml
     Private/StyledAxis.qml

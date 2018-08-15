@@ -4,7 +4,6 @@ StyledFrame     1.0 StyledFrame.qml
 GroupBoxStyle   1.0 GroupBoxStyle.qml
 Indicator       1.0 Indicator.qml
 Meter           1.0 Meter.qml
-RDButton        1.0 RDButton.qml
 SliderControl   1.0 SliderControl.qml
 StyledAxis      1.0 StyledAxis.qml	
 StyledBar       1.0 StyledBar.qml
