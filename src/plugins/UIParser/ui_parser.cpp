@@ -415,7 +415,7 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     if (items == 1) {
         ostream << indent << "    source: '" << file << "'" << endl;
         if (macroList.length())
-            ostream << indent << "    macro: " << macroList[0] << endl;
+            ostream << indent << "    macro: '" << macroList[0] << "'" << endl;
     } else {
         ostream << indent << "    GridLayout {" << endl;
         ostream << indent << "        anchors.fill: parent" << endl;
