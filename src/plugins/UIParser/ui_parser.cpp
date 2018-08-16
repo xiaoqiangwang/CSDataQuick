@@ -78,12 +78,12 @@ QString UI::directionToQML(QString direction)
 {
     if (direction.endsWith("Left"))
         return "Direction.Left";
+    else if (direction.endsWith("Right"))
+        return "Direction.Right";
     else if (direction.endsWith("Down"))
         return "Direction.Down";
-    else if (direction.endsWith("Up"))
-        return "Direction.Up";
     else
-        return "Direction.Right";
+        return "Direction.Up";
 }
 
 QString UI::formatToQML(QString format)
