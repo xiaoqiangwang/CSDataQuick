@@ -204,6 +204,33 @@ bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
     return true;
 }
 
+bool UI::sizePolicyToQML(QTextStream &ostream, DomProperty *v, int level)
+{
+    QString indent(level * 4, ' ');
+
+    if (v->attributeName() == "sizePolicy") {
+        DomSizePolicy *s = v->elementSizePolicy();
+        if (s->attributeHSizeType().endsWith("Expanding") || s->attributeHSizeType() == "Ignored")
+            ostream << indent << "    Layout.fillWidth: true" << endl;
+        if (s->attributeVSizeType().endsWith("Expanding") || s->attributeVSizeType() == "Ignored")
+            ostream << indent << "    Layout.fillHeight: true" << endl;
+    }
+    else if (v->attributeName() == "minimumSize") {
+        DomSize *s = v->elementSize();
+        ostream << indent << "    Layout.minimumWidth: " << s->elementWidth() << endl;
+        ostream << indent << "    Layout.minimumHeight: " << s->elementHeight() << endl;
+    }
+    else if (v->attributeName() == "maximumSize") {
+        DomSize *s = v->elementSize();
+        ostream << indent << "    Layout.maximumWidth: " << s->elementWidth() << endl;
+        ostream << indent << "    Layout.maximumHeight: " << s->elementHeight() << endl;
+    }
+    else
+        return false;
+
+    return true;
+}
+
 void UI::fontToQML(QTextStream& ostream, DomFont *v, int level)
 {
     QString indent(level * 4, ' ');
@@ -263,6 +290,18 @@ void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
 
     ostream << indent << "    anchors.fill: parent" << endl;
 
+    for (DomProperty *v : uniqueProperties(l->elementProperty())) {
+        if (v->attributeName() == "spacing") {
+            ostream << indent << "    spacing: " << v->elementNumber() << endl;
+        }
+        else if (v->attributeName() == "horizontalSpacing") {
+            ostream << indent << "    columnSpacing: " << v->elementNumber() << endl;
+        }
+        else if (v->attributeName() == "verticalSpacing") {
+            ostream << indent << "    rowSpacing: " << v->elementNumber() << endl;
+        }
+
+    }
     for (DomLayoutItem *child : l->elementItem()) {
         DomWidget *w = child->elementWidget();
         if (w)
@@ -283,6 +322,8 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "title") {
             ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
@@ -313,6 +354,8 @@ void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "font") {
             fontToQML(ostream, v->elementFont(), level);
         }
@@ -341,7 +384,10 @@ void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
-        } else if (v->attributeName() == "tabPosition") {
+        }
+        else if (sizePolicyToQML(ostream, v, level))
+            ; 
+        else if (v->attributeName() == "tabPosition") {
             QString d = v->elementEnum();
             if (d == "QTabWidget::West")
                 ostream << indent << "    tabPosition: Qt.LeftEdge" << endl;
@@ -349,7 +395,8 @@ void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
                 ostream << indent << "    tabPosition: Qt.BottomEdge" << endl;
             else if (d == "QTabWidget::East")
                 ostream << indent << "    tabPosition: Qt.RightEdge" << endl;
-        } else if (v->attributeName() == "currentIndex") {
+        }
+        else if (v->attributeName() == "currentIndex") {
             ostream << indent << "    currentIndex: " << v->elementNumber() << endl;
         }
     }
@@ -386,6 +433,8 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "filename") {
             file = v->elementString()->text();
             if (file.endsWith(".adl")) {
@@ -435,7 +484,7 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
             ostream << indent << "        CSComposite {" << endl;
             ostream << indent << "            source: '" << file << "'" << endl;
             if (i < macroList.length())
-            ostream << indent << "            macro: '" << macroList[i] << "'" << endl;
+            ostream << indent << "            macro: '" << macroList[i].trimmed() << "'" << endl;
             ostream << indent << "        }" << endl;
         }
 
@@ -459,6 +508,8 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "frameShape") {
             framed = ! v->elementEnum().endsWith("NoFrame");
         }
@@ -575,6 +626,8 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "spanAngle" && form == "caGraphics::Arc") {
             ostream << indent << "    span: " << v->elementNumber() << endl; 
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
@@ -598,6 +651,8 @@ void UI::imageToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "filename") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -624,6 +679,8 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -695,6 +752,8 @@ void UI::lineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
             height = v->elementRect()->elementHeight();
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "lineWidth") {
             ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
         }
@@ -742,6 +801,8 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground")
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "background")
@@ -793,6 +854,8 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -861,6 +924,8 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -937,6 +1002,8 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -978,6 +1045,8 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1028,7 +1097,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
     bool scaleContents = false;
     int x = 0, y = 0, width = 0, height = 0;
     int ledWidth = 18, ledHeight = 18;
-    QString trueColor = "#00FF00", falseColor = "#FF0000";
+    QString trueColor = "#FF0000", falseColor = "#A0A0A4";
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             x = v->elementRect()->elementX();
@@ -1036,6 +1105,8 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
             width = v->elementRect()->elementWidth();
             height = v->elementRect()->elementHeight();
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "scaleContents") {
             scaleContents = (v->elementBool() == "true");
         }
@@ -1088,6 +1159,8 @@ void UI::meterToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1140,6 +1213,8 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry")
             rectToQML(ostream, v->elementRect(), level);
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground")
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "background")
@@ -1215,6 +1290,8 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1275,6 +1352,8 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1313,6 +1392,8 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1343,6 +1424,8 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1395,10 +1478,13 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
 
     QVector<Entry> entries;
     QString stacking = "caRowColMenu::Row";
+    QString label;
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1406,7 +1492,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
         else if (v->attributeName() == "label") {
-            ostream << indent << "    label: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
+            label = v->elementString()->text();
         }
         else if (v->attributeName() == "stackingMode") {
             stacking = v->elementEnum();
@@ -1448,7 +1534,14 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
                     entries[i].remove = remove[i];
             }
          }
-     }
+    }
+
+    if (label.isEmpty() && entries.size() > 0) {
+        label = entries[0].label;
+    }
+    if (!label.isEmpty())
+        ostream << indent << "    label: '" << escapedSingleQuote(label) << "'" << endl;
+
     if (stacking.endsWith("Row"))
         ostream << indent << "    visual: RelatedDisplayVisual.Column" << endl;
     else if (stacking.endsWith("Column"))
@@ -1463,7 +1556,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
         ostream << indent << "        ListElement {" << endl;
         ostream << indent << "            file: '" << entry.file << "'" << endl;
         ostream << indent << "            macro: '" << entry.arg << "'" << endl;
-        ostream << indent << "            label: '" << entry.label << "'" << endl;
+        ostream << indent << "            label: '" << escapedSingleQuote(entry.label) << "'" << endl;
         ostream << indent << "            remove: " << entry.remove << endl;
         ostream << indent << "        }" << endl;
     }
@@ -1484,6 +1577,8 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1539,6 +1634,8 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1599,6 +1696,8 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1633,6 +1732,8 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1667,6 +1768,8 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1710,6 +1813,8 @@ void UI::toggleButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1742,6 +1847,8 @@ void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1790,6 +1897,8 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1919,10 +2028,13 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
         ostream << indent << "Item {" << endl;
+        layoutItemToQML(ostream, i, level);
         for (DomProperty *v : uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
                 rectToQML(ostream, v->elementRect(), level);
             }
+            else if (sizePolicyToQML(ostream, v, level))
+                ;
         }
         for (DomLayout *child : w->elementLayout())
             layoutToQML(ostream, child, level+1);
@@ -1942,6 +2054,8 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
             if (v->attributeName() == "geometry") {
                 rectToQML(ostream, v->elementRect(), level);
             }
+            else if (sizePolicyToQML(ostream, v, level))
+                ;
         }
 
         for (DomLayout *child : w->elementLayout())
@@ -1991,6 +2105,9 @@ void UI::toQML(QTextStream& ostream)
     }
     ostream << "    color: '" << background << "'" << endl;
 
+    for (DomLayout *layout : mainWidget->elementLayout())
+        layoutToQML(ostream, layout, 1);
+
     for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child, 1);
 
@@ -2018,6 +2135,9 @@ void UI::toPartialQML(QTextStream& ostream)
             ostream << "    height: " << QString::number(v->elementRect()->elementHeight()) << endl;
         }
     }
+    for (DomLayout *layout : mainWidget->elementLayout())
+        layoutToQML(ostream, layout);
+
     for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child);
 
