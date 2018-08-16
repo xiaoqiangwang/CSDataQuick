@@ -114,6 +114,10 @@ BaseItem {
         if (d.rootItem) {
             d.rootItem.x = 0
             d.rootItem.y = 0
+            if (d.rootItem.width)
+                implicitWidth = d.rootItem.width
+            if (d.rootItem.height)
+                implicitHeight = d.rootItem.height
         }
     }
 
