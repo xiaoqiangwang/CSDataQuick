@@ -419,6 +419,8 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     } else {
         ostream << indent << "    GridLayout {" << endl;
         ostream << indent << "        anchors.fill: parent" << endl;
+        ostream << indent << "        columnSpacing: 0" << endl;
+        ostream << indent << "        rowSpacing: 0" << endl;
 
         if (stacking.endsWith("ColumnRow"))
         ostream << indent << "        columns: " << columns << endl;
