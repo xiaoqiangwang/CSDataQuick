@@ -373,6 +373,12 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
 {
     QString indent(level * 4, ' ');
 
+    QString file;
+    QStringList macroList;
+    int items = 1, columns = 1, rows = 1;
+    QString stacking = "caInclude::Row";
+    DomRect *rect = nullptr;
+
     ostream << indent << "CSComposite {" << endl;
     layoutItemToQML(ostream, i, level);
 
@@ -381,21 +387,57 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "filename") {
-            QString file = v->elementString()->text();
+            file = v->elementString()->text();
             if (file.endsWith(".adl")) {
                 file.replace(file.size() - 4, 4, ".ui");
             }
-            ostream << indent << "    source: '" << file << "'" << endl;
         }
         else if (v->attributeName() == "macro") {
-            ostream << indent << "    macro: '" << v->elementString()->text() << "'" << endl;
+            QString macros = v->elementString()->text();
+            macroList = macros.split(';');
+        }
+        else if (v->attributeName() == "numberOfItems") {
+            items = v->elementNumber(); 
+        }
+        else if (v->attributeName() == "stacking") {
+            stacking = v->elementEnum();
+        }
+        else if (v->attributeName() == "maximumColumns") {
+            columns = v->elementNumber(); 
+        }
+        else if (v->attributeName() == "maximumLines") {
+            rows = v->elementNumber(); 
         }
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
 
-    for (DomWidget *child : w->elementWidget()) {
-        widgetToQML(ostream, child, level+1);
+    if (items == 1) {
+        ostream << indent << "    source: '" << file << "'" << endl;
+        if (macroList.length())
+            ostream << indent << "    macro: " << macroList[0] << endl;
+    } else {
+        ostream << indent << "    GridLayout {" << endl;
+        ostream << indent << "        anchors.fill: parent" << endl;
+
+        if (stacking.endsWith("ColumnRow"))
+        ostream << indent << "        columns: " << columns << endl;
+        else if (stacking.endsWith("RowColumn"))
+        ostream << indent << "        rows: " << rows << endl;
+        else if (stacking.endsWith("Column"))
+        ostream << indent << "        rows: 1" << endl;
+        else
+        ostream << indent << "        columns: 1" << endl;
+        
+        for (int i=0; i<items; i++) {
+            ostream << indent << "        CSComposite {" << endl;
+            ostream << indent << "            source: '" << file << "'" << endl;
+            if (i < macroList.length())
+            ostream << indent << "            macro: '" << macroList[i] << "'" << endl;
+            ostream << indent << "        }" << endl;
+        }
+
+        ostream << indent << "    }" << endl;
     }
 
     ostream << indent << "}" << endl;
@@ -1968,8 +2010,12 @@ void UI::toPartialQML(QTextStream& ostream)
     ostream << "import CSDataQuick.Components 1.0\n";
     ostream << "import CSDataQuick.Components.Private 1.0\n";
     ostream << "Item {\n";
-    ostream << "    anchors.fill: parent\n";
-
+    for (DomProperty *v : uniqueProperties(mainWidget->elementProperty())) {
+        if (v->attributeName() == "geometry") {
+            ostream << "    width: " << QString::number(v->elementRect()->elementWidth()) << endl;
+            ostream << "    height: " << QString::number(v->elementRect()->elementHeight()) << endl;
+        }
+    }
     for (DomWidget *child : orderedChildWidgets(mainWidget))
         widgetToQML(ostream, child);
 
