@@ -74,6 +74,22 @@ QString UI::colorToQML(DomColor *v)
     return color;
 }
 
+QString UI::cssColorToQML(QString css, QString role)
+{
+    QString color;
+    auto match = QRegularExpression(role + ": *rgba?\\((?<r>\\d+), (?<g>\\d+), (?<b>\\d+)(, (?<a>\\d+)\\))?").match(css);
+    if (match.hasMatch()) {
+        color = "#";
+        if (!match.captured("a").isEmpty())
+            color += QString("%1").arg(match.captured("a").toShort(), 2, 16, QChar('0'));
+        color += QString("%1%2%3")
+            .arg(match.captured("r").toShort(), 2, 16, QChar('0'))
+            .arg(match.captured("g").toShort(), 2, 16, QChar('0'))
+            .arg(match.captured("b").toShort(), 2, 16, QChar('0'));
+    }
+    return color;
+}
+
 QString UI::directionToQML(QString direction)
 {
     if (direction.endsWith("Left"))
@@ -270,16 +286,21 @@ void UI::fontToQML(QTextStream& ostream, DomFont *v, int level)
         ostream << indent << "    font.strikeout: " << (v->elementStrikeOut() ? "true" : "false") << endl;
 }
 
-void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
+void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
+
+    bool grid = false;
     if (l->attributeClass() == "QHBoxLayout")
         ostream << indent << "RowLayout {" << endl;
     else if (l->attributeClass() == "QVBoxLayout")
         ostream << indent << "ColumnLayout {" << endl;
-    else if (l->attributeClass() == "QGridLayout")
+    else if (l->attributeClass() == "QGridLayout") {
+        grid = true;
         ostream << indent << "GridLayout {" << endl;
+    }
     else if (l->attributeClass() == "QFormLayout") {
+        grid = true;
         ostream << indent << "GridLayout {" << endl;
         ostream << indent << "    columns: 2" << endl;
     }
@@ -288,11 +309,19 @@ void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
         return;
     }
 
-    ostream << indent << "    anchors.fill: parent" << endl;
+    if (i == nullptr)
+        ostream << indent << "    anchors.fill: parent" << endl;
+    else
+        layoutItemToQML(ostream, i, level);
 
     for (DomProperty *v : uniqueProperties(l->elementProperty())) {
         if (v->attributeName() == "spacing") {
-            ostream << indent << "    spacing: " << v->elementNumber() << endl;
+            if (grid) {
+                ostream << indent << "    columnSpacing: " << v->elementNumber() << endl;
+                ostream << indent << "    rowSpacing: " << v->elementNumber() << endl;
+            }
+            else
+                ostream << indent << "    spacing: " << v->elementNumber() << endl;
         }
         else if (v->attributeName() == "horizontalSpacing") {
             ostream << indent << "    columnSpacing: " << v->elementNumber() << endl;
@@ -300,14 +329,105 @@ void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level)
         else if (v->attributeName() == "verticalSpacing") {
             ostream << indent << "    rowSpacing: " << v->elementNumber() << endl;
         }
-
     }
+
     for (DomLayoutItem *child : l->elementItem()) {
-        DomWidget *w = child->elementWidget();
-        if (w)
-            widgetToQML(ostream, w, level+1, child);
+        switch (child->kind()) {
+            case DomLayoutItem::Widget:
+                widgetToQML(ostream, child->elementWidget(), level+1, child);
+                break;
+            case DomLayoutItem::Spacer:
+                spacerToQML(ostream, child->elementSpacer(), level+1, child);
+                break;
+            case DomLayoutItem::Layout:
+                layoutToQML(ostream, child->elementLayout(), level+1, child);
+                break;
+            default:
+                break;
+        }
     }
 
+    ostream << indent << "}" << endl;
+}
+
+void UI::spacerToQML(QTextStream& ostream, DomSpacer *l, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "Item {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    QString orientation = "Qt::Horizontal";
+    for (DomProperty *v : uniqueProperties(l->elementProperty())) {
+        if (v->attributeName() == "orientation") {
+            orientation = v->elementEnum();
+        }
+        else if (v->attributeName() == "sizeHint") {
+            DomSize *s = v->elementSize();
+            ostream << indent << "    Layout.preferredWidth: " << s->elementWidth() << endl;
+            ostream << indent << "    Layout.preferredHeight: " << s->elementHeight() << endl;
+        }
+    }
+    if (orientation == "Qt::Horizontal")
+        ostream << indent << "    Layout.fillWidth: true" << endl;
+    else
+        ostream << indent << "    Layout.fillHeight: true" << endl;
+
+    ostream << indent << "}" << endl;
+}
+
+void UI::qlabelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "Text {" << endl;
+    layoutItemToQML(ostream, i, level);
+
+    bool richText = false;
+    QString horizontalAlignment = "Text.AlignLeft";
+    QString verticalAlignment = "Text.AlignVCenter";
+    for (DomProperty *v : uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+        else if (sizePolicyToQML(ostream, v, level))
+            ;
+        else if (v->attributeName() == "font") {
+            fontToQML(ostream, v->elementFont(), level);
+        }
+        else if (v->attributeName() == "text") {
+            if (v->elementString()->text().startsWith("<html>"))
+                richText = true;
+            ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
+        }
+        else if (v->attributeName() == "styleSheet") {
+            QString color = cssColorToQML(v->elementString()->text(), "color");
+            if (!color.isEmpty())
+                ostream << indent << "    color: '" << color << "'" << endl;
+        }
+        else if (v->attributeName() == "alignment") {
+            QString align = v->elementSet();
+
+            if (align.contains("AlignRight"))
+                horizontalAlignment = "Text.AlignLeft";
+            else if (align.contains("AlignHCenter") || align.contains("AlignCenter"))
+                horizontalAlignment = "Text.AlignHCenter";
+            else if (align.contains("AlignJustify"))
+                horizontalAlignment = "Text.AlignJustify";
+
+            if (align.contains("AlignTop"))
+                verticalAlignment = "Text.AlignTop";
+            else if (align.contains("AlignBottom"))
+                verticalAlignment = "Text.AlignBottom";
+            else
+                verticalAlignment = "Text.AlignVCenter";
+        }
+    }
+
+    ostream << indent << "    horizontalAlignment: " << horizontalAlignment << endl;
+    if (!richText) {
+        ostream << indent << "    verticalAlignment: " << verticalAlignment << endl;
+    }
     ostream << indent << "}" << endl;
 }
 
@@ -328,10 +448,6 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
     }
-    // zero top padding
-    ostream << indent << "    style: GroupBoxStyle {" << endl;
-    ostream << indent << "        padding.top: 0" << endl;
-    ostream << indent << "    }" << endl;
 
     for (DomLayout *child : w->elementLayout())
         layoutToQML(ostream, child, level+1);
@@ -386,7 +502,7 @@ void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (sizePolicyToQML(ostream, v, level))
-            ; 
+            ;
         else if (v->attributeName() == "tabPosition") {
             QString d = v->elementEnum();
             if (d == "QTabWidget::West")
@@ -446,16 +562,16 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
             macroList = macros.split(';');
         }
         else if (v->attributeName() == "numberOfItems") {
-            items = v->elementNumber(); 
+            items = v->elementNumber();
         }
         else if (v->attributeName() == "stacking") {
             stacking = v->elementEnum();
         }
         else if (v->attributeName() == "maximumColumns") {
-            columns = v->elementNumber(); 
+            columns = v->elementNumber();
         }
         else if (v->attributeName() == "maximumLines") {
-            rows = v->elementNumber(); 
+            rows = v->elementNumber();
         }
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
@@ -479,7 +595,7 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         ostream << indent << "        rows: 1" << endl;
         else
         ostream << indent << "        columns: 1" << endl;
-        
+
         for (int i=0; i<items; i++) {
             ostream << indent << "        CSComposite {" << endl;
             ostream << indent << "            source: '" << file << "'" << endl;
@@ -557,7 +673,7 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         if (v->attributeName() == "form") {
             form = v->elementEnum();
         } else if (v->attributeName() == "geometry") {
-            rect = v->elementRect(); 
+            rect = v->elementRect();
         } else if (v->attributeName() == "arrowMode") {
             arrowMode = v->elementEnum();
         }
@@ -571,10 +687,10 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         ostream << indent << "CSArc {" << endl;
     else if (form == "caGraphics::Line" || form == "caGraphics::Arrow") {
         ostream << indent << "CSPolyline {" << endl;
-        ostream << indent << "    points: [" 
-            << "Qt.point(0," << rect->elementHeight()/2 << ")," 
+        ostream << indent << "    points: ["
+            << "Qt.point(0," << rect->elementHeight()/2 << "),"
             << "Qt.point(" << rect->elementWidth() << "," << rect->elementHeight()/2 << ")]" << endl;
-        
+
         if (form == "caGraphics::Arrow") {
             if (arrowMode == "caGraphics::Double")
                 ostream << indent << "    arrowPosition: ArrowPosition.Both" << endl;
@@ -584,8 +700,8 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     }
     else if (form == "caGraphics::Triangle") {
         ostream << indent << "CSPolygon {" << endl;
-        ostream << indent << "    points: [" 
-            << "Qt.point(" << rect->elementWidth()/2 << ",0)," 
+        ostream << indent << "    points: ["
+            << "Qt.point(" << rect->elementWidth()/2 << ",0),"
             << "Qt.point(0," << rect->elementHeight() << "),"
             << "Qt.point(" << rect->elementWidth() << "," << rect->elementHeight() << ")]" << endl;
     }
@@ -618,13 +734,13 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if (v->attributeName() == "lineSize") {
-            ostream << indent << "    lineWidth: " << v->elementNumber() << endl; 
+            ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
         }
         else if (v->attributeName() == "startAngle" && form == "caGraphics::Arc") {
-            ostream << indent << "    begin: " << v->elementNumber() << endl; 
+            ostream << indent << "    begin: " << v->elementNumber() << endl;
         }
         else if (v->attributeName() == "spanAngle" && form == "caGraphics::Arc") {
-            ostream << indent << "    span: " << v->elementNumber() << endl; 
+            ostream << indent << "    span: " << v->elementNumber() << endl;
         }
         else if (sizePolicyToQML(ostream, v, level))
             ;
@@ -728,11 +844,6 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         ostream << indent << "    rotation: " << (up ? -90 : 90) << endl;
     }
 
-    if (w->attributeClass() == "QLabel") {
-        ostream << indent << "    // QLabel" << endl;
-        ostream << indent << "    fontSizeMode: Text.FixedSize";
-    }
-
     ostream << indent << "}" << endl;
 }
 
@@ -743,7 +854,7 @@ void UI::lineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     ostream << indent << "CSPolyline {" << endl;
 
     layoutItemToQML(ostream, i, level);
- 
+
     int width, height;
     QString orientation = "Qt::Horizontal";
     for (DomProperty *v : uniqueProperties(w->elementProperty())) {
@@ -822,7 +933,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if (v->attributeName() == "lineSize") {
-            ostream << indent << "    lineWidth: " << v->elementNumber() << endl; 
+            ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
         }
         else if (v->attributeName() == "xyPairs") {
             QString xyPairs = v->elementString()->text();
@@ -1092,7 +1203,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
 
     layoutItemToQML(ostream, i, level);
     ostream << indent << "    implicitWidth: 18" << endl;
-    ostream << indent << "    implicitHeight: 18" << endl; 
+    ostream << indent << "    implicitHeight: 18" << endl;
 
     bool scaleContents = false;
     int x = 0, y = 0, width = 0, height = 0;
@@ -1237,7 +1348,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         else if (v->attributeName() == "channels") {
             QStringList channels = v->elementString()->text().split(';');
             for (int i=0; i<channels.size(); i++) {
-                traces[i].source = channels[i]; 
+                traces[i].source = channels[i];
             }
         }
         else if (v->attributeName().startsWith("color_")) {
@@ -1449,7 +1560,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             ostream << indent << "    offMessage: '" << v->elementString()->text() << "'" << endl;
         }
      }
-    
+
     ostream << indent << "    text: '" << escapedSingleQuote(text) << "'" << endl;
 
     ostream << indent << "}" << endl;
@@ -1970,9 +2081,11 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         textEditToQML(ostream, w, level, i);
     else if (widgetClass == "QGroupBox")
         groupBoxToQML(ostream, w, level, i);
+    else if (widgetClass == "QLabel")
+        qlabelToQML(ostream, w, level, i);
     else if (widgetClass == "caInclude")
         compositeToQML(ostream, w, level, i);
-    else if (widgetClass == "caLabel" || widgetClass == "QLabel" || widgetClass == "caLabelVertical")
+    else if (widgetClass == "caLabel" || widgetClass == "caLabelVertical")
         labelToQML(ostream, w, level, i);
     else if (widgetClass == "caFrame" || widgetClass == "QFrame")
         frameToQML(ostream, w, level, i);

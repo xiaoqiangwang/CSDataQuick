@@ -14,6 +14,7 @@ class DomLayout;
 class DomLayoutItem;
 class DomProperty;
 class DomRect;
+class DomSpacer;
 class DomWidget;
 
 class UI
@@ -29,6 +30,7 @@ public:
 protected:
     // helper methods to convert standard properties to QML
     QString colorToQML(DomColor *v);
+    QString cssColorToQML(QString css, QString role);
     QString directionToQML(QString direction);
     QString formatToQML(QString format);
     QString labelStyleToQML(QString style);
@@ -74,11 +76,13 @@ protected:
     void wheelSwitchToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 
     // Qt standard widgets
+    void qlabelToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void groupBoxToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void textEditToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     void tabWidgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
 
-    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0);
+    void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0, DomLayoutItem*i=nullptr);
+    void spacerToQML(QTextStream &ostream, DomSpacer*l, int level=0, DomLayoutItem*i=nullptr);
     void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
     QVector<DomWidget*> orderedChildWidgets(DomWidget *w);
     QList<DomProperty*> uniqueProperties(QList<DomProperty*> p);
