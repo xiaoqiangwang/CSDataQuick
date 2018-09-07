@@ -2031,12 +2031,12 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     ostream << indent << "}" << endl;
 }
 
-QVector<DomWidget*> UI::orderedChildWidgets(DomWidget *w)
+QList<DomWidget*> UI::orderedChildWidgets(DomWidget *w)
 {
     if (w->elementZOrder().size() == 0)
         return w->elementWidget();
 
-    QVector<DomWidget*>  ordered;
+    QList<DomWidget*>  ordered;
     for (QString widgetName : w->elementZOrder()) {
         for (DomWidget *child : w->elementWidget()) {
             if (child->attributeName() == widgetName) {

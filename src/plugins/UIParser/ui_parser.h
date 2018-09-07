@@ -84,7 +84,7 @@ protected:
     void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0, DomLayoutItem*i=nullptr);
     void spacerToQML(QTextStream &ostream, DomSpacer*l, int level=0, DomLayoutItem*i=nullptr);
     void widgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=nullptr);
-    QVector<DomWidget*> orderedChildWidgets(DomWidget *w);
+    QList<DomWidget*> orderedChildWidgets(DomWidget *w);
     QList<DomProperty*> uniqueProperties(QList<DomProperty*> p);
     QString escapedSingleQuote(QString s);
 
