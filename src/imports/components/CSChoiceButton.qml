@@ -87,7 +87,7 @@ CSControl {
             font.bold: hiddenText.font.bold
             font.capitalization: hiddenText.font.capitalization
             font.family: hiddenText.font.family
-            font.hintingPreference: hiddenText.font.hintingPreference
+            //font.hintingPreference: hiddenText.font.hintingPreference // Qt 5.9+ only
             font.italic: hiddenText.font.italic
             font.letterSpacing: hiddenText.font.letterSpacing
             font.pixelSize: hiddenText.font.pixelSize

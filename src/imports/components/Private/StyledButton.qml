@@ -45,7 +45,7 @@ Button {
                 font.bold: root.font.bold
                 font.capitalization: root.font.capitalization
                 font.family: root.font.family
-                font.hintingPreference: root.font.hintingPreference
+                // font.hintingPreference: root.font.hintingPreference // Qt 5.9+ only
                 font.italic: root.font.italic
                 font.letterSpacing: root.font.letterSpacing
                 font.pixelSize: root.font.pixelSize
