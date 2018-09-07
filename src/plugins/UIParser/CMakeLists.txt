@@ -9,6 +9,9 @@ set(HEADERS
     UIParser.h
 )
 
+# undef QDESIGNER_UILIB_EXPORT macro in ui4.h
+add_definitions(-DQT_UIC)
+
 include_directories(
     ${Qt5Core_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
