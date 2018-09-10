@@ -305,6 +305,26 @@ void connectCallbackC(struct connection_handler_args args)
     }
 }
 
+/*!
+ * \class QCSDataEngineCA
+ * \inmodule CSDataQuick.Data
+ * \brief Connect to EPICS process variables (PV) via Channel Access (CA).
+ *
+ * This data engine source has a \e ca:// scheme, followed by the PV name.
+ * And since this is the default data engine, the \e ca:// scheme can be omitted.
+ *
+ * If the PV value is of array type, the data type might be up casted to either \e int or \e double.
+ * This is because the qml engine transparent handles QVector<int> and QVector<double> \l {Sequence Type to JavaScript Array}.
+ * To always return the native data type, set the \e extraProperties:
+ * \code
+ *      QCSData data = new QCSData();
+ *      data->setExtraProperty("UseNativeType", true);
+ *      data->setSource("my_array_pv");
+ * \endcode
+ *
+ * Note: it creates a preemptive channel access context, but anyway has a 100ms timer to flush the io
+ * to improve the IO efficiency.
+ */
 QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
     : QCSDataEngine(parent)
 {
@@ -330,16 +350,30 @@ QCSDataEngineCA::~QCSDataEngineCA()
 {
 }
 
+/*!
+ * \reimp
+ * \brief Returns the source scheme \e ca.
+ */
 QString QCSDataEngineCA::name()
 {
     return "ca";
 }
 
+/*!
+ * \reimp
+ */
 QString QCSDataEngineCA::description()
 {
     return "Channel Access Engine";
 }
 
+/*!
+ * \reimp
+ * \brief Creates the EPICS channel.
+ *
+ * It calls \c ca_create_channel with a connection callback. In the callback,
+ * it calls \c ca_create_subscription to monitor value, alarm and property changes.
+ */
 void QCSDataEngineCA::create(QCSData *data)
 {
     QCSDataSourceName source = QCSDataSourceName(data->property("source").toString());
@@ -370,6 +404,10 @@ void QCSDataEngineCA::create(QCSData *data)
         dataChanged();
     }
 }
+
+/*!
+ * \reimp
+ */
 void QCSDataEngineCA::close(QCSData *data)
 {
     if (ca_current_context() != _cac) {
@@ -410,6 +448,9 @@ QVector<T> setup_put(QVariant value)
     return val;
 }
 
+/*!
+ * \reimp
+ */
 void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
 {
     if (ca_current_context() != _cac) {
@@ -471,6 +512,9 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     }
 }
 
+/*!
+ * \reimp
+ */
 ObjectModel* QCSDataEngineCA::allData()
 {
     return _data;
@@ -498,6 +542,9 @@ void QCSDataEngineCA::notifyDataChange()
     emit allDataChanged();
 }
 
+/*!
+ * \internal
+ */
 void QCSDataEngineCA::timerEvent(QTimerEvent *)
 {
     ca_poll();

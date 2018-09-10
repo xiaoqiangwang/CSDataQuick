@@ -24,7 +24,6 @@ public:
     virtual ObjectModel *allData();
 
 protected:
-    void notifyDataChange(QCSData *data, QString name);
     void initializeData(QCSData *data, QString name);
 
 private:

@@ -7,6 +7,46 @@
 #include <QTimerEvent>
 #include <QUrl>
 
+/*!
+ * \class QCSDataEngineSim
+ * \inmodule CSDataQuick.Data
+ * \brief Simulation data produced by math functions.
+ *
+ * This data engine source has a \e sim:// scheme, followed by the data name.
+ * The following data names are available:
+ * \table
+ * \header
+ *     \li Data name
+ *     \li Data type
+ *     \li Data Count
+ *     \li Update
+ *     \li Description
+ * \row
+ *     \li random
+ *     \li double
+ *     \li 1
+ *     \li 1 Hz
+ *     \li radom number between 0.0 and 1.0.
+ * \row
+ *     \li sin
+ *     \li double
+ *     \li 1
+ *     \li 1 Hz
+ *     \li sinous function of an interal integer counter.
+ * \row
+ *     \li wave
+ *     \li double
+ *     \li 20
+ *     \li 1 Hz
+ *     \li sinous of an integer array, in which the first element is the internal counter.
+ * \row
+ *     \li enum
+ *     \li enum
+ *     \li 1
+ *     \li Passive
+ *     \li Enum value with two states, OFF and ON.
+ * \endtable
+ */
 QCSDataEngineSim::QCSDataEngineSim(QObject *parent)
     : QCSDataEngine(parent)
 {
@@ -28,16 +68,26 @@ QCSDataEngineSim::~QCSDataEngineSim()
     killTimer(_timerId);
 }
 
+/*!
+ * \reimp
+ * \brief Returns the source scheme \e sim.
+ */
 QString QCSDataEngineSim::name()
 {
     return "sim";
 }
 
+/*!
+ * \reimp
+ */
 QString QCSDataEngineSim::description()
 {
     return "Simulation Engine";
 }
 
+/*!
+ * \reimp
+ */
 void QCSDataEngineSim::create(QCSData *data)
 {
     QString source = data->property("source").toString();
@@ -81,6 +131,9 @@ void QCSDataEngineSim::create(QCSData *data)
         _timerId = startTimer(1000);
 }
 
+/*!
+ * \reimp
+ */
 void QCSDataEngineSim::close(QCSData *data)
 {
     _data->remove(data);
@@ -92,6 +145,9 @@ void QCSDataEngineSim::close(QCSData *data)
     }
 }
 
+/*!
+ * \reimp
+ */
 void QCSDataEngineSim::setValue(QCSData *data, const QVariant value)
 {
     if (!_data->contains(data))
@@ -101,6 +157,9 @@ void QCSDataEngineSim::setValue(QCSData *data, const QVariant value)
         data->updateValue(value.toInt());
 }
 
+/*!
+ * \internal
+ */
 void QCSDataEngineSim::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() != _timerId)
@@ -127,6 +186,9 @@ void QCSDataEngineSim::timerEvent(QTimerEvent *event)
     }
 }
 
+/*!
+ * \reimp
+ */
 ObjectModel *QCSDataEngineSim::allData()
 {
     return _data;

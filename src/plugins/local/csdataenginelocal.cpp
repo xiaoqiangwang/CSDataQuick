@@ -9,6 +9,37 @@
 
 #include <iostream>
 
+/*!
+ * \class QCSDataEngineLocal
+ * \inmodule CSDataQuick.Data
+ * \brief User configurable data.
+ *
+ * This data engine source has the form \e loc://<name>[.{"field":"value"}]. The trailing part after \e . is a JSON string.
+ * It could be used to configure the data and has the following fields:
+ * \table
+ * \header
+ *     \li Field
+ *     \li Description
+ * \row
+ *     \li type
+ *     \li Data type. Any of \e enum, \e string, \e int and \e double.
+ * \row
+ *     \li value
+ *     \li Initial value.
+ * \row
+ *     \li enums
+ *     \li Array of state strings for \e enum type.
+ * \endtable
+ *
+ * The data is not signaled as connected until it gets configured. If already configured, the second configurtion takes no effect.
+ *
+ * \code
+ *     loc://real.{"type": "double", "value": 3.14}
+ *     loc://integer.{"type": "int", "value": 3}
+ *     loc://string.{"type": "string", "value": "string message"}
+ *     loc://enum.{"type": "enum", "enums": ["off", "on"], "value": 1}
+ * \endcode
+ */
 QCSDataEngineLocal::QCSDataEngineLocal(QObject *parent)
     : QCSDataEngine(parent)
 {
@@ -23,16 +54,26 @@ QCSDataEngineLocal::~QCSDataEngineLocal()
 {
 }
 
+/*!
+ * \reimp
+ * \brief Returns the source scheme \e loc.
+ */
 QString QCSDataEngineLocal::name()
 {
     return "loc";
 }
 
+/*!
+ * \reimp
+ */
 QString QCSDataEngineLocal::description()
 {
     return "Local Data Engine";
 }
 
+/*!
+ * \internal
+ */
 void QCSDataEngineLocal::initializeData(QCSData *data, QString name)
 {
     data->updateValue(_objectsMap[name]["value"].toVariant());
@@ -58,11 +99,9 @@ void QCSDataEngineLocal::initializeData(QCSData *data, QString name)
         alarm->setProperty("severity", QCSDataAlarm::NoAlarm);
 }
 
-void QCSDataEngineLocal::notifyDataChange(QCSData *data, QString name)
-{
-    data->updateValue(_objectsMap[name]["value"].toVariant());
-}
-
+/*!
+ * \reimp
+ */
 void QCSDataEngineLocal::create(QCSData *data)
 {
     // source is of form "loc://<name>[.{"field":"value"}]
@@ -107,6 +146,9 @@ void QCSDataEngineLocal::create(QCSData *data)
     emit allDataChanged();
 }
 
+/*!
+ * \reimp
+ */
 void QCSDataEngineLocal::close(QCSData *data)
 {
     // remove CSData references
@@ -120,6 +162,9 @@ void QCSDataEngineLocal::close(QCSData *data)
     emit allDataChanged();
 }
 
+/*!
+ * \reimp
+ */
 void QCSDataEngineLocal::setValue(QCSData *data, const QVariant value)
 {
     if (!_data->contains(data))
@@ -132,10 +177,13 @@ void QCSDataEngineLocal::setValue(QCSData *data, const QVariant value)
     // notify the change to all data
     for(int i=0; i<_dataMap[rootName].length(); i++) {
         QCSData *d = _dataMap[rootName][i];
-        notifyDataChange(d, rootName);
+        d->updateValue(_objectsMap[rootName]["value"].toVariant());
     }
 }
 
+/*!
+ * \reimp
+ */
 ObjectModel *QCSDataEngineLocal::allData()
 {
     return _data;
