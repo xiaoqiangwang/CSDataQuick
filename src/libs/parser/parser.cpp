@@ -8,7 +8,7 @@ QCSParser::QCSParser(QObject *parent)
 
 /*!
     \class QCSParser
-    \inmodule CSDataQuick
+    \inmodule CSDataQuick.Parser
     \brief The QCSParser class defines the interface of display file parser.
 
     This is the base class for display file parsers, which parses various display files and output equivalent QML files.

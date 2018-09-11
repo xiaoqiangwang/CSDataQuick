@@ -10,6 +10,7 @@
 /*!
  * \class QCSDataEngineSim
  * \inmodule CSDataQuick.Data
+ * \ingroup csdataquick.data.plugins
  * \brief Simulation data produced by math functions.
  *
  * This data engine source has a \e sim:// scheme, followed by the data name.

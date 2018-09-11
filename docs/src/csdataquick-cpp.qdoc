@@ -1,9 +1,21 @@
 /*!
-    \module CSDataQuick.Data
+    \page csdataquick-cpp.html
     \title CSDataQuick C++ Classes
-    \brief The CSDataQuick module provides classes for implementing custom data engines.
+    \brief List of C++ classes
+
+    \section1 CSData
 
     \l QCSData provides the abstract of any control system data. Upon creation or QCSData::source
     change, \l QCSDataEngineManager will look for the registered \l QCSDataEngine reponsible for this type of data.
     The data engine will connect to the control system and fill the data object if successful.
+
+    The data engines are implemented using plugins. Here is a list of supported data engines.
+    \annotatedlist csdataquick.data.plugins
+
+    \section1 Display File Parser
+
+    Different display files can be parsed through \l QCSParser interface and converted to the equivalent display in QML.
+
+    The various parsers are implemented using plugins and loaded by \l QCSParserManager. Here is a list of supported parsers.
+    \annotatedlist csdataquick.parser.plugins
 */

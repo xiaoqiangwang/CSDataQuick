@@ -14,9 +14,14 @@ headers += ../src/libs/csdata/csdata.h \
            ../src/libs/utils/utils.h \
            ../src/libs/utils/enums.h \
            ../src/libs/parser/parser.h \
+           ../src/libs/parser/parsermanager.h \
            ../src/plugins/ca/csdataengineca.h \
            ../src/plugins/local/csdataenginelocal.h \
            ../src/plugins/sim/csdataenginesim.h \
+           ../src/plugins/ADLParser/ADLParser.h \
+           ../src/plugins/EDLParser/EDLParser.h \
+           ../src/plugins/QMLParser/QMLParser.h \
+           ../src/plugins/UIParser/UIParser.h \
            ../src/imports/components/attribute.h \
            ../src/imports/components/baseitem.h \
            ../src/imports/components/windowmanager.h \
@@ -30,9 +35,14 @@ sources += ../src/libs/csdata/csdata.cpp \
            ../src/libs/utils/utils.cpp \
            ../src/libs/utils/enums.cpp \
            ../src/libs/parser/parser.cpp \
+           ../src/libs/parser/parsermanager.cpp \
            ../src/plugins/ca/csdataengineca.cpp \
            ../src/plugins/local/csdataenginelocal.cpp \
            ../src/plugins/sim/csdataenginesim.cpp \
+           ../src/plugins/ADLParser/ADLParser.cpp \
+           ../src/plugins/EDLParser/EDLParser.cpp \
+           ../src/plugins/QMLParser/QMLParser.cpp \
+           ../src/plugins/UIParser/UIParser.cpp \
            ../src/imports/components/attribute.cpp \
            ../src/imports/components/baseitem.cpp \
            ../src/imports/components/windowmanager.cpp \

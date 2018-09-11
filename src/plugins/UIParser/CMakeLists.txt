@@ -6,6 +6,7 @@ set(SOURCES
 
 set(HEADERS
     ui4.h
+    ui_parser.h
     UIParser.h
 )
 

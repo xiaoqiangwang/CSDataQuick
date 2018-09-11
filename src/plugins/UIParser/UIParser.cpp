@@ -3,6 +3,22 @@
 
 #include <QFile>
 
+/*!
+ * \class UIParser
+ * \inmodule CSDataQuick.Parser
+ * \ingroup csdataquick.parser.plugins
+ * \brief Parse caQtDM UI files
+ *
+ * The parser from Qt tool uic is used to parse the UI file. Then it traverses the widget tree and
+ * creates their QML equilents.
+ *
+ * The parser converts well most widgets, with the following exceptions:
+ * \list
+ * \li CaCalc
+ * \li Complex nested layout
+ * \li signal/slot definitions
+ * \endlist
+ */
 UIParser::UIParser(QObject *parent)
     : QCSParser(parent)
 {
@@ -12,16 +28,25 @@ UIParser::~UIParser()
 {
 }
 
+/*!
+ * \reimp
+ */
 QString UIParser::extension()
 {
     return "ui";
 }
 
+/*!
+ * \reimp
+ */
 QString UIParser::description()
 {
     return "caQtDM UI(ui)";
 }
 
+/*!
+ * \reimp
+ */
 QString UIParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
 {
 

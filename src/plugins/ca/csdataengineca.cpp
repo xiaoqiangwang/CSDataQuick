@@ -308,6 +308,7 @@ void connectCallbackC(struct connection_handler_args args)
 /*!
  * \class QCSDataEngineCA
  * \inmodule CSDataQuick.Data
+ * \ingroup csdataquick.data.plugins
  * \brief Connect to EPICS process variables (PV) via Channel Access (CA).
  *
  * This data engine source has a \e ca:// scheme, followed by the PV name.

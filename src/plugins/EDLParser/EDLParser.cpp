@@ -7,6 +7,19 @@
 #include <fstream>
 #include <sstream>
 
+/*!
+ * \class EDLParser
+ * \inmodule CSDataQuick.Parser
+ * \ingroup csdataquick.parser.plugins
+ * \brief Parse EDM (Extensible Display Manager) files
+ *
+ * This parser only supports 4.0 version of EDL files. The unspported features are:
+ * \list
+ * \li CALC Pv
+ * \li Dynamic color rules
+ * \li Dynamic symbol
+ * \endlist
+ */
 EDLParser::EDLParser(QObject *parent)
     : QCSParser(parent)
 {
@@ -16,16 +29,25 @@ EDLParser::~EDLParser()
 {
 }
 
+/*!
+ * \reimp
+ */
 QString EDLParser::extension()
 {
     return "edl";
 }
 
+/*!
+ * \reimp
+ */
 QString EDLParser::description()
 {
     return "EDM Display List (edl)";
 }
 
+/*!
+ * \reimp
+ */
 QString EDLParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
 {
     Screen displayInfo;

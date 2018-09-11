@@ -12,6 +12,7 @@
 /*!
  * \class QCSDataEngineLocal
  * \inmodule CSDataQuick.Data
+ * \ingroup csdataquick.data.plugins
  * \brief User configurable data.
  *
  * This data engine source has the form \e loc://<name>[.{"field":"value"}]. The trailing part after \e . is a JSON string.

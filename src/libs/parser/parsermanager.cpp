@@ -46,11 +46,16 @@ QCSParserManager *QCSParserManager::_manager = Q_NULLPTR;
 
 /*!
     \class QCSParserManager
+    \inmodule CSDataQuick.Parser
     \brief Singleton object to load/query file parsers.
-
 
     The parser manager loads all parser plugins in 
     path ../plugins/parser relative to the library itself.
+*/
+
+/*!
+    \property QCSParserManager::parsers
+    List of display file parsers.
 */
 
 QCSParserManager::QCSParserManager(QObject *parent)
@@ -85,7 +90,7 @@ QCSParserManager *QCSParserManager::instance()
 }
 
 /*!
-    Returns the file parser registered for the file extension.
+    Returns the file parser registered for the file \a extension.
   */
 QCSParser *QCSParserManager::parserForExtension(QString extension) const
 {
