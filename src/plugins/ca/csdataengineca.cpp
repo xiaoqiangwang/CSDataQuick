@@ -1,3 +1,7 @@
+/*****************************************************************************\
+ * Copyright 2012-2018 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "csdataengineca.h"
 #include "csdata.h"
 #include "objectmodel.h"

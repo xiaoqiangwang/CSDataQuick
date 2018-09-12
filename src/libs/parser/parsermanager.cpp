@@ -1,3 +1,7 @@
+/*****************************************************************************\
+ * Copyright 2018 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "parsermanager.h"
 #include "parser.h"
 

@@ -1,3 +1,7 @@
+/*****************************************************************************\
+ * Copyright 2012-2018 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include "csdataengine.h"
 
 QCSDataEngine::QCSDataEngine(QObject *parent)

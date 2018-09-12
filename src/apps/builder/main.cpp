@@ -1,3 +1,7 @@
+/*****************************************************************************\
+ * Copyright 2012-2018 Paul Scherrer Institut, Villigen, Switzerland
+\*****************************************************************************/
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 

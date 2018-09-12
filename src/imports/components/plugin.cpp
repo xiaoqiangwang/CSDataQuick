@@ -1,5 +1,5 @@
 /*****************************************************************************\
- * Copyright 2012-2015 Paul Scherrer Institut, Villigen, Switzerland
+ * Copyright 2012-2018 Paul Scherrer Institut, Villigen, Switzerland
 \*****************************************************************************/
 
 #include "plugin.h"
