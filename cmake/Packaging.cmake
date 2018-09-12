@@ -6,7 +6,7 @@ set (CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.rst)
 set (CPACK_PACKAGE_VERSION_MAJOR ${CSDATAQUICK_VERSION_MAJOR})
 set (CPACK_PACKAGE_VERSION_MINOR ${CSDATAQUICK_VERSION_MINOR})
 set (CPACK_PACKAGE_VERSION_PATCH ${CSDATAQUICK_VERSION_RELEASE})
-set (CPACK_PACKAGE_EXECUTABLES ADLViewer ADLViewer builder "Quick Builder" QtCreator "Qt Quick Designer")
+set (CPACK_PACKAGE_EXECUTABLES Viewer "Quick Viewer" builder "Quick Builder" QtCreator "Qt Quick Designer")
 set (CPACK_MONOLITHIC_INSTALL TRUE)
 
 if (APPLE)
@@ -29,7 +29,7 @@ if (QTC_PACKAGE)
     # Copy templates
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/share/qtcreator/templates/wizards/files/csdataquick
         DESTINATION "${QTC_RESOURCE}/templates/wizards/files")
-    install(FILES ${CMAKE_SOURCE_DIR}/share/qtcreator/externaltools/adlviewer.xml
+    install(FILES ${CMAKE_SOURCE_DIR}/share/qtcreator/externaltools/viewer.xml
         DESTINATION "${QTC_RESOURCE}/externaltools")
 endif()
 
