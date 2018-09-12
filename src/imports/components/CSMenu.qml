@@ -39,7 +39,7 @@ CSControl {
         id: combo_control
         anchors.fill: parent
         enabled: csdata.accessRight & CSData.WriteAccess
-        model: csdata.stateStrings
+        model: Utils.inPuppet ? [source] : csdata.stateStrings
         onModelChanged: {
             if (csdata.value !== undefined)
                 currentIndex = csdata.value
@@ -53,7 +53,7 @@ CSControl {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 clip: true
-                color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+                color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
                 font.pixelSize: root.font.size
                 font.family: root.font.family
             }

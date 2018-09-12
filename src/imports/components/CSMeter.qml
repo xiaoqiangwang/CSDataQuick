@@ -66,7 +66,7 @@ CSMonitor {
         anchors.fill: parent
 
         background: root.background
-        indicatorColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        indicatorColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
 
         minimumValue: limits.lopr
         maximumValue: limits.hopr

@@ -55,7 +55,7 @@ CSControl {
         id: btn
         anchors.fill: parent
         backgroundColor: root.background
-        foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        foregroundColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(height - 4, true).family
         onPressedChanged: {

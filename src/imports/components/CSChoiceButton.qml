@@ -80,7 +80,7 @@ CSControl {
         id: button
         StyledButton {
             text: csdata.stateStrings[index]
-            foregroundColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+            foregroundColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             backgroundColor: root.background
             fontSizeMode: root.fontSizeMode
             // bind font properties

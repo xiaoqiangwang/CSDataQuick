@@ -112,7 +112,7 @@ CSMonitor {
 
         foreground: root.foreground
         background: root.background
-        indicatorColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        indicatorColor:(colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
 
         minimumValue: limits.lopr
         maximumValue: limits.hopr

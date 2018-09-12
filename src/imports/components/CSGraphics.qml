@@ -43,7 +43,7 @@ BaseItem {
     background: ColorMap.graphics_background
     foreground: ColorMap.foreground
     dynamicAttribute: DynamicAttribute {id: da}
-    visible: da.visibility
+    visible: Utils.inPuppet ? true : da.visibility
 
     Connections {
         target: da

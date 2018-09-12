@@ -56,7 +56,7 @@ CSControl {
         style: SpinBoxStyle {
             font.family: root.font.family
             font.pixelSize: root.font.size
-            textColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+            textColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             selectedTextColor: Qt.lighter(textColor)
             selectionColor: Qt.darker(root.background)
             background: Rectangle {

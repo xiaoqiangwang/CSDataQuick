@@ -98,7 +98,7 @@ CSMonitor {
             }
             verticalAlignment: Text.AlignVCenter
             text: Utils.inPuppet ? source : formatter.text
-            color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+            color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             clip: true
             Layout.fillWidth: true
             Layout.fillHeight: true

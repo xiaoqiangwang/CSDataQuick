@@ -116,7 +116,7 @@ CSControl {
         prec: limits.prec
         format: root.format
         value: csdata.value
-        foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        foreground: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         background: root.background
         onNewValueChanged: csdata.value = newValue
     }

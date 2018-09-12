@@ -99,7 +99,7 @@ CSControl {
     Component {
         id: textEntry
         StyledTextEntry {
-            foreground: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+            foreground: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             background: root.background
             font.pixelSize: root.font.size
             font.family: root.font.family

@@ -159,7 +159,7 @@ CSControl {
 
         showRange: labelStyle == LabelStyle.Outline || labelStyle == LabelStyle.Limits ||  labelStyle == LabelStyle.Channel
         showValueText: labelStyle == LabelStyle.Limits ||  labelStyle == LabelStyle.Channel
-        valueTextColor: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        valueTextColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
 
         enabled: csdata.accessRight & CSData.WriteAccess
 
