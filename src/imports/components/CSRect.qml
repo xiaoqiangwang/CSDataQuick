@@ -53,8 +53,8 @@ CSGraphics {
         lineWidth: root.lineWidth
         foreground: (colorMode == ColorMode.Alarm
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static
-                         && !dynamicAttribute.connected))
-                    ? root.alarmColor :root.foreground
+                         && !dynamicAttribute.connected)) && !Utils.inPuppet
+                    ? root.alarmColor : root.foreground
         edgeStyle: root.edgeStyle
         fillStyle: root.fillStyle
     }

@@ -72,7 +72,7 @@ BaseItem {
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
     dynamicAttribute: DynamicAttribute {id: da}
-    visible: da.visibility
+    visible: Utils.inPuppet || da.visibility
 
     // Mask when data is disconnected
     Rectangle {

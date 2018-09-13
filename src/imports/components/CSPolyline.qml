@@ -49,8 +49,8 @@ CSGraphics {
         anchors.fill: parent
         foreground: (colorMode == ColorMode.Alarm
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static
-                         && !dynamicAttribute.connected))
-                    ? root.alarmColor :root.foreground
+                         && !dynamicAttribute.connected)) && !Utils.inPuppet
+                    ? root.alarmColor : root.foreground
         lineWidth: root.lineWidth
         edgeStyle: root.edgeStyle
         arrowPosition: root.arrowPosition

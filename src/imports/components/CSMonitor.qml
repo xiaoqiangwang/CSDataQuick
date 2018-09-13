@@ -66,7 +66,7 @@ BaseItem {
     background: ColorMap.monitors_background
     foreground: ColorMap.foreground
     dynamicAttribute: DynamicAttribute {id: da}
-    visible: da.visibility
+    visible: Utils.inPuppet || da.visibility
 
     Rectangle {
         anchors.fill: parent

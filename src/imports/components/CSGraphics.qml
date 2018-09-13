@@ -43,33 +43,32 @@ BaseItem {
     background: ColorMap.graphics_background
     foreground: ColorMap.foreground
     dynamicAttribute: DynamicAttribute {id: da}
-    visible: Utils.inPuppet ? true : da.visibility
+    visible: Utils.inPuppet || !da.connected || da.visibility
 
     Connections {
         target: da
-        onStatusChanged: {
-            if (colorMode == ColorMode.Static)
-                return
+        onStatusChanged: updateAlarmColor()
+        onConnectedChanged: updateAlarmColor()
+    }
+
+    function updateAlarmColor () {
+        if (!da.connected) {
+            alarmColor = ColorMap.invalid_alarm
+        } else {
             switch (da.pvA.alarm.severity) {
-                case 0: // NO_ALARM
+            case 0: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;
-                case 1: // MINOR_ALARM
+            case 1: // MINOR_ALARM
                 alarmColor = ColorMap.minor_alarm
                 break;
-                case 2: // MAJOR_ALARM
+            case 2: // MAJOR_ALARM
                 alarmColor = ColorMap.major_alarm
                 break;
-                case 3: // INVALID_ALARM
+            case 3: // INVALID_ALARM
                 alarmColor = ColorMap.invalid_alarm
                 break;
             }
-        }
-        onConnectedChanged: {
-            if (colorMode == ColorMode.Static && da.visibilityMode == VisibilityMode.Static)
-                return
-            if (!da.connected)
-                alarmColor = ColorMap.invalid_alarm
         }
     }
 }

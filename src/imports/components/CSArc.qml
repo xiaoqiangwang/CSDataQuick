@@ -58,7 +58,7 @@ CSGraphics {
         edgeStyle: root.edgeStyle
         foreground: (colorMode == ColorMode.Alarm
                      || (dynamicAttribute.visibilityMode != VisibilityMode.Static
-                         && !dynamicAttribute.connected))
-                    ? root.alarmColor :root.foreground
+                         && !dynamicAttribute.connected)) && !Utils.inPuppet
+                    ? root.alarmColor : root.foreground
     }
 }
