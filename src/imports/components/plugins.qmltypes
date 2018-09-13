@@ -8,13 +8,53 @@ import QtQuick.tooling 1.1
 
 Module {
     Component {
+        name: "ADImage"
+        prototype: "QObject"
+        exports: ["ADImage 1.0"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "source"; type: "string" }
+        Property { name: "lowLevel"; type: "double" }
+        Property { name: "highLevel"; type: "double" }
+        Signal {
+            name: "imageChanged"
+            Parameter { name: "image"; type: "QImage" }
+        }
+        Method { name: "updateData" }
+    }
+    Component {
         name: "ArcItem"
         defaultProperty: "data"
         prototype: "ShapeItem"
         exports: ["Arc 1.0"]
         exportMetaObjectRevisions: [0]
+        Enum {
+            name: "ClosureEnum"
+            values: {
+                "Open": 0,
+                "Chord": 1,
+                "Pie": 2
+            }
+        }
         Property { name: "begin"; type: "double" }
         Property { name: "span"; type: "double" }
+        Property { name: "arrowPosition"; type: "ArrowPosition::ArrowPositionEnum" }
+        Property { name: "closure"; type: "ClosureEnum" }
+    }
+    Component {
+        name: "ArrowPosition"
+        prototype: "QObject"
+        exports: ["ArrowPosition 1.0"]
+        isCreatable: false
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "ArrowPositionEnum"
+            values: {
+                "None": 0,
+                "Start": 1,
+                "End": 2,
+                "Both": 3
+            }
+        }
     }
     Component {
         name: "AxisItem"
@@ -68,6 +108,30 @@ Module {
         name: "BaseItemAttached"
         prototype: "QObject"
         Property { name: "filePath"; type: "string"; isReadonly: true }
+    }
+    Component {
+        name: "CSImageItem"
+        defaultProperty: "data"
+        prototype: "QQuickPaintedItem"
+        exports: ["ImageItem 1.0"]
+        exportMetaObjectRevisions: [0]
+        Enum {
+            name: "ColorMapEnum"
+            values: {
+                "Gray": 0,
+                "Hot": 1,
+                "Cool": 2,
+                "Spring": 3,
+                "Summer": 4,
+                "Autumn": 5,
+                "Winter": 6
+            }
+        }
+        Property { name: "colorMap"; type: "ColorMapEnum" }
+        Method {
+            name: "setImage"
+            Parameter { name: "image"; type: "QImage" }
+        }
     }
     Component {
         name: "CartesianPlotAxisStyle"
@@ -133,6 +197,40 @@ Module {
         }
     }
     Component {
+        name: "ColorMapItem"
+        prototype: "QObject"
+        exports: ["ColorMapItem 1.0"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "x"; type: "AxisItem"; isPointer: true }
+        Property { name: "y"; type: "AxisItem"; isPointer: true }
+        Property { name: "interpolate"; type: "bool" }
+        Method {
+            name: "setXRange"
+            Parameter { name: "lower"; type: "double" }
+            Parameter { name: "upper"; type: "double" }
+            Parameter { name: "size"; type: "int" }
+        }
+        Method {
+            name: "setYRange"
+            Parameter { name: "lower"; type: "double" }
+            Parameter { name: "upper"; type: "double" }
+            Parameter { name: "size"; type: "int" }
+        }
+        Method {
+            name: "setData"
+            Parameter { name: "x"; type: "double" }
+            Parameter { name: "y"; type: "double" }
+            Parameter { name: "z"; type: "double" }
+        }
+        Method {
+            name: "setCell"
+            Parameter { name: "x"; type: "int" }
+            Parameter { name: "y"; type: "int" }
+            Parameter { name: "z"; type: "double" }
+        }
+        Method { name: "clearData" }
+    }
+    Component {
         name: "ColorMode"
         prototype: "QObject"
         exports: ["ColorMode 1.0"]
@@ -156,7 +254,9 @@ Module {
         Property { name: "title"; type: "string" }
         Property { name: "foreground"; type: "QColor" }
         Property { name: "background"; type: "QColor" }
+        Property { name: "legendVisible"; type: "bool" }
         Property { name: "graphs"; type: "GraphItem"; isList: true; isReadonly: true }
+        Signal { name: "contextMenuRequested" }
         Method {
             name: "addGraph"
             type: "GraphItem*"
@@ -191,15 +291,28 @@ Module {
     Component {
         name: "DynamicAttributeBase"
         prototype: "QObject"
-        exports: ["DynamicAttributeBase 1.0"]
+        exports: ["DynamicAttribute 1.0"]
         exportMetaObjectRevisions: [0]
-        Property { name: "visibilityCalc"; type: "string" }
-        Property { name: "colorMode"; type: "ColorMode::ColorModeEnum" }
-        Property { name: "visibilityMode"; type: "VisibilityMode::VisibilityModeEnum" }
         Property { name: "channel"; type: "string" }
         Property { name: "channelB"; type: "string" }
         Property { name: "channelC"; type: "string" }
         Property { name: "channelD"; type: "string" }
+        Property { name: "pvA"; type: "QCSData"; isPointer: true }
+        Property { name: "pvB"; type: "QCSData"; isPointer: true }
+        Property { name: "pvC"; type: "QCSData"; isPointer: true }
+        Property { name: "pvD"; type: "QCSData"; isPointer: true }
+        Property { name: "connected"; type: "bool" }
+        Property { name: "altCalc"; type: "string" }
+        Property { name: "altCalcResult"; type: "double" }
+        Property { name: "visibilityMode"; type: "VisibilityMode::VisibilityModeEnum" }
+        Property { name: "visibilityCalc"; type: "string" }
+        Property { name: "visibility"; type: "bool" }
+        Signal { name: "statusChanged" }
+        Signal { name: "colorModeChanged" }
+        Signal { name: "connectionChanged" }
+        Method { name: "updateValue" }
+        Method { name: "updateAlarm" }
+        Method { name: "updateConnection" }
     }
     Component {
         name: "EdgeStyle"
@@ -387,6 +500,18 @@ Module {
         }
     }
     Component {
+        name: "MJPEG"
+        prototype: "QObject"
+        exports: ["MJPEG 1.0"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "source"; type: "string" }
+        Signal {
+            name: "imageChanged"
+            Parameter { name: "image"; type: "QImage" }
+        }
+        Method { name: "readStream" }
+    }
+    Component {
         name: "OvalItem"
         defaultProperty: "data"
         prototype: "ShapeItem"
@@ -432,12 +557,23 @@ Module {
         Property { name: "points"; type: "QVariantList" }
     }
     Component {
+        name: "QCSParserManager"
+        prototype: "QObject"
+        exports: ["ParserManager 1.0"]
+        isCreatable: false
+        isSingleton: true
+        exportMetaObjectRevisions: [0]
+        Property { name: "parsers"; type: "QList<QCSParser*>"; isReadonly: true }
+        Method { name: "supportedExtensions"; type: "QStringList" }
+    }
+    Component {
         name: "QCSUtils"
         prototype: "QObject"
         exports: ["Utils 1.0"]
         isCreatable: false
         isSingleton: true
         exportMetaObjectRevisions: [0]
+        Property { name: "inPuppet"; type: "bool"; isReadonly: true }
         Method {
             name: "calculate"
             type: "double"
@@ -475,22 +611,9 @@ Module {
             Parameter { name: "window"; type: "QWindow"; isPointer: true }
         }
         Method {
-            name: "openADLDisplay"
-            type: "string"
-            Parameter { name: "fileName"; type: "QUrl" }
-            Parameter { name: "macro"; type: "string" }
-        }
-        Method {
-            name: "openADLComposite"
-            type: "string"
-            Parameter { name: "fileName"; type: "QUrl" }
-            Parameter { name: "macro"; type: "string" }
-        }
-        Method {
-            name: "createDisplay"
-            type: "QWindow*"
-            Parameter { name: "qml"; type: "string" }
-            Parameter { name: "display"; type: "QObject"; isPointer: true }
+            name: "createComponentByFile"
+            type: "QQuickItem*"
+            Parameter { name: "display"; type: "QQuickItem"; isPointer: true }
             Parameter { name: "filePath"; type: "QUrl" }
             Parameter { name: "macro"; type: "string" }
         }
@@ -507,6 +630,69 @@ Module {
             Parameter { name: "geometry"; type: "string" }
         }
         Method { name: "currentDateTime"; type: "string" }
+        Method {
+            name: "parentWindow"
+            type: "QWindow*"
+            Parameter { name: "item"; type: "QQuickItem"; isPointer: true }
+        }
+        Method {
+            name: "mapToGlobal"
+            type: "QPoint"
+            Parameter { name: "item"; type: "QQuickItem"; isPointer: true }
+            Parameter { name: "point"; type: "QPoint" }
+        }
+        Method {
+            name: "vectorGet"
+            Parameter { name: "variant"; type: "QVariant" }
+            Parameter { name: "array"; type: "QJSValue" }
+            Parameter { name: "index"; type: "int" }
+            Parameter { name: "count"; type: "int" }
+        }
+        Method {
+            name: "vectorGet"
+            Parameter { name: "variant"; type: "QVariant" }
+            Parameter { name: "array"; type: "QJSValue" }
+            Parameter { name: "index"; type: "int" }
+        }
+        Method {
+            name: "vectorGet"
+            Parameter { name: "variant"; type: "QVariant" }
+            Parameter { name: "array"; type: "QJSValue" }
+        }
+        Method {
+            name: "vectorSet"
+            type: "QVariant"
+            Parameter { name: "variant"; type: "QVariant" }
+            Parameter { name: "value"; type: "QJSValue" }
+            Parameter { name: "index"; type: "int" }
+        }
+        Method { name: "parseExecList"; type: "QVariantList" }
+        Method {
+            name: "getProperty"
+            type: "QVariant"
+            Parameter { name: "object"; type: "QObject"; isPointer: true }
+            Parameter { name: "name"; type: "string" }
+        }
+        Method {
+            name: "copyToClipboard"
+            Parameter { name: "text"; type: "string" }
+        }
+        Method { name: "qtVersion"; type: "int" }
+        Method {
+            name: "formatString"
+            type: "string"
+            Parameter { name: "data"; type: "QCSData"; isPointer: true }
+            Parameter { name: "format"; type: "int" }
+            Parameter { name: "precision"; type: "int" }
+            Parameter { name: "value"; type: "QVariant" }
+        }
+        Method {
+            name: "formatString"
+            type: "string"
+            Parameter { name: "data"; type: "QCSData"; isPointer: true }
+            Parameter { name: "format"; type: "int" }
+            Parameter { name: "precision"; type: "int" }
+        }
     }
     Component {
         name: "RelatedDisplayMode"
@@ -584,6 +770,19 @@ Module {
                 "SexagesimalHMS": 10
             }
         }
+    }
+    Component {
+        name: "TextFormatter"
+        prototype: "QObject"
+        exports: ["TextFormatter 1.0"]
+        exportMetaObjectRevisions: [0]
+        Property { name: "data"; type: "QCSData"; isPointer: true }
+        Property { name: "format"; type: "int" }
+        Property { name: "precision"; type: "int" }
+        Property { name: "text"; type: "string" }
+        Method { name: "valueChanged" }
+        Method { name: "sourceChanged" }
+        Method { name: "stateStringsChanged" }
     }
     Component {
         name: "TimeUnit"
