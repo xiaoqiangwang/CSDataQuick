@@ -471,6 +471,10 @@ void UI::qlabelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
             if (!color.isEmpty())
                 ostream << indent << "    color: '" << color << "'" << endl;
         }
+        else if (v->attributeName() == "wordWrap") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    wrapMode: Text.Wrap" << endl;
+        }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
 
