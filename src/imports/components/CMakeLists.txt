@@ -93,7 +93,6 @@ set(QML_JS_FILES
     Private/StyledAxis.qml
     Private/StyledBar.qml
     Private/StyledButton.qml
-    Private/StyledButton2.qml
     Private/StyledCheckBox.qml
     Private/StyledFrame.qml
     Private/StyledTextEntry.qml
