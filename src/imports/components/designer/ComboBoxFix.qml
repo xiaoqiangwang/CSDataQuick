@@ -92,6 +92,9 @@ Controls.ComboBox {
         if (backendValue === undefined)
             return;
 
+        if (block)
+            return;
+
         if (manualMapping)
             return;
 
