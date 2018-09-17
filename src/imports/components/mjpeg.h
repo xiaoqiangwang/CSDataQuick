@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QImage>
+#include <QNetworkReply>
+
 class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequest;
@@ -17,7 +19,8 @@ public:
     ~MJPEG();
 
     enum MJPEGState {
-        Header = 0,
+        Neutral = 0,
+        Header,
         Data
     };
 
@@ -25,6 +28,8 @@ public:
     void setSource(QString source);
 
 public slots:
+    void error(QNetworkReply::NetworkError code);
+    void readHeader();
     void readStream();
 
 signals:
@@ -34,7 +39,8 @@ signals:
 private:
     QString _source;
     MJPEGState _state;
-    qint64  _size;
+    QByteArray _boundary;
+    QByteArray _data;
 
     QNetworkAccessManager *_network;
     QNetworkReply *_reply;

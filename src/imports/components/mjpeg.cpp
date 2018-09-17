@@ -7,6 +7,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 MJPEG::MJPEG(QObject *parent) : QObject(parent), _reply(0)
 {
@@ -15,67 +17,90 @@ MJPEG::MJPEG(QObject *parent) : QObject(parent), _reply(0)
 
 MJPEG::~MJPEG()
 {
-    qDebug() << "MJPEG deleted";
+    delete _reply;
+    delete _network;
 }
 
 void MJPEG::setSource(QString source)
 {
     if (qgetenv("QML_PUPPET_MODE") == "true") {
         _source = source;
+        emit sourceChanged();
         emit imageChanged(QImage(":/images/blank_video.jpg"));
-        return;
-    }
-
-    if (source.isEmpty()) {
-        if (_reply) {
-            disconnect(_reply, SIGNAL(readyRead()), this, SLOT(readStream()));
-            _reply->abort();
-        }
-        _source = source;
         return;
     }
 
     if (source != _source) {
         if (_reply) {
-            disconnect(_reply, SIGNAL(readyRead()), this, SLOT(readStream()));
+            disconnect(_reply);
             _reply->abort();
+            _reply->deleteLater();
+            _reply = Q_NULLPTR;
         }
         _source = source;
-        _size = 0;
-        _state = Header;
-        _reply = _network->get(QNetworkRequest(QUrl(source)));
-        connect(_reply, SIGNAL(readyRead()), this, SLOT(readStream()));
+        if (!source.isEmpty()) {
+            _boundary = "";
+            _state = Neutral;
+            _reply = _network->get(QNetworkRequest(QUrl(source)));
+            connect(_reply, SIGNAL(metaDataChanged()), this, SLOT(readHeader()));
+            connect(_reply, SIGNAL(readyRead()), this, SLOT(readStream()));
+            connect(_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
+        }
+        emit sourceChanged();
+    }
+}
+
+void MJPEG::error(QNetworkReply::NetworkError code)
+{
+    qCritical() << "Connection error" << code;
+}
+
+void MJPEG::readHeader()
+{
+    QVariant contentType = _reply->header(QNetworkRequest::ContentTypeHeader);
+    if (!contentType.isValid())
+        return;
+
+    QRegularExpression re("multipart/x-mixed-replace; *boundary=(.*)");
+    QRegularExpressionMatch m = re.match(contentType.toString());
+    _boundary = m.captured(1).toUtf8();
+
+    if (_boundary.isEmpty()) {
+        _reply->abort();
+        qCritical() << "No \"boundary\" specified in HTTP header" << _source;
     }
 }
 
 void MJPEG::readStream()
 {
-    if (_state == Header) {
-        while(_reply->canReadLine()) {
-            QByteArray msg =_reply->readLine();
-            if (msg.isEmpty()) {
-                break;
-            } else if (msg.startsWith("Content-Length: ")) {
-                _size = msg.mid(16, msg.length() - 18).toInt();
-            } else if (msg == "\r\n" && _size != 0) {
+    while (_reply->canReadLine()) {
+        QByteArray msg =_reply->readLine();
+        switch (_state) {
+        case Neutral:
+            if (msg.startsWith(_boundary)) {
+                _state = Header;
+            }
+            else {
+                _reply->abort();
+                qCritical() << "Boundary" << _boundary << "not found in MJPEG stream" << _source;
+            }
+            break;
+        case Header:
+            if (msg == "\r\n") {
+                _data.clear();
                 _state = Data;
-                break;
             }
-        }
-    } else if (_state == Data) {
-        if (_reply->bytesAvailable() >= _size + 2) {
-            QByteArray data = _reply->read(_size);
-
-            QByteArray msg = _reply->read(2);
-            if (msg != "\r\n") {
-                qWarning() << "Unexpected end of MJPEG data";
+            break;
+        case Data:
+            if (msg.startsWith(_boundary)) {
+                _state = Header;
+                emit imageChanged(QImage::fromData(_data));
             }
-
-            QImage img = QImage::fromData(data);
-            emit imageChanged(img);
-
-            _size = 0;
-            _state = Header;
+            else {
+                _data.append(msg.constData(), msg.length());
+            }
+        default:
+            break;
         }
     }
 }
