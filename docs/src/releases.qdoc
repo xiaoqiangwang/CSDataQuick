@@ -15,6 +15,9 @@
     \section2 quick components
     \list
     \li Re-implement UtilsJS.formatString and DynamicAttribute in C++.
+    \li dynamicAttribute and limits properties can be used in quick designer. The previouse workaround
+        is removed, which means the previous designer generated files should be updated, by replacing
+        "dynamicAttribute_" with "dynamicAttribute.", "limits_" with "limits.".
     \li Add custom property editor for CSMJPEGVideo in quick designer.
     \li Add font and fontSizeMode properties to CSText and CSTextUpdate for custom font selection.
     \endlist
