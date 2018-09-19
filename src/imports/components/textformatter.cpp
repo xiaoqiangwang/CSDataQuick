@@ -42,7 +42,7 @@ void TextFormatter::setFormat(int format)
 void TextFormatter::setPrecision(int precision)
 {
     _precision = precision;
-    QCSUtils::formatString(_data, _format, _precision);
+    setText(QCSUtils::formatString(_data, _format, _precision));
 }
 
 void TextFormatter::stateStringsChanged()
