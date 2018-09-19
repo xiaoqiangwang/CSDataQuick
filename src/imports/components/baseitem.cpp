@@ -36,8 +36,8 @@ BaseItem::BaseItem(QQuickItem *parent) :
 {
     _foreground = Qt::black;
     _background = Qt::transparent;
-    _dynamicAttribute = Q_NULLPTR;
-    _limits = Q_NULLPTR;
+    _dynamicAttribute = new DynamicAttribute(this);
+    _limits = new Limits(this);
     setClip(false);
 }
 
@@ -62,6 +62,23 @@ void BaseItem::setCursorType(Qt::CursorShape cursor)
 QQuickWindow * BaseItem::baseWindow()
 {
     return this->window();
+}
+/*!
+    \qmlproperty DynamicAttribute BaseItem::dynamicAttribute
+    Configure item's visibility and color
+ */
+DynamicAttribute * BaseItem::dynamicAttribute()
+{
+    return _dynamicAttribute;
+}
+
+/*!
+    \qmlproperty Limits BaseItem::limits
+    Configure the operation range and data precision    
+ */
+Limits * BaseItem::limits()
+{
+    return _limits;
 }
 
 BaseItemAttached *BaseItem::qmlAttachedProperties(QObject *object)

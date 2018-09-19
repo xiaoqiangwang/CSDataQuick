@@ -6,7 +6,7 @@
 
 class QCSData;
 
-class DynamicAttributeBase : public QObject
+class DynamicAttribute : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString channel  MEMBER _channel  WRITE setChannel  NOTIFY channelChanged)
@@ -27,8 +27,8 @@ class DynamicAttributeBase : public QObject
     Q_PROPERTY(bool visibility MEMBER _visibility NOTIFY visibilityChanged)
 
 public:
-    explicit DynamicAttributeBase(QObject *parent = 0);
-    ~DynamicAttributeBase();
+    explicit DynamicAttribute(QObject *parent = 0);
+    ~DynamicAttribute();
 
     void setChannel(QString channel);
     void setChannelB(QString channel);
@@ -79,7 +79,7 @@ private:
     QVariantList _args;
 };
 
-class LimitsBase : public QObject
+class Limits : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(double lopr          MEMBER _lopr        NOTIFY loprChanged)
@@ -101,7 +101,7 @@ class LimitsBase : public QObject
     Q_PROPERTY(LimitsSource::LimitsSourceEnum precSrc MEMBER _precSrc NOTIFY precSrcChanged)
 
 public:
-    explicit LimitsBase(QObject *parent = 0);
+    explicit Limits(QObject *parent = 0);
 
 signals:
     void loprChanged();

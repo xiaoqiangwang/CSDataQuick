@@ -14,6 +14,7 @@ import CSDataQuick.Components 1.0
 
 */
 BaseItem {
+    id: root
     /*! This property indicates whether draw outline only or fill the shape. \sa FillStyle, */
     property int fillStyle: FillStyle.Solid
     /*! This property holds the outline style. \sa EdgeStyle, */
@@ -27,35 +28,22 @@ BaseItem {
         It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
     */
     property color alarmColor: ColorMap.invalid_alarm
-    /*! \internal */
-    property alias dynamicAttribute_visibilityMode: da.visibilityMode
-    /*! \internal */
-    property alias dynamicAttribute_visibilityCalc: da.visibilityCalc
-    /*! \internal */
-    property alias dynamicAttribute_channel: da.channel
-    /*! \internal */
-    property alias dynamicAttribute_channelB: da.channelB
-    /*! \internal */
-    property alias dynamicAttribute_channelC: da.channelC
-    /*! \internal */
-    property alias dynamicAttribute_channelD: da.channelD
 
     background: ColorMap.graphics_background
     foreground: ColorMap.foreground
-    dynamicAttribute: DynamicAttribute {id: da}
-    visible: Utils.inPuppet || !da.connected || da.visibility
+    visible: Utils.inPuppet || !dynamicAttribute.connected || dynamicAttribute.visibility
 
     Connections {
-        target: da
+        target: dynamicAttribute
         onStatusChanged: updateAlarmColor()
         onConnectedChanged: updateAlarmColor()
     }
 
     function updateAlarmColor () {
-        if (!da.connected) {
+        if (!dynamicAttribute.connected) {
             alarmColor = ColorMap.invalid_alarm
         } else {
-            switch (da.pvA.alarm.severity) {
+            switch (dynamicAttribute.pvA.alarm.severity) {
             case 0: // NO_ALARM
                 alarmColor = ColorMap.no_alarm
                 break;

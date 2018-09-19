@@ -101,8 +101,8 @@ Module {
         Property { name: "background"; type: "QColor" }
         Property { name: "cursorType"; type: "Qt::CursorShape" }
         Property { name: "baseWindow"; type: "QQuickWindow"; isReadonly: true; isPointer: true }
-        Property { name: "dynamicAttribute"; type: "DynamicAttributeBase"; isPointer: true }
-        Property { name: "limits"; type: "LimitsBase"; isPointer: true }
+        Property { name: "dynamicAttribute"; type: "DynamicAttribute"; isReadonly: true; isPointer: true }
+        Property { name: "limits"; type: "Limits"; isReadonly: true; isPointer: true }
     }
     Component {
         name: "BaseItemAttached"
@@ -289,7 +289,7 @@ Module {
         exportMetaObjectRevisions: [0]
     }
     Component {
-        name: "DynamicAttributeBase"
+        name: "DynamicAttribute"
         prototype: "QObject"
         exports: ["DynamicAttribute 1.0"]
         exportMetaObjectRevisions: [0]
@@ -442,7 +442,7 @@ Module {
         }
     }
     Component {
-        name: "LimitsBase"
+        name: "Limits"
         prototype: "QObject"
         exports: ["Limits 1.0"]
         exportMetaObjectRevisions: [0]

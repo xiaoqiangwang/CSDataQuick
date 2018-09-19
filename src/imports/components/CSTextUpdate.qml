@@ -73,9 +73,7 @@ CSMonitor {
     implicitWidth: 100
     implicitHeight: 20
 
-    limits: Limits {
-        precChannel: csdata.precision
-    }
+    limits.precChannel: csdata.precision
 
     TextFormatter {
         id: formatter

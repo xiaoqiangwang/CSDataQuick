@@ -81,7 +81,7 @@
 */
 
 
-DynamicAttributeBase::DynamicAttributeBase(QObject *parent)
+DynamicAttribute::DynamicAttribute(QObject *parent)
     : QObject(parent),_pChannel(Q_NULLPTR),_pChannelB(Q_NULLPTR),
       _pChannelC(Q_NULLPTR),_pChannelD(Q_NULLPTR),
       _connected(true),_connectionFlag(0),_connectionMask(0),
@@ -91,7 +91,7 @@ DynamicAttributeBase::DynamicAttributeBase(QObject *parent)
         _args << 0;
 }
 
-DynamicAttributeBase::~DynamicAttributeBase()
+DynamicAttribute::~DynamicAttribute()
 {
     delete _pChannel;
     delete _pChannelB;
@@ -99,7 +99,7 @@ DynamicAttributeBase::~DynamicAttributeBase()
     delete _pChannelD;
 }
 
-void DynamicAttributeBase::setChannel(QString channel)
+void DynamicAttribute::setChannel(QString channel)
 {
     if (channel != _channel) {
         _channel = channel;
@@ -110,7 +110,7 @@ void DynamicAttributeBase::setChannel(QString channel)
     }
 }
 
-void DynamicAttributeBase::setChannelB(QString channel)
+void DynamicAttribute::setChannelB(QString channel)
 {
     if (channel != _channelB) {
         _channelB = channel;
@@ -120,7 +120,7 @@ void DynamicAttributeBase::setChannelB(QString channel)
     }
 }
 
-void DynamicAttributeBase::setChannelC(QString channel)
+void DynamicAttribute::setChannelC(QString channel)
 {
     if (channel != _channelC) {
         _channelC = channel;
@@ -130,7 +130,7 @@ void DynamicAttributeBase::setChannelC(QString channel)
     }
 }
 
-void DynamicAttributeBase::setChannelD(QString channel)
+void DynamicAttribute::setChannelD(QString channel)
 {
     if (channel != _channelD) {
         _channelD = channel;
@@ -140,7 +140,7 @@ void DynamicAttributeBase::setChannelD(QString channel)
     }
 }
 
-void DynamicAttributeBase::addChannel(QString channel, QCSData **ppChannel, int mask)
+void DynamicAttribute::addChannel(QString channel, QCSData **ppChannel, int mask)
 {
     if (*ppChannel == Q_NULLPTR)
         *ppChannel = new QCSData();
@@ -165,7 +165,7 @@ void DynamicAttributeBase::addChannel(QString channel, QCSData **ppChannel, int 
     (*ppChannel)->setSource(channel);
 }
 
-void DynamicAttributeBase::setConnected(bool connected)
+void DynamicAttribute::setConnected(bool connected)
 {
     if (connected == _connected)
         return;
@@ -173,7 +173,7 @@ void DynamicAttributeBase::setConnected(bool connected)
     emit connectionChanged();
 }
 
-void DynamicAttributeBase::setVisibilityMode(VisibilityMode::VisibilityModeEnum mode)
+void DynamicAttribute::setVisibilityMode(VisibilityMode::VisibilityModeEnum mode)
 {
     if (mode != _visibilityMode) {
         _visibilityMode = mode;
@@ -182,7 +182,7 @@ void DynamicAttributeBase::setVisibilityMode(VisibilityMode::VisibilityModeEnum 
     }
 }
 
-void DynamicAttributeBase::setVisibilityCalc(QString calc)
+void DynamicAttribute::setVisibilityCalc(QString calc)
 {
     if (calc != _visibilityCalc) {
         _visibilityCalc = calc;
@@ -193,7 +193,7 @@ void DynamicAttributeBase::setVisibilityCalc(QString calc)
     }
 }
 
-void DynamicAttributeBase::setAltCalc(QString calc)
+void DynamicAttribute::setAltCalc(QString calc)
 {
     if (calc != _altCalc) {
         _altCalc = calc;
@@ -202,7 +202,7 @@ void DynamicAttributeBase::setAltCalc(QString calc)
     }
 }
 
-void DynamicAttributeBase::updateAlarm()
+void DynamicAttribute::updateAlarm()
 {
     if (_visibilityMode == VisibilityMode::Calc) {
         _args[8] = _pChannel->alarm()->property("status").toDouble();
@@ -212,7 +212,7 @@ void DynamicAttributeBase::updateAlarm()
     emit statusChanged();
 }
 
-void DynamicAttributeBase::updateValue()
+void DynamicAttribute::updateValue()
 {
     QCSData *pChannel = qobject_cast<QCSData*>(sender());
 
@@ -233,7 +233,7 @@ void DynamicAttributeBase::updateValue()
     updateCalc();
 }
 
-void DynamicAttributeBase::updateConnection()
+void DynamicAttribute::updateConnection()
 {
     QCSData *pChannel = qobject_cast<QCSData*>(sender());
 
@@ -258,7 +258,7 @@ void DynamicAttributeBase::updateConnection()
     setConnected(_connectionFlag == _connectionMask);
 }
 
-void DynamicAttributeBase::updateCalc()
+void DynamicAttribute::updateCalc()
 {
     bool visibility = _visibility;
 
@@ -291,7 +291,7 @@ void DynamicAttributeBase::updateCalc()
     }
 }
 
-LimitsBase::LimitsBase(QObject *parent)
+Limits::Limits(QObject *parent)
     : QObject(parent)
 {
     _lopr = 0;
@@ -328,7 +328,7 @@ LimitsBase::LimitsBase(QObject *parent)
     connect(this, SIGNAL(precUserChanged()), this, SLOT(onPrecSrcChanged()));
 }
 
-void LimitsBase::onLoprSrcChanged()
+void Limits::onLoprSrcChanged()
 {
     double lopr;
     switch (_loprSrc) {
@@ -349,7 +349,7 @@ void LimitsBase::onLoprSrcChanged()
     }
 }
 
-void LimitsBase::onHoprSrcChanged()
+void Limits::onHoprSrcChanged()
 {
     double hopr;
     switch (_hoprSrc) {
@@ -370,7 +370,7 @@ void LimitsBase::onHoprSrcChanged()
     }
 }
 
-void LimitsBase::onPrecSrcChanged()
+void Limits::onPrecSrcChanged()
 {
     int prec;
     switch (_precSrc) {

@@ -90,28 +90,14 @@ CSMonitor {
     */
     property alias fillMode: bar.fillMode
 
-    /*! \internal */
-    property alias limits_loprSrc: limits.loprSrc
-    /*! \internal */
-    property alias limits_loprDefault: limits.loprDefault
-    /*! \internal */
-    property alias limits_hoprSrc: limits.hoprSrc
-    /*! \internal */
-    property alias limits_hoprDefault: limits.hoprDefault
-    /*! \internal */
-    property alias limits_precSrc: limits.precSrc
-    /*! \internal */
-    property alias limits_precDefault: limits.precDefault
     /*!
         \internal
         Determine the font based item total height, indepent of the orientation.
     */
     readonly property var font: UtilsJS.getBestFontSize(height / 10, true)
 
-    limits: Limits {
-        id: limits
-        precChannel: csdata.precision
-    }
+    limits.precChannel: csdata.precision
+
     implicitWidth: (direction == Direction.Left || direction == Direction.Right) ? 200 : 50
     implicitHeight:  (direction == Direction.Left || direction == Direction.Right) ? 50 : 200
 

@@ -14,6 +14,7 @@ import "utils.js" as UtilsJS
 */
 
 BaseItem {
+    id: root
     /*! This property indicates how foreground color changes. \sa ColorMode, */
     property int colorMode: ColorMode.Static
     /*! This property holds the data source string */
@@ -23,18 +24,6 @@ BaseItem {
         It is one of the ColorMap.invalid_alarm, ColorMap.minor_alarm, ColorMap.major_alarm and ColorMap.no_alarm.
     */
     property color alarmColor: ColorMap.invalid_alarm
-    /*! \internal */
-    property alias dynamicAttribute_visibilityMode: da.visibilityMode
-    /*! \internal */
-    property alias dynamicAttribute_visibilityCalc: da.visibilityCalc
-    /*! \internal */
-    property alias dynamicAttribute_channel: da.channel
-    /*! \internal */
-    property alias dynamicAttribute_channelB: da.channelB
-    /*! \internal */
-    property alias dynamicAttribute_channelC: da.channelC
-    /*! \internal */
-    property alias dynamicAttribute_channelD: da.channelD
     /*! \internal  */
     property var csdata: CSData {
         source: root.source
@@ -50,7 +39,6 @@ BaseItem {
         }
         MenuItem {
             text: 'Data Limits'
-            visible: root['limits'] ? true : false
             onTriggered: {
                 UtilsJS.popupDataLimitsDialog(root)
             }
@@ -65,8 +53,7 @@ BaseItem {
 
     background: ColorMap.monitors_background
     foreground: ColorMap.foreground
-    dynamicAttribute: DynamicAttribute {id: da}
-    visible: Utils.inPuppet || da.visibility
+    visible: Utils.inPuppet || dynamicAttribute.visibility
 
     Rectangle {
         anchors.fill: parent

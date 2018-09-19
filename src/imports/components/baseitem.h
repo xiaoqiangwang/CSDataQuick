@@ -5,8 +5,8 @@
 #include <QCursor>
 
 class BaseItemAttached;
-class DynamicAttributeBase;
-class LimitsBase;
+class DynamicAttribute;
+class Limits;
 
 class BaseItem : public QQuickItem
 {
@@ -15,8 +15,8 @@ class BaseItem : public QQuickItem
     Q_PROPERTY(QColor background MEMBER _background NOTIFY backgroundChanged)
     Q_PROPERTY(Qt::CursorShape cursorType READ cursorType WRITE setCursorType NOTIFY cursorTypeChanged)
     Q_PROPERTY(QQuickWindow* baseWindow READ baseWindow)
-    Q_PROPERTY(DynamicAttributeBase* dynamicAttribute MEMBER _dynamicAttribute NOTIFY dynamicAttributeChanged)
-    Q_PROPERTY(LimitsBase* limits MEMBER _limits NOTIFY limitsChanged)
+    Q_PROPERTY(DynamicAttribute* dynamicAttribute READ dynamicAttribute CONSTANT)
+    Q_PROPERTY(Limits* limits READ limits CONSTANT)
 
 public:
     explicit BaseItem(QQuickItem *parent = 0);
@@ -25,6 +25,8 @@ public:
     void setCursorType(Qt::CursorShape cursor);
 
     QQuickWindow * baseWindow();
+    DynamicAttribute * dynamicAttribute();
+    Limits * limits();
 
     static BaseItemAttached *qmlAttachedProperties(QObject *);
 
@@ -32,16 +34,14 @@ signals:
     void backgroundChanged();
     void cursorTypeChanged();
     void foregroundChanged();
-    void dynamicAttributeChanged();
-    void limitsChanged();
 
 public slots:
 
 private:
     QColor _foreground;
     QColor _background;
-    DynamicAttributeBase *_dynamicAttribute;
-    LimitsBase *_limits;
+    DynamicAttribute *_dynamicAttribute;
+    Limits *_limits;
 };
 
 class BaseItemAttached : public QObject
@@ -58,5 +58,6 @@ private:
 };
 
 
+QML_DECLARE_TYPE(BaseItem)
 QML_DECLARE_TYPEINFO(BaseItem, QML_HAS_ATTACHED_PROPERTIES)
 #endif // BASEITEM_H

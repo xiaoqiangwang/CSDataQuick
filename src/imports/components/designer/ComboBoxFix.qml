@@ -65,8 +65,12 @@ Controls.ComboBox {
             } else if (!comboBox.useInteger) {
                 var enumString = comboBox.backendValue.enumeration;
 
-                if (enumString === "")
-                    enumString = model[comboBox.backendValue.value]
+                if (enumString === "" || enumString === undefined) {
+                    if (typeof comboBox.backendValue.value === "number")
+                        enumString = model[comboBox.backendValue.value]
+                    else if (typeof comboBox.backendValue.value === "string")
+                        enumString = comboBox.backendValue.value
+                }
 
                 var index = comboBox.find(enumString)
 

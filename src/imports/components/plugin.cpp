@@ -48,8 +48,8 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
 {
     // @uri CSDataQuick.Components
     qmlRegisterType<BaseItem>(uri, 1, 0, "BaseItem");
-    qmlRegisterType<LimitsBase>(uri, 1, 0, "Limits");
-    qmlRegisterType<DynamicAttributeBase>(uri, 1, 0, "DynamicAttribute");
+    qmlRegisterType<Limits>(uri, 1, 0, "Limits");
+    qmlRegisterType<DynamicAttribute>(uri, 1, 0, "DynamicAttribute");
     qmlRegisterType<PolylineItem>(uri, 1, 0, "Polyline");
     qmlRegisterType<PolygonItem>(uri, 1, 0, "Polygon");
     qmlRegisterType<ArcItem>(uri, 1, 0, "Arc");

@@ -30,18 +30,6 @@ BaseItem {
     */
     property color alarmColor: ColorMap.invalid_alarm
     /*! \internal */
-    property alias dynamicAttribute_visibilityMode: da.visibilityMode
-    /*! \internal */
-    property alias dynamicAttribute_visibilityCalc: da.visibilityCalc
-    /*! \internal */
-    property alias dynamicAttribute_channel: da.channel
-    /*! \internal */
-    property alias dynamicAttribute_channelB: da.channelB
-    /*! \internal */
-    property alias dynamicAttribute_channelC: da.channelC
-    /*! \internal */
-    property alias dynamicAttribute_channelD: da.channelD
-    /*! \internal */
     property var csdata: CSData {
         source: root.source
     }
@@ -56,7 +44,6 @@ BaseItem {
         }
         MenuItem {
             text: 'Data Limits'
-            visible: root['limits'] ? true : false
             onTriggered: {
                 UtilsJS.popupDataLimitsDialog(root)
             }
@@ -71,8 +58,7 @@ BaseItem {
 
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
-    dynamicAttribute: DynamicAttribute {id: da}
-    visible: Utils.inPuppet || da.visibility
+    visible: Utils.inPuppet || dynamicAttribute.visibility
 
     // Mask when data is disconnected
     Rectangle {

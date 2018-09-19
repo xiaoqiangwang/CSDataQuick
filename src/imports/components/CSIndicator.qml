@@ -59,18 +59,6 @@ CSMonitor {
     */
     property int direction: Direction.Right
     /*! \internal */
-    property alias limits_loprSrc: limits.loprSrc
-    /*! \internal */
-    property alias limits_loprDefault: limits.loprDefault
-    /*! \internal */
-    property alias limits_hoprSrc: limits.hoprSrc
-    /*! \internal */
-    property alias limits_hoprDefault: limits.hoprDefault
-    /*! \internal */
-    property alias limits_precSrc: limits.precSrc
-    /*! \internal */
-    property alias limits_precDefault: limits.precDefault
-    /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height / 8, 0)
 
     implicitWidth: 200
@@ -79,10 +67,7 @@ CSMonitor {
     /*!
         Operation limits range and precision
     */
-    limits: Limits {
-        id: limits
-        precChannel: csdata.precision
-    }
+    limits.precChannel: csdata.precision
 
     Text {
         id: title

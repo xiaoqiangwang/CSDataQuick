@@ -40,23 +40,10 @@ BaseItem {
         This property holds the macro substitution for the external source file,
     */
     property string macro
-    /*! \internal */
-    property alias dynamicAttribute_visibilityMode: da.visibilityMode
-    /*! \internal */
-    property alias dynamicAttribute_visibilityCalc: da.visibilityCalc
-    /*! \internal */
-    property alias dynamicAttribute_channel: da.channel
-    /*! \internal */
-    property alias dynamicAttribute_channelB: da.channelB
-    /*! \internal */
-    property alias dynamicAttribute_channelC: da.channelC
-    /*! \internal */
-    property alias dynamicAttribute_channelD: da.channelD
 
     implicitWidth: 400
     implicitHeight: 300
-    dynamicAttribute: DynamicAttribute { id: da }
-    visible: da.visibility
+    visible: dynamicAttribute.visibility
 
     /*! \internal */
     QtObject {
@@ -76,7 +63,7 @@ BaseItem {
         z: 1
         anchors.fill: parent
         color: 'white'
-        visible: !da.connected
+        visible: !dynamicAttribute.connected
     }
 
     onMacroChanged: {
