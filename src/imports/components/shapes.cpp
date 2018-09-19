@@ -20,7 +20,7 @@ ShapeItem::ShapeItem(QQuickItem *parent)
 QRectF ShapeItem::getDrawArea()
 {
     QRectF boundingRect = contentsBoundingRect();
-    int margin = _fillStyle == FillStyle::Outline ?  (_lineWidth + 1) /2 : 0;
+    int margin = _fillStyle == FillStyle::Outline ?  qMax(1, (_lineWidth + 1) /2) : 0;
     QRectF rect = QRectF(boundingRect.x() + margin,
                       boundingRect.y() + margin,
                       boundingRect.width() - 2*margin,
