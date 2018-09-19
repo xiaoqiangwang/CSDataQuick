@@ -594,8 +594,14 @@ void Object::arcToQML(std::ostream& ostream)
     ostream << indent << "CSArc {" << std::endl;
     rectToQML(ostream);
 
-    if (getBool("fill"))
+    if (getBool("fill")) {
         ostream << indent << "    foreground: " << getColor("fillColor") << std::endl;
+        std::string fillMode = getText("fillMode");
+        if (fillMode == "pie")
+        ostream << indent << "    closure: Arc.Pie" << std::endl;
+        else
+        ostream << indent << "    closure: Arc.Chord" << std::endl;
+    }
     else {
         ostream << indent << "    foreground: " << getColor("lineColor") << std::endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << std::endl;
