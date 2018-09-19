@@ -345,6 +345,8 @@ MetaInfo {
             libraryIcon: "images/toggleButton.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "height"; type: "int"; value: 20}
         }
     }
     Type {
