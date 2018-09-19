@@ -791,8 +791,8 @@ void Object::compositeToQML(std::ostream& ostream)
         ostream << indent << "        source: '" << filePv << "'" << std::endl;
         ostream << indent << "    }" << std::endl;
 
-        ostream << indent << "    source: fileNames[filePv.value]" << std::endl;
-        ostream << indent << "    macro: macros[filePv.value]" << std::endl;
+        ostream << indent << "    source: fileNames[filePv.value] || ''" << std::endl;
+        ostream << indent << "    macro: macros[filePv.value] || ''" << std::endl;
     } else if (displaySource == "file") {
         std::string filename = getText("file");
         if (!filename.empty()) {
@@ -1517,15 +1517,13 @@ void Object::rectToQML(std::ostream& ostream)
 
 void Object::listToQML(std::ostream& ostream, std::vector<std::string> list)
 {
+    ostream << "[";
     for(int i=0; i<list.size(); i++)  {
-        if (i == 0)
-            ostream << "[";
-        else
-            ostream << ",";
         ostream << "\"" << list[i] << "\"";
-        if (i == list.size() -1)
-            ostream << "]";
+        if (i != list.size() - 1)
+            ostream << ",";
     }
+    ostream << "]";
 }
 
 void Object::toQML(std::ostream& ostream)
