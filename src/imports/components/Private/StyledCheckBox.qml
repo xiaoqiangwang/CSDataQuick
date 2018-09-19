@@ -81,6 +81,7 @@ Item {
         anchors.left: indicator.right
         anchors.right: control.right
         anchors.leftMargin: TextSingleton.implicitHeight / 4
+        anchors.verticalCenter: control.verticalCenter
         color: control.foregroundColor
         font.family: hiddenText.fontInfo.family
         font.pointSize: hiddenText.fontInfo.pointSize
