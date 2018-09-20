@@ -51,10 +51,14 @@ ApplicationWindow {
             }
 
             CSRect {
+                width: 90
+                height: 45
                 fillStyle: FillStyle.Solid
             }
 
             CSOval {
+                width: 60
+                height: 80
                 dynamicAttribute.channel: 'bo'
                 colorMode: ColorMode.Alarm
                 dynamicAttribute.visibilityMode: VisibilityMode.IfZero
@@ -66,6 +70,8 @@ ApplicationWindow {
                     id: pv
                     source: 'catest'
                 }
+                width: 80
+                height: 80
                 begin: 90
                 span: pv.value * 360
                 fillStyle: FillStyle.Solid
@@ -87,8 +93,7 @@ ApplicationWindow {
                 foreground: 'black'
                 background: 'black'
                 edgeStyle: EdgeStyle.Solid
-                points: [Qt.point(10,10), Qt.point(100, 30),
-                    Qt.point(100, 70), Qt.point(50, 80)]
+                points: [Qt.point(10,10),Qt.point(100,30),Qt.point(100,70),Qt.point(50,80)]
             }
 
             CSImage {
