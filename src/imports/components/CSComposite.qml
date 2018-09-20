@@ -41,8 +41,6 @@ BaseItem {
     */
     property string macro
 
-    implicitWidth: 400
-    implicitHeight: 300
     visible: dynamicAttribute.visibility
 
     /*! \internal */

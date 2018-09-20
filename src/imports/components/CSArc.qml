@@ -46,9 +46,6 @@ CSGraphics {
     */
     property int arrowPosition: ArrowPosition.None
 
-    implicitWidth: 100
-    implicitHeight: 100
-
     Arc {
         id: arc
         anchors.fill: parent

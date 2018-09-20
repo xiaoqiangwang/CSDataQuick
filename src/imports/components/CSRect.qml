@@ -43,8 +43,6 @@ CSGraphics {
     /*! the y radius of the ellipses defining the corners of the rounded rectangle */
     property real radiusY: 0
 
-    implicitWidth: 100
-    implicitHeight: 100
     PaintedRectangle {
         id: rect
         anchors.fill: parent

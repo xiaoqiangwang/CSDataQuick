@@ -31,8 +31,6 @@ import CSDataQuick.Components 1.0
 
 CSGraphics {
     id: root
-    implicitWidth: 100
-    implicitHeight: 100
 
     Oval {
         anchors.fill: parent

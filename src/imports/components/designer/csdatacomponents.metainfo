@@ -33,6 +33,9 @@ MetaInfo {
             libraryIcon: "images/arc.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "width"; type: "int"; value: 100}
+            Property { name: "height"; type: "int"; value: 100}
         }
     }
     Type {
@@ -93,6 +96,9 @@ MetaInfo {
             libraryIcon: "images/composite.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "width"; type: "int"; value: 400}
+            Property { name: "height"; type: "int"; value: 300}
         }
     }
     Type {
@@ -177,6 +183,9 @@ MetaInfo {
             libraryIcon: "images/oval.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "width"; type: "int"; value: 100}
+            Property { name: "height"; type: "int"; value: 100}
         }
     }
     Type {
@@ -213,6 +222,9 @@ MetaInfo {
             libraryIcon: "images/rectangle.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "width"; type: "int"; value: 100}
+            Property { name: "height"; type: "int"; value: 100}
         }
     }
     Type {
