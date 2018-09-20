@@ -47,8 +47,8 @@ CSGraphics {
     */
     property alias points: polygon.points
 
-    implicitWidth: 100
-    implicitHeight: 100
+    implicitWidth: polygon.implicitWidth
+    implicitHeight: polygon.implicitHeight
 
     Polygon {
         id: polygon

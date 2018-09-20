@@ -29,8 +29,8 @@ import CSDataQuick.Components 1.0
 
 CSGraphics {
     id: root
-    implicitWidth: 100
-    implicitHeight: 100
+    implicitWidth: polyline.implicitWidth
+    implicitHeight: polyline.implicitHeight
     /*!
         \qmlproperty list<point> points
 

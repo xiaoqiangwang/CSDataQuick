@@ -198,6 +198,9 @@ MetaInfo {
             libraryIcon: "images/polygon.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "width"; type: "int"; value: 100}
+            Property { name: "height"; type: "int"; value: 100}
         }
     }
     Type {
@@ -210,6 +213,9 @@ MetaInfo {
             libraryIcon: "images/polyline.png"
             version: "1.0"
             requiredImport: "CSDataQuick.Components"
+
+            Property { name: "width"; type: "int"; value: 100}
+            Property { name: "height"; type: "int"; value: 100}
         }
     }
     Type {

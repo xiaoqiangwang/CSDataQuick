@@ -179,6 +179,8 @@ QPainterPath PolylineItem::buildPath()
             path.addPolygon(createArrow(_points.last(), angle));
         }
     }
+    setImplicitWidth(boundingRect().width());
+    setImplicitHeight(boundingRect().height());
     return path;
 }
 
@@ -210,6 +212,9 @@ QPainterPath PolygonItem::buildPath()
     QPainterPath path;
     path.addPolygon(QPolygonF(_points));
     path.closeSubpath();
+
+    setImplicitWidth(boundingRect().width());
+    setImplicitHeight(boundingRect().height());
     return path;
 }
 
