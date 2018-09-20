@@ -6,7 +6,7 @@
 
     \section2 core libs
     \list
-    \li Add a new type of data engine \e local. The source scheme is loc://<source>[.{json object}]
+    \li Add a new type of data engine \l {QCSDataEngineLocal} {\e local}. The source scheme is loc://<source>[.{json object}]
         The trailing json object could be used to configure the data type and value.
     \li Refactor file parsing to be plugin based, supporting ADL, EDL, QML and UI files.
     \li Refactor utils.cpp to a shared library.
