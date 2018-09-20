@@ -148,6 +148,13 @@ QColor CustomPlotItem::foreground()
 void CustomPlotItem::setForeground(QColor color)
 {
     mTitle->setTextColor(color);
+    foreach (QCPAxis *axis, mPlot->axisRect()->axes()) {
+        axis->setBasePen(color);
+        axis->setTickPen(color);
+        axis->setTickLabelColor(color);
+        axis->setSubTickPen(color);
+    }
+    emit foregroundChanged();
 }
 
 QColor CustomPlotItem::background()
@@ -159,6 +166,7 @@ void CustomPlotItem::setBackground(QColor color)
 {
     mPlot->setBackground(color);
     mPlot->replot();
+    emit backgroundChanged();
 }
 
 bool CustomPlotItem::legendVisible()
@@ -327,7 +335,6 @@ void GraphItem::setColor(QColor color)
     mColor = color;
     if (mGraph) {
         mGraph->setPen(color);
-        mGraph->valueAxis()->setBasePen(color);
     }
     emit colorChanged();
 }
@@ -589,6 +596,10 @@ void AxisItem::componentComplete()
     int labelFont = calcLabelFontSize(mAxis->axisRect()->toRect());
     mAxis->setLabelFont(QFont("Courier", labelFont));
     mAxis->setTickLabelFont(QFont("Courier", labelFont));
+    mAxis->setBasePen(plot->foreground());
+    mAxis->setTickPen(plot->foreground());
+    mAxis->setTickLabelColor(plot->foreground());
+    mAxis->setSubTickPen(plot->foreground());
 
     setScale(_scale);
     setDateFormat(_dateFormat);
