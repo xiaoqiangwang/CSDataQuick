@@ -1360,7 +1360,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
             rectToQML(ostream, v->elementRect(), level);
         else if (sizePolicyToQML(ostream, v, level))
             ;
-        else if (v->attributeName() == "foreground")
+        else if (v->attributeName() == "scaleColor")
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "background")
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
