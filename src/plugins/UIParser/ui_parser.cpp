@@ -1094,7 +1094,7 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
         }
         else if (sizePolicyToQML(ostream, v, level))
             ;
-        else if (v->attributeName() == "foreground") {
+        else if (v->attributeName() == "scaleColor") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
         else if (v->attributeName() == "background") {
