@@ -25,6 +25,7 @@ void CSImageItem::setImage(QImage image)
     if (_image.format() == QImage::Format_Indexed8)
         _image.setColorTable(getColorTable(_colorMap));
 
+    setImplicitSize(_image.width(), _image.height());
     update();
 }
 

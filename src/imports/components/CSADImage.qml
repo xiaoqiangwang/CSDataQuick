@@ -52,8 +52,8 @@ BaseItem {
     */
     property alias source: ad.source
 
-    width: 400
-    height: 300
+    implicitWidth: img.implicitWidth
+    implicitHeight: img.implicitHeight
 
     ImageItem {
         id: img

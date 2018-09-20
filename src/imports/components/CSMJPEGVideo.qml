@@ -26,8 +26,8 @@ BaseItem {
     */
     property alias source: mjpeg.source
 
-    width: 400
-    height: 300
+    implicitWidth: img.implicitWidth
+    implicitHeight: img.implicitHeight
 
     ImageItem {
         id: img
