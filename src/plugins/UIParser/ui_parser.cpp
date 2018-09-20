@@ -1514,12 +1514,12 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         }
         else if  (v->attributeName() == "stackingMode") {
             QString stacking = v->elementEnum();
-            if (stacking.endsWith("Column"))
+            if (stacking.endsWith("RowColumn"))
+                ostream << indent << "    stacking: Stacking.Column" << endl;
+            else if (stacking.endsWith("Column"))
                 ostream << indent << "    stacking: Stacking.Row" << endl;
             else if (stacking.endsWith("Row") || stacking.endsWith("RowInverse"))
                 ostream << indent << "    stacking: Stacking.Column" << endl;
-            else if (stacking.endsWith("RowColumn"))
-                ostream << indent << "    stacking: Stacking.RowColumn" << endl;
         }
     }
 
