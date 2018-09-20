@@ -81,12 +81,12 @@ CSGraphics {
         z: 1
         color: ColorMap.invalid_alarm
         anchors.fill: parent
-        visible: (colorMode == ColorMode.Alarm || dynamicAttribute.visibilityMode != VisibilityMode.Static) && !dynamicAttribute.connected
+        visible: (colorMode == ColorMode.Alarm || dynamicAttribute.visibilityMode != VisibilityMode.Static) && !dynamicAttribute.connected && !Utils.inPuppet
     }
 
     Text {
         id: text_control
-        color: colorMode == ColorMode.Alarm ? root.alarmColor : root.foreground
+        color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         anchors.fill: parent
         minimumPixelSize: 6
         fontSizeMode: Text.Fit
