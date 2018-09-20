@@ -39,6 +39,7 @@ BaseItem {
         onConnectedChanged: updateAlarmColor()
     }
 
+    /*! \internal */
     function updateAlarmColor () {
         if (!dynamicAttribute.connected) {
             alarmColor = ColorMap.invalid_alarm
