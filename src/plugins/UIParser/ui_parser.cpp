@@ -1677,6 +1677,10 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
         ostream << indent << "    visual: RelatedDisplayVisual.Column" << endl;
     else if (stacking.endsWith("Column"))
         ostream << indent << "    visual: RelatedDisplayVisual.Row" << endl;
+    else if (stacking.endsWith("Hidden")) {
+        ostream << indent << "    visual: RelatedDisplayVisual.Menu" << endl;
+        ostream << indent << "    opacity: 0" << endl;
+    }
     else
         ostream << indent << "    visual: RelatedDisplayVisual.Menu" << endl;
 
