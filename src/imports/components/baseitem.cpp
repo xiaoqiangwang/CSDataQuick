@@ -23,14 +23,6 @@
     \qmlproperty color BaseItem::background
     \brief Color used to fill background.
 */
-/*!
-    \qmlproperty DynamicAttribute BaseItem::dynamicAttribute
-    \brief Configure item's visibility and color
-*/
-/*!
-    \qmlproperty Limits BaseItem::limits
-    \brief Configure the operation range and data precision
- */
 BaseItem::BaseItem(QQuickItem *parent) :
     QQuickItem(parent)
 {
@@ -63,10 +55,11 @@ QQuickWindow * BaseItem::baseWindow()
 {
     return this->window();
 }
+
 /*!
     \qmlproperty DynamicAttribute BaseItem::dynamicAttribute
-    Configure item's visibility and color
- */
+    \brief Configure item's visibility and color
+*/
 DynamicAttribute * BaseItem::dynamicAttribute()
 {
     return _dynamicAttribute;
@@ -74,7 +67,7 @@ DynamicAttribute * BaseItem::dynamicAttribute()
 
 /*!
     \qmlproperty Limits BaseItem::limits
-    Configure the operation range and data precision    
+    \brief Configure the operation range and data precision
  */
 Limits * BaseItem::limits()
 {
