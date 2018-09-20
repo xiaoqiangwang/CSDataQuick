@@ -1101,13 +1101,13 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
         else if (v->attributeName() == "Title") {
-            ostream << indent << "    title: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "TitleX") {
-            ostream << indent << "    xLabel: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    xLabel: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "TitleY") {
-            ostream << indent << "    yLabel: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    yLabel: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "countNumOrChannel") {
             ostream << indent << "    countSource: '" << v->elementString()->text() << "'" << endl;
@@ -1365,11 +1365,11 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         else if (v->attributeName() == "background")
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "Title")
-            ostream << indent << "    title: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         else if (v->attributeName() == "TitleX")
-            ostream << indent << "    xLabel: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    xLabel: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         else if (v->attributeName() == "TitleY")
-            ostream << indent << "    yLabel: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    yLabel: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         else if (v->attributeName() == "units") {
             QString units = v->elementEnum();
             if (units.endsWith("Second"))
