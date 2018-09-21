@@ -55,7 +55,7 @@ Style {
 
     /*! The margin from the content item to the groupbox. */
     padding {
-        top: 0
+        top: (control.title.length > 0 || control.checkable ? TextSingleton.implicitHeight : 0) + 10
         left: 8
         right: 8
         bottom: 6
@@ -131,7 +131,7 @@ Style {
 
         BorderImage {
             anchors.fill: parent
-            anchors.topMargin: padding.top + label.implicitHeight / 2
+            anchors.topMargin: padding.top - 7
             source: "images/groupbox.png"
             border.left: 4
             border.right: 4
