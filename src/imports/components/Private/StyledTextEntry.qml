@@ -5,7 +5,7 @@ import CSDataQuick.Components 1.0
 Item {
     id: root
     implicitWidth: textField.implicitWidth
-    implicitHeight: textField.implicitHeight
+    implicitHeight: Math.max(20, Math.round(TextSingleton.implicitHeight * 1.2))
 
     property color background: 'white'
     property color foreground : 'black'
