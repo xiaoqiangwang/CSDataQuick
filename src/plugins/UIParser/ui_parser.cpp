@@ -1942,6 +1942,9 @@ void UI::toggleButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
+        else if (v->attributeName() == "font") {
+            fontToQML(ostream, v->elementFont(), level);
+        }
         else if (v->attributeName() == "text") {
             ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
