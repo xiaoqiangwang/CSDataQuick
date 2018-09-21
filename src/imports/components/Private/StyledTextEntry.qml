@@ -4,8 +4,8 @@ import CSDataQuick.Components 1.0
 
 Item {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
+    implicitWidth: textField.implicitWidth
+    implicitHeight: textField.implicitHeight
 
     property color background: 'white'
     property color foreground : 'black'

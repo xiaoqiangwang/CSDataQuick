@@ -42,8 +42,8 @@ import "utils.js" as UtilsJS
 
 BaseItem {
     id: root
-    implicitWidth: 50
-    implicitHeight: 20
+    implicitWidth: btn.implicitWidth
+    implicitHeight: btn.implicitHeight
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
     /*!

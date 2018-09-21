@@ -32,8 +32,8 @@ CSControl {
     /*! \internal */
     readonly property var font: UtilsJS.getBestFontSize(height - 4, true)
 
-    implicitWidth: 100
-    implicitHeight: 20
+    implicitWidth: combo_control.implicitWidth
+    implicitHeight: combo_control.implicitHeight
 
     ComboBox {
         id: combo_control
@@ -46,19 +46,28 @@ CSControl {
         }
 
         style: ComboBoxStyle {
+            id: cbStyle
             padding { top: 2 ; left: 2 ; right: 14 ; bottom:2 }
-            label: Text {
-                text: Utils.inPuppet ? root.source : combo_control.currentText
-                anchors.verticalCenter: parent.verticalCenter
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                clip: true
-                color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
-                font.pixelSize: root.font.size
-                font.family: root.font.family
+            label: Item {
+                implicitWidth: textitem.implicitWidth
+                baselineOffset: textitem.y + textitem.baselineOffset
+                Text {
+                    id: textitem
+                    text: Utils.inPuppet ? root.source : combo_control.currentText
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    elide: Text.ElideRight
+                    color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+                    font.pixelSize: root.font.size
+                    font.family: root.font.family
+                }
             }
             background: StyledFrame {
-                anchors.fill: parent
+                implicitWidth: Math.round(TextSingleton.implicitHeight * 4.5) + 10
+                implicitHeight: Math.max(25, Math.round(TextSingleton.implicitHeight * 1.2)) 
                 StyledFrame {
                     width: 9
                     height: 7
@@ -71,6 +80,34 @@ CSControl {
                 }
                 shadow: FrameShadow.Raise
                 color: root.background
+            }
+            panel: Item {
+                property bool popup: false
+                property font font: cbStyle.font
+                property color textColor: cbStyle.textColor
+                property color selectionColor: cbStyle.selectionColor
+                property color selectedTextColor: cbStyle.selectedTextColor
+                property int dropDownButtonWidth: cbStyle.dropDownButtonWidth
+                anchors.centerIn: parent
+                anchors.fill: parent
+                implicitWidth: labelLoader.implicitWidth + 20
+                implicitHeight: Math.max(labelLoader.implicitHeight + padding.top + padding.bottom, backgroundLoader.implicitHeight)
+                baselineOffset: labelLoader.item ? padding.top + labelLoader.item.baselineOffset: 0
+                Loader {
+                    id: backgroundLoader
+                    anchors.fill: parent
+                    sourceComponent: background
+                }
+
+                Loader {
+                    id: labelLoader
+                    sourceComponent: label
+                    anchors.fill: parent
+                    anchors.leftMargin: padding.left
+                    anchors.topMargin: padding.top
+                    anchors.rightMargin: padding.right
+                    anchors.bottomMargin: padding.bottom
+                }
             }
         }
 /*

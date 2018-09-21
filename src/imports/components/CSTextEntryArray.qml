@@ -76,8 +76,8 @@ CSControl {
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / count: height / 2, true)
 
-    implicitWidth: stacking == Stacking.Column ? 150 : count * 100
-    implicitHeight: stacking == Stacking.Column ? count * 20 : 40
+    implicitWidth: layout.implicitWidth
+    implicitHeight: layout.implicitHeight
 
     limits.precChannel: csdata.precision
 

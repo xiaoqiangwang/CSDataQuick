@@ -14,7 +14,7 @@ Item {
     property alias fontSizeMode: hiddenText.fontSizeMode
 
     implicitWidth:  hiddenText.implicitWidth
-    implicitHeight: TextSingleton.implicitHeight
+    implicitHeight: Math.max(20, Math.round(TextSingleton.implicitHeight * 1.2)) 
 
     onForegroundColorChanged: canvas.requestPaint()
 

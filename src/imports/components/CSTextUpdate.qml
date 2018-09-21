@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
@@ -70,8 +71,8 @@ CSMonitor {
     /*! This property indicates whether to display the physical units if available */
     property bool unitsVisible: false
 
-    implicitWidth: 100
-    implicitHeight: 20
+    implicitWidth: fontSizeMode == Text.FixedSize ? mainLayout.implicitWidth : label_control.implicitWidth + units.implicitWidth
+    implicitHeight: fontSizeMode == Text.FixedSize ? label_control.implicitHeight : 18
 
     limits.precChannel: csdata.precision
 

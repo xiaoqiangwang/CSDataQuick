@@ -55,8 +55,8 @@ CSControl {
     
     font.family: UtilsJS.getBestFontSize(stacking==Stacking.Column ? height / csdata.stateStrings.length - 4 : height - 4, true).family
 
-    implicitHeight: stacking == Stacking.Column ? csdata.stateStrings.length * 20 : 20
-    implicitWidth: (stacking == Stacking.Row || stacking == Stacking.RowColumn) ? csdata.stateStrings.length * 100 : 100
+    implicitWidth: loader.implicitWidth 
+    implicitHeight: loader.implicitHeight
 
     Connections {
         target: csdata

@@ -20,8 +20,8 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
+    implicitWidth: spin.implicitWidth
+    implicitHeight: spin.implicitHeight
 
     /*! This property indicates whether to display the physical units if available */
     property bool unitsVisible: false

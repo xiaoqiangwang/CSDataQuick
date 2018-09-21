@@ -107,12 +107,13 @@ BaseItem {
 
     font.family: UtilsJS.getBestFontSize(visual == RelatedDisplayVisual.Column ? root.height / model.count - 4: root.height - 4, true).family
 
-    implicitWidth: visual == RelatedDisplayVisual.Row ? displayModel.count * 50 : 50
-    implicitHeight: visual == RelatedDisplayVisual.Column ? displayModel.count * 20 : 20
+    implicitWidth: loader.implicitWidth 
+    implicitHeight: loader.implicitHeight
     background: ColorMap.controls_background
     foreground: ColorMap.foreground
 
     Loader {
+        id: loader
         anchors.fill: parent
         sourceComponent: visual == RelatedDisplayVisual.Menu || displayModel.count == 1 ? menuStyle : buttonStyle
     }

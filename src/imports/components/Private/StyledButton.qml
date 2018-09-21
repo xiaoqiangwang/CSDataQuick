@@ -19,11 +19,16 @@ Button {
 
     style: ButtonStyle {
         background: StyledFrame {
+            implicitWidth: Math.round(TextSingleton.implicitHeight * 4.5)
+            implicitHeight: Math.max(25, Math.round(TextSingleton.implicitHeight * 1.2))
             color: control.backgroundColor
             shadow: (control.pressed || control.checked) ? FrameShadow.Sunken : FrameShadow.Raise
         }
 
         label: Item {
+            implicitWidth: icon.implicitWidth + text.implicitWidth
+            implicitHeight: fontSizeMode == Text.FixedSize ? text.implicitHeight :TextSingleton.implicitHeight
+
             Loader {
                 id: icon
                 sourceComponent: root.icon

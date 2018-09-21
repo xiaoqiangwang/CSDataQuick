@@ -48,8 +48,8 @@ CSControl {
     */
     property alias fontSizeMode: btn.fontSizeMode
 
-    implicitWidth: 100
-    implicitHeight: 20
+    implicitWidth: btn.implicitWidth
+    implicitHeight: btn.implicitHeight
 
     StyledButton {
         id: btn

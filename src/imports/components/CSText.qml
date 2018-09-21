@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!
@@ -70,7 +71,7 @@ CSGraphics {
     property alias fontSizeMode: text_control.fontSizeMode
 
     implicitWidth: text_control.implicitWidth
-    implicitHeight: 20
+    implicitHeight: fontSizeMode == Text.FixedSize ? text_control.implicitHeight : 18
 
     Rectangle {
         color: background

@@ -34,8 +34,8 @@ CSControl {
     */
     property alias font: textArea.font
 
-    implicitWidth: 200
-    implicitHeight: 60
+    implicitWidth: textArea.implicitWidth
+    implicitHeight: textArea.implicitHeight
 
     TextArea {
         id: textArea

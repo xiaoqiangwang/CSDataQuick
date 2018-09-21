@@ -75,8 +75,8 @@ import "utils.js" as UtilsJS
 
 CSControl {
     id: root
-    implicitWidth: 100
-    implicitHeight: 20
+    implicitWidth: textEntry.implicitWidth
+    implicitHeight: textEntry.implicitHeight
     /*!
         \qmlproperty enumeration align
         Sets the horizontal alignment of the text within the item width.
