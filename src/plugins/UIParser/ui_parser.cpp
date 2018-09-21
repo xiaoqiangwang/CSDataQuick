@@ -506,6 +506,7 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "GroupBox {" << endl;
+    ostream << indent << "    property font font" << endl;
     layoutItemToQML(ostream, i, level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
@@ -517,14 +518,21 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "title") {
             ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
+        else if (v->attributeName() == "font") {
+            fontToQML(ostream, v->elementFont(), level);
+        }
     }
-    ostream << indent << "    style: GroupBoxStyle {}" << endl;
+    ostream << indent << "    style: GroupBoxStyle {textFont: control.font}" << endl;
 
     foreach (DomLayout *child, w->elementLayout())
         layoutToQML(ostream, child, level+1);
 
     foreach (DomWidget *child, orderedChildWidgets(w)) {
         widgetToQML(ostream, child, level+1);
+    }
+
+    if (w->elementWidget().size() != 0) {
+        ostream << indent << "    contentItem.anchors.topMargin: 0" << endl;
     }
 
     ostream << indent << "}" << endl;

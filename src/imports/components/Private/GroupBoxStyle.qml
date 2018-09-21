@@ -55,11 +55,14 @@ Style {
 
     /*! The margin from the content item to the groupbox. */
     padding {
-        top: (control.title.length > 0 || control.checkable ? TextSingleton.implicitHeight : 0) + 10
+        top: (control.title.length > 0 || control.checkable ? TextSingleton.implicitHeight : 0)
         left: 8
         right: 8
         bottom: 6
     }
+
+    /*! The title text font. */
+    property font textFont: TextSingleton.font
 
     /*! The title text color. */
     property color textColor: SystemPaletteSingleton.text(control.enabled)
@@ -123,15 +126,17 @@ Style {
             id: label
             anchors.top: parent.top
             anchors.left: checkboxloader.right
-            anchors.margins: 4
+            anchors.topMargin: 4
+            anchors.leftMargin: implicitHeight / 2
             text: control.title
             color: textColor
+            font: textFont
             renderType: Settings.isMobile ? Text.QtRendering : Text.NativeRendering
         }
 
         BorderImage {
             anchors.fill: parent
-            anchors.topMargin: padding.top - 7
+            anchors.topMargin: padding.top / 2
             source: "images/groupbox.png"
             border.left: 4
             border.right: 4
