@@ -1822,6 +1822,7 @@ void Text::toQML(std::ostream &ostream)
     if (this->align != HORIZ_LEFT)
         ostream << indent << "    align: " << qmlValueTable[this->align] << std::endl;
     ostream << indent << "    text: \"" << this->label << '"' << std::endl;
+    ostream << indent << "    fontSizeMode: Text.VerticalFit" << std::endl;
     ostream << indent << "}" << std::endl;
 }
 
