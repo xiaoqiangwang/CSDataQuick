@@ -45,6 +45,9 @@ CSControl {
             selectedTextColor: Qt.lighter(textColor)
             selectionColor: Qt.darker(root.background)
             background: Rectangle {
+                implicitHeight: Math.max(25, Math.round(styleData.contentHeight * 1.2))
+                implicitWidth: styleData.contentWidth + padding.left + padding.right
+                baselineOffset: spin.__baselineOffset
                 color: root.background
             }
         }
