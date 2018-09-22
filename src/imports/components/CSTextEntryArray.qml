@@ -127,8 +127,6 @@ CSControl {
             text: index < label.length ? label[index] : '#%1'.arg((index + root.index).toString())
             font.pixelSize: root.font.size
             font.family: root.font.family
-            Layout.fillWidth: stacking == Stacking.Column
-            Layout.fillHeight: stacking != Stacking.Column
             Layout.row: stacking == Stacking.Column ? index : 0
             Layout.column: stacking == Stacking.Column ? 0 : index
             visible: labelVisible
