@@ -127,6 +127,7 @@ ApplicationWindow {
             }
 
             CSTextEntry {
+                width: 80
                 limits.precDefault: 3
                 limits.precSrc: LimitsSource.Default
                 format: TextFormat.Compact
@@ -134,19 +135,23 @@ ApplicationWindow {
                 colorMode: ColorMode.Alarm
             }
             CSTextEntry {
+                width: 80
                 source: 'calc.SCAN'
             }
 
             CSMenu {
+                width: 100
                 source: 'calc.SCAN'
             }
 
             CSChoiceButton {
+                width: 100
                 stacking: Stacking.Row
                 source: 'bo'
             }
 
             CSRelatedDisplay {
+                width: 80
                 label: 'More'
                 model: ListModel {
                     ListElement {label: 'test'; fname: 'widgets.qml'; args: ''; remove: false}
@@ -161,6 +166,7 @@ ApplicationWindow {
             }
 
             CSTextEntryArray {
+                width: 50
                 source: 'waved'
                 count: 4
             }
