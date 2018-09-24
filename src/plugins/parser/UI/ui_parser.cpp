@@ -1474,6 +1474,9 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextUpdate {" << endl;
+    if (w->attributeClass() ==  "caMultiLineString")
+        ostream << indent << "    format: TextFormat.String" << endl;
+
     layoutItemToQML(ostream, i, level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
