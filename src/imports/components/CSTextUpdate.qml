@@ -71,8 +71,8 @@ CSMonitor {
     /*! This property indicates whether to display the physical units if available */
     property bool unitsVisible: false
 
-    implicitWidth: fontSizeMode == Text.FixedSize ? mainLayout.implicitWidth : label_control.implicitWidth + units.implicitWidth
-    implicitHeight: fontSizeMode == Text.FixedSize ? label_control.implicitHeight : 18
+    implicitWidth: label_control.implicitWidth
+    implicitHeight: label_control.implicitHeight
 
     limits.precChannel: csdata.precision
 
@@ -83,35 +83,20 @@ CSMonitor {
         precision: limits.prec
     }
 
-    RowLayout {
-        id: mainLayout
+    Text {
+        id: label_control
         anchors.fill: parent
-        Text {
-            id: label_control
-            fontSizeMode: Text.Fit
-            minimumPixelSize: 6
-            font.family: UtilsJS.getBestFontSize(root.height).family
-            Binding on font.pixelSize {
-                when: fontSizeMode != Text.FixedSize
-                value: mainLayout.height
-            }
-            verticalAlignment: Text.AlignVCenter
-            text: Utils.inPuppet ? source : formatter.text
-            color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
-            clip: true
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        fontSizeMode: Text.Fit
+        minimumPixelSize: 6
+        font.family: UtilsJS.getBestFontSize(root.height).family
+        Binding on font.pixelSize {
+            when: fontSizeMode != Text.FixedSize
+            value: root.height
         }
-        Text {
-            id: units
-            font: label_control.font
-            color: label_control.color
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignRight
-            visible: unitsVisible && text != ''
-            text: csdata.units
-            Layout.fillHeight: true
-        }
+        verticalAlignment: Text.AlignVCenter
+        text: Utils.inPuppet ? source : (formatter.text + (unitsVisible ? ' ' + csdata.units : ''))
+        color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        clip: true
     }
 }
 
