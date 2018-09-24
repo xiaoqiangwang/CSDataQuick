@@ -1665,6 +1665,10 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
         else if (v->attributeName() == "stackingMode") {
             stacking = v->elementEnum();
         }
+        else if (v->attributeName() == "transparent") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    opacity: 0" << endl;
+        }
         else if (v->attributeName() == "labels") {
             QStringList labels = v->elementString()->text().split(';');
             for (int i=0; i<labels.size(); i++) {
@@ -1757,6 +1761,10 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
         else if (v->attributeName() == "background") {
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
+        else if (v->attributeName() == "transparent") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    opacity: 0" << endl;
+        }
         else if (v->attributeName() == "label") {
             ostream << indent << "    label: '-" << v->elementString()->text() << "'" << endl;
         }
@@ -1801,6 +1809,10 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         }
         else if (v->attributeName() == "background") {
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "transparent") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    opacity: 0" << endl;
         }
         else if (v->attributeName() == "label") {
             ostream << indent << "    label: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
