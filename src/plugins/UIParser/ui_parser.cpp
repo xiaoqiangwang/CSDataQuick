@@ -277,9 +277,9 @@ bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
         }
     }
     else if (v->attributeName() == "minValue")
-        ostream << indent << "    limits.loprDefault: " << v->elementNumber() << endl;
+        ostream << indent << "    limits.loprDefault: " << v->elementDouble() << endl;
     else if (v->attributeName() == "maxValue")
-        ostream << indent << "    limits.hoprDefault: " << v->elementNumber() << endl;
+        ostream << indent << "    limits.hoprDefault: " << v->elementDouble() << endl;
     else
         return false;
 
@@ -1167,6 +1167,7 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
     ostream << indent << "CSBar {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1187,7 +1188,7 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+            direction = directionToQML(v->elementEnum());
         }
         else if  (v->attributeName() == "look") {
             ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
@@ -1199,6 +1200,9 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
         else if (limitsToQML(ostream, v, level))
             ;
     }
+    
+    if (direction != "Direction.Right")
+    ostream << indent << "    direction: " <<  direction << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -1210,6 +1214,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     ostream << indent << "CSIndicator {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1230,7 +1235,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+            direction = directionToQML(v->elementEnum());
         }
         else if  (v->attributeName() == "look") {
             ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
@@ -1238,6 +1243,9 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
         else if (limitsToQML(ostream, v, level))
             ;
     }
+
+    if (direction != "Direction.Right")
+    ostream << indent << "    direction: " <<  direction << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -1816,6 +1824,7 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     ostream << indent << "CSSlider {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1836,11 +1845,14 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+            direction = directionToQML(v->elementEnum());
         }
         else if (limitsToQML(ostream, v, level))
             ;
     }
+
+    if (direction != "Direction.Right")
+    ostream << indent << "    direction: " <<  direction << endl;
 
     ostream << indent << "}" << endl;
 }
