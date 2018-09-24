@@ -918,9 +918,9 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
             else if (v->kind() == DomProperty::Enum)
                 align = v->elementEnum();
 
-            if (align.contains("Left"))
+            if (align.contains("Left") || align.contains("AlignLeading"))
                 alignment = "Text.AlignLeft";
-            else if (align.contains("Right"))
+            else if (align.contains("Right") || align.contains("AlignTrailing"))
                 alignment = "Text.AlignRight";
             else if (align.contains("Center"))
                 alignment = "Text.AlignHCenter";
@@ -1504,7 +1504,7 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight"))
+            if (align.contains("Qt::AlignRight") || align.contains("Qt::AlignTrailing"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
             else if (align.contains("Qt::AlignHCenter") || align.contains("Qt::AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
@@ -1961,7 +1961,7 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight"))
+            if (align.contains("Qt::AlignRight") || align.contains("Qt::AlignTrailing"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
             else if (align.contains("Qt::AlignHCenter") || align.contains("Qt::AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
@@ -2043,7 +2043,7 @@ void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight"))
+            if (align.contains("Qt::AlignRight") || align.contains("Qt::AlignTrailing"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
             else if (align.contains("Qt::AlignHCenter") || align.contains("Qt::AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
