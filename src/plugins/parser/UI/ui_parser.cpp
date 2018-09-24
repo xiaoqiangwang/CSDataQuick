@@ -277,9 +277,9 @@ bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
         }
     }
     else if (v->attributeName() == "minValue")
-        ostream << indent << "    limits.loprDefault: " << v->elementNumber() << endl;
+        ostream << indent << "    limits.loprDefault: " << v->elementDouble() << endl;
     else if (v->attributeName() == "maxValue")
-        ostream << indent << "    limits.hoprDefault: " << v->elementNumber() << endl;
+        ostream << indent << "    limits.hoprDefault: " << v->elementDouble() << endl;
     else
         return false;
 
@@ -869,10 +869,28 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     layoutItemToQML(ostream, i, level);
 
     bool up = false;
+    QString alignment = "Text.AlignRight";
+    if (w->attributeClass() == "caLabelVertical")
+        alignment = "Text.AlignHCenter";
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
-            rectToQML(ostream, v->elementRect(), level);
+            DomRect *rect = v->elementRect();
+            int x = rect->elementX();
+            int y = rect->elementY();
+            int width = rect->elementWidth();
+            int height = rect->elementHeight();
+            if (w->attributeClass() == "caLabelVertical") {
+                ostream << indent << "    x: " << x + (width - height) / 2 << endl;
+                ostream << indent << "    y: " << y + (height - width) / 2 << endl;
+                ostream << indent << "    width: " << height << endl;
+                ostream << indent << "    height: " << width << endl;
+            } else {
+                ostream << indent << "    x: " << x << endl;
+                ostream << indent << "    y: " << y << endl;
+                ostream << indent << "    width: " << width << endl;
+                ostream << indent << "    height: " << height << endl;
+            }
         }
         else if (sizePolicyToQML(ostream, v, level))
             ;
@@ -902,13 +920,20 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
             ostream << indent << "    text: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
         else if (v->attributeName() == "alignment") {
-            QString align = v->elementSet();
-            if (align.contains("AlignRight"))
-                ostream << indent << "    align: Text.AlignRight" << endl;
-            else if (align.contains("AlignHCenter") || align.contains("AlignCenter"))
-                ostream << indent << "    align: Text.AlignHCenter" << endl;
+            QString align;
+            if (v->kind() == DomProperty::Set)
+                align = v->elementSet();
+            else if (v->kind() == DomProperty::Enum)
+                align = v->elementEnum();
+
+            if (align.contains("Left") || align.contains("AlignLeading"))
+                alignment = "Text.AlignLeft";
+            else if (align.contains("Right") || align.contains("AlignTrailing"))
+                alignment = "Text.AlignRight";
+            else if (align.contains("Center"))
+                alignment = "Text.AlignHCenter";
             else if (align.contains("AlignJustify"))
-                ostream << indent << "    align: Text.AlignJustify" << endl;
+                alignment = "Text.AlignJustify";
         }
         else if (v->attributeName() == "direction") {
             if (v->elementEnum() == "caLabelVertical::Up")
@@ -917,6 +942,9 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
+
+    if (alignment != "Text.AlignLeft")
+        ostream << indent << "    align: " << alignment << endl;
 
     if (w->attributeClass() == "caLabelVertical") {
         ostream << indent << "    // caLabelVertical" << endl;
@@ -1175,6 +1203,7 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
     ostream << indent << "CSBar {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1195,7 +1224,7 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+            direction = directionToQML(v->elementEnum());
         }
         else if  (v->attributeName() == "look") {
             ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
@@ -1207,6 +1236,9 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
         else if (limitsToQML(ostream, v, level))
             ;
     }
+    
+    if (direction != "Direction.Right")
+    ostream << indent << "    direction: " <<  direction << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -1218,6 +1250,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     ostream << indent << "CSIndicator {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1238,7 +1271,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+            direction = directionToQML(v->elementEnum());
         }
         else if  (v->attributeName() == "look") {
             ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
@@ -1246,6 +1279,9 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
         else if (limitsToQML(ostream, v, level))
             ;
     }
+
+    if (direction != "Direction.Right")
+    ostream << indent << "    direction: " <<  direction << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -1476,9 +1512,9 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight") || align == "caLabelVertical::AlignRight")
+            if (align.contains("Qt::AlignRight") || align.contains("Qt::AlignTrailing"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
-            else if (align.contains("Qt::AlignHCenter") || align == "caLabelVertical::AlignCenter")
+            else if (align.contains("Qt::AlignHCenter") || align.contains("Qt::AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
             else if (align.contains("Qt::AlignJustify"))
                 ostream << indent << "    align: Text.AlignJustify" << endl;
@@ -1637,6 +1673,10 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
         else if (v->attributeName() == "stackingMode") {
             stacking = v->elementEnum();
         }
+        else if (v->attributeName() == "transparent") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    opacity: 0" << endl;
+        }
         else if (v->attributeName() == "labels") {
             QStringList labels = v->elementString()->text().split(';');
             for (int i=0; i<labels.size(); i++) {
@@ -1729,6 +1769,10 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
         else if (v->attributeName() == "background") {
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
+        else if (v->attributeName() == "transparent") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    opacity: 0" << endl;
+        }
         else if (v->attributeName() == "label") {
             ostream << indent << "    label: '-" << v->elementString()->text() << "'" << endl;
         }
@@ -1773,6 +1817,10 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
         }
         else if (v->attributeName() == "background") {
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
+        }
+        else if (v->attributeName() == "transparent") {
+            if (v->elementBool() == "true")
+                ostream << indent << "    opacity: 0" << endl;
         }
         else if (v->attributeName() == "label") {
             ostream << indent << "    label: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
@@ -1824,6 +1872,7 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     ostream << indent << "CSSlider {" << endl;
     layoutItemToQML(ostream, i, level);
 
+    QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1844,11 +1893,14 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
         else if  (v->attributeName() == "direction") {
-            ostream << indent << "    direction: " << directionToQML(v->elementEnum()) << endl;
+            direction = directionToQML(v->elementEnum());
         }
         else if (limitsToQML(ostream, v, level))
             ;
     }
+
+    if (direction != "Direction.Right")
+    ostream << indent << "    direction: " <<  direction << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -1917,9 +1969,9 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight") || align == "caLabelVertical::AlignRight")
+            if (align.contains("Qt::AlignRight") || align.contains("Qt::AlignTrailing"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
-            else if (align.contains("Qt::AlignHCenter") || align == "caLabelVertical::AlignCenter")
+            else if (align.contains("Qt::AlignHCenter") || align.contains("Qt::AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
             else if (align.contains("Qt::AlignJustify"))
                 ostream << indent << "    align: Text.AlignJustify" << endl;
@@ -1999,9 +2051,9 @@ void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         }
         else if (v->attributeName() == "alignment") {
             QString align = v->elementSet();
-            if (align.contains("Qt::AlignRight") || align == "caLabelVertical::AlignRight")
+            if (align.contains("Qt::AlignRight") || align.contains("Qt::AlignTrailing"))
                 ostream << indent << "    align: Text.AlignRight" << endl;
-            else if (align.contains("Qt::AlignHCenter") || align == "caLabelVertical::AlignCenter")
+            else if (align.contains("Qt::AlignHCenter") || align.contains("Qt::AlignCenter"))
                 ostream << indent << "    align: Text.AlignHCenter" << endl;
             else if (align.contains("Qt::AlignJustify"))
                 ostream << indent << "    align: Text.AlignJustify" << endl;
