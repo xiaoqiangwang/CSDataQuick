@@ -2323,6 +2323,7 @@ void UI::toPartialQML(QTextStream& ostream)
     ostream << "import CSDataQuick.Components 1.0\n";
     ostream << "import CSDataQuick.Components.Private 1.0\n";
     ostream << "Item {\n";
+    ostream << "    clip: true\n";
     foreach (DomProperty *v , uniqueProperties(mainWidget->elementProperty())) {
         if (v->attributeName() == "geometry") {
             ostream << "    width: " << QString::number(v->elementRect()->elementWidth()) << endl;
