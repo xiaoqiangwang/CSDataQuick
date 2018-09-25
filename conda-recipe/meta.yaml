@@ -8,12 +8,12 @@ source:
 
 requirements:
   build:
-    - qt # [not win]
+    - qt
     - cmake
     - epics-base
 
   run:
-    - qt # [not win]
+    - qt
     - epics-base
 
 about:
