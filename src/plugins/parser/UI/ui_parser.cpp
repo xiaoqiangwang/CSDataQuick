@@ -1474,8 +1474,10 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextUpdate {" << endl;
-    if (w->attributeClass() ==  "caMultiLineString")
+    if (w->attributeClass() ==  "caMultiLineString") {
         ostream << indent << "    format: TextFormat.String" << endl;
+        ostream << indent << "    fontSizeMode: Text.FixedSize" << endl;
+    }
 
     layoutItemToQML(ostream, i, level);
 
