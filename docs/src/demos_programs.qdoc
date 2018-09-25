@@ -32,8 +32,9 @@
 
 \chapter Viewer
 
-Viewer parses an MEDM ASCII Display List(ADL) file, or EDM (EDL) file and creates an equivalent display
-using CSDataQuick. Of course it accepts QML file as well. It can be a drop-in replacement to MEDM in execute mode.
+Viewer parses an MEDM ASCII Display List(ADL) file, EDM (EDL) file or caQtDM (UI) file and creates an equivalent display
+using CSDataQuick. Of course it accepts QML file as well. It can be a drop-in replacement to MEDM, EDM and caQtDM in execute mode.
+
 This document contains texts from
 \l {http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/MEDM.html}{MEDM Reference Manual}
 when applicable.
@@ -170,7 +171,13 @@ The system command can include the following special characters:
 \li Variable
 \li Usage
 \row
-\li EPICS_DISPLAY_PATH
+\li 
+    \list
+    \li EPICS_DISPLAY_PATH
+    \li EDMDATAFILES
+    \li CAQTDM_DISPLAY_PATH
+    \li QML_DISPLAY_PATH
+    \endlist
 \li A colon-separated (semi-colon-separated on WIN32) list of directories in which to look for display files
     that do not have absolute path names or names that begin with "./" or "../".
     Only looks in the current working directory if not specified.
@@ -207,6 +214,13 @@ The system command can include the following special characters:
 \li Dynamic colors are not supported.
 \endlist
 
+\section1 Differences to caQtDM
+
+\list
+\li Widgets not supported: caCalc, caClock, caDoubleTabWidget, caTable, caMimeDisplay, caWaterfallPlot
+\li Widgets with equivalents but difficult to substitute automatically: caCamera -> CSADImage, caScan2D -> CS2DSscan
+\li Connection (signal/slot) definition not supported. But this can easily achieved in QML.
+\endlist
 
 \chapter builder
 
