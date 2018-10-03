@@ -77,8 +77,10 @@ void MJPEG::readStream()
         QByteArray msg =_reply->readLine();
         switch (_state) {
         case Neutral:
-            if (msg.startsWith(_boundary)) {
+            if (msg.endsWith(_boundary + QByteArrayLiteral("\r\n"))) {
                 _state = Header;
+            }
+            else if (msg == "\r\n") {
             }
             else {
                 _reply->abort();
@@ -92,7 +94,7 @@ void MJPEG::readStream()
             }
             break;
         case Data:
-            if (msg.startsWith(_boundary)) {
+            if (msg.endsWith(_boundary + QByteArrayLiteral("\r\n"))) {
                 _state = Header;
                 emit imageChanged(QImage::fromData(_data));
             }
