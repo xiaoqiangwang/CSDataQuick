@@ -29,17 +29,16 @@ Dialog {
             delegate: Text {
                 width: parent.width
                 wrapMode: Text.WordWrap
-                text: model.modelData.macro ? model.modelData.macro : '<<No Macro Substitute>>'
+                text: macro ? macro : '<<No Macro Substitute>>'
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        var window = model.modelData.window
                         window.raise()
                         window.requestActivate()
                     }
                 }
             }
-            section.property: "modelData.filePath"
+            section.property: "filePath"
             section.criteria: ViewSection.FullString
             section.delegate: sectionHeading
 

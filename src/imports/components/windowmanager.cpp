@@ -16,6 +16,89 @@
 
 #include <QtDebug>
 
+bool windowFilePathCompare(const QWindow *w1, const QWindow *w2)
+{
+    return w1->property("filePath").toString() <= w2->property("filePath").toString();
+}
+
+WindowListModel::WindowListModel(QObject *parent)
+    : QAbstractListModel(parent)
+{
+}
+
+QHash<int, QByteArray> WindowListModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles.insert(WindowRole, "window");
+    roles.insert(PathRole, "filePath");
+    roles.insert(MacroRole, "macro");
+    return roles;
+}
+
+int WindowListModel::rowCount(const QModelIndex &parent) const
+{
+    return windows.count();
+}
+
+QVariant WindowListModel::data(const QModelIndex &index, int role) const
+{
+    if (index.row() >= windows.count())
+        return QVariant();
+
+    QWindow *window = windows.at(index.row());
+
+    switch (role) {
+    case WindowRole:
+    {
+        QVariant v;
+        v.setValue(window);
+        return v;
+    }
+    case PathRole:
+        return window->property("filePath").toUrl();
+    case MacroRole:
+        return window->property("macro").toString();
+    default:
+        return QVariant();
+    }
+}
+
+void WindowListModel::add(QWindow *window)
+{
+    if (windows.contains(window))
+        return;
+    auto it = qUpperBound(windows.begin(), windows.end(), window, windowFilePathCompare);
+    beginInsertRows(QModelIndex(), it-windows.begin(), it-windows.begin());
+    windows.insert(it, window);
+    endInsertRows();
+}
+
+void WindowListModel::remove(QWindow *window)
+{
+    int i = windows.indexOf(window);
+    beginRemoveRows(QModelIndex(), i, i);
+    windows.removeAt(i);
+    endRemoveRows();
+}
+
+QWindow* WindowListModel::find(QUrl absFilePath, QString macro) const
+{
+    QWindow *window = Q_NULLPTR;
+    foreach (QWindow *w, windows) {
+        if (w->property("filePath") == absFilePath &&
+                w->property("macro") == macro) {
+            window = w;
+            break;
+        }
+    }
+    return window;
+}
+
+bool WindowListModel::contains(QWindow *window) const
+{
+    return windows.contains(window);
+}
+
 /*!
     \qmltype WindowManager
     \inqmlmodule CSDataQuick.Components
@@ -31,15 +114,10 @@
         }
     \endqml
 */
-bool windowFilePathCompare(const QWindow *w1, const QWindow *w2)
-{
-    return w1->filePath() < w2->filePath();
-}
-
 WindowManager::WindowManager(QObject *parent)
     : QObject(parent), mMainWindow(Q_NULLPTR)
 {
-
+    model = new WindowListModel();
 }
 /*!
     \qmlmethod WindowManager::appendWindow(window)
@@ -48,20 +126,15 @@ WindowManager::WindowManager(QObject *parent)
  */
 void WindowManager::appendWindow(QWindow *window)
 {
-    if (!window)
+    if (!window || model->contains(window))
         return;
 
-    if (mWindows.contains(window))
-        return;
-
-    mWindows.append(window);
+    model->add(window);
     connect(window, SIGNAL(destroyed()), this, SLOT(windowDestroyed()));
 
     QQuickWindow * qwindow = qobject_cast<QQuickWindow*>(window);
     if (qwindow)
         connect(qwindow, SIGNAL(closing(QQuickCloseEvent*)), this, SLOT(onClosingWindow(QQuickCloseEvent*)));
-
-    emit entriesChanged();
 }
 
 /*!
@@ -88,8 +161,7 @@ void WindowManager::windowDestroyed()
 
 void WindowManager::removeWindow(QWindow *window)
 {
-    mWindows.removeOne(window);
-    emit entriesChanged();
+    model->remove(window);
 }
 
 /*!
@@ -100,15 +172,7 @@ void WindowManager::removeWindow(QWindow *window)
  */
 QWindow* WindowManager::findWindow(QUrl absFilePath, QString macro)
 {
-    QWindow *window = Q_NULLPTR;
-    foreach (QWindow *w, mWindows) {
-        if (w->property("filePath") == absFilePath &&
-                w->property("macro") == macro) {
-            window = w;
-            break;
-        }
-    }
-    return window;
+    return model->find(absFilePath, macro);
 }
 
 /*!
@@ -142,9 +206,13 @@ void WindowManager::printWindow(QWindow *window)
  */
 void WindowManager::closeAllWindow()
 {
-    foreach (QWindow *w, mWindows) {
-        w->close();
-        w->deleteLater();
+    for(int i=0; i<model->rowCount(QModelIndex()); i++) {
+        QVariant v = model->data(model->index(i), WindowRole);
+        QWindow *w = v.value<QWindow*>();
+        if (w) {
+            w->close();
+            w->deleteLater();
+        }
     }
 }
 
@@ -160,26 +228,16 @@ void WindowManager::onClosingWindow(QQuickCloseEvent *event)
 }
 
 /*!
-    \qmlproperty list<Object> WindowManager::entries
+    \qmlproperty ListModel WindowManager::entries
 
-    The list of all opened windows. Each entry object has the follow properties,
+    The list of all opened windows. Each list element has the follow properties,
     \list
     \li filePath - absolute file path this window represents
     \li macro - macro expansion used to create this window
     \li window - the window instance
     \endlist
  */
-QList<QObject*> WindowManager::entries()
+QAbstractListModel* WindowManager::entries()
 {
-    // sort windows by filePath, so that the filePath can be used as section header in ListView
-    QList<QWindow*> sortedWindows(mWindows);
-    qSort(sortedWindows.begin(), sortedWindows.end(), windowFilePathCompare);
-
-    QList<QObject*> entries;
-    foreach(QWindow *w, sortedWindows) {
-        QUrl absFilePath = w->property("filePath").toUrl();
-        QString macro = w->property("macro").toString();
-        entries.append(qobject_cast<QObject*>(new WindowEntry(w, absFilePath, macro)));
-    }
-    return entries;
+    return model;
 }

@@ -4,32 +4,37 @@
 #include <QObject>
 #include <QList>
 #include <QUrl>
+#include <QAbstractListModel>
 
 class QWindow;
 class QQuickCloseEvent;
 
-class WindowEntry : public QObject
-{
-    Q_OBJECT
-    Q_PROPERTY(QWindow* window MEMBER window CONSTANT)
-    Q_PROPERTY(QUrl filePath MEMBER filePath CONSTANT)
-    Q_PROPERTY(QString macro MEMBER macro CONSTANT)
-public:
-    WindowEntry(QWindow *window, QUrl filePath, QString macro) {
-        this->window = window;
-        this->filePath = filePath;
-        this->macro = macro;
-    }
+#define WindowRole Qt::UserRole + 1
+#define PathRole Qt::UserRole + 2
+#define MacroRole Qt::UserRole + 3
 
-    QWindow * window;
-    QUrl filePath;
-    QString macro;
+class WindowListModel : public QAbstractListModel
+{
+public:
+    WindowListModel(QObject *parent=Q_NULLPTR);
+
+    QHash<int, QByteArray> roleNames() const;
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+
+    void add(QWindow *window);
+    void remove(QWindow *window);
+    QWindow* find(QUrl absFilePath, QString macro) const;
+    bool contains(QWindow *window) const;
+
+private:
+    QList<QWindow*> windows;
 };
 
 class WindowManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QObject*> entries READ entries NOTIFY entriesChanged)
+    Q_PROPERTY(QAbstractListModel* entries READ entries CONSTANT)
     Q_PROPERTY(QWindow * mainWindow MEMBER mMainWindow)
 public:
     explicit WindowManager(QObject *parent = 0);
@@ -45,17 +50,14 @@ public:
 
     void removeWindow(QWindow *window);
 
-    QList<QObject*> entries();
-
-signals:
-    void entriesChanged();
+    QAbstractListModel *entries();
 
 public slots:
     void windowDestroyed();
     void onClosingWindow(QQuickCloseEvent *event);
 
 protected:
-    QList<QWindow*> mWindows;
+    WindowListModel *model;
     QWindow *mMainWindow;
 };
 
