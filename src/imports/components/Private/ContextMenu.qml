@@ -10,11 +10,6 @@ MouseArea {
     acceptedButtons: Qt.RightButton
     onReleased: contextMenu.popup()
 
-    onWindowChanged: {
-        if (window)
-            WindowManager.appendWindow(window)
-    }
-
     Menu {
         id: contextMenu
         MenuItem {
