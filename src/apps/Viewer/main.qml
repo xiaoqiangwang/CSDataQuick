@@ -211,7 +211,7 @@ ApplicationWindow
     {
         // search the file
         var absFilePath = Utils.searchDisplayFile(fileName, root)
-        if (absFilePath == '') {
+        if (absFilePath.toString() === '') {
             console.error("Failed to find file ", fileName)
             return
         }
