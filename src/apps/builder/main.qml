@@ -149,21 +149,21 @@ ApplicationWindow {
     }
 
     function componentForItemType (itemType) {
-        if (itemType == 'Byte')
+        if (itemType === 'Byte')
             return bite
-        else if (itemType == 'Bar')
+        else if (itemType === 'Bar')
             return bar
-        else if (itemType == 'Choice Button')
+        else if (itemType === 'Choice Button')
             return choiceButton
-        else if (itemType == 'Menu')
+        else if (itemType === 'Menu')
             return menu
-        else if (itemType == 'Separator')
+        else if (itemType === 'Separator')
             return separator
-        else if (itemType == "Text Entry")
+        else if (itemType === "Text Entry")
             return textEntry
-        else if (itemType == "Text Update")
+        else if (itemType === "Text Update")
             return textUpdate
-        else if (itemType == 'Wheel Switch')
+        else if (itemType === 'Wheel Switch')
             return wheelSwitch
     }
 }
