@@ -2,6 +2,23 @@
     \page releases.html
     \title Release Notes
 
+    \section1 1.1.1 (XX-XX-2018)
+
+    \section2 core libs
+    \list
+    \li Rewrite WindowManager.entries using QAbstractListModel.
+    \endlist
+
+    \section2 quick components
+    \list
+    \li Fix Stacking.RowColumn of CSChoiceButton. Now it tries to fit buttons in a square GridLayout.
+    \li Fix parsing of certain malformated MJPEG streams.
+    \endlist
+
+    \section2 apps
+    \list
+    \endlist
+
     \section1 1.1.0 (01-10-2018)
 
     \section2 core libs
