@@ -69,7 +69,7 @@ CSControl {
         id: loader
         anchors.fill: parent
         enabled: csdata.accessRight & CSData.WriteAccess
-        sourceComponent: (stacking == Stacking.Row || stacking == Stacking.Column) ? layoutStyle : flowStyle
+        sourceComponent: layout
     }
 
     Text {
@@ -105,21 +105,12 @@ CSControl {
     }
 
     Component {
-        id: flowStyle
-        Flow {
-            spacing: 0
-            Repeater {
-                model: csdata.stateStrings.length
-                delegate: button
-            }
-        }
-    }
-
-    Component {
-        id: layoutStyle
+        id: layout
         GridLayout {
-            rows: stacking == Stacking.Row ? 1 : csdata.stateStrings.length
-            columns: stacking == Stacking.Column ? 1 : csdata.stateStrings.length
+            columns: stacking == Stacking.Column ? 1 :
+                     stacking == Stacking.Row ? csdata.stateStrings.length :
+                                                Math.max(2, Math.ceil(Math.sqrt(csdata.stateStrings.length)))
+
             rowSpacing: 0
             columnSpacing: 0
             Repeater {
