@@ -90,7 +90,7 @@ CSMonitor {
         minimumPixelSize: 6
         font.family: UtilsJS.getBestFontSize(root.height).family
         Binding on font.pixelSize {
-            when: fontSizeMode != Text.FixedSize
+            when: fontSizeMode != Text.FixedSize && !Utils.inPuppet
             value: root.height
         }
         verticalAlignment: Text.AlignVCenter
