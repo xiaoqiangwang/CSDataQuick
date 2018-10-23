@@ -11,6 +11,8 @@
 
     \section2 quick components
     \list
+    \li Fix the binding loop error of CSTextUpdate implicitHeight.
+    \li Fix CSText and CSTextUpdate implicitHeight to 16px if fontSizeMode is Text.FixedSize.
     \li Fix Stacking.RowColumn of CSChoiceButton. Now it tries to fit buttons in a square GridLayout.
     \li Fix parsing of certain malformated MJPEG streams.
     \endlist
