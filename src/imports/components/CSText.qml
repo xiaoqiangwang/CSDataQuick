@@ -71,7 +71,7 @@ CSGraphics {
     property alias fontSizeMode: text_control.fontSizeMode
 
     implicitWidth: text_control.implicitWidth
-    implicitHeight: fontSizeMode == Text.FixedSize ? text_control.implicitHeight : 18
+    implicitHeight: fontSizeMode == Text.FixedSize ? text_control.implicitHeight : 16
 
     Rectangle {
         color: background

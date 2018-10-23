@@ -72,7 +72,7 @@ CSMonitor {
     property bool unitsVisible: false
 
     implicitWidth: label_control.implicitWidth
-    implicitHeight: label_control.implicitHeight
+    implicitHeight: fontSizeMode == Text.FixedSize ? label_control.implicitHeight : 16
 
     limits.precChannel: csdata.precision
 
