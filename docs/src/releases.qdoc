@@ -11,6 +11,8 @@
 
     \section2 quick components
     \list
+    \li Alias on/offMessage properties to press/releaseMessage and mark them obsolete. This is necessary
+        to be able to read the property in quick designer.
     \li Fix the binding loop error of CSTextUpdate implicitHeight.
     \li Fix CSText and CSTextUpdate implicitHeight to 16px if fontSizeMode is Text.FixedSize.
     \li Fix Stacking.RowColumn of CSChoiceButton. Now it tries to fit buttons in a square GridLayout.
