@@ -25,7 +25,7 @@ Column {
                 }
             }
             Label {
-                text: qsTr("on")
+                text: qsTr("press")
                 tooltip: qsTr("message when pressed")
             }
             SecondColumnLayout {
@@ -35,7 +35,7 @@ Column {
                 }
             }
             Label {
-                text: qsTr("off")
+                text: qsTr("release")
                 tooltip: qsTr("message when released")
             }
             SecondColumnLayout {
