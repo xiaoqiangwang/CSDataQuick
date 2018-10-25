@@ -1981,11 +1981,11 @@ void MessageButton::parse(std::istream &fstream)
         } else if (!strcmp(token,"press_msg")) {
             getToken(fstream,token);
             getToken(fstream,token);
-            this->onMessage = token;
+            this->pressMessage = token;
         } else if (!strcmp(token,"release_msg")) {
             getToken(fstream,token);
             getToken(fstream,token);
-            this->offMessage = token;
+            this->releaseMessage = token;
         } else if (!strcmp(token,"label")) {
             getToken(fstream,token);
             getToken(fstream,token);
@@ -2024,10 +2024,10 @@ void MessageButton::toQML(std::ostream &ostream)
 
     if (this->clrmod != STATIC)
         ostream << indent << "    colorMode: " << qmlValueTable[this->clrmod] << std::endl;
-    if (!this->onMessage.empty())
-        ostream << indent << "    onMessage: \"" << this->onMessage << '"' << std::endl;
-    if (!this->offMessage.empty())
-        ostream << indent << "    offMessage: \"" << this->offMessage << '"' << std::endl;
+    if (!this->pressMessage.empty())
+        ostream << indent << "    pressMessage: \"" << this->pressMessage << '"' << std::endl;
+    if (!this->releaseMessage.empty())
+        ostream << indent << "    releaseMessage: \"" << this->releaseMessage << '"' << std::endl;
     ostream << indent << "    text: \"" << this->label << '"' << std::endl;
     ostream << indent << "}" << std::endl;
 }

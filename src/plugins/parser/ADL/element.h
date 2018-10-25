@@ -549,8 +549,8 @@ public:
 private:
     Control control;
     ColorMode clrmod;
-    std::string onMessage;
-    std::string offMessage;
+    std::string pressMessage;
+    std::string releaseMessage;
     std::string label;
 };
 

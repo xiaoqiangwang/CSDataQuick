@@ -30,7 +30,7 @@ Column {
             }
             SecondColumnLayout {
                 LineEdit {
-                    backendValue: backendValues.onMessage
+                    backendValue: backendValues.pressMessage
                     implicitWidth: 180
                 }
             }
@@ -40,7 +40,7 @@ Column {
             }
             SecondColumnLayout {
                 LineEdit {
-                    backendValue: backendValues.offMessage
+                    backendValue: backendValues.releaseMessage
                     implicitWidth: 180
                 }
             }

@@ -26,14 +26,26 @@ CSControl {
         This value should be commensurate with the type of the process variable.
         (It is not wise to send a non-numeric string to a DOUBLE type data, for example.)
     */
-    property string onMessage
+    property string pressMessage
+    /*!
+        \obsolete
+
+        Use pressMessage instead.
+    */
+    property alias onMessage: root.pressMessage
     /*!
         This property holds the value to set to the CSData object when button is released
 
         This value should be commensurate with the type of the data.
         (It is not wise to send a non-numeric string to a DOUBLE type process variable, for example.)
     */
-    property string offMessage
+    property string releaseMessage
+    /*!
+        \obsolete
+
+        Use releaseMessage instead.
+    */
+    property alias offMessage: root.releaseMessage
     /*!
         \qmlproperty font font
         The text font.
@@ -59,10 +71,10 @@ CSControl {
         fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(height - 4, true).family
         onPressedChanged: {
-            if (pressed && onMessage)
-                csdata.setValue(onMessage)
-            else if(!pressed && offMessage)
-                csdata.setValue(offMessage)
+            if (pressed && pressMessage)
+                csdata.setValue(pressMessage)
+            else if(!pressed && releaseMessage)
+                csdata.setValue(releaseMessage)
         }
     }
 }

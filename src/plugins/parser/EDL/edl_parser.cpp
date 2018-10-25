@@ -1336,10 +1336,10 @@ void Object::messageButtonToQML(std::ostream& ostream)
 
     std::string pressValue = getText("pressValue");
     if (!pressValue.empty())
-    ostream << indent << "    onMessage: '" << pressValue << "'" << std::endl;
+    ostream << indent << "    pressMessage: '" << pressValue << "'" << std::endl;
     std::string releaseValue = getText("releaseValue");
     if (!releaseValue.empty())
-    ostream << indent << "    offMessage: '" << releaseValue << "'" << std::endl;
+    ostream << indent << "    releaseMessage: '" << releaseValue << "'" << std::endl;
 
     ostream << indent << "}" << std::endl;
 }

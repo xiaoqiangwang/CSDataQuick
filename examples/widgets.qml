@@ -120,10 +120,10 @@ ApplicationWindow {
 
             CSMessageButton {
                 text: 'Click Me!'
-                onMessage: "1"
+                pressMessage: "1"
                 source: 'calc'
                 foreground: 'yellow'
-                offMessage: "2"
+                releaseMessage: "2"
             }
 
             CSTextEntry {

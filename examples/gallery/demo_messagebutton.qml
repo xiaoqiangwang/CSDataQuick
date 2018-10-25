@@ -19,7 +19,7 @@ Rectangle {
             foreground: fgColorPalette.color
             background: bgColorPalette.color
             colorMode: colorModeGroup.colorMode
-            onMessage: "0"
+            pressMessage: "0"
         }
         Row {
             spacing: 10

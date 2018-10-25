@@ -1638,10 +1638,10 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             text = v->elementString()->text();
         }
         else if (v->attributeName() == "pressMessage") {
-            ostream << indent << "    onMessage: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    pressMessage: '" << v->elementString()->text() << "'" << endl;
         }
         else if (v->attributeName() == "releaseMessage") {
-            ostream << indent << "    offMessage: '" << v->elementString()->text() << "'" << endl;
+            ostream << indent << "    releaseMessage: '" << v->elementString()->text() << "'" << endl;
         }
      }
 
