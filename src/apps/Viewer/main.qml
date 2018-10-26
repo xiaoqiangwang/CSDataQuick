@@ -190,6 +190,15 @@ ApplicationWindow
         }
     }
 
+    // close when the last window is closed if not in server mode
+    Connections {
+        target: WindowManager.entries
+        onRowsRemoved: {
+            if (WindowManager.entries.rowCount() === 0 && !serverMode)
+                close()
+        }
+    }
+
     onClosing: {
         DataInfoDialog.close()
         DisplayListDialog.close()

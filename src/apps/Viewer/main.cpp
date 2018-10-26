@@ -206,6 +206,7 @@ int main(int argc, char **argv)
 
     QQmlEngine *engine = new QQmlEngine();
     engine->rootContext()->setContextProperty("app", qMainApp);
+    engine->rootContext()->setContextProperty("serverMode", QVariant(false));
 #ifdef Q_OS_MAC
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../../../../qml/");
 #else
@@ -236,9 +237,11 @@ int main(int argc, char **argv)
 
     if (parser.isSet(attachOption) || parser.isSet(cleanupOption)) {
         IPCServer *server = new IPCServer();
-        if (server->launchServer(true))
+        if (server->launchServer(true)) {
+            engine->rootContext()->setContextProperty("serverMode", QVariant(true));
             QObject::connect(server, SIGNAL(dispatchRequestReceived(QVariant,QVariant,QVariant)),
                          window, SLOT(dispatchRequestReceived(QVariant,QVariant,QVariant)));
+        }
         else
             qWarning() << "Failed to start IPC server";
     }
