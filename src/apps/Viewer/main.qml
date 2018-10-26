@@ -65,7 +65,7 @@ ApplicationWindow
     MessageDialog {
         id: aboutDialog
         title: "About " + app.applicationName
-        text: '<h3>%1 %2</h3>An ADL file viewer based on QtQuick'.arg(app.applicationName).arg(app.applicationVersion)
+        text: '<h3>%1 %2</h3>A display file viewer based on QtQuick'.arg(app.applicationName).arg(app.applicationVersion)
     }
 
     FileDialog {
