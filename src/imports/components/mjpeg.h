@@ -15,7 +15,7 @@ class MJPEG : public QObject
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
 
 public:
-    explicit MJPEG(QObject *parent = 0);
+    explicit MJPEG(QObject *parent = Q_NULLPTR);
     ~MJPEG();
 
     enum MJPEGState {

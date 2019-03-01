@@ -10,7 +10,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
-MJPEG::MJPEG(QObject *parent) : QObject(parent), _reply(0)
+MJPEG::MJPEG(QObject *parent) : QObject(parent), _reply(Q_NULLPTR)
 {
     _network = new QNetworkAccessManager(this);
 }
@@ -101,7 +101,6 @@ void MJPEG::readStream()
             else {
                 _data.append(msg.constData(), msg.length());
             }
-        default:
             break;
         }
     }
