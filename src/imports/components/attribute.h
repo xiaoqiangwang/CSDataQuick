@@ -27,7 +27,7 @@ class DynamicAttribute : public QObject
     Q_PROPERTY(bool visibility MEMBER _visibility NOTIFY visibilityChanged)
 
 public:
-    explicit DynamicAttribute(QObject *parent = 0);
+    explicit DynamicAttribute(QObject *parent = Q_NULLPTR);
     ~DynamicAttribute();
 
     void setChannel(QString channel);
@@ -101,7 +101,7 @@ class Limits : public QObject
     Q_PROPERTY(LimitsSource::LimitsSourceEnum precSrc MEMBER _precSrc NOTIFY precSrcChanged)
 
 public:
-    explicit Limits(QObject *parent = 0);
+    explicit Limits(QObject *parent = Q_NULLPTR);
 
 signals:
     void loprChanged();

@@ -44,6 +44,8 @@ QString QMLParser::description()
  */
 QString QMLParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
 {
+    Q_UNUSED(partial)
+
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return "";

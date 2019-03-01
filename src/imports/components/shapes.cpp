@@ -65,7 +65,7 @@ void ShapeItem::paint(QPainter *painter)
 }
 
 ArcItem::ArcItem(QQuickItem *parent)
-    : ShapeItem(parent), _arrowPosition(ArrowPosition::None), _closure(ClosureEnum::Open)
+    : ShapeItem(parent), _closure(ClosureEnum::Open), _arrowPosition(ArrowPosition::None)
 {
     _begin = 0;
     _span = 90;
@@ -269,14 +269,13 @@ QPainterPath DoubleRectItem::buildPath()
     QPainterPath path;
     QRectF rect = getDrawArea();
 
-    static QRectF rectangle((float)(4./25.), (float)(4./25.),
-                  (float)(13./25.), (float)(14./25.));
+    static QRectF rectangle(4./25., 4./25., 13./25., 14./25.);
     static QVector<QPointF> segmentData = QVector<QPointF>()
-        << QPointF((float)(17./25.),(float)(9./25.))
-        << QPointF((float)(22./25.),(float)(9./25.))
-        << QPointF((float)(22./25.),(float)(22./25.))
-        << QPointF((float)(10./25.),(float)(22./25.))
-        << QPointF((float)(10./25.),(float)(18./25.));
+        << QPointF(17./25.,9./25.)
+        << QPointF(22./25.,9./25.)
+        << QPointF(22./25.,22./25.)
+        << QPointF(10./25.,22./25.)
+        << QPointF(10./25.,18./25.);
 
     QRectF rc(rectangle.x() * rect.width(), rectangle.y() * rect.height(),
                  rectangle.width() * rect.width(), rect.height() * rectangle.height());

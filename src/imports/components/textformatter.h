@@ -12,7 +12,7 @@ class TextFormatter : public QObject
     Q_PROPERTY(int precision MEMBER _precision WRITE setPrecision)
     Q_PROPERTY(QString text  MEMBER _text      WRITE setText      NOTIFY textChanged)
 public:
-    explicit TextFormatter(QObject *parent = 0);
+    explicit TextFormatter(QObject *parent = Q_NULLPTR);
 
     void setData(QCSData *);
     void setFormat(int);

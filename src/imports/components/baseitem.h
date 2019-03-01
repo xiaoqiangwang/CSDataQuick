@@ -19,7 +19,7 @@ class BaseItem : public QQuickItem
     Q_PROPERTY(Limits* limits READ limits CONSTANT)
 
 public:
-    explicit BaseItem(QQuickItem *parent = 0);
+    explicit BaseItem(QQuickItem *parent = Q_NULLPTR);
 
     Qt::CursorShape cursorType();
     void setCursorType(Qt::CursorShape cursor);

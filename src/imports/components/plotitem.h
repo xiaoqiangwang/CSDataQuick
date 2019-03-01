@@ -24,7 +24,7 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_PROPERTY(QQmlListProperty<GraphItem> graphs READ graphs)
 
 public:
-    explicit CustomPlotItem(QQuickItem *parent=0);
+    explicit CustomPlotItem(QQuickItem *parent=Q_NULLPTR);
     ~CustomPlotItem();
 
     void componentComplete();
@@ -97,7 +97,7 @@ public:
     };
     Q_ENUM(LineStyle)
 
-    explicit GraphItem(QObject *parent=0);
+    explicit GraphItem(QObject *parent=Q_NULLPTR);
 
     void classBegin() {}
     void componentComplete() {}
@@ -161,7 +161,7 @@ class ColorMapItem : public QObject, public QQmlParserStatus
 
 public:
 
-    explicit ColorMapItem(QObject *parent=0);
+    explicit ColorMapItem(QObject *parent=Q_NULLPTR);
 
     void classBegin() {}
     void componentComplete() {}
@@ -213,7 +213,7 @@ class AxisItem : public QObject, public QQmlParserStatus
     Q_PROPERTY(bool autoScale READ autoScale WRITE setAutoScale NOTIFY autoScaleChanged)
 
 public:
-    explicit AxisItem(QObject *parent=0);
+    explicit AxisItem(QObject *parent=Q_NULLPTR);
     enum AxisType {
         Left   = 0x01,
         Right  = 0x02,

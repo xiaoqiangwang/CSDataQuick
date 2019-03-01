@@ -10,7 +10,7 @@ class QCSDataEngineSim : public QCSDataEngine
     Q_INTERFACES(QCSDataEngine)
 
 public:
-    QCSDataEngineSim(QObject *parent=0);
+    QCSDataEngineSim(QObject *parent=Q_NULLPTR);
     virtual ~QCSDataEngineSim();
 
     virtual QString name();

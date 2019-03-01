@@ -37,6 +37,7 @@ QHash<int, QByteArray> WindowListModel::roleNames() const
 
 int WindowListModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return windows.count();
 }
 
@@ -190,7 +191,7 @@ void WindowManager::printWindow(QWindow *window)
     if (qwindow) {
         QImage snapshot = qwindow->grabWindow();
         QPrinter printer;
-        QPrintDialog printDialog(&printer, 0);
+        QPrintDialog printDialog(&printer);
         if (printDialog.exec() == QDialog::Accepted) {
             QPainter painter(&printer);
             painter.drawImage(0, 0, snapshot);

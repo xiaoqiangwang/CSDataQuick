@@ -19,7 +19,7 @@ public:
     Q_INVOKABLE QStringList supportedExtensions() const;
 
 private:
-    QCSParserManager(QObject *parent=0);
+    QCSParserManager(QObject *parent=Q_NULLPTR);
 
     static QCSParserManager *_manager;
 

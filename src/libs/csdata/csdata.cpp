@@ -132,7 +132,7 @@ QCSDataRange::QCSDataRange(QObject *parent)
  */
 void QCSDataRange::setRange(double lower, double upper)
 {
-    if (_lower != lower || _upper != upper) {
+    if (!qFuzzyCompare(_lower, lower) || !qFuzzyCompare(_upper, upper)) {
         _lower=lower;
         _upper=upper;
         emit rangeChanged();

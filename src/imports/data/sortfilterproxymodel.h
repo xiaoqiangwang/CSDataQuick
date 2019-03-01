@@ -58,7 +58,7 @@ class SortFilterProxyModel : public QSortFilterProxyModel
     Q_PROPERTY(FilterSyntax filterSyntax READ filterSyntax WRITE setFilterSyntax)
 
 public:
-    explicit SortFilterProxyModel(QObject *parent = 0);
+    explicit SortFilterProxyModel(QObject *parent = Q_NULLPTR);
 
     QObject *source() const;
     void setSource(QObject *source);

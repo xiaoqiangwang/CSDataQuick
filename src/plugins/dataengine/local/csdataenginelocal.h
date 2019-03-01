@@ -12,7 +12,7 @@ class QCSDataEngineLocal : public QCSDataEngine
     Q_INTERFACES(QCSDataEngine)
 
 public:
-    QCSDataEngineLocal(QObject *parent=0);
+    QCSDataEngineLocal(QObject *parent=Q_NULLPTR);
     virtual ~QCSDataEngineLocal();
 
     virtual QString name();

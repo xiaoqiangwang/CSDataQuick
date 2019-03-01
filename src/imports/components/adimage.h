@@ -14,7 +14,7 @@ class ADImage : public QObject
 
     Q_OBJECT
 public:
-    explicit ADImage(QObject *parent = 0);
+    explicit ADImage(QObject *parent = Q_NULLPTR);
 
     QString source() { return _source; }
     void setSource(QString source);

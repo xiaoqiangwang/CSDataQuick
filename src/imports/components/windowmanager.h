@@ -37,7 +37,7 @@ class WindowManager : public QObject
     Q_PROPERTY(QAbstractListModel* entries READ entries CONSTANT)
     Q_PROPERTY(QWindow * mainWindow MEMBER mMainWindow)
 public:
-    explicit WindowManager(QObject *parent = 0);
+    explicit WindowManager(QObject *parent = Q_NULLPTR);
 
     Q_INVOKABLE void appendWindow(QWindow *window);
     Q_INVOKABLE QWindow* findWindow(QUrl absFilePath, QString macro);

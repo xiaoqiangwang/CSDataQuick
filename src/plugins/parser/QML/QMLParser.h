@@ -9,7 +9,7 @@ class QMLParser : public QCSParser
     Q_INTERFACES(QCSParser)
 
 public:
-    QMLParser(QObject *parent=0);
+    QMLParser(QObject *parent=Q_NULLPTR);
     virtual ~QMLParser();
 
     virtual QString extension();

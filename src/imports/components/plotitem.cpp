@@ -5,6 +5,8 @@
 #include "plotitem.h"
 #include "qcustomplot.h"
 
+#include <QtGlobal>
+
 static int calcLabelFontSize(QRect size)
 {
     int fontHeight;
@@ -59,7 +61,7 @@ static int calcTitleFontSize(QRect size)
 
 CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     : QQuickPaintedItem( parent ),
-      mPlot(0),mTitle(0)
+      mPlot(Q_NULLPTR),mTitle(Q_NULLPTR)
 {
     setFlag( QQuickItem::ItemHasContents, true );
     setAcceptedMouseButtons( Qt::AllButtons );
@@ -126,13 +128,13 @@ void CustomPlotItem::setTitle(QString title)
 {
     mTitle->setText(title);
     if (title.isEmpty()) {
-        if (mTitle->layout() != NULL) {
+        if (mTitle->layout() != Q_NULLPTR) {
             mPlot->plotLayout()->take(mTitle);
             mPlot->plotLayout()->simplify();
         }
     }
     else {
-        if (mTitle->layout() == NULL) {
+        if (mTitle->layout() == Q_NULLPTR) {
             mPlot->plotLayout()->insertRow(0);
             mPlot->plotLayout()->addElement(0, 0, mTitle);
         }
@@ -191,25 +193,25 @@ QQmlListProperty<GraphItem> CustomPlotItem::graphs()
 
 int CustomPlotItem::graphsCount(QQmlListProperty<GraphItem> *list)
 {
-    CustomPlotItem *item = dynamic_cast<CustomPlotItem*>((QObject*)list->data);
+    CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     return item->mGraphs.length();
 }
 
 GraphItem * CustomPlotItem::graph(QQmlListProperty<GraphItem> *list, int n)
 {
-    CustomPlotItem *item = dynamic_cast<CustomPlotItem*>((QObject*)list->data);
+    CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     return item->mGraphs.at(n);
 }
 
 void CustomPlotItem::appendGraph(QQmlListProperty<GraphItem> *list, GraphItem *it)
 {
-    CustomPlotItem *item = dynamic_cast<CustomPlotItem*>((QObject*)list->data);
+    CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     item->mGraphs.append(it);
 }
 
 void CustomPlotItem::clearGraphs(QQmlListProperty<GraphItem> *list)
 {
-    CustomPlotItem *item = dynamic_cast<CustomPlotItem*>((QObject*)list->data);
+    CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     item->mGraphs.clear();
 }
 
@@ -225,7 +227,7 @@ void CustomPlotItem::paint(QPainter *painter)
 
 void CustomPlotItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
-    if (mPlot == 0)
+    if (mPlot == Q_NULLPTR)
         return;
     int titleFont = calcTitleFontSize(newGeometry.toRect());
     mTitle->setFont(QFont("Courier", titleFont));
@@ -258,6 +260,7 @@ void CustomPlotItem::mouseReleaseEvent(QMouseEvent *event)
 }
 void CustomPlotItem::mouseDoubleClickEvent(QMouseEvent *event)
 {
+    Q_UNUSED(event)
     foreach(QObject *child, children()) {
         if (qobject_cast<AxisItem*>(child)) {
             AxisItem *axis = qobject_cast<AxisItem*>(child);
@@ -281,14 +284,14 @@ void CustomPlotItem::onCustomReplot()
  */
 
 GraphItem::GraphItem(QObject *parent)
-    : QObject(parent),mName(""),mGraph(0),mXAxis(0),mYAxis(0)
+    : QObject(parent),mGraph(Q_NULLPTR),mName(""),mXAxis(Q_NULLPTR),mYAxis(Q_NULLPTR)
 {
 }
 
 void GraphItem::init()
 {
     CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
-    if (plot == 0)
+    if (plot == Q_NULLPTR)
         return;
     mGraph = plot->plot()->addGraph(mXAxis->axis(), mYAxis->axis());
     connect(mGraph, SIGNAL(selectionChanged(bool)), this, SLOT(selectionChanged(bool)));
@@ -307,8 +310,8 @@ void GraphItem::selectionChanged(bool selected)
             axisRect->setRangeZoomAxes(mGraph->keyAxis(), mGraph->valueAxis());
         }
         else {
-            axisRect->setRangeDragAxes(0, 0);
-            axisRect->setRangeZoomAxes(0, 0);
+            axisRect->setRangeDragAxes(Q_NULLPTR, Q_NULLPTR);
+            axisRect->setRangeZoomAxes(Q_NULLPTR, Q_NULLPTR);
         }
     }
 }
@@ -490,14 +493,15 @@ void GraphItem::clearData()
  */
 
 ColorMapItem::ColorMapItem(QObject *parent)
-    : QObject(parent), mColorMap(0),mColorScale(0),mXAxis(0),mYAxis(0),_interpolate(false)
+    : QObject(parent), mColorMap(Q_NULLPTR),mColorScale(Q_NULLPTR),
+      mXAxis(Q_NULLPTR),mYAxis(Q_NULLPTR),_interpolate(false)
 {
 }
 
 void ColorMapItem::init()
 {
     CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
-    if (plot == 0)
+    if (plot == Q_NULLPTR)
         return;
     mColorMap = new QCPColorMap(mXAxis->axis(), mYAxis->axis());
     mColorMap->setInterpolate(_interpolate);
@@ -522,7 +526,7 @@ bool ColorMapItem::interpolate()
 void ColorMapItem::setInterpolate(bool enabled)
 {
     _interpolate = enabled;
-    if (mColorMap != 0)
+    if (mColorMap != Q_NULLPTR)
         mColorMap->setInterpolate(enabled);
 }
 
@@ -572,7 +576,7 @@ void ColorMapItem::clearData()
  */
 
 AxisItem::AxisItem(QObject *parent)
-    : QObject(parent), mAxis(0)
+    : QObject(parent), mAxis(Q_NULLPTR)
 {
     _type = Left;
     _scale = Linear;
@@ -589,7 +593,7 @@ AxisItem::AxisItem(QObject *parent)
 void AxisItem::componentComplete()
 {
     CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
-    if (plot == 0)
+    if (plot == Q_NULLPTR)
         return;
     mAxis = plot->plot()->axisRect()->addAxis(QCPAxis::AxisType(_type));
 
@@ -652,7 +656,7 @@ double AxisItem::rangeLower()
 }
 void AxisItem::setRangeLower(double lower)
 {
-    if (_lower == lower)
+    if (qFuzzyCompare(_lower, lower))
         return;
     _lower = lower;
 
@@ -669,7 +673,7 @@ double AxisItem::rangeUpper()
 }
 void AxisItem::setRangeUpper(double upper)
 {
-    if (_upper == upper)
+    if (qFuzzyCompare(_upper, upper))
         return;
     _upper = upper;
 

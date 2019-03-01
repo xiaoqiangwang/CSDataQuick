@@ -9,7 +9,7 @@ class UIParser : public QCSParser
     Q_INTERFACES(QCSParser)
 
 public:
-    UIParser(QObject *parent=0);
+    UIParser(QObject *parent=Q_NULLPTR);
     virtual ~UIParser();
 
     virtual QString extension();

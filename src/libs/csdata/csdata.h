@@ -50,7 +50,7 @@ public:
     };
     Q_ENUM(Severity)
 
-    QCSDataAlarm(QObject *parent=0);
+    QCSDataAlarm(QObject *parent=Q_NULLPTR);
     void setAlarm(Severity severity, int status, const QString message);
     void reset();
 
@@ -70,7 +70,7 @@ class CSDATA_EXPORT QCSDataRange : public QObject
     Q_PROPERTY(double lower MEMBER _lower NOTIFY rangeChanged)
     Q_PROPERTY(double upper MEMBER _upper NOTIFY rangeChanged)
 public:
-    QCSDataRange(QObject *parent=0);
+    QCSDataRange(QObject *parent=Q_NULLPTR);
     Q_INVOKABLE bool isValid() const;
     void setRange(double lower, double upper);
     void reset();
@@ -110,7 +110,7 @@ class CSDATA_EXPORT QCSData : public QObject
     // extra properties
     Q_PROPERTY(QVariantMap  extraProperties READ extraProperties WRITE setExtraProperties)
 public:
-    explicit QCSData(QObject *parent=0);
+    explicit QCSData(QObject *parent=Q_NULLPTR);
     ~QCSData();
 
     enum AccessFlag {

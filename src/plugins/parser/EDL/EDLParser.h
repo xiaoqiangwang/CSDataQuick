@@ -9,7 +9,7 @@ class EDLParser : public QCSParser
     Q_INTERFACES(QCSParser)
 
 public:
-    EDLParser(QObject *parent=0);
+    EDLParser(QObject *parent=Q_NULLPTR);
     virtual ~EDLParser();
 
     virtual QString extension();

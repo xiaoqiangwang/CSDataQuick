@@ -19,7 +19,7 @@ class ShapeItem : public QQuickPaintedItem
     Q_PROPERTY(int lineWidth READ lineWidth WRITE setLineWidth)
 
 public:
-    ShapeItem(QQuickItem *parent=0);
+    ShapeItem(QQuickItem *parent=Q_NULLPTR);
 
     QColor foreground() {return _foreground;}
     void setForeground(QColor foreground) {_foreground = foreground; update();}
@@ -65,7 +65,7 @@ class ArcItem : public ShapeItem
     Q_PROPERTY(ClosureEnum closure MEMBER _closure WRITE setClosure)
 
 public:
-    ArcItem(QQuickItem *parent=0);
+    ArcItem(QQuickItem *parent=Q_NULLPTR);
 
     enum ClosureEnum {
         Open = 0,
@@ -95,7 +95,7 @@ class PolylineItem : public ShapeItem
     Q_PROPERTY(ArrowPosition::ArrowPositionEnum arrowPosition MEMBER _arrowPosition WRITE setArrowPosition)
     Q_PROPERTY(QVariantList points READ points WRITE setPoints NOTIFY pointsChanged)
 public:
-    PolylineItem(QQuickItem *parent=0);
+    PolylineItem(QQuickItem *parent=Q_NULLPTR);
 
     QVariantList points();
     void setPoints(QVariantList points);
@@ -118,7 +118,7 @@ class PolygonItem : public ShapeItem
 
     Q_PROPERTY(QVariantList points READ points WRITE setPoints NOTIFY pointsChanged)
 public:
-    PolygonItem(QQuickItem *parent=0);
+    PolygonItem(QQuickItem *parent=Q_NULLPTR);
 
     QVariantList points();
     void setPoints(QVariantList points);
@@ -140,7 +140,7 @@ class PaintedRectangletem : public ShapeItem
     Q_PROPERTY(double radiusY MEMBER _radiusY WRITE setRadiusY)
 
 public:
-    PaintedRectangletem(QQuickItem *parent=0);
+    PaintedRectangletem(QQuickItem *parent=Q_NULLPTR);
 
     void setRadiusX(double rx);
     void setRadiusY(double ry);
@@ -157,7 +157,7 @@ class OvalItem : public ShapeItem
 {
     Q_OBJECT
 public:
-    OvalItem(QQuickItem *parent=0);
+    OvalItem(QQuickItem *parent=Q_NULLPTR);
 
 protected:
     QPainterPath buildPath();
@@ -167,7 +167,7 @@ class DoubleRectItem : public ShapeItem
 {
     Q_OBJECT
 public:
-    DoubleRectItem(QQuickItem *parent=0);
+    DoubleRectItem(QQuickItem *parent=Q_NULLPTR);
 
 protected:
     QPainterPath buildPath();

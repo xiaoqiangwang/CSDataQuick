@@ -13,7 +13,7 @@ class QCSDataEngineCA : public QCSDataEngine
     Q_INTERFACES(QCSDataEngine)
 
 public:
-    QCSDataEngineCA(QObject *parent=0);
+    QCSDataEngineCA(QObject *parent=Q_NULLPTR);
     virtual ~QCSDataEngineCA();
 
     virtual QString name();

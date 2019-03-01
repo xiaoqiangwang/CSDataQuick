@@ -6,6 +6,7 @@
 #include "csdata.h"
 #include "utils.h"
 
+#include <QtGlobal>
 #include <QtDebug>
 /*!
     \qmltype DynamicAttribute
@@ -84,8 +85,8 @@
 DynamicAttribute::DynamicAttribute(QObject *parent)
     : QObject(parent),_pChannel(Q_NULLPTR),_pChannelB(Q_NULLPTR),
       _pChannelC(Q_NULLPTR),_pChannelD(Q_NULLPTR),
-      _connected(true),_connectionFlag(0),_connectionMask(0),
-      _altCalcResult(0),_visibilityMode(VisibilityMode::Static),_visibility(true)
+      _visibilityMode(VisibilityMode::Static),_visibility(true),_altCalcResult(0),
+      _connected(true),_connectionFlag(0),_connectionMask(0)
 {
     for (int i=0; i<12; i++)
         _args << 0;
@@ -273,7 +274,7 @@ void DynamicAttribute::updateCalc()
         visibility = (_args[0] != 0);
     break;
     case VisibilityMode::Calc:
-        visibility = (QCSUtils::calculate(_visibilityCalc, _args) != 0);
+        visibility = !qFuzzyIsNull(QCSUtils::calculate(_visibilityCalc, _args));
     break;
     }
 
@@ -284,7 +285,7 @@ void DynamicAttribute::updateCalc()
 
     if (!_altCalc.isEmpty()) {
         double altCalcResult = QCSUtils::calculate(_altCalc, _args);
-        if (altCalcResult != _altCalcResult) {
+        if (!qFuzzyCompare(altCalcResult, _altCalcResult)) {
             _altCalcResult = altCalcResult;
             emit altCalcResultChanged();
         }
@@ -343,7 +344,7 @@ void Limits::onLoprSrcChanged()
         lopr = _loprUser;
         break;
     }
-    if (_lopr != lopr) {
+    if (!qFuzzyCompare(_lopr, lopr)) {
         _lopr = lopr;
         emit loprChanged();
     }
@@ -364,7 +365,7 @@ void Limits::onHoprSrcChanged()
         hopr = _hoprUser;
         break;
     }
-    if (_hopr != hopr) {
+    if (!qFuzzyCompare(_hopr, hopr)) {
         _hopr = hopr;
         emit hoprChanged();
     }

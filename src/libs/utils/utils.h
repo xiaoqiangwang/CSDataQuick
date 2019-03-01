@@ -19,7 +19,7 @@ class UTILS_EXPORT QCSUtils : public QObject
     Q_OBJECT
     Q_PROPERTY(bool inPuppet MEMBER _inPuppet CONSTANT)
 public:
-    explicit QCSUtils(QObject *parent = 0);
+    explicit QCSUtils(QObject *parent = Q_NULLPTR);
 
     Q_INVOKABLE static double calculate(QString expr, QVariantList input);
     Q_INVOKABLE static bool execute(QString program);

@@ -21,7 +21,7 @@ public:
     QList<QObject*> engines() const;
 
 private:
-    QCSDataEngineManager(QObject *parent=0);
+    QCSDataEngineManager(QObject *parent=Q_NULLPTR);
 
     static QCSDataEngineManager *_manager;
 
