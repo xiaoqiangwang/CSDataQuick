@@ -47,6 +47,8 @@ BaseItem {
     QtObject {
         id: d
         property var rootItem: null
+        property double oldWidth: NaN
+        property double oldHeight: NaN
     }
 
     // delay createDisplay until attached to a window instance
@@ -70,6 +72,28 @@ BaseItem {
 
     onSourceChanged: {
         createDisplay()
+    }
+
+    onWidthChanged: {
+        if (d.oldWidth !== NaN) {
+            if (d.rootItem) {
+                d.rootItem.width = width
+                Utils.resizeChildItems(d.rootItem, width / d.oldWidth, 1)
+            } else
+                Utils.resizeChildItems(root, width / d.oldWidth, 1)
+        }
+        d.oldWidth = width
+    }
+
+    onHeightChanged: {
+        if (d.oldHeight !== NaN) {
+            if (d.rootItem) {
+                d.rootItem.height = height
+                Utils.resizeChildItems(d.rootItem, 1, height / d.oldHeight)
+            } else
+                Utils.resizeChildItems(root, 1, height / d.oldHeight)
+        }
+        d.oldHeight = height
     }
 
     Component.onCompleted: {

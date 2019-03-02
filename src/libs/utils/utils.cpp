@@ -70,7 +70,7 @@ QCSUtils::QCSUtils(QObject *parent)
 */
 void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
 {
-    int i = 0;
+    quint32 i = 0;
 
     if (vector.userType() == qMetaTypeId< QVector<double> >()) {
         foreach(double d, vector.value< QVector<double> >().mid(index, count))
@@ -78,7 +78,7 @@ void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
     }
     else if (vector.userType() == qMetaTypeId< QVector<float> >()) {
         foreach(float d, vector.value< QVector<float> >().mid(index, count))
-            array.setProperty(i++, d);
+            array.setProperty(i++, double(d));
     }
     else if (vector.userType() == qMetaTypeId< QVector<int> >()) {
         foreach(int d, vector.value< QVector<int> >().mid(index, count))
@@ -197,7 +197,7 @@ bool QCSUtils::execute(QString program)
     Convert a number \a value with given \a format.
     This routine calls cvsFast functions from EPICS base and also functions from MEDM for certain special formats.
 */
-QString QCSUtils::convert(int format, QVariant value, int precision)
+QString QCSUtils::convert(int format, QVariant value, unsigned short precision)
 {
     char textField[128] = {0};
     int status;
@@ -260,10 +260,10 @@ double QCSUtils::parse(int format, QString textValue)
 
     switch (format) {
     case TextFormat::Octal:
-        value = (double)strtoul(textField, &end, 8);
+        value = strtoul(textField, &end, 8);
         break;
     case TextFormat::Hexadecimal:
-        value = (double)strtoul(textField, &end, 16);
+        value = strtoul(textField, &end, 16);
         break;
     case TextFormat::Sexagesimal:
         value = strtos(textField, &end, &status);
@@ -278,9 +278,9 @@ double QCSUtils::parse(int format, QString textValue)
         break;
     default:
         if (textValue.startsWith("0x", Qt::CaseInsensitive))
-            value = (double)strtoul(textField, &end, 16);
+            value = strtoul(textField, &end, 16);
         else
-            value = (double)strtod(textField, &end);
+            value = strtod(textField, &end);
         break;
     }
     if (*end == '\0' && end != textField)
@@ -377,7 +377,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
     window = qobject_cast<QQuickWindow *>(topLevel);
     if (!window) {
         if(qobject_cast<QQuickItem *>(topLevel)) {
-            QQuickView* qxView = new QQuickView(engine, NULL);
+            QQuickView* qxView = new QQuickView(engine, Q_NULLPTR);
             qxView->setResizeMode(QQuickView::SizeRootObjectToView);
             qxView->setWidth(topLevel->property("width").toInt());
             qxView->setHeight(topLevel->property("height").toInt());
@@ -670,7 +670,7 @@ int QCSUtils::qtVersion()
 
     Convert control system \a data according to \a format and \a precision.
  */
-QString QCSUtils::formatString(QCSData* data, int format, int precision, QVariant value)
+QString QCSUtils::formatString(QCSData* data, int format, unsigned short precision, QVariant value)
 {
     if (!value.isValid())
         value = data->value();
@@ -710,5 +710,25 @@ QString QCSUtils::formatString(QCSData* data, int format, int precision, QVarian
         if (value.canConvert<QVariantList>())
             value = value.value<QSequentialIterable>().at(0);
         return convert(format, value, precision);
+    }
+}
+
+/*!
+    \qmlmethod Utils::resizeChildItems(parent, rw, rh)
+
+    Resize all child items from \a parent by \a rw horizontally and \a rh vertically,
+    and move their top left position as well.
+ */
+void QCSUtils::resizeChildItems(QQuickItem *parent, qreal rw, qreal rh)
+{
+    foreach(QQuickItem *child, parent->childItems()) {
+        if (!qFuzzyCompare(rw, 1)) {
+            child->setX(child->x() * rw);
+            child->setWidth(child->width() * rw);
+        }
+        if (!qFuzzyCompare(rh, 1)) {
+            child->setY(child->y() * rh);
+            child->setHeight(child->height() * rh);
+        }
     }
 }

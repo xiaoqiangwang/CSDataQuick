@@ -32,6 +32,26 @@ Rectangle {
 
     color: ColorMap.windows_background
 
+    onWidthChanged: {
+        if (d.oldWidth !== NaN)
+            Utils.resizeChildItems(root, width / d.oldWidth, 1)
+
+        d.oldWidth = width
+    }
+
+    onHeightChanged: {
+        if (d.oldHeight !== NaN)
+            Utils.resizeChildItems(root, 1, height / d.oldHeight)
+
+        d.oldHeight = height
+    }
+
+    QtObject {
+        id: d
+        property double oldWidth: NaN
+        property double oldHeight: NaN
+    }
+
     ContextMenu {
         anchors.fill: parent
     }

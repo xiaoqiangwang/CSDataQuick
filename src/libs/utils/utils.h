@@ -24,12 +24,14 @@ public:
     Q_INVOKABLE static double calculate(QString expr, QVariantList input);
     Q_INVOKABLE static bool execute(QString program);
     Q_INVOKABLE static QString format(QString format, double number);
-    Q_INVOKABLE static QString convert(int format, QVariant value, int precision);
+    Q_INVOKABLE static QString convert(int format, QVariant value, unsigned short precision);
     Q_INVOKABLE static double parse(int format, QString textValue);
     Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QWindow *window);
 
     Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display, QUrl filePath, QString macro);
     Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
+
+    Q_INVOKABLE static void resizeChildItems(QQuickItem *parent, double rw, double rh);
 
     Q_INVOKABLE static QVariantMap parseX11Geometry(QString geometry);
     Q_INVOKABLE static QString currentDateTime();
@@ -41,7 +43,7 @@ public:
     Q_INVOKABLE static QVariant getProperty(QObject *object, QString name);
     Q_INVOKABLE static void copyToClipboard(const QString &text);
     Q_INVOKABLE static int qtVersion();
-    Q_INVOKABLE static QString formatString(QCSData* data, int format, int precision, QVariant value=QVariant());
+    Q_INVOKABLE static QString formatString(QCSData* data, int format, unsigned short precision, QVariant value=QVariant());
 signals:
 
 public slots:
