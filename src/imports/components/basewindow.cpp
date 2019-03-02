@@ -7,6 +7,7 @@
 #include <QFileInfo>
 #include <QPainter>
 #include <QPrintDialog>
+#include <QQuickItem>
 
 #include <QtDebug>
 
@@ -55,10 +56,25 @@ void BaseWindow :: printWindow()
     QImage snapshot = grabWindow();
 #ifndef NO_PRINTERSUPPORT
     QPrinter printer;
-    QPrintDialog printDialog(&printer, 0);
+    QPrintDialog printDialog(&printer);
     if (printDialog.exec() == QDialog::Accepted) {
         QPainter painter(&printer);
         painter.drawImage(0, 0, snapshot);
     }
 #endif
+}
+
+void BaseWindow :: resizeEvent(QResizeEvent *event)
+{
+    QQuickItem *root = contentItem();
+    if (!root)
+        return;
+
+    qreal rx = 1.0 * event->size().width() / event->oldSize().width();
+    qreal ry = 1.0 * event->size().height() / event->oldSize().height();
+
+    foreach(QQuickItem *child, root->childItems()) {
+        child->setPosition(QPointF(child->x() * rx, child->y() * ry));
+        child->setSize(QSizeF(child->width() * rx, child->height() * ry));
+    }
 }

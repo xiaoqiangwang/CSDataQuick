@@ -11,7 +11,7 @@ class BaseWindow : public QQuickWindow
     Q_PROPERTY(QString macro READ macro WRITE setMacro NOTIFY macroChanged)
 
 public:
-    explicit BaseWindow(QWindow *parent=0);
+    explicit BaseWindow(QWindow *parent=Q_NULLPTR);
     virtual ~BaseWindow();
 
     Q_INVOKABLE void printWindow();
@@ -21,6 +21,9 @@ public:
 
     QString macro() const;
     void setMacro(const QString &macro);
+
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 signals:
     void filePathChanged();
