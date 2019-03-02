@@ -2,7 +2,7 @@
     \page releases.html
     \title Release Notes
 
-    \section1 1.1.1 (XX-XX-2018)
+    \section1 1.2.0 (XX-XX-2019)
 
     \section2 core libs
     \list
@@ -11,6 +11,7 @@
 
     \section2 quick components
     \list
+    \li BaseWindow and CSComposite propogate the geometry change to their child items.
     \li Alias on/offMessage properties to press/releaseMessage and mark them obsolete. This is necessary
         to be able to read the property in quick designer.
     \li Fix the binding loop error of CSTextUpdate implicitHeight.
@@ -21,6 +22,7 @@
 
     \section2 apps
     \list
+    \li Viewer will quit when the last window closes if not running in server mode.
     \endlist
 
     \section1 1.1.0 (01-10-2018)
