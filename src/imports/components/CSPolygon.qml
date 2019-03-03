@@ -50,6 +50,39 @@ CSGraphics {
     implicitWidth: polygon.implicitWidth
     implicitHeight: polygon.implicitHeight
 
+    /*! \internal */
+    QtObject {
+        id: d
+        property double oldWidth: NaN
+        property double oldHeight: NaN
+    }
+
+    onWidthChanged: {
+        if (Utils.inPuppet)
+            return
+
+        var newpoints = []
+        if (d.oldWidth !== NaN) {
+            for (var i=0; i<points.length; i++)
+                newpoints.push(Qt.point(points[i].x * width / d.oldWidth, points[i].y))
+            points = newpoints
+        }
+        d.oldWidth = width
+    }
+
+    onHeightChanged: {
+        if (Utils.inPuppet)
+            return
+
+        var newpoints = []
+        if (d.oldHeight !== NaN) {
+            for (var i=0; i<points.length; i++)
+                newpoints.push(Qt.point(points[i].x, points[i].y * height / d.oldHeight))
+            points = newpoints
+        }
+        d.oldHeight = height
+    }
+
     Polygon {
         id: polygon
         anchors.fill: parent
