@@ -27,7 +27,6 @@ BaseWindow {
         x: 69
         y: 268
         width: 86
-        height: 20
         text: "Acquire"
         align: Text.AlignRight
     }
@@ -37,7 +36,6 @@ BaseWindow {
         x: 173
         y: 268
         width: 67
-        height: 20
         text: "Start"
         onMessage: "1"
         source: "$(P)$(R)Acquire"
@@ -48,7 +46,6 @@ BaseWindow {
         x: 246
         y: 268
         width: 67
-        height: 20
         text: "Stop"
         onMessage: "0"
         source: "$(P)$(R)Acquire"
@@ -84,7 +81,6 @@ BaseWindow {
         x: 44
         y: 106
         width: 130
-        height: 20
         text: "Exposure time"
         align: Text.AlignRight
     }
@@ -119,7 +115,6 @@ BaseWindow {
         x: 246
         y: 106
         width: 81
-        height: 20
         source: "$(P)$(R)AcquireTime_RBV"
     }
 
@@ -128,7 +123,6 @@ BaseWindow {
         x: 246
         y: 126
         width: 80
-        height: 20
         source: "$(P)$(R)AcquirePeriod_RBV"
     }
 
@@ -154,7 +148,6 @@ BaseWindow {
         x: 246
         y: 152
         width: 80
-        height: 20
         source: "$(P)$(R)NumImages_RBV"
     }
 
@@ -163,7 +156,6 @@ BaseWindow {
         x: 7
         y: 178
         width: 170
-        height: 20
         text: "# Images complete"
         align: Text.AlignRight
     }
@@ -173,7 +165,6 @@ BaseWindow {
         x: 246
         y: 178
         width: 80
-        height: 20
         source: "$(P)$(R)NumImagesCounter_RBV"
     }
 
@@ -182,7 +173,6 @@ BaseWindow {
         x: 7
         y: 204
         width: 100
-        height: 20
         text: "Image mode"
         align: Text.AlignRight
     }
@@ -192,7 +182,6 @@ BaseWindow {
         x: 120
         y: 204
         width: 100
-        height: 20
         source: "$(P)$(R)ImageMode"
     }
 
@@ -201,7 +190,6 @@ BaseWindow {
         x: 227
         y: 204
         width: 100
-        height: 20
         source: "$(P)$(R)ImageMode_RBV"
     }
 
@@ -237,7 +225,6 @@ BaseWindow {
         x: 8
         y: 294
         width: 147
-        height: 20
         text: "Detector state"
         align: Text.AlignRight
     }
@@ -247,7 +234,6 @@ BaseWindow {
         x: 173
         y: 294
         width: 133
-        height: 20
         colorMode: ColorMode.Alarm
         source: "$(P)$(R)DetectorState_RBV"
     }
@@ -257,7 +243,6 @@ BaseWindow {
         x: 8
         y: 320
         width: 70
-        height: 20
         text: "Status"
     }
 
@@ -266,7 +251,6 @@ BaseWindow {
         x: 89
         y: 320
         width: 224
-        height: 20
         format: TextFormat.String
         colorMode: ColorMode.Alarm
         source: "$(P)$(R)StatusMessage_RBV"
@@ -277,7 +261,6 @@ BaseWindow {
         x: 8
         y: 346
         width: 147
-        height: 20
         text: "Time remaining"
         align: Text.AlignRight
     }
@@ -287,7 +270,6 @@ BaseWindow {
         x: 173
         y: 346
         width: 133
-        height: 20
         colorMode: ColorMode.Alarm
         source: "$(P)$(R)TimeRemaining_RBV"
     }
@@ -314,7 +296,6 @@ BaseWindow {
         x: 239
         y: 378
         width: 80
-        height: 20
         source: "$(P)$(R)ArrayCounter_RBV"
     }
 
@@ -323,7 +304,6 @@ BaseWindow {
         x: 8
         y: 404
         width: 147
-        height: 20
         text: "Image rate"
         align: Text.AlignRight
     }
@@ -333,7 +313,6 @@ BaseWindow {
         x: 173
         y: 404
         width: 133
-        height: 20
         colorMode: ColorMode.Alarm
         source: "$(P)$(R)ArrayRate_RBV"
     }
@@ -342,6 +321,7 @@ BaseWindow {
         id: relatedDisplay
         x: 69
         y: 435
+        width: 60
         model: [{"file":"commonPlugins.adl","label":"-All","macro":"P=$(P)","replace":false}]
     }
 
