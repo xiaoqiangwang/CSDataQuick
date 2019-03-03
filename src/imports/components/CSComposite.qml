@@ -75,6 +75,9 @@ BaseItem {
     }
 
     onWidthChanged: {
+        if (Utils.inPuppet)
+            return
+
         if (d.oldWidth !== NaN) {
             if (d.rootItem) {
                 d.rootItem.width = width
@@ -86,6 +89,9 @@ BaseItem {
     }
 
     onHeightChanged: {
+        if (Utils.inPuppet)
+            return
+
         if (d.oldHeight !== NaN) {
             if (d.rootItem) {
                 d.rootItem.height = height

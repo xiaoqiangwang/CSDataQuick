@@ -33,6 +33,9 @@ Rectangle {
     color: ColorMap.windows_background
 
     onWidthChanged: {
+        if (Utils.inPuppet)
+            return
+
         if (d.oldWidth !== NaN)
             Utils.resizeChildItems(root, width / d.oldWidth, 1)
 
@@ -40,6 +43,9 @@ Rectangle {
     }
 
     onHeightChanged: {
+        if (Utils.inPuppet)
+            return
+
         if (d.oldHeight !== NaN)
             Utils.resizeChildItems(root, 1, height / d.oldHeight)
 
