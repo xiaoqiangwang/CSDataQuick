@@ -11,7 +11,7 @@ class CSImageItem : public QQuickPaintedItem
     Q_PROPERTY(ColorMapEnum colorMap MEMBER _colorMap WRITE setColorMap)
 
 public:
-    explicit CSImageItem(QQuickItem *parent=0);
+    explicit CSImageItem(QQuickItem *parent=Q_NULLPTR);
     enum ColorMapEnum {
         Gray = 0,
         Hot,
