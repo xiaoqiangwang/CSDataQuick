@@ -30,6 +30,7 @@ BaseItem::BaseItem(QQuickItem *parent) :
     _background = Qt::transparent;
     _dynamicAttribute = new DynamicAttribute(this);
     _limits = new Limits(this);
+    connect(this, SIGNAL(windowChanged(QQuickWindow *)), this, SIGNAL(baseWindowChanged()));
     setClip(false);
 }
 

@@ -14,7 +14,7 @@ class BaseItem : public QQuickItem
     Q_PROPERTY(QColor foreground MEMBER _foreground NOTIFY foregroundChanged)
     Q_PROPERTY(QColor background MEMBER _background NOTIFY backgroundChanged)
     Q_PROPERTY(Qt::CursorShape cursorType READ cursorType WRITE setCursorType NOTIFY cursorTypeChanged)
-    Q_PROPERTY(QQuickWindow* baseWindow READ baseWindow)
+    Q_PROPERTY(QQuickWindow* baseWindow READ baseWindow NOTIFY baseWindowChanged)
     Q_PROPERTY(DynamicAttribute* dynamicAttribute READ dynamicAttribute CONSTANT)
     Q_PROPERTY(Limits* limits READ limits CONSTANT)
 
@@ -34,6 +34,7 @@ signals:
     void backgroundChanged();
     void cursorTypeChanged();
     void foregroundChanged();
+    void baseWindowChanged();
 
 public slots:
 
