@@ -51,13 +51,6 @@ BaseItem {
         property double oldHeight: NaN
     }
 
-    // delay createDisplay until attached to a window instance
-    Timer {
-        id: delay
-        interval: 50
-        onTriggered: createDisplay()
-    }
-
     // Mask when PVs disconnected
     Rectangle {
         z: 1
@@ -71,6 +64,10 @@ BaseItem {
     }
 
     onSourceChanged: {
+        createDisplay()
+    }
+
+    onBaseWindowChanged: {
         createDisplay()
     }
 
@@ -102,10 +99,6 @@ BaseItem {
         d.oldHeight = height
     }
 
-    Component.onCompleted: {
-        delay.start()
-    }
-
     /*! \internal */
     function createDisplay () {
         if (d.rootItem) {
@@ -113,7 +106,7 @@ BaseItem {
             d.rootItem = null;
         }
 
-        if (!source)
+        if (!source || !baseWindow)
             return
 
         var absFilePath = Utils.searchDisplayFile(source, baseWindow)
