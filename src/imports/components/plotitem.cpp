@@ -59,6 +59,11 @@ static int calcTitleFontSize(QRect size)
     return fontHeight;
 }
 
+ItemProxy::~ItemProxy()
+{
+
+}
+
 CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     : QQuickPaintedItem( parent ),
       mPlot(Q_NULLPTR),mTitle(Q_NULLPTR)
@@ -67,13 +72,15 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     setAcceptedMouseButtons( Qt::AllButtons );
 
     mPlot = new QCustomPlot(this);
-    mPlot->plotLayout()->clear();
-    QCPAxisRect *defaultAxisRect = new QCPAxisRect(mPlot, false);
-    mPlot->plotLayout()->addElement(0, 0, defaultAxisRect);
+    //mPlot->plotLayout()->clear();
+    mPlot->plotLayout()->setFillOrder(QCPLayoutGrid::foRowsFirst);
+    mPlot->plotLayout()->setWrap(1);
+    //QCPAxisRect *defaultAxisRect = new QCPAxisRect(mPlot, true);
+    //mPlot->plotLayout()->addElement(0, 0, defaultAxisRect);
     mPlot->plotLayout()->setRowSpacing(0);
     QCPLegend *legend = new QCPLegend();
-    defaultAxisRect->insetLayout()->addElement(legend, Qt::AlignRight|Qt::AlignTop);
-    defaultAxisRect->insetLayout()->setMargins(QMargins(12, 12, 12, 12));
+    //defaultAxisRect->insetLayout()->addElement(legend, Qt::AlignRight|Qt::AlignTop);
+    //defaultAxisRect->insetLayout()->setMargins(QMargins(12, 12, 12, 12));
     legend->setLayer("legend");
     legend->setVisible(false);
     mPlot->legend = legend;
@@ -97,10 +104,21 @@ void CustomPlotItem::componentComplete()
     QQuickPaintedItem::componentComplete();
     
     foreach(QObject *child, children()) {
+        if (qobject_cast<MarginGroup*>(child)) {
+            MarginGroup *group = qobject_cast<MarginGroup*>(child);
+            group->init();
+        }
+
+        if (qobject_cast<LayoutElement*>(child)) {
+            LayoutElement *element = qobject_cast<LayoutElement*>(child);
+            element->init();
+        }
+
         if (qobject_cast<GraphItem*>(child)) {
             GraphItem *graph = qobject_cast<GraphItem*>(child);
             graph->init();
         }
+
         if (qobject_cast<ColorMapItem*>(child)) {
             ColorMapItem *colormap = qobject_cast<ColorMapItem*>(child);
             colormap->init();
@@ -171,6 +189,27 @@ void CustomPlotItem::setBackground(QColor color)
     emit backgroundChanged();
 }
 
+int CustomPlotItem::rows()
+{
+    return mPlot->plotLayout()->rowCount();
+}
+
+void CustomPlotItem::setRows(int rows)
+{
+    qDebug() << rows << columns();
+}
+
+int CustomPlotItem::columns()
+{
+    return mPlot->plotLayout()->columnCount();
+}
+
+void CustomPlotItem::setColumns(int columns)
+{
+    mPlot->plotLayout()->setWrap(columns);
+    qDebug() << rows() << columns;
+}
+
 bool CustomPlotItem::legendVisible()
 {
     return mPlot->legend->visible();
@@ -223,6 +262,11 @@ void CustomPlotItem::replot()
 void CustomPlotItem::paint(QPainter *painter)
 {
     mPlot->paint(painter);
+}
+
+CustomPlotItemAttached *CustomPlotItem::qmlAttachedProperties(QObject *object)
+{
+    return new CustomPlotItemAttached(object);
 }
 
 void CustomPlotItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
@@ -748,4 +792,139 @@ void AxisItem::rescale()
         mAxis->setRange(_lower, _upper);
 
     mAxis->parentPlot()->replot();
+}
+
+MarginGroup::MarginGroup(QObject *parent)
+    : QObject (parent), _marginGroup(Q_NULLPTR)
+{
+}
+
+void MarginGroup::init()
+{
+    CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
+    if (plot == Q_NULLPTR)
+        return;
+
+    _marginGroup = new QCPMarginGroup(plot->plot());
+}
+
+QCPMarginGroup* MarginGroup::group()
+{
+    return _marginGroup;
+}
+
+MarginGroup::MarginSides MarginGroup::sides()
+{
+    return _sides;
+}
+
+void MarginGroup::setSides(MarginSides sides)
+{
+    _sides = sides;
+    emit sidesChanged();
+}
+
+
+LayoutElement::LayoutElement(QObject *parent)
+    : QObject(parent), _element(Q_NULLPTR)
+{
+
+}
+
+void LayoutElement::init()
+{
+}
+
+QCPLayoutElement* LayoutElement::element()
+{
+    return _element;
+}
+
+void LayoutElement::setLeftMarginGroup(MarginGroup *marginGroup)
+{
+    _leftMarginGroup = marginGroup;
+    if (_leftMarginGroup->group())
+        _element->setMarginGroup(QCP::msLeft, marginGroup->group());
+}
+
+void LayoutElement::setRightMarginGroup(MarginGroup *marginGroup)
+{
+    _rightMarginGroup = marginGroup;
+    if (_rightMarginGroup->group())
+        _element->setMarginGroup(QCP::msRight, marginGroup->group());
+}
+
+void LayoutElement::setTopMarginGroup(MarginGroup *marginGroup)
+{
+    _topMarginGroup = marginGroup;
+    if (_topMarginGroup->group())
+        _element->setMarginGroup(QCP::msTop, marginGroup->group());
+}
+
+void LayoutElement::setBottomMarginGroup(MarginGroup *marginGroup)
+{
+    _bottomMarginGroup = marginGroup;
+    if (_bottomMarginGroup->group())
+        _element->setMarginGroup(QCP::msBottom, marginGroup->group());
+}
+
+AxisRect::AxisRect(QObject *parent)
+    : LayoutElement (parent)
+{
+
+}
+
+void AxisRect::init()
+{
+    CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
+    if (plot == Q_NULLPTR)
+        return;
+
+    _element = new QCPAxisRect(plot->plot());
+    plot->plot()->plotLayout()->addElement(_element);
+}
+
+CustomPlotItemAttached::CustomPlotItemAttached(QObject *object)
+    : QObject (object), _row(0), _column(0), _rowStretch(1), _columnStretch(1)
+{
+}
+
+void CustomPlotItemAttached::setRow(int row)
+{
+    _row = row;
+    qDebug() << "setRow " << row;
+    qDebug() << plot()->plot()->plotLayout()->addElement(row, _column, item()->element());
+    plot()->plot()->plotLayout()->setRowStretchFactor(_row, _rowStretch);
+}
+
+void CustomPlotItemAttached::setColumn(int column)
+{
+    _column = column;
+    qDebug() << "setColumn " << column;
+    qDebug() << plot()->plot()->plotLayout()->addElement(_row, column, item()->element());
+    plot()->plot()->plotLayout()->setColumnStretchFactor(_column, _columnStretch);
+}
+
+void CustomPlotItemAttached::setRowStretch(double stretch)
+{
+    _rowStretch = stretch;
+    plot()->plot()->plotLayout()->setRowStretchFactor(_row, stretch);
+}
+
+void CustomPlotItemAttached::setColumnStretch(double stretch)
+{
+    _columnStretch = stretch;
+    qDebug() << "setColumnStretch " << _column  << stretch;
+
+    plot()->plot()->plotLayout()->setColumnStretchFactor(_column, stretch);
+}
+
+LayoutElement *CustomPlotItemAttached::item()
+{
+    return qobject_cast<AxisRect*>(parent());
+}
+
+CustomPlotItem *CustomPlotItemAttached::plot()
+{
+    return qobject_cast<CustomPlotItem*>(item()->parent());
 }

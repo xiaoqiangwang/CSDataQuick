@@ -3,16 +3,20 @@
 
 #include <QQuickPaintedItem>
 
-class QCustomPlot;
-class QCPPlotTitle;
-class QCPGraph;
-class QCPColorMap;
-class QCPColorMapData;
-class QCPColorScale;
-class QCPAxis;
-class QCPTextElement;
+#include "qcustomplot.h"
+
 class GraphItem;
 class AxisItem;
+class LayoutElement;
+class CustomPlotItemAttached;
+
+class ItemProxy
+{
+public:
+    virtual ~ItemProxy();
+
+    virtual void init() = 0;
+};
 
 class CustomPlotItem : public QQuickPaintedItem
 {
@@ -20,6 +24,8 @@ class CustomPlotItem : public QQuickPaintedItem
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QColor foreground READ foreground WRITE setForeground NOTIFY foregroundChanged)
     Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
+    Q_PROPERTY(int rows READ rows WRITE setRows)
+    Q_PROPERTY(int columns READ columns WRITE setColumns)
     Q_PROPERTY(bool legendVisible READ legendVisible WRITE setLegendVisible NOTIFY legendVisibleChanged)
     Q_PROPERTY(QQmlListProperty<GraphItem> graphs READ graphs)
 
@@ -38,6 +44,10 @@ public:
     void setForeground(QColor color);
     QColor background();
     void setBackground(QColor color);
+    int rows();
+    void setRows(int);
+    int columns();
+    void setColumns(int);
     bool legendVisible();
     void setLegendVisible(bool visible);
 
@@ -62,6 +72,8 @@ public:
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
     void paint( QPainter* painter );
 
+    static CustomPlotItemAttached *qmlAttachedProperties(QObject *);
+
 signals:
     void foregroundChanged();
     void backgroundChanged();
@@ -76,6 +88,34 @@ private:
     QCPTextElement *mTitle;
     QList<GraphItem*> mGraphs;
 };
+
+class CustomPlotItemAttached : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(int row MEMBER _row WRITE setRow)
+    Q_PROPERTY(double column MEMBER _column WRITE setColumn)
+    Q_PROPERTY(int rowStretch MEMBER _rowStretch WRITE setRowStretch)
+    Q_PROPERTY(double columnStretch MEMBER _columnStretch WRITE setColumnStretch)
+
+public:
+    CustomPlotItemAttached(QObject *object);
+
+    void setRow(int row);
+    void setColumn(int column);
+    void setRowStretch(double stretch);
+    void setColumnStretch(double stretch);
+
+protected:
+    LayoutElement *item();
+    CustomPlotItem *plot();
+
+private:
+    int _row, _column;
+    double _rowStretch, _columnStretch;
+};
+
+QML_DECLARE_TYPEINFO(CustomPlotItem, QML_HAS_ATTACHED_PROPERTIES)
+
 
 class GraphItem : public QObject, public QQmlParserStatus
 {
@@ -288,6 +328,82 @@ private:
 
     QCPAxis *mAxis;
     friend class GraphItem;
+};
+
+
+class MarginGroup : public QObject, public ItemProxy
+{
+    Q_OBJECT
+    Q_PROPERTY(MarginSides sides READ sides WRITE setSides NOTIFY sidesChanged)
+
+public:
+    explicit MarginGroup(QObject *parent=Q_NULLPTR);
+
+    enum MarginSide {
+        Left = QCP::msLeft,
+        Right = QCP::msRight,
+        Top = QCP::msTop,
+        Bottom = QCP::msBottom,
+        All = QCP::msAll,
+        None = QCP::msNone
+    };
+    Q_DECLARE_FLAGS(MarginSides, MarginSide)
+    Q_ENUM(MarginSide)
+    Q_FLAG(MarginSides)
+
+    MarginSides sides();
+    void setSides(MarginSides sides);
+
+    void init();
+    QCPMarginGroup *group();
+signals:
+    void sidesChanged();
+
+private:
+    MarginSides _sides;
+    QCPMarginGroup *_marginGroup;
+};
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(MarginGroup::MarginSides)
+
+class LayoutElement : public QObject, public ItemProxy
+{
+    Q_OBJECT
+    Q_PROPERTY(MarginGroup * leftMarginGroup MEMBER _leftMarginGroup WRITE setLeftMarginGroup)
+    Q_PROPERTY(MarginGroup * rightMarginGroup MEMBER _rightMarginGroup WRITE setRightMarginGroup)
+    Q_PROPERTY(MarginGroup * topMarginGroup MEMBER _topMarginGroup WRITE setTopMarginGroup)
+    Q_PROPERTY(MarginGroup * bottomMarginGroup MEMBER _bottomMarginGroup WRITE setBottomMarginGroup)
+public:
+    explicit LayoutElement(QObject *parent=Q_NULLPTR);
+
+    void setLeftMarginGroup(MarginGroup *);
+    void setRightMarginGroup(MarginGroup *);
+    void setTopMarginGroup(MarginGroup *);
+    void setBottomMarginGroup(MarginGroup *);
+
+    virtual void init();
+    QCPLayoutElement *element();
+
+signals:
+
+protected:
+    MarginGroup *_leftMarginGroup;
+    MarginGroup *_rightMarginGroup;
+    MarginGroup *_topMarginGroup;
+    MarginGroup *_bottomMarginGroup;
+    QCPLayoutElement *_element;
+};
+
+class AxisRect : public LayoutElement
+{
+    Q_OBJECT
+public:
+    explicit AxisRect(QObject *parent=Q_NULLPTR);
+
+    void init();
+signals:
+
+private:
 };
 
 #endif // PLOTITEM_H

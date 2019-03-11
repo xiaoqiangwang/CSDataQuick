@@ -57,9 +57,12 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<OvalItem>(uri, 1, 0, "Oval");
     qmlRegisterType<DoubleRectItem>(uri, 1, 0, "DoubleRect");
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
+    qmlRegisterType<MarginGroup>(uri, 1, 0, "MarginGroup");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
+    qmlRegisterType<AxisRect>(uri, 1, 0, "AxisRect");
     qmlRegisterType<ColorMapItem>(uri, 1, 0, "ColorMapItem");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
+
 
     qmlRegisterType<CSImageItem>(uri, 1, 0, "ImageItem");
     qmlRegisterType<ADImage>(uri, 1, 0, "ADImage");
