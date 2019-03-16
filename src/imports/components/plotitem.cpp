@@ -73,7 +73,7 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
 
     mPlot = new QCustomPlot(this);
     //mPlot->plotLayout()->clear();
-    mPlot->plotLayout()->setFillOrder(QCPLayoutGrid::foRowsFirst);
+    mPlot->plotLayout()->setFillOrder(QCPLayoutGrid::foColumnsFirst);
     mPlot->plotLayout()->setWrap(1);
     //QCPAxisRect *defaultAxisRect = new QCPAxisRect(mPlot, true);
     //mPlot->plotLayout()->addElement(0, 0, defaultAxisRect);
@@ -112,6 +112,12 @@ void CustomPlotItem::componentComplete()
         if (qobject_cast<LayoutElement*>(child)) {
             LayoutElement *element = qobject_cast<LayoutElement*>(child);
             element->init();
+            CustomPlotItemAttached *info = static_cast<CustomPlotItemAttached *>(qmlAttachedPropertiesObject<CustomPlotItem>(element, false));
+            if (info)
+                mPlot->plotLayout()->addElement(info->row(), info->column(), element->element());
+            else
+                mPlot->plotLayout()->addElement(element->element());
+            mPlot->plotLayout()->updateLayout();
         }
 
         if (qobject_cast<GraphItem*>(child)) {
@@ -196,7 +202,8 @@ int CustomPlotItem::rows()
 
 void CustomPlotItem::setRows(int rows)
 {
-    qDebug() << rows << columns();
+    QCPLayoutGrid *layout = mPlot->plotLayout();
+    layout->expandTo(rows, layout->columnCount());
 }
 
 int CustomPlotItem::columns()
@@ -206,8 +213,9 @@ int CustomPlotItem::columns()
 
 void CustomPlotItem::setColumns(int columns)
 {
+    QCPLayoutGrid *layout = mPlot->plotLayout();
+    layout->expandTo(layout->rowCount(), columns);
     mPlot->plotLayout()->setWrap(columns);
-    qDebug() << rows() << columns;
 }
 
 bool CustomPlotItem::legendVisible()
@@ -892,17 +900,15 @@ CustomPlotItemAttached::CustomPlotItemAttached(QObject *object)
 void CustomPlotItemAttached::setRow(int row)
 {
     _row = row;
-    qDebug() << "setRow " << row;
-    qDebug() << plot()->plot()->plotLayout()->addElement(row, _column, item()->element());
-    plot()->plot()->plotLayout()->setRowStretchFactor(_row, _rowStretch);
+    plot()->plot()->plotLayout()->addElement(row, _column, item()->element());
+    plot()->plot()->plotLayout()->updateLayout();
 }
 
 void CustomPlotItemAttached::setColumn(int column)
 {
     _column = column;
-    qDebug() << "setColumn " << column;
-    qDebug() << plot()->plot()->plotLayout()->addElement(_row, column, item()->element());
-    plot()->plot()->plotLayout()->setColumnStretchFactor(_column, _columnStretch);
+    plot()->plot()->plotLayout()->addElement(_row, column, item()->element());
+    plot()->plot()->plotLayout()->updateLayout();
 }
 
 void CustomPlotItemAttached::setRowStretch(double stretch)
@@ -914,8 +920,6 @@ void CustomPlotItemAttached::setRowStretch(double stretch)
 void CustomPlotItemAttached::setColumnStretch(double stretch)
 {
     _columnStretch = stretch;
-    qDebug() << "setColumnStretch " << _column  << stretch;
-
     plot()->plot()->plotLayout()->setColumnStretchFactor(_column, stretch);
 }
 

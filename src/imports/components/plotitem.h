@@ -92,15 +92,17 @@ private:
 class CustomPlotItemAttached : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int row MEMBER _row WRITE setRow)
-    Q_PROPERTY(double column MEMBER _column WRITE setColumn)
+    Q_PROPERTY(int row READ row WRITE setRow)
+    Q_PROPERTY(double column READ column WRITE setColumn)
     Q_PROPERTY(int rowStretch MEMBER _rowStretch WRITE setRowStretch)
     Q_PROPERTY(double columnStretch MEMBER _columnStretch WRITE setColumnStretch)
 
 public:
     CustomPlotItemAttached(QObject *object);
 
+    int row() { return _row;}
     void setRow(int row);
+    int column() { return _column;}
     void setColumn(int column);
     void setRowStretch(double stretch);
     void setColumnStretch(double stretch);
