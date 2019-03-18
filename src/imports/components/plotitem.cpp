@@ -102,13 +102,15 @@ CustomPlotItem::~CustomPlotItem()
 void CustomPlotItem::componentComplete()
 {
     QQuickPaintedItem::componentComplete();
-    
+
     foreach(QObject *child, children()) {
         if (qobject_cast<MarginGroup*>(child)) {
             MarginGroup *group = qobject_cast<MarginGroup*>(child);
             group->init();
         }
+    }
 
+    foreach(QObject *child, children()) {
         if (qobject_cast<LayoutElement*>(child)) {
             LayoutElement *element = qobject_cast<LayoutElement*>(child);
             element->init();
@@ -834,13 +836,26 @@ void MarginGroup::setSides(MarginSides sides)
 
 
 LayoutElement::LayoutElement(QObject *parent)
-    : QObject(parent), _element(Q_NULLPTR)
+    : QObject(parent),
+      _leftMarginGroup(Q_NULLPTR),
+      _rightMarginGroup(Q_NULLPTR),
+      _topMarginGroup(Q_NULLPTR),
+      _bottomMarginGroup(Q_NULLPTR),
+       _element(Q_NULLPTR)
 {
 
 }
 
 void LayoutElement::init()
 {
+    if (_leftMarginGroup)
+        _element->setMarginGroup(QCP::msLeft, _leftMarginGroup->group());
+    if (_rightMarginGroup)
+        _element->setMarginGroup(QCP::msRight, _rightMarginGroup->group());
+    if (_topMarginGroup)
+        _element->setMarginGroup(QCP::msTop, _topMarginGroup->group());
+    if (_bottomMarginGroup)
+        _element->setMarginGroup(QCP::msBottom, _bottomMarginGroup->group());
 }
 
 QCPLayoutElement* LayoutElement::element()
@@ -890,6 +905,8 @@ void AxisRect::init()
 
     _element = new QCPAxisRect(plot->plot());
     plot->plot()->plotLayout()->addElement(_element);
+
+    LayoutElement::init();
 }
 
 CustomPlotItemAttached::CustomPlotItemAttached(QObject *object)
