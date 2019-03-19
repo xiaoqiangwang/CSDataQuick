@@ -408,4 +408,21 @@ signals:
 private:
 };
 
+class TextItem : public LayoutElement
+{
+    Q_OBJECT
+    Q_PROPERTY(QString text MEMBER _text WRITE setText)
+
+public:
+    explicit TextItem(QObject *parent=Q_NULLPTR);
+
+    void init();
+
+    void setText(const QString &text);
+signals:
+
+private:
+    QString _text;
+};
+
 #endif // PLOTITEM_H

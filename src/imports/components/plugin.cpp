@@ -60,6 +60,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<MarginGroup>(uri, 1, 0, "MarginGroup");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<AxisRect>(uri, 1, 0, "AxisRect");
+    qmlRegisterType<TextItem>(uri, 1, 0, "TextItem");
     qmlRegisterType<ColorMapItem>(uri, 1, 0, "ColorMapItem");
     qmlRegisterType<AxisItem>(uri, 1, 0, "Axis");
 

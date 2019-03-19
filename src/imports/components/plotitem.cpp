@@ -119,7 +119,6 @@ void CustomPlotItem::componentComplete()
                 mPlot->plotLayout()->addElement(info->row(), info->column(), element->element());
             else
                 mPlot->plotLayout()->addElement(element->element());
-            mPlot->plotLayout()->updateLayout();
         }
 
         if (qobject_cast<GraphItem*>(child)) {
@@ -904,9 +903,36 @@ void AxisRect::init()
         return;
 
     _element = new QCPAxisRect(plot->plot());
-    plot->plot()->plotLayout()->addElement(_element);
 
     LayoutElement::init();
+}
+
+TextItem::TextItem(QObject *parent)
+    : LayoutElement (parent)
+{
+
+}
+
+void TextItem::init()
+{
+    CustomPlotItem *plot = qobject_cast<CustomPlotItem*>(parent());
+    if (plot == Q_NULLPTR)
+        return;
+
+    _element = new QCPTextElement(plot->plot());
+
+    QCPTextElement *element = qobject_cast<QCPTextElement*>(_element);
+    element->setText(_text);
+    LayoutElement::init();
+}
+
+void TextItem::setText(const QString &text)
+{
+    _text = text;
+    if (_element) {
+        QCPTextElement *element = qobject_cast<QCPTextElement*>(_element);
+        element->setText(text);
+    }
 }
 
 CustomPlotItemAttached::CustomPlotItemAttached(QObject *object)
@@ -917,15 +943,19 @@ CustomPlotItemAttached::CustomPlotItemAttached(QObject *object)
 void CustomPlotItemAttached::setRow(int row)
 {
     _row = row;
-    plot()->plot()->plotLayout()->addElement(row, _column, item()->element());
-    plot()->plot()->plotLayout()->updateLayout();
+    if (item() && item()->element()) {
+        plot()->plot()->plotLayout()->addElement(row, _column, item()->element());
+        plot()->plot()->plotLayout()->updateLayout();
+    }
 }
 
 void CustomPlotItemAttached::setColumn(int column)
 {
     _column = column;
-    plot()->plot()->plotLayout()->addElement(_row, column, item()->element());
-    plot()->plot()->plotLayout()->updateLayout();
+    if (item() && item()->element()) {
+        plot()->plot()->plotLayout()->addElement(_row, column, item()->element());
+        plot()->plot()->plotLayout()->updateLayout();
+    }
 }
 
 void CustomPlotItemAttached::setRowStretch(double stretch)
