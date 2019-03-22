@@ -72,9 +72,9 @@ CustomPlotItem::CustomPlotItem( QQuickItem* parent )
     setAcceptedMouseButtons( Qt::AllButtons );
 
     mPlot = new QCustomPlot(this);
-    //mPlot->plotLayout()->clear();
-    mPlot->plotLayout()->setFillOrder(QCPLayoutGrid::foColumnsFirst);
-    mPlot->plotLayout()->setWrap(1);
+    mPlot->plotLayout()->clear();
+    //mPlot->plotLayout()->setFillOrder(QCPLayoutGrid::foColumnsFirst);
+    //mPlot->plotLayout()->setWrap(1);
     //QCPAxisRect *defaultAxisRect = new QCPAxisRect(mPlot, true);
     //mPlot->plotLayout()->addElement(0, 0, defaultAxisRect);
     mPlot->plotLayout()->setRowSpacing(0);
@@ -204,6 +204,8 @@ int CustomPlotItem::rows()
 void CustomPlotItem::setRows(int rows)
 {
     QCPLayoutGrid *layout = mPlot->plotLayout();
+    if (layout->fillOrder() == QCPLayoutGrid::foRowsFirst)
+        layout->setWrap(rows);
     layout->expandTo(rows, layout->columnCount());
 }
 
@@ -215,8 +217,9 @@ int CustomPlotItem::columns()
 void CustomPlotItem::setColumns(int columns)
 {
     QCPLayoutGrid *layout = mPlot->plotLayout();
+    if (layout->fillOrder() == QCPLayoutGrid::foColumnsFirst)
+        layout->setWrap(columns);
     layout->expandTo(layout->rowCount(), columns);
-    mPlot->plotLayout()->setWrap(columns);
 }
 
 bool CustomPlotItem::legendVisible()
@@ -282,14 +285,6 @@ void CustomPlotItem::geometryChanged(const QRectF &newGeometry, const QRectF &ol
 {
     if (mPlot == Q_NULLPTR)
         return;
-    int titleFont = calcTitleFontSize(newGeometry.toRect());
-    mTitle->setFont(QFont("Courier", titleFont));
-
-    int labelFont = calcLabelFontSize(newGeometry.toRect());
-    foreach (QCPAxis *axis, mPlot->axisRect()->axes()) {
-        axis->setLabelFont(QFont("Courier", labelFont));
-        axis->setTickLabelFont(QFont("Courier", labelFont));
-    }
     QResizeEvent re(newGeometry.size().toSize(), oldGeometry.size().toSize());
     mPlot->setRect(QRect(0, 0, newGeometry.width(), newGeometry.height()));
     mPlot->resizeEvent(&re);
