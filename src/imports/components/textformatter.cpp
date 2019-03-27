@@ -36,13 +36,15 @@ void TextFormatter::setText(QString text)
 void TextFormatter::setFormat(int format)
 {
     _format = format;
-    setText(QCSUtils::formatString(_data, _format, _precision));
+    if (_data)
+        setText(QCSUtils::formatString(_data, _format, _precision));
 }
 
 void TextFormatter::setPrecision(int precision)
 {
     _precision = precision;
-    setText(QCSUtils::formatString(_data, _format, _precision));
+    if (_data)
+        setText(QCSUtils::formatString(_data, _format, _precision));
 }
 
 void TextFormatter::stateStringsChanged()
