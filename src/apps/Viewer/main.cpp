@@ -21,6 +21,7 @@
 #include <QQuickWindow>
 #include <QMutex>
 
+#include <QQmlDebuggingEnabler>
 #include <QtDebug>
 
 #include "parsermanager.h"
@@ -62,6 +63,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char **argv)
 {
+
+    //enable the QML debugger only if -qmljsdebugger is passed as a command line arg
+    //this must be called before the QApplication constructor
+    for(int i=0; i<argc; i++) {
+        if (QByteArray(argv[i]).startsWith("-qmljsdebugger"))
+            QQmlDebuggingEnabler enabler;
+    }
+
     // If there are command line arguments, create QCoreApplication to parse
     // and dispatch request, otherwise create the final QApplication.
     QCoreApplication *qCoreApp = NULL;
