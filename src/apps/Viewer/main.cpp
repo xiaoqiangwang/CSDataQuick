@@ -71,18 +71,13 @@ int main(int argc, char **argv)
             QQmlDebuggingEnabler enabler;
     }
 
-    // If there are command line arguments, create QCoreApplication to parse
-    // and dispatch request, otherwise create the final QApplication.
-    QCoreApplication *qCoreApp = NULL;
-#ifdef Q_OS_DARWIN
-        qCoreApp = new QApplication(argc, argv);
-#else
-        qCoreApp = new QCoreApplication(argc, argv);
-#endif
-    qCoreApp->setOrganizationName("Paul Scherrer Institut");
-    qCoreApp->setOrganizationDomain("psi.ch");
-    qCoreApp->setApplicationName("Viewer");
-    qCoreApp->setApplicationVersion(CSDATAQUICK_VERSION);
+    // It is enough to use QGuiApplication mostly.
+    // However the print dialog depends still on QtWidgets and thus QApplication.
+    QApplication app(argc, argv);
+    app.setOrganizationName("Paul Scherrer Institut");
+    app.setOrganizationDomain("psi.ch");
+    app.setApplicationName("Viewer");
+    app.setApplicationVersion(CSDATAQUICK_VERSION);
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
     QString supportedExtensions = parserManager->supportedExtensions().join("/");
@@ -135,7 +130,7 @@ int main(int argc, char **argv)
     parser.addOption(geometryOption);
 
     // Process the actual command line arguments given by the user
-    parser.process(qCoreApp->arguments());
+    parser.process(app.arguments());
 
     // macros
     QString macroString = parser.value(macroOption);
@@ -177,7 +172,7 @@ int main(int argc, char **argv)
                     file.write(qml.toUtf8());
             }
         }
-        qCoreApp->quit();
+        app.quit();
         return 0;
     }
     // Do remote protocol if local option is not specified
@@ -191,30 +186,16 @@ int main(int argc, char **argv)
                 else
                     qDebug() << "  Dispatch failed for " << arg;
             }
-            qCoreApp->quit();
+            app.quit();
             return 0;
         } else {
             qWarning() << "\nCannot connect to existing Viewer because it is invalid\n"
                        << "  Continuing with this one as if -cleanup were specified\n";
         }
     }
-    // Now start the main application if qCoreApp is not QApplication
-    // It is enough to use QGuiApplication mostly.
-    // However the print dialog depends still on QtWidgets and thus QApplication.
-    QApplication *qMainApp = qobject_cast<QApplication*>(qCoreApp);
-    if (qMainApp == NULL) {
-        qCoreApp->quit();
-        delete qCoreApp;
-
-        qMainApp = new QApplication(argc, argv);
-        qMainApp->setOrganizationName("Paul Scherrer Institut");
-        qMainApp->setOrganizationDomain("psi.ch");
-        qMainApp->setApplicationName("Viewer");
-        qMainApp->setApplicationVersion(CSDATAQUICK_VERSION);
-    }
 
     QQmlEngine *engine = new QQmlEngine();
-    engine->rootContext()->setContextProperty("app", qMainApp);
+    engine->rootContext()->setContextProperty("app", &app);
     engine->rootContext()->setContextProperty("serverMode", QVariant(false));
 #ifdef Q_OS_MAC
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../../../../qml/");
@@ -237,7 +218,7 @@ int main(int argc, char **argv)
 
     qInstallMessageHandler(myMessageOutput);
 
-    qDebug().noquote() << qMainApp->applicationName() << "started with PID:" << qMainApp->applicationPid();
+    qDebug().noquote() << app.applicationName() << "started with PID:" << app.applicationPid();
 
     if (parser.isSet(noMsgOption))
         window->showMinimized();
@@ -262,5 +243,5 @@ int main(int argc, char **argv)
                              Q_ARG(QVariant, geometry));
     }
 
-    return qMainApp->exec();
+    return app.exec();
 }
