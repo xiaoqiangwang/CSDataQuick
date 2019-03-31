@@ -17,6 +17,7 @@
 #include "textformatter.h"
 #include "parser.h"
 #include "parsermanager.h"
+#include "imageprovider.h"
 
 #include <qqml.h>
 
@@ -55,7 +56,6 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterType<ArcItem>(uri, 1, 0, "Arc");
     qmlRegisterType<PaintedRectangletem>(uri, 1, 0, "PaintedRectangle");
     qmlRegisterType<OvalItem>(uri, 1, 0, "Oval");
-    qmlRegisterType<DoubleRectItem>(uri, 1, 0, "DoubleRect");
     qmlRegisterType<CustomPlotItem>(uri, 1, 0, "Plot");
     qmlRegisterType<GraphItem>(uri, 1, 0, "Graph");
     qmlRegisterType<ColorMapItem>(uri, 1, 0, "ColorMapItem");
@@ -96,7 +96,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
 
 void CSDataComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *uri)
 {
-    Q_UNUSED(engine);
     Q_UNUSED(uri);
+    engine->addImageProvider("doublerect", new DoubleRectProvider());
 }
 

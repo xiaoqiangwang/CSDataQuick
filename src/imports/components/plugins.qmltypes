@@ -282,13 +282,6 @@ Module {
         }
     }
     Component {
-        name: "DoubleRectItem"
-        defaultProperty: "data"
-        prototype: "ShapeItem"
-        exports: ["DoubleRect 1.0"]
-        exportMetaObjectRevisions: [0]
-    }
-    Component {
         name: "DynamicAttribute"
         prototype: "QObject"
         exports: ["DynamicAttribute 1.0"]

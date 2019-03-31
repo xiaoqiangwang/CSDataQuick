@@ -162,15 +162,4 @@ public:
 protected:
     QPainterPath buildPath();
 };
-
-class DoubleRectItem : public ShapeItem
-{
-    Q_OBJECT
-public:
-    DoubleRectItem(QQuickItem *parent=Q_NULLPTR);
-
-protected:
-    QPainterPath buildPath();
-};
-
 #endif // SHAPES_H

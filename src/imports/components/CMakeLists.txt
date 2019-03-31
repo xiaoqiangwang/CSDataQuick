@@ -12,6 +12,7 @@ set(SOURCES
     csimageitem.cpp
     mjpeg.cpp
     textformatter.cpp
+    imageprovider.cpp
 )
 
 set(HEADERS
@@ -26,6 +27,7 @@ set(HEADERS
     csimageitem.h
     mjpeg.h
     textformatter.h
+    imageprovider.h
 )
 
 if (CMAKE_VERSION VERSION_LESS 3.0)

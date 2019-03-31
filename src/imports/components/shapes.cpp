@@ -257,34 +257,3 @@ QPainterPath OvalItem::buildPath()
     path.addEllipse(getDrawArea());
     return path;
 }
-
-DoubleRectItem::DoubleRectItem(QQuickItem *parent)
-    : ShapeItem(parent)
-{
-
-}
-
-QPainterPath DoubleRectItem::buildPath()
-{
-    QPainterPath path;
-    QRectF rect = getDrawArea();
-
-    static QRectF rectangle(4./25., 4./25., 13./25., 14./25.);
-    static QVector<QPointF> segmentData = QVector<QPointF>()
-        << QPointF(17./25.,9./25.)
-        << QPointF(22./25.,9./25.)
-        << QPointF(22./25.,22./25.)
-        << QPointF(10./25.,22./25.)
-        << QPointF(10./25.,18./25.);
-
-    QRectF rc(rectangle.x() * rect.width(), rectangle.y() * rect.height(),
-                 rectangle.width() * rect.width(), rect.height() * rectangle.height());
-    path.addRect(rc);
-    QVector<QPointF> points;
-    foreach (QPointF point, segmentData) {
-       points << QPointF(point.x() * rect.width(), point.y() * rect.height());
-    }
-
-    path.addPolygon(QPolygonF(points));
-    return path;
-}

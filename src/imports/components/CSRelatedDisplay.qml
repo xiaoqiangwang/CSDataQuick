@@ -149,7 +149,9 @@ BaseItem {
 
     Component {
         id: doubleRect
-        DoubleRect {
+        Image {
+            source: 'image://doublerect/' + foreground
+            fillMode: Image.PreserveAspectFit
         }
     }
 
