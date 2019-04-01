@@ -117,7 +117,7 @@ void monitorCallbackC(struct event_handler_args args)
     case DBR_TIME_STRING:
         ConvertSTS(val->tshrtval)
         ConvertTime(val->tshrtval)
-        for(unsigned long i=0; i<count; i++)
+        for(qulonglong i=0; i<count; i++)
             strList.push_back(charToString(*(dbr_string_t_ptr)(&(val->tstrval.value) + i)));
         value.setValue(strList);
         break;
@@ -466,7 +466,6 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     chid _chid = (chid)data->extraProperty("chid").value<void*>();
     chtype reqtype = dbf_type_to_DBR(ca_field_type(_chid));
     int status = ECA_NORMAL;
-    unsigned long count = 1;
     qulonglong element_count  = ca_element_count(_chid);
 
     QVariant newValue(value);
@@ -487,9 +486,8 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
         }
     }
     if (newValue.canConvert<QVariantList>()) {
-        unsigned long value_count = newValue.value<QVariantList>().count();
-        count = qMin(value_count, ca_element_count(_chid));
-        if (count == 1)
+        qulonglong value_count = newValue.value<QVariantList>().count();
+        if (qMin(value_count, element_count) == 1)
             newValue.setValue(newValue.value<QVariantList>().at(0));
     }
 
@@ -502,13 +500,13 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
             QByteArray ba = strs.at(i).toLocal8Bit();
             strncpy(pbuf[i], ba.constData(), ba.size());
         }
-        status = ca_array_put(DBR_STRING, qMin((unsigned long)strs.size(), ca_element_count(_chid)), _chid, pbuf);
+        status = ca_array_put(DBR_STRING, qMin((qulonglong)strs.size(), element_count), _chid, pbuf);
     }
     break;
     default:
     {
         QVector<double> v = setup_put<double>(newValue);
-        status = ca_array_put(DBR_DOUBLE, qMin((unsigned long)v.size(), ca_element_count(_chid)), _chid, v.data());
+        status = ca_array_put(DBR_DOUBLE, qMin((qulonglong)v.size(), element_count), _chid, v.data());
     }
     break;
     }
