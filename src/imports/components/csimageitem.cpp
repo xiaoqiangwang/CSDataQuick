@@ -9,6 +9,7 @@
 CSImageItem::CSImageItem(QQuickItem *parent)
     : QQuickPaintedItem( parent )
 {
+    setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setFlag( QQuickItem::ItemHasContents, true );
     setAcceptedMouseButtons(Qt::LeftButton);
     _colorMap = Gray;
