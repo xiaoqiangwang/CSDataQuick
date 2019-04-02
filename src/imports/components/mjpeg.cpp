@@ -32,7 +32,7 @@ void MJPEG::setSource(QString source)
 
     if (source != _source) {
         if (_reply) {
-            disconnect(_reply);
+            _reply->disconnect();
             _reply->abort();
             _reply->deleteLater();
             _reply = Q_NULLPTR;
@@ -52,7 +52,7 @@ void MJPEG::setSource(QString source)
 
 void MJPEG::error(QNetworkReply::NetworkError code)
 {
-    qCritical() << "Connection error" << code;
+    qCritical() << "Network error" << code;
 }
 
 void MJPEG::readHeader()
