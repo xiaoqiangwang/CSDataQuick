@@ -152,6 +152,8 @@ BaseItem {
         Image {
             source: 'image://doublerect/' + foreground
             fillMode: Image.PreserveAspectFit
+            sourceSize.width: width
+            sourceSize.height: height
         }
     }
 
