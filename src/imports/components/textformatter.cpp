@@ -15,7 +15,7 @@ TextFormatter::TextFormatter(QObject *parent)
 void TextFormatter::setData(QCSData *data)
 {
     if (_data != Q_NULLPTR)
-        disconnect(_data);
+        _data->disconnect(this);
 
     _data = data;
     if (_data != Q_NULLPTR) {
