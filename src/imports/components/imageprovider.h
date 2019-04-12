@@ -8,7 +8,7 @@ class DoubleRectProvider : public QQuickImageProvider
 public:
     DoubleRectProvider();
 
-    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) override;
+    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize) Q_DECL_OVERRIDE;
 };
 
 #endif // IMAGEPROVIDER_H
