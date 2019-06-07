@@ -476,12 +476,11 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
             newValue.setValue(value.toDouble());
         } else {
             QByteArray ba = newValue.toByteArray();
-            if (ba.isEmpty())
-                ba.append('\x00');
             QVector<char> v;
             for(int i=0; i<ba.length(); i++) {
                 v.append(ba.at(i));
             }
+            v.append('\x00');
             newValue.setValue(QVariant::fromValue(v));
         }
     }
