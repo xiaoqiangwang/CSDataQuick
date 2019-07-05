@@ -13,21 +13,11 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 
-add_library(EDLParser MODULE
+add_library(EDLParser MODULE STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
+add_definitions(-DQT_STATICPLUGIN)
+
 target_link_libraries(EDLParser Qt5::Core)
-target_link_libraries(EDLParser parser)
-
-set_target_properties(EDLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
-)
-
-if (APPLE)
-    set_target_properties(EDLParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS EDLParser DESTINATION plugins/parser)

@@ -12,21 +12,11 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 
-add_library(QMLParser MODULE
+add_library(QMLParser MODULE STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
+add_definitions(-DQT_STATICPLUGIN)
+
 target_link_libraries(QMLParser Qt5::Core)
-target_link_libraries(QMLParser parser)
-
-set_target_properties(QMLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
-)
-
-if (APPLE)
-    set_target_properties(QMLParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS QMLParser DESTINATION plugins/parser)

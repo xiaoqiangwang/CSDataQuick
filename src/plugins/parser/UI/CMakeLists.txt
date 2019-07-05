@@ -19,21 +19,11 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 
-add_library(UIParser MODULE
+add_library(UIParser MODULE STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
+add_definitions(-DQT_STATICPLUGIN)
+
 target_link_libraries(UIParser Qt5::Core)
-target_link_libraries(UIParser parser)
-
-set_target_properties(UIParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
-)
-
-if (APPLE)
-    set_target_properties(UIParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS UIParser DESTINATION plugins/parser)

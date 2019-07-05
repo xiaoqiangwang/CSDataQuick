@@ -23,7 +23,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/src/include
 )
 
-target_link_libraries(parser Qt5::Core)
+target_link_libraries(parser ADLParser EDLParser QMLParser UIParser Qt5::Core)
 
 set_target_properties(parser PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
