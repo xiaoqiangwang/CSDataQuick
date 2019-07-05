@@ -25,7 +25,7 @@
  * \endlist
  */
 EDLParser::EDLParser(QObject *parent)
-    : QCSParser(parent)
+    : QObject(parent)
 {
 }
 

@@ -15,7 +15,7 @@
  * This parser actually only reads the QML file and performs macros expansion.
  */
 QMLParser::QMLParser(QObject *parent)
-    : QCSParser(parent)
+    : QObject(parent)
 {
 }
 

@@ -4,12 +4,6 @@
 
 #include "parser.h"
 
-QCSParser::QCSParser(QObject *parent)
-    : QObject(parent)
-{
-
-}
-
 /*!
     \class QCSParser
     \inmodule CSDataQuick.Parser

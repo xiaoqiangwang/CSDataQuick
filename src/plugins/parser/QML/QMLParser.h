@@ -2,7 +2,8 @@
 
 #include "parser.h"
 
-class QMLParser : public QCSParser
+class QMLParser : public QObject,
+                  public QCSParser
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "ch.psi.sls.ParserInterface")

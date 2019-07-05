@@ -24,7 +24,7 @@
  * \endlist
  */
 UIParser::UIParser(QObject *parent)
-    : QCSParser(parent)
+    : QObject(parent)
 {
 }
 

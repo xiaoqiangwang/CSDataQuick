@@ -18,7 +18,7 @@
  * All graphical objects are well supported.
  */
 ADLParser::ADLParser(QObject *parent)
-    : QCSParser(parent)
+    : QObject(parent)
 {
 }
 

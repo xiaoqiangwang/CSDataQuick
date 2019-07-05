@@ -6,16 +6,10 @@
 
 #include "parser_global.h"
 
-class PARSER_EXPORT QCSParser : public QObject
+class QCSParser
 {
-    Q_OBJECT
-
-    Q_PROPERTY(QString extension READ extension CONSTANT)
-    Q_PROPERTY(QString description READ description CONSTANT)
-
 public:
-    QCSParser(QObject *parent);
-    virtual ~QCSParser() {}
+    virtual ~QCSParser() = default;
 
     virtual QString extension() = 0;
     virtual QString description() = 0;
