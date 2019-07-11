@@ -6,7 +6,7 @@ set(HEADERS
     csdataengineca.h
 )
 
-add_library(csdataengineca MODULE
+add_library(csdataengineca MODULE STATIC
     ${SOURCES}
     ${HEADERS}
 )
@@ -20,16 +20,7 @@ include_directories(
 )
 
 add_definitions(${EPICS_DEFINITIONS})
+add_definitions(-DQT_STATICPLUGIN)
 
 target_link_libraries(csdataengineca Qt5::Core)
 target_link_libraries(csdataengineca ${EPICS_LIBRARIES})
-target_link_libraries(csdataengineca csdata)
-set_target_properties(csdataengineca PROPERTIES 
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csdataengine)
-
-if (APPLE)
-set_target_properties(csdataengineca PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS csdataengineca DESTINATION plugins/csdataengine)

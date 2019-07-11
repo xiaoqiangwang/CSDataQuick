@@ -27,7 +27,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}/src/include
 )
 
-target_link_libraries(csdata Qt5::Core)
+target_link_libraries(csdata csdataengineca csdataenginesim csdataenginelocal Qt5::Core)
 
 set_target_properties(csdata PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

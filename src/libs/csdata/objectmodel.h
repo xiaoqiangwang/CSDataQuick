@@ -43,10 +43,10 @@ public:
     void append(QObject *object);
     void remove(QObject *object);
 
-    int size() const { return _objects.size(); }
-    int count() const { return _objects.count(); }
-    bool contains(QObject *object) const { return _objects.contains(object);}
-    QObject *at(int i) const { return _objects.at(i); }
+    int size() const;
+    int count() const;
+    bool contains(QObject *object) const;
+    QObject *at(int i) const;
 
 signals:
     void countChanged();

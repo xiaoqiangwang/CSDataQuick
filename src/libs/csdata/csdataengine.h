@@ -3,23 +3,14 @@
 
 #include <QString>
 #include <QVariant>
-#include <QObject>
-
-#include "csdata_global.h"
 
 class QCSData;
 class ObjectModel;
 
-class CSDATA_EXPORT QCSDataEngine : public QObject
+class QCSDataEngine
 {
-    Q_OBJECT
-    Q_PROPERTY(ObjectModel* allData READ allData NOTIFY allDataChanged)
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString description READ description CONSTANT)
-
 public:
-    QCSDataEngine(QObject *parent);
-    virtual ~QCSDataEngine() {}
+    virtual ~QCSDataEngine() = default;
 
     virtual QString name() = 0;
     virtual QString description() = 0;
@@ -28,8 +19,8 @@ public:
     virtual void setValue(QCSData* data, const QVariant value) = 0;
     virtual ObjectModel * allData() = 0;
 
-signals:
-    void allDataChanged();
+protected:
+    virtual void allDataChanged() = 0;
 };
 
 Q_DECLARE_INTERFACE(QCSDataEngine, "ch.psi.sls.QCSDataEngine/1.0")

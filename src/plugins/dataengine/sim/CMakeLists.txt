@@ -6,7 +6,7 @@ set(HEADERS
     csdataenginesim.h
 )
 
-add_library(csdataenginesim MODULE
+add_library(csdataenginesim MODULE STATIC
     ${SOURCES}
     ${HEADERS}
 )
@@ -17,14 +17,6 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
+add_definitions(-DQT_STATICPLUGIN)
+
 target_link_libraries(csdataenginesim Qt5::Core)
-target_link_libraries(csdataenginesim csdata)
-set_target_properties(csdataenginesim PROPERTIES 
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csdataengine)
-
-if (APPLE)
-set_target_properties(csdataenginesim PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS csdataenginesim DESTINATION plugins/csdataengine)

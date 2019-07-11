@@ -80,3 +80,23 @@ void ObjectModel::onObjectPropertyChanged()
     QModelIndex index = QAbstractListModel::index(_objects.indexOf(object));
     emit dataChanged(index, index);
 }
+
+int ObjectModel::size() const
+{
+    return _objects.size();
+}
+
+int ObjectModel::count() const
+{
+    return _objects.count();
+}
+
+bool ObjectModel::contains(QObject *object) const
+{
+    return _objects.contains(object);
+}
+
+QObject *ObjectModel::at(int i) const
+{
+    return _objects.at(i);
+}

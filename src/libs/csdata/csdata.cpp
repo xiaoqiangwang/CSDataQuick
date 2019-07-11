@@ -632,3 +632,12 @@ void QCSData::reset()
     }
 }
 
+void QCSData::setExtraProperty(const QString name, const QVariant value)
+{
+    _extraProperties[name] = value;
+}
+
+QVariant QCSData::extraProperty(const QString name) const
+{
+    return _extraProperties[name];
+}

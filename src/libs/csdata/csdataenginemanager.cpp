@@ -55,6 +55,10 @@ BOOL WINAPI DllMain(
 
 QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 
+Q_IMPORT_PLUGIN(QCSDataEngineCA)
+Q_IMPORT_PLUGIN(QCSDataEngineLocal)
+Q_IMPORT_PLUGIN(QCSDataEngineSim)
+
 /*!
     \class QCSDataEngineManager
     \inmodule CSDataQuick.Data
@@ -76,8 +80,14 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
         QPluginLoader loader(fileInfo.absoluteFilePath());
         QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
         if (engine) {
-            _engines.append(engine);
+            _engines.append(loader.instance());
             qDebug() << "Loaded " << engine->description();
+        }
+    }
+    foreach(QStaticPlugin plugin, QPluginLoader::staticPlugins()) {
+        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(plugin.instance());
+        if (engine) {
+            _engines.append(plugin.instance());
         }
     }
 }
@@ -100,7 +110,8 @@ QCSDataEngineManager *QCSDataEngineManager::instance()
 /*! \internal */
 QCSDataEngine *QCSDataEngineManager::defaultEngine() const
 {
-    foreach (QCSDataEngine *engine, _engines) {
+    foreach (QObject *o, _engines) {
+        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(o);
         if (engine->name() == "ca")
             return engine;
     }
@@ -117,7 +128,8 @@ QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
     if (dataSourceName.scheme().isEmpty())
         return defaultEngine();
 
-    foreach (QCSDataEngine *engine, _engines) {
+    foreach (QObject *o, _engines) {
+        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(o);
         if (engine->name() == dataSourceName.scheme())
             return engine;
     }
@@ -130,9 +142,5 @@ QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
 */
 QList<QObject*> QCSDataEngineManager::engines() const
 {
-    QList<QObject *> objects;
-    foreach (QCSDataEngine *engine, _engines) {
-        objects.append(qobject_cast<QObject*>(engine));
-    }
-    return objects;
+    return _engines;
 }

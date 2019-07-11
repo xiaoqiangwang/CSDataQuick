@@ -25,7 +25,7 @@ private:
 
     static QCSDataEngineManager *_manager;
 
-    QList<QCSDataEngine*> _engines;
+    QList<QObject*> _engines;
 };
 
 #endif // CSDATAENGINEMANAGER

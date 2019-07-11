@@ -4,12 +4,6 @@
 
 #include "csdataengine.h"
 
-QCSDataEngine::QCSDataEngine(QObject *parent)
-    : QObject(parent)
-{
-
-}
-
 /*!
     \class QCSDataEngine
     \inmodule CSDataQuick.Data

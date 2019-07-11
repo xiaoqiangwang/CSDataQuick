@@ -53,7 +53,7 @@
  * \endtable
  */
 QCSDataEngineSim::QCSDataEngineSim(QObject *parent)
-    : QCSDataEngine(parent)
+    : QObject(parent)
 {
     _data = new ObjectModel(this);
 

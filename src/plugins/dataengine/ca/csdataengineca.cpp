@@ -331,7 +331,7 @@ void connectCallbackC(struct connection_handler_args args)
  * to improve the IO efficiency.
  */
 QCSDataEngineCA::QCSDataEngineCA(QObject *parent)
-    : QCSDataEngine(parent)
+    : QObject(parent)
 {
     _data = new ObjectModel(this);
     QByteArrayList roles;
