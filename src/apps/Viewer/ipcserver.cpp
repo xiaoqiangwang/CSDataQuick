@@ -103,7 +103,7 @@ void IPCHandler :: handleClient(QLocalSocket *client)
 
 
 QString IPCServer :: getServerName() {
-    int id = 0;
+    unsigned int id = 0;
     QString serverName = "Viewer";
 #if defined(Q_OS_MAC) && !defined(Q_OS_IOS)
     OSStatus error;
