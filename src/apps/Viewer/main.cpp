@@ -28,7 +28,7 @@
 #include "parser.h"
 #include "cs_global.h"
 
-QPointer<QQuickWindow> window;
+static QPointer<QQuickWindow> window;
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
