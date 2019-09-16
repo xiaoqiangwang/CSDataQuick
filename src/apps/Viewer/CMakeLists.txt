@@ -77,9 +77,9 @@ elseif(UNIX)
         INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
-install(TARGETS ${APPNAME} DESTINATION bin)
-if (APPLE)
-install(CODE "
-file(WRITE \"\${CMAKE_INSTALL_PREFIX}/bin/${APPNAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPrefix=../../..\")
-" COMPONENT Runtime)
-endif()
+install(TARGETS ${APPNAME} DESTINATION ${KDE_INSTALL_BINDIR})
+#if (APPLE)
+#install(CODE "
+#file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${KDE_INSTALL_BINDIR}/${APPNAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPrefix=../../..\")
+#" COMPONENT Runtime)
+#endif()

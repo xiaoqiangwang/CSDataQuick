@@ -56,5 +56,5 @@ foreach(FILE ${QML_JS_FILES})
     )
 endforeach()
 
-install(TARGETS csdataplugin DESTINATION qml/CSDataQuick/Data)
-install(FILES ${QML_JS_FILES} DESTINATION qml/CSDataQuick/Data)
+install(TARGETS csdataplugin DESTINATION ${KDE_INSTALL_QMLDIR}/CSDataQuick/Data)
+install(FILES ${QML_JS_FILES} DESTINATION ${KDE_INSTALL_QMLDIR}/CSDataQuick/Data)

@@ -40,6 +40,9 @@ find_package(EPICS REQUIRED)
 
 set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/qml CACHE STRING "QML Import Paths")
 
+include(InstallDirs)
+message(${KDE_INSTALL_PLUGINDIR} ${KDE_INSTALL_QTPLUGINDIR})
+
 add_subdirectory(src)
 add_subdirectory(docs)
 add_subdirectory(examples)

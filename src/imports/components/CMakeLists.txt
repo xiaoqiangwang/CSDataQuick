@@ -270,8 +270,8 @@ endforeach()
 
 add_dependencies(csdatacomponentsplugin CopyQMLFiles)
 
-install(TARGETS csdatacomponentsplugin DESTINATION qml/CSDataQuick/Components)
+install(TARGETS csdatacomponentsplugin DESTINATION ${KDE_INSTALL_QMLDIR}/CSDataQuick/Components)
 foreach (file ${QML_JS_FILES})
     get_filename_component(dir ${file} DIRECTORY)
-    install(FILES ${file} DESTINATION qml/CSDataQuick/Components/${dir})
+    install(FILES ${file} DESTINATION ${KDE_INSTALL_QMLDIR}/CSDataQuick/Components/${dir})
 endforeach()
