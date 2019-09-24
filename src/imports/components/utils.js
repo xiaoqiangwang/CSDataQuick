@@ -6,7 +6,7 @@
 /*!
     \qmltype UtilsJS
     \inqmlmodule CSDataQuick.Components
-    \brief Javascript Utility Functions
+    \brief Javascript Utility Functions.
 */
 
 
