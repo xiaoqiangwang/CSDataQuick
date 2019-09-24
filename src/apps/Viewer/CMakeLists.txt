@@ -42,7 +42,7 @@ target_link_libraries(${APPNAME} PRIVATE
 )
 if(APPLE)
     find_library(OSXSecurity Security)
-    target_link_libraries(${APPNAME} ${OSXSecurity})
+    target_link_libraries(${APPNAME} PRIVATE ${OSXSecurity})
 endif()
 
 SET_TARGET_PROPERTIES(${APPNAME} PROPERTIES
