@@ -8,7 +8,7 @@ import "utils.js" as UtilsJS
     \qmltype CSBar
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.monitors
-    \brief Display a bar that expands or contracts when value changes
+    \brief Display a bar that expands or contracts when value changes.
 
     The Bar Monitor can have several decorations as specified by the \l labelStyle.
     It can go up, down, left, or right, as specified by the \l direction property.

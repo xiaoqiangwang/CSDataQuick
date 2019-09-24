@@ -8,7 +8,7 @@ import CSDataQuick.Components.Private 1.0
     \qmltype BaseWindow
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.bases
-    \brief Base for all toplevel windows
+    \brief Base for all toplevel windows.
 
     In addition to \l Window, it records the file path this window represents and the macro expansion.
     Also it implements a context menu,

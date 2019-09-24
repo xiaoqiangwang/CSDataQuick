@@ -10,7 +10,7 @@
  * \class QMLParser
  * \inmodule CSDataQuick.Parser
  * \ingroup csdataquick.parser.plugins
- * \brief Parse CSDataQuick QML files
+ * \brief Parse CSDataQuick QML files.
  *
  * This parser actually only reads the QML file and performs macros expansion.
  */

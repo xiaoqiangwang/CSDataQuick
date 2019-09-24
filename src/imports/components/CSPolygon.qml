@@ -6,7 +6,7 @@ import CSDataQuick.Components 1.0
     \qmltype CSPolygon
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.graphics
-    \brief Display a polygon shape
+    \brief Display a polygon shape.
 
     Draws the polygon defined by the \l points array. The first point is implicitly connected to the last point.
 

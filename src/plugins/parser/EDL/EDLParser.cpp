@@ -15,7 +15,7 @@
  * \class EDLParser
  * \inmodule CSDataQuick.Parser
  * \ingroup csdataquick.parser.plugins
- * \brief Parse EDM (Extensible Display Manager) files
+ * \brief Parse EDM (Extensible Display Manager) files.
  *
  * This parser only supports 4.0 version of EDL files. The unspported features are:
  * \list

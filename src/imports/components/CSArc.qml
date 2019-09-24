@@ -6,7 +6,7 @@ import CSDataQuick.Components 1.0
     \qmltype CSArc
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.graphics
-    \brief Display an arc curve
+    \brief Display an arc curve.
 
     The arc is drawn beginning at \l begin and extending \l span degrees
     counter clockwise. Negative \l span will effectively draw in clockwise.

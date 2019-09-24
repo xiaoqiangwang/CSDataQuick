@@ -9,7 +9,7 @@ import CSDataQuick.Components 1.0
     \qmltype CSTextArea
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.controls
-    \brief Display an editable multiline text
+    \brief Display an editable multiline text.
 
     It can be used to edit a multiline text. The CSData object could be of char array type.
     To confirm the changes, use the \e Apply context menu.

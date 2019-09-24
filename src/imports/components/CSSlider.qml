@@ -9,7 +9,7 @@ import "utils.js" as UtilsJS
     \qmltype CSSlider
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.controls
-    \brief Display a slider to control a PV
+    \brief Display a slider to control a PV.
 
     Dragging the Slider handle transmits values.
     The sensitivity with which values can be selected this way depends on the range of the slider.

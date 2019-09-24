@@ -7,7 +7,7 @@ import CSDataQuick.Components 1.0
     \qmltype CS2DSscan
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.monitors
-    \brief Display 2D sscan
+    \brief Display 2D sscan.
 
     \l {http://www.aps.anl.gov/bcda/synApps/sscan/sscan.html}{sscan} is a flexible way to 
     move positioners through a series of positions and record detector data at each of the positions.

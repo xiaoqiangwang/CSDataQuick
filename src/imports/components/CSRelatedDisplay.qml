@@ -11,7 +11,7 @@ import "utils.js" as UtilsJS
     \qmltype CSRelatedDisplay
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.controls
-    \brief Brings up more displays
+    \brief Brings up more displays.
 
     The Related Display provides a means of bringing up more displays.
     It is by default a menu button that has a graphic consisting of two overlapping squares and a label.

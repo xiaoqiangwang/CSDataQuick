@@ -12,7 +12,7 @@
  * \class ADLParser
  * \inmodule CSDataQuick.Parser
  * \ingroup csdataquick.parser.plugins
- * \brief Parse MEDM ADL files
+ * \brief Parse MEDM ADL files.
  *
  * ADL (ASCII Display List) files are produced by MEDM (Motif Editor and Display Manager).
  * All graphical objects are well supported.

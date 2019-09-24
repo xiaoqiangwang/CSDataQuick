@@ -10,7 +10,7 @@ import "utils.js" as UtilsJS
     \qmltype CSControl
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.bases
-    \brief Basic type to all controls
+    \brief Basic type to all controls.
 
     CSControl is the base type for all control types.
     It defines all the attributes that are common across controls.

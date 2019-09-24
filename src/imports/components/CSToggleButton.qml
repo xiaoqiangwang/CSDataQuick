@@ -9,7 +9,7 @@ import "utils.js" as UtilsJS
     \qmltype CSToggleButton
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.controls
-    \brief Displays a checkbox to toggle a boolean value
+    \brief Displays a checkbox to toggle a boolean value.
 
     The Toggle Button sets the CSData value when the button is checked or cleared.
 */

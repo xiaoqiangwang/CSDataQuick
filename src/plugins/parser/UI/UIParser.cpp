@@ -11,7 +11,7 @@
  * \class UIParser
  * \inmodule CSDataQuick.Parser
  * \ingroup csdataquick.parser.plugins
- * \brief Parse caQtDM UI files
+ * \brief Parse caQtDM UI files.
  *
  * The parser from Qt tool uic is used to parse the UI file. Then it traverses the widget tree and
  * creates their QML equilents.

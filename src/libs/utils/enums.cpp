@@ -7,7 +7,7 @@
 /*!
     \qmltype TextFormat
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of supported text format
+    \brief Enums of supported text format.
 
     This class holds the enums of the supported text format. \sa Utils::convert
 */
@@ -80,7 +80,7 @@
 /*!
     \qmltype ColorMode
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of dynamic color rules
+    \brief Enums of dynamic color rules.
 
     This class holds the enums of the dynamic color rules.
 */
@@ -106,7 +106,7 @@
 /*!
     \qmltype Direction
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of item direction
+    \brief Enums of item direction.
 */
 /*!
     \qmlproperty enumeration Direction::Direction
@@ -120,7 +120,7 @@
 /*!
     \qmltype EdgeStyle
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of the outline style
+    \brief Enums of the outline style.
 */
 /*!
     \qmlproperty enumeration EdgeStyle::EdgeStyle
@@ -133,7 +133,7 @@
 /*!
     \qmltype FillStyle
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of the item filling style
+    \brief Enums of the item filling style.
 */
 /*!
     \qmlproperty enumeration FillStyle::FillStyle
@@ -146,7 +146,7 @@
 /*!
     \qmltype VisibilityMode
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of how items visibility changes
+    \brief Enums of how items visibility changes.
 */
 /*!
     \qmlproperty enumeration VisibilityMode::VisibilityMode
@@ -168,7 +168,7 @@
 /*!
     \qmltype LimitsSource
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of where the limits and precision is from
+    \brief Enums of where the limits and precision is from.
 */
 /*!
     \qmlproperty enumeration LimitsSource::LimitsSource
@@ -183,7 +183,7 @@
 /*!
     \qmltype ArrowPosition
     \inqmlmodule CSDataQuick.Components
-    \brief Enums of where the arrow is placed
+    \brief Enums of where the arrow is placed.
 */
 
 /*!

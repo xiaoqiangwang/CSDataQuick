@@ -9,7 +9,7 @@ import "utils.js" as UtilsJS
     \qmltype CSMonitor
     \inqmlmodule CSDataQuick.Components
     \ingroup csdataquick.components.bases
-    \brief Basic type to all monitors
+    \brief Basic type to all monitors.
 
 */
 
