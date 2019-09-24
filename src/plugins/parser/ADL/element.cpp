@@ -282,7 +282,7 @@ void Limits::parse(std::istream &fstream)
             } else if(!strcmp(token,"precDefault")) {
                 getToken(fstream, token);
                 getToken(fstream, token);
-                this->precDefault = atof(token);
+                this->precDefault = atoi(token);
             }
             break;
         case T_LEFT_BRACE:
