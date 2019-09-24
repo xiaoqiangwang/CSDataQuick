@@ -10,22 +10,22 @@ set(HEADERS
     UIParser.h
 )
 
-# undef QDESIGNER_UILIB_EXPORT macro in ui4.h
-add_definitions(-DQT_UIC)
-
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 add_library(UIParser MODULE
     ${SOURCES}
     ${HEADERS}
 )
 
-target_link_libraries(UIParser Qt5::Core)
-target_link_libraries(UIParser parser)
+target_include_directories(UIParser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/libs/parser
+)
+
+target_compile_definitions(UIParser PRIVATE
+    QT_UIC # undef QDESIGNER_UILIB_EXPORT macro in ui4.h
+)
+
+target_link_libraries(UIParser PRIVATE
+    Qt5::Core parser
+)
 
 set_target_properties(UIParser PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser

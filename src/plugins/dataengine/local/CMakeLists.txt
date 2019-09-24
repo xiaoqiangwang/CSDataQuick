@@ -11,14 +11,15 @@ add_library(csdataenginelocal MODULE
     ${HEADERS}
 )
 
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
+target_include_directories(csdataenginelocal PRIVATE
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
-target_link_libraries(csdataenginelocal Qt5::Core)
-target_link_libraries(csdataenginelocal csdata)
+target_link_libraries(csdataenginelocal PRIVATE
+    Qt5::Core
+    csdata
+)
+
 set_target_properties(csdataenginelocal PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csdataengine)
 

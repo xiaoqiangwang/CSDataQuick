@@ -9,15 +9,13 @@ set(HEADERS
     ADLParser.h
 )
 
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 add_library(ADLParser MODULE
     ${SOURCES}
     ${HEADERS}
+)
+
+target_include_directories(ADLParser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 
 target_compile_definitions(ADLParser PRIVATE

@@ -18,6 +18,7 @@ add_library(csutils SHARED
 
 target_compile_definitions(csutils PRIVATE
     UTILS_LIBRARY
+    ${EPICS_DEFINITIONS}
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )
 

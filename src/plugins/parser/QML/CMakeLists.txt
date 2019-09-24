@@ -6,19 +6,18 @@ set(HEADERS
     QMLParser.h
 )
 
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 add_library(QMLParser MODULE
     ${SOURCES}
     ${HEADERS}
 )
 
-target_link_libraries(QMLParser Qt5::Core)
-target_link_libraries(QMLParser parser)
+target_include_directories(QMLParser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/libs/parser
+)
+
+target_link_libraries(QMLParser PRIVATE
+    Qt5::Core parser
+)
 
 set_target_properties(QMLParser PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser

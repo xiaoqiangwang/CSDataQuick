@@ -17,7 +17,7 @@ add_executable(builder WIN32 MACOSX_BUNDLE
     ${SOURCES}
     ${RESOURCES}
 )
-target_link_libraries(builder
+target_link_libraries(builder PRIVATE
     Qt5::Gui
     Qt5::Qml
 )

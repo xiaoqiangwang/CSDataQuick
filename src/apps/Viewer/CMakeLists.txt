@@ -28,16 +28,10 @@ add_executable(${APPNAME} WIN32 MACOSX_BUNDLE
 )
 
 target_include_directories(${APPNAME} PRIVATE
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Network_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Qml_INCLUDE_DIRS}
-    ${Qt5Quick_INCLUDE_DIRS}
     ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
-target_link_libraries(${APPNAME}
+target_link_libraries(${APPNAME} PRIVATE
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets

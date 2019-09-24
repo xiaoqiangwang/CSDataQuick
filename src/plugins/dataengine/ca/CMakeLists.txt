@@ -11,7 +11,7 @@ add_library(csdataengineca MODULE
     ${HEADERS}
 )
 
-include_directories(
+target_include_directories(csdataengineca PRIVATE
     ${EPICS_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
@@ -21,10 +21,12 @@ target_compile_definitions(csdataengineca PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )
 
+target_link_libraries(csdataengineca PRIVATE
+    Qt5::Core
+    ${EPICS_LIBRARIES}
+    csdata
+)
 
-target_link_libraries(csdataengineca Qt5::Core)
-target_link_libraries(csdataengineca ${EPICS_LIBRARIES})
-target_link_libraries(csdataengineca csdata)
 set_target_properties(csdataengineca PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csdataengine)
 
