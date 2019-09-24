@@ -12,14 +12,15 @@ add_library(csdataengineca MODULE
 )
 
 include_directories(
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
     ${EPICS_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
-add_definitions(${EPICS_DEFINITIONS})
+target_compile_definitions(csdataengineca PRIVATE
+    ${EPICS_DEFINITIONS}
+    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+)
+
 
 target_link_libraries(csdataengineca Qt5::Core)
 target_link_libraries(csdataengineca ${EPICS_LIBRARIES})

@@ -20,8 +20,13 @@ add_library(ADLParser MODULE
     ${HEADERS}
 )
 
-target_link_libraries(ADLParser Qt5::Core)
-target_link_libraries(ADLParser parser)
+target_compile_definitions(ADLParser PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+)
+
+target_link_libraries(ADLParser PRIVATE
+    Qt5::Core parser
+)
 
 set_target_properties(ADLParser PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
