@@ -18,16 +18,9 @@ add_library(csdata SHARED
     ${HEADERS}
 )
 
-add_definitions(-DCSDATA_LIBRARY)
+target_compile_definitions(csdata PRIVATE CSDATA_LIBRARY)
 
-include_directories(
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${EPICS_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
-)
-
-target_link_libraries(csdata Qt5::Core)
+target_link_libraries(csdata PUBLIC Qt5::Core)
 
 set_target_properties(csdata PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

@@ -207,31 +207,25 @@ add_library(csdatacomponentsplugin MODULE
     ${QML_JS_FILES}
 )
 
-include_directories(
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Widgets_INCLUDE_DIRS}
-    ${Qt5Qml_INCLUDE_DIRS}
-    ${Qt5Quick_INCLUDE_DIRS}
-    ${Qt5Concurrent_INCLUDE_DIRS}
-    ${Qt5PrintSupport_INCLUDE_DIRS}
+target_include_directories(csdatacomponentsplugin PRIVATE
     ${EPICS_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/parser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
     ${CMAKE_SOURCE_DIR}/src/libs/utils
 )
 
-add_definitions(${EPICS_DEFINITIONS})
-add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+target_compile_definitions(csdatacomponentsplugin PRIVATE
+    ${EPICS_DEFINITIONS}
+    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+    $<$<CONFIG:Debug>:QT_QML_DEBUG>
+)
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DQT_QML_DEBUG ")
 
-target_link_libraries(csdatacomponentsplugin Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport)
-target_link_libraries(csdatacomponentsplugin ${EPICS_LIBRARIES})
-target_link_libraries(csdatacomponentsplugin parser)
-target_link_libraries(csdatacomponentsplugin csdata)
-target_link_libraries(csdatacomponentsplugin csutils)
+target_link_libraries(csdatacomponentsplugin
+    PRIVATE
+        Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport csutils
+)
 set_target_properties(csdatacomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
 

@@ -16,29 +16,27 @@ add_library(csutils SHARED
     ${HEADERS}
 )
 
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Qml_INCLUDE_DIRS}
-    ${Qt5Quick_INCLUDE_DIRS}
+target_compile_definitions(csutils PRIVATE
+    UTILS_LIBRARY
+    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+)
+
+target_include_directories(csutils PRIVATE
     ${EPICS_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
     ${CMAKE_SOURCE_DIR}/src/libs/parser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
-add_definitions(${EPICS_DEFINITIONS})
-add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-add_definitions(-DUTILS_LIBRARY)
-
 target_link_libraries(csutils
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Qml
-    Qt5::Quick
-    ${EPICS_LIBRARIES}
-    parser
-    csdata
+    PUBLIC
+        Qt5::Core
+        Qt5::Qml
+        ${EPICS_LIBRARIES}
+    PRIVATE
+        Qt5::Gui
+        Qt5::Quick
+        parser
+        csdata
 )
 
 set_target_properties(csutils PROPERTIES

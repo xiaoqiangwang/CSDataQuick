@@ -1,5 +1,7 @@
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+
 project(CSDataQuick)
-cmake_minimum_required(VERSION 2.8.10 FATAL_ERROR)
+
 set(CSDATAQUICK_VERSION_MAJOR 1)
 set(CSDATAQUICK_VERSION_MINOR 2)
 set(CSDATAQUICK_VERSION_RELEASE "0-dev")
@@ -41,7 +43,6 @@ find_package(EPICS REQUIRED)
 set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/qml CACHE STRING "QML Import Paths")
 
 include(InstallDirs)
-message(${KDE_INSTALL_PLUGINDIR} ${KDE_INSTALL_QTPLUGINDIR})
 
 add_subdirectory(src)
 add_subdirectory(docs)

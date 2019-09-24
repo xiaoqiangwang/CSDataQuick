@@ -14,16 +14,9 @@ add_library(parser SHARED
     ${HEADERS}
 )
 
-add_definitions(-DPARSER_LIBRARY)
+target_compile_definitions(parser PRIVATE PARSER_LIBRARY)
 
-include_directories(
-    ${Qt5Qt_INCLUDE_DIRS}
-    ${Qt5Core_INCLUDE_DIRS}
-    ${EPICS_INCLUDE_DIRS}
-    ${CMAKE_BINARY_DIR}/src/include
-)
-
-target_link_libraries(parser Qt5::Core)
+target_link_libraries(parser PUBLIC Qt5::Core)
 
 set_target_properties(parser PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

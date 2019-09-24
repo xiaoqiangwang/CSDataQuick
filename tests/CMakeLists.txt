@@ -1,48 +1,37 @@
 add_executable(test_qcsdata
     test_qcsdata.cpp
 )
-include_directories(
+target_include_directories(test_qcsdata PRIVATE
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
 target_link_libraries(test_qcsdata
+    Qt5::Core
     csdata
-)
-
-SET_TARGET_PROPERTIES(test_qcsdata PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 add_executable(test_convert
     test_convert.cpp
 )
-include_directories(
+target_include_directories(test_convert PRIVATE
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
     ${CMAKE_SOURCE_DIR}/src/libs/utils
 )
 
 target_link_libraries(test_convert
+    Qt5::Core
     csdata
     csutils
-)
-
-SET_TARGET_PROPERTIES(test_convert PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
 
 add_executable(test_parser
     test_parser.cpp
 )
-include_directories(
-    ${Qt5Core_INCLUDE_DIRS}
+target_include_directories(test_parser PRIVATE
     ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 
 target_link_libraries(test_parser
-    parser
     Qt5::Core
-)
-
-SET_TARGET_PROPERTIES(test_parser PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+    parser
 )

@@ -21,27 +21,13 @@ else ()
     )
 endif()
 
-if(APPLE)
-    add_executable(${APPNAME} MACOSX_BUNDLE
-        ${SOURCES}
-        ${HEADERS}
-        ${RESOURCES}
-    )
-elseif(WIN32)
-    add_executable(${APPNAME} WIN32
-        ${SOURCES}
-        ${HEADERS}
-        ${RESOURCES}
-    )
-else()
-    add_executable(${APPNAME}
-        ${SOURCES}
-        ${HEADERS}
-        ${RESOURCES}
-    )
-endif()
+add_executable(${APPNAME} WIN32 MACOSX_BUNDLE
+    ${SOURCES}
+    ${HEADERS}
+    ${RESOURCES}
+)
 
-include_directories(
+target_include_directories(${APPNAME} PRIVATE
     ${Qt5Qt_INCLUDE_DIRS}
     ${Qt5Core_INCLUDE_DIRS}
     ${Qt5Network_INCLUDE_DIRS}

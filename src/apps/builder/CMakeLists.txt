@@ -13,33 +13,18 @@ else ()
         main.qrc
     )
 endif()
-if(APPLE)
-add_executable(builder MACOSX_BUNDLE
+add_executable(builder WIN32 MACOSX_BUNDLE
     ${SOURCES}
     ${RESOURCES}
-)
-elseif(WIN32)
-add_executable(builder WIN32
-    ${SOURCES}
-    ${RESOURCES}
-)
-else()
-add_executable(builder
-    ${SOURCES}
-    ${RESOURCES}
-)
-endif()
-include_directories(
-    ${Qt5Gui_INCLUDE_DIRS}
-    ${Qt5Qml_INCLUDE_DIRS}
 )
 target_link_libraries(builder
     Qt5::Gui
     Qt5::Qml
 )
 
-SET_TARGET_PROPERTIES(builder PROPERTIES RUNTIME_OUTPUT_DIRECTORY 
-    ${CMAKE_BINARY_DIR}/bin)
+SET_TARGET_PROPERTIES(builder PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
 
 if(APPLE)
 SET_TARGET_PROPERTIES(builder PROPERTIES
