@@ -29,10 +29,6 @@ else ()
   set (CMAKE_CXX_STANDARD 11)
 endif ()
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 3.5)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-inconsistent-missing-override")
-endif ()
-
 # When CMake 3.0.0 is required, remove this block (see CMP0042).
 if (NOT DEFINED CMAKE_MACOSX_RPATH)
     set(CMAKE_MACOSX_RPATH 1)
