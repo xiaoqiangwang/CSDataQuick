@@ -35,11 +35,7 @@ set(QML_JS_FILES
 
 foreach(FILE ${QML_JS_FILES})
     # make subdirectory if not existing
-    if (${CMAKE_MAJOR_VERSION} LESS 3)
-        get_filename_component(DIR ${FILE} PATH)
-    else ()
-        get_filename_component(DIR ${FILE} DIRECTORY)
-    endif()
+    get_filename_component(DIR ${FILE} DIRECTORY)
 
     if (NOT IS_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/${DIR})
         file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/${DIR})
