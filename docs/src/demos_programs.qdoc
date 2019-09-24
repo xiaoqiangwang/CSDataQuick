@@ -30,7 +30,7 @@
 \page programs.html
 \title Viewer and Builder
 
-\chapter Viewer
+\section1 Viewer
 
 Viewer parses an MEDM ASCII Display List(ADL) file, EDM (EDL) file or caQtDM (UI) file and creates an equivalent display
 using CSDataQuick. Of course it accepts QML file as well. It can be a drop-in replacement to MEDM, EDM and caQtDM in execute mode.
@@ -39,7 +39,7 @@ This document contains texts from
 \l {http://www.aps.anl.gov/epics/EpicsDocumentation/ExtensionsManuals/MEDM/MEDM.html}{MEDM Reference Manual}
 when applicable.
 
-\section1 Command Line
+\section2 Command Line
 
 \table
 \header
@@ -138,7 +138,7 @@ Context popup menu is invoked by mouse right click anywhere on the background.
 \li Submenu configured by \e MEDM_EXEC_LIST. \sa {Execute Menu}
 \endtable
 
-\section2 Execute Menu
+\section3 Execute Menu
 This menu is configured by \e MEDM_EXEC_LIST environment variable. This variable is of the form:
 \code
 name1; program1[[:name2; program2]...]
@@ -165,7 +165,7 @@ The system command can include the following special characters:
 \li Truncate the command at this point and prompt the user to finish or otherwise edit the command.
 \endtable
 
-\section1 Environment Variables
+\section2 Environment Variables
 \table
 \header
 \li Variable
@@ -186,7 +186,7 @@ The system command can include the following special characters:
 \li A list of commands for the Execute-Mode Popup Menu. See the Execute Menu for the format.
 \endtable
 
-\section1 Differences to MEDM
+\section2 Differences to MEDM
 
 \list
 \li Command line options
@@ -201,7 +201,7 @@ The system command can include the following special characters:
     But the CSData source can be copied via context menu \e {Copy Source}.
 \endlist
 
-\section1 Differences to EDM
+\section2 Differences to EDM
 
 \list
 \li Command line options
@@ -214,7 +214,7 @@ The system command can include the following special characters:
 \li Dynamic colors are not supported.
 \endlist
 
-\section1 Differences to caQtDM
+\section2 Differences to caQtDM
 
 \list
 \li Widgets not supported: caCalc, caClock, caDoubleTabWidget, caTable, caMimeDisplay, caWaterfallPlot
@@ -222,7 +222,7 @@ The system command can include the following special characters:
 \li Connection (signal/slot) definition not supported. But this can easily achieved in QML.
 \endlist
 
-\chapter builder
+\section1 builder
 
 builder is a program to build one-time displays.
 User enters the CSData source and choose the visual item type.

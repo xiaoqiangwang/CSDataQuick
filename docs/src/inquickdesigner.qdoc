@@ -3,14 +3,14 @@
 \page use-in-quickdesigner.html
 \title Use in Qt Quick Designer
 
-\chapter Setup Qt Quick Designer
+\section1 Setup Qt Quick Designer
 
 Unlike the Qt UI Designer, Qt Quick Designer is deeply integrated in Qt Creator.
 This has one advantage that one can switch to edit mode to fine tune the components.
 
 The following setup is not necessary for the bundled binary package from http://epics.web.psi.ch/software/CSDataQuick
 
-\section1 macOS and Linux
+\section2 macOS and Linux
 
 The CSDataQuick module must be in the import path before launching Qt Creator.
 \code
@@ -33,7 +33,7 @@ in the \e{QML Enumlation Layer} group, select \e{Use QML emulation layer that is
 
 \image config-qmldesigner.png "Configure Quick Designer"
 
-\section1 Windows
+\section2 Windows
 
 On Windows the situation is a lot more subtle. The safest approach is to build against the same Qt version as the Qt Creator.
 For example, Qt Creator 4.4 uses Qt 5.9.1 msvc2015 32bit.
@@ -48,7 +48,7 @@ In addition, add the \e bin to PATH. Suppose the build path is \c C:\CSDataQuick
 The long answer is that, Qt Creator needs to know which Qt version to be used to create \e qml2puppet.
 One can create an empty project, using the same Qt version used to build CSDataQuick. And then open/create qml displays from there.
 
-\chapter Using the designer
+\section1 Using the designer
 
 Start with an empty template file, \e mydevice.qml
 \code
@@ -71,7 +71,7 @@ The following video shows show to switch between edit and design modes.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3RrCNwAp318" frameborder="0" allowfullscreen></iframe>
 \endraw
 
-\chapter What is not working
+\section1 What is not working
 
 \list
 \li The Display, Command, StripChar and CartesianPlot editor: if the model is given of \c ListModel form, it cannot be edited in designer.
