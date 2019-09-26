@@ -502,7 +502,9 @@ void QCSData::setStateStrings(const QStringList stateStrings)
     This property holds the alarm information.
 */
 /*!
-    \brief Convenient method to set alarm condition, used by the CSDataEngine.
+    \brief Convenient method to set alarm condition, designated by \a severity, \a status and \a message as in QCSData::alarm.
+
+    It is used by the CSDataEngine.
 */
 void QCSData::setAlarm(QCSDataAlarm::Severity severity, int status, const QString message)
 {
@@ -519,7 +521,9 @@ void QCSData::setAlarm(QCSDataAlarm::Severity severity, int status, const QStrin
     This property holds the limits information.
 */
 /*!
-    \brief Convenient method to set data limit, used by the CSDataEngine.
+    \brief Convenient method to set data limit, designated by \a lower and \a upper as in \l QCSData::range.
+
+    It is used by the CSDataEngine.
 */
 void QCSData::setRange(double lower, double upper)
 {
@@ -555,6 +559,27 @@ void QCSData::setExtraProperties(const QVariantMap properties)
 }
 
 /*!
+    Sets a specific extra property \a name to \a value.
+
+    \sa QCSData::extraProperties
+*/
+void QCSData::setExtraProperty(const QString name, const QVariant value)
+{
+    _extraProperties[name] = value;
+}
+
+/*!
+    Gets a specific extra property \a name.
+
+    \sa QCSData::extraProperties
+*/
+QVariant QCSData::extraProperty(const QString name)
+{
+    return _extraProperties[name];
+}
+
+
+/*!
     \property QCSData::value
     This property holds the value of the data.
 
@@ -584,7 +609,7 @@ void QCSData::setValue(const QVariant value)
 }
 
 /*!
-    \brief Method to update data value, used by the CSDataEngine.
+    \brief Method to update data \a value, used by the CSDataEngine.
 */
 void QCSData::updateValue(const QVariant value)
 {
