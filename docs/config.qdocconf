@@ -6,53 +6,16 @@ version = $CSDATAQUICK_VERSION
 
 Cpp.ignoredirectives = Q_ENUMS Q_ENUM Q_INTERFACES
 
-sourcedirs = src ../src/libs/csdata ../src/imports/components
-sources.fileextensions += "*.qdoc *.qml *.js"
-headers += ../src/libs/csdata/csdata.h \
-           ../src/libs/csdata/csdataengine.h \
-           ../src/libs/csdata/csdataenginemanager.h \
-           ../src/libs/utils/utils.h \
-           ../src/libs/utils/enums.h \
-           ../src/libs/parser/parser.h \
-           ../src/libs/parser/parsermanager.h \
-           ../src/plugins/dataengine/ca/csdataengineca.h \
-           ../src/plugins/dataengine/local/csdataenginelocal.h \
-           ../src/plugins/dataengine/sim/csdataenginesim.h \
-           ../src/plugins/parser/ADL/ADLParser.h \
-           ../src/plugins/parser/EDL/EDLParser.h \
-           ../src/plugins/parser/QML/QMLParser.h \
-           ../src/plugins/parser/UI/UIParser.h \
-           ../src/imports/components/attribute.h \
-           ../src/imports/components/baseitem.h \
-           ../src/imports/components/windowmanager.h \
-           ../src/imports/components/shapes.h \
-           ../src/imports/components/plotitem.h \
-           ../src/imports/components/adimage.h
-
-sources += ../src/libs/csdata/csdata.cpp \
-           ../src/libs/csdata/csdataengine.cpp \
-           ../src/libs/csdata/csdataenginemanager.cpp \
-           ../src/libs/utils/utils.cpp \
-           ../src/libs/utils/enums.cpp \
-           ../src/libs/parser/parser.cpp \
-           ../src/libs/parser/parsermanager.cpp \
-           ../src/plugins/dataengine/ca/csdataengineca.cpp \
-           ../src/plugins/dataengine/local/csdataenginelocal.cpp \
-           ../src/plugins/dataengine/sim/csdataenginesim.cpp \
-           ../src/plugins/parser/ADL/ADLParser.cpp \
-           ../src/plugins/parser/EDL/EDLParser.cpp \
-           ../src/plugins/parser/QML/QMLParser.cpp \
-           ../src/plugins/parser/UI/UIParser.cpp \
-           ../src/imports/components/attribute.cpp \
-           ../src/imports/components/baseitem.cpp \
-           ../src/imports/components/windowmanager.cpp \
-           ../src/imports/components/shapes.cpp \
-           ../src/imports/components/plotitem.cpp \
-           ../src/imports/components/adimage.cpp
+headerdirs = ../src
+sourcedirs = src ../src
+imagedirs   = images style
 
 headers.fileextensions = "*.h"
+sources.fileextensions = "*.c *.cpp *.qdoc *.qml *.js"
 
-imagedirs   = images style
+excludefiles += \
+            ../src/imports/components/qcustomplot.h \
+            ../src/imports/components/qcustomplot.cpp
 
 navigation.homepage = "CSDataQuick Documentation"
 navigation.qmltypespage = "CSDataQuick QML Types"

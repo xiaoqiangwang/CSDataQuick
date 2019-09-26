@@ -7,12 +7,22 @@ if(QDOC_EXECUTABLE STREQUAL "QDOC_EXECUTABLE-NOTFOUND")
     message(WARNING "qdoc not found, documentation cannot be built")
 else()
     file (GLOB QDOC_FILES *.qdocconf src/*.qdoc style/*)
+    if (${Qt5_VERSION} VERSION_GREATER 5.10)
+        set (QDOC_INCLUDE_PATHS -I ${CMAKE_CURRENT_SOURCE_DIR})
+        foreach (_dir IN LISTS Qt5Core_INCLUDE_DIRS Qt5Gui_INCLUDE_DIRS)
+            set (QDOC_INCLUDE_PATHS ${QDOC_INCLUDE_PATHS} -I ${_dir})
+        endforeach()
+        foreach (_dir libs/parser libs/csdata libs/utils imports/components)
+            set (QDOC_INCLUDE_PATHS ${QDOC_INCLUDE_PATHS} -I ${CMAKE_SOURCE_DIR}/src/${_dir})
+        endforeach()
+    endif()
     add_custom_target(html-offline
         COMMAND ${CMAKE_COMMAND}
             -E env CSDATAQUICK_VERSION=${CSDATAQUICK_VERSION}
             ${QDOC_EXECUTABLE}
             --indexdir ${QT_DOC_DIR}
             --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-offline
+            ${QDOC_INCLUDE_PATHS}
             ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-offline.qdocconf
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generate offline documents..."
@@ -23,6 +33,7 @@ else()
             ${QDOC_EXECUTABLE}
             --indexdir ${QT_DOC_DIR}
             --outputdir ${CMAKE_CURRENT_BINARY_DIR}/html-online
+            ${QDOC_INCLUDE_PATHS}
             ${CMAKE_CURRENT_SOURCE_DIR}/csdataquick-online.qdocconf
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generate online documents..."
