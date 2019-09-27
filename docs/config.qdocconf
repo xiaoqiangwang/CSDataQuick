@@ -36,3 +36,8 @@ HTML.nonavigationbar = false
 HTML.nobreadcrumbs = true
 
 
+qhp.projects = CSDataQuick
+qhp.CSDataQuick.file = csdataquick.qhp
+qhp.CSDataQuick.namespace = ch.psi.csdataquick.$CSDATAQUICK_VERSION
+qhp.CSDataQuick.virtualFolder = doc
+qhp.CSDataQuick.indexTitle = CSDataQuick Documentation

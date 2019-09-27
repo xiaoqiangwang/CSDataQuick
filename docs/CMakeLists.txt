@@ -29,4 +29,18 @@ else()
             COMMENT "Generate ${_type} documents..."
             SOURCES ${QDOC_FILES})
     endforeach()
+    find_program(QHG_EXECUTABLE qhelpgenerator HINTS ${QT_BIN_DIR})
+    if(QHG_EXECUTABLE STREQUAL "QHG_EXECUTABLE-NOTFOUND")
+        message(WARNING "qhelpgenerator not found, qch documentation cannot be built")
+    else()
+        add_custom_target(docs
+            COMMAND ${CMAKE_COMMAND}
+                -E env
+                ${QHG_EXECUTABLE}
+                html-offline/csdataquick.qhp
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Generate qch documents..."
+            DEPENDS html-offline
+            SOURCES ${CMAKE_CURRENT_BINARY_DIR}/html-offline/csdataquick.qhp)
+    endif()
 endif()
