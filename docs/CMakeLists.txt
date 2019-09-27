@@ -9,7 +9,7 @@ else()
     file (GLOB QDOC_FILES *.qdocconf src/*.qdoc style/*)
     if (${Qt5_VERSION} VERSION_GREATER 5.10)
         set (QDOC_INCLUDE_PATHS -I${CMAKE_CURRENT_SOURCE_DIR})
-        foreach (_dir IN LISTS Qt5Core_INCLUDE_DIRS Qt5Gui_INCLUDE_DIRS)
+        foreach (_dir IN LISTS Qt5Core_INCLUDE_DIRS Qt5Gui_INCLUDE_DIRS Qt5Qml_INCLUDE_DIRS Qt5Quick_INCLUDE_DIRS)
             set (QDOC_INCLUDE_PATHS ${QDOC_INCLUDE_PATHS} -I${_dir})
         endforeach()
         foreach (_dir libs/parser libs/csdata libs/utils imports/components)
@@ -40,7 +40,6 @@ else()
                 html-offline/csdataquick.qhp
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generate qch documents..."
-            DEPENDS html-offline
-            SOURCES ${CMAKE_CURRENT_BINARY_DIR}/html-offline/csdataquick.qhp)
+            DEPENDS html-offline)
     endif()
 endif()
