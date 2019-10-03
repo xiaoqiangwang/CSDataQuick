@@ -208,14 +208,12 @@ add_library(csdatacomponentsplugin MODULE
 )
 
 target_include_directories(csdatacomponentsplugin PRIVATE
-    ${EPICS_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/src/libs/parser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
     ${CMAKE_SOURCE_DIR}/src/libs/utils
 )
 
 target_compile_definitions(csdatacomponentsplugin PRIVATE
-    ${EPICS_DEFINITIONS}
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
     $<$<CONFIG:Debug>:QT_QML_DEBUG>
 )
@@ -224,7 +222,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DQT_QML_DEBUG ")
 
 target_link_libraries(csdatacomponentsplugin
     PRIVATE
-        Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport parser csdata csutils
+    Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Quick Qt5::Concurrent Qt5::PrintSupport EPICS::Com parser csdata csutils
 )
 set_target_properties(csdatacomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)

@@ -18,12 +18,10 @@ add_library(csutils SHARED
 
 target_compile_definitions(csutils PRIVATE
     UTILS_LIBRARY
-    ${EPICS_DEFINITIONS}
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )
 
 target_include_directories(csutils PRIVATE
-    ${EPICS_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/src/libs/parser
     ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
@@ -32,7 +30,7 @@ target_link_libraries(csutils
     PUBLIC
         Qt5::Core
         Qt5::Qml
-        ${EPICS_LIBRARIES}
+        EPICS::Com
     PRIVATE
         Qt5::Gui
         Qt5::Quick

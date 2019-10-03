@@ -46,9 +46,4 @@ add_subdirectory(examples)
 add_subdirectory(tools)
 add_subdirectory(tests)
 
-# Copy EPICS (Windows only)
-if(WIN32)
-    install(FILES ${EPICS_SHARED_LIBRARIES} DESTINATION bin)
-endif()
-
 include(Packaging)
