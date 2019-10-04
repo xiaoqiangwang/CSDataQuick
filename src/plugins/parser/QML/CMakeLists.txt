@@ -11,10 +11,6 @@ add_library(QMLParser MODULE
     ${HEADERS}
 )
 
-target_include_directories(QMLParser PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 target_link_libraries(QMLParser PRIVATE
     Qt5::Core parser
 )

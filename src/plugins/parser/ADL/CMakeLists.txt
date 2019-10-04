@@ -14,10 +14,6 @@ add_library(ADLParser MODULE
     ${HEADERS}
 )
 
-target_include_directories(ADLParser PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 target_compile_definitions(ADLParser PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )

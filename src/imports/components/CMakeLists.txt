@@ -207,12 +207,6 @@ add_library(csdatacomponentsplugin MODULE
     ${QML_JS_FILES}
 )
 
-target_include_directories(csdatacomponentsplugin PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-    ${CMAKE_SOURCE_DIR}/src/libs/csdata
-    ${CMAKE_SOURCE_DIR}/src/libs/utils
-)
-
 target_compile_definitions(csdatacomponentsplugin PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
     $<$<CONFIG:Debug>:QT_QML_DEBUG>

@@ -16,14 +16,13 @@ add_library(csutils SHARED
     ${HEADERS}
 )
 
+target_include_directories(csutils PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
 target_compile_definitions(csutils PRIVATE
     UTILS_LIBRARY
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
-)
-
-target_include_directories(csutils PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-    ${CMAKE_SOURCE_DIR}/src/libs/csdata
 )
 
 target_link_libraries(csutils

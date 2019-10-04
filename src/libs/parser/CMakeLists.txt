@@ -14,6 +14,10 @@ add_library(parser SHARED
     ${HEADERS}
 )
 
+target_include_directories(parser PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
 target_compile_definitions(parser PRIVATE PARSER_LIBRARY)
 
 target_link_libraries(parser PUBLIC Qt5::Core)

@@ -11,10 +11,6 @@ add_library(csdataenginelocal MODULE
     ${HEADERS}
 )
 
-target_include_directories(csdataenginelocal PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/csdata
-)
-
 target_link_libraries(csdataenginelocal PRIVATE
     Qt5::Core
     csdata

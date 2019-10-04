@@ -11,10 +11,6 @@ add_library(csdataengineca MODULE
     ${HEADERS}
 )
 
-target_include_directories(csdataengineca PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/csdata
-)
-
 target_compile_definitions(csdataengineca PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )

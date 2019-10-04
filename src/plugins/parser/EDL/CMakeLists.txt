@@ -12,10 +12,6 @@ add_library(EDLParser MODULE
     ${HEADERS}
 )
 
-target_include_directories(EDLParser PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 target_compile_definitions(EDLParser PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )

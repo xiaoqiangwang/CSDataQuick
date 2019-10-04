@@ -15,10 +15,6 @@ add_library(UIParser MODULE
     ${HEADERS}
 )
 
-target_include_directories(UIParser PRIVATE
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
-)
-
 target_compile_definitions(UIParser PRIVATE
     QT_UIC # undef QDESIGNER_UILIB_EXPORT macro in ui4.h
 )

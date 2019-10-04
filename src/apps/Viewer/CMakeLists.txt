@@ -29,7 +29,6 @@ add_executable(${APPNAME} WIN32 MACOSX_BUNDLE
 
 target_include_directories(${APPNAME} PRIVATE
     ${CMAKE_BINARY_DIR}/src/include
-    ${CMAKE_SOURCE_DIR}/src/libs/parser
 )
 target_link_libraries(${APPNAME} PRIVATE
     Qt5::Core

@@ -18,6 +18,10 @@ add_library(csdata SHARED
     ${HEADERS}
 )
 
+target_include_directories(csdata PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+)
+
 target_compile_definitions(csdata PRIVATE CSDATA_LIBRARY)
 
 target_link_libraries(csdata PUBLIC Qt5::Core)
