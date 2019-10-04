@@ -1669,8 +1669,6 @@ void Screen :: parseColors()
 
 void Screen :: parse(std::istream &fstream) 
 {
-    char token[MAX_TOKEN_LENGTH];
-    TOKEN tokenType;
     int nestingLevel = 0;
     std::vector<std::string> tokens;
 

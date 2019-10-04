@@ -23,6 +23,10 @@ target_compile_definitions(UIParser PRIVATE
     QT_UIC # undef QDESIGNER_UILIB_EXPORT macro in ui4.h
 )
 
+target_compile_options(UIParser PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/wd4390>
+)
+
 target_link_libraries(UIParser PRIVATE
     Qt5::Core parser
 )
