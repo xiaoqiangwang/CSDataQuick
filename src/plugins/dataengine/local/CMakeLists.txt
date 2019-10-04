@@ -24,4 +24,4 @@ set_target_properties(csdataenginelocal PROPERTIES
     SUFFIX ".dylib")
 endif ()
 
-install(TARGETS csdataenginelocal DESTINATION plugins/csdataengine)
+install(TARGETS csdataenginelocal DESTINATION ${KDE_INSTALL_PLUGINDIR}/csdataengine)

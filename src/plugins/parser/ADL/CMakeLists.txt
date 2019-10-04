@@ -31,4 +31,4 @@ if (APPLE)
     SUFFIX ".dylib")
 endif ()
 
-install(TARGETS ADLParser DESTINATION plugins/parser)
+install(TARGETS ADLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/parser)

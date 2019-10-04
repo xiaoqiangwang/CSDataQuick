@@ -24,4 +24,4 @@ if (APPLE)
     SUFFIX ".dylib")
 endif ()
 
-install(TARGETS QMLParser DESTINATION plugins/parser)
+install(TARGETS QMLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/parser)
