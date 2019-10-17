@@ -1,8 +1,8 @@
 set EPICS_BASE=%PREFIX%\epics
 if %ARCH%==32 (
-   set EPICS_HOST_ARCH=win32-x86
+   set EPICS_HOST_ARCH=win32-x86-static
 ) else if %ARCH%==64 (
-    set EPICS_HOST_ARCH=windows-x64
+    set EPICS_HOST_ARCH=windows-x64-static
 )
 
 mkdir build
