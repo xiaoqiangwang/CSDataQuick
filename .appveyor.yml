@@ -23,6 +23,6 @@ build_script:
     - pushd build
     - cmake .. -DCMAKE_PREFIX_PATH="%QTDIR%" -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles"
     - nmake
-    - popd build
+    - popd
     # conda build
-    - conda build conda-recipe
+    - conda build -c paulscherrerinstitute conda-recipe
