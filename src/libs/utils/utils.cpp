@@ -19,6 +19,7 @@
 #include <QQuickItem>
 #include <QQmlEngine>
 #include <QQmlComponent>
+#include <QQmlContext>
 #include <QQuickWindow>
 #include <QQuickView>
 #include <QGuiApplication>
@@ -290,12 +291,18 @@ double QCSUtils::parse(int format, QString textValue)
 }
 
 /*!
-    \qmlmethod url Utils::searchDisplayFile(fileName, window)
+    \qmlmethod url Utils::searchDisplayFile(fileName, filePath)
 
-    Search a display file with given \a fileName from the current directory, the file path of \a window
-    and EPICS_DISPLAY_PATH (.adl) or QML_DISPLAY_PATH (.qml) environment variable.
+    Search a display file with given \a fileName from the current directory, the \a filePath
+    and environment variables specific to the display file type
+    \list
+    \li EPICS_DISPLAY_PATH (.adl)
+    \li EDMDATAFILES (.edl)
+    \li CAQTDM_DISPLAY_PATH (.ui)
+    \li QML_DISPLAY_PATH (.qml)
+    \endlist
  */
-QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
+QUrl QCSUtils::searchDisplayFile(QString fileName, QString filePath)
 {
     // Check url scheme
     if (fileName.startsWith("http://")
@@ -325,12 +332,10 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QWindow *window)
     char sep = ':';
 #endif
     if (!fi.exists() && fi.isRelative()) {
-        if (window && !window->filePath().isEmpty()) {
-            QUrl fileUrl = QUrl(window->filePath());
-            if (fileUrl.isLocalFile()) {
-                QFileInfo pfi(fileUrl.toLocalFile());
-                paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
-            }
+        QUrl fileUrl = QUrl(filePath);
+        if (fileUrl.isLocalFile()) {
+            QFileInfo pfi(fileUrl.toLocalFile());
+            paths = pfi.absolutePath().toLocal8Bit() + sep + paths;
         }
         foreach (QByteArray path, paths.split(sep)) {
             if (path.isEmpty())
@@ -361,6 +366,10 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
         return Q_NULLPTR;
     }
 
+    QQmlContext *context = new QQmlContext(engine);
+    context->setContextProperty("windowPath", filePath);
+    context->setContextProperty("windowMacro", macro);
+
     QQmlComponent component(engine);
     component.setData(qml.toLocal8Bit(), filePath);
     if(!component.isReady()) {
@@ -368,7 +377,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
         return Q_NULLPTR;
     }
 
-    QObject *topLevel = component.create();
+    QObject *topLevel = component.create(context);
     if (!topLevel) {
         qCritical() << component.errorString();
         return Q_NULLPTR;
@@ -418,6 +427,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
         window->setTitle(filePath.fileName());
     window->setFilePath(filePath.toString());
     // dynamic properties, which can be accessible from C++ but not QML
+    context->setParent(window);
     window->setProperty("filePath", filePath);
     window->setProperty("macro", macro);
     return window;
@@ -498,6 +508,10 @@ QQuickItem * QCSUtils::createComponentByFile(QQuickItem *display, QUrl filePath,
         return Q_NULLPTR;
     }
 
+    QQmlContext *context = new QQmlContext(engine);
+    context->setContextProperty("windowPath", filePath);
+    context->setContextProperty("windowMacro", macro);
+
     QQmlComponent component(engine);
     component.setData(qml.toLocal8Bit(), filePath);
     if(!component.isReady()) {
@@ -506,7 +520,7 @@ QQuickItem * QCSUtils::createComponentByFile(QQuickItem *display, QUrl filePath,
         return Q_NULLPTR;
     }
 
-    QQuickItem *item = qobject_cast<QQuickItem *>(component.create());
+    QQuickItem *item = qobject_cast<QQuickItem *>(component.create(context));
     if (!item) {
         qCritical() << component.errorString();
         return Q_NULLPTR;
@@ -514,6 +528,8 @@ QQuickItem * QCSUtils::createComponentByFile(QQuickItem *display, QUrl filePath,
     engine->setObjectOwnership(item, QQmlEngine::JavaScriptOwnership);
 
     item->setParentItem(display);
+
+    context->setParent(item);
 
     return item;
 }

@@ -26,7 +26,7 @@ public:
     Q_INVOKABLE static QString format(QString format, double number);
     Q_INVOKABLE static QString convert(int format, QVariant value, unsigned short precision);
     Q_INVOKABLE static double parse(int format, QString textValue);
-    Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QWindow *window);
+    Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QString filePath);
 
     Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display, QUrl filePath, QString macro);
     Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);

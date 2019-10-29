@@ -216,7 +216,7 @@ BaseItem {
         if (!fileName)
             return
         // search the file
-        var absFilePath = Utils.searchDisplayFile(fileName, baseWindow)
+        var absFilePath = Utils.searchDisplayFile(fileName, windowPath)
         if (absFilePath.toString() === '') {
             console.error("Failed to find file ", fileName)
             return

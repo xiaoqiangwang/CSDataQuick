@@ -46,6 +46,7 @@ BaseItem {
     /*! \internal */
     QtObject {
         id: d
+        property bool componentCompleted: false
         property var rootItem: null
         property double oldWidth: NaN
         property double oldHeight: NaN
@@ -67,7 +68,8 @@ BaseItem {
         createDisplay()
     }
 
-    onBaseWindowChanged: {
+    Component.onCompleted: {
+        d.componentCompleted = true
         createDisplay()
     }
 
@@ -101,20 +103,24 @@ BaseItem {
 
     /*! \internal */
     function createDisplay () {
+        // postpone until component completed
+        if (!d.componentCompleted)
+            return
+
         if (d.rootItem) {
             d.rootItem.destroy()
             d.rootItem = null;
         }
 
-        if (!source || !baseWindow)
+        if (!source)
             return
 
-        var absFilePath = Utils.searchDisplayFile(source, baseWindow)
+        var absFilePath = Utils.searchDisplayFile(source, windowPath)
+
         if (absFilePath.toString() === '') {
             console.error("Failed to find file ", source)
             return
         }
-        var windowMacro = Utils.getProperty(baseWindow, "macro")
 
         d.rootItem = Utils.createComponentByFile(root, absFilePath, join(windowMacro, macro))
 
