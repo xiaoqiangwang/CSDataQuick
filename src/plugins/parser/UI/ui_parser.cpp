@@ -2299,6 +2299,16 @@ void UI::toQML(QTextStream& ostream)
     }
     ostream << "    color: '" << background << "'" << endl;
 
+    // For QMainWindow, use central widget as the main widget
+    // and ignore QMenuBar, QToolBar and QDockWidget
+    if (mainWidget->attributeClass() == "QMainWindow") {
+        foreach (DomWidget *child, mainWidget->elementWidget())
+            if (child->attributeClass() == "QWidget") {
+                mainWidget = child;
+                break;
+            }
+    }
+
     foreach (DomLayout *layout , mainWidget->elementLayout())
         layoutToQML(ostream, layout, 1);
 
