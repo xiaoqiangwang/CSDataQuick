@@ -1,16 +1,26 @@
+# As moc files are generated in the binary dir, tell CMake
+# to always look for includes there:
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 add_executable(test_qcsdata
     test_qcsdata.cpp
 )
+add_test(test_qcsdata
+    test_qcsdata
+)
 target_link_libraries(test_qcsdata
-    Qt5::Core
+    Qt5::Test
     csdata
 )
 
-add_executable(test_convert
-    test_convert.cpp
+add_executable(test_utils
+    test_utils.cpp
 )
-target_link_libraries(test_convert
-    Qt5::Core
+add_test(test_utils
+    test_utils
+)
+target_link_libraries(test_utils
+    Qt5::Test
     csdata
     csutils
 )

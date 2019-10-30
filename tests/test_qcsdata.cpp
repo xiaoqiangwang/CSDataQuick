@@ -1,41 +1,53 @@
+#include <QtTest>
+
 #include "csdata.h"
 
-#include <QCoreApplication>
-#include <QtDebug>
-#include <QTimer>
-
-int main(int argc, char **argv)
+class TestQCSData : public QObject
 {
-    QCoreApplication app(argc, argv);
-    if (argc != 2) {
-        qCritical() << "test_qcsdata <data_source>";
-        return -1;
+    Q_OBJECT
+
+private:
+    QCSData *data;
+
+private slots:
+    void initTestCase() {
+        data = new QCSData();
+    }
+    void cleanupTestCase() {
+        delete data;
     }
 
-    QCSData *data = new QCSData();
-    QCSDataAlarm *alarm = data->property("alarm").value<QCSDataAlarm*>();
-    QCSDataRange *range = data->property("range").value<QCSDataRange*>();
-    data->setSource(argv[1]);
+    void testDataEngine_data() {
+        QTest::addColumn<QString>("source");
+        QTest::addColumn<bool>("connected");
+        QTest::addColumn<QCSData::FieldType>("fieldType");
+        QTest::addColumn<unsigned long long>("count");
+        QTest::addColumn<QVariant>("value");
 
-    // enter event loop for 2000 ms
-    QTimer::singleShot(2000, &app, SLOT(quit()));
-    app.exec();
+        QTest::newRow("sim://sin") << "sim://sin" << true << QCSData::Double << 1ULL << QVariant();
+        QTest::newRow("sim://wave") << "sim://wave" << true << QCSData::Double << 20ULL << QVariant();
+        QTest::newRow("ca://invalid") << "whatever_invalid" << false << QCSData::Invalid << 0ULL << QVariant();
+        QTest::newRow("loc://double") << "loc://double.{\"type\":\"double\",\"value\":3.14}" << true << QCSData::Double << 1ULL << QVariant(3.14);
+        QTest::newRow("loc://integer") << "loc://integer.{\"type\":\"int\",\"value\":12}" << true << QCSData::Integer << 1ULL << QVariant(12);
+        QTest::newRow("loc://string") << "loc://string.{\"type\":\"string\",\"value\":\"message\"}" << true << QCSData::String << 1ULL << QVariant("message");
+    }
 
-    // dump data
-    qDebug().noquote()
-        << data->source() << "\n"
-        << "State:     " << (data->connected() ? "Connected" : "Not connected") << "\n"
-        << "Host:      " << data->host() << "\n"
-        << "Type:      " << data->fieldType() << "\n"
-        << "Count:     " << data->count() << "\n"
-        << "Value:     " << data->value().toDouble() << "\n"
-        << "Alarm:\n"
-        << "    Severity: " << alarm->property("severity").toString() << "\n"
-        << "    Status:   " << alarm->property("status").toInt() << "\n"
-        << "    Message:  " << alarm->property("message").toString() << "\n"
-        << "Timestamp: " << data->timeStamp().toString() << "\n"
-        << "Range:      [" << range->property("lower").toDouble() << "," << range->property("upper").toDouble() << "]\n"
-        << "Units:     " << data->units() << "\n"
-        << "Enums:     " << data->stateStrings();
+    void testDataEngine() {
+        QFETCH(QString, source);
+        QFETCH(bool, connected);
+        QFETCH(QCSData::FieldType, fieldType);
+        QFETCH(unsigned long long, count);
+        QFETCH(QVariant, value);
 
-}
+        data->setSource(source);
+
+        QCOMPARE(data->connected(), connected);
+        QCOMPARE(data->fieldType(), fieldType);
+        QCOMPARE(data->count(), count);
+        if (value.isValid())
+            QCOMPARE(data->value(), value);
+    }
+};
+
+QTEST_MAIN(TestQCSData)
+#include "test_qcsdata.moc"
