@@ -21,11 +21,13 @@ class UTILS_EXPORT QCSUtils : public QObject
 public:
     explicit QCSUtils(QObject *parent = Q_NULLPTR);
 
+    Q_INVOKABLE static bool openUrl(QString url);
     Q_INVOKABLE static double calculate(QString expr, QVariantList input);
     Q_INVOKABLE static bool execute(QString program);
     Q_INVOKABLE static QString format(QString format, double number);
     Q_INVOKABLE static QString convert(int format, QVariant value, unsigned short precision);
     Q_INVOKABLE static double parse(int format, QString textValue);
+    Q_INVOKABLE static bool isDisplayFile(QString fileName);
     Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QString filePath);
 
     Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display, QUrl filePath, QString macro);

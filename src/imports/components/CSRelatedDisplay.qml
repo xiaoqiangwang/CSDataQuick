@@ -215,6 +215,14 @@ BaseItem {
     function load(fileName, macro, replace) {
         if (!fileName)
             return
+
+        // if not a display file, try as url
+        if (!Utils.isDisplayFile(fileName)) {
+            if (!Utils.openUrl(fileName))
+                console.error("Failed to open file ", fileName)
+            return
+        }
+
         // search the file
         var absFilePath = Utils.searchDisplayFile(fileName, windowPath)
         if (absFilePath.toString() === '') {

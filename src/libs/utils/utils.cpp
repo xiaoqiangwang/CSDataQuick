@@ -24,6 +24,7 @@
 #include <QQuickView>
 #include <QGuiApplication>
 #include <QClipboard>
+#include <QDesktopServices>
 
 #include <QDir>
 #include <QFileInfo>
@@ -123,6 +124,16 @@ QVariant QCSUtils::vectorSet(QVariant vector, QJSValue value, int index)
     }
 
     return v;
+}
+
+/*!
+    \qmlmethod string Utils::openUrl(url)
+
+    Open the given \a url, \sa QDesktopServices::openUrl()
+*/
+bool QCSUtils::openUrl(QString url)
+{
+    return QDesktopServices::openUrl(QUrl(url));
 }
 
 /*!
@@ -288,6 +299,22 @@ double QCSUtils::parse(int format, QString textValue)
         return value;
     else
         return qSNaN();
+}
+
+/*!
+    \qmlmethod url Utils::isDisplayFile(fileName)
+
+    Check wether \a fileName is a supported display file.
+*/
+bool QCSUtils::isDisplayFile(QString fileName)
+{
+    QFileInfo fi(fileName);
+
+    QCSParser *parser = parserManager->parserForExtension(fi.suffix());
+    if (parser)
+        return true;
+    else
+        return false;
 }
 
 /*!
