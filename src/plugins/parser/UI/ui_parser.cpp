@@ -1644,6 +1644,8 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
     QVector<DisplayEntry> entries;
     QString stacking = "caRowColMenu::Row";
     QString label;
+    if (w->attributeClass() == "caMimeDisplay")
+        stacking = "caRowColMenu::Menu";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -2166,7 +2168,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         menuToQML(ostream, w, level, i);
     else if (widgetClass == "caMessageButton")
         messageButtonToQML(ostream, w, level, i);
-    else if (widgetClass == "caRelatedDisplay")
+    else if (widgetClass == "caRelatedDisplay" || widgetClass == "caMimeDisplay")
         relatedDisplayToQML(ostream, w, level, i);
     else if (widgetClass == "caScriptButton")
         scriptButtonToQML(ostream, w, level, i);
