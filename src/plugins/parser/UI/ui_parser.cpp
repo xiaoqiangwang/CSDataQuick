@@ -1722,7 +1722,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
 
     ostream << indent << "    model: ListModel {" << endl;
     foreach (DisplayEntry entry, entries) {
-        if (entry.file.isEmpty() || entry.label.isEmpty())
+        if (entry.file.isEmpty())
             continue;
         ostream << indent << "        ListElement {" << endl;
         ostream << indent << "            file: '" << entry.file << "'" << endl;
