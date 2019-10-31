@@ -235,7 +235,7 @@ bool UI::dynamicAttributeToQML(QTextStream &ostream, DomProperty *v, int level)
     return true;
 }
 
-void UI::layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, int level)
+void UI::layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, DomWidget *w, QString hSizeType, QString vSizeType, int level)
 {
     if (i == NULL)
         return;
@@ -249,6 +249,52 @@ void UI::layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, int level)
         ostream << indent << "    Layout.columnSpan: " << QString::number(i->attributeColSpan()) << endl;
     if (i->hasAttributeRowSpan())
         ostream << indent << "    Layout.rowSpan: " << QString::number(i->attributeRowSpan()) << endl;
+
+    if (w == NULL)
+        return;
+
+    int minimumWidth = 0, minimumHeight = 0, maximumWidth = 16777215, maximumHeight = 16777215;
+    foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "sizePolicy") {
+            DomSizePolicy *s = v->elementSizePolicy();
+            hSizeType = s->attributeHSizeType();
+            vSizeType = s->attributeVSizeType();
+        }
+        else if (v->attributeName() == "minimumSize") {
+            DomSize *s = v->elementSize();
+            minimumWidth = s->elementWidth();
+            minimumHeight = s->elementHeight();
+            ostream << indent << "    Layout.minimumWidth: " << s->elementWidth() << endl;
+            ostream << indent << "    Layout.minimumHeight: " << s->elementHeight() << endl;
+        }
+        else if (v->attributeName() == "maximumSize") {
+            DomSize *s = v->elementSize();
+            maximumWidth = s->elementWidth();
+            maximumHeight = s->elementHeight();
+            ostream << indent << "    Layout.maximumWidth: " << s->elementWidth() << endl;
+            ostream << indent << "    Layout.maximumHeight: " << s->elementHeight() << endl;
+        }
+    }
+    if (hSizeType.endsWith("Expanding") || hSizeType == "Ignored")
+        ostream << indent << "    Layout.fillWidth: true" << endl;
+    if (hSizeType == "Fixed") {
+        int preferredWidth = qMax(minimumWidth, maximumWidth);
+        if (preferredWidth == 16777215)
+            preferredWidth = minimumWidth;
+        if (preferredWidth != 0 && preferredWidth != 16777215) {
+            ostream << indent << "    Layout.preferredWidth: " << preferredWidth << endl;
+        }
+    }
+    if (vSizeType.endsWith("Expanding") || vSizeType == "Ignored")
+        ostream << indent << "    Layout.fillHeight: true" << endl;
+    if (vSizeType == "Fixed") {
+        int preferredHeight = qMax(minimumHeight, maximumHeight);
+        if (preferredHeight == 16777215)
+            preferredHeight = minimumHeight;
+        if (preferredHeight != 0 && preferredHeight != 16777215) {
+            ostream << indent << "    Layout.preferredHeight: " << preferredHeight << endl;
+        }
+    }
 }
 
 bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
@@ -280,33 +326,6 @@ bool UI::limitsToQML(QTextStream &ostream, DomProperty *v, int level)
         ostream << indent << "    limits.loprDefault: " << v->elementDouble() << endl;
     else if (v->attributeName() == "maxValue")
         ostream << indent << "    limits.hoprDefault: " << v->elementDouble() << endl;
-    else
-        return false;
-
-    return true;
-}
-
-bool UI::sizePolicyToQML(QTextStream &ostream, DomProperty *v, int level)
-{
-    QString indent(level * 4, ' ');
-
-    if (v->attributeName() == "sizePolicy") {
-        DomSizePolicy *s = v->elementSizePolicy();
-        if (s->attributeHSizeType().endsWith("Expanding") || s->attributeHSizeType() == "Ignored")
-            ostream << indent << "    Layout.fillWidth: true" << endl;
-        if (s->attributeVSizeType().endsWith("Expanding") || s->attributeVSizeType() == "Ignored")
-            ostream << indent << "    Layout.fillHeight: true" << endl;
-    }
-    else if (v->attributeName() == "minimumSize") {
-        DomSize *s = v->elementSize();
-        ostream << indent << "    Layout.minimumWidth: " << s->elementWidth() << endl;
-        ostream << indent << "    Layout.minimumHeight: " << s->elementHeight() << endl;
-    }
-    else if (v->attributeName() == "maximumSize") {
-        DomSize *s = v->elementSize();
-        ostream << indent << "    Layout.maximumWidth: " << s->elementWidth() << endl;
-        ostream << indent << "    Layout.maximumHeight: " << s->elementHeight() << endl;
-    }
     else
         return false;
 
@@ -378,7 +397,7 @@ void UI::layoutToQML(QTextStream& ostream, DomLayout *l, int level, DomLayoutIte
     if (i == NULL)
         ostream << indent << "    anchors.fill: parent" << endl;
     else
-        layoutItemToQML(ostream, i, level);
+        layoutItemToQML(ostream, i, 0, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v, uniqueProperties(l->elementProperty())) {
         if (v->attributeName() == "spacing") {
@@ -421,7 +440,7 @@ void UI::spacerToQML(QTextStream& ostream, DomSpacer *l, int level, DomLayoutIte
     QString indent(level * 4, ' ');
 
     ostream << indent << "Item {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, 0, "Expanding", "Expanding", level);
 
     QString orientation = "Qt::Horizontal";
     foreach (DomProperty *v, uniqueProperties(l->elementProperty())) {
@@ -447,7 +466,7 @@ void UI::qlabelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     QString indent(level * 4, ' ');
 
     ostream << indent << "Text {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     bool richText = false;
     QString horizontalAlignment = "Text.AlignLeft";
@@ -456,8 +475,6 @@ void UI::qlabelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "font") {
             fontToQML(ostream, v->elementFont(), level);
         }
@@ -507,14 +524,12 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
 
     ostream << indent << "GroupBox {" << endl;
     ostream << indent << "    property font font" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "title") {
             ostream << indent << "    title: '" << escapedSingleQuote(v->elementString()->text()) << "'" << endl;
         }
@@ -543,14 +558,12 @@ void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "TextEdit {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "font") {
             fontToQML(ostream, v->elementFont(), level);
         }
@@ -574,14 +587,12 @@ void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "TabView {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "tabPosition") {
             QString d = v->elementEnum();
             if (d == "QTabWidget::West")
@@ -622,14 +633,12 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     DomRect *rect = NULL;
 
     ostream << indent << "CSComposite {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "filename") {
             file = v->elementString()->text();
             if (file.endsWith(".adl")) {
@@ -694,7 +703,7 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSRect {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     bool filled = false;
     bool framed = false;
@@ -703,8 +712,6 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "frameShape") {
             framed = ! v->elementEnum().endsWith("NoFrame");
         }
@@ -785,7 +792,7 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             << "Qt.point(" << rect->elementWidth() << "," << rect->elementHeight() << ")]" << endl;
     }
 
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
     if (rect)
         rectToQML(ostream, rect, level);
 
@@ -821,8 +828,6 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "spanAngle" && form == "caGraphics::Arc") {
             ostream << indent << "    span: " << v->elementNumber() << endl;
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
@@ -840,14 +845,12 @@ void UI::imageToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSImage {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "filename") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -866,7 +869,7 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSText {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Minimum",  "Minimum", level);
 
     bool up = false;
     QString alignment = "Text.AlignRight";
@@ -892,8 +895,6 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
                 ostream << indent << "    height: " << height << endl;
             }
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -960,7 +961,7 @@ void UI::lineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
 
     ostream << indent << "CSPolyline {" << endl;
 
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     int width, height;
     QString orientation = "Qt::Horizontal";
@@ -970,8 +971,6 @@ void UI::lineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
             height = v->elementRect()->elementHeight();
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "lineWidth") {
             ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
         }
@@ -1012,15 +1011,13 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     else
         ostream << indent << "CSPolyline {" << endl;
 
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     bool fill = false;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "foreground")
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "background")
@@ -1064,7 +1061,7 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSByte {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     QString direction = "Down";
     int start = 0, end = 31;
@@ -1072,8 +1069,6 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1122,15 +1117,13 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
 {
     QString indent(level * 4, ' ');
     ostream << indent << "CSCartesianPlot {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
     
     CartesianTrace traces[8];
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "scaleColor") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1201,15 +1194,12 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSBar {" << endl;
-    layoutItemToQML(ostream, i, level);
 
     QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1236,7 +1226,11 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
         else if (limitsToQML(ostream, v, level))
             ;
     }
-    
+    if (direction == "Direction.Right" || direction == "Direction.Left")
+        layoutItemToQML(ostream, i, w, "Expanding", "Fixed", level);
+    else
+        layoutItemToQML(ostream, i, w, "Fixed", "Expanding", level);
+
     if (direction != "Direction.Right")
     ostream << indent << "    direction: " <<  direction << endl;
 
@@ -1248,15 +1242,12 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSIndicator {" << endl;
-    layoutItemToQML(ostream, i, level);
 
     QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1279,6 +1270,12 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
         else if (limitsToQML(ostream, v, level))
             ;
     }
+
+    if (direction == "Direction.Right" || direction == "Direction.Left")
+        layoutItemToQML(ostream, i, w, "Expanding", "Fixed", level);
+    else
+        layoutItemToQML(ostream, i, w, "Fixed", "Expanding", level);
+
 
     if (direction != "Direction.Right")
     ostream << indent << "    direction: " <<  direction << endl;
@@ -1303,7 +1300,8 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
     else
         ostream << indent << "CSOval {" << endl;
 
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
+
     ostream << indent << "    implicitWidth: 18" << endl;
     ostream << indent << "    implicitHeight: 18" << endl;
 
@@ -1318,8 +1316,6 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
             width = v->elementRect()->elementWidth();
             height = v->elementRect()->elementHeight();
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "scaleContents") {
             scaleContents = (v->elementBool() == "true");
         }
@@ -1366,14 +1362,12 @@ void UI::meterToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMeter {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1397,14 +1391,12 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSStripChart {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     StripTrace traces[8];
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry")
             rectToQML(ostream, v->elementRect(), level);
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "scaleColor")
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "background")
@@ -1479,14 +1471,12 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         ostream << indent << "    fontSizeMode: Text.FixedSize" << endl;
     }
 
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Fxied", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1541,14 +1531,12 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSChoiceButton {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1581,14 +1569,12 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMenu {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1612,15 +1598,13 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMessageButton {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Minimum", "Fixed", level);
 
     QString text;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1655,7 +1639,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSRelatedDisplay {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     QVector<DisplayEntry> entries;
     QString stacking = "caRowColMenu::Row";
@@ -1664,8 +1648,6 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1740,7 +1722,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
 
     ostream << indent << "    model: ListModel {" << endl;
     foreach (DisplayEntry entry, entries) {
-        if (entry.file.isEmpty())
+        if (entry.file.isEmpty() || entry.label.isEmpty())
             continue;
         ostream << indent << "        ListElement {" << endl;
         ostream << indent << "            file: '" << entry.file << "'" << endl;
@@ -1759,15 +1741,13 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSShellCommand {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     QString command;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1808,15 +1788,13 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSShellCommand {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     QVector<CommandEntry> entries;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "foreground") {
             ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
         }
@@ -1875,15 +1853,13 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSSlider {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1915,14 +1891,12 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSSpinBox {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1951,14 +1925,12 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextEntry {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Fixed", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -1996,14 +1968,12 @@ void UI::toggleButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSToggleButton {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -2033,14 +2003,12 @@ void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextEntryArray {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -2083,14 +2051,12 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSWheelSwitch {" << endl;
-    layoutItemToQML(ostream, i, level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
-        else if (sizePolicyToQML(ostream, v, level))
-            ;
         else if (v->attributeName() == "channel") {
             ostream << indent << "    source: '" << v->elementString()->text() << "'" << endl;
         }
@@ -2222,13 +2188,11 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
         ostream << indent << "Item {" << endl;
-        layoutItemToQML(ostream, i, level);
+        layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
         foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
                 rectToQML(ostream, v->elementRect(), level);
             }
-            else if (sizePolicyToQML(ostream, v, level))
-                ;
         }
         foreach (DomLayout *child , w->elementLayout())
             layoutToQML(ostream, child, level+1);
@@ -2242,14 +2206,12 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         ostream << indent << "    implicitHeight: 20" << endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
 
-        layoutItemToQML(ostream, i, level);
+        layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
         foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
                 rectToQML(ostream, v->elementRect(), level);
             }
-            else if (sizePolicyToQML(ostream, v, level))
-                ;
         }
 
         foreach (DomLayout *child , w->elementLayout())

@@ -37,10 +37,9 @@ protected:
 
     bool dynamicAttributeToQML(QTextStream &ostream, DomProperty *w, int level=0);
     void fontToQML(QTextStream &ostream, DomFont *r, int level=0);
-    void layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, int level=0);
+    void layoutItemToQML(QTextStream &ostream, DomLayoutItem *i, DomWidget *w, QString hSizeType, QString vSizeType, int level=0);
     bool limitsToQML(QTextStream &ostream, DomProperty *w, int level=0);
     void rectToQML(QTextStream &ostream, DomRect *r, int level=0);
-    bool sizePolicyToQML(QTextStream &ostream, DomProperty *v, int level=0);
 
     // graphics widgets
     void compositeToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=Q_NULLPTR);
