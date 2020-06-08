@@ -1309,6 +1309,8 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
     int x = 0, y = 0, width = 0, height = 0;
     int ledWidth = 18, ledHeight = 18;
     QString trueColor = "#FF0000", falseColor = "#A0A0A4";
+    QString trueValue = "1", falseValue = "0";
+    QString channel;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             x = v->elementRect()->elementX();
@@ -1326,8 +1328,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
             ledHeight = v->elementNumber();
         }
         else if (v->attributeName() == "channel") {
-            ostream << indent << "    dynamicAttribute.channel: '" << v->elementString()->text() << "'" << endl;
-            ostream << indent << "    dynamicAttribute.altCalc: 'A!=0'" << endl;
+            channel = v->elementString()->text();
         }
         else if (v->attributeName() == "trueColor") {
             trueColor = colorToQML(v->elementColor());
@@ -1339,6 +1340,10 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
+    }
+    if (!channel.isEmpty()) {
+        ostream << indent << "    dynamicAttribute.channel: '" << channel << "'" << endl;
+        ostream << indent << "    dynamicAttribute.altCalc: 'A=" << trueValue << "'" << endl;
     }
 
     if (scaleContents) {
@@ -1600,7 +1605,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     ostream << indent << "CSMessageButton {" << endl;
     layoutItemToQML(ostream, i, w, "Minimum", "Fixed", level);
 
-    QString text;
+    QString text, label;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -1618,8 +1623,11 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
-        else if (v->attributeName() == "text" || v->attributeName() == "label") {
+        else if (v->attributeName() == "text") {
             text = v->elementString()->text();
+        }
+        else if ( v->attributeName() == "label") {
+            label = v->elementString()->text();
         }
         else if (v->attributeName() == "pressMessage") {
             ostream << indent << "    pressMessage: '" << v->elementString()->text() << "'" << endl;
@@ -1629,7 +1637,10 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
         }
      }
 
-    ostream << indent << "    text: '" << escapedSingleQuote(text) << "'" << endl;
+    if (!text.isNull())
+        ostream << indent << "    text: '" << escapedSingleQuote(text) << "'" << endl;
+    else
+        ostream << indent << "    text: '" << escapedSingleQuote(label) << "'" << endl;
 
     ostream << indent << "}" << endl;
 }
@@ -2115,8 +2126,8 @@ QList<DomProperty*> UI::uniqueProperties(QList<DomProperty*> p)
 
 QString UI::escapedSingleQuote(QString s)
 {
-    // escape single quote if not escaped yet
-    return s.replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
+    // escape backslash and single quote if not escaped yet
+    return s.replace(QRegularExpression("(?<!\\\\)\\\\$"),"\\\\").replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
 }
 
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
