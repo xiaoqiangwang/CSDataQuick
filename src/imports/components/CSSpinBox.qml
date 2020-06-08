@@ -29,7 +29,14 @@ CSControl {
     readonly property var font: UtilsJS.getBestFontSize(height, 1)
 
     limits.precChannel: csdata.precision
-    
+
+    QtObject {
+        id: d
+        // SpinBox emits valueChanged signal during creation and this value
+        // should not be updated to CSData. So set the initial value to true.
+        property bool blockUpdate: true
+    }
+
     SpinBox {
         id: spin
         anchors.fill: parent
@@ -51,7 +58,7 @@ CSControl {
                 color: root.background
             }
         }
-        onValueChanged: csdata.value = value        
+        onValueChanged: if (!d.blockUpdate) csdata.value = value
     }
 
     Connections {
@@ -63,7 +70,9 @@ CSControl {
             }
         }
         onValueChanged: {
-            spin.value = csdata.value 
+            d.blockUpdate = true
+            spin.value = csdata.value
+            d.blockUpdate = false
         }
     }
 }
