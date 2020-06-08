@@ -154,7 +154,7 @@ void CSImageItem::resetZoom()
         return;
 
     _dest = contentsBoundingRect();
-    double aspect = _image.width() / _image.height();
+    double aspect = 1.0 * _image.width() / _image.height();
     if (_dest.width() / _dest.height() > aspect) {
         double w = _dest.height() * aspect;
         _dest.setX((_dest.width() - w) / 2);
