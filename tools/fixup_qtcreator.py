@@ -145,7 +145,7 @@ def deployQtLibraries():
         dst_dir = bin_dir
         lib_pattern = 'Qt5%s.dll'
     elif platform.system() == 'Linux':
-        libs += ['XcbQpa']
+        libs += ['XcbQpa', 'DBus']
 
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
@@ -170,6 +170,10 @@ def deployQtPlugins():
         plugins += ['xcbglintegrations']
 
     for plugin in plugins:
+        if not os.path.exists(os.path.join(qtplugins_dir, plugin)):
+            print('plugin "%s" does not exist' % plugin)
+            continue
+
         shutil.copytree(os.path.join(qtplugins_dir, plugin),
                         os.path.join(plugins_dir, plugin),
                         symlinks=True,
@@ -190,6 +194,10 @@ def deployQtQuick():
         os.makedirs(qml_dir)
 
     for qml in ['Qt', 'QtQml', 'QtGraphicalEffects', 'QtQuick', 'QtQuick.2']:
+        if not os.path.exists(os.path.join(qtqml_dir, qml)):
+            print('qml module "%s" does not exist' % qml)
+            continue
+
         shutil.copytree(os.path.join(qtqml_dir, qml),
                         os.path.join(qml_dir, qml),
                         symlinks=True,
@@ -244,7 +252,10 @@ def restruct_windows():
 def restruct_linux():
     # Copy the entire directory
     for d in ['bin', 'lib', 'libexec', 'share']:
-        shutil.copytree(os.path.join(qtcreator_path, d), os.path.join(target_path, d), symlinks=True)
+        shutil.copytree(os.path.join(qtcreator_path, d),
+                os.path.join(target_path, d),
+                symlinks=True,
+                ignore=shutil.ignore_patterns('Makefile*'))
 
     # Fix rpath of qtcreator and executibles under libexec
     cmd = "chrpath -r '$ORIGIN/../lib/qtcreator:$ORIGIN/../lib:' " + os.path.join(bin_dir, 'qtcreator')
