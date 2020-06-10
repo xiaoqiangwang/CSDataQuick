@@ -37,7 +37,7 @@ target_link_libraries(${APPNAME} PRIVATE
     Qt5::Qml
     Qt5::Quick
     Qt5::Network
-    parser
+    csparser
 )
 if(APPLE)
     find_library(OSXSecurity Security)

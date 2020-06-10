@@ -30,5 +30,5 @@ add_executable(test_parser
 )
 target_link_libraries(test_parser
     Qt5::Core
-    parser
+    csparser
 )

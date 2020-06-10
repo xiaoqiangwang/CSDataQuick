@@ -68,7 +68,7 @@ QCSParserManager::QCSParserManager(QObject *parent)
     QDir pluginsDir = QFileInfo(libraryFilePath).dir();
     pluginsDir.cdUp();
     pluginsDir.cd("plugins");
-    pluginsDir.cd("parser");
+    pluginsDir.cd("csparser");
     foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
         QPluginLoader loader(fileInfo.absoluteFilePath());
         QCSParser *parser = qobject_cast<QCSParser*>(loader.instance());

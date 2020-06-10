@@ -24,11 +24,11 @@ target_compile_options(UIParser PRIVATE
 )
 
 target_link_libraries(UIParser PRIVATE
-    Qt5::Core parser
+    Qt5::Core csparser
 )
 
 set_target_properties(UIParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
 )
 
 if (APPLE)
@@ -36,4 +36,4 @@ if (APPLE)
     SUFFIX ".dylib")
 endif ()
 
-install(TARGETS UIParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/parser)
+install(TARGETS UIParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)

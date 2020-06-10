@@ -33,7 +33,7 @@ target_link_libraries(csutils
     PRIVATE
         Qt5::Gui
         Qt5::Quick
-        parser
+        csparser
         csdata
 )
 

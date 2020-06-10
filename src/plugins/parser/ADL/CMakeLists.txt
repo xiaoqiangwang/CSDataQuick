@@ -19,11 +19,11 @@ target_compile_definitions(ADLParser PRIVATE
 )
 
 target_link_libraries(ADLParser PRIVATE
-    Qt5::Core parser
+    Qt5::Core csparser
 )
 
 set_target_properties(ADLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
 )
 
 if (APPLE)
@@ -31,4 +31,4 @@ if (APPLE)
     SUFFIX ".dylib")
 endif ()
 
-install(TARGETS ADLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/parser)
+install(TARGETS ADLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)

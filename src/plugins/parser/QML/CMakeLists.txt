@@ -12,11 +12,11 @@ add_library(QMLParser MODULE
 )
 
 target_link_libraries(QMLParser PRIVATE
-    Qt5::Core parser
+    Qt5::Core csparser
 )
 
 set_target_properties(QMLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/parser
+    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
 )
 
 if (APPLE)
@@ -24,4 +24,4 @@ if (APPLE)
     SUFFIX ".dylib")
 endif ()
 
-install(TARGETS QMLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/parser)
+install(TARGETS QMLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)
