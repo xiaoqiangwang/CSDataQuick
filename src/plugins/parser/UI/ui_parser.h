@@ -86,6 +86,7 @@ protected:
     QList<DomWidget*> orderedChildWidgets(DomWidget *w);
     QList<DomProperty*> uniqueProperties(QList<DomProperty*> p);
     QString escapedSingleQuote(QString s);
+    QStringList split(QString s, QChar sep);
 
 private:
     std::string nameValueString;

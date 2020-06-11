@@ -1855,10 +1855,13 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
             }
          }
         else if (v->attributeName() == "args") {
-            QStringList args = v->elementString()->text().split(';');
+            QStringList args = split(v->elementString()->text(), ';');
             for (int i=0; i<args.size(); i++) {
                 if (i >= entries.size())
                     entries.append(CommandEntry());
+                // start process detached
+                if (!args[i].endsWith("&"))
+                    args[i].append("&");
                 entries[i].arg = args[i];
             }
         }
@@ -2151,6 +2154,35 @@ QString UI::escapedSingleQuote(QString s)
 {
     // escape backslash and single quote if not escaped yet
     return s.replace(QRegularExpression("(?<!\\\\)\\\\$"),"\\\\").replace(QRegularExpression("(?<!\\\\)(')"), "\\'");
+}
+
+// split string but preserve quotes
+QStringList UI::split(QString s, QChar sep)
+{
+    QStringList list;
+
+    bool quote = false;
+    QString p;
+    foreach(QChar c, s) {
+        if (c == '"') {
+            quote = !quote;
+            p += c;
+        }
+        else if (c == sep) {
+            if (quote)
+                p += c;
+            else {
+                list.append(p);
+                p = "";
+            }
+        }
+        else
+            p += c;
+    }
+    if (!p.isEmpty())
+        list.append(p);
+
+    return list;
 }
 
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
