@@ -705,6 +705,7 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSRect {" << endl;
+    ostream << indent << "    clip: true" << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     bool filled = false;
