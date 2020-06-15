@@ -2280,7 +2280,6 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
         ostream << indent << "Item {" << endl;
-        ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
         layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
         foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
