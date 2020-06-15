@@ -466,7 +466,7 @@ void UI::qlabelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     QString indent(level * 4, ' ');
 
     ostream << indent << "Text {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     bool richText = false;
@@ -559,7 +559,7 @@ void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "TextEdit {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
@@ -848,7 +848,7 @@ void UI::imageToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSImage {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
@@ -873,7 +873,7 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSText {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Minimum",  "Minimum", level);
 
     bool up = false;
@@ -965,7 +965,7 @@ void UI::lineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSPolyline {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     int width, height;
@@ -1015,7 +1015,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         ostream << indent << "CSPolygon {" << endl;
     else
         ostream << indent << "CSPolyline {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     bool fill = false;
@@ -1073,7 +1073,7 @@ void UI::byteToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSByte {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     QString direction = "Down";
@@ -1130,7 +1130,7 @@ void UI::cartesianPlotToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
 {
     QString indent(level * 4, ' ');
     ostream << indent << "CSCartesianPlot {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
     
     CartesianTrace traces[8];
@@ -1208,7 +1208,7 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSBar {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
 
     QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -1257,7 +1257,7 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSIndicator {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
 
     QString direction = "Direction.Up";
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -1315,7 +1315,7 @@ void UI::ledToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*i)
         ostream << indent << "CSRect {" << endl;
     else
         ostream << indent << "CSOval {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     ostream << indent << "    implicitWidth: 18" << endl;
@@ -1383,7 +1383,7 @@ void UI::meterToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMeter {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -1413,7 +1413,7 @@ void UI::stripChartToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSStripChart {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     StripTrace traces[8];
@@ -1489,7 +1489,7 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextUpdate {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Fxied", level);
 
     if (w->attributeClass() ==  "caMultiLineString") {
@@ -1555,7 +1555,7 @@ void UI::choiceButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSChoiceButton {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -1594,7 +1594,7 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMenu {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -1624,7 +1624,7 @@ void UI::messageButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLa
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSMessageButton {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Minimum", "Fixed", level);
 
     QString text, label;
@@ -1672,7 +1672,7 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSRelatedDisplay {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     QVector<DisplayEntry> entries;
@@ -1781,7 +1781,7 @@ void UI::scriptButtonToQML(QTextStream &ostream, DomWidget*w, int level, DomLayo
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSShellCommand {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     QString command;
@@ -1829,7 +1829,7 @@ void UI::shellCommandToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSShellCommand {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     QVector<CommandEntry> entries;
@@ -1898,7 +1898,7 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSSlider {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     QString direction = "Direction.Up";
@@ -1937,7 +1937,7 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSSpinBox {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -1972,7 +1972,7 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextEntry {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Fixed", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -2016,7 +2016,7 @@ void UI::toggleButtonToQML(QTextStream& ostream, DomWidget *w, int level, DomLay
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSToggleButton {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -2052,7 +2052,7 @@ void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSTextEntryArray {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -2101,7 +2101,7 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     QString indent(level * 4, ' ');
 
     ostream << indent << "CSWheelSwitch {" << endl;
-    ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+    ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
@@ -2197,6 +2197,18 @@ QStringList UI::split(QString s, QChar sep)
     return list;
 }
 
+// uncapitialize string
+QString UI::uncapitalize(QString s)
+{
+    if (!s.isEmpty()) {
+        QChar c = s.at(0);
+        if (c.isUpper())
+            c = c.toLower();
+        s[0] = c;
+    }
+    return s;
+}
+
 void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
@@ -2268,7 +2280,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         qCritical() << "widget " << widgetClass << "not supported";
     else if (widgetClass == "QWidget") {
         ostream << indent << "Item {" << endl;
-        ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+        ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
         layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
         foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
             if (v->attributeName() == "geometry") {
@@ -2284,7 +2296,7 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     else {
         qWarning() << "Use CSRect for widget class " << widgetClass << endl;
         ostream << indent << "CSRect {" << endl;
-        ostream << indent << "    id: " << w->attributeName().toLower() << endl;
+        ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
         ostream << indent << "    implicitHeight: 20" << endl;
         ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
 

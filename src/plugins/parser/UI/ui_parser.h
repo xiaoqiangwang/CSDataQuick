@@ -87,6 +87,7 @@ protected:
     QList<DomProperty*> uniqueProperties(QList<DomProperty*> p);
     QString escapedSingleQuote(QString s);
     QStringList split(QString s, QChar sep);
+    QString uncapitalize(QString s);
 
 private:
     std::string nameValueString;
