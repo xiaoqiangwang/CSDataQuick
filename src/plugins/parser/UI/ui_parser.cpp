@@ -1019,12 +1019,13 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     bool fill = false;
+    QString foreground("black"), lineColor("black");
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
         }
         else if (v->attributeName() == "foreground")
-            ostream << indent << "    foreground: '" << colorToQML(v->elementColor()) << "'" << endl;
+            foreground = colorToQML(v->elementColor());
         else if (v->attributeName() == "background")
             ostream << indent << "    background: '" << colorToQML(v->elementColor()) << "'" << endl;
         else if (v->attributeName() == "tiltAngle")
@@ -1044,6 +1045,9 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "lineSize") {
             ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
         }
+        else if (v->attributeName() == "lineColor") {
+            lineColor = colorToQML(v->elementColor());
+        }
         else if (v->attributeName() == "xyPairs") {
             QString xyPairs = v->elementString()->text();
             ostream << indent << "    points: [";
@@ -1055,9 +1059,12 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (dynamicAttributeToQML(ostream, v, level))
             ;
     }
-    if (!fill)
+    if (fill) {
+        ostream << indent << "    foreground: '" <<  foreground << "'" << endl;
+    } else {
         ostream << indent << "    fillStyle: FillStyle.Outline" << endl;
-
+        ostream << indent << "    foreground: '" <<  lineColor << "'" << endl;
+    }
     ostream << indent << "}" << endl;
 }
 
