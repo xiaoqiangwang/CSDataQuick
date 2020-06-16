@@ -1,6 +1,7 @@
 #include "imageprovider.h"
 
 #include <QPainter>
+#include <QPainterPath>
 
 DoubleRectProvider::DoubleRectProvider()
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
