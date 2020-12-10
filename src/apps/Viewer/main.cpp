@@ -47,7 +47,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
                                                                    context.file,
                                                                    context.line,
                                                                    context.function);
-        QMetaObject::invokeMethod(window, "outputMessage",
+        QMetaObject::invokeMethod(window, "outputMessage", Qt::QueuedConnection,
                                   Q_ARG(QVariant, type),
                                   Q_ARG(QVariant, formatedMessage));
         nonRecursiveMutex.unlock();
