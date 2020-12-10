@@ -11,6 +11,7 @@
 #include <postfix.h>
 #include <cvtFast.h>
 
+#include <QSequentialIterable>
 #include <QVector>
 #include <QVariant>
 #include <QProcess>
@@ -139,11 +140,11 @@ bool QCSUtils::openUrl(QString url)
 /*!
     \qmlmethod string Utils::format(format, number)
 
-    Format a number with given format, \sa QString::sprintf()
+    Format a number with given format, \sa QString::asprintf()
 */
 QString QCSUtils::format(QString format, double number)
 {
-    return QString("").sprintf(format.toLatin1(), number);
+    return QString::asprintf(format.toLatin1(), number);
 }
 
 /*!
