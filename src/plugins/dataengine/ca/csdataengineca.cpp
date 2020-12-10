@@ -11,7 +11,13 @@
 #define epicsAlarmGLOBAL
 #include <alarm.h>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QStringDecoder>
+#else
 #include <QTextCodec>
+#endif
+
+#include <QSequentialIterable>
 #include <QTimer>
 #include <QtDebug>
 
@@ -46,13 +52,21 @@ void exception_handler(exception_handler_args args)
 
 QString charToString(const char *s)
 {
-    QTextCodec::ConverterState state;
     // default to use utf-8 encoding, if that failed use latin1
+#if QT_VERSION >= 0x060000
+    QStringDecoder decoder = QStringDecoder(QStringDecoder::Utf8, QStringDecoder::Flag::Stateless);
+    QString string = decoder.decode(QByteArray(s));
+    if (decoder.hasError()) {
+        string = QString::fromLatin1(s);
+    }
+#else
+    QTextCodec::ConverterState state;
     QTextCodec *utf8 = QTextCodec::codecForName("utf8");
     QString string = utf8->toUnicode(s, strlen(s), &state);
     if (state.invalidChars > 0) {
         string = QString::fromLatin1(s);
     }
+#endif
     return string;
 }
 
@@ -469,7 +483,11 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
     qulonglong element_count  = ca_element_count(_chid);
 
     QVariant newValue(value);
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    if (newValue.metaType() == QMetaType::fromType<QString>() || newValue.metaType() == QMetaType::fromType<QByteArray>()) {
+#else
     if (newValue.type() == QVariant::String || newValue.type() == QVariant::ByteArray) {
+#endif
         if (reqtype == DBR_ENUM || reqtype == DBR_STRING) {
             reqtype = DBR_STRING;
         } else if (element_count == 1) {
