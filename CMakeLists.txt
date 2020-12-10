@@ -18,7 +18,7 @@ cmake_policy(SET CMP0020 NEW)
 find_package(Qt5 5.6
     COMPONENTS Core Gui Widgets Qml Quick Network Concurrent PrintSupport Test)
 
-foreach(m Core Gui Widgets Qml Quick Network Concurrent PrintSupport Test)
+foreach(m Core Gui Widgets Qml Quick Network Concurrent PrintSupport Test qmake)
     if (TARGET Qt5::${m} AND NOT TARGET Qt::${m})
         add_library(Qt::${m} ALIAS Qt5::${m})
         message(${m})
