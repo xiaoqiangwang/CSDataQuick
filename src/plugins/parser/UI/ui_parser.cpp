@@ -5,6 +5,12 @@
 #include <QRegularExpression>
 #include <QSet>
 #include <QtDebug>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+#define SplitFlag Qt::SkipEmptyParts
+using namespace Qt; // for endl and hex
+#else
+#define SplitFlag QString::SkipEmptyParts
+#endif
 
 #include <utility>
 
@@ -1007,7 +1013,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         }
         else if (v->attributeName() == "xyPairs") {
             QString xyPairs = v->elementString()->text();
-            xyList = xyPairs.split(';', QString::SkipEmptyParts);
+            xyList = xyPairs.split(';', SplitFlag);
         }
     }
 
@@ -1051,7 +1057,7 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "xyPairs") {
             QString xyPairs = v->elementString()->text();
             ostream << indent << "    points: [";
-            foreach (QString xyPair, xyPairs.split(';', QString::SkipEmptyParts)) {
+            foreach (QString xyPair, xyPairs.split(';', SplitFlag)) {
                 ostream << "Qt.point(" << xyPair << "),";
             }
             ostream << "]" << endl;
