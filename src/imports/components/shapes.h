@@ -34,8 +34,11 @@ public:
     void setLineWidth(int width) {_lineWidth = width; rebuildPath(); update();}
 
     void paint(QPainter * painter);
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    void geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry);
+#else
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
-
+#endif
     void rebuildPath() {_path = buildPath();}
 
 protected:

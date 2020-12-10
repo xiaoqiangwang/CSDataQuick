@@ -39,9 +39,17 @@ QPolygonF ShapeItem::createArrow(const QPointF pt, double angle)
     return arrow;
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+void ShapeItem::geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry)
+#else
 void ShapeItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry)
+#endif
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
+#else
     QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
+#endif
     _path = buildPath();
     update();
 }
