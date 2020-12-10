@@ -19,6 +19,9 @@
 #include <QQmlContext>
 #include <QQmlComponent>
 #include <QQuickWindow>
+#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+#include <QRecursiveMutex>
+#endif
 #include <QMutex>
 
 #include <QQmlDebuggingEnabler>
@@ -33,8 +36,13 @@ static QPointer<QQuickWindow> window;
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+    static QRecursiveMutex recursiveMutex;
+    static QMutex nonRecursiveMutex;
+#else
     static QMutex recursiveMutex(QMutex::Recursive);
     static QMutex nonRecursiveMutex(QMutex::NonRecursive);
+#endif
 
     // Prevent multiple threads from calling this method simultaneoulsy.
     // But allow recursive calls, which is required to prevent a deadlock
