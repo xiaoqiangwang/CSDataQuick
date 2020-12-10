@@ -4,6 +4,8 @@
 
 #include "windowmanager.h"
 
+#include <algorithm>
+
 #include <QWindow>
 #include <QQuickWindow>
 #include <QVariant>
@@ -68,7 +70,7 @@ void WindowListModel::add(QWindow *window)
 {
     if (windows.contains(window))
         return;
-    auto it = qUpperBound(windows.begin(), windows.end(), window, windowFilePathCompare);
+    auto it = std::upper_bound(windows.begin(), windows.end(), window, windowFilePathCompare);
     beginInsertRows(QModelIndex(), it-windows.begin(), it-windows.begin());
     windows.insert(it, window);
     endInsertRows();
