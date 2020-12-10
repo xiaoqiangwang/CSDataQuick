@@ -151,7 +151,7 @@ ApplicationWindow
     Component {
         id: messageItem
         Column {
-            width: parent.width
+            width: logView.width
             Text {
                 id: headerText
                 width: parent.width
