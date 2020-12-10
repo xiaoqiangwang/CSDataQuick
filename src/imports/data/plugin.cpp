@@ -28,7 +28,11 @@ void CSDataPlugin::registerTypes(const char *uri)
     qmlRegisterType<SortFilterProxyModel>(uri, 1, 0, "SortFilterProxyModel");
     qmlRegisterUncreatableType<ObjectModel>(uri, 1, 0, "ObjectModel", "QObject List Model");
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
+    qmlRegisterInterface<QCSDataEngine>("CSDataEngine", 1);
+#else
     qmlRegisterInterface<QCSDataEngine>("CSDataEngine");
+#endif
 
     qmlRegisterSingletonType<QCSDataEngineManager>(uri, 1, 0, "DataEngineManager", enginemanager_provider);
 
