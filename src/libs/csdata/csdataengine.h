@@ -6,9 +6,9 @@
 #include <QObject>
 
 #include "csdata_global.h"
+#include "objectmodel.h"
 
 class QCSData;
-class ObjectModel;
 
 class CSDATA_EXPORT QCSDataEngine : public QObject
 {
