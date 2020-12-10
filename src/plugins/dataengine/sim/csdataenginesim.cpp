@@ -1,6 +1,7 @@
 /*****************************************************************************\
  * Copyright 2012-2018 Paul Scherrer Institut, Villigen, Switzerland
 \*****************************************************************************/
+#include <cstdlib>
 
 #include "csdataenginesim.h"
 #include "csdata.h"
@@ -176,7 +177,7 @@ void QCSDataEngineSim::timerEvent(QTimerEvent *event)
     for(int i=0; i<_data->size(); i++) {
         QCSData *data = qobject_cast<QCSData*>(_data->at(i));
         if (data->property("source") == "sim://random") {
-            data->updateValue(qreal(qrand() * 1.0 / RAND_MAX));
+            data->updateValue(qreal(rand() * 1.0 / RAND_MAX));
             data->setProperty("timeStamp", QDateTime());
         }
         else if (data->property("source") == "sim://sin") {
