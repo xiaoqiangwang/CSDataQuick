@@ -17,7 +17,7 @@ ApplicationWindow
     height: 150
     title: app.applicationName
     visible: true
-    color: ColorMap.color4
+    color: ColorMap.color6
 
     menuBar: MenuBar {
         Menu {
