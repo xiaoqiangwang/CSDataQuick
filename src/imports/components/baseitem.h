@@ -3,6 +3,7 @@
 
 #include <QQuickItem>
 #include <QCursor>
+#include <QQuickWindow>
 
 class BaseItemAttached;
 class DynamicAttribute;
