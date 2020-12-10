@@ -43,7 +43,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
     // Fall back to stderr when this method has been called recursively.
     if (window && nonRecursiveMutex.tryLock()) {
-        QString formatedMessage = QString("%s (%s:%u %s)").sprintf(msg.toLocal8Bit(),
+        QString formatedMessage = QString("%s (%s:%u %s)").asprintf(msg.toLocal8Bit(),
                                                                    context.file,
                                                                    context.line,
                                                                    context.function);
