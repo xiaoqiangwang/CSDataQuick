@@ -12,7 +12,7 @@ add_library(csdataenginelocal MODULE
 )
 
 target_link_libraries(csdataenginelocal PRIVATE
-    Qt::Core
+    Qt${QT_VERSION_MAJOR}::Core
     csdata
 )
 

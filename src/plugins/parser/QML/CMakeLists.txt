@@ -12,7 +12,7 @@ add_library(QMLParser MODULE
 )
 
 target_link_libraries(QMLParser PRIVATE
-    Qt::Core csparser
+    Qt${QT_VERSION_MAJOR}::Core csparser
 )
 
 set_target_properties(QMLParser PROPERTIES

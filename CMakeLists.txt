@@ -15,16 +15,9 @@ set(CMAKE_AUTOMOC ON)
 
 cmake_policy(SET CMP0020 NEW)
 
-find_package(Qt5 5.6
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR}
     COMPONENTS Core Gui Widgets Qml Quick Network Concurrent PrintSupport Test)
-
-foreach(m Core Gui Widgets Qml Quick Network Concurrent PrintSupport Test qmake)
-    if (TARGET Qt5::${m} AND NOT TARGET Qt::${m})
-        add_library(Qt::${m} ALIAS Qt5::${m})
-        message(${m})
-    endif()
-endforeach()
-
 
 # Use c++11 or c++0x
 if (CMAKE_VERSION VERSION_LESS 3.1 AND CMAKE_COMPILER_IS_GNUCXX)

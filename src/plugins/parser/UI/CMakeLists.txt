@@ -24,7 +24,7 @@ target_compile_options(UIParser PRIVATE
 )
 
 target_link_libraries(UIParser PRIVATE
-    Qt::Core csparser
+    Qt${QT_VERSION_MAJOR}::Core csparser
 )
 
 set_target_properties(UIParser PROPERTIES

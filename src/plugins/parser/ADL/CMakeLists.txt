@@ -19,7 +19,7 @@ target_compile_definitions(ADLParser PRIVATE
 )
 
 target_link_libraries(ADLParser PRIVATE
-    Qt::Core csparser
+    Qt${QT_VERSION_MAJOR}::Core csparser
 )
 
 set_target_properties(ADLParser PROPERTIES

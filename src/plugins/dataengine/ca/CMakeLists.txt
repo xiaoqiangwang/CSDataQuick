@@ -16,7 +16,7 @@ target_compile_definitions(csdataengineca PRIVATE
 )
 
 target_link_libraries(csdataengineca PRIVATE
-    Qt::Core
+    Qt${QT_VERSION_MAJOR}::Core
     csdata
     EPICS::ca
 )
