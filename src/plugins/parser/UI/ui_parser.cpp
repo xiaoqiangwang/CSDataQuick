@@ -7,7 +7,8 @@
 #include <QtDebug>
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
 #define SplitFlag Qt::SkipEmptyParts
-using namespace Qt; // for endl and hex
+#define endl Qt::endl
+#define hex Qt::hex
 #else
 #define SplitFlag QString::SkipEmptyParts
 #endif
