@@ -12,7 +12,7 @@ add_library(csdataenginesim MODULE
 )
 
 target_link_libraries(csdataenginesim PRIVATE
-    Qt5::Core
+    Qt::Core
     csdata
 )
 

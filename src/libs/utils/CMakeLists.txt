@@ -27,12 +27,12 @@ target_compile_definitions(csutils PRIVATE
 
 target_link_libraries(csutils
     PUBLIC
-        Qt5::Core
-        Qt5::Qml
+        Qt::Core
+        Qt::Qml
         EPICS::Com
     PRIVATE
-        Qt5::Gui
-        Qt5::Quick
+        Qt::Gui
+        Qt::Quick
         csparser
         csdata
 )

@@ -31,12 +31,12 @@ target_include_directories(${APPNAME} PRIVATE
     ${CMAKE_BINARY_DIR}/src/include
 )
 target_link_libraries(${APPNAME} PRIVATE
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    Qt5::Qml
-    Qt5::Quick
-    Qt5::Network
+    Qt::Core
+    Qt::Gui
+    Qt::Widgets
+    Qt::Qml
+    Qt::Quick
+    Qt::Network
     csparser
 )
 if(APPLE)

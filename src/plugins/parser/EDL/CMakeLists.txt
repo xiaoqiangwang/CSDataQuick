@@ -17,7 +17,7 @@ target_compile_definitions(EDLParser PRIVATE
 )
 
 target_link_libraries(EDLParser PRIVATE
-    Qt5::Core
+    Qt::Core
     csparser
 )
 

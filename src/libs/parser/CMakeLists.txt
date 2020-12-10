@@ -20,7 +20,7 @@ target_include_directories(csparser PUBLIC
 
 target_compile_definitions(csparser PRIVATE PARSER_LIBRARY)
 
-target_link_libraries(csparser PUBLIC Qt5::Core)
+target_link_libraries(csparser PUBLIC Qt::Core)
 
 set_target_properties(csparser PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

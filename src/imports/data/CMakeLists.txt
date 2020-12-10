@@ -14,7 +14,7 @@ add_library(csdataplugin MODULE
 )
 
 target_link_libraries(csdataplugin PRIVATE
-    Qt5::Core Qt5::Qml csdata)
+    Qt::Core Qt::Qml csdata)
 
 set_target_properties(csdataplugin PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Data/)

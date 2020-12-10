@@ -9,7 +9,7 @@ add_test(test_qcsdata
     test_qcsdata
 )
 target_link_libraries(test_qcsdata
-    Qt5::Test
+    Qt::Test
     csdata
 )
 
@@ -20,7 +20,7 @@ add_test(test_utils
     test_utils
 )
 target_link_libraries(test_utils
-    Qt5::Test
+    Qt::Test
     csdata
     csutils
 )
@@ -29,6 +29,6 @@ add_executable(test_parser
     test_parser.cpp
 )
 target_link_libraries(test_parser
-    Qt5::Core
+    Qt::Core
     csparser
 )
