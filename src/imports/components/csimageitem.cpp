@@ -76,9 +76,13 @@ void CSImageItem::mouseDoubleClickEvent(QMouseEvent *event)
 
 void CSImageItem::wheelEvent(QWheelEvent *event)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5,14,0)
+    QPointF dist = event->position() - _dest.topLeft();
+#else
     QPointF dist = event->posF() - _dest.topLeft();
+#endif
 
-    if (event->delta() > 0) {
+    if (event->angleDelta().y() > 0) {
         _dest.setSize(QSizeF(_dest.width() * 0.95, _dest.height() * 0.95));
         _dest.translate(dist * 0.05);
     } else {
