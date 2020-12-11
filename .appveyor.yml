@@ -13,6 +13,7 @@ install:
     # Setup epics base from Miniconda
     - "%MINICONDA%\\Scripts\\activate.bat"
     - conda install -y conda-build
+    - conda info
     - conda install -y -c paulscherrerinstitute epics-base
     - "set EPICS_BASE=%MINICONDA%\\epics"
     - call "%ProgramFiles(x86)%\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %ARCH%
