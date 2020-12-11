@@ -35,7 +35,7 @@ Item {
         width: height
         anchors.verticalCenter: label.verticalCenter
         color: control.backgroundColor
-        shadow: checked ? FrameShadow.Sunken : FrameShadow.Raise
+        shadow: control.checked ? FrameShadow.Sunken : FrameShadow.Raise
         Canvas {
             id: canvas
             opacity: control.checked ? 1 : 0
@@ -91,6 +91,6 @@ Item {
     // (un-)check when mouse click
     MouseArea {
         anchors.fill: parent
-        onClicked: checked = !checked
+        onClicked: control.checked = !control.checked
     }
 }

@@ -1,3 +1,4 @@
+import QtQml 2.0
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
@@ -86,9 +87,9 @@ CSGraphics {
     Polygon {
         id: polygon
         anchors.fill: parent
-        foreground: (colorMode == ColorMode.Alarm
-                     || (dynamicAttribute.visibilityMode != VisibilityMode.Static
-                         && !dynamicAttribute.connected)) && !Utils.inPuppet
+        foreground: (root.colorMode == ColorMode.Alarm
+                     || (root.dynamicAttribute.visibilityMode != VisibilityMode.Static
+                         && !root.dynamicAttribute.connected)) && !Utils.inPuppet
                     ? root.alarmColor : root.foreground
         lineWidth: root.lineWidth
         fillStyle: root.fillStyle

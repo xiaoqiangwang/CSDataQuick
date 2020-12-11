@@ -1,3 +1,4 @@
+import QtQml 2.0
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
@@ -117,8 +118,8 @@ BaseItem {
         legendVisible: root.legendVisible
         property var xAxis: Axis {
             type: Axis.Bottom
-            label: xLabel || height<=80 ? '' : "Time (%1)".arg(getTimeLabel(root.units))
-            rangeLower: -period
+            label: root.xLabel || root.height<=80 ? '' : "Time (%1)".arg(getTimeLabel(root.units))
+            rangeLower: -root.period
             rangeUpper: 0
             autoScale: false
         }

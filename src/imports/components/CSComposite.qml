@@ -1,3 +1,4 @@
+import QtQml 2.0
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
@@ -57,7 +58,7 @@ BaseItem {
         z: 1
         anchors.fill: parent
         color: 'white'
-        visible: !dynamicAttribute.connected
+        visible: !root.dynamicAttribute.connected
     }
 
     onMacroChanged: {
@@ -112,17 +113,17 @@ BaseItem {
             d.rootItem = null;
         }
 
-        if (!source)
+        if (!root.source)
             return
 
-        var absFilePath = Utils.searchDisplayFile(source, windowPath)
+        var absFilePath = Utils.searchDisplayFile(root.source, windowPath)
 
         if (absFilePath.toString() === '') {
-            console.error("Failed to find file ", source)
+            console.error("Failed to find file ", root.source)
             return
         }
 
-        d.rootItem = Utils.createComponentByFile(root, absFilePath, join(windowMacro, macro))
+        d.rootItem = Utils.createComponentByFile(root, absFilePath, join(windowMacro, root.macro))
 
         // override rootItem position property
         if (d.rootItem) {

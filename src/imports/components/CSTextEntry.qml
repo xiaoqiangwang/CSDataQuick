@@ -94,7 +94,7 @@ CSControl {
     /*! \internal */
     property var font: UtilsJS.getBestFontSize(height, true)
 
-    limits.precChannel: csdata.precision
+    limits.precChannel: root.csdata.precision
 
     onSourceChanged: {
         if (Utils.inPuppet)
@@ -103,11 +103,11 @@ CSControl {
 
     TextFormatter {
         id: formatter
-        data: csdata
+        data: root.csdata
         format: root.format
-        precision: limits.prec
+        precision: root.limits.prec
         onTextChanged: {
-            textEntry.text = Utils.inPuppet ? source : text
+            textEntry.text = Utils.inPuppet ? root.source : text
             if (!textEntry.hasFocus)
                 textEntry.cursorPosition = 0
         }
@@ -116,15 +116,15 @@ CSControl {
     StyledTextEntry {
         id: textEntry
         anchors.fill: parent
-        foreground: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        foreground: (root.colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         background: root.background
         font.pixelSize: root.font.size
         font.family: root.font.family
         horizontalAlignment: root.align
-        readOnly: !(csdata.accessRight & CSData.WriteAccess)
+        readOnly: !(root.csdata.accessRight & CSData.WriteAccess)
 
         onHasFocusChanged: {
-            text = Utils.inPuppet ? source : formatter.text
+            text = Utils.inPuppet ? root.source : formatter.text
         }
 
         onAccepted: {
@@ -132,7 +132,7 @@ CSControl {
                 return
             var value = textToValue(text)
             if (value !== undefined && (typeof value == 'string' || !isNaN(value))) {
-                csdata.value = value
+                root.csdata.value = value
             }
         }
     }
@@ -140,16 +140,16 @@ CSControl {
     /*! \internal */
     function textToValue(text) {
         var value
-        switch (csdata.fieldType) {
+        switch (root.csdata.fieldType) {
         case CSData.String:
             value = text
             break
         case CSData.Enum:
             var i
-            for(i=0; i<csdata.stateStrings.length; i++)
-                if (text === csdata.stateStrings[i])
+            for(i=0; i<root.csdata.stateStrings.length; i++)
+                if (text === root.csdata.stateStrings[i])
                     break
-            if (i < csdata.stateStrings.length)
+            if (i < root.csdata.stateStrings.length)
                 value = i
             else
                 value = Utils.parse(format, text)

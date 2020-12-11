@@ -28,7 +28,7 @@ Button {
 
         label: Item {
             implicitWidth: icon.implicitWidth + text.implicitWidth
-            implicitHeight: fontSizeMode == Text.FixedSize ? text.implicitHeight :TextSingleton.implicitHeight
+            implicitHeight: root.fontSizeMode == Text.FixedSize ? text.implicitHeight :TextSingleton.implicitHeight
 
             Loader {
                 id: icon
@@ -63,8 +63,8 @@ Button {
                 minimumPixelSize: 8
                 fontSizeMode: root.fontSizeMode
                 Binding on font.pixelSize {
-                    when: fontSizeMode != Text.FixedSize
-                    value: height
+                    when: root.fontSizeMode != Text.FixedSize
+                    value: text.height
                 }
             }
         }

@@ -90,11 +90,11 @@ BaseItem{
         id: d
         /* Detector of X dimension */
         property var detX: CSData {
-            source: scanX + Utils.format('.D%02.0fCV', detX)
+            source: root.scanX + Utils.format('.D%02.0fCV', root.detX)
         }
         /* X dimension */
         property var valX: CSData {
-            source: scanX + '.VAL'
+            source: root.scanX + '.VAL'
             onValueChanged: {
                 if (d.cptX.value === 0)
                     return
@@ -103,22 +103,22 @@ BaseItem{
             }
         }
         property var cptX: CSData {
-            source: scanX + '.CPT'
+            source: root.scanX + '.CPT'
         }
         property var nptsX: CSData {
-            source: scanX + '.NPTS'
+            source: root.scanX + '.NPTS'
         }
         property var pvX: CSData {
-            source: scanX + Utils.format('.P%.0fPV', posX)
+            source: root.scanX + Utils.format('.P%.0fPV', root.posX)
         }
         property var spX: CSData {
-            source: scanX + Utils.format('.P%.0fSP', posX)
+            source: root.scanX + Utils.format('.P%.0fSP', root.posX)
         }
         property var epX: CSData {
-            source: scanX + Utils.format('.P%.0fEP', posX)
+            source: root.scanX + Utils.format('.P%.0fEP', root.posX)
         }
         property var runX: CSData {
-            source: scanX + '.EXSC'
+            source: root.scanX + '.EXSC'
             onValueChanged: {
                 if (value === 1) {
                     cm.setXRange(d.spX.value, d.epX.value, d.nptsX.value)
@@ -127,22 +127,22 @@ BaseItem{
         }
         /* Y dimension */
         property var cptY: CSData {
-            source: scanY + '.CPT'
+            source: root.scanY + '.CPT'
         }
         property var nptsY: CSData {
-            source: scanY + '.NPTS'
+            source: root.scanY + '.NPTS'
         }
         property var pvY: CSData {
-            source: scanY + Utils.format('.P%.0fPV', posY)
+            source: root.scanY + Utils.format('.P%.0fPV', root.posY)
         }
         property var spY: CSData {
-            source: scanY + Utils.format('.P%.0fSP', posY)
+            source: root.scanY + Utils.format('.P%.0fSP', root.posY)
         }
         property var epY: CSData {
-            source: scanY + Utils.format('.P%.0fEP', posY)
+            source: root.scanY + Utils.format('.P%.0fEP', root.posY)
         }
         property var runY: CSData {
-            source: scanY + '.EXSC'
+            source: root.scanY + '.EXSC'
             onValueChanged: {
                 if (value === 1) {
                     cm.clearData()

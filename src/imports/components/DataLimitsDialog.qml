@@ -6,7 +6,7 @@ import QtQuick.Dialogs 1.2
 import CSDataQuick.Components 1.0
 
 Dialog {
-    id: dialog
+    id: root
 
     property string channel
     property Limits limits: Limits {}
@@ -43,7 +43,7 @@ Dialog {
             anchors.margins: 5
 
             Text {
-                text: channel
+                text: root.channel
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
 
@@ -82,18 +82,18 @@ Dialog {
             ComboBox {
                 model: sourceModel
                 textRole: "text"
-                currentIndex: limits.loprSrc
+                currentIndex: root.limits.loprSrc
                 onCurrentIndexChanged: {
-                    limits.loprSrc = sourceModel.get(currentIndex).value
+                    root.limits.loprSrc = sourceModel.get(currentIndex).value
                 }
             }
             TextField {
                 id: lopr
                 implicitWidth: 80
-                text: limits.lopr.toFixed(limits.prec)
+                text: root.limits.lopr.toFixed(root.limits.prec)
                 validator: DoubleValidator {}
-                enabled: limits.loprSrc == LimitsSource.User
-                onAccepted: limits.loprUser = parseFloat(text)
+                enabled: root.limits.loprSrc == LimitsSource.User
+                onAccepted: root.limits.loprUser = parseFloat(text)
             }
 
             /* High Limit */
@@ -105,18 +105,18 @@ Dialog {
             ComboBox {
                 model: sourceModel
                 textRole: "text"
-                currentIndex: limits.hoprSrc
+                currentIndex: root.limits.hoprSrc
                 onCurrentIndexChanged: {
-                    limits.hoprSrc = sourceModel.get(currentIndex).value
+                    root.limits.hoprSrc = sourceModel.get(currentIndex).value
                 }
             }
             TextField {
                 id: hopr
                 implicitWidth: 80
-                text: limits.hopr.toFixed(limits.prec)
+                text: root.limits.hopr.toFixed(root.limits.prec)
                 validator: DoubleValidator {}
-                enabled: limits.hoprSrc == LimitsSource.User
-                onAccepted: limits.hoprUser = parseFloat(text)
+                enabled: root.limits.hoprSrc == LimitsSource.User
+                onAccepted: root.limits.hoprUser = parseFloat(text)
             }
 
             /* Precision */
@@ -128,18 +128,18 @@ Dialog {
             ComboBox {
                 model: sourceModel
                 textRole: "text"
-                currentIndex: limits.precSrc
+                currentIndex: root.limits.precSrc
                 onCurrentIndexChanged: {
-                    limits.precSrc = sourceModel.get(currentIndex).value
+                    root.limits.precSrc = sourceModel.get(currentIndex).value
                 }
             }
             TextField {
                 id: prec
                 implicitWidth: 80
-                text: limits.prec.toString()
+                text: root.limits.prec.toString()
                 validator: IntValidator {top: 17; bottom: 0}
-                enabled: limits.precSrc == LimitsSource.User
-                onAccepted: limits.precUser = parseInt(text)
+                enabled: root.limits.precSrc == LimitsSource.User
+                onAccepted: root.limits.precUser = parseInt(text)
             }
 
             /* Button */
@@ -147,16 +147,16 @@ Dialog {
                 id: ok
                 text: 'OK'
                 onClicked: {
-                    dialog.accepted()
-                    close()
+                    root.accepted()
+                    root.close()
                 }
             }
             Button {
                 id: cancel
                 text: 'Cancel'
                 onClicked: {
-                    dialog.rejected()
-                    close()
+                    root.rejected()
+                    root.close()
                 }
             }
         }

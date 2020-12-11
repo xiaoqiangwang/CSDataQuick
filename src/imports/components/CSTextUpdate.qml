@@ -78,9 +78,9 @@ CSMonitor {
 
     TextFormatter {
         id: formatter
-        data: csdata
+        data: root.csdata
         format: root.format
-        precision: limits.prec
+        precision: root.limits.prec
     }
 
     Text {
@@ -90,12 +90,12 @@ CSMonitor {
         minimumPixelSize: 6
         font.family: UtilsJS.getBestFontSize(root.height).family
         Binding on font.pixelSize {
-            when: fontSizeMode != Text.FixedSize && !Utils.inPuppet
+            when: root.fontSizeMode != Text.FixedSize && !Utils.inPuppet
             value: root.height
         }
         verticalAlignment: Text.AlignVCenter
-        text: Utils.inPuppet ? source : (formatter.text + (unitsVisible ? ' ' + csdata.units : ''))
-        color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        text: Utils.inPuppet ? root.source : (formatter.text + (root.unitsVisible ? ' ' + root.csdata.units : ''))
+        color: (root.colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         clip: true
     }
 }

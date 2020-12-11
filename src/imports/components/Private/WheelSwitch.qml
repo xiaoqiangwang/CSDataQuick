@@ -1,3 +1,4 @@
+import QtQml 2.0
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
@@ -22,7 +23,7 @@ Item {
     QtObject {
         id: d
         property string undef
-        property string defaultFormat: calculateFormat(hilim, lolim, prec)
+        property string defaultFormat: calculateFormat(root.hilim, root.lolim, root.prec)
         property string numberFormat: parseFormat(root.format)
         property int width: 1
         property int decimal: 0
@@ -148,16 +149,16 @@ Item {
         hoverEnabled: true
 
         onEntered: {
-            if (activeDigit < 0 || activeDigit >= d.width)
-                activeDigit = d.width - 1
-            wheel.children[activeDigit].forceActiveFocus()
+            if (root.activeDigit < 0 || root.activeDigit >= d.width)
+                root.activeDigit = d.width - 1
+            wheel.children[root.activeDigit].forceActiveFocus()
         }
         onExited: root.forceActiveFocus()
     }
 
     Row {
         visible: !input.visible
-        width: (prefix.count + digits.count + postfix.count)* font.pixelSize * 0.7
+        width: (prefix.count + digits.count + postfix.count)* root.font.pixelSize * 0.7
         height: parent.height
         anchors.centerIn: parent
 
@@ -188,14 +189,14 @@ Item {
                     minusVisible: !isNaN(digit) && (root.value - d.step[index]) >= root.lolim - d.epsilon
                     plusVisible: !isNaN(digit) && (root.value +  d.step[index]) <= root.hilim + d.epsilon
                     onMinus: {
-                        newValue = (root.value -  d.step[index]).toFixed(d.decimal)
+                        root.newValue = (root.value -  d.step[index]).toFixed(d.decimal)
                     }
                     onPlus: {
-                        newValue = (root.value +  d.step[index]).toFixed(d.decimal)
+                        root.newValue = (root.value +  d.step[index]).toFixed(d.decimal)
                     }
                     onActiveFocusChanged: {
-                        if (activeFocus && activeDigit!=index)
-                            activeDigit = index
+                        if (activeFocus && root.activeDigit!=index)
+                            root.activeDigit = index
                     }
                 }
             }

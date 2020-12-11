@@ -74,7 +74,7 @@ CSGraphics {
     implicitHeight: fontSizeMode == Text.FixedSize ? text_control.implicitHeight : 16
 
     Rectangle {
-        color: background
+        color: root.background
         anchors.fill: parent
     }
 
@@ -82,19 +82,19 @@ CSGraphics {
         z: 1
         color: ColorMap.invalid_alarm
         anchors.fill: parent
-        visible: (colorMode == ColorMode.Alarm || dynamicAttribute.visibilityMode != VisibilityMode.Static) && !dynamicAttribute.connected && !Utils.inPuppet
+        visible: (root.colorMode == ColorMode.Alarm || root.dynamicAttribute.visibilityMode != VisibilityMode.Static) && !root.dynamicAttribute.connected && !Utils.inPuppet
     }
 
     Text {
         id: text_control
-        color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        color: (root.colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         anchors.fill: parent
         minimumPixelSize: 6
         fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(height).family
         Binding on font.pixelSize {
-            when: fontSizeMode != Text.FixedSize
-            value: height
+            when: root.fontSizeMode != Text.FixedSize
+            value: root.height
         }
         verticalAlignment: Text.AlignVCenter
         onLinkActivated: Qt.openUrlExternally(link)

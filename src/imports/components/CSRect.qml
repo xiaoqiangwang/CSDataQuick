@@ -49,9 +49,9 @@ CSGraphics {
         radiusX: root.radiusX
         radiusY: root.radiusY
         lineWidth: root.lineWidth
-        foreground: (colorMode == ColorMode.Alarm
-                     || (dynamicAttribute.visibilityMode != VisibilityMode.Static
-                         && !dynamicAttribute.connected)) && !Utils.inPuppet
+        foreground: (root.colorMode == ColorMode.Alarm
+                     || (root.dynamicAttribute.visibilityMode != VisibilityMode.Static
+                         && !root.dynamicAttribute.connected)) && !Utils.inPuppet
                     ? root.alarmColor : root.foreground
         edgeStyle: root.edgeStyle
         fillStyle: root.fillStyle

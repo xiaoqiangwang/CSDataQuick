@@ -38,7 +38,7 @@ Item {
             color: root.foreground
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            text: digit
+            text: root.digit
         }
         Image {
             x: 0

@@ -24,7 +24,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: background
+        color: root.background
     }
 
     StyledAxis {
@@ -45,16 +45,16 @@ Item {
     }
     StyledFrame {
         id: panel
-        shadow: showFrame ? FrameShadow.Sunken : FrameShadow.Flat
+        shadow: root.showFrame ? FrameShadow.Sunken : FrameShadow.Flat
 
-        anchors.top: (orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
-        anchors.left: (orientation == Qt.Vertical && range.visible) ? range.right : root.left
+        anchors.top: (root.orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
+        anchors.left: (root.orientation == Qt.Vertical && range.visible) ? range.right : root.left
         anchors.right: root.right
         anchors.bottom: root.bottom
 
-        anchors.leftMargin: (orientation == Qt.Horizontal && range.visible) ? range.sidemargin - 1 : 0
+        anchors.leftMargin: (root.orientation == Qt.Horizontal && range.visible) ? range.sidemargin - 1 : 0
         anchors.rightMargin: anchors.leftMargin
-        anchors.topMargin: (orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
+        anchors.topMargin: (root.orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
         anchors.bottomMargin: anchors.topMargin
 
         color: root.background
@@ -62,9 +62,9 @@ Item {
 
     Rectangle {
         id: progress
-        width: orientation == Qt.Vertical ? panel.contentWidth : panel.contentWidth * calcPercentage()
-        height: orientation == Qt.Horizontal ? panel.contentHeight : panel.contentHeight * calcPercentage()
-        anchors.margins: fillMode == FillMode.FromEdge ? panel.innerMargin : 0
+        width: root.orientation == Qt.Vertical ? panel.contentWidth : panel.contentWidth * calcPercentage()
+        height: root.orientation == Qt.Horizontal ? panel.contentHeight : panel.contentHeight * calcPercentage()
+        anchors.margins: root.fillMode == FillMode.FromEdge ? panel.innerMargin : 0
         color: root.indicatorColor
     }
 

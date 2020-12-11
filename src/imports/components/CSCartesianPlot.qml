@@ -1,3 +1,4 @@
+import QtQml 2.0
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
@@ -247,25 +248,25 @@ BaseItem {
         property var xAxis: Axis {
             type: Axis.Bottom
             label: root.xLabel
-            scale: xAxisStyle
+            scale: root.xAxisStyle
             rangeLower: root.xRangeLower
             rangeUpper: root.xRangeUpper
-            autoScale: xRangeStyle != CartesianPlotRangeStyle.User
+            autoScale: root.xRangeStyle != CartesianPlotRangeStyle.User
         }
         property var yAxis: Axis {
             type: Axis.Left
             label: root.yLabel
-            scale: yAxisStyle
+            scale: root.yAxisStyle
             rangeLower: root.yRangeLower
             rangeUpper: root.yRangeUpper
-            autoScale: yRangeStyle != CartesianPlotRangeStyle.User
+            autoScale: root.yRangeStyle != CartesianPlotRangeStyle.User
         }
         property var y2Axis: Axis {
             type: Axis.Left
-            scale: y2AxisStyle
+            scale: root.y2AxisStyle
             rangeLower: root.y2RangeLower
             rangeUpper: root.y2RangeUpper
-            autoScale: y2RangeStyle != CartesianPlotRangeStyle.User
+            autoScale: root.y2RangeStyle != CartesianPlotRangeStyle.User
             visible: false
         }
         Axis {
@@ -327,24 +328,24 @@ BaseItem {
             ComboBox {
                 model: sourceModel
                 textRole: "text"
-                currentIndex: xRangeStyle
+                currentIndex: root.xRangeStyle
                 onCurrentIndexChanged: {
-                    xRangeStyle = sourceModel.get(currentIndex).value
+                    root.xRangeStyle = sourceModel.get(currentIndex).value
                 }
             }
             TextField {
                 implicitWidth: 80
-                text: xRangeLower
+                text: root.xRangeLower
                 validator: DoubleValidator {}
-                enabled: xRangeStyle == CartesianPlotRangeStyle.User
-                onAccepted: xRangeLower = parseFloat(text)
+                enabled: root.xRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: root.xRangeLower = parseFloat(text)
             }
             TextField {
                 implicitWidth: 80
-                text: xRangeUpper
+                text: root.xRangeUpper
                 validator: DoubleValidator {}
-                enabled: xRangeStyle == CartesianPlotRangeStyle.User
-                onAccepted: xRangeUpper = parseFloat(text)
+                enabled: root.xRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: root.xRangeUpper = parseFloat(text)
             }
 
             Text {
@@ -354,24 +355,24 @@ BaseItem {
             ComboBox {
                 model: sourceModel
                 textRole: "text"
-                currentIndex: yRangeStyle
+                currentIndex: root.yRangeStyle
                 onCurrentIndexChanged: {
-                    yRangeStyle = sourceModel.get(currentIndex).value
+                    root.yRangeStyle = sourceModel.get(currentIndex).value
                 }
             }
             TextField {
                 implicitWidth: 80
-                text: yRangeLower
+                text: root.yRangeLower
                 validator: DoubleValidator {}
-                enabled: yRangeStyle == CartesianPlotRangeStyle.User
-                onAccepted: yRangeLower = parseFloat(text)
+                enabled: root.yRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: root.yRangeLower = parseFloat(text)
             }
             TextField {
                 implicitWidth: 80
-                text: yRangeUpper
+                text: root.yRangeUpper
                 validator: DoubleValidator {}
-                enabled: yRangeStyle == CartesianPlotRangeStyle.User
-                onAccepted: yRangeUpper = parseFloat(text)
+                enabled: root.yRangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: root.yRangeUpper = parseFloat(text)
             }
             Text {
                 text: 'Y2'
@@ -380,24 +381,24 @@ BaseItem {
             ComboBox {
                 model: sourceModel
                 textRole: "text"
-                currentIndex: y2RangeStyle
+                currentIndex: root.y2RangeStyle
                 onCurrentIndexChanged: {
-                    y2RangeStyle = sourceModel.get(currentIndex).value
+                    root.y2RangeStyle = sourceModel.get(currentIndex).value
                 }
             }
             TextField {
                 implicitWidth: 80
-                text: y2RangeLower
+                text: root.y2RangeLower
                 validator: DoubleValidator {}
-                enabled: y2RangeStyle == CartesianPlotRangeStyle.User
-                onAccepted: y2RangeLower = parseFloat(text)
+                enabled: root.y2RangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: root.y2RangeLower = parseFloat(text)
             }
             TextField {
                 implicitWidth: 80
-                text: y2RangeUpper
+                text: root.y2RangeUpper
                 validator: DoubleValidator {}
-                enabled: y2RangeStyle == CartesianPlotRangeStyle.User
-                onAccepted: y2RangeUpper = parseFloat(text)
+                enabled: root.y2RangeStyle == CartesianPlotRangeStyle.User
+                onAccepted: root.y2RangeUpper = parseFloat(text)
             }
             Button {
                 id: ok

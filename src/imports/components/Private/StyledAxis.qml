@@ -1,3 +1,4 @@
+import QtQml 2.0
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
@@ -38,8 +39,8 @@ Rectangle {
         anchors.fill: parent
         z: -1
         text: {
-            var t1 = minimumValue.toFixed(precision);
-            var t2 = maximumValue.toFixed(precision);
+            var t1 = root.minimumValue.toFixed(root.precision);
+            var t2 = root.maximumValue.toFixed(root.precision);
             return t1.length > t2.length ? t1 : t2
         }
     }
@@ -61,9 +62,9 @@ Rectangle {
             ctx.clearRect(0, 0, width, height)
 
             // calculate the label width
-            ctx.font = fontString;
-            var t1 = minimumValue.toFixed(precision)
-            var t2 = maximumValue.toFixed(precision)
+            ctx.font = root.fontString;
+            var t1 = root.minimumValue.toFixed(root.precision)
+            var t2 = root.maximumValue.toFixed(root.precision)
 
             var w1 = ctx.measureText(t1).width
             var w2 = ctx.measureText(t2).width
@@ -72,67 +73,67 @@ Rectangle {
             var baselinePos
             var lineWidth = 1
             ctx.lineWidth = lineWidth
-            ctx.strokeStyle = foreground
+            ctx.strokeStyle = root.foreground
             ctx.beginPath()
-            if (orientation == Qt.Vertical) {
-                baselinePos = (tickmarkAligment == Qt.AlignLeft ? width - d.basemargin : d.basemargin)
-                ctx.moveTo(baselinePos, sidemargin)
-                ctx.lineTo(baselinePos, height - sidemargin)
+            if (root.orientation == Qt.Vertical) {
+                baselinePos = (root.tickmarkAligment == Qt.AlignLeft ? width - d.basemargin : d.basemargin)
+                ctx.moveTo(baselinePos, root.sidemargin)
+                ctx.lineTo(baselinePos, canvas.height - root.sidemargin)
                 ctx.stroke()
             }
 
-            if (orientation == Qt.Horizontal) {
-                baselinePos = (tickmarkAligment == Qt.AlignBottom ? d.basemargin : height - d.basemargin)
-                ctx.moveTo(sidemargin, baselinePos)
-                ctx.lineTo(width - sidemargin, baselinePos)
+            if (root.orientation == Qt.Horizontal) {
+                baselinePos = (root.tickmarkAligment == Qt.AlignBottom ? d.basemargin : height - d.basemargin)
+                ctx.moveTo(root.sidemargin, baselinePos)
+                ctx.lineTo(canvas.width - root.sidemargin, baselinePos)
                 ctx.stroke()
             }
 
             // ticks
             var tickmarkPos
             ctx.beginPath()
-            if (orientation == Qt.Vertical) {
+            if (root.orientation == Qt.Vertical) {
                 for (var i=0; i<=10; i++) {
-                    var tickPos = i * (height - 2 * sidemargin)/ 10.
-                    var sign = (tickmarkAligment == Qt.AlignLeft ? -1 : 1)
+                    var tickPos = i * (canvas.height - 2 * root.sidemargin)/ 10.
+                    var sign = (root.tickmarkAligment == Qt.AlignLeft ? -1 : 1)
 
-                    ctx.moveTo(baselinePos, sidemargin + tickPos)
-                    ctx.lineTo((i==0 || i==5 || i==10) ? (baselinePos + sign * tickLength) : (baselinePos + sign * 2*tickLength/3),
-                                                         sidemargin + tickPos)
+                    ctx.moveTo(baselinePos, root.sidemargin + tickPos)
+                    ctx.lineTo((i==0 || i==5 || i==10) ? (baselinePos + sign * root.tickLength) : (baselinePos + sign * 2*root.tickLength/3),
+                                                         root.sidemargin + tickPos)
                 }
             }
-            if (orientation == Qt.Horizontal) {
+            if (root.orientation == Qt.Horizontal) {
                 for (var i=0; i<=10; i++) {
-                    var tickPos = i * (width - 2 * sidemargin)/ 10.
-                    var sign = (tickmarkAligment == Qt.AlignBottom ? 1 : -1)
+                    var tickPos = i * (canvas.width - 2 * root.sidemargin)/ 10.
+                    var sign = (root.tickmarkAligment == Qt.AlignBottom ? 1 : -1)
 
-                    ctx.moveTo(sidemargin + tickPos, baselinePos)
-                    ctx.lineTo(sidemargin + tickPos,
-                               (i==0 || i==5 || i==10) ? (baselinePos + sign * tickLength) : (baselinePos + sign * 2*tickLength/3))
+                    ctx.moveTo(root.sidemargin + tickPos, baselinePos)
+                    ctx.lineTo(root.sidemargin + tickPos,
+                               (i==0 || i==5 || i==10) ? (baselinePos + sign * root.tickLength) : (baselinePos + sign * 2*root.tickLength/3))
                 }
             }
             ctx.stroke()
 
             // min max value label
-            ctx.font = fontString;
-            ctx.fillStyle = foreground
+            ctx.font = root.fontString;
+            ctx.fillStyle = root.foreground
 
-            var labelPos = baselinePos + sign * tickLength
-            if (orientation == Qt.Vertical) {
+            var labelPos = baselinePos + sign * root.tickLength
+            if (root.orientation == Qt.Vertical) {
                 ctx.textBaseline = 'middle'
-                ctx.textAlign = (tickmarkAligment == Qt.AlignLeft ? 'right' : 'left')
-                ctx.fillText(direction == Direction.Down ? t1 : t2, labelPos, sidemargin)
-                ctx.fillText(direction == Direction.Down ? t2 : t1, labelPos, height - sidemargin)
+                ctx.textAlign = (root.tickmarkAligment == Qt.AlignLeft ? 'right' : 'left')
+                ctx.fillText(root.direction == Direction.Down ? t1 : t2, labelPos, root.sidemargin)
+                ctx.fillText(root.direction == Direction.Down ? t2 : t1, labelPos, canvas.height - root.sidemargin)
             }
 
-            if (orientation == Qt.Horizontal) {
-                ctx.textBaseline =  (tickmarkAligment == Qt.AlignBottom ? 'top' : 'bottom')
+            if (root.orientation == Qt.Horizontal) {
+                ctx.textBaseline =  (root.tickmarkAligment == Qt.AlignBottom ? 'top' : 'bottom')
 
-                ctx.textAlign =  sidemargin > w1 / 2 ? 'center' : 'left'
-                ctx.fillText(direction == Direction.Right ? t1 : t2,  0, labelPos)
+                ctx.textAlign =  root.sidemargin > w1 / 2 ? 'center' : 'left'
+                ctx.fillText(root.direction == Direction.Right ? t1 : t2,  0, labelPos)
 
-                ctx.textAlign =  sidemargin > w2 / 2 ? 'center' : 'right'
-                ctx.fillText(direction == Direction.Right ? t2 : t1, width, labelPos)
+                ctx.textAlign =  root.sidemargin > w2 / 2 ? 'center' : 'right'
+                ctx.fillText(root.direction == Direction.Right ? t2 : t1, width, labelPos)
             }
 
 

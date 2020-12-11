@@ -67,14 +67,14 @@ CSControl {
         id: btn
         anchors.fill: parent
         backgroundColor: root.background
-        foregroundColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        foregroundColor: (root.colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
         fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(height - 4, true).family
         onPressedChanged: {
-            if (pressed && pressMessage)
-                csdata.setValue(pressMessage)
-            else if(!pressed && releaseMessage)
-                csdata.setValue(releaseMessage)
+            if (pressed && root.pressMessage)
+                csdata.setValue(root.pressMessage)
+            else if(!pressed && root.releaseMessage)
+                csdata.setValue(root.releaseMessage)
         }
     }
 }

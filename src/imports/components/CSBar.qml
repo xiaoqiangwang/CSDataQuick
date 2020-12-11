@@ -115,7 +115,7 @@ CSMonitor {
         font.family: root.font.family
         font.pixelSize: root.font.size
 
-        visible: labelStyle == LabelStyle.Channel
+        visible: root.labelStyle == LabelStyle.Channel
     }
 
     StyledBar {

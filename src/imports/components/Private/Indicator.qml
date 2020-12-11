@@ -22,7 +22,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: background
+        color: root.background
     }
 
     StyledAxis {
@@ -45,14 +45,14 @@ Item {
         id: panel
         shadow: FrameShadow.Sunken
 
-        anchors.top: (orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
-        anchors.left: (orientation == Qt.Vertical && range.visible) ? range.right : root.left
+        anchors.top: (root.orientation == Qt.Horizontal && range.visible) ? range.bottom : root.top
+        anchors.left: (root.orientation == Qt.Vertical && range.visible) ? range.right : root.left
         anchors.right: root.right
         anchors.bottom: root.bottom
 
-        anchors.leftMargin: (orientation == Qt.Horizontal && range.visible) ? range.sidemargin - 1 : 0
+        anchors.leftMargin: (root.orientation == Qt.Horizontal && range.visible) ? range.sidemargin - 1 : 0
         anchors.rightMargin: anchors.leftMargin
-        anchors.topMargin: (orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
+        anchors.topMargin: (root.orientation == Qt.Vertical && range.visible) ? range.sidemargin - 1 : 0
         anchors.bottomMargin: anchors.topMargin
 
         color: root.background
@@ -64,7 +64,7 @@ Item {
             id: indicator
 
             x: {
-                switch(direction) {
+                switch(root.direction) {
                 case Direction.Right:
                     return panel.width * calcPercentage() - width / 2;
                 case Direction.Left:
@@ -75,7 +75,7 @@ Item {
             }
 
             y: {
-                switch(direction) {
+                switch(root.direction) {
                 case Direction.Up:
                     return panel.height * (1 - calcPercentage()) - height / 2
                 case Direction.Down:
@@ -85,7 +85,7 @@ Item {
                 }
             }
 
-            width: (orientation == Qt.Horizontal ? (panel.height - 4): (panel.width - 4)) / Math.sqrt(2)
+            width: (root.orientation == Qt.Horizontal ? (panel.height - 4): (panel.width - 4)) / Math.sqrt(2)
             height: width
 
             transform: [
@@ -99,8 +99,8 @@ Item {
                 Scale {
                     origin.x: indicator.width / 2
                     origin.y: indicator.height / 2
-                    xScale: orientation == Qt.Horizontal ? Math.max(5, panel.width / 10) / indicator.width : 1
-                    yScale: orientation == Qt.Horizontal ? 1 : Math.max(5, panel.height / 10) / indicator.height
+                    xScale: root.orientation == Qt.Horizontal ? Math.max(5, panel.width / 10) / indicator.width : 1
+                    yScale: root.orientation == Qt.Horizontal ? 1 : Math.max(5, panel.height / 10) / indicator.height
                 }
             ]
             color: root.indicatorColor

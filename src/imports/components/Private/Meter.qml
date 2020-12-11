@@ -41,7 +41,7 @@ Item {
 
     Canvas {
         id: panel
-        anchors.top: showTitle ? title.bottom : root.top
+        anchors.top: root.showTitle ? title.bottom : root.top
         anchors.horizontalCenter: root.horizontalCenter
         width: radius * 2
         height: radius
@@ -53,9 +53,9 @@ Item {
             var centery = panel.height
             var centerx = panel.width / 2
             var radius = panel.height - lineWidth
-            var angle = Math.PI * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue))
+            var angle = Math.PI * Math.min( 1.0, (root.value - root.minimumValue) / (root.maximumValue - root.minimumValue))
 
-            ctx.strokeStyle = foreground
+            ctx.strokeStyle = root.foreground
             // dial panel
             ctx.save()
             ctx.clearRect(0, 0, panel.width, panel.height)
@@ -81,7 +81,7 @@ Item {
 
     Rectangle {
         id: needle
-        color: indicatorColor
+        color: root.indicatorColor
 
         anchors.bottom: panel.bottom
         height: panel.height * 0.7
@@ -89,7 +89,7 @@ Item {
         anchors.horizontalCenter: panel.horizontalCenter
         width: 2
 
-        rotation: 180 * Math.min( 1.0, (value - minimumValue) / (maximumValue - minimumValue)) - 90
+        rotation: 180 * Math.min( 1.0, (root.value - root.minimumValue) / (root.maximumValue - root.minimumValue)) - 90
         transformOrigin: Item.Bottom
 
     }
@@ -97,24 +97,24 @@ Item {
     Item {
         id: range
         width: panel.width
-        height: font.pixelSize
+        height: root.font.pixelSize
         anchors.top: panel.bottom
         anchors.horizontalCenter: root.horizontalCenter
 
         visible: root.showRange
         Text {
             height: range.height
-            text: minimumValue.toFixed(precision)
+            text: root.minimumValue.toFixed(root.precision)
             font: root.font
             anchors.left: range.left
-            color: foreground
+            color: root.foreground
         }
         Text {
             height: range.height
-            text: maximumValue.toFixed(precision)
+            text: root.maximumValue.toFixed(root.precision)
             font: root.font
             anchors.right: range.right
-            color: foreground
+            color: root.foreground
         }
     }
 
@@ -123,15 +123,15 @@ Item {
         anchors.bottom: root.bottom
         anchors.horizontalCenter: root.horizontalCenter
         width: panel.width
-        height: font.pixelSize
+        height: root.font.pixelSize
 
         visible: root.showValue
         Text {
             anchors.fill: parent
-            text: value.toFixed(precision)
+            text: root.value.toFixed(root.precision)
             horizontalAlignment: Text.AlignHCenter
             font: root.font
-            color: foreground
+            color: root.foreground
             Rectangle {
                 anchors.fill: parent
                 color: 'white'

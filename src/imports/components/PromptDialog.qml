@@ -3,7 +3,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Dialogs 1.2
 
 Dialog {
-    id: dialog
+    id: root
     title: 'Input Dialog'
 
     property string hint
@@ -13,15 +13,15 @@ Dialog {
 
     Column {
         Text {
-            text: hint
+            text: root.hint
         }
         TextField {
             id: textField
-            text: input
+            text: root.input
         }
     }
 
     onAccepted: {
-        input = textField.text
+        root.input = textField.text
     }
 }
