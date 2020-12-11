@@ -6,6 +6,7 @@ class QLocalSocket;
 #include <QString>
 #include <QThread>
 #include <QLocalServer>
+#include <QVariant>
 
 enum MessageID {
     MSG_PING = 1593, // Magic Number
