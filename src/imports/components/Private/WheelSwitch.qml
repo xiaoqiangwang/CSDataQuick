@@ -45,7 +45,7 @@ Item {
         if (max >= 1.0) {
             width = Math.floor((Math.log(max)/Math.LN10)) + 3 + precision
         } else
-            width = 2 + precision
+            width = 3 + precision
         var format = '% %1.%2f'.arg(width).arg(precision)
         return format
     }
