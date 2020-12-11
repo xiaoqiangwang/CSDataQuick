@@ -15,6 +15,7 @@
 #include <QVector>
 #include <QVariant>
 #include <QProcess>
+#include <QtMath>
 #include <QtDebug>
 
 #include <QQuickItem>
@@ -41,8 +42,6 @@
 
     This is a group of helper functions, which are called by QML components.
 */
-
-#define M_PI 3.14159265358979323846
 
 // conversion functions from conversion.c
 extern "C" {
@@ -95,7 +94,7 @@ void QCSUtils::vectorGet(QVariant vector, QJSValue array, int index, int count)
         foreach(uchar d, vector.value< QVector<uchar> >().mid(index, count))
             array.setProperty(i++, d);
     }
-    else if (vector.userType() == QVariant::StringList) {
+    else if (vector.userType() == qMetaTypeId<QStringList>()) {
         foreach(QString d, vector.value<QStringList>().mid(index, count))
             array.setProperty(i++, d);
     }
