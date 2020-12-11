@@ -2111,6 +2111,8 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
     ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
+    int integer = 2, decimal = 1;
+    bool fixedFormat = false;
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
             rectToQML(ostream, v->elementRect(), level);
@@ -2128,10 +2130,25 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
+        else if (v->attributeName() == "integerDigits") {
+            integer = v->elementNumber();
+        }
+        else if (v->attributeName() == "decimalDigits") {
+            decimal = v->elementNumber();
+        }
+        else if (v->attributeName() == "fixedFormat") {
+            if (v->elementBool() == "true")
+                fixedFormat = true;
+        }
         else if (limitsToQML(ostream, v, level))
             ;
 
     }
+    if (fixedFormat) {
+        QString format = QString("%%1.%2f").arg(integer+1+decimal).arg(decimal);
+        ostream << indent << "    format: '" << format << "'" << endl;
+    }
+    ostream << indent << "    limits.precDefault: " << decimal << endl;
 
     ostream << indent << "}" << endl;
 }
