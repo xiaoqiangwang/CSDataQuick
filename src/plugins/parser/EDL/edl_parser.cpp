@@ -191,7 +191,7 @@ std::vector<std::string> Object::getLine(std::istream &fstream)
 {
     char token[MAX_TOKEN_LENGTH];
     TOKEN tokenType;
-    bool compound = false;
+    bool compound = false, done = false;
     std::vector<std::string> tokens;
 
     do {
@@ -205,11 +205,28 @@ std::vector<std::string> Object::getLine(std::istream &fstream)
     case T_RIGHT_BRACE:
         compound = false;
         break;
+    case T_NEWLINE:
+        if (compound) {
+            if (tokens.size() > 1)
+                tokens.push_back("\n");
+        } else {
+            done = (tokens.size() > 0);
+        }
+        break;
+    case T_COMMENT:
+        if (tokens.size() > 0)
+            tokens.push_back(std::string("#")+token);
+        break;
+    case T_EOF:
+        done = true;
+        break;
     default:
         break;
     }
-    } while ( tokenType != T_EOF && (tokenType != T_NEWLINE || compound || tokens.size() == 0) );
+    } while ( !done );
 
+    if (tokens.size() > 0 && tokens.back() == "\n")
+        tokens.pop_back();
     return tokens;
 }
 
@@ -364,11 +381,19 @@ std::vector<std::string> Object::getList(std::string listname)
     auto it =  properties.find(listname);
     if (it != properties.end()) {
         auto tokens = it->second;
-        for(int i=0; i<it->second.size(); i+=2) {
+        int i = 0;
+        while (i < tokens.size()) {
             int index = std::stoi(tokens[i]);
-            std::string value = tokens[i+1];
+            std::string value;
+            while (++i < tokens.size() && tokens[i] != "\n") {
+                if (value.size() > 0) value += " ";
+                value += tokens[i];
+            }
+            i++;
+            /* Fill skipped values */
             while (index >= list.size())
                 list.push_back("");
+
             list[index] = value;
         }
     }
@@ -388,8 +413,6 @@ std::string Object::getText(std::string textname)
     std::ostringstream osstream;
     for (auto it = texts.begin(); it != texts.end(); it++) {
         osstream << *it;
-        if (texts.size() > 1 && it != --texts.end())
-            osstream << "\\n";
     }
 
     return osstream.str();
