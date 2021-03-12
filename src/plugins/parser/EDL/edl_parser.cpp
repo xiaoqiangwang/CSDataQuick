@@ -67,7 +67,7 @@ struct ObjectTable_t {
 TOKEN Object :: getToken(std::istream &fstream, char *word)
 {
     enum {NEUTRAL,INCOMMENT,INQUOTE,INWORD,INMACRO} state = NEUTRAL, savedState = NEUTRAL;
-    char c;
+    int c;
     char *w;
     char *m, macro[MAX_TOKEN_LENGTH];
     int j;

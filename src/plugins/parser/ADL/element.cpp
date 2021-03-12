@@ -648,7 +648,7 @@ void RelatedDisplayEntry::toQML(std::ostream &ostream)
 TOKEN Element :: getToken(std::istream &fstream, char *word)
 {
     enum {NEUTRAL,INQUOTE,INWORD,INMACRO,INCOMMENT} state = NEUTRAL, savedState = NEUTRAL;
-    char c;
+    int c;
     char *w;
     char *m, macro[MAX_TOKEN_LENGTH];
     int j;
