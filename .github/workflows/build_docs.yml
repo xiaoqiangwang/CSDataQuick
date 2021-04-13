@@ -11,6 +11,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v2
         with:
           auto-update-conda: false
+          conda-build-version: 3
           auto-activate-base: true
           activate-environment: ""
           channels: paulscherrerinstitute
