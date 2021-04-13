@@ -43,6 +43,11 @@ private slots:
 
         QCOMPARE(utils->formatString(data, format, precision), output);
     }
+
+    void testProcess() {
+        QCOMPARE(utils->execute("sleep 3"), true);
+        QCOMPARE(utils->execute("nonexsting_command whatsever"), false);
+    }
 };
 
 QTEST_MAIN(TestUtils)
