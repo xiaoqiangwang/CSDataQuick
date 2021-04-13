@@ -28,4 +28,6 @@ jobs:
           cd build
           cmake ..
       - name: Build docs
-        run: make html-offline
+        run: |
+            cd build
+            make html-offline
