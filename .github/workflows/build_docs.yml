@@ -16,7 +16,7 @@ jobs:
           channels: paulscherrerinstitute
       - name: Run CMake
         run: |
-          conda info
+          conda activate base
           conda install epics-base
           mkdir build
           cd build
