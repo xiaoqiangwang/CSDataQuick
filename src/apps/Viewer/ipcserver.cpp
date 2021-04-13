@@ -149,7 +149,10 @@ QByteArray IPCClient :: writeAndRead(QLocalSocket *socket, quint16 messageId, QB
     iostream << quint16(messageOut.size() + sizeof(quint16)) << messageId << messageOut;
 
     // IPCClient runs without event loop, it might be good to flush the socket buffer.
-    socket->flush();
+    if (!socket->waitForBytesWritten(TIMEOUT)) {
+        qWarning() << "IPCClient::writeAndRead: Timeout when write message";
+        return QByteArray();
+    }
 
     // read message size
     while (socket->bytesAvailable() < (int)sizeof(quint16)) {
