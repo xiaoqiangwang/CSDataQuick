@@ -16,8 +16,8 @@ jobs:
           channels: paulscherrerinstitute
       - name: Run CMake
         run: |
+          conda info
           conda install epics-base
-          printenv
           mkdir build
           cd build
           cmake ..
