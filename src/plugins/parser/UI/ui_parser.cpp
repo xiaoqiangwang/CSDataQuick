@@ -1749,9 +1749,6 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
          }
     }
 
-    if (label.isEmpty() && entries.size() > 0) {
-        label = entries[0].label;
-    }
     if (!label.isEmpty())
         ostream << indent << "    label: '" << escapedSingleQuote(label) << "'" << endl;
 
