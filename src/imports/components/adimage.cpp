@@ -4,11 +4,12 @@
 
 #include "adimage.h"
 
+#ifdef QT_CONCURRENT_LIB
 #include <functional>
+#include <QtConcurrent>
+#endif
 
 #include <QtDebug>
-#include <QThread>
-#include <QtConcurrent>
 
 void imageCleanupHandler(void *data)
 {
@@ -100,6 +101,13 @@ void rescale2(T& v, T* begin, unsigned char *result, double lowLevel, double hig
     result[&v - begin] = (qBound(lowLevel, (double)v, highLevel) - lowLevel) *  ratio;
 }
 
+template<typename T>
+void rescale(T&v, unsigned char *result, double lowLevel, double highLevel, double ratio) {
+    for(auto i=0; i<v.size(); i++) {
+        result[i] =  (qBound(lowLevel, (double)v[i], highLevel) - lowLevel) *  ratio;
+    }
+}
+
 void ADImage::updateImage()
 {
     unsigned char *data = new unsigned char[_size];
@@ -115,15 +123,23 @@ void ADImage::updateImage()
         if (_ratio == 1.0)
             memcpy(data, v8i.constData(), _size);
         else
+#ifdef QT_CONCURRENT_LIB
             QtConcurrent::blockingMap(v8i.begin(), v8i.begin() + _size, std::bind(rescale2<unsigned char>, std::placeholders::_1, v8i.data(), data, _lowLevel, _highLevel, _ratio));
+#else
+            rescale(v8i, data, _lowLevel, _highLevel, _ratio);
+#endif
     }
         break;
     case QCSData::Short:
     {
-        QVector<unsigned short> v16i = _data.value< QVector<unsigned short> >();
+        QVector<short> v16i = _data.value< QVector<short> >();
         if (v16i.size() < _size)
             return;
-        QtConcurrent::blockingMap(v16i.begin(), v16i.begin() + _size, std::bind(rescale2<unsigned short>, std::placeholders::_1, v16i.data(), data, _lowLevel, _highLevel, _ratio));
+#ifdef QT_CONCURRENT_LIB
+        QtConcurrent::blockingMap(v16i.begin(), v16i.begin() + _size, std::bind(rescale2<short>, std::placeholders::_1, v16i.data(), data, _lowLevel, _highLevel, _ratio));
+#else
+        rescale(v16i, data, _lowLevel, _highLevel, _ratio);
+#endif
     }
         break;
     case QCSData::Integer:
@@ -131,7 +147,11 @@ void ADImage::updateImage()
         QVector<int> v32i = _data.value< QVector<int> >();
         if (v32i.size() < _size)
             return;
+#ifdef QT_CONCURRENT_LIB
         QtConcurrent::blockingMap(v32i.begin(), v32i.begin() + _size, std::bind(rescale2<int>, std::placeholders::_1, v32i.data(), data, _lowLevel, _highLevel, _ratio));
+#else
+        rescale(v32i, data, _lowLevel, _highLevel, _ratio);
+#endif
     }
         break;
     case QCSData::Float:
@@ -139,7 +159,11 @@ void ADImage::updateImage()
         QVector<float> v32f = _data.value< QVector<float> >();
         if (v32f.size() < _size)
             return;
+#ifdef QT_CONCURRENT_LIB
         QtConcurrent::blockingMap(v32f.begin(), v32f.begin() + _size, std::bind(rescale2<float>, std::placeholders::_1, v32f.data(), data, _lowLevel, _highLevel, _ratio));
+#else
+        rescale(v32f, data, _lowLevel, _highLevel, _ratio);
+#endif
     }
         break;
     case QCSData::Double:
@@ -147,7 +171,11 @@ void ADImage::updateImage()
         QVector<double> v64f = _data.value< QVector<double> >();
         if (v64f.size() < _size)
             return;
+#ifdef QT_CONCURRENT_LIB
         QtConcurrent::blockingMap(v64f.begin(), v64f.begin() + _size, std::bind(rescale2<double>, std::placeholders::_1, v64f.data(), data, _lowLevel, _highLevel, _ratio));
+#else
+        rescale(v64f, data, _lowLevel, _highLevel, _ratio);
+#endif
     }
         break;
     default:

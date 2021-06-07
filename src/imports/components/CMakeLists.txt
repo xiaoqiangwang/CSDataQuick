@@ -216,8 +216,23 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DQT_QML_DEBUG ")
 
 target_link_libraries(csdatacomponentsplugin
     PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Concurrent Qt${QT_VERSION_MAJOR}::PrintSupport EPICS::Com csparser csdata csutils
+    Qt${QT_VERSION_MAJOR}::Core
+    Qt${QT_VERSION_MAJOR}::Gui
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Quick
+    Qt${QT_VERSION_MAJOR}::PrintSupport
+    EPICS::Com
+    csparser
+    csdata
+    csutils
 )
+if(TARGET Qt${QT_VERSION_MAJOR}::Concurrent)
+target_link_libraries(csdatacomponentsplugin
+    PRIVATE
+    Qt${QT_VERSION_MAJOR}::Concurrent
+)
+endif()
+
 set_target_properties(csdatacomponentsplugin PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components)
 
