@@ -8,8 +8,8 @@
 #include "parser.h"
 #include "parsermanager.h"
 
-#include <postfix.h>
-#include <cvtFast.h>
+#include "postfix.h"
+#include "cvtFast.h"
 
 #include <QSequentialIterable>
 #include <QVector>

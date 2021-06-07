@@ -20,13 +20,12 @@
  *****************************************************************************
 */
 
-#include <epicsTypes.h>
 #include <math.h>
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
 
-int localCvtLongToHexString (epicsInt32 source, char *pdest);
+int localCvtLongToHexString (int source, char *pdest);
 void localCvtDoubleToString (double flt_value, char  *pstr_value, unsigned short precision);
 void localCvtDoubleToExpNotationString (double value, char *textField, unsigned short precision);
 void medmLocalCvtDoubleToSexaStr (double value,  char *string, unsigned short prec,
@@ -36,9 +35,9 @@ void medmLocalCvtDoubleToSexaStr (double value,  char *string, unsigned short pr
 static char hex_digit_to_ascii[16]={'0','1','2','3','4','5','6','7','8','9',
                     'a','b','c','d','e','f'};
 
-int localCvtLongToHexString(epicsInt32 source, char *pdest)
+int localCvtLongToHexString(int source, char *pdest)
 {
-    epicsInt32 val,temp;
+    int val,temp;
     char digit[10];
     int i,j;
     char *startAddr = pdest;

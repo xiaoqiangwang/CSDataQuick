@@ -1,3 +1,7 @@
 add_subdirectory(local)
 add_subdirectory(sim)
-add_subdirectory(ca)
+if(TARGET EPICS::ca)
+    add_subdirectory(ca)
+else()
+    message(WARNING "EPICS channel access plugin skipped!")
+endif()

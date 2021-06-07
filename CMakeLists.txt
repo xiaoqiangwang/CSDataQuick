@@ -36,7 +36,7 @@ if (NOT DEFINED CMAKE_MACOSX_RPATH)
     set(CMAKE_MACOSX_RPATH 1)
 endif()
 
-find_package(EPICS REQUIRED)
+find_package(EPICS QUIET)
 
 set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/qml CACHE STRING "QML Import Paths")
 
