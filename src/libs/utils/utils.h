@@ -30,8 +30,8 @@ public:
     Q_INVOKABLE static bool isDisplayFile(QString fileName);
     Q_INVOKABLE static QUrl searchDisplayFile(QString fileName, QString filePath);
 
-    Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display, QUrl filePath, QString macro);
-    Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display, QUrl filePath, QString macro);
+    Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display_or_engine, QUrl filePath, QString macro);
+    Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display_or_engine, QUrl filePath, QString macro);
 
     Q_INVOKABLE static void resizeChildItems(QQuickItem *parent, double rw, double rh);
 

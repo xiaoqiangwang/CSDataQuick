@@ -77,8 +77,7 @@ when applicable.
 \li Ignore any existing viewer and take over responsibility for accepting remote transfers.
 \row
 \li --noMsg
-\li Do not raise the main window. It can be brought up via the context menu
-    if you need to see it.
+\li Do not create the main window.
 \row
 \li -m, --macro \e{name=value}
 \li Apply macro substitution to replace occurences of $(\e{name}) with \e value in all

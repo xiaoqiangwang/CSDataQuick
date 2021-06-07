@@ -14,6 +14,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QPointer>
+#include <QScreen>
 
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -123,7 +124,7 @@ int main(int argc, char **argv)
     parser.addOption(cleanupOption);
 
     // A boolean option indicating launch mode (-noMsg)
-    QCommandLineOption noMsgOption(QStringList() << "noMsg", "Do not raise the message window");
+    QCommandLineOption noMsgOption(QStringList() << "noMsg", "Do not create main window");
     parser.addOption(noMsgOption);
 
     // An option with marco substitution
@@ -150,7 +151,7 @@ int main(int argc, char **argv)
     // display files is in args
     const QStringList args = parser.positionalArguments();
 
-    // Do conversion
+    // Do conversion and exit
     if (parser.isSet(convertOption)) {
         foreach (QString arg, args) {
             QUrl fileUrl = QCSUtils::searchDisplayFile(arg, "");
@@ -206,6 +207,57 @@ int main(int argc, char **argv)
 #else
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../qml/");
 #endif
+
+    // Open display files if "-noMsg" option is passed
+    if (parser.isSet(noMsgOption)) {
+        QVariantMap geometrySpec = QCSUtils::parseX11Geometry(geometry);
+        QScreen *screen = app.primaryScreen();
+        bool success = false;
+        foreach (QString fileName, args) {
+            QUrl fileUrl = QCSUtils::searchDisplayFile(fileName, Q_NULLPTR);
+            if (!fileUrl.isValid()) {
+                qWarning() << "Failed to find file " << fileName;
+                continue;
+            }
+            QWindow *window = QCSUtils::createDisplayByFile(engine, fileUrl, macroString);
+            if (!window) {
+                qWarning() << "Failed to create window from file " << fileUrl;
+                continue;
+            }
+            success = true;
+            // Change geometry
+            int width = geometrySpec["width"].toInt() < 0 ? window->width() : geometrySpec["width"].toInt();
+            int height = geometrySpec["height"].toInt() < 0 ? window->height() : geometrySpec["height"].toInt();
+            int xOffset = geometrySpec["xOffset"].toInt() < 0 ? window->x() : geometrySpec["xOffset"].toInt();
+            int yOffset = geometrySpec["yOffset"].toInt() < 0 ? window->y() : geometrySpec["yOffset"].toInt();
+            int x, y;
+            switch(geometrySpec["corner"].toInt()) {
+            case Qt::TopLeftCorner:
+                x = xOffset;
+                y = yOffset;
+                break;
+            case Qt::TopRightCorner:
+                x = screen->availableSize().width() - width - xOffset;
+                y = yOffset;
+                break;
+            case Qt::BottomLeftCorner:
+                x = xOffset;
+                y = screen->availableSize().height() - height - yOffset;
+                break;
+            case Qt::BottomRightCorner:
+                x = screen->availableSize().width() - width - xOffset;
+                y = screen->availableSize().height() - height - yOffset;
+                break;
+            }
+            window->setGeometry(x, y, width, height);
+            window->show();
+        }
+        if (!success)
+            return -1;
+        return app.exec();
+    }
+
+    // Open main window
     QQmlComponent component(engine, QUrl("qrc:/main.qml"));
     while(!component.isReady()) {
         if (component.isError()) {
@@ -224,11 +276,6 @@ int main(int argc, char **argv)
 
     qDebug().noquote() << app.applicationName() << "started with PID:" << app.applicationPid();
 
-    if (parser.isSet(noMsgOption))
-        window->showMinimized();
-    else
-        window->show();
-
     if (parser.isSet(attachOption) || parser.isSet(cleanupOption)) {
         IPCServer *server = new IPCServer();
         if (server->launchServer(true)) {
@@ -246,6 +293,8 @@ int main(int argc, char **argv)
                              Q_ARG(QVariant, macroString),
                              Q_ARG(QVariant, geometry));
     }
+
+    window->show();
 
     return app.exec();
 }

@@ -401,12 +401,14 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QString filePath)
     Create a top level window based on \a qml source, represented by \a filePath.
     The QQmlEngine used is which \a display was created in.
  */
-QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, QString macro)
+QWindow * QCSUtils::createDisplay(QString qml, QObject *display_or_engine, QUrl filePath, QString macro)
 {
-    QQuickWindow *window = Q_NULLPTR;
-    QQmlEngine *engine = qmlEngine(display);
+    QQmlEngine *engine = qobject_cast<QQmlEngine*>(display_or_engine);
     if (!engine) {
-        qCritical() << "No valid QML engine from object" << display->objectName();
+        engine = qmlEngine(display_or_engine);
+    }
+    if (!engine) {
+        qCritical() << "No valid QML engine from object" << display_or_engine->objectName();
         return Q_NULLPTR;
     }
 
@@ -427,7 +429,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
         return Q_NULLPTR;
     }
 
-    window = qobject_cast<QQuickWindow *>(topLevel);
+    QQuickWindow *window = qobject_cast<QQuickWindow *>(topLevel);
     if (!window) {
         if(qobject_cast<QQuickItem *>(topLevel)) {
             QQuickView* qxView = new QQuickView(engine, Q_NULLPTR);
@@ -486,7 +488,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, 
     It calls parser library to create the qml source, and then calls Utils::createDisplay to actually create the display window.
     The QQmlEngine used is which \a display was created in.
  */
-QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString macro)
+QWindow * QCSUtils::createDisplayByFile(QObject *display_or_engine, QUrl filePath, QString macro)
 {
     QMap<QString, QString> macroMap;
     foreach(QString m, macro.split(',')) {
@@ -511,7 +513,7 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display, QUrl filePath, QString
         return Q_NULLPTR;
     }
 
-    return createDisplay(qml, display, filePath, macro);
+    return createDisplay(qml, display_or_engine, filePath, macro);
 }
 /*!
     \qmlmethod Window Utils::createComponentByFile(display, filePath, macro)
