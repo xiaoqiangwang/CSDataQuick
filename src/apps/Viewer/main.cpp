@@ -29,6 +29,7 @@
 
 #include "parsermanager.h"
 #include "parser.h"
+#include "utils.h"
 #include "cs_global.h"
 
 static QPointer<QQuickWindow> window;
@@ -146,23 +147,18 @@ int main(int argc, char **argv)
     // geomtry
     QString geometry = parser.value(geometryOption);
 
-    // EPICS_DISPLAY_PATH
-    QList<QByteArray> filePaths = qgetenv("EPICS_DISPLAY_PATH").split(':');
-    QDir::addSearchPath("displays", QDir::currentPath());
-    foreach (QByteArray path, filePaths) {
-        QDir::addSearchPath("displays", path);
-    }
-
     // display files is in args
     const QStringList args = parser.positionalArguments();
 
     // Do conversion
     if (parser.isSet(convertOption)) {
         foreach (QString arg, args) {
-            QFileInfo fi(arg);
-            if (fi.isRelative()) {
-                fi.setFile("displays:" + arg);
+            QUrl fileUrl = QCSUtils::searchDisplayFile(arg, "");
+            if (!fileUrl.isValid()) {
+                qWarning() << "Invald file name" << arg;
+                continue;
             }
+            QFileInfo fi(fileUrl.toLocalFile());
             if (!fi.exists()) {
                 qWarning() << "Cannot find file " << arg;
                 continue;

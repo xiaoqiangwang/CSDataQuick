@@ -37,6 +37,7 @@ target_link_libraries(${APPNAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Qml
     Qt${QT_VERSION_MAJOR}::Quick
     Qt${QT_VERSION_MAJOR}::Network
+    csutils
     csparser
 )
 if(APPLE)
