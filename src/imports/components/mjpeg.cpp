@@ -10,6 +10,8 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
+#include <QtDebug>
+
 MJPEG::MJPEG(QObject *parent) : QObject(parent), _reply(Q_NULLPTR)
 {
     _network = new QNetworkAccessManager(this);
