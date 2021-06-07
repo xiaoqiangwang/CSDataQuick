@@ -17,7 +17,7 @@ cmake_policy(SET CMP0020 NEW)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}
-    REQUIRED COMPONENTS Gui Widgets Qml Quick Network PrintSupport Test
+    COMPONENTS Gui Widgets Qml Quick Network PrintSupport Test
     OPTIONAL_COMPONENTS Concurrent)
 
 # Use c++11 or c++0x
