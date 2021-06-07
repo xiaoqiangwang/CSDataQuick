@@ -404,12 +404,7 @@ QUrl QCSUtils::searchDisplayFile(QString fileName, QString filePath)
 QWindow * QCSUtils::createDisplay(QString qml, QObject *display, QUrl filePath, QString macro)
 {
     QQuickWindow *window = Q_NULLPTR;
-
-    QQmlEngine *engine = Q_NULLPTR;
-    if (qobject_cast<QQmlEngine*>(display))
-        engine = qobject_cast<QQmlEngine*>(display);
-    else
-        engine = qmlEngine(display);
+    QQmlEngine *engine = qmlEngine(display);
     if (!engine) {
         qCritical() << "No valid QML engine from object" << display->objectName();
         return Q_NULLPTR;
@@ -551,11 +546,7 @@ QQuickItem * QCSUtils::createComponentByFile(QQuickItem *display, QUrl filePath,
         return Q_NULLPTR;
     }
 
-    QQmlEngine *engine = Q_NULLPTR;
-    if (qobject_cast<QQmlEngine*>(display))
-        engine = qobject_cast<QQmlEngine*>(display);
-    else
-        engine = qmlEngine(display);
+    QQmlEngine *engine = qmlEngine(display);
     if (!engine) {
         qCritical() << "No valid QML engine from object" << display->objectName();
         return Q_NULLPTR;
