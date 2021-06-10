@@ -10,30 +10,24 @@ set(HEADERS
     UIParser.h
 )
 
-add_library(UIParser MODULE
+add_library(UIParser STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
 target_compile_definitions(UIParser PRIVATE
     QT_UIC # undef QDESIGNER_UILIB_EXPORT macro in ui4.h
+    QT_STATICPLUGIN
 )
 
 target_compile_options(UIParser PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:/wd4390>
 )
 
+target_include_directories(UIParser PRIVATE
+    $<TARGET_PROPERTY:csparser,INCLUDE_DIRECTORIES>
+)
+
 target_link_libraries(UIParser PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core csparser
+    Qt${QT_VERSION_MAJOR}::Core
 )
-
-set_target_properties(UIParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
-)
-
-if (APPLE)
-    set_target_properties(UIParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS UIParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)

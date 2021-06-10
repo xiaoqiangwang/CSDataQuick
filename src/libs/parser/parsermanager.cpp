@@ -48,6 +48,12 @@ BOOL WINAPI DllMain(
 
 QCSParserManager *QCSParserManager::_manager = Q_NULLPTR;
 
+/* Instantiate static plugins */
+Q_IMPORT_PLUGIN(ADLParser)
+Q_IMPORT_PLUGIN(EDLParser)
+Q_IMPORT_PLUGIN(UIParser)
+Q_IMPORT_PLUGIN(QMLParser)
+
 /*!
     \class QCSParserManager
     \inmodule CSDataQuick.Parser
@@ -72,6 +78,12 @@ QCSParserManager::QCSParserManager(QObject *parent)
     foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
         QPluginLoader loader(fileInfo.absoluteFilePath());
         QCSParser *parser = qobject_cast<QCSParser*>(loader.instance());
+        if (parser) {
+            _parsers.append(parser);
+        }
+    }
+    foreach (QObject *plugin, QPluginLoader::staticInstances()) {
+        QCSParser *parser = qobject_cast<QCSParser*>(plugin);
         if (parser) {
             _parsers.append(parser);
         }

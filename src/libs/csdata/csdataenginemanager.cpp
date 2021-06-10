@@ -55,6 +55,13 @@ BOOL WINAPI DllMain(
 
 QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 
+/* Instantiate static plugins */
+#ifdef WITH_DATAENGINE_CA
+Q_IMPORT_PLUGIN(QCSDataEngineCA)
+#endif
+Q_IMPORT_PLUGIN(QCSDataEngineSim)
+Q_IMPORT_PLUGIN(QCSDataEngineLocal)
+
 /*!
     \class QCSDataEngineManager
     \inmodule CSDataQuick.Data
@@ -75,6 +82,13 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
         QPluginLoader loader(fileInfo.absoluteFilePath());
         QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
+        if (engine) {
+            _engines.append(engine);
+            qDebug() << "Loaded " << engine->description();
+        }
+    }
+    foreach (QObject *plugin, QPluginLoader::staticInstances()) {
+        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(plugin);
         if (engine) {
             _engines.append(engine);
             qDebug() << "Loaded " << engine->description();

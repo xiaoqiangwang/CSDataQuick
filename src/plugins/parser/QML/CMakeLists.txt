@@ -6,22 +6,19 @@ set(HEADERS
     QMLParser.h
 )
 
-add_library(QMLParser MODULE
+add_library(QMLParser STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
+target_compile_definitions(QMLParser PRIVATE
+    QT_STATICPLUGIN
+)
+
+target_include_directories(QMLParser PRIVATE
+    $<TARGET_PROPERTY:csparser,INCLUDE_DIRECTORIES>
+)
+
 target_link_libraries(QMLParser PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core csparser
+    Qt${QT_VERSION_MAJOR}::Core
 )
-
-set_target_properties(QMLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
-)
-
-if (APPLE)
-    set_target_properties(QMLParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS QMLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)

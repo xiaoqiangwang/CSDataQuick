@@ -6,22 +6,19 @@ set(HEADERS
     csdataenginesim.h
 )
 
-add_library(csdataenginesim MODULE
+add_library(csdataenginesim STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
-target_link_libraries(csdataenginesim PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
-    csdata
+target_compile_definitions(csdataenginesim PRIVATE
+    QT_STATICPLUGIN
 )
 
-set_target_properties(csdataenginesim PROPERTIES 
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csdataengine)
+target_link_libraries(csdataenginesim PRIVATE
+    Qt${QT_VERSION_MAJOR}::Core
+)
 
-if (APPLE)
-set_target_properties(csdataenginesim PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS csdataenginesim DESTINATION ${KDE_INSTALL_PLUGINDIR}/csdataengine)
+target_include_directories(csdataenginesim PRIVATE
+    $<TARGET_PROPERTY:csdata,INCLUDE_DIRECTORIES>
+)

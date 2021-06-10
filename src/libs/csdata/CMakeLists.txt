@@ -18,13 +18,28 @@ add_library(csdata SHARED
     ${HEADERS}
 )
 
+set(PLUGINS
+    csdataenginesim
+    csdataenginelocal
+)
+
+if (TARGET csdataengineca)
+    list(APPEND PLUGINS csdataengineca)
+    target_compile_definitions(csdata PRIVATE WITH_DATAENGINE_CA)
+endif()
+
 target_include_directories(csdata PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 )
 
 target_compile_definitions(csdata PRIVATE CSDATA_LIBRARY)
 
-target_link_libraries(csdata PUBLIC Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(csdata
+    PUBLIC
+        Qt${QT_VERSION_MAJOR}::Core
+    PRIVATE
+        ${PLUGINS}
+)
 
 set_target_properties(csdata PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin

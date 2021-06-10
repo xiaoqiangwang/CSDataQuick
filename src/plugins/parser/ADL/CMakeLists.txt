@@ -9,26 +9,20 @@ set(HEADERS
     ADLParser.h
 )
 
-add_library(ADLParser MODULE
+add_library(ADLParser STATIC
     ${SOURCES}
     ${HEADERS}
 )
 
 target_compile_definitions(ADLParser PRIVATE
     $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+    QT_STATICPLUGIN
+)
+
+target_include_directories(ADLParser PRIVATE
+    $<TARGET_PROPERTY:csparser,INCLUDE_DIRECTORIES>
 )
 
 target_link_libraries(ADLParser PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core csparser
+    Qt${QT_VERSION_MAJOR}::Core
 )
-
-set_target_properties(ADLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
-)
-
-if (APPLE)
-    set_target_properties(ADLParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS ADLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)
