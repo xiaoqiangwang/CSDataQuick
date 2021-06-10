@@ -7,6 +7,8 @@
 #include <map>
 #include <string>
 
+namespace UI {
+
 class DomUI;
 class DomColor;
 class DomFont;
@@ -99,3 +101,5 @@ private:
     /* DomUI */
     DomUI *ui;
 };
+
+} // namespace UI

@@ -47,7 +47,7 @@ QString ADLParser::description()
  */
 QString ADLParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
 {
-    Display displayInfo(0);
+    ADL::Display displayInfo(0);
     displayInfo.setFileName(filename.toStdString());
 
     // QMap to std::map

@@ -13,6 +13,7 @@
 #include <fstream>
 #include <algorithm>
 
+namespace ADL {
 
 class Element;
 template <typename T>
@@ -3295,3 +3296,5 @@ void RelatedDisplay::toQML(std::ostream &ostream)
     }
     ostream << indent << "}" << std::endl;
 }
+
+} // namespace ADL

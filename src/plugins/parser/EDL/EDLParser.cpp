@@ -54,7 +54,7 @@ QString EDLParser::description()
  */
 QString EDLParser::parseDisplayFile(QString filename, QMap<QString, QString> macros, bool partial)
 {
-    Screen displayInfo;
+    EDL::Screen displayInfo;
     displayInfo.setFileName(filename.toStdString());
 
     // add special macros

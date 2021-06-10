@@ -18,6 +18,7 @@
 #include "ui_parser.h"
 #include "ui4.h"
 
+namespace UI {
 
 class CartesianTrace {
     public:
@@ -2424,3 +2425,5 @@ void UI::toPartialQML(QTextStream& ostream)
 
     ostream << "}" << endl;
 }
+
+} // namespace UI

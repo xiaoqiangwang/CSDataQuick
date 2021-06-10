@@ -59,7 +59,7 @@ QString UIParser::parseDisplayFile(QString filename, QMap<QString, QString> macr
         return "";
 
     QXmlStreamReader reader(&file);
-    UI displayInfo;
+    UI::UI displayInfo;
     displayInfo.parse(reader);
 
     QString qml;

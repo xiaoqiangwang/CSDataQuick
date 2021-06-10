@@ -7,6 +7,8 @@
 #include <vector>
 #include <string>
 
+namespace EDL {
+
 /* EDM object types */
 enum ObjectType {
     EL_Object = 0,
@@ -237,3 +239,5 @@ private:
 
     std::map<int, std::string> colormap;
 };
+
+} // namespace EDL

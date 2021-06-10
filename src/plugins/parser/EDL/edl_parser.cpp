@@ -15,6 +15,8 @@
 
 #include "edl_parser.h"
 
+namespace EDL {
+
 /* EDM class name to object type conversion table */
 struct ObjectTable_t {
     const char* name;
@@ -1829,3 +1831,5 @@ void Screen::toPartialQML(std::ostream& ostream)
     }
     ostream << "}" << std::endl;
 }
+
+} // namespace EDL

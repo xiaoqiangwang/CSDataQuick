@@ -37,6 +37,8 @@
 #define MIN(a,b)  ((a)<(b)?(a):(b))
 #endif
 
+namespace ADL {
+
 // displayList.h (Line 32)
     /* Define these to set the number of menu items in the Related Display
      * and Shell Command. */
@@ -487,5 +489,7 @@
         WIDGET,
         CONTROL
     } UpdateType;
+
+} //namespace EDL
 
 #endif // COMMON_H

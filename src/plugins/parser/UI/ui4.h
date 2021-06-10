@@ -75,6 +75,8 @@ namespace QFormInternal
 {
 #endif
 
+namespace UI
+{
 
 /*******************************************************************************
 ** Forward declarations
@@ -3608,6 +3610,7 @@ private:
     void operator = (const DomStringPropertySpecification&other);
 };
 
+} // namespace UI
 
 #ifdef QFORMINTERNAL_NAMESPACE
 }

@@ -41,6 +41,8 @@ QT_BEGIN_NAMESPACE
 using namespace QFormInternal;
 #endif
 
+namespace UI {
+
 /*******************************************************************************
 ** Implementations
 */
@@ -8929,6 +8931,8 @@ void DomStringPropertySpecification::write(QXmlStreamWriter &writer, const QStri
 
     writer.writeEndElement();
 }
+
+} // namespace UI
 
 QT_END_NAMESPACE
 

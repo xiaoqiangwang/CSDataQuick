@@ -10,6 +10,8 @@
 
 #include "common.h"
 
+namespace ADL {
+
 /*
  * types for parsing
  */
@@ -771,5 +773,7 @@ private:
     relatedDisplayVisual_t visual;
     std::vector<RelatedDisplayEntry*> entries;
 };
+
+} // namespace ADL
 
 #endif // ELEMENT_H
