@@ -1,6 +1,7 @@
 module CSDataQuick.Components
 plugin csdatacomponentsplugin
 typeinfo plugins.qmltype
+classname CSDataComponentsPlugin
 
 BaseWindow      1.0 BaseWindow.qml
 CSADImage       1.0 CSADImage.qml

@@ -1,3 +1,4 @@
 module CSDataQuick.Data
 plugin csdataplugin
 typeinfo plugins.qmltypes
+classname CSDataPlugin
