@@ -76,6 +76,12 @@ QCSParserManager::QCSParserManager(QObject *parent)
             _parsers.append(parser);
         }
     }
+    foreach(QStaticPlugin plugin, QPluginLoader::staticPlugins()) {
+        QCSParser *parser = qobject_cast<QCSParser*>(plugin.instance());
+        if (parser) {
+            _parsers.append(parser);
+        }
+    }
 }
 
 QCSParserManager::~QCSParserManager()

@@ -80,6 +80,12 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
             qDebug() << "Loaded " << engine->description();
         }
     }
+    foreach(QStaticPlugin plugin, QPluginLoader::staticPlugins()) {
+        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(plugin.instance());
+        if (engine) {
+            _engines.append(engine);
+        }
+    }
 }
 
 QCSDataEngineManager::~QCSDataEngineManager()
