@@ -65,15 +65,25 @@ QCSParserManager *QCSParserManager::_manager = Q_NULLPTR;
 QCSParserManager::QCSParserManager(QObject *parent)
     : QObject(parent)
 {
-    QDir pluginsDir = QFileInfo(libraryFilePath).dir();
-    pluginsDir.cdUp();
-    pluginsDir.cd("plugins");
-    pluginsDir.cd("csparser");
-    foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
-        QPluginLoader loader(fileInfo.absoluteFilePath());
-        QCSParser *parser = qobject_cast<QCSParser*>(loader.instance());
-        if (parser) {
-            _parsers.append(parser);
+    QStringList paths;
+    /* relative plugin path ../plugins */
+    QDir dir = QFileInfo(libraryFilePath).dir();
+    if (dir.cd("../plugins"))
+        paths.append(dir.absolutePath());
+    /* QT_PLUGIN_PATH */
+    paths.append(QCoreApplication::libraryPaths());
+    foreach(QString path, paths) {
+        QDir pluginsDir(path);
+        if (pluginsDir.cd("csparser")) {
+            foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
+                QPluginLoader loader(fileInfo.absoluteFilePath());
+                QCSParser *parser = qobject_cast<QCSParser*>(loader.instance());
+                if (parser) {
+                    _parsers.append(parser);
+                }
+            }
+            /* finish searching if found */
+            break;
         }
     }
     foreach(QStaticPlugin plugin, QPluginLoader::staticPlugins()) {

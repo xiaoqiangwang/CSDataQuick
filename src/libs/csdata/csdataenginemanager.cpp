@@ -68,22 +68,33 @@ QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     : QObject(parent)
 {
-    QDir pluginsDir = QFileInfo(libraryFilePath).dir();
-    pluginsDir.cdUp();
-    pluginsDir.cd("plugins");
-    pluginsDir.cd("csdataengine");
-    foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
-        QPluginLoader loader(fileInfo.absoluteFilePath());
-        QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
-        if (engine) {
-            _engines.append(engine);
-            qDebug() << "Loaded " << engine->description();
+    QStringList paths;
+    /* relative plugin path ../plugins */
+    QDir dir = QFileInfo(libraryFilePath).dir();
+    if (dir.cd("../plugins"))
+        paths.append(dir.absolutePath());
+    /* QT_PLUGIN_PATH */
+    paths.append(QCoreApplication::libraryPaths());
+    foreach(QString path, paths) {
+        QDir pluginsDir(path);
+        if (pluginsDir.cd("csdataengine")) {
+            foreach(QFileInfo fileInfo, pluginsDir.entryInfoList(QDir::Files)) {
+                QPluginLoader loader(fileInfo.absoluteFilePath());
+                QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
+                if (engine) {
+                    _engines.append(engine);
+                    qDebug() << "Loaded " << engine->description();
+                }
+            }
+            /* finish searching if found */
+            break;
         }
     }
     foreach(QStaticPlugin plugin, QPluginLoader::staticPlugins()) {
         QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(plugin.instance());
         if (engine) {
             _engines.append(engine);
+            qDebug() << "Added " << engine->description();
         }
     }
 }
