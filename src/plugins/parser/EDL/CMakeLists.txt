@@ -1,33 +1,16 @@
-set(SOURCES
-    edl_parser.cpp
-    EDLParser.cpp
+csdq_add_plugin(EDLParser
+    TYPE
+        csparser
+    CLASS_NAME
+        EDLParser
+    INTERFACE
+        csparser
+    SOURCES
+        edl_parser.cpp
+        EDLParser.h
+        EDLParser.cpp
+    DEFINES
+        $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+    DEPENDS
+        Qt${QT_VERSION_MAJOR}::Core
 )
-
-set(HEADERS
-    EDLParser.h
-)
-
-add_library(EDLParser MODULE
-    ${SOURCES}
-    ${HEADERS}
-)
-
-target_compile_definitions(EDLParser PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
-)
-
-target_link_libraries(EDLParser PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
-    csparser
-)
-
-set_target_properties(EDLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
-)
-
-if (APPLE)
-    set_target_properties(EDLParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS EDLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)

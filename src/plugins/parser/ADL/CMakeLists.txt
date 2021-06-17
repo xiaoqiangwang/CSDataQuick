@@ -1,34 +1,18 @@
-set(SOURCES
-    element.cpp
-    ADLParser.cpp
+csdq_add_plugin(ADLParser
+    TYPE
+        csparser
+    CLASS_NAME
+        ADLParser
+    INTERFACE
+        csparser
+    SOURCES
+        common.h
+        element.h
+        element.cpp
+        ADLParser.h
+        ADLParser.cpp
+    DEFINES
+        $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
+    DEPENDS
+        Qt${QT_VERSION_MAJOR}::Core
 )
-
-set(HEADERS
-    common.h
-    element.h
-    ADLParser.h
-)
-
-add_library(ADLParser MODULE
-    ${SOURCES}
-    ${HEADERS}
-)
-
-target_compile_definitions(ADLParser PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
-)
-
-target_link_libraries(ADLParser PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core csparser
-)
-
-set_target_properties(ADLParser PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/csparser
-)
-
-if (APPLE)
-    set_target_properties(ADLParser PROPERTIES
-    SUFFIX ".dylib")
-endif ()
-
-install(TARGETS ADLParser DESTINATION ${KDE_INSTALL_PLUGINDIR}/csparser)

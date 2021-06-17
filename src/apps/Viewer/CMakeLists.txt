@@ -1,65 +1,26 @@
-set(CMAKE_AUTORCC ON)
-
-set (APPNAME Viewer)
-
-set(SOURCES
-    ipcserver.cpp
-    main.cpp
-)
-
-set(HEADERS
-    ipcserver.h
-)
-
-if (CMAKE_VERSION VERSION_LESS 3.0)
-    qt5_add_resources(RESOURCES
+csdq_add_executable(Viewer
+    SOURCES
+        ipcserver.h
+        ipcserver.cpp
+        main.cpp
+    RESOURCES
         main.qrc
-    )
-else ()
-    set(RESOURCES
-        main.qrc
-    )
-endif()
-
-add_executable(${APPNAME} WIN32 MACOSX_BUNDLE
-    ${SOURCES}
-    ${HEADERS}
-    ${RESOURCES}
+    DEPENDS
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Gui
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Qml
+        Qt${QT_VERSION_MAJOR}::Quick
+        Qt${QT_VERSION_MAJOR}::Network
+        csutils
+        csparser
 )
 
-target_include_directories(${APPNAME} PRIVATE
+target_include_directories(Viewer PRIVATE
     ${CMAKE_BINARY_DIR}/src/include
 )
-target_link_libraries(${APPNAME} PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
-    Qt${QT_VERSION_MAJOR}::Gui
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::Qml
-    Qt${QT_VERSION_MAJOR}::Quick
-    Qt${QT_VERSION_MAJOR}::Network
-    csutils
-    csparser
-)
+
 if(APPLE)
     find_library(OSXSecurity Security)
-    target_link_libraries(${APPNAME} PRIVATE ${OSXSecurity})
+    target_link_libraries(Viewer PRIVATE ${OSXSecurity})
 endif()
-
-SET_TARGET_PROPERTIES(${APPNAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
-
-if(APPLE)
-    SET_TARGET_PROPERTIES(${APPNAME} PROPERTIES
-        INSTALL_RPATH "@executable_path/../../../../lib")
-elseif(UNIX)
-    SET_TARGET_PROPERTIES(${APPNAME} PROPERTIES
-        INSTALL_RPATH "$ORIGIN/../lib")
-endif()
-
-install(TARGETS ${APPNAME} DESTINATION ${KDE_INSTALL_BINDIR})
-#if (APPLE)
-#install(CODE "
-#file(WRITE \"\${CMAKE_INSTALL_PREFIX}/${KDE_INSTALL_BINDIR}/${APPNAME}.app/Contents/Resources/qt.conf\" \"[Paths]\nPrefix=../../..\")
-#" COMPONENT Runtime)
-#endif()

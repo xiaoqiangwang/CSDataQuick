@@ -12,8 +12,10 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 cmake_policy(SET CMP0020 NEW)
+cmake_policy(SET CMP0071 NEW)
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}
@@ -40,6 +42,7 @@ find_package(EPICS QUIET)
 
 set(QML_IMPORT_PATH ${CMAKE_BINARY_DIR}/qml CACHE STRING "QML Import Paths")
 
+include(BuildHelpers)
 include(InstallDirs)
 include(CTest)
 
