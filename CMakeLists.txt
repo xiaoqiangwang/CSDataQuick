@@ -12,10 +12,14 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
+if (NOT CMAKE_VERSION VERSION_LESS 3.0)
 set(CMAKE_AUTORCC ON)
+endif()
 
 cmake_policy(SET CMP0020 NEW)
+if (NOT CMAKE_VERSION VERSION_LESS 3.10)
 cmake_policy(SET CMP0071 NEW)
+endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}

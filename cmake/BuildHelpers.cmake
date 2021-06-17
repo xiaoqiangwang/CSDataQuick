@@ -109,6 +109,8 @@ function(csdq_add_plugin target_name)
             CONTENT
             "#include <QtPlugin>\nQ_IMPORT_PLUGIN(${_arg_CLASS_NAME})"
         )
+        add_library(${target_name}_init_target OBJECT ${init_source})
+        target_link_libraries(${target_name}_init_target PUBLIC Qt${QT_VERSION_MAJOR}::Core)
     endif()
 
     # plugin target
@@ -136,7 +138,4 @@ function(csdq_add_plugin target_name)
     install(TARGETS ${target_name}
         LIBRARY DESTINATION ${KDE_INSTALL_PLUGINDIR}/plugins/${_arg_TYPE})
 
-    # plugin init stub
-    add_library(${target_name}_init_target OBJECT ${init_source})
-    target_link_libraries(${target_name}_init_target PUBLIC Qt${QT_VERSION_MAJOR}::Core)
 endfunction()
