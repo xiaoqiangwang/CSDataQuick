@@ -136,6 +136,6 @@ function(csdq_add_plugin target_name)
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/${_arg_TYPE})
 
     install(TARGETS ${target_name}
-        LIBRARY DESTINATION ${KDE_INSTALL_PLUGINDIR}/plugins/${_arg_TYPE})
+        LIBRARY DESTINATION ${KDE_INSTALL_PLUGINDIR}/${_arg_TYPE})
 
 endfunction()
