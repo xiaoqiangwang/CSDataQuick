@@ -1,2 +1,2 @@
-add_subdirectory(Viewer)
+add_subdirectory(viewer)
 add_subdirectory(builder)

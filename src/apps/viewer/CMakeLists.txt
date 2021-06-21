@@ -1,4 +1,6 @@
-csdq_add_executable(Viewer
+set(APP csdq_viewer)
+
+csdq_add_executable(${APP}
     SOURCES
         ipcserver.h
         ipcserver.cpp
@@ -16,11 +18,11 @@ csdq_add_executable(Viewer
         csparser
 )
 
-target_include_directories(Viewer PRIVATE
+target_include_directories(${APP} PRIVATE
     ${CMAKE_BINARY_DIR}/src/include
 )
 
 if(APPLE)
     find_library(OSXSecurity Security)
-    target_link_libraries(Viewer PRIVATE ${OSXSecurity})
+    target_link_libraries(${APP} PRIVATE ${OSXSecurity})
 endif()

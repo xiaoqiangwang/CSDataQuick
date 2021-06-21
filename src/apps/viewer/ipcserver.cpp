@@ -104,7 +104,7 @@ void IPCHandler :: handleClient(QLocalSocket *client)
 
 QString IPCServer :: getServerName() {
     unsigned int id = 0;
-    QString serverName = "Viewer";
+    QString serverName = "CSDataQuickViewer";
 #if defined(Q_OS_MAC) && !defined(Q_OS_IOS)
     OSStatus error;
     SecuritySessionId sessionId;

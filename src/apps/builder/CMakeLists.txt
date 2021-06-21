@@ -1,4 +1,6 @@
-csdq_add_executable(builder
+set(APP csdq_builder)
+
+csdq_add_executable(${APP}
     SOURCES
         main.cpp
     RESOURCES

@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     app.setOrganizationName("Paul Scherrer Institut");
     app.setOrganizationDomain("psi.ch");
-    app.setApplicationName("Viewer");
+    app.setApplicationName("csdq_viewer");
     app.setApplicationVersion(CSDATAQUICK_VERSION);
 
     qRegisterMetaType<QtMsgType>("QtMsgType");
