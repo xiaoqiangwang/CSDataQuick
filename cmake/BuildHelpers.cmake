@@ -14,7 +14,6 @@ function(csdq_add_executable target_name)
         message(FATAL_ERROR "Unparsed arguments: " ${_arg_UNPARSED_ARGUMENTS})
     endif()
 
-
     if (CMAKE_VERSION VERSION_LESS 3.0)
         qt5_add_resources(resources ${_arg_RESOURCES})
     else()
@@ -23,18 +22,19 @@ function(csdq_add_executable target_name)
     add_executable(${target_name} WIN32 MACOSX_BUNDLE ${_arg_SOURCES} ${resources})
     target_link_libraries(${target_name} PRIVATE ${_arg_DEPENDS})
 
+    file(RELATIVE_PATH _relative_libdir "/${CSDQ_INSTALL_BINDIR}" "/${CSDQ_INSTALL_LIBDIR}")
     if(APPLE)
         set_target_properties(${target_name} PROPERTIES
-            INSTALL_RPATH "@executable_path/../../../../lib")
+            INSTALL_RPATH "@executable_path/../../../${_relative_libdir}")
     elseif(UNIX)
         SET_TARGET_PROPERTIES(${target_name} PROPERTIES
-            INSTALL_RPATH "$ORIGIN/../lib")
+            INSTALL_RPATH "$ORIGIN/${_relative_libdir}")
     endif()
 
     set_target_properties(${target_name} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
     )
-    install(TARGETS ${target_name} DESTINATION ${KDE_INSTALL_BINDIR})
+    install(TARGETS ${target_name} DESTINATION ${CSDQ_INSTALL_BINDIR})
 endfunction()
 
 function(csdq_add_library target_name)
@@ -77,8 +77,8 @@ function(csdq_add_library target_name)
     )
 
     install(TARGETS ${target_name}
-        RUNTIME DESTINATION ${KDE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${KDE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CSDQ_INSTALL_BINDIR}
+        LIBRARY DESTINATION ${CSDQ_INSTALL_LIBDIR}
     )
 endfunction()
 
