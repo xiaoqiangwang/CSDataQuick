@@ -136,6 +136,96 @@ function(csdq_add_plugin target_name)
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/plugins/${_arg_TYPE})
 
     install(TARGETS ${target_name}
-        LIBRARY DESTINATION ${KDE_INSTALL_PLUGINDIR}/${_arg_TYPE})
+        LIBRARY DESTINATION ${CSDQ_INSTALL_PLUGINDIR}/${_arg_TYPE})
+
+endfunction()
+
+function(csdq_add_qml_module)
+    cmake_parse_arguments(_arg
+    ""
+    "URI;PLUGIN_TARGET;CLASS_NAME"
+    "DEPENDS;DEFINES;SOURCES;RESOURCES;QML_FILES"
+    ${ARGN}
+    )
+
+    if (${_arg_UNPARSED_ARGUMENTS})
+        message(FATAL_ERROR "Unparsed arguments: " ${_arg_UNPARSED_ARGUMENTS})
+    endif()
+
+
+    if (CMAKE_VERSION VERSION_LESS 3.0)
+        qt5_add_resources(resources ${_arg_RESOURCES})
+    else()
+        set(resources ${_arg_RESOURCES})
+    endif()
+
+    set(library_type MODULE)
+    if(${QT_STATIC})
+        set(library_type STATIC)
+    endif()
+
+    set(depends_scope PRIVATE)
+    if(${library_type} STREQUAL "STATIC")
+        set(depends_scope PUBLIC)
+    endif()
+
+    string(REPLACE "." "/" qml_path ${_arg_URI})
+
+    add_library(${_arg_PLUGIN_TARGET} ${library_type}
+        ${_arg_SOURCES}
+        ${_arg_RESOURCES}
+        ${_arg_QML_FILES}
+    )
+
+    target_compile_definitions(${_arg_PLUGIN_TARGET} PRIVATE ${_arg_DEFINES})
+
+    target_link_libraries(${_arg_PLUGIN_TARGET}
+            ${depends_scope}
+            ${_arg_DEPENDS}
+    )
+
+    set_target_properties(${_arg_PLUGIN_TARGET} PROPERTIES
+            LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml/${qml_path})
+
+
+    file(RELATIVE_PATH _relative_libdir "/${CSDQ_INSTALL_QMLDIR}/${qml_path}" "/${CSDQ_INSTALL_LIBDIR}")
+    if(APPLE)
+        set_target_properties(${_arg_PLUGIN_TARGET} PROPERTIES
+            INSTALL_RPATH "@loader_path/${_relative_libdir}")
+    elseif(UNIX)
+        set_target_properties(${_arg_PLUGIN_TARGET} PROPERTIES
+            INSTALL_RPATH "$ORIGIN/${_relative_libdir}")
+    endif()
+
+    foreach(qml_file ${_arg_QML_FILES})
+        list(APPEND DST_QML_FILES ${CMAKE_BINARY_DIR}/qml/${qml_path}/${qml_file})
+    endforeach()
+
+    add_custom_target(${_arg_PLUGIN_TARGET}_CopyQMLFiles ALL
+        DEPENDS ${DST_QML_FILES})
+
+    foreach(qml_file ${_arg_QML_FILES})
+        # make subdirectory if not existing
+        get_filename_component(subdir ${qml_file} DIRECTORY)
+
+        if (NOT IS_DIRECTORY ${CMAKE_BINARY_DIR}/qml/${qml_path}/${subdir})
+            file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/qml/${qml_path}/${subdir})
+        endif()
+        # copy qml files prebuild
+        add_custom_command(
+            OUTPUT ${CMAKE_BINARY_DIR}/qml/${qml_path}/${qml_file}
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${qml_file} ${CMAKE_BINARY_DIR}/qml/${qml_path}/${subdir}
+            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${qml_file}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+    endforeach()
+
+    add_dependencies(${_arg_PLUGIN_TARGET} ${_arg_PLUGIN_TARGET}_CopyQMLFiles)
+
+    install(TARGETS ${_arg_PLUGIN_TARGET}  DESTINATION ${CSDQ_INSTALL_QMLDIR}/${qml_path})
+    foreach (qml_file ${_arg_QML_FILES})
+        get_filename_component(subdir ${qml_file} DIRECTORY)
+        install(FILES ${qml_file} DESTINATION ${CSDQ_INSTALL_QMLDIR}/${qml_path}/${subdir})
+    endforeach()
 
 endfunction()
