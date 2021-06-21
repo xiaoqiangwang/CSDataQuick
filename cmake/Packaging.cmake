@@ -36,8 +36,11 @@ endif()
 set(CPACK_SOURCE_GENERATOR "TGZ")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME ${CMAKE_PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
 set(CPACK_SOURCE_IGNORE_FILES
+        "\\\\.appveyor.yml"
+        \\\\.github/
         \\\\.git/
         /build-.*/
+        "\\\\.qmlc$"
         ".*~$"
 )
 
