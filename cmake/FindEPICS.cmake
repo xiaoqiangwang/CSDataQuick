@@ -55,12 +55,15 @@ endif ()
 
 # Derive EPICS_BASE from evironment variable "EPICS_BASE" and "EPICS"
 if (NOT EPICS_BASE)
+    file (GLOB __epics_base_dirs
+        $ENV{EPICS}/base*
+        /usr/local/epics/base*
+        /opt/local/epics/base*
+        C:/epics/base*
+    )
     find_path(EPICS_BASE include/epicsVersion.h
-        HINTS ENV EPICS_BASE EPICS
-        PATHS
-            /usr/local/epics/base
-            /opt/local/epics/base
-            C:/epics/base-*
+        PATHS ${__epics_base_dirs}
+        NO_DEFAULT_PATH
     )
 endif ()
 
