@@ -60,7 +60,7 @@ CSControl {
 
     Connections {
         target: csdata
-        onValueChanged: loader.item.children[csdata.value].checked = true
+        onValueChanged: loader.item.children[+csdata.value].checked = true
     }
 
     ExclusiveGroup { id: radioInputGroup }
