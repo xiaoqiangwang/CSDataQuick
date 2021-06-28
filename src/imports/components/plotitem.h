@@ -2,6 +2,7 @@
 #define PLOTITEM_H
 
 #include <QQuickPaintedItem>
+#include <QQmlParserStatus>
 
 class QCustomPlot;
 class QCPPlotTitle;
