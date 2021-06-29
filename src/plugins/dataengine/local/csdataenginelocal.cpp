@@ -34,12 +34,15 @@
  * \row
  *     \li enums
  *     \li Array of state strings for \e enum type.
+ * \row
+ *     \li precision
+ *     \li Precision of a \e double typed value.
  * \endtable
  *
  * The data is not signaled as connected until it gets configured. If already configured, the second configurtion takes no effect.
  *
  * \code
- *     loc://real.{"type": "double", "value": 3.14}
+ *     loc://real.{"type": "double", "value": 3.14, "precision": 2}
  *     loc://integer.{"type": "int", "value": 3}
  *     loc://string.{"type": "string", "value": "string message"}
  *     loc://enum.{"type": "enum", "enums": ["off", "on"], "value": 1}
@@ -88,8 +91,10 @@ void QCSDataEngineLocal::initializeData(QCSData *data, QString name)
         data->setProperty("fieldType", QCSData::String);
     else if (type == "int")
         data->setProperty("fieldType", QCSData::Integer);
-    else if (type == "double")
+    else if (type == "double") {
         data->setProperty("fieldType", QCSData::Double);
+        data->setProperty("precision", _objectsMap[name]["precision"].toInt());
+    }
     else if (type == "enum") {
         data->setProperty("fieldType", QCSData::Enum);
         data->setProperty("stateStrings", _objectsMap[name]["enums"].toArray().toVariantList());
