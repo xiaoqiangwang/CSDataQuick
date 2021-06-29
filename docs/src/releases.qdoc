@@ -2,7 +2,7 @@
     \page releases.html
     \title Release Notes
 
-    \section1 1.2.0 (XX-XX-2019)
+    \section1 1.2.0 (21-06-2021)
 
     \section2 core libs
     \list
@@ -22,7 +22,14 @@
 
     \section2 apps
     \list
+    \li Add \e csdq_ prefix to applications.
     \li Viewer will quit when the last window closes if not running in server mode.
+    \li Viewer will not show main window with \e -noMsg option.
+    \endlist
+
+    \section2 build system
+    \list
+    \li Create cmake functions to build libs/plugins/apps.
     \endlist
 
     \section1 1.1.0 (01-10-2018)
