@@ -55,6 +55,7 @@ Item {
     property bool arrowNavigation: true
     property bool keyShortcutsEnabled: true
     property bool numberNavigation: true
+    property bool buttonNavigation: false
 
     property color titleColor: textColor;
     property color textColor: "black"
@@ -164,6 +165,12 @@ Item {
     Shortcut { sequence: StandardKey.MoveToNextPage; onActivated: goToNextSlide() }
     Shortcut { sequence: StandardKey.MoveToPreviousPage; onActivated: goToPreviousSlide() }
     Shortcut { sequence: StandardKey.Quit; onActivated: Qt.quit() }
+
+    Navigation {
+        visible: root.buttonNavigation
+        onPreviousPage: goToPreviousSlide()
+        onNextPage: goToNextSlide()
+    }
 
     Rectangle {
         z: 1000
