@@ -23,11 +23,22 @@ Item {
                 }
                 TextField {
                     id: urlField
+                    placeholderText: 'Search or enter website name'
                     inputMethodHints: Qt.ImhUrlCharactersOnly | Qt.ImhPreferLowercase
                     text: webView.url
                     Layout.fillWidth: true
 
-                    onAccepted: webView.url = text
+                    onAccepted: {
+                        var url
+                        if (text.search(/https?:\/\//) === 0)
+                            url = text
+                        else if (text.search(' ') !== -1 || text.search('.') === -1) {
+                            url = 'https://duckduckgo.com/?q=' + text.replace(' ','+')
+                        } else {
+                            url = 'http://' + text
+                        }
+                        webView.url = url
+                    }
 
                     ProgressBar {
                         anchors.bottom: parent.bottom
