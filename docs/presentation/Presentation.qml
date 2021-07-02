@@ -54,6 +54,7 @@ Item {
     property alias mouseNavigation: mouseArea.enabled
     property bool arrowNavigation: true
     property bool keyShortcutsEnabled: true
+    property bool numberNavigation: true
 
     property color titleColor: textColor;
     property color textColor: "black"
@@ -128,12 +129,14 @@ Item {
 
     // directly type in the slide number: depends on root having focus
     Keys.onPressed: {
-        if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
-            _userNum = 10 * _userNum + (event.key - Qt.Key_0)
-        else {
-            if (event.key == Qt.Key_Return || event.key == Qt.Key_Enter)
-                goToUserSlide();
-            _userNum = 0;
+        if (root.numberNavigation) {
+            if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
+                _userNum = 10 * _userNum + (event.key - Qt.Key_0)
+            else {
+                if (event.key == Qt.Key_Return || event.key == Qt.Key_Enter)
+                    goToUserSlide();
+                _userNum = 0;
+            }
         }
     }
 
