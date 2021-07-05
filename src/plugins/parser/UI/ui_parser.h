@@ -80,6 +80,7 @@ protected:
     void qlabelToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=Q_NULLPTR);
     void groupBoxToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=Q_NULLPTR);
     void textEditToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=Q_NULLPTR);
+    void scrollAreaToQML(QTextStream& ostream, DomWidget *w, int level=0, DomLayoutItem*i=Q_NULLPTR);
     void tabWidgetToQML(QTextStream &ostream, DomWidget*w, int level=0, DomLayoutItem*i=Q_NULLPTR);
 
     void layoutToQML(QTextStream &ostream, DomLayout*l, int level=0, DomLayoutItem*i=Q_NULLPTR);

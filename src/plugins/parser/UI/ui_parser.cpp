@@ -592,6 +592,26 @@ void UI::textEditToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     ostream << indent << "}" << endl;
 }
 
+void UI::scrollAreaToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
+{
+    QString indent(level * 4, ' ');
+
+    ostream << indent << "ScrollView {" << endl;
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
+
+    foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
+        if (v->attributeName() == "geometry") {
+            rectToQML(ostream, v->elementRect(), level);
+        }
+    }
+
+    foreach (DomWidget *child, w->elementWidget()) {
+        widgetToQML(ostream, child, level+1, i);
+    }
+
+    ostream << indent << "}" << endl;
+}
+
 void UI::tabWidgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i)
 {
     QString indent(level * 4, ' ');
@@ -2248,6 +2268,8 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
     QString widgetClass = w->attributeClass();
     if (widgetClass == "QTabWidget")
         tabWidgetToQML(ostream, w, level, i);
+    else if (widgetClass == "QScrollArea")
+        scrollAreaToQML(ostream, w, level, i);
     else if (widgetClass == "QPlainTextEdit" || widgetClass == "QTextEdit")
         textEditToQML(ostream, w, level, i);
     else if (widgetClass == "QGroupBox")
