@@ -689,8 +689,10 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
 
         if (stacking.endsWith("ColumnRow"))
         ostream << indent << "        columns: " << columns << endl;
-        else if (stacking.endsWith("RowColumn"))
+        else if (stacking.endsWith("RowColumn")) {
+        ostream << indent << "        flow: GridLayout.TopToBottom" << endl;
         ostream << indent << "        rows: " << rows << endl;
+        }
         else if (stacking.endsWith("Column"))
         ostream << indent << "        rows: 1" << endl;
         else
