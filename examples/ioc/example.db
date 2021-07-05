@@ -14,6 +14,7 @@ record(ao, "catest")
     field (HOPR, "1.0")
     field (LOPR, "0.0")
     field (PREC, "2")
+    field (EGU,  "V")
     field (ASG,  "limit")
 }
 record(ao, "catest2")

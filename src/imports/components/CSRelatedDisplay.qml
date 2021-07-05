@@ -224,7 +224,10 @@ BaseItem {
         }
 
         // search the file
-        var absFilePath = Utils.searchDisplayFile(fileName, windowPath)
+        var thisWindowPath = ''
+        if (typeof windowPath !== 'undefined')
+            thisWindowPath = windowPath
+        var absFilePath = Utils.searchDisplayFile(fileName, thisWindowPath)
         if (absFilePath.toString() === '') {
             console.error("Failed to find file ", fileName)
             return

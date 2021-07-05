@@ -116,14 +116,20 @@ BaseItem {
         if (!root.source)
             return
 
-        var absFilePath = Utils.searchDisplayFile(root.source, windowPath)
+        var thisWindowPath = ''
+        if (typeof windowPath !== 'undefined')
+            thisWindowPath = windowPath
+        var absFilePath = Utils.searchDisplayFile(root.source, thisWindowPath)
 
         if (absFilePath.toString() === '') {
             console.error("Failed to find file ", root.source)
             return
         }
 
-        d.rootItem = Utils.createComponentByFile(root, absFilePath, join(windowMacro, root.macro))
+        var thisWindowMacro = ''
+        if (typeof windowMacro !== 'undefined')
+            thisWindowMacro = windowMacro
+        d.rootItem = Utils.createComponentByFile(root, absFilePath, join(thisWindowMacro, root.macro))
 
         // override rootItem position property
         if (d.rootItem) {
