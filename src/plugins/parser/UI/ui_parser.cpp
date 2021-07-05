@@ -657,7 +657,7 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         }
         else if (v->attributeName() == "macro") {
             QString macros = v->elementString()->text();
-            macroList = macros.split(';');
+            macroList = macros.split(';', SplitFlag);
         }
         else if (v->attributeName() == "numberOfItems") {
             items = v->elementNumber();
@@ -675,7 +675,9 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
             ;
     }
 
-    if (items == 1) {
+    int count = qMax(items, macroList.length());
+
+    if (count == 1) {
         ostream << indent << "    source: '" << file << "'" << endl;
         if (macroList.length())
             ostream << indent << "    macro: '" << macroList[0] << "'" << endl;
@@ -694,14 +696,20 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         else
         ostream << indent << "        columns: 1" << endl;
 
-        for (int i=0; i<items; i++) {
-            ostream << indent << "        CSComposite {" << endl;
-            ostream << indent << "            source: '" << file << "'" << endl;
+        ostream << indent << "        Repeater {" << endl;
+        ostream << indent << "            model: [" << endl;
+        for (int i=0; i<count; i++) {
+            QString macro;
             if (i < macroList.length())
-            ostream << indent << "            macro: '" << macroList[i].trimmed() << "'" << endl;
-            ostream << indent << "        }" << endl;
+                macro = macroList[i].trimmed();
+            ostream << indent << "                '" << macro << "'," << endl;
         }
-
+        ostream << indent << "            ]" << endl;
+        ostream << indent << "            CSComposite {" << endl;
+        ostream << indent << "                source: '" << file << "'" << endl;
+        ostream << indent << "                macro: modelData"<< endl;
+        ostream << indent << "            }" << endl;
+        ostream << indent << "        }" << endl;
         ostream << indent << "    }" << endl;
     }
 
