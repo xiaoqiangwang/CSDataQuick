@@ -19,6 +19,30 @@ MouseArea {
             }
         }
         MenuItem {
+            text: 'Reload'
+            onTriggered: {
+                // get current window file path and macro
+                var window = Utils.parentWindow(parent)
+                var filePath = Utils.getProperty(window, 'filePath')
+                var macro = Utils.getProperty(window, 'macro')
+                // hide current window
+                window.visible = false
+                // recreate window from file path and macro
+                var newWindow = Utils.createDisplayByFile(parent, filePath, macro)
+                if (!newWindow) {
+                    console.error("Failed to create window from ", filePath)
+                    window.visible = true
+                    return
+                }
+                // close current window
+                WindowManager.closeWindow(window)
+                // show new window
+                newWindow.visible = true
+                WindowManager.appendWindow(newWindow)
+                console.info('Reload ', filePath, macro)
+            }
+        }
+        MenuItem {
             text: 'Close'
             onTriggered: {
                 WindowManager.closeWindow(Utils.parentWindow(parent))

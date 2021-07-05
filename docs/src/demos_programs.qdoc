@@ -118,6 +118,9 @@ Context popup menu is invoked by mouse right click anywhere on the background.
 \li Print
 \li Prints the display.
 \row
+\li Reload
+\li Reopen the display.
+\row
 \li Close
 \li Close the display.
 \row
