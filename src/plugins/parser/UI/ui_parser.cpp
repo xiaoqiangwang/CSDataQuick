@@ -2418,12 +2418,15 @@ void UI::toQML(QTextStream& ostream)
             }
     }
 
-    foreach (DomLayout *layout , mainWidget->elementLayout())
-        layoutToQML(ostream, layout, 1);
+    if (mainWidget->attributeClass() == "QTabWidget") {
+        tabWidgetToQML(ostream, mainWidget);
+    } else {
+        foreach (DomLayout *layout , mainWidget->elementLayout())
+            layoutToQML(ostream, layout, 1);
 
-    foreach (DomWidget *child , orderedChildWidgets(mainWidget))
-        widgetToQML(ostream, child, 1);
-
+        foreach (DomWidget *child , orderedChildWidgets(mainWidget))
+            widgetToQML(ostream, child, 1);
+    }
     ostream << "}" << endl;
 }
 
@@ -2449,12 +2452,15 @@ void UI::toPartialQML(QTextStream& ostream)
             ostream << "    height: " << QString::number(v->elementRect()->elementHeight()) << endl;
         }
     }
-    foreach (DomLayout *layout , mainWidget->elementLayout())
-        layoutToQML(ostream, layout);
+    if (mainWidget->attributeClass() == "QTabWidget") {
+        tabWidgetToQML(ostream, mainWidget);
+    } else {
+        foreach (DomLayout *layout , mainWidget->elementLayout())
+            layoutToQML(ostream, layout);
 
-    foreach (DomWidget *child , orderedChildWidgets(mainWidget))
-        widgetToQML(ostream, child);
-
+        foreach (DomWidget *child , orderedChildWidgets(mainWidget))
+            widgetToQML(ostream, child);
+    }
     ostream << "}" << endl;
 }
 
