@@ -5,7 +5,7 @@
     <category>CSDataQuick</category>
     <order>1</order>
     <executable>
-        <path>Viewer</path>
+        <path>csdq_viewer</path>
         <arguments>%{CurrentDocument:FilePath}</arguments>
         <workingdirectory>%{CurrentDocument:Path}</workingdirectory>
     </executable>
