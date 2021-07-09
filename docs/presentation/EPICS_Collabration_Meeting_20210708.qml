@@ -227,7 +227,7 @@ ListView {
     }
 
     Slide {
-        title: "Introduce CSDataQuick"
+        title: "CSDataQuick"
         notes: '
         name inspired by Control System Studio.
         Although it does not (yet) support any control systems other than EPICS CA,
@@ -535,7 +535,7 @@ GridLayout {
         notes: '
         Let me finish up with The Qt Company\'s slogan
         '
-        centeredText: "The Future is written with Qt"
+        centeredText: "The Future is written with Qt\u2122"
     }
 
     Slide {
