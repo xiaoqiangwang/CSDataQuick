@@ -95,22 +95,30 @@ void SortFilterProxyModel::setFilterRole(const QByteArray &role)
 
 QString SortFilterProxyModel::filterString() const
 {
-    return filterRegExp().pattern();
+    return _filter;
 }
 
 void SortFilterProxyModel::setFilterString(const QString &filter)
 {
-    setFilterRegExp(QRegExp(filter, filterCaseSensitivity(), static_cast<QRegExp::PatternSyntax>(filterSyntax())));
+    if (filter == _filter)
+        return;
+    _filter = filter;
+
+    updateFilter();
 }
 
 SortFilterProxyModel::FilterSyntax SortFilterProxyModel::filterSyntax() const
 {
-    return static_cast<FilterSyntax>(filterRegExp().patternSyntax());
+    return _syntax;
 }
 
 void SortFilterProxyModel::setFilterSyntax(SortFilterProxyModel::FilterSyntax syntax)
 {
-    setFilterRegExp(QRegExp(filterString(), filterCaseSensitivity(), static_cast<QRegExp::PatternSyntax>(syntax)));
+    if (syntax == _syntax)
+        return;
+    _syntax = syntax;
+
+    updateFilter();
 }
 
 QJSValue SortFilterProxyModel::get(int idx) const
@@ -142,8 +150,15 @@ QHash<int, QByteArray> SortFilterProxyModel::roleNames() const
 
 bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
+    if (_filter.isEmpty())
+        return true;
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+    QRegularExpression regexp = filterRegularExpression();
+#else
     QRegExp regexp = filterRegExp();
-    if (regexp.isEmpty())
+#endif
+    if (!regexp.isValid())
         return true;
 
     QModelIndex sourceIndex = sourceModel()->index(sourceRow, 0, sourceParent);
@@ -151,4 +166,24 @@ bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &so
         return true;
     QString key = sourceModel()->data(sourceIndex, QSortFilterProxyModel::filterRole()).toString();
     return key.contains(regexp);
+}
+
+void SortFilterProxyModel::updateFilter()
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
+    QString filter = _filter;
+    if (_syntax == Wildcard)
+        filter = QRegularExpression::wildcardToRegularExpression(_filter);
+    else if (_syntax == FixedString)
+        filter = QRegularExpression::escape(_filter);
+
+    QRegularExpression::PatternOptions options = QRegularExpression::NoPatternOption;
+    if (filterCaseSensitivity() == Qt::CaseInsensitive)
+        options |= QRegularExpression::CaseInsensitiveOption;
+
+    QRegularExpression regexp(filter, options);
+    setFilterRegularExpression(regexp);
+#else
+    setFilterRegExp(QRegExp(filterString(), filterCaseSensitivity(), static_cast<QRegExp::PatternSyntax>(_syntax)));
+#endif
 }

@@ -95,9 +95,13 @@ protected:
     QHash<int, QByteArray> roleNames() const;
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 
+    void updateFilter();
+
 private:
     QByteArray _sortRole;
     QByteArray _filterRole;
+    FilterSyntax _syntax;
+    QString _filter;
 };
 
 #endif // SORTFILTERPROXYMODEL_H
