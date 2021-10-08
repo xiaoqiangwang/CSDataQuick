@@ -44,8 +44,13 @@ public:
 
     // graphs
     QQmlListProperty<GraphItem> graphs();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     static int graphsCount(QQmlListProperty<GraphItem> *list);
     static GraphItem * graph(QQmlListProperty<GraphItem> *list, int n);
+#else
+    static qsizetype graphsCount(QQmlListProperty<GraphItem> *list);
+    static GraphItem * graph(QQmlListProperty<GraphItem> *list, qsizetype n);
+#endif
     static void appendGraph(QQmlListProperty<GraphItem> *list, GraphItem *item);
     static void clearGraphs(QQmlListProperty<GraphItem> *list);
 
