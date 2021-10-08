@@ -2,6 +2,19 @@
     \page releases.html
     \title Release Notes
 
+    \section1 1.2.1 (08-10-2021)
+
+    \section2 quick components
+    \list
+    \li Update QCustomPlot to 2.1
+    \li Various Qt 6 compatiblity changes
+    \endlist
+
+    \section2 file plugins
+    \list
+    \li various caqtdm UI compatiblity changes
+    \endlist
+
     \section1 1.2.0 (21-06-2021)
 
     \section2 core libs
