@@ -191,13 +191,21 @@ QQmlListProperty<GraphItem> CustomPlotItem::graphs()
                                        &CustomPlotItem::clearGraphs);
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 int CustomPlotItem::graphsCount(QQmlListProperty<GraphItem> *list)
+#else
+qsizetype CustomPlotItem::graphsCount(QQmlListProperty<GraphItem> *list)
+#endif
 {
     CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     return item->mGraphs.length();
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 GraphItem * CustomPlotItem::graph(QQmlListProperty<GraphItem> *list, int n)
+#else
+GraphItem * CustomPlotItem::graph(QQmlListProperty<GraphItem> *list, qsizetype n)
+#endif
 {
     CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     return item->mGraphs.at(n);
@@ -397,14 +405,14 @@ void GraphItem::setData(QVariant x, QVariant y)
         }
     }
 
-    if (x.canConvert(QMetaType::Double)) {
+    if (x.canConvert<double>()) {
         mX.fill(x.toReal(), mY.size());
     } else if (mX.isEmpty())
         for(int i=0; i<=mY.length(); i++)
             mX.append(i);
 
 
-    if (y.canConvert(QMetaType::Double)) {
+    if (y.canConvert<double>()) {
         mY.fill(y.toReal(), mX.size());
     } else if (mY.isEmpty())
         for(int i=0; i<=mX.length(); i++)
