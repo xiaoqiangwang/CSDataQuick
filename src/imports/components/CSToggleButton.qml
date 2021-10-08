@@ -52,7 +52,7 @@ CSControl {
             value: height
         }
         enabled: csdata.accessRight & CSData.WriteAccess
-        onCheckedChanged: {
+        onClicked: {
             csdata.setValue(checked)
         }
     }

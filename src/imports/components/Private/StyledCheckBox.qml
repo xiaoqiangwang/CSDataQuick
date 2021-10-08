@@ -6,6 +6,8 @@ import CSDataQuick.Components.Private 1.0
 Item {
     id: control
 
+    signal clicked
+
     property color backgroundColor: __pallete.button
     property color foregroundColor: 'black'
     property bool checked: false
@@ -91,6 +93,9 @@ Item {
     // (un-)check when mouse click
     MouseArea {
         anchors.fill: parent
-        onClicked: control.checked = !control.checked
+        onClicked: {
+            control.checked = !control.checked
+            control.clicked()
+        }
     }
 }
