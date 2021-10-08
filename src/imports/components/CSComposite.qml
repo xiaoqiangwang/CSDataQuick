@@ -78,7 +78,7 @@ BaseItem {
         if (Utils.inPuppet)
             return
 
-        if (d.oldWidth !== NaN) {
+        if (!Number.isNaN(d.oldWidth)) {
             if (d.rootItem) {
                 d.rootItem.width = width
                 Utils.resizeChildItems(d.rootItem, width / d.oldWidth, 1)
@@ -92,7 +92,7 @@ BaseItem {
         if (Utils.inPuppet)
             return
 
-        if (d.oldHeight !== NaN) {
+        if (!Number.isNaN(d.oldHeight)) {
             if (d.rootItem) {
                 d.rootItem.height = height
                 Utils.resizeChildItems(d.rootItem, 1, height / d.oldHeight)

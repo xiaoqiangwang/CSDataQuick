@@ -2452,6 +2452,16 @@ void UI::toPartialQML(QTextStream& ostream)
             ostream << "    height: " << QString::number(v->elementRect()->elementHeight()) << endl;
         }
     }
+    // For QMainWindow, use central widget as the main widget
+    // and ignore QMenuBar, QToolBar and QDockWidget
+    if (mainWidget->attributeClass() == "QMainWindow") {
+        foreach (DomWidget *child, mainWidget->elementWidget())
+            if (child->attributeClass() == "QWidget") {
+                mainWidget = child;
+                break;
+            }
+    }
+
     if (mainWidget->attributeClass() == "QTabWidget") {
         tabWidgetToQML(ostream, mainWidget);
     } else {

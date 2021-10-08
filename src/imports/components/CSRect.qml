@@ -43,6 +43,26 @@ CSGraphics {
     /*! the y radius of the ellipses defining the corners of the rounded rectangle */
     property real radiusY: 0
 
+    onWidthChanged: {
+        if (Utils.inPuppet)
+            return
+
+        if (!Number.isNaN(d.oldWidth))
+            Utils.resizeChildItems(root, width / d.oldWidth, 1)
+
+        d.oldWidth = width
+    }
+
+    onHeightChanged: {
+        if (Utils.inPuppet)
+            return
+
+        if (!Number.isNaN(d.oldHeight))
+            Utils.resizeChildItems(root, 1, height / d.oldHeight)
+
+        d.oldHeight = height
+    }
+
     PaintedRectangle {
         id: rect
         anchors.fill: parent
@@ -55,5 +75,11 @@ CSGraphics {
                     ? root.alarmColor : root.foreground
         edgeStyle: root.edgeStyle
         fillStyle: root.fillStyle
+    }
+
+    QtObject {
+        id: d
+        property double oldWidth: NaN
+        property double oldHeight: NaN
     }
 }

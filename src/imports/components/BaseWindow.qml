@@ -37,7 +37,7 @@ Rectangle {
         if (Utils.inPuppet)
             return
 
-        if (d.oldWidth !== NaN)
+        if (!Number.isNaN(d.oldWidth))
             Utils.resizeChildItems(root, width / d.oldWidth, 1)
 
         d.oldWidth = width
@@ -47,7 +47,7 @@ Rectangle {
         if (Utils.inPuppet)
             return
 
-        if (d.oldHeight !== NaN)
+        if (!Number.isNaN(d.oldHeight))
             Utils.resizeChildItems(root, 1, height / d.oldHeight)
 
         d.oldHeight = height

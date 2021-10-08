@@ -57,7 +57,7 @@ CSGraphics {
             return
 
         var newpoints = []
-        if (d.oldWidth !== NaN) {
+        if (!Number.isNaN(d.oldWidth)) {
             for (var i=0; i<points.length; i++)
                 newpoints.push(Qt.point(points[i].x * width / d.oldWidth, points[i].y))
             points = newpoints
@@ -70,7 +70,7 @@ CSGraphics {
             return
 
         var newpoints = []
-        if (d.oldHeight !== NaN) {
+        if (!Number.isNaN(d.oldHeight)) {
             for (var i=0; i<points.length; i++)
                 newpoints.push(Qt.point(points[i].x, points[i].y * height / d.oldHeight))
             points = newpoints

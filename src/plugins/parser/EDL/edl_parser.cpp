@@ -801,7 +801,7 @@ void Object::compositeToQML(std::ostream& ostream)
         for(int i=0; i<filenames.size(); i++)  {
             // append ".edl" suffix if necessary
             std::string filename = filenames[i];
-            if (filename.substr(filename.size() - 4) != ".edl")
+            if (filename.size() < 4 || filename.substr(filename.size() - 4) != ".edl")
                 filename += ".edl";
     
             if (i == 0)
@@ -827,7 +827,7 @@ void Object::compositeToQML(std::ostream& ostream)
     } else if (displaySource == "file") {
         std::string filename = getText("file");
         if (!filename.empty()) {
-            if (filename.substr(filename.size() - 4) != ".edl")
+            if (filename.size() < 4 || filename.substr(filename.size() - 4) != ".edl")
                 filename += ".edl";
             ostream << indent << "    source: '" << filename << "'" << std::endl;
             std::string macro = screen()->macroString();
@@ -904,7 +904,7 @@ void Object::relatedDisplayToQML(std::ostream& ostream)
         for(int i=0; i<entries.size(); i++) {
             ostream << indent << "        ListElement {" << std::endl;
             std::string filename = entries[i];
-            if (filename.substr(filename.size() - 4) != ".edl")
+            if (filename.size() < 4 || filename.substr(filename.size() - 4) != ".edl")
                 filename += ".edl";
             ostream << indent << "              file: '" <<  filename << "'" << std::endl;
             ostream << indent << "              label: '" << (i < labels.size() ? labels[i] : "") << "'" << std::endl;
