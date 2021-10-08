@@ -19,6 +19,7 @@
 #include "parsermanager.h"
 #include "imageprovider.h"
 
+#include <QLoggingCategory>
 #include <qqml.h>
 
 static QObject *parsermanager_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -98,5 +99,7 @@ void CSDataComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *ur
 {
     Q_UNUSED(uri);
     engine->addImageProvider("doublerect", new DoubleRectProvider());
+    // disable this deprecation warning until Qt 5.15 is required
+    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
 }
 
