@@ -29,7 +29,7 @@ if (QTC_PACKAGE)
     # Copy templates
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/share/qtcreator/templates/wizards/files/csdataquick
         DESTINATION "${QTC_RESOURCE}/templates/wizards/files")
-    install(FILES ${CMAKE_SOURCE_DIR}/share/qtcreator/externaltools/viewer.xml
+    install(FILES ${CMAKE_SOURCE_DIR}/share/qtcreator/externaltools/csdq_viewer.xml
         DESTINATION "${QTC_RESOURCE}/externaltools")
 endif()
 
