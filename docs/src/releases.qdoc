@@ -2,6 +2,13 @@
     \page releases.html
     \title Release Notes
 
+    \section1 1.2.2 (XX-10-2021)
+
+    \section2 core libs
+    \list
+    \li QCSUtils::calculate treats expressions case insensitive to be consistent with MEDM.
+    \endlist
+
     \section1 1.2.1 (08-10-2021)
 
     \section2 quick components

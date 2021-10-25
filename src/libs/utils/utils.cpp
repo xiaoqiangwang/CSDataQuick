@@ -151,6 +151,7 @@ QString QCSUtils::format(QString format, double number)
 
     Evalute an \a expression based on given \a input variables.
     This calls \c postfix and \c calcPerform functions from EPICS base.
+    \note The \a expression is treated case insensitive.
 */
 double QCSUtils::calculate(QString expr, QVariantList input)
 {
@@ -163,7 +164,7 @@ double QCSUtils::calculate(QString expr, QVariantList input)
     foreach(QVariant v, input)
         d.push_back(v.toDouble());
     
-    status = postfix(expr.toLatin1().constData(), infix, &error);
+    status = postfix(expr.toLatin1().toUpper().constData(), infix, &error);
     if (status != 0)
         return qQNaN();
     
