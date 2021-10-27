@@ -2304,8 +2304,17 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         meterToQML(ostream, w, level, i);
     else if (widgetClass == "caStripPlot")
         stripChartToQML(ostream, w, level, i);
-    else if (widgetClass == "caLineEdit" || widgetClass == "caMultiLineString")
-        textUpdateToQML(ostream, w, level, i);
+    else if (widgetClass == "caLineEdit" || widgetClass == "caMultiLineString") {
+        QString chan;
+        foreach (DomProperty *v , w->elementProperty()) {
+            if (v->attributeName() == "channel")
+                chan = v->elementString()->text();
+        }
+        if (chan.isEmpty())
+            labelToQML(ostream, w, level, i);
+        else
+            textUpdateToQML(ostream, w, level, i);
+    }
     else if (widgetClass == "caChoice")
         choiceButtonToQML(ostream, w, level, i);
     else if (widgetClass == "caMenu")
