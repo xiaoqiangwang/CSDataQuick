@@ -17,14 +17,21 @@ set(CMAKE_AUTORCC ON)
 endif()
 
 cmake_policy(SET CMP0020 NEW)
+if (NOT CMAKE_VERSION VERSION_LESS 3.3)
+cmake_policy(SET CMP0057 NEW)
+endif()
 if (NOT CMAKE_VERSION VERSION_LESS 3.10)
 cmake_policy(SET CMP0071 NEW)
+endif()
+if (NOT CMAKE_VERSION VERSION_LESS 3.13)
+cmake_policy(SET CMP0079 NEW)
 endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}
     COMPONENTS Gui Widgets Qml Quick Network PrintSupport Test
-    OPTIONAL_COMPONENTS Concurrent)
+    OPTIONAL_COMPONENTS Concurrent QmlWorkerScript
+    QUIET)
 
 # Use c++11 or c++0x
 if (CMAKE_VERSION VERSION_LESS 3.1 AND CMAKE_COMPILER_IS_GNUCXX)

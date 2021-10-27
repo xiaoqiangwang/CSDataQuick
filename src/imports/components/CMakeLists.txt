@@ -13,7 +13,6 @@ csdq_add_qml_module(
         Qt${QT_VERSION_MAJOR}::Gui
         Qt${QT_VERSION_MAJOR}::Widgets
         Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::Concurrent
         Qt${QT_VERSION_MAJOR}::PrintSupport
         csparser
         csdata
@@ -204,3 +203,7 @@ csdq_add_qml_module(
         designer/images/cursor-cross.png
         designer/csdatacomponents.metainfo
 )
+
+if (TARGET Qt${QT_VERSION_MAJOR}::Concurrent)
+    target_link_libraries(csdatacomponentsplugin PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
+endif()
