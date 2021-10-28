@@ -61,7 +61,7 @@ CSControl {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     elide: Text.ElideRight
-                    color: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+                    color: (colorMode == ColorMode.Alarm && alarmMode == AlarmMode.Foreground && !Utils.inPuppet) ? root.alarmColor : root.foreground
                     font.pixelSize: root.font.size
                     font.family: root.font.family
                 }
@@ -77,10 +77,10 @@ CSControl {
                     anchors.right: parent.right
                     anchors.rightMargin: 7
                     opacity: control.enabled ? 0.7 : 0.5
-                    color: root.background
+                    color: (colorMode == ColorMode.Alarm && alarmMode == AlarmMode.Background && !Utils.inPuppet) ? root.alarmColor : root.background
                 }
                 shadow: FrameShadow.Raise
-                color: root.background
+                color: (colorMode == ColorMode.Alarm && alarmMode == AlarmMode.Background && !Utils.inPuppet) ? root.alarmColor : root.background
             }
             panel: Item {
                 property bool popup: false

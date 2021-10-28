@@ -18,6 +18,11 @@ BaseItem {
     id: root
     /*! This property indicates how foreground color changes. \sa ColorMode, */
     property int colorMode: ColorMode.Static
+    /*! This property inidicates where the alarmColor is applied. \sa AlarmMode
+
+        The alarmColor can be applied to foreground (default) or background.
+    */
+    property int alarmMode: AlarmMode.Foreground
     /*! This property holds the data source string */
     property string source
     /*! This property holds the color based on the severity of the associated CSData.
@@ -58,7 +63,7 @@ BaseItem {
 
     Rectangle {
         anchors.fill: parent
-        color: background
+        color: (root.colorMode == ColorMode.Alarm && root.alarmMode == AlarmMode.Background && !Utils.inPuppet) ? root.alarmColor : root.background
     }
 
     Rectangle {

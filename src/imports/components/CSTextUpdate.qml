@@ -95,7 +95,7 @@ CSMonitor {
         }
         verticalAlignment: Text.AlignVCenter
         text: Utils.inPuppet ? root.source : (formatter.text + (root.unitsVisible ? ' ' + root.csdata.units : ''))
-        color: (root.colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        color: (root.colorMode == ColorMode.Alarm && root.alarmMode == AlarmMode.Foreground && !Utils.inPuppet) ? root.alarmColor : root.foreground
         clip: true
     }
 }
