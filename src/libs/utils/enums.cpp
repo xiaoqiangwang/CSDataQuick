@@ -104,6 +104,19 @@
 */
 
 /*!
+    \qmlproperty enumeration AlarmMode::AlarmMode
+
+    \table
+    \row
+        \li AlarmMode.Foreground
+        \li Change the object's foreground color to alarm colors.
+    \row
+        \li AlarmMode.Background
+        \li Change the object's background color to alarm colors.
+    \endtable
+*/
+
+/*!
     \qmltype Direction
     \inqmlmodule CSDataQuick.Components
     \brief Enums of item direction.

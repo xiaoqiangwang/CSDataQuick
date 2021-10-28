@@ -75,6 +75,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<FrameShadow>(uri, 1, 0, "FrameShadow", "FrameShadow Enum");
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");
+    qmlRegisterUncreatableType<AlarmMode>(uri, 1, 0, "AlarmMode", "AlarmMode Enum");
     qmlRegisterUncreatableType<Direction>(uri, 1, 0, "Direction", "Direction Enum");
     qmlRegisterUncreatableType<EdgeStyle>(uri, 1, 0, "EdgeStyle", "EdgeStyle Enum");
     qmlRegisterUncreatableType<FillStyle>(uri, 1, 0, "FillStyle", "FillStyle Enum");

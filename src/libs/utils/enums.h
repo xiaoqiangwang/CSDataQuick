@@ -84,6 +84,19 @@ private:
     DISABLE_CREATION(ColorMode)
 };
 
+class UTILS_EXPORT AlarmMode : public QObject
+{
+    Q_OBJECT
+public:
+    enum AlarmModeEnum {
+        Foreground = 0,
+        Background
+    };
+    Q_ENUM(AlarmModeEnum)
+private:
+    DISABLE_CREATION(AlarmMode)
+};
+
 class UTILS_EXPORT Direction : public QObject
 {
     Q_OBJECT
