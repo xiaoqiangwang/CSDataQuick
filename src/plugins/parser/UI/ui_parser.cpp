@@ -1552,6 +1552,10 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
+        else if (v->attributeName() == "alarmHandling") {
+            if (v->elementEnum().contains("Background"))
+                ostream << indent << "    alarmMode: AlarmMode.Background" << endl;
+        }
         else if (v->attributeName() == "font") {
             fontToQML(ostream, v->elementFont(), level);
         }
@@ -1634,6 +1638,8 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     ostream << indent << "CSMenu {" << endl;
     ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
+
+    ostream << indent << "    alarmMode: AlarmMode.Background" << endl;
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
