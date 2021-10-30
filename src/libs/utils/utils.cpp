@@ -196,13 +196,17 @@ bool QCSUtils::execute(QString program)
         program = qApp->applicationFilePath() + program.mid(6);
     }
     // only if program ends with "&", start detached
+    bool detached = false;
+    if (program.endsWith("&")) {
+        detached = true;
+        program.chop(1);
+    }
 #if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     QStringList args = QProcess::splitCommand(program);
     QProcess process;
     process.setProgram(args.takeFirst());
     process.setArguments(args);
-    if (args.last().endsWith("&")) {
-        args.last().chop(1);
+    if (detached) {
         return process.startDetached();
     }
     else {
@@ -212,10 +216,8 @@ bool QCSUtils::execute(QString program)
         return process.exitStatus() == QProcess::NormalExit;
     }
 #else
-    if (program.endsWith("&")) {
-        program.chop(1);
+    if (detached)
         return QProcess::startDetached(program);
-    }
     else
         return QProcess::execute(program) == 0;
 #endif
