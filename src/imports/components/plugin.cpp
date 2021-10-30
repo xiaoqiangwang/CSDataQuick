@@ -100,7 +100,7 @@ void CSDataComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *ur
 {
     Q_UNUSED(uri);
     engine->addImageProvider("doublerect", new DoubleRectProvider());
-    // disable this deprecation warning until Qt 5.15 is required
-    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
+    // TODO: disable these deprecation warnings until Qt 5.15 is required
+    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false\nqt.qml.context.warning=false");
 }
 
