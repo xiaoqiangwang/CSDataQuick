@@ -95,6 +95,9 @@ BaseItem {
             dialog.accepted.connect(function(){
                 runCommand(dialog.input)
             })
+            dialog.closed.connect(function() {
+                dialog.destroy()
+            })
         } else
             runCommand(command)
     }
