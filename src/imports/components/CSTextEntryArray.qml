@@ -175,7 +175,7 @@ CSControl {
            varlist = []
            Utils.vectorGet(csdata.value, varlist, index, count)
        }
-       for(var i=0; i<count; i++) {
+       for(var i=0; i<count && i<varlist.length; i++) {
            entries.itemAt(i).text = Utils.formatString(csdata, format, limits.prec, varlist[i])
        }
    }
