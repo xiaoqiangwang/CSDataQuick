@@ -1,6 +1,5 @@
 import QtQml 2.0
 import QtQuick 2.1
-import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
@@ -124,7 +123,7 @@ CSControl {
 
     Component {
         id: textLabel
-        Label {
+        Text {
             text: index < label.length ? label[index] : '#%1'.arg((index + root.index).toString())
             font.pixelSize: root.font.size
             font.family: root.font.family
