@@ -115,7 +115,7 @@ function dumpCSData(data) {
     text = '           Data Infomation\n\n'
     text += date + '\n\n'
     text += data.source + '\n'
-    text += '======================================\n'
+    text += '===================================\n'
     if (!data.connected) {
         text += 'diconnected'
         return text
