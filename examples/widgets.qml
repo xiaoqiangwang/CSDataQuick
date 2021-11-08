@@ -1,40 +1,15 @@
 import QtQuick 2.1
-import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.2
+import QtQuick.Window 2.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
 
-ApplicationWindow {
+Window {
     id: app
     width: 900
     height: 800
     color: ColorMap.windows_background
     title: 'Demo of CSDataQuick.Components'
-
-    menuBar: MenuBar {
-        Menu {
-            title: 'File'
-            MenuItem {
-                text: 'Exit'
-                onTriggered: app.close()
-            }
-        }
-        Menu {
-            title: 'Help'
-            MenuItem {
-                text: 'About'
-                onTriggered: aboutDialog.visible = true
-            }
-        }
-    }
-
-    MessageDialog {
-        id: aboutDialog
-        title: 'CSDataQuick Demo'
-        text: 'Demo of CSDataQuick.Components'
-        icon: StandardIcon.Information
-    }
 
     Column {
         anchors.fill: parent
