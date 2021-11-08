@@ -93,6 +93,10 @@ Window {
                 source: 'catest'
             }
 
+            CSSpinBox {
+                source: 'catest'
+            }
+
             CSMessageButton {
                 text: 'Click Me!'
                 pressMessage: "1"
@@ -125,6 +129,10 @@ Window {
                 source: 'bo'
             }
 
+            CSToggleButton {
+                source: 'bo'
+            }
+
             CSRelatedDisplay {
                 width: 80
                 label: 'More'
@@ -138,6 +146,10 @@ Window {
                 model: ListModel {
                     ListElement {label: 'List Directory'; command: 'ls -l' }
                 }
+            }
+
+            CSTextArea {
+                source: 'wavec'
             }
 
             CSTextEntryArray {
