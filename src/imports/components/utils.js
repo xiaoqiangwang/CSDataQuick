@@ -81,8 +81,10 @@ function popupDataLimitsDialog(parent) {
 
         parent.limits.precSrc  = dialog.limits.precSrc
         parent.limits.precUser = dialog.limits.precUser
+
+        dialog.destroy()
     })
-    dialog.closed.connect(function() {
+    dialog.rejected.connect(function() {
         dialog.destroy()
     })
 
