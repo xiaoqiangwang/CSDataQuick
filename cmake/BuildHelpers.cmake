@@ -409,7 +409,6 @@ Q_IMPORT_PLUGIN($<JOIN:${qml_dependencies_plugins},)\nQ_IMPORT_PLUGIN(>)"
             NAMES ${${plugin}_plugin} lib${${plugin}_plugin}
             PATHS ${${plugin}_path})
         if (lib_${plugin}_plugin)
-            message(${lib_${plugin}_plugin})
             target_link_libraries(${target} PRIVATE ${lib_${plugin}_plugin})
         elseif(TARGET ${${plugin}_plugin})
             target_sources(${target} PRIVATE $<TARGET_PROPERTY:${${plugin}_plugin},RESOURCES>)
