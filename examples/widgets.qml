@@ -138,8 +138,8 @@ Window {
                 width: 80
                 label: 'More'
                 model: ListModel {
-                    ListElement {label: 'test'; fname: 'widgets.qml'; args: ''; remove: false}
-                    ListElement {label: 'controls'; fname: 'controls.adl'; args: ''; remove: false}
+                    ListElement {label: 'test'; file: 'widgets.qml'; macro: ''; replace: true}
+                    ListElement {label: 'controls'; file: 'controls.adl'; macro: ''; replace: false}
                 }
             }
 
