@@ -3,7 +3,7 @@ import QtQuick 2.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -40,7 +40,7 @@ CSControl {
     implicitWidth: btn.implicitWidth
     implicitHeight: btn.implicitHeight
 
-    StyledCheckBox {
+    Private.StyledCheckBox {
         id: btn
         backgroundColor: root.background
         foregroundColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground

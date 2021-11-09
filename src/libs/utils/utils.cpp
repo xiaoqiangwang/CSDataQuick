@@ -450,7 +450,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display_or_engine, QUrl 
             return Q_NULLPTR;
         }
     }
-    if (QString(topLevel->metaObject()->className()).startsWith("BaseWindow_QMLTYPE")) {
+    if (topLevel->objectName() == "BaseWindow") {
         QString title = topLevel->property("title").toString();
         if (!title.isEmpty())
             window->setTitle(title);
@@ -462,8 +462,8 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display_or_engine, QUrl 
     } else {
         // attach context menu to the existing window
         QString temp = QString("import QtQuick 2.0\n"
-                               "import CSDataQuick.Components.Private 1.0\n"
-                               "ContextMenu {anchors.fill: parent; z:-1}\n");
+                               "import CSDataQuick.Components.Private 1.0 as Private\n"
+                               "Private.ContextMenu {anchors.fill: parent; z:-1}\n");
         QQmlComponent component(engine);
         component.setData(temp.toLocal8Bit(), QUrl());
         QQuickItem *contextMenu = qobject_cast<QQuickItem *>(component.create());

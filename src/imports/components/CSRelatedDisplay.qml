@@ -1,10 +1,9 @@
 import QtQml 2.2
 import QtQuick 2.1
-import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "utils.js" as UtilsJS
 
 /*!
@@ -131,7 +130,7 @@ BaseItem {
             columns: visual == RelatedDisplayVisual.Row ? displayModel.count : 1
             Repeater {
                 model: displayModel.count
-                StyledButton {
+                Compat.StyledButton {
                     text: displayModel.get(index).label
                     font: root.font
                     fontSizeMode: root.fontSizeMode
@@ -150,7 +149,7 @@ BaseItem {
     Component {
         id: doubleRect
         Image {
-            source: 'image://doublerect/' + foreground
+            source: 'image://doublerect/' + root.foreground
             fillMode: Image.PreserveAspectFit
             sourceSize.width: width
             sourceSize.height: height
@@ -159,20 +158,19 @@ BaseItem {
 
     Component {
         id: menuStyle
-        StyledButton {
+        Compat.StyledButton {
             text: root.label.replace(/^-/, '')
             font: root.font
             fontSizeMode: root.fontSizeMode
             backgroundColor: root.background
             foregroundColor: root.foreground
-            icon: root.label.charAt(0) != '-' ? doubleRect : null
+            iconItem: root.label.charAt(0) != '-' ? doubleRect : null
             align: displayModel.count <= 1 ? Text.AlignHCenter : Text.AlignLeft
-            menu: displayModel.count > 1 ? popupMenu : null
-            Menu {
+            Compat.Menu {
                 id: popupMenu
                 Instantiator {
                     model: displayModel
-                    delegate: MenuItem {
+                    delegate: Compat.MenuItem {
                         text: model.label
                         onTriggered: load(model.file, model.macro, model.replace)
                     }
@@ -185,6 +183,8 @@ BaseItem {
                     load(displayModel.get(0).file,
                          displayModel.get(0).macro,
                          displayModel.get(0).replace)
+                } else {
+                    popupMenu.popup()
                 }
             }
         }

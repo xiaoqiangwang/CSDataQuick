@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -113,7 +113,7 @@ CSControl {
         }
     }
 
-    StyledTextEntry {
+    Private.StyledTextEntry {
         id: textEntry
         anchors.fill: parent
         foreground: (root.colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground

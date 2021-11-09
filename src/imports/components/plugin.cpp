@@ -19,6 +19,7 @@
 #include "parsermanager.h"
 #include "imageprovider.h"
 
+#include <QQmlFileSelector>
 #include <QLoggingCategory>
 #include <qqml.h>
 
@@ -100,6 +101,11 @@ void CSDataComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *ur
 {
     Q_UNUSED(uri);
     engine->addImageProvider("doublerect", new DoubleRectProvider());
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    QQmlFileSelector* selector = new QQmlFileSelector(engine, engine);
+    QStringList customSelectors("controls2");
+    selector->setExtraSelectors(customSelectors);
+#endif
     // TODO: disable these deprecation warnings until Qt 5.15 is required
     QLoggingCategory::setFilterRules("qt.qml.connections.warning=false\nqt.qml.context.warning=false");
 }

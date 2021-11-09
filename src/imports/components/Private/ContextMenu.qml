@@ -1,24 +1,26 @@
 import QtQml 2.1
 import QtQuick 2.1
-import QtQuick.Controls 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "../utils.js" as UtilsJS
 
 MouseArea {
+    id: root
+
     acceptedButtons: Qt.RightButton
     onReleased: contextMenu.popup()
 
-    Menu {
+    Compat.Menu {
         id: contextMenu
-        MenuItem {
+        Compat.MenuItem {
             text: 'Print'
             onTriggered: {
                 WindowManager.printWindow(Utils.parentWindow(parent))
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Reload'
             onTriggered: {
                 // get current window file path and macro
@@ -28,7 +30,7 @@ MouseArea {
                 // hide current window
                 window.visible = false
                 // recreate window from file path and macro
-                var newWindow = Utils.createDisplayByFile(parent, filePath, macro)
+                var newWindow = Utils.createDisplayByFile(root, filePath, macro)
                 if (!newWindow) {
                     console.error("Failed to create window from ", filePath)
                     window.visible = true
@@ -42,13 +44,13 @@ MouseArea {
                 console.info('Reload ', filePath, macro)
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Close'
             onTriggered: {
                 WindowManager.closeWindow(Utils.parentWindow(parent))
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'MainWindow'
             onTriggered: {
                 var mainWindow  = WindowManager.mainWindow
@@ -58,25 +60,32 @@ MouseArea {
                 }
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Display List'
             onTriggered: {
+                if (typeof DisplayListDialog.parent !== 'undefined') {
+                    DisplayListDialog.parent = root
+                }
                 DisplayListDialog.open()
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Data Engines'
             onTriggered: {
+                if (typeof DataTableDialog.parent !== 'undefined') {
+                    DataTableDialog.parent = root
+                }
                 DataTableDialog.open()
             }
         }
-        Menu {
+        Compat.Menu {
             id: executeMenu
             title: 'Execute'
 
             Instantiator {
                 id: executeMenuInst
-                delegate: MenuItem {
+                model: 0
+                delegate: Compat.MenuItem {
                     text: modelData.label || ''
                     onTriggered: runCommand(modelData.command)
                 }
@@ -86,7 +95,6 @@ MouseArea {
             visible: executeMenuInst.count > 0
         }
     }
-
     Component.onCompleted: {
         var model = []
         var list = Utils.parseExecList()
@@ -96,9 +104,13 @@ MouseArea {
                 model.push(list[i])
             }
         }
-        executeMenuInst.model = model
+        if (model.length) {
+            executeMenuInst.model = model
+        } else {
+            if (typeof contextMenu.removeMenu === "function")
+                contextMenu.removeMenu(executeMenu)
+        }
     }
-
     function runCommand(command) {
         var window = Utils.parentWindow(parent)
         if (command.indexOf('&?')>=0) {

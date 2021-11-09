@@ -1,26 +1,27 @@
 pragma Singleton
+
 import QtQuick 2.0
-import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
-import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Data 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
-Dialog {
+Compat.Dialog {
     id: root
-    standardButtons: StandardButton.Ok
-    modality: Qt.NonModal
+    modal: false
 
-    contentItem: ColumnLayout {
+    height: 230
+
+    ColumnLayout {
         anchors.fill: parent
         anchors.margins: 5
         Row {
             spacing: 5
             Layout.fillWidth: true
-            Text {
+            Compat.Label {
                 text: 'Select Engine'
             }
-            ComboBox {
+            Compat.ComboBox {
                 id: engineCombo
                 implicitWidth: 200
                 model: DataEngineManager.engines
@@ -28,44 +29,17 @@ Dialog {
                 property var engine:  DataEngineManager.engines[currentIndex]
             }
         }
-        TableView {
+        Compat.DataTable {
             id: pvTable
             Layout.fillWidth: true
             Layout.fillHeight: true
-            sortIndicatorVisible: true
-            TableViewColumn {
-                title: 'Source'
-                role: 'source'
-            }
-            TableViewColumn {
-                title: 'Connection'
-                role: 'connected'
-                width: 80
-                delegate: Text {
-                    text: styleData.value ? 'connected' : 'disconnected'
-                    color: styleData.value ? 'green' : 'red'
-                }
-            }
+
             model: proxyModel
-
-            SortFilterProxyModel {
-                id: proxyModel
-                source: root.visible ? engineCombo.engine.allData : null
-
-                sortOrder: pvTable.sortIndicatorOrder
-                sortCaseSensitivity: Qt.CaseInsensitive
-                sortRole: pvTable.getColumn(pvTable.sortIndicatorColumn).role
-
-                filterString: searchBox.text
-                filterRole: 'source'
-                filterSyntax: SortFilterProxyModel.RegExp
-                filterCaseSensitivity: Qt.CaseInsensitive
-            }
         }
-        TextField {
+        Compat.TextField {
             id: searchBox
             Layout.fillWidth: true
-            Text {
+            Compat.Label {
                 x: searchBox.focus ? 20 : (parent.width - implicitWidth) / 2
                 anchors.verticalCenter: parent.verticalCenter
                 text: "Look for a data source?"
@@ -75,6 +49,19 @@ Dialog {
                     NumberAnimation {duration:200}
                 }
             }
+        }
+        SortFilterProxyModel {
+            id: proxyModel
+            source: (root.visible && engineCombo.engine)? engineCombo.engine.allData : null
+
+            //sortOrder: pvTable.sortIndicatorOrder
+            sortCaseSensitivity: Qt.CaseInsensitive
+            //sortRole: pvTable.getColumn(pvTable.sortIndicatorColumn).role
+
+            filterString: searchBox.text
+            filterRole: 'source'
+            filterSyntax: SortFilterProxyModel.RegExp
+            filterCaseSensitivity: Qt.CaseInsensitive
         }
     }
 }

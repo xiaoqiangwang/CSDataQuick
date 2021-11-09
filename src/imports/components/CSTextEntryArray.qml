@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -83,7 +83,7 @@ CSControl {
 
     Component {
         id: textEntry
-        StyledTextEntry {
+        Private.StyledTextEntry {
             foreground: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             background: root.background
             font.pixelSize: root.font.size

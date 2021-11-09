@@ -2,7 +2,7 @@ import QtQml 2.0
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -47,7 +47,7 @@ CSMonitor {
     /*! The operation limits */
     limits.precChannel: csdata.precision
 
-    Meter {
+    Private.Meter {
         id: meter
         anchors.fill: parent
 

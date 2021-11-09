@@ -98,7 +98,6 @@ csdq_add_qml_module(
         Private/SliderControl.qml
         Private/StyledAxis.qml
         Private/StyledBar.qml
-        Private/StyledButton.qml
         Private/StyledCheckBox.qml
         Private/StyledFrame.qml
         Private/StyledTextEntry.qml
@@ -114,6 +113,41 @@ csdq_add_qml_module(
         Private/images/groove_horz.png
         Private/images/groove_vert.png
         Private/images/groupbox.png
+        # QtQuick.Controls 1/2 compatible
+        Compat/qmldir
+        Compat/ApplicationWindow.qml
+        Compat/Button.qml
+        Compat/ComboBox.qml
+        Compat/DataTable.qml
+        Compat/Dialog.qml
+        Compat/ExclusiveButtonGroup.qml
+        Compat/Label.qml
+        Compat/Menu.qml
+        Compat/MenuBar.qml
+        Compat/MenuItem.qml
+        Compat/ScrollView.qml
+        Compat/StyledButton.qml
+        Compat/StyledComboBox.qml
+        Compat/StyledSpinBox.qml
+        Compat/StyledTextArea.qml
+        Compat/TextField.qml
+        Compat/+controls2/ApplicationWindow.qml
+        Compat/+controls2/Button.qml
+        Compat/+controls2/ComboBox.qml
+        Compat/+controls2/DataTable.qml
+        Compat/+controls2/Dialog.qml
+        Compat/+controls2/ExclusiveButtonGroup.qml
+        Compat/+controls2/Label.qml
+        Compat/+controls2/Menu.qml
+        Compat/+controls2/MenuBar.qml
+        Compat/+controls2/MenuItem.qml
+        Compat/+controls2/ScrollView.qml
+        Compat/+controls2/StyledButton.qml
+        Compat/+controls2/StyledComboBox.qml
+        Compat/+controls2/StyledSpinBox.qml
+        Compat/+controls2/StyledTextArea.qml
+        Compat/+controls2/TextField.qml
+        # qmldesigner widgets
         designer/qmldir
         designer/AligmentHorizontalButtonsFix.qml
         designer/BaseWindowSpecifics.qml

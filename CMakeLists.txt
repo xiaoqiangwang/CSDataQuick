@@ -29,7 +29,7 @@ endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}
-    COMPONENTS Gui Widgets Qml Quick Network PrintSupport Test
+    COMPONENTS Gui Widgets Qml Quick QuickControls2 Network PrintSupport Test
     OPTIONAL_COMPONENTS Concurrent QmlWorkerScript
     QUIET)
 

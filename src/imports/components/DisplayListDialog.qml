@@ -2,34 +2,21 @@ pragma Singleton
 
 import QtQml 2.0
 import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
-Dialog {
+Compat.Dialog {
     id: displayDialog
-    modality: Qt.NonModal
-    // content item is a window list viewer
-    Component {
-        id: sectionHeading
-        Rectangle {
-            width: parent.width
-            height: childrenRect.height
-            color: "lightsteelblue"
-            Text {
-                text: section
-                font.bold: true
-            }
-        }
-    }
 
-    contentItem: ScrollView {
+    Compat.ScrollView {
+        anchors.fill: parent
         ListView {
+            id: listView
+            contentWidth: contentItem.childrenRect.width
+            flickableDirection: Flickable.AutoFlickDirection
             model: WindowManager.entries
-            delegate: Text {
-                width: parent.width
-                wrapMode: Text.WordWrap
+            delegate: Compat.Label {
                 text: macro ? macro : '<<No Macro Substitute>>'
                 MouseArea {
                     anchors.fill: parent
@@ -41,12 +28,14 @@ Dialog {
             }
             section.property: "filePath"
             section.criteria: ViewSection.FullString
-            section.delegate: sectionHeading
+            section.delegate: Compat.Label {
+                text: section
+                font.bold: true
+            }
 
             onCountChanged: {
                 positionViewAtIndex(count-1, ListView.Beginning)
             }
         }
     }
-    standardButtons: StandardButton.Ok
 }

@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
 import "utils.js" as UtilsJS
 
 /*!

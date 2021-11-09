@@ -1,9 +1,8 @@
 import QtQml 2.0
 import QtQuick 2.0
-import QtQuick.Window 2.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 
 /*!
     \qmltype BaseWindow
@@ -25,6 +24,8 @@ import CSDataQuick.Components.Private 1.0
 */
 Rectangle {
     id: root
+    objectName: 'BaseWindow'
+
     /*! This property holds the window title */
     property string title
 
@@ -59,7 +60,7 @@ Rectangle {
         property double oldHeight: NaN
     }
 
-    ContextMenu {
+    Private.ContextMenu {
         anchors.fill: parent
     }
 }

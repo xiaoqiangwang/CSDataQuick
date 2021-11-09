@@ -36,6 +36,7 @@ public:
         _handler = metaObject ()->method(metaObject()->indexOfMethod ("onObjectPropertyChanged()"));
     }
 
+    virtual int columnCount(const QModelIndex & parent = QModelIndex()) const;
     virtual int rowCount(const QModelIndex & parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual QHash<int, QByteArray> roleNames() const;

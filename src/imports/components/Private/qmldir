@@ -1,14 +1,13 @@
 module CSDataQuick.Components.Private
 ContextMenu     1.0 ContextMenu.qml
-StyledFrame     1.0 StyledFrame.qml
 GroupBoxStyle   1.0 GroupBoxStyle.qml
 Indicator       1.0 Indicator.qml
 Meter           1.0 Meter.qml
 SliderControl   1.0 SliderControl.qml
 StyledAxis      1.0 StyledAxis.qml	
 StyledBar       1.0 StyledBar.qml
-StyledButton    1.0 StyledButton.qml
 StyledCheckBox  1.0 StyledCheckBox.qml
+StyledFrame     1.0 StyledFrame.qml
 StyledTextEntry 1.0 StyledTextEntry.qml
 WheelDigit      1.0 WheelDigit.qml
 WheelSwitch     1.0 WheelSwitch.qml

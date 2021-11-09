@@ -1,10 +1,9 @@
 import QtQml 2.0
 import QtQuick 2.1
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.1
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
 /*!
     \qmltype CSTextArea
@@ -38,13 +37,11 @@ CSControl {
     implicitWidth: textArea.implicitWidth
     implicitHeight: textArea.implicitHeight
 
-    TextArea {
+    Compat.StyledTextArea {
         id: textArea
         anchors.fill: parent
-        style: TextAreaStyle {
-            textColor: root.foreground
-            backgroundColor: root.background
-        }
+        foregroundColor: root.foreground
+        backgroundColor: root.background
     }
 
     Connections {
@@ -76,7 +73,7 @@ CSControl {
     }
 
     Component.onCompleted: {
-        var item = contextMenu.addItem("Apply")
+        var item = contextMenu.addItemByTitle("Apply")
         item.triggered.connect(apply)
     }
 

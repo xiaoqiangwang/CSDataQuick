@@ -1,10 +1,9 @@
 import QtQml 2.0
 import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "utils.js" as UtilsJS
 
 /*!
@@ -38,28 +37,20 @@ CSControl {
         property bool blockUpdate: true
     }
 
-    SpinBox {
+    Compat.StyledSpinBox {
         id: spin
         anchors.fill: parent
-        suffix: root.unitsVisible ? csdata.units : ''
+        font.pixelSize: root.font.size
+        font.family: root.font.family
+        suffixText: root.unitsVisible ? csdata.units : ''
         decimals: limits.prec
-        stepSize: Math.pow(10, -decimals)
         minimumValue: limits.lopr
         maximumValue: limits.hopr
-        style: SpinBoxStyle {
-            font.family: root.font.family
-            font.pixelSize: root.font.size
-            textColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
-            selectedTextColor: Qt.lighter(textColor)
-            selectionColor: Qt.darker(root.background)
-            background: Rectangle {
-                implicitHeight: Math.max(25, Math.round(styleData.contentHeight * 1.2))
-                implicitWidth: styleData.contentWidth + padding.left + padding.right
-                baselineOffset: spin.__baselineOffset
-                color: root.background
-            }
-        }
-        onValueChanged: if (!d.blockUpdate) csdata.value = value
+
+        foregroundColor: (colorMode == ColorMode.Alarm && alarmMode == AlarmMode.Foreground && !Utils.inPuppet) ? root.alarmColor : root.foreground
+        backgroundColor: (colorMode == ColorMode.Alarm && alarmMode == AlarmMode.Background && !Utils.inPuppet) ? root.alarmColor : root.background
+
+        onDoubleValueChanged: if (!d.blockUpdate) csdata.value = doubleValue
     }
 
     Connections {
@@ -72,7 +63,7 @@ CSControl {
         }
         onValueChanged: {
             d.blockUpdate = true
-            spin.value = csdata.value
+            spin.doubleValue = csdata.value
             d.blockUpdate = false
         }
     }

@@ -1,10 +1,9 @@
 import QtQml 2.0
 import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "utils.js" as UtilsJS
 
 /*!
@@ -40,21 +39,23 @@ BaseItem {
         source: root.source
     }
     /*! \internal */
-    property Menu contextMenu: Menu {
-        MenuItem {
+    property var contextMenu: Compat.Menu {
+        Compat.MenuItem {
             text: 'Data Info'
             onTriggered: {
+                if (typeof DataInfoDialog.parent !== "undefined")
+                    DataInfoDialog.parent = root
                 DataInfoDialog.info = UtilsJS.dumpCSData(csdata)
                 DataInfoDialog.open()
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Data Limits'
             onTriggered: {
                 UtilsJS.popupDataLimitsDialog(root)
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Copy Source'
             onTriggered: {
                 Utils.copyToClipboard(root.source)

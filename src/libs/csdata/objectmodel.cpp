@@ -19,6 +19,12 @@ QHash<int, QByteArray> ObjectModel::roleNames () const
     return _roles;
 }
 
+int ObjectModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return _roles.size();
+}
+
 int ObjectModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

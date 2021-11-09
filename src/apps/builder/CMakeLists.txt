@@ -8,5 +8,6 @@ csdq_add_executable(${APP}
     DEPENDS
         Qt${QT_VERSION_MAJOR}::Gui
         Qt${QT_VERSION_MAJOR}::Qml
+        Qt${QT_VERSION_MAJOR}::QuickControls2
         csdata
 )

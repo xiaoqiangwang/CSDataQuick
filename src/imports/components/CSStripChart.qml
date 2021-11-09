@@ -1,11 +1,10 @@
 import QtQml 2.0
 import QtQuick 2.0
-import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
-import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
 /*!
     \qmltype CSStripChart
@@ -140,16 +139,16 @@ BaseItem {
         onContextMenuRequested: contextMenu.popup()
     }
 
-    Menu {
+    Compat.Menu {
         id: contextMenu
-        MenuItem {
+        Compat.MenuItem {
             text: 'Axes Range'
             onTriggered: {
                 dialog.pvs = d.pvs
                 dialog.open()
             }
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Legend'
             checkable: true
             checked: plot.legendVisible
@@ -173,13 +172,13 @@ BaseItem {
         }
     }
 
-    Dialog {
+    Compat.Dialog {
         id: dialog
         title: 'Define Axis Range'
 
         property var pvs
 
-        contentItem: GridLayout {
+        GridLayout {
             anchors.fill: parent
             columns: 5
             rowSpacing: 2
@@ -187,7 +186,7 @@ BaseItem {
 
             Repeater {
                 model: dialog.pvs
-                Text {
+                Compat.Label {
                     text: modelData.source
                     horizontalAlignment: Text.AlignRight
                     Layout.row: index
@@ -196,7 +195,7 @@ BaseItem {
             }
             Repeater {
                 model: dialog.pvs
-                ComboBox {
+                Compat.ComboBox {
                     model: sourceModel
                     textRole: "text"
                     currentIndex: modelData.limits.loprSrc
@@ -209,7 +208,7 @@ BaseItem {
             }
             Repeater {
                 model: dialog.pvs
-                TextField {
+                Compat.TextField {
                     implicitWidth: 80
                     text: modelData.limits.lopr
                     validator: DoubleValidator {}
@@ -221,7 +220,7 @@ BaseItem {
             }
             Repeater {
                 model: dialog.pvs
-                ComboBox {
+                Compat.ComboBox {
                     model: sourceModel
                     textRole: "text"
                     currentIndex: modelData.limits.hoprSrc
@@ -234,7 +233,7 @@ BaseItem {
             }
             Repeater {
                 model: dialog.pvs
-                TextField {
+                Compat.TextField {
                     implicitWidth: 80
                     text: modelData.limits.hopr
                     validator: DoubleValidator {}
@@ -242,14 +241,6 @@ BaseItem {
                     onAccepted: modelData.limits.hoprUser = parseFloat(text)
                     Layout.row: index
                     Layout.column: 4
-                }
-            }
-            Button {
-                id: ok
-                text: 'Done'
-                onClicked: {
-                    dialog.accepted()
-                    dialog.close()
                 }
             }
         }
