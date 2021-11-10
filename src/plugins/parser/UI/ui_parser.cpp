@@ -539,7 +539,6 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "StyledGroupBox {" << endl;
-    ostream << indent << "    property font font" << endl;
     layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
@@ -559,10 +558,6 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
 
     foreach (DomWidget *child, orderedChildWidgets(w)) {
         widgetToQML(ostream, child, level+1);
-    }
-
-    if (w->elementWidget().size() != 0) {
-       // ostream << indent << "    contentItem.anchors.topMargin: 0" << endl;
     }
 
     ostream << indent << "}" << endl;
