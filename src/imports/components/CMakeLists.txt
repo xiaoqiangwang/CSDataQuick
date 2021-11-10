@@ -100,6 +100,7 @@ csdq_add_qml_module(
         Private/StyledBar.qml
         Private/StyledCheckBox.qml
         Private/StyledFrame.qml
+        Private/StyledGroupBox.qml
         Private/StyledTextEntry.qml
         Private/WheelDigit.qml
         Private/WheelSwitch.qml

@@ -8,6 +8,7 @@ StyledAxis      1.0 StyledAxis.qml
 StyledBar       1.0 StyledBar.qml
 StyledCheckBox  1.0 StyledCheckBox.qml
 StyledFrame     1.0 StyledFrame.qml
+StyledGroupBox  1.0 StyledGroupBox.qml
 StyledTextEntry 1.0 StyledTextEntry.qml
 WheelDigit      1.0 WheelDigit.qml
 WheelSwitch     1.0 WheelSwitch.qml
