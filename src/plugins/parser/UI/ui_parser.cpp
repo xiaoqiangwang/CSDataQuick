@@ -451,6 +451,7 @@ void UI::spacerToQML(QTextStream& ostream, DomSpacer *l, int level, DomLayoutIte
     layoutItemToQML(ostream, i, 0, "Expanding", "Expanding", level);
 
     QString orientation = "Qt::Horizontal";
+    bool fixed = false;
     foreach (DomProperty *v, uniqueProperties(l->elementProperty())) {
         if (v->attributeName() == "orientation") {
             orientation = v->elementEnum();
@@ -460,11 +461,17 @@ void UI::spacerToQML(QTextStream& ostream, DomSpacer *l, int level, DomLayoutIte
             ostream << indent << "    Layout.preferredWidth: " << s->elementWidth() << endl;
             ostream << indent << "    Layout.preferredHeight: " << s->elementHeight() << endl;
         }
+        else if (v->attributeName() == "sizeType") {
+            if (v->elementEnum().contains("Fixed"))
+                fixed = true;
+        }
     }
-    if (orientation == "Qt::Horizontal")
-        ostream << indent << "    Layout.fillWidth: true" << endl;
-    else
-        ostream << indent << "    Layout.fillHeight: true" << endl;
+    if (!fixed) {
+        if (orientation == "Qt::Horizontal")
+            ostream << indent << "    Layout.fillWidth: true" << endl;
+        else
+            ostream << indent << "    Layout.fillHeight: true" << endl;
+    }
 
     ostream << indent << "}" << endl;
 }
