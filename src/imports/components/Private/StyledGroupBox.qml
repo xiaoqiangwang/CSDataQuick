@@ -37,7 +37,7 @@ Item {
     BorderImage {
         id: frame
         anchors.fill: parent
-        anchors.topMargin: padding / 2
+        anchors.topMargin: title.length > 0 ? label.implicitHeight / 2: 0
         source: "images/groupbox.png"
         border.left: 4
         border.right: 4

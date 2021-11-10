@@ -1517,7 +1517,7 @@ void Object::exitButtonToQML(std::ostream& ostream)
     ostream << indent << "BaseItem {" << std::endl;
     rectToQML(ostream);
 
-    ostream << indent << "    StyledButton {" << std::endl;
+    ostream << indent << "    Compat.StyledButton {" << std::endl;
     ostream << indent << "        anchors.fill: parent" << std::endl;
     ostream << indent << "        foregroundColor: " << getColor("fgColor") << std::endl;
     ostream << indent << "        backgroundColor: " << getColor("bgColor") << std::endl;
@@ -1772,7 +1772,7 @@ void Screen::toQML(std::ostream& ostream)
     ostream << "import QtQuick 2.0\n";
     ostream << "import CSDataQuick.Data 1.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
-    ostream << "import CSDataQuick.Components.Private 1.0\n";
+    ostream << "import CSDataQuick.Components.Compat 1.0 as Compat\n";
     ostream << "BaseWindow {\n";
     Object::rectToQML(ostream);
     
@@ -1823,7 +1823,7 @@ void Screen::toPartialQML(std::ostream& ostream)
     ostream << "import QtQuick 2.0\n";
     ostream << "import CSDataQuick.Data 1.0\n";
     ostream << "import CSDataQuick.Components 1.0\n";
-    ostream << "import CSDataQuick.Components.Private 1.0\n";
+    ostream << "import CSDataQuick.Components.Compat 1.0 as Compat\n";
     ostream << "Item {\n";
     ostream << "    anchors.fill: parent\n";
     for (auto it = objects.begin(); it != objects.end(); ++it) {
