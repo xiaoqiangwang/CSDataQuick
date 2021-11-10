@@ -539,7 +539,7 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
     QString indent(level * 4, ' ');
 
     ostream << indent << "StyledGroupBox {" << endl;
-    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
