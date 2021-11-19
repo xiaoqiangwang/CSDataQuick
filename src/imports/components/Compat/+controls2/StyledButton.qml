@@ -1,10 +1,11 @@
 import QtQuick 2.1
-import QtQuick.Controls 2.2
+import QtQuick.Templates 2.5 as T
+import QtQuick.Controls 2.5
 
 import CSDataQuick.Components 1.0
 import CSDataQuick.Components.Private 1.0 as Private
 
-Button {
+T.Button {
     id: root
     property color backgroundColor: Pallete.button
     property color foregroundColor: Pallete.buttonText
@@ -12,6 +13,12 @@ Button {
     property int align: Text.AlignHCenter
     property Component iconItem: null
     property var exclusiveGroup: null
+
+
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
 
     padding: 3
 
@@ -45,18 +52,7 @@ Button {
                 horizontalAlignment: root.align
                 color: root.foregroundColor
                 // bind font properties
-                font.bold: root.font.bold
-                font.capitalization: root.font.capitalization
-                font.family: root.font.family
-                font.hintingPreference: root.font.hintingPreference
-                font.italic: root.font.italic
-                font.letterSpacing: root.font.letterSpacing
-                font.pixelSize: root.font.pixelSize
-                font.strikeout: root.font.strikeout
-                font.styleName: root.font.styleName
-                font.underline: root.font.underline
-                font.weight: root.font.weight
-                font.wordSpacing: root.font.wordSpacing
+                font: root.font
                 minimumPixelSize: 8
                 fontSizeMode: root.fontSizeMode
                 Binding on font.pixelSize {
