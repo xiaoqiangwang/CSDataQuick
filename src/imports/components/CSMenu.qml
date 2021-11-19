@@ -48,7 +48,7 @@ CSControl {
                 currentIndex = csdata.value
         }
         onActivated: {
-            csdata.setValue(combo_control.currentIndex)
+            csdata.setValue(index)
         }
     }
 
