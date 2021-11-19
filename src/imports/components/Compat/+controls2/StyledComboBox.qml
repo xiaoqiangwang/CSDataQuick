@@ -1,22 +1,28 @@
+import QtQml 2.1
 import QtQuick 2.0
-import QtQuick.Controls 2.2
+import QtQuick.Templates 2.5 as T
+import QtQuick.Controls 2.5
+
 
 import CSDataQuick.Components 1.0
 import CSDataQuick.Components.Private 1.0 as Private
 
-ComboBox {
+T.ComboBox {
     id: root
 
     property color backgroundColor: 'white'
     property color foregroundColor: 'black'
-    /*
+
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
+
+
+
     delegate: ItemDelegate {
-       background: Rectangle {
-            color: root.backgroundColor
-        }
         text: modelData
     }
-    */
 
     indicator: Private.StyledFrame {
         width: 9
@@ -44,5 +50,19 @@ ComboBox {
         anchors.fill: parent
         shadow: FrameShadow.Raise
         color: root.backgroundColor
+    }
+    popup: Menu {
+        id: popupMenu
+        y: root.height - 1
+        Instantiator {
+            id: executeMenuInst
+            model: root.model
+            delegate: MenuItem {
+                text: modelData
+                onTriggered: root.activated(index)
+            }
+            onObjectAdded: popupMenu.insertItem(index, object)
+            onObjectRemoved: popupMenu.removeItem(object)
+        }
     }
 }
