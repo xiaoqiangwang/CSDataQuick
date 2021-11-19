@@ -95,6 +95,7 @@ Window {
 
             CSSpinBox {
                 source: 'catest'
+                unitsVisible: true
             }
 
             CSMessageButton {
