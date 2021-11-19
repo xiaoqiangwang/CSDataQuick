@@ -23,7 +23,7 @@ T.Button {
     padding: 3
 
     background: Private.StyledFrame {
-        implicitWidth: Math.round(Private.TextSingleton.implicitHeight * 4.5)
+        implicitWidth: Math.round(Private.TextSingleton.implicitWidth * Math.max(text.length, 5))
         implicitHeight: Math.max(25, Math.round(Private.TextSingleton.implicitHeight * 1.2))
         color: root.backgroundColor
         shadow: (root.pressed || root.checked) ? FrameShadow.Sunken : FrameShadow.Raise
@@ -55,10 +55,6 @@ T.Button {
                 font: root.font
                 minimumPixelSize: 8
                 fontSizeMode: root.fontSizeMode
-                Binding on font.pixelSize {
-                    when: root.fontSizeMode != Text.FixedSize
-                    value: height
-                }
             }
         }
     }
