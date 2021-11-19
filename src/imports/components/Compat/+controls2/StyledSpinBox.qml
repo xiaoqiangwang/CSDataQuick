@@ -1,10 +1,10 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.3
+import QtQuick.Templates 2.5 as T
 
 import CSDataQuick.Components 1.0
 import CSDataQuick.Components.Private 1.0 as Private
 
-SpinBox {
+T.SpinBox {
     id: root
 
     property double doubleValue: 0
@@ -19,7 +19,11 @@ SpinBox {
     to: maximumValue * d.divider
     editable: true
 
-    implicitHeight: 25
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             implicitContentHeight + topPadding + bottomPadding)
+
 
     spacing: 2
 
@@ -51,6 +55,8 @@ SpinBox {
     }
 
     background: Private.StyledFrame {
+        implicitWidth: Math.round(Private.TextSingleton.implicitWidth * (decimals + 2 + root.suffixText.length))
+        implicitHeight: Math.max(25, Math.round(Private.TextSingleton.implicitHeight * 1.2))
         color: root.backgroundColor
         shadow: FrameShadow.Sunken
     }
