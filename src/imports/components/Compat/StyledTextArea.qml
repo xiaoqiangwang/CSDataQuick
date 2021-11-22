@@ -1,5 +1,8 @@
 import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.1
+import QtQuick.Controls.Styles 1.4
+
+import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 
 TextArea {
     id: root
@@ -7,8 +10,14 @@ TextArea {
     property color foregroundColor: 'black'
     property color backgroundColor: 'white'
 
+    backgroundVisible: false
+
     style: TextAreaStyle {
         textColor: root.foregroundColor
-        backgroundColor: root.backgroundColor
+
+        frame: Private.StyledFrame {
+            color: root.backgroundColor
+            shadow: FrameShadow.Sunken
+        }
     }
 }
