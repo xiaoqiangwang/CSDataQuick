@@ -6588,7 +6588,7 @@ void QCPAxisTickerDateTime::setDateTimeSpec(Qt::TimeSpec spec)
   mDateTimeSpec = spec;
 }
 
-# if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+# if QT_CONFIG(timezone) // XW: check timezone support
 /*!
   Sets the time zone that is used for creating the tick labels from corresponding dates/times. The
   time spec (\ref setDateTimeSpec) is set to \c Qt::TimeZone.
@@ -6715,7 +6715,7 @@ QString QCPAxisTickerDateTime::getTickLabel(double tick, const QLocale &locale, 
 {
   Q_UNUSED(precision)
   Q_UNUSED(formatChar)
-# if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+# if QT_CONFIG(timezone) // XW: check timezone support
   if (mDateTimeSpec == Qt::TimeZone)
     return locale.toString(keyToDateTime(tick).toTimeZone(mTimeZone), mDateTimeFormat);
   else

@@ -101,7 +101,7 @@
 #if QT_VERSION >= QT_VERSION_CHECK(4, 8, 0)
 #  include <QtCore/QElapsedTimer>
 #endif
-# if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+# if QT_CONFIG(timezone) // XW: check timezone support
 #  include <QtCore/QTimeZone>
 #endif
 
@@ -1741,14 +1741,14 @@ public:
   // getters:
   QString dateTimeFormat() const { return mDateTimeFormat; }
   Qt::TimeSpec dateTimeSpec() const { return mDateTimeSpec; }
-# if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+# if QT_CONFIG(timezone) // XW: check timezone support
   QTimeZone timeZone() const { return mTimeZone; }
 #endif
   
   // setters:
   void setDateTimeFormat(const QString &format);
   void setDateTimeSpec(Qt::TimeSpec spec);
-# if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+# if QT_CONFIG(timezone) // XW: check timezone support
   void setTimeZone(const QTimeZone &zone);
 # endif
   void setTickOrigin(double origin); // hides base class method but calls baseclass implementation ("using" throws off IDEs and doxygen)
@@ -1763,7 +1763,7 @@ protected:
   // property members:
   QString mDateTimeFormat;
   Qt::TimeSpec mDateTimeSpec;
-# if QT_VERSION >= QT_VERSION_CHECK(5, 2, 0)
+# if QT_CONFIG(timezone) // XW: check timezone support
   QTimeZone mTimeZone;
 # endif
   // non-property members:
