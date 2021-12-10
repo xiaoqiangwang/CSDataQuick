@@ -185,6 +185,7 @@ double QCSUtils::calculate(QString expr, QVariantList input)
 */
 bool QCSUtils::execute(QString program)
 {
+#if QT_CONFIG(process)
     // remove whitespaces from the start and the end
     program = program.trimmed();
     // replace medm with ADLViewer
@@ -220,6 +221,9 @@ bool QCSUtils::execute(QString program)
         return QProcess::startDetached(program);
     else
         return QProcess::execute(program) == 0;
+#endif
+#else
+    return false;
 #endif
 }
 
