@@ -72,12 +72,8 @@ Q_IMPORT_PLUGIN($<JOIN:${class_names_regular},)\nQ_IMPORT_PLUGIN(>)"
         )
 
         # Copy Qt HTML/JS launch files
-        get_target_property(_qmake_executable Qt${QT_VERSION_MAJOR}::qmake LOCATION)
-        execute_process(
-            COMMAND ${_qmake_executable} -query QT_INSTALL_PLUGINS
-            OUTPUT_VARIABLE _qt_plugins_dir
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
+        _query_qt_path(VAR INSTALL_PLUGINS OUTPUT_VARIABLE _qt_plugins_dir)
+
         set(APPNAME ${target_name}) # Substitutes in wasm_shell.html
         configure_file("${_qt_plugins_dir}/platforms/wasm_shell.html" ${CMAKE_BINARY_DIR}/bin/${target_name}.html)
         configure_file("${_qt_plugins_dir}/platforms/qtloader.js" ${CMAKE_BINARY_DIR}/bin/qtloader.js COPYONLY)
@@ -330,22 +326,24 @@ endfunction()
 # Function for target to search and link depending qml plugins.
 function(csdq_import_qml_plugins target)
     # Find location of qmlimportscanner.
-    get_target_property(_qmake_executable Qt${QT_VERSION_MAJOR}::qmake LOCATION)
-    execute_process(
-        COMMAND ${_qmake_executable} -query QT_INSTALL_BINS
-        OUTPUT_VARIABLE _qt_bin_dir
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-    execute_process(
-        COMMAND ${_qmake_executable} -query QT_INSTALL_QML
-        OUTPUT_VARIABLE _qt_qml_dir
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    find_program(tool_path qmlimportscanner HINTS ${_qt_bin_dir})
+    if (TARGET Qt${QT_VERSION_MAJOR}::qmlimportscanner) # Qt6
+        get_target_property(tool_path Qt${QT_VERSION_MAJOR}::qmlimportscanner LOCATION)
+    else () # Qt5
+        get_target_property(_qmake_executable Qt${QT_VERSION_MAJOR}::qmake LOCATION)
+        execute_process(
+            COMMAND ${_qmake_executable} -query QT_INSTALL_BINS
+            OUTPUT_VARIABLE _qt_bin_dir
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+        find_program(tool_path qmlimportscanner HINTS ${_qt_bin_dir})
+    endif ()
 
     if(NOT tool_path)
         message(WARNING "qmlimportscanner not found, not able to link qml plugins")
         return()
     endif()
+
+    # Qt system qml path
+    _query_qt_path(VAR INSTALL_QML OUTPUT_VARIABLE _qt_qml_dir)
 
     # Dump qml imports to variable
     execute_process(
@@ -353,6 +351,9 @@ function(csdq_import_qml_plugins target)
             -rootPath ${CMAKE_CURRENT_SOURCE_DIR}
             -importPath ${_qt_qml_dir}
             -importPath ${CMAKE_BINARY_DIR}/qml
+            # qmlimportscanner does not use qml file selector.
+            # DataTable.qml imports Qt.labs.qmlmodels and has to be explicitly scanned.
+            -qmlFiles ${CMAKE_BINARY_DIR}/qml/CSDataQuick/Components/Compat/+controls2/DataTable.qml
         WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
         OUTPUT_VARIABLE qml_dependencies_json
         OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -382,6 +383,9 @@ function(csdq_import_qml_plugins target)
         string(REGEX MATCH "\"plugin\"\\: \"([a-zA-Z0-9_]*)\"" temp ${json_object})
         set(${class_name}_plugin ${CMAKE_MATCH_1})
 
+        string(REGEX MATCH "\"linkTarget\"\\: \"([^\"]*)\"" temp ${json_object})
+        set(${class_name}_target ${CMAKE_MATCH_1})
+
         string(REGEX MATCH "\"path\"\\: \"([^\"]*)\"" temp ${json_object})
         set(${class_name}_path ${CMAKE_MATCH_1})
     endforeach()
@@ -408,7 +412,9 @@ Q_IMPORT_PLUGIN($<JOIN:${qml_dependencies_plugins},)\nQ_IMPORT_PLUGIN(>)"
         find_library(lib_${plugin}_plugin
             NAMES ${${plugin}_plugin} lib${${plugin}_plugin}
             PATHS ${${plugin}_path})
-        if (lib_${plugin}_plugin)
+        if (TARGET ${${plugin}_target})
+            target_link_libraries(${target} PRIVATE ${${plugin}_target})
+        elseif (lib_${plugin}_plugin)
             target_link_libraries(${target} PRIVATE ${lib_${plugin}_plugin})
         elseif(TARGET ${${plugin}_plugin})
             target_sources(${target} PRIVATE $<TARGET_PROPERTY:${${plugin}_plugin},RESOURCES>)
@@ -421,4 +427,23 @@ Q_IMPORT_PLUGIN($<JOIN:${qml_dependencies_plugins},)\nQ_IMPORT_PLUGIN(>)"
         target_link_libraries(${target} PRIVATE Qt${QT_VERSION_MAJOR}::QmlWorkerScript)
     endif()
 
+endfunction()
+
+function (_query_qt_path)
+    cmake_parse_arguments(_arg
+    ""
+    "VAR;OUTPUT_VARIABLE"
+    ""
+    ${ARGN}
+    )
+    if (QT${QT_VERSION_MAJOR}_${_arg_VAR})
+        set(${_arg_OUTPUT_VARIABLE} ${QT${QT_VERSION_MAJOR}_INSTALL_PREFIX}/${QT${QT_VERSION_MAJOR}_${_arg_VAR}} PARENT_SCOPE)
+    else ()
+        get_target_property(_qmake_executable Qt${QT_VERSION_MAJOR}::qmake LOCATION)
+        execute_process(
+            COMMAND ${_qmake_executable} -query QT_${_arg_VAR}
+            OUTPUT_VARIABLE _output
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+        set(${_arg_OUTPUT_VARIABLE} ${_output} PARENT_SCOPE)
+    endif()
 endfunction()
