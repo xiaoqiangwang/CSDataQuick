@@ -121,7 +121,7 @@ void monitorCallbackC(struct event_handler_args args)
     qulonglong count  = args.count;
     qulonglong element_count  = ca_element_count(args.chid);
 
-    int status, severity;
+    int status = 0, severity = 0;
     QDateTime timeStamp;
     QVariant value;
     QStringList strList;
@@ -258,8 +258,8 @@ void propertyCallbackC(struct event_handler_args args)
             qCritical() << "ca_create_subscription:" << ca_name(args.chid) << ca_message(status);
         else {
             QMetaObject::invokeMethod(data, "setExtraProperty",
-                                      Q_ARG(const QString, "evidMonitor"),
-                                      Q_ARG(const QVariant, QVariant::fromValue((void*)evidMonitor)));
+                                      Q_ARG(QString, "evidMonitor"),
+                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidMonitor)));
         }
     }
 }
@@ -308,8 +308,8 @@ void connectCallbackC(struct connection_handler_args args)
                 return;
             }
             QMetaObject::invokeMethod(data, "setExtraProperty",
-                                      Q_ARG(const QString, "evidProperty"),
-                                      Q_ARG(const QVariant, QVariant::fromValue((void*)evidProperty)));
+                                      Q_ARG(QString, "evidProperty"),
+                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidProperty)));
         }
         // Replace access right handler
         status = ca_replace_access_rights_event(args.chid, accessCallbackC);
@@ -518,6 +518,7 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
             strncpy(pbuf[i], ba.constData(), ba.size());
         }
         status = ca_array_put(DBR_STRING, qMin((qulonglong)strs.size(), element_count), _chid, pbuf);
+        free(pbuf);
     }
     break;
     default:
