@@ -488,6 +488,7 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
 #else
     if (newValue.type() == QVariant::String || newValue.type() == QVariant::ByteArray) {
 #endif
+
         if (reqtype == DBR_ENUM || reqtype == DBR_STRING) {
             reqtype = DBR_STRING;
         } else if (element_count == 1) {
@@ -502,18 +503,13 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
             newValue.setValue(QVariant::fromValue(v));
         }
     }
-    if (newValue.canConvert<QVariantList>()) {
-        qulonglong value_count = newValue.value<QVariantList>().count();
-        if (qMin(value_count, element_count) == 1)
-            newValue.setValue(newValue.value<QVariantList>().at(0));
-    }
 
     switch (reqtype) {
     case DBR_STRING:
     {
         QStringList strs = newValue.toStringList();
         dbr_string_t *pbuf = (dbr_string_t *)calloc(strs.count(), sizeof(dbr_string_t));
-        for (int i=0; i<strs.count(); i++) {
+        for (int i=0; i<strs.count()&&i<element_count; i++) {
             QByteArray ba = strs.at(i).toLocal8Bit();
             strncpy(pbuf[i], ba.constData(), ba.size());
         }
