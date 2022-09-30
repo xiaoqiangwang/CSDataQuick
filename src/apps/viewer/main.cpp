@@ -78,7 +78,11 @@ int main(int argc, char **argv)
     //this must be called before the QApplication constructor
     for(int i=0; i<argc; i++) {
         if (QByteArray(argv[i]).startsWith("-qmljsdebugger"))
+            #if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+            QQmlDebuggingEnabler::enableDebugging(true);
+            #else
             QQmlDebuggingEnabler enabler;
+            #endif
     }
 
     // It is enough to use QGuiApplication mostly.
