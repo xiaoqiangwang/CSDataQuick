@@ -177,7 +177,7 @@ void DynamicAttribute::parse(std::istream &fstream)
             char chanName[6];
             for(int i=0; i < MAX_CALC_RECORDS; i++) {
                 /* Names are chan, chanB, chanC, etc. */
-                sprintf(chanName,"chan%c",i?'A'+i:'\0');
+                snprintf(chanName, sizeof(chanName), "chan%c",i?'A'+i:'\0');
                 if(!strcmp(token,chanName)) {
                     getToken(fstream,token);
                     getToken(fstream,token);
@@ -217,7 +217,7 @@ void DynamicAttribute::toQML(std::ostream &ostream)
     for (int i=0; i < MAX_CALC_RECORDS; i++) {
         char chanName[9];
         if (!this->chan[i].empty()) {
-            sprintf(chanName,"channel%c",i?'A'+i:'\0');
+            snprintf(chanName, sizeof(chanName), "channel%c",i?'A'+i:'\0');
             ostream << indent << "dynamicAttribute." << chanName << ": \"" << this->chan[i] << '"' << std::endl;
         }
     }
