@@ -19,6 +19,7 @@
 #include "parsermanager.h"
 #include "imageprovider.h"
 
+#include <QQmlFileSelector>
 #include <QLoggingCategory>
 #include <qqml.h>
 
@@ -75,6 +76,7 @@ void CSDataComponentsPlugin::registerTypes(const char *uri)
     qmlRegisterUncreatableType<FrameShadow>(uri, 1, 0, "FrameShadow", "FrameShadow Enum");
     qmlRegisterUncreatableType<TextFormat>(uri, 1, 0, "TextFormat", "TextFomat Enum");
     qmlRegisterUncreatableType<ColorMode>(uri, 1, 0, "ColorMode", "ColorMode Enum");
+    qmlRegisterUncreatableType<AlarmMode>(uri, 1, 0, "AlarmMode", "AlarmMode Enum");
     qmlRegisterUncreatableType<Direction>(uri, 1, 0, "Direction", "Direction Enum");
     qmlRegisterUncreatableType<EdgeStyle>(uri, 1, 0, "EdgeStyle", "EdgeStyle Enum");
     qmlRegisterUncreatableType<FillStyle>(uri, 1, 0, "FillStyle", "FillStyle Enum");
@@ -99,7 +101,12 @@ void CSDataComponentsPlugin::initializeEngine(QQmlEngine *engine, const char *ur
 {
     Q_UNUSED(uri);
     engine->addImageProvider("doublerect", new DoubleRectProvider());
-    // disable this deprecation warning until Qt 5.15 is required
-    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false");
+#if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
+    QQmlFileSelector* selector = new QQmlFileSelector(engine, engine);
+    QStringList customSelectors("controls2");
+    selector->setExtraSelectors(customSelectors);
+#endif
+    // TODO: disable these deprecation warnings until Qt 5.15 is required
+    QLoggingCategory::setFilterRules("qt.qml.connections.warning=false\nqt.qml.context.warning=false");
 }
 

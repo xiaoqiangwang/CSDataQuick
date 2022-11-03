@@ -1,10 +1,9 @@
 import QtQuick 2.1
-import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "utils.js" as UtilsJS
 
 
@@ -63,7 +62,7 @@ CSControl {
         onValueChanged: loader.item.children[+csdata.value].checked = true
     }
 
-    ExclusiveGroup { id: radioInputGroup }
+    Compat.ExclusiveButtonGroup { id: radioInputGroup }
 
     Loader {
         id: loader
@@ -78,7 +77,7 @@ CSControl {
 
     Component {
         id: button
-        StyledButton {
+        Compat.StyledButton {
             text: csdata.stateStrings[index]
             foregroundColor: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             backgroundColor: root.background

@@ -121,7 +121,7 @@ void monitorCallbackC(struct event_handler_args args)
     qulonglong count  = args.count;
     qulonglong element_count  = ca_element_count(args.chid);
 
-    int status, severity;
+    int status = 0, severity = 0;
     QDateTime timeStamp;
     QVariant value;
     QStringList strList;
@@ -258,8 +258,8 @@ void propertyCallbackC(struct event_handler_args args)
             qCritical() << "ca_create_subscription:" << ca_name(args.chid) << ca_message(status);
         else {
             QMetaObject::invokeMethod(data, "setExtraProperty",
-                                      Q_ARG(const QString, "evidMonitor"),
-                                      Q_ARG(const QVariant, QVariant::fromValue((void*)evidMonitor)));
+                                      Q_ARG(QString, "evidMonitor"),
+                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidMonitor)));
         }
     }
 }
@@ -308,8 +308,8 @@ void connectCallbackC(struct connection_handler_args args)
                 return;
             }
             QMetaObject::invokeMethod(data, "setExtraProperty",
-                                      Q_ARG(const QString, "evidProperty"),
-                                      Q_ARG(const QVariant, QVariant::fromValue((void*)evidProperty)));
+                                      Q_ARG(QString, "evidProperty"),
+                                      Q_ARG(QVariant, QVariant::fromValue((void*)evidProperty)));
         }
         // Replace access right handler
         status = ca_replace_access_rights_event(args.chid, accessCallbackC);
@@ -488,6 +488,7 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
 #else
     if (newValue.type() == QVariant::String || newValue.type() == QVariant::ByteArray) {
 #endif
+
         if (reqtype == DBR_ENUM || reqtype == DBR_STRING) {
             reqtype = DBR_STRING;
         } else if (element_count == 1) {
@@ -502,22 +503,18 @@ void QCSDataEngineCA::setValue(QCSData *data, const QVariant value)
             newValue.setValue(QVariant::fromValue(v));
         }
     }
-    if (newValue.canConvert<QVariantList>()) {
-        qulonglong value_count = newValue.value<QVariantList>().count();
-        if (qMin(value_count, element_count) == 1)
-            newValue.setValue(newValue.value<QVariantList>().at(0));
-    }
 
     switch (reqtype) {
     case DBR_STRING:
     {
         QStringList strs = newValue.toStringList();
         dbr_string_t *pbuf = (dbr_string_t *)calloc(strs.count(), sizeof(dbr_string_t));
-        for (int i=0; i<strs.count(); i++) {
+        for (int i=0; i<strs.count()&&i<element_count; i++) {
             QByteArray ba = strs.at(i).toLocal8Bit();
             strncpy(pbuf[i], ba.constData(), ba.size());
         }
         status = ca_array_put(DBR_STRING, qMin((qulonglong)strs.size(), element_count), _chid, pbuf);
+        free(pbuf);
     }
     break;
     default:

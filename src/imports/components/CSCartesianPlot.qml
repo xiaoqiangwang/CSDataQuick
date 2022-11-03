@@ -1,10 +1,9 @@
 import QtQml 2.0
 import QtQuick 2.0
-import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
-import QtQuick.Dialogs 1.2
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
 /*!
     \qmltype CSCartesianPlot
@@ -281,13 +280,13 @@ BaseItem {
         onContextMenuRequested: contextMenu.popup()
     }
 
-    Menu {
+    Compat.Menu {
         id: contextMenu
-        MenuItem {
+        Compat.MenuItem {
             text: 'Axes Range'
             onTriggered: dialog.open()
         }
-        MenuItem {
+        Compat.MenuItem {
             text: 'Legend'
             checkable: true
             checked: plot.legendVisible
@@ -311,21 +310,21 @@ BaseItem {
         }
     }
 
-    Dialog {
+    Compat.Dialog {
         id: dialog
         title: 'Define Axis Range'
 
-        contentItem: GridLayout {
+        GridLayout {
             anchors.fill: parent
             columns: 4
             rowSpacing: 2
             anchors.margins: 5
 
-            Text {
+            Compat.Label {
                 text: 'X'
                 horizontalAlignment: Text.AlignRight
             }
-            ComboBox {
+            Compat.ComboBox {
                 model: sourceModel
                 textRole: "text"
                 currentIndex: root.xRangeStyle
@@ -333,14 +332,14 @@ BaseItem {
                     root.xRangeStyle = sourceModel.get(currentIndex).value
                 }
             }
-            TextField {
+            Compat.TextField {
                 implicitWidth: 80
                 text: root.xRangeLower
                 validator: DoubleValidator {}
                 enabled: root.xRangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: root.xRangeLower = parseFloat(text)
             }
-            TextField {
+            Compat.TextField {
                 implicitWidth: 80
                 text: root.xRangeUpper
                 validator: DoubleValidator {}
@@ -348,11 +347,11 @@ BaseItem {
                 onAccepted: root.xRangeUpper = parseFloat(text)
             }
 
-            Text {
+            Compat.Label {
                 text: 'Y'
                 horizontalAlignment: Text.AlignRight
             }
-            ComboBox {
+            Compat.ComboBox {
                 model: sourceModel
                 textRole: "text"
                 currentIndex: root.yRangeStyle
@@ -360,25 +359,25 @@ BaseItem {
                     root.yRangeStyle = sourceModel.get(currentIndex).value
                 }
             }
-            TextField {
+            Compat.TextField {
                 implicitWidth: 80
                 text: root.yRangeLower
                 validator: DoubleValidator {}
                 enabled: root.yRangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: root.yRangeLower = parseFloat(text)
             }
-            TextField {
+            Compat.TextField {
                 implicitWidth: 80
                 text: root.yRangeUpper
                 validator: DoubleValidator {}
                 enabled: root.yRangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: root.yRangeUpper = parseFloat(text)
             }
-            Text {
+            Compat.Label {
                 text: 'Y2'
                 horizontalAlignment: Text.AlignRight
             }
-            ComboBox {
+            Compat.ComboBox {
                 model: sourceModel
                 textRole: "text"
                 currentIndex: root.y2RangeStyle
@@ -386,27 +385,19 @@ BaseItem {
                     root.y2RangeStyle = sourceModel.get(currentIndex).value
                 }
             }
-            TextField {
+            Compat.TextField {
                 implicitWidth: 80
                 text: root.y2RangeLower
                 validator: DoubleValidator {}
                 enabled: root.y2RangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: root.y2RangeLower = parseFloat(text)
             }
-            TextField {
+            Compat.TextField {
                 implicitWidth: 80
                 text: root.y2RangeUpper
                 validator: DoubleValidator {}
                 enabled: root.y2RangeStyle == CartesianPlotRangeStyle.User
                 onAccepted: root.y2RangeUpper = parseFloat(text)
-            }
-            Button {
-                id: ok
-                text: 'Done'
-                onClicked: {
-                    dialog.accepted()
-                    dialog.close()
-                }
             }
         }
     }

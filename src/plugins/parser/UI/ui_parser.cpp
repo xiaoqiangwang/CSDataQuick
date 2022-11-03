@@ -451,6 +451,7 @@ void UI::spacerToQML(QTextStream& ostream, DomSpacer *l, int level, DomLayoutIte
     layoutItemToQML(ostream, i, 0, "Expanding", "Expanding", level);
 
     QString orientation = "Qt::Horizontal";
+    bool fixed = false;
     foreach (DomProperty *v, uniqueProperties(l->elementProperty())) {
         if (v->attributeName() == "orientation") {
             orientation = v->elementEnum();
@@ -460,11 +461,17 @@ void UI::spacerToQML(QTextStream& ostream, DomSpacer *l, int level, DomLayoutIte
             ostream << indent << "    Layout.preferredWidth: " << s->elementWidth() << endl;
             ostream << indent << "    Layout.preferredHeight: " << s->elementHeight() << endl;
         }
+        else if (v->attributeName() == "sizeType") {
+            if (v->elementEnum().contains("Fixed"))
+                fixed = true;
+        }
     }
-    if (orientation == "Qt::Horizontal")
-        ostream << indent << "    Layout.fillWidth: true" << endl;
-    else
-        ostream << indent << "    Layout.fillHeight: true" << endl;
+    if (!fixed) {
+        if (orientation == "Qt::Horizontal")
+            ostream << indent << "    Layout.fillWidth: true" << endl;
+        else
+            ostream << indent << "    Layout.fillHeight: true" << endl;
+    }
 
     ostream << indent << "}" << endl;
 }
@@ -531,9 +538,8 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
 {
     QString indent(level * 4, ' ');
 
-    ostream << indent << "GroupBox {" << endl;
-    ostream << indent << "    property font font" << endl;
-    layoutItemToQML(ostream, i, w, "Preferred", "Preferred", level);
+    ostream << indent << "StyledGroupBox {" << endl;
+    layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
 
     foreach (DomProperty *v, uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
@@ -546,17 +552,12 @@ void UI::groupBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             fontToQML(ostream, v->elementFont(), level);
         }
     }
-    ostream << indent << "    style: GroupBoxStyle {textFont: control.font}" << endl;
 
     foreach (DomLayout *child, w->elementLayout())
         layoutToQML(ostream, child, level+1);
 
     foreach (DomWidget *child, orderedChildWidgets(w)) {
         widgetToQML(ostream, child, level+1);
-    }
-
-    if (w->elementWidget().size() != 0) {
-        ostream << indent << "    contentItem.anchors.topMargin: 0" << endl;
     }
 
     ostream << indent << "}" << endl;
@@ -1552,6 +1553,10 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
             if (v->elementEnum().contains("Alarm"))
                 ostream << indent << "    colorMode: ColorMode.Alarm" << endl;
         }
+        else if (v->attributeName() == "alarmHandling") {
+            if (v->elementEnum().contains("Background"))
+                ostream << indent << "    alarmMode: AlarmMode.Background" << endl;
+        }
         else if (v->attributeName() == "font") {
             fontToQML(ostream, v->elementFont(), level);
         }
@@ -1634,6 +1639,8 @@ void UI::menuToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*
     ostream << indent << "CSMenu {" << endl;
     ostream << indent << "    id: " << uncapitalize(w->attributeName()) << endl;
     layoutItemToQML(ostream, i, w, "Expanding", "Expanding", level);
+
+    ostream << indent << "    alarmMode: AlarmMode.Background" << endl;
 
     foreach (DomProperty *v , uniqueProperties(w->elementProperty())) {
         if (v->attributeName() == "geometry") {
@@ -2304,8 +2311,17 @@ void UI::widgetToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         meterToQML(ostream, w, level, i);
     else if (widgetClass == "caStripPlot")
         stripChartToQML(ostream, w, level, i);
-    else if (widgetClass == "caLineEdit" || widgetClass == "caMultiLineString")
-        textUpdateToQML(ostream, w, level, i);
+    else if (widgetClass == "caLineEdit" || widgetClass == "caMultiLineString") {
+        QString chan;
+        foreach (DomProperty *v , w->elementProperty()) {
+            if (v->attributeName() == "channel")
+                chan = v->elementString()->text();
+        }
+        if (chan.isEmpty())
+            labelToQML(ostream, w, level, i);
+        else
+            textUpdateToQML(ostream, w, level, i);
+    }
     else if (widgetClass == "caChoice")
         choiceButtonToQML(ostream, w, level, i);
     else if (widgetClass == "caMenu")

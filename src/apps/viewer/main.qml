@@ -1,14 +1,13 @@
 import QtQml 2.1
 import QtQuick 2.0
-import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.2
-import QtQuick.Window 2.0
-import QtQuick.Dialogs 1.2
 import Qt.labs.settings 1.0
+import Qt.labs.platform 1.0 as Platform
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
-ApplicationWindow
+Compat.ApplicationWindow
 {
     id: root
     property ListModel logModel: ListModel {}
@@ -19,33 +18,43 @@ ApplicationWindow
     visible: true
     color: ColorMap.color6
 
-    menuBar: MenuBar {
-        Menu {
+    menuBar: Compat.MenuBar {
+       Compat.Menu {
             title: 'File'
-            MenuItem {
+            Compat.MenuItem {
                 text: 'Open'
                 onTriggered: fileDialog.open()
             }
-            MenuItem {
+            Compat.MenuItem {
                 text: 'Quit'
                 onTriggered: close()
             }
         }
-        Menu {
+        Compat.Menu {
             title: 'View'
-            MenuItem {
+            Compat.MenuItem {
                 text: 'Display List'
-                onTriggered: DisplayListDialog.open()
+                onTriggered: {
+                    if (typeof DisplayListDialog.parent !== 'undefined') {
+                        DisplayListDialog.parent = root.contentItem
+                    }
+                    DisplayListDialog.open()
+                }
             }
-            MenuItem {
+            Compat.MenuItem {
                 text: 'Data Engine'
-                onTriggered: DataTableDialog.open()
+                onTriggered: {
+                    if (typeof DataTableDialog.parent !== 'undefined') {
+                        DataTableDialog.parent = root.contentItem
+                    }
+                    DataTableDialog.open()
+                }
             }
         }
 
-        Menu {
+        Compat.Menu {
             title: 'Help'
-            MenuItem {
+            Compat.MenuItem {
                 text: 'About'
                 onTriggered: aboutDialog.open()
             }
@@ -62,13 +71,16 @@ ApplicationWindow
         property alias lastFilePath: fileDialog.folder
     }
 
-    MessageDialog {
+    Compat.Dialog {
         id: aboutDialog
         title: "About " + app.applicationName
-        text: '<h3>%1 %2</h3>A display file viewer based on QtQuick'.arg(app.applicationName).arg(app.applicationVersion)
+        modal: true
+        Compat.Label {
+            text: '<h3>%1 %2</h3>A display file viewer based on QtQuick'.arg(app.applicationName).arg(app.applicationVersion)
+        }
     }
 
-    FileDialog {
+    Platform.FileDialog {
         id: fileDialog
         title: "Open file ..."
         //nameFilters: ["Display files (*.adl  *.edl *.ui *.qml)"]
@@ -85,30 +97,30 @@ ApplicationWindow
         }
         onAccepted: {
             var request = new XMLHttpRequest()
-            request.open('GET', fileUrl)
+            request.open('GET', file)
             request.onreadystatechange = function(event) {
                 if (request.readyState === XMLHttpRequest.DONE) {
                     var macros = unique(request.responseText.match(/\$\(.+?\)/g))
                     if (macros.length > 0) {
-                        macroDialog.fileUrl = fileUrl
+                        macroDialog.fileUrl = file
                         macroDialog.macros = macros
                         macroDialog.open()
                     }
                     else
-                        createDisplay(fileUrl, "", "")
+                        createDisplay(file, "", "")
                 }
             }
             request.send()
         }
     }
 
-    Dialog {
+    Compat.Dialog {
         id: macroDialog
         property string fileUrl
         property var macros: []
 
         title: "Specify macros"
-        standardButtons: StandardButton.Ok | StandardButton.Cancel
+        withCancel: true
 
         onAccepted: {
             var macroString = ''
@@ -127,7 +139,7 @@ ApplicationWindow
             Repeater {
                 id: macroLabels
                 model: macroDialog.macros
-                Text {
+                Compat.Label {
                     text: modelData.slice(2, -1)
                     Layout.column: 0
                     Layout.row: index
@@ -137,7 +149,7 @@ ApplicationWindow
             Repeater {
                 id: macroInputs
                 model: macroDialog.macros.length
-                TextField {
+                Compat.TextField {
                     Layout.column: 1
                     Layout.row: index
                     Layout.fillWidth: true
@@ -177,7 +189,7 @@ ApplicationWindow
         }
     }
 
-    ScrollView {
+    Compat.ScrollView {
         anchors.fill: parent
 
         ListView {

@@ -151,6 +151,7 @@ QString QCSUtils::format(QString format, double number)
 
     Evalute an \a expression based on given \a input variables.
     This calls \c postfix and \c calcPerform functions from EPICS base.
+    \note The \a expression is treated case insensitive.
 */
 double QCSUtils::calculate(QString expr, QVariantList input)
 {
@@ -163,7 +164,7 @@ double QCSUtils::calculate(QString expr, QVariantList input)
     foreach(QVariant v, input)
         d.push_back(v.toDouble());
     
-    status = postfix(expr.toLatin1().constData(), infix, &error);
+    status = postfix(expr.toLatin1().toUpper().constData(), infix, &error);
     if (status != 0)
         return qQNaN();
     
@@ -184,6 +185,7 @@ double QCSUtils::calculate(QString expr, QVariantList input)
 */
 bool QCSUtils::execute(QString program)
 {
+#if QT_CONFIG(process)
     // remove whitespaces from the start and the end
     program = program.trimmed();
     // replace medm with ADLViewer
@@ -195,13 +197,17 @@ bool QCSUtils::execute(QString program)
         program = qApp->applicationFilePath() + program.mid(6);
     }
     // only if program ends with "&", start detached
+    bool detached = false;
+    if (program.endsWith("&")) {
+        detached = true;
+        program.chop(1);
+    }
 #if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     QStringList args = QProcess::splitCommand(program);
     QProcess process;
     process.setProgram(args.takeFirst());
     process.setArguments(args);
-    if (args.last().endsWith("&")) {
-        args.last().chop(1);
+    if (detached) {
         return process.startDetached();
     }
     else {
@@ -211,12 +217,13 @@ bool QCSUtils::execute(QString program)
         return process.exitStatus() == QProcess::NormalExit;
     }
 #else
-    if (program.endsWith("&")) {
-        program.chop(1);
+    if (detached)
         return QProcess::startDetached(program);
-    }
     else
         return QProcess::execute(program) == 0;
+#endif
+#else
+    return false;
 #endif
 }
 
@@ -447,7 +454,7 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display_or_engine, QUrl 
             return Q_NULLPTR;
         }
     }
-    if (QString(topLevel->metaObject()->className()).startsWith("BaseWindow_QMLTYPE")) {
+    if (topLevel->objectName() == "BaseWindow") {
         QString title = topLevel->property("title").toString();
         if (!title.isEmpty())
             window->setTitle(title);
@@ -459,8 +466,8 @@ QWindow * QCSUtils::createDisplay(QString qml, QObject *display_or_engine, QUrl 
     } else {
         // attach context menu to the existing window
         QString temp = QString("import QtQuick 2.0\n"
-                               "import CSDataQuick.Components.Private 1.0\n"
-                               "ContextMenu {anchors.fill: parent; z:-1}\n");
+                               "import CSDataQuick.Components.Private 1.0 as Private\n"
+                               "Private.ContextMenu {anchors.fill: parent; z:-1}\n");
         QQmlComponent component(engine);
         component.setData(temp.toLocal8Bit(), QUrl());
         QQuickItem *contextMenu = qobject_cast<QQuickItem *>(component.create());

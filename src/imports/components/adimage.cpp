@@ -9,6 +9,7 @@
 #include <QtConcurrent>
 #endif
 
+#include <QSequentialIterable>
 #include <QtDebug>
 
 void imageCleanupHandler(void *data)

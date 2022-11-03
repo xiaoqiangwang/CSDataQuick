@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -118,7 +118,7 @@ CSMonitor {
         visible: root.labelStyle == LabelStyle.Channel
     }
 
-    StyledBar {
+    Private.StyledBar {
         id: bar
 
         height: root.height - (title.visible ? title.height : 0) - (value_text.visible ? value_text.height : 0)

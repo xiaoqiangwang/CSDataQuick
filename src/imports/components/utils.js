@@ -81,7 +81,13 @@ function popupDataLimitsDialog(parent) {
 
         parent.limits.precSrc  = dialog.limits.precSrc
         parent.limits.precUser = dialog.limits.precUser
+
+        dialog.destroy()
     })
+    dialog.rejected.connect(function() {
+        dialog.destroy()
+    })
+
     dialog.open()
 }
 
@@ -111,7 +117,7 @@ function dumpCSData(data) {
     text = '           Data Infomation\n\n'
     text += date + '\n\n'
     text += data.source + '\n'
-    text += '======================================\n'
+    text += '===================================\n'
     if (!data.connected) {
         text += 'diconnected'
         return text

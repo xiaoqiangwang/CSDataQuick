@@ -1,11 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Components 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 
-ApplicationWindow {
+Compat.ApplicationWindow {
     id: window
     visible: true
     width: 400
@@ -13,44 +13,45 @@ ApplicationWindow {
     title: qsTr("Builder")
     color: ColorMap.windows_background
 
-    menuBar: MenuBar {
-        Menu {
+    menuBar: Compat.MenuBar {
+        Compat.Menu {
             title: qsTr("File")
-            MenuItem {
+            Compat.MenuItem {
                 text: qsTr("&Open")
                 onTriggered: dialog.visible = true
             }
-            MenuItem {
+            Compat.MenuItem {
                 text: qsTr("&Save")
                 onTriggered: dialog.visible = true
             }
-            MenuItem {
+            Compat.MenuItem {
                 text: qsTr("&Save As ...")
                 onTriggered: dialog.visible = true
             }
-            MenuItem {
+            Compat.MenuItem {
                 text: qsTr("Exit")
                 onTriggered: Qt.quit();
             }
         }
-        Menu {
+        Compat.Menu {
             title: qsTr("Channel")
-            MenuItem {
+            Compat.MenuItem {
                 text: qsTr("Add...")
                 onTriggered: tableVisible = true
             }
-            MenuItem {
+            Compat.MenuItem {
                 text: qsTr("Remove...")
                 onTriggered: tableVisible = true
             }
         }
     }
 
-    MessageDialog {
+    Compat.Dialog {
         id: dialog
         title: 'CSDataQuick builder'
-        text: 'File saving/loading is not implemented yet!\nThe file format is yet to be decided.'
-        icon: StandardIcon.Information
+        Compat.Label {
+            text: 'File saving/loading is not implemented yet!\nThe file format is yet to be decided.'
+        }
     }
 
     ListModel {
@@ -68,7 +69,7 @@ ApplicationWindow {
 
         Repeater {
             model: itemModel
-            Text {
+            Compat.Label {
                 Layout.row: index
                 Layout.column: 0
                 text: model.channelName
@@ -106,22 +107,22 @@ ApplicationWindow {
                 model: itemModel
             }
             Row {
-                TextField { id: channelName }
-                ComboBox {
+                Compat.TextField { id: channelName }
+                Compat.ComboBox {
                     id: itemType
                     model: ["Byte", "Bar", "Choice Button", "Menu", "Separator", "Text Entry", "Text Update", "Wheel Switch"]
                 }
-                Button {
+                Compat.Button {
                     text: "Add"
                     onClicked: itemModel.append({'channelName':channelName.text, 'itemType':itemType.currentText})
                 }
             }
             Row {
-                Button {
+                Compat.Button {
                     text: 'Remove Selected'
                     onClicked: itemModel.remove(tableView.currentRow)
                 }
-                Button {
+                Compat.Button {
                     text: 'Done'
                     onClicked: tableVisible = false
                 }

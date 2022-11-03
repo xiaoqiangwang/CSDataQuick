@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "utils.js" as UtilsJS
 
 /*!
@@ -63,7 +63,7 @@ CSControl {
     implicitWidth: btn.implicitWidth
     implicitHeight: btn.implicitHeight
 
-    StyledButton {
+    Compat.StyledButton {
         id: btn
         anchors.fill: parent
         backgroundColor: root.background

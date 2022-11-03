@@ -1,14 +1,16 @@
 pragma Singleton
 import QtQuick 2.0
-import QtQuick.Dialogs 1.2
+import CSDataQuick.Components.Compat 1.0 as Compat
 
-Dialog {
+Compat.Dialog {
     id: root
-    title: 'Data Info'
 
     property string info
 
-    contentItem: Text {
+    title: 'Data Info'
+
+    Compat.Label {
+        anchors.fill: parent
         text: root.info
     }
 }

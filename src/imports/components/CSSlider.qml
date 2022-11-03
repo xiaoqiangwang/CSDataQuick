@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -120,7 +120,7 @@ CSControl {
         visible: labelStyle == LabelStyle.Channel
     }
 
-    SliderControl {
+    Private.SliderControl {
         id: slider
 
         x: 1

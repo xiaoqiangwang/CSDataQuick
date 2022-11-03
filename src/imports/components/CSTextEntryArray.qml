@@ -1,11 +1,10 @@
 import QtQml 2.0
 import QtQuick 2.1
-import QtQuick.Controls 1.0
 import QtQuick.Layouts 1.0
 
 import CSDataQuick.Data 1.0
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 import "utils.js" as UtilsJS
 
 /*!
@@ -84,7 +83,7 @@ CSControl {
 
     Component {
         id: textEntry
-        StyledTextEntry {
+        Private.StyledTextEntry {
             foreground: (colorMode == ColorMode.Alarm && !Utils.inPuppet) ? root.alarmColor : root.foreground
             background: root.background
             font.pixelSize: root.font.size
@@ -124,7 +123,7 @@ CSControl {
 
     Component {
         id: textLabel
-        Label {
+        Text {
             text: index < label.length ? label[index] : '#%1'.arg((index + root.index).toString())
             font.pixelSize: root.font.size
             font.family: root.font.family
@@ -175,7 +174,7 @@ CSControl {
            varlist = []
            Utils.vectorGet(csdata.value, varlist, index, count)
        }
-       for(var i=0; i<count; i++) {
+       for(var i=0; i<count && i<varlist.length; i++) {
            entries.itemAt(i).text = Utils.formatString(csdata, format, limits.prec, varlist[i])
        }
    }

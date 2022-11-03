@@ -1,9 +1,8 @@
 import QtQuick 2.0
 import QtQml 2.1
-import QtQuick.Controls 1.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Compat 1.0 as Compat
 import "utils.js" as UtilsJS
 
 /*!
@@ -95,6 +94,11 @@ BaseItem {
             dialog.accepted.connect(function(){
                 runCommand(dialog.input)
             })
+            if (typeof dialog.closed !== "undefined") {
+                dialog.closed.connect(function() {
+                    dialog.destroy()
+                })
+            }
         } else
             runCommand(command)
     }
@@ -108,7 +112,7 @@ BaseItem {
             console.error('Error happend when run command: `%1`'.arg(command))
     }
 
-    StyledButton {
+    Compat.StyledButton {
         id: btn
         anchors.fill: parent
         text: root.label[0] === '-' ? root.label.substring(1) : ('! ' + root.label)
@@ -116,19 +120,20 @@ BaseItem {
         backgroundColor: root.background
         fontSizeMode: Text.Fit
         font.family: UtilsJS.getBestFontSize(root.height - 4, true).family
-        menu: commandModel.count > 1 ? popupMenu : null
         onClicked: {
             if (commandModel.count == 1) {
                 parseCommand(commandModel.get(0).command)
+            } else {
+                popupMenu.popup()
             }
         }
     }
 
-    Menu {
+    Compat.Menu {
         id: popupMenu
         Instantiator {
             model: commandModel
-            delegate: MenuItem {
+            delegate: Compat.MenuItem {
                 text: model.label
                 onTriggered: parseCommand(model.command)
             }

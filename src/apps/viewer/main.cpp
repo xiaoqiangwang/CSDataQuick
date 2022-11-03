@@ -202,10 +202,12 @@ int main(int argc, char **argv)
     QQmlEngine *engine = new QQmlEngine();
     engine->rootContext()->setContextProperty("app", &app);
     engine->rootContext()->setContextProperty("serverMode", QVariant(false));
+#ifdef QT_SHARED
 #ifdef Q_OS_MAC
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../../../../qml/");
 #else
     engine->addImportPath(QGuiApplication::applicationDirPath() + "/../qml/");
+#endif
 #endif
 
     // Open display files if "-noMsg" option is passed

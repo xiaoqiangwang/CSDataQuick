@@ -65,7 +65,11 @@ public:
     void mouseDoubleClickEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
+#else
+    void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry);
+#endif
     void paint( QPainter* painter );
 
 signals:

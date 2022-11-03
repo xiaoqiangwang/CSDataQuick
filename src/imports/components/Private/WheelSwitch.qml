@@ -32,6 +32,7 @@ Item {
         property string postfix: ''
         property var step: []
         property real epsilon: Math.pow(10, -(decimal+3))
+        property int divisor: Math.pow(10, decimal)
         onNumberFormatChanged: computeFormat()
     }
 
@@ -189,10 +190,10 @@ Item {
                     minusVisible: !isNaN(digit) && (root.value - d.step[index]) >= root.lolim - d.epsilon
                     plusVisible: !isNaN(digit) && (root.value +  d.step[index]) <= root.hilim + d.epsilon
                     onMinus: {
-                        root.newValue = (root.value -  d.step[index]).toFixed(d.decimal)
+                        root.newValue = Math.round((root.value - d.step[index]) * d.divisor) / d.divisor
                     }
                     onPlus: {
-                        root.newValue = (root.value +  d.step[index]).toFixed(d.decimal)
+                        root.newValue = Math.round((root.value + d.step[index]) * d.divisor) / d.divisor
                     }
                     onActiveFocusChanged: {
                         if (activeFocus && root.activeDigit!=index)

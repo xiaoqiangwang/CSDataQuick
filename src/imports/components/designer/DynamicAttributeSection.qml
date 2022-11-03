@@ -21,6 +21,18 @@ Section {
             }
         }
         Label {
+            text: qsTr("alarm mode")
+            tooltip: qsTr("alarm mode")
+        }
+        SecondColumnLayout {
+            ComboBoxFix {
+                backendValue: backendValues.alarmMode
+                implicitWidth: 180
+                scope: "AlarmMode"
+                model: ["Foreground", "Background"]
+            }
+        }
+        Label {
             text: qsTr("Visibility")
             tooltip: qsTr("visibility mode")
         }

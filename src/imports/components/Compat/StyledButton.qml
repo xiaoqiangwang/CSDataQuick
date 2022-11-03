@@ -3,7 +3,7 @@ import QtQuick.Controls 1.0
 import QtQuick.Controls.Styles 1.0
 
 import CSDataQuick.Components 1.0
-import CSDataQuick.Components.Private 1.0
+import CSDataQuick.Components.Private 1.0 as Private
 
 Button {
     id: root
@@ -12,16 +12,16 @@ Button {
     property alias font: hiddenText.font
     property int fontSizeMode: Text.FixedSize
     property int align: Text.AlignHCenter
-    property Component icon: null
+    property Component iconItem: null
 
     Text {
         id: hiddenText
     }
 
     style: ButtonStyle {
-        background: StyledFrame {
-            implicitWidth: Math.round(TextSingleton.implicitHeight * 4.5)
-            implicitHeight: Math.max(25, Math.round(TextSingleton.implicitHeight * 1.2))
+        background: Private.StyledFrame {
+            implicitWidth: Math.round(Private.TextSingleton.implicitHeight * 4.5)
+            implicitHeight: Math.max(25, Math.round(Private.TextSingleton.implicitHeight * 1.2))
             color: control.backgroundColor
             shadow: (control.pressed || control.checked) ? FrameShadow.Sunken : FrameShadow.Raise
         }
@@ -29,7 +29,7 @@ Button {
         label: Item {
             clip: true
             implicitWidth: row.implicitWidth
-            implicitHeight: root.fontSizeMode == Text.FixedSize ? text.implicitHeight :TextSingleton.implicitHeight
+            implicitHeight: root.fontSizeMode == Text.FixedSize ? text.implicitHeight :Private.TextSingleton.implicitHeight
 
             Row {
                 id: row
@@ -40,7 +40,7 @@ Button {
                 anchors.verticalCenter: parent.verticalCenter
                 Loader {
                     id: icon
-                    sourceComponent: root.icon
+                    sourceComponent: root.iconItem
                     anchors.verticalCenter: parent.verticalCenter
                     width: sourceComponent !== null ? Math.min(control.height, control.width) - 6 : 0
                     height: width

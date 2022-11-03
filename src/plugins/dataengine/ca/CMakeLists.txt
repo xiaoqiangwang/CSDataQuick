@@ -1,4 +1,4 @@
-csdq_add_plugin(csdataengineca csdata
+csdq_add_plugin(csdataengineca
     TYPE
         csdataengine
     CLASS_NAME
