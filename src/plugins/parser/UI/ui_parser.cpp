@@ -692,8 +692,8 @@ void UI::compositeToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         else if (v->attributeName() == "maximumLines") {
             rows = v->elementNumber();
         }
-        else if (dynamicAttributeToQML(ostream, v, level))
-            ;
+        else if (dynamicAttributeToQML(ostream, v, level)) {
+        }
     }
 
     int count = qMax(items, macroList.length());
@@ -767,8 +767,8 @@ void UI::frameToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         else if (v->attributeName() == "lineWidth") {
             ostream << indent << "    lineWidth: " << v->elementNumber() << endl;
         }
-        else if (dynamicAttributeToQML(ostream, v, level))
-            ;
+        else if (dynamicAttributeToQML(ostream, v, level)) {
+        }
     }
     if (filled)
         ostream << indent << "    foreground: '" << foreground << "'" << endl;
@@ -870,8 +870,8 @@ void UI::graphicsToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
         else if (v->attributeName() == "spanAngle" && form == "caGraphics::Arc") {
             ostream << indent << "    span: " << v->elementNumber() << endl;
         }
-        else if (dynamicAttributeToQML(ostream, v, level))
-            ;
+        else if (dynamicAttributeToQML(ostream, v, level)) {
+        }
     }
     if (fill) {
         ostream << indent << "    foreground: '" <<  foreground << "'" << endl;
@@ -900,8 +900,8 @@ void UI::imageToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
         else if (v->attributeName() == "imageCalc") {
             ostream << indent << "    imageCalc: '" << v->elementString()->text() << "'" << endl;
         }
-        else if (dynamicAttributeToQML(ostream, v ,level))
-            ;
+        else if (dynamicAttributeToQML(ostream, v ,level)) {
+        }
     }
 
     ostream << indent << "}" << endl;
@@ -984,8 +984,8 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
             if (v->elementEnum() == "caLabelVertical::Up")
                 up = true;
         }
-        else if (dynamicAttributeToQML(ostream, v, level))
-            ;
+        else if (dynamicAttributeToQML(ostream, v, level)) {
+        }
     }
 
     if (alignment != "Text.AlignLeft")
@@ -1095,8 +1095,8 @@ void UI::polylineToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutI
             }
             ostream << "]" << endl;
         }
-        else if (dynamicAttributeToQML(ostream, v, level))
-            ;
+        else if (dynamicAttributeToQML(ostream, v, level)) {
+        }
     }
     if (fill) {
         ostream << indent << "    foreground: '" <<  foreground << "'" << endl;
@@ -1277,8 +1277,8 @@ void UI::barToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem*i
             if (v->elementEnum().endsWith("FromCenter"))
                 ostream << indent << "    fillMode: FillMode.FromCenter" << endl;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
     }
     if (direction == "Direction.Right" || direction == "Direction.Left")
         layoutItemToQML(ostream, i, w, "Expanding", "Fixed", level);
@@ -1322,8 +1322,8 @@ void UI::indicatorToQML(QTextStream &ostream, DomWidget*w, int level, DomLayoutI
         else if  (v->attributeName() == "look") {
             ostream << indent << "    labelStyle: " << labelStyleToQML(v->elementEnum()) << endl;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
     }
 
     if (direction == "Direction.Right" || direction == "Direction.Left")
@@ -1584,10 +1584,10 @@ void UI::textUpdateToQML(QTextStream& ostream, DomWidget *w, int level, DomLayou
         else if (v->attributeName() == "formatType") {
             ostream << indent << "    format: " << formatToQML(v->elementEnum()) << endl;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
-        else if (dynamicAttributeToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
+        else if (dynamicAttributeToQML(ostream, v, level)) {
+        }
     }
 
     ostream << indent << "}" << endl;
@@ -1964,8 +1964,8 @@ void UI::sliderToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIte
         else if  (v->attributeName() == "direction") {
             direction = directionToQML(v->elementEnum());
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
     }
 
     if (direction != "Direction.Right")
@@ -2002,8 +2002,8 @@ void UI::spinBoxToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutIt
         else if (v->attributeName() == "decimalDigits") {
             ostream << indent << "    limits.precDefault: " << v->elementNumber() << endl;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
     }
 
     ostream << indent << "}" << endl;
@@ -2046,8 +2046,8 @@ void UI::textEntryToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         else if (v->attributeName() == "formatType") {
             ostream << indent << "    format: " << formatToQML(v->elementEnum()) << endl;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
     }
 
     ostream << indent << "}" << endl;
@@ -2129,8 +2129,8 @@ void UI::waveTableToQML(QTextStream& ostream, DomWidget *w, int level, DomLayout
         else if (v->attributeName() == "numberOfRows") {
             ostream << indent << "    count: " << v->elementNumber() << endl;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
 
     }
 
@@ -2175,8 +2175,8 @@ void UI::wheelSwitchToQML(QTextStream& ostream, DomWidget *w, int level, DomLayo
             if (v->elementBool() == "true")
                 fixedFormat = true;
         }
-        else if (limitsToQML(ostream, v, level))
-            ;
+        else if (limitsToQML(ostream, v, level)) {
+        }
 
     }
     if (fixedFormat) {
