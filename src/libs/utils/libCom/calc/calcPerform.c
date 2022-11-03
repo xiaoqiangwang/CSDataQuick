@@ -296,22 +296,22 @@ long
          */
 
 	case BIT_OR:
-	    utop = *ptop--;
+	    utop = (epicsUInt32) *ptop--;
 	    *ptop = (epicsInt32) ((epicsUInt32) *ptop | utop);
 	    break;
 
 	case BIT_AND:
-	    utop = *ptop--;
+	    utop = (epicsUInt32) *ptop--;
 	    *ptop = (epicsInt32) ((epicsUInt32) *ptop & utop);
 	    break;
 
 	case BIT_EXCL_OR:
-	    utop = *ptop--;
+	    utop = (epicsUInt32) *ptop--;
 	    *ptop = (epicsInt32) ((epicsUInt32) *ptop ^ utop);
 	    break;
 
 	case BIT_NOT:
-	    utop = *ptop;
+	    utop = (epicsUInt32) *ptop;
 	    *ptop = (epicsInt32) ~utop;
 	    break;
 
@@ -321,12 +321,12 @@ long
          */
 
 	case RIGHT_SHIFT:
-	    utop = *ptop--;
+	    utop = (epicsUInt32) *ptop--;
 	    *ptop = ((epicsInt32) (epicsUInt32) *ptop) >> (utop & 31);
 	    break;
 
 	case LEFT_SHIFT:
-	    utop = *ptop--;
+	    utop = (epicsUInt32) *ptop--;
 	    *ptop = ((epicsInt32) (epicsUInt32) *ptop) << (utop & 31);
 	    break;
 
