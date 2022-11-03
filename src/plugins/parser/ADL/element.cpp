@@ -972,11 +972,11 @@ void Display::parseDisplay(std::istream &fstream)
         } else if(!strcmp(token,"gridOn")) {
         getToken(fstream,token);
         getToken(fstream,token);
-        this->gridOn = atoi(token);
+        this->gridOn = (atoi(token) == 1);
         } else if(!strcmp(token,"snapToGrid")) {
         getToken(fstream,token);
         getToken(fstream,token);
-        this->snapToGrid = atoi(token);
+        this->snapToGrid = (atoi(token) == 1);
         }
         break;
     case T_LEFT_BRACE:
