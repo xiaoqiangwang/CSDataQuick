@@ -246,12 +246,12 @@ void CustomPlotItem::geometryChange(const QRectF &newGeometry, const QRectF &old
     if (mPlot == Q_NULLPTR)
         return;
     int titleFont = calcTitleFontSize(newGeometry.toRect());
-    mTitle->setFont(QFont("Courier", titleFont));
+    mTitle->setFont(QFont("Courier New", titleFont));
 
     int labelFont = calcLabelFontSize(newGeometry.toRect());
     foreach (QCPAxis *axis, mPlot->axisRect()->axes()) {
-        axis->setLabelFont(QFont("Courier", labelFont));
-        axis->setTickLabelFont(QFont("Courier", labelFont));
+        axis->setLabelFont(QFont("Courier New", labelFont));
+        axis->setTickLabelFont(QFont("Courier New", labelFont));
     }
     QResizeEvent re(newGeometry.size().toSize(), oldGeometry.size().toSize());
     mPlot->setRect(QRect(0, 0, newGeometry.width(), newGeometry.height()));
@@ -614,8 +614,8 @@ void AxisItem::componentComplete()
     mAxis = plot->plot()->axisRect()->addAxis(QCPAxis::AxisType(_type));
 
     int labelFont = calcLabelFontSize(mAxis->axisRect()->toRect());
-    mAxis->setLabelFont(QFont("Courier", labelFont));
-    mAxis->setTickLabelFont(QFont("Courier", labelFont));
+    mAxis->setLabelFont(QFont("Courier New", labelFont));
+    mAxis->setTickLabelFont(QFont("Courier New", labelFont));
     mAxis->setBasePen(plot->foreground());
     mAxis->setTickPen(plot->foreground());
     mAxis->setTickLabelColor(plot->foreground());
