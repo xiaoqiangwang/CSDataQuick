@@ -2,6 +2,7 @@
 #define CSDATAENGINEMANAGER
 
 #include <QObject>
+#include <QMap>
 #include "csdata_global.h"
 
 #define engineManager QCSDataEngineManager::instance()
@@ -25,7 +26,9 @@ private:
 
     static QCSDataEngineManager *_manager;
 
-    QList<QCSDataEngine*> _engines;
+    QMap<QString, QCSDataEngine*> _engines;
+
+    QCSDataEngine *_defaultEngine;
 };
 
 #endif // CSDATAENGINEMANAGER

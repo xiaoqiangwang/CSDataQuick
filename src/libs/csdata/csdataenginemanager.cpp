@@ -66,7 +66,8 @@ QCSDataEngineManager *QCSDataEngineManager::_manager = Q_NULLPTR;
 */
 
 QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      _defaultEngine(Q_NULLPTR)
 {
     QStringList paths;
     /* relative plugin path ../plugins */
@@ -82,7 +83,7 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
                 QPluginLoader loader(fileInfo.absoluteFilePath());
                 QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(loader.instance());
                 if (engine) {
-                    _engines.append(engine);
+                    _engines[engine->name()] = engine;
                     qDebug() << "Loaded " << engine->description();
                 }
             }
@@ -93,15 +94,34 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     foreach(QStaticPlugin plugin, QPluginLoader::staticPlugins()) {
         QCSDataEngine *engine = qobject_cast<QCSDataEngine*>(plugin.instance());
         if (engine) {
-            _engines.append(engine);
+            _engines[engine->name()] = engine;
             qDebug() << "Added " << engine->description();
         }
+    }
+
+    /* default engine */
+    _defaultEngine = _engines.value(qgetenv("CSDQ_DEFAULT_DATAENGINE"), Q_NULLPTR);
+    if (!_defaultEngine) {
+        qWarning() << "Data engine '" << qgetenv("CSDQ_DEFAULT_DATAENGINE") << "'(as specified by CSDQ_DEFAULT_DATAENGINE) is not available.";
+        /* search a list of known engines */
+        foreach (QString name, QStringList({"ca", "ws", "loc", "sim"})) {
+            _defaultEngine = _engines.value(name, Q_NULLPTR);
+            if (_defaultEngine) {
+                qWarning() << "Fallback to data engine '"<< _defaultEngine->name() << "'";
+                break;
+            }
+        }
+    }
+
+    if (!_defaultEngine) {
+        qWarning() << "No default data engine found.";
     }
 }
 
 QCSDataEngineManager::~QCSDataEngineManager()
 {
     qDeleteAll(_engines);
+    _engines.clear();
 }
 
 /*!
@@ -117,11 +137,7 @@ QCSDataEngineManager *QCSDataEngineManager::instance()
 /*! \internal */
 QCSDataEngine *QCSDataEngineManager::defaultEngine() const
 {
-    foreach (QCSDataEngine *engine, _engines) {
-        if (engine->name() == "ca")
-            return engine;
-    }
-    return Q_NULLPTR;
+    return _defaultEngine;
 }
 
 /*!
@@ -132,13 +148,9 @@ QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
 {
     QCSDataSourceName dataSourceName(source);
     if (dataSourceName.scheme().isEmpty())
-        return defaultEngine();
+        return _defaultEngine;
 
-    foreach (QCSDataEngine *engine, _engines) {
-        if (engine->name() == dataSourceName.scheme())
-            return engine;
-    }
-    return Q_NULLPTR;
+    return _engines.value(dataSourceName.scheme(), _defaultEngine);
 }
 
 /*!
@@ -148,7 +160,7 @@ QCSDataEngine *QCSDataEngineManager::engineForName(QString source) const
 QList<QObject*> QCSDataEngineManager::engines() const
 {
     QList<QObject *> objects;
-    foreach (QCSDataEngine *engine, _engines) {
+    foreach (QCSDataEngine *engine, _engines.values()) {
         objects.append(qobject_cast<QObject*>(engine));
     }
     return objects;
