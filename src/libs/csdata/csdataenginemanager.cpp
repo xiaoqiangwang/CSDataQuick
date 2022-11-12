@@ -102,12 +102,12 @@ QCSDataEngineManager::QCSDataEngineManager(QObject *parent)
     /* default engine */
     _defaultEngine = _engines.value(qgetenv("CSDQ_DEFAULT_DATAENGINE"), Q_NULLPTR);
     if (!_defaultEngine) {
-        qWarning() << "Data engine '" << qgetenv("CSDQ_DEFAULT_DATAENGINE") << "'(as specified by CSDQ_DEFAULT_DATAENGINE) is not available.";
+        qWarning() << "Data engine " << qgetenv("CSDQ_DEFAULT_DATAENGINE") << "(as specified by CSDQ_DEFAULT_DATAENGINE) is not available.";
         /* search a list of known engines */
         foreach (QString name, QStringList({"ca", "ws", "loc", "sim"})) {
             _defaultEngine = _engines.value(name, Q_NULLPTR);
             if (_defaultEngine) {
-                qWarning() << "Fallback to data engine '"<< _defaultEngine->name() << "'";
+                qWarning() << "Fallback to data engine "<< _defaultEngine->name();
                 break;
             }
         }
