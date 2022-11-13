@@ -57,11 +57,6 @@ CSControl {
     implicitWidth: loader.implicitWidth 
     implicitHeight: loader.implicitHeight
 
-    Connections {
-        target: csdata
-        onValueChanged: loader.item.children[+csdata.value].checked = true
-    }
-
     Compat.ExclusiveButtonGroup { id: radioInputGroup }
 
     Loader {
@@ -99,6 +94,7 @@ CSControl {
             exclusiveGroup: radioInputGroup
             Layout.fillWidth: true
             Layout.fillHeight: true
+            checked: index === csdata.value
             onClicked: csdata.setValue(index)
         }
     }
