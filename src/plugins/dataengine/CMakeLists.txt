@@ -1,5 +1,9 @@
 add_subdirectory(local)
 add_subdirectory(sim)
+# WebSocket dataengine requires CBOR support
+if(Qt${QT_VERSION_MAJOR}_VERSION VERSION_GREATER "5.14")
+    add_subdirectory(ws)
+endif()
 if(TARGET EPICS::ca)
     add_subdirectory(ca)
 else()

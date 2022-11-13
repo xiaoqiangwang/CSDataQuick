@@ -30,7 +30,7 @@ endif()
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR}
     COMPONENTS Gui Widgets Qml Quick QuickControls2 Network PrintSupport Test
-    OPTIONAL_COMPONENTS Concurrent QmlWorkerScript
+    OPTIONAL_COMPONENTS Concurrent QmlWorkerScript WebSockets
     QUIET)
 
 # Use c++11 or c++0x
