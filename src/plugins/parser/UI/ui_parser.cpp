@@ -1761,11 +1761,13 @@ void UI::relatedDisplayToQML(QTextStream& ostream, DomWidget *w, int level, DomL
             for (int i=0; i<files.size(); i++) {
                 if (i >= entries.size())
                     entries.append(DisplayEntry());
+                // it can have trailing whitespaces
+                QString file = files[i].trimmed();
                 // replace .adl suffix with .ui
-                if (files[i].endsWith(".adl")) {
-                    files[i].replace(files[i].size() - 4, 4, ".ui");
+                if (file.endsWith(".adl")) {
+                    file.replace(file.size() - 4, 4, ".ui");
                 }
-                entries[i].file = files[i];
+                entries[i].file = file;
             }
          }
         else if (v->attributeName() == "args") {
