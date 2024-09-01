@@ -72,8 +72,10 @@ MouseArea {
         Compat.MenuItem {
             text: 'Data Engines'
             onTriggered: {
+                var win = Utils.createDisplayByComponent(root, null)
+                win.show()
                 if (typeof DataTableDialog.parent !== 'undefined') {
-                    DataTableDialog.parent = root
+                    DataTableDialog.parent = win.contentItem
                 }
                 DataTableDialog.open()
             }

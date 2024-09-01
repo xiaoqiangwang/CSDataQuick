@@ -44,8 +44,10 @@ Compat.ApplicationWindow
             Compat.MenuItem {
                 text: 'Data Engine'
                 onTriggered: {
+                    var win = Utils.createDisplayByComponent(root, null)
+                    win.show()
                     if (typeof DataTableDialog.parent !== 'undefined') {
-                        DataTableDialog.parent = root.contentItem
+                        DataTableDialog.parent = win.contentItem
                     }
                     DataTableDialog.open()
                 }
