@@ -522,6 +522,30 @@ QWindow * QCSUtils::createDisplayByFile(QObject *display_or_engine, QUrl filePat
 
     return createDisplay(qml, display_or_engine, filePath, macro);
 }
+
+/*!
+    \qmlmethod Window Utils::createDisplayByComponnet(display, componnet)
+
+    Create a top level window from a visual component.
+
+    The QQmlEngine used is which \a display was created in.
+*/
+QWindow * QCSUtils::createDisplayByComponent(QObject *display_or_engine, QQuickItem *item)
+{
+    QQmlEngine *engine = qobject_cast<QQmlEngine*>(display_or_engine);
+    if (!engine) {
+        engine = qmlEngine(display_or_engine);
+    }
+    if (!engine) {
+        qCritical() << "No valid QML engine from object" << display_or_engine->objectName();
+        return Q_NULLPTR;
+    }
+
+    QQuickView* qxView = new QQuickView(engine, Q_NULLPTR);
+    qxView->setResizeMode(QQuickView::SizeRootObjectToView);
+    return qxView;
+}
+
 /*!
     \qmlmethod Window Utils::createComponentByFile(display, filePath, macro)
 

@@ -32,6 +32,7 @@ public:
 
     Q_INVOKABLE static QQuickItem* createComponentByFile(QQuickItem *display_or_engine, QUrl filePath, QString macro);
     Q_INVOKABLE static QWindow* createDisplayByFile(QObject *display_or_engine, QUrl filePath, QString macro);
+    Q_INVOKABLE static QWindow* createDisplayByComponent(QObject *display_or_engine, QQuickItem*item);
 
     Q_INVOKABLE static void resizeChildItems(QQuickItem *parent, double rw, double rh);
 
