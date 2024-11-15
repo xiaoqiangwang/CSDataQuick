@@ -189,6 +189,8 @@ private:
     std::string name;
     std::string args;
     relatedDisplayMode_t mode;
+
+    friend class RelatedDisplay;
 };
 
 class ShellCommandEntry : public Attribute
