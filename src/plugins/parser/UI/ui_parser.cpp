@@ -2416,7 +2416,7 @@ void UI::toQML(QTextStream& ostream)
         }
         else if (v->attributeName() == "styleSheet") {
             QString css = v->elementString()->text();
-            auto match = QRegularExpression("background(-color)?: rgba?\\((?<r>\\d+), (?<g>\\d+), (?<b>\\d+)(, (?<a>\\d+)\\))?").match(css);
+            auto match = QRegularExpression("QWidget#centralWidget {background(-color)?: rgba?\\((?<r>\\d+), (?<g>\\d+), (?<b>\\d+)(, (?<a>\\d+)\\))?").match(css);
             if (match.hasMatch()) {
                 background = "#";
                 if (!match.captured("a").isEmpty())
