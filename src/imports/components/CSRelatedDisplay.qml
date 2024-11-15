@@ -114,7 +114,7 @@ BaseItem {
     Loader {
         id: loader
         anchors.fill: parent
-        sourceComponent: visual == RelatedDisplayVisual.Menu || displayModel.count == 1 ? menuStyle : buttonStyle
+        sourceComponent: visual == RelatedDisplayVisual.Menu ? menuStyle : buttonStyle
     }
 
     Text {
