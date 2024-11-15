@@ -9,7 +9,9 @@ import "utils.js" as UtilsJS
     \ingroup csdataquick.components.graphics
     \brief Display a text label.
 
-    It can display both plain and rich text in HTML-style markup. 
+    It can display both plain and rich text in HTML-style markup. The text format is detected auotmatically.
+
+    The \l textFormat property can specify the text format if the autodetection does not work.
 
     The \l font property can specify the font family, pixelSize, weight, style etc. If unspecified font family is returned from
     function \l UtilsJS::getBestFontSize.
@@ -68,6 +70,14 @@ CSGraphics {
         \sa {Text::} {fontSizeMode}
     */
     property alias fontSizeMode: text_control.fontSizeMode
+
+    /*!
+        \qmlproperty enumeration textFormat
+        This property specifies how the text is displayed.
+
+        \sa {Text::} {textFormat}
+    */
+    property alias textFormat: text_control.textFormat
 
     implicitWidth: text_control.implicitWidth
     implicitHeight: fontSizeMode == Text.FixedSize ? text_control.implicitHeight : 16

@@ -984,6 +984,10 @@ void UI::labelToQML(QTextStream& ostream, DomWidget *w, int level, DomLayoutItem
             if (v->elementEnum() == "caLabelVertical::Up")
                 up = true;
         }
+        else if (v->attributeName() == "textFormat") {
+            if (v->elementEnum() == "Qt::RichText")
+                ostream << indent << "    textFormat: TextEdit.RichText" << endl;
+        }
         else if (dynamicAttributeToQML(ostream, v, level)) {
         }
     }

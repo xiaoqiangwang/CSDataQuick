@@ -24,6 +24,16 @@ Column {
                 }
             }
             Label {
+                text: qsTr("format")
+                tooltip: qsTr("text format")
+            }
+            ComboBoxFix {
+                backendValue: backendValues.textFormat
+                implicitWidth: 180
+                scope: "Text"
+                model: ["AutoText", "PlainText", "StyledText", "RichText", "MarkdownText"]
+            }
+            Label {
                 text: qsTr("alignment")
                 tooltip: qsTr("text horizontal alignment")
             }
