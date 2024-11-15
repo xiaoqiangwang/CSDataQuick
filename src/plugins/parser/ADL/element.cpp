@@ -3285,8 +3285,17 @@ void RelatedDisplay::toQML(std::ostream &ostream)
     ostream << indent << "    foreground: \"" << display()->color(this->clr) << '"' << std::endl;
     ostream << indent << "    background: \"" << display()->color(this->bclr) << '"' << std::endl;
     ostream << indent << "    label: \"" << this->label << '"' << std::endl;
-    if (this->visual != RD_MENU)
+
+    // Count number of displays with non-NULL label
+    int numDisplays = 0;
+    for (std::vector<RelatedDisplayEntry*>::iterator it=entries.begin(); it != entries.end(); ++it) {
+        if (!(*it)->label.empty())
+            numDisplays++;
+    }
+    // Button style used only if having > 1 entries with non-NULL label
+    if (this->visual != RD_MENU && numDisplays > 1)
         ostream << indent << "    visual: " << qmlValueTable[this->visual] << std::endl;
+
     if (entries.size() > 0) {
         ostream << indent << "    model: ListModel {" << std::endl;
         for (std::vector<RelatedDisplayEntry*>::iterator it=entries.begin(); it != entries.end(); ++it) {
