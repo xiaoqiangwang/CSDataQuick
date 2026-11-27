@@ -388,13 +388,13 @@ void GraphItem::setData(QVariant x, QVariant y)
     // x and y can be either scalar or vector or empty
     mX.clear(); mY.clear();
     if (x.canConvert<QVariantList>())  {
-        foreach(QVariant v, x.value<QSequentialIterable>()) {
+        for(const auto &v : x.value<QSequentialIterable>()) {
             mX.append(v.toDouble());
         }
     }
 
     if (y.canConvert<QVariantList>())  {
-        foreach(QVariant v, y.value<QSequentialIterable>()) {
+        for(const auto &v : y.value<QSequentialIterable>()) {
             mY.append(v.toDouble());
         }
     }
@@ -431,7 +431,7 @@ void GraphItem::setData(QVariantList x, QVariant y)
     }
     mY.clear();
     if (y.canConvert<QVariantList>())  {
-        foreach(QVariant v, y.value<QSequentialIterable>()) {
+        for(const auto &v: y.value<QSequentialIterable>()) {
             mY.append(v.toDouble());
         }
     }

@@ -68,7 +68,7 @@ void ADImage::updateData()
     }
 
     QVector<int> dims;
-    foreach(QVariant v, _dims.value().value<QSequentialIterable>()) {
+    for(const auto &v : _dims.value().value<QSequentialIterable>()) {
         int num = v.toInt();
         if (num == 0)
             break;

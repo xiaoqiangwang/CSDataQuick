@@ -776,7 +776,7 @@ QString QCSUtils::formatString(QCSData* data, int format, unsigned short precisi
         if (format == TextFormat::String) {
             if (value.canConvert<QVariantList>()) {
                 QString res;
-                foreach(QVariant v, value.value<QSequentialIterable>()) {
+                for(const auto &v : value.value<QSequentialIterable>()) {
                     QChar c = v.toChar();
                     if (c.isNull())
                         break;

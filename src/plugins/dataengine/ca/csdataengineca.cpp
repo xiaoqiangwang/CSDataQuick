@@ -442,7 +442,7 @@ QVector<T> setup_put(QVariant value)
 {
     QVector<T> val;
     if (value.canConvert<QVariantList>()) {
-        foreach(QVariant v, value.value<QSequentialIterable>()) {
+        for(const auto &v : value.value<QSequentialIterable>()) {
             if (v.isValid())
                 val.append(v.value<T>());
             else

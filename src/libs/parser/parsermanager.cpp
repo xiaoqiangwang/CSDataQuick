@@ -26,7 +26,7 @@
 
 static char libraryFilePath[MAX_PATH];
 
-#if defined(Q_OS_LINUX) || defined(Q_OS_OSX)
+#if defined(Q_OS_LINUX) || defined(Q_OS_MACOS)
 #include <dlfcn.h>
 __attribute__((constructor))
 static void init(void) {
