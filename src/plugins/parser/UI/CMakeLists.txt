@@ -16,5 +16,5 @@ csdq_add_plugin(UIParser
         QT_UIC # undef QDESIGNER_UILIB_EXPORT macro in ui4.h
         $<$<CXX_COMPILER_ID:MSVC>:/wd4390>
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
 )

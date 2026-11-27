@@ -17,11 +17,11 @@ csdq_add_library(csutils
         UTILS_LIBRARY
         $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
     PUBLIC_DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Qml
+        Qt6::Core
+        Qt6::Qml
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::Quick
+        Qt6::Gui
+        Qt6::Quick
         csparser
         csdata
 )

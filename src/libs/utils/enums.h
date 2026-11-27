@@ -17,17 +17,10 @@ class UTILS_EXPORT LogLevel : public QObject
 public:
     enum LogLevelEnum {
         Debug = QtDebugMsg,
-#if QT_VERSION >= QT_VERSION_CHECK(5,5,0)
         Info = QtInfoMsg,
-#else
-        Info = Debug,
-#endif
         Warning = QtWarningMsg,
         Critical = QtCriticalMsg,
         Fatal = QtFatalMsg,
-#if QT_VERSION < QT_VERSION_CHECK(6,7,0)
-        System = QtSystemMsg
-#endif
     };
     Q_ENUM(LogLevelEnum)
 

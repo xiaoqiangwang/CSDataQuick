@@ -51,7 +51,7 @@
             it can be in exponential format.
             It is what is returned by the EPICS routine cvtDoubleToString().
     \row
-        \li TextFormat.Sexagesiaml
+        \li TextFormat.Sexagesimal
         \li The text is in degrees or hours, minutes, and seconds with colons between the three fields.
             E.g. 12:45:10.2. The degrees or hours field is the integer part of the number,
             and the fractional part is expressed as an integer number of minutes and seconds plus fractions of a second.

@@ -9,5 +9,5 @@ csdq_add_plugin(csdataenginelocal
         csdataenginelocal.h
         csdataenginelocal.cpp
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
 )

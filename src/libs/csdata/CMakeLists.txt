@@ -12,5 +12,5 @@ csdq_add_library(csdata
     DEFINES
         CSDATA_LIBRARY
     PUBLIC_DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
 )

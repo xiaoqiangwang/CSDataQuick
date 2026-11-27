@@ -11,6 +11,6 @@ csdq_add_plugin(csdataengineca
     DEFINES
         $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
         EPICS::ca
 )

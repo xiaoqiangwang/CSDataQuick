@@ -6,8 +6,8 @@ csdq_add_executable(${APP}
     RESOURCES
         main.qrc
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::Qml
-        Qt${QT_VERSION_MAJOR}::QuickControls2
+        Qt6::Gui
+        Qt6::Qml
+        Qt6::QuickControls2
         csdata
 )

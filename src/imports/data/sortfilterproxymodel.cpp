@@ -153,11 +153,7 @@ bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &so
     if (_filter.isEmpty())
         return true;
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
     QRegularExpression regexp = filterRegularExpression();
-#else
-    QRegExp regexp = filterRegExp();
-#endif
     if (!regexp.isValid())
         return true;
 
@@ -170,7 +166,6 @@ bool SortFilterProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &so
 
 void SortFilterProxyModel::updateFilter()
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5,15,0))
     QString filter = _filter;
     if (_syntax == Wildcard)
         filter = QRegularExpression::wildcardToRegularExpression(_filter);
@@ -183,7 +178,4 @@ void SortFilterProxyModel::updateFilter()
 
     QRegularExpression regexp(filter, options);
     setFilterRegularExpression(regexp);
-#else
-    setFilterRegExp(QRegExp(filterString(), filterCaseSensitivity(), static_cast<QRegExp::PatternSyntax>(_syntax)));
-#endif
 }

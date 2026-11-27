@@ -9,9 +9,9 @@ csdq_add_plugin(csdataenginews
         csdataenginews.h
         csdataenginews.cpp
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
 )
 
-if (TARGET Qt${QT_VERSION_MAJOR}::WebSockets)
-    target_link_libraries(csdataenginews PRIVATE Qt${QT_VERSION_MAJOR}::WebSockets)
+if (TARGET Qt6::WebSockets)
+    target_link_libraries(csdataenginews PRIVATE Qt6::WebSockets)
 endif()

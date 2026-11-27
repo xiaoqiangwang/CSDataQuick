@@ -8,5 +8,5 @@ csdq_add_library(csparser
     DEFINES
         PARSER_LIBRARY
     PUBLIC_DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
+        Qt6::Core
 )

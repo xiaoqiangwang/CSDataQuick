@@ -5,13 +5,9 @@
 #include <QRegularExpression>
 #include <QSet>
 #include <QtDebug>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
 #define SplitFlag Qt::SkipEmptyParts
 #define endl Qt::endl
 #define hex Qt::hex
-#else
-#define SplitFlag QString::SkipEmptyParts
-#endif
 
 #include <utility>
 

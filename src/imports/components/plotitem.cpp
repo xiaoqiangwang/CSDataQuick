@@ -191,21 +191,13 @@ QQmlListProperty<GraphItem> CustomPlotItem::graphs()
                                        &CustomPlotItem::clearGraphs);
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-int CustomPlotItem::graphsCount(QQmlListProperty<GraphItem> *list)
-#else
 qsizetype CustomPlotItem::graphsCount(QQmlListProperty<GraphItem> *list)
-#endif
 {
     CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     return item->mGraphs.length();
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-GraphItem * CustomPlotItem::graph(QQmlListProperty<GraphItem> *list, int n)
-#else
 GraphItem * CustomPlotItem::graph(QQmlListProperty<GraphItem> *list, qsizetype n)
-#endif
 {
     CustomPlotItem *item = qobject_cast<CustomPlotItem*>(static_cast<QObject*>(list->data));
     return item->mGraphs.at(n);
@@ -233,15 +225,9 @@ void CustomPlotItem::paint(QPainter *painter)
     mPlot->paint(painter);
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-void CustomPlotItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
-{
-    QQuickPaintedItem::geometryChanged(newGeometry, oldGeometry);
-#else
 void CustomPlotItem::geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     QQuickPaintedItem::geometryChange(newGeometry, oldGeometry);
-#endif
 
     if (mPlot == Q_NULLPTR)
         return;

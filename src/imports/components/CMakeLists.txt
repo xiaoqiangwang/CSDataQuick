@@ -9,11 +9,11 @@ csdq_add_qml_module(
         $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
         $<$<CONFIG:Debug>:QT_QML_DEBUG>
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::PrintSupport
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Widgets
+        Qt6::Quick
+        Qt6::PrintSupport
         csparser
         csdata
         csutils
@@ -239,6 +239,6 @@ csdq_add_qml_module(
         designer/csdatacomponents.metainfo
 )
 
-if (TARGET Qt${QT_VERSION_MAJOR}::Concurrent)
-    target_link_libraries(csdatacomponentsplugin PRIVATE Qt${QT_VERSION_MAJOR}::Concurrent)
+if (TARGET Qt6::Concurrent)
+    target_link_libraries(csdatacomponentsplugin PRIVATE Qt6::Concurrent)
 endif()

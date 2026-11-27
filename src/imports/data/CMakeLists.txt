@@ -6,8 +6,8 @@ csdq_add_qml_module(
     CLASS_NAME
         CSDataPlugin
     DEPENDS
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Qml
+        Qt6::Core
+        Qt6::Qml
         csdata
     SOURCES
         sortfilterproxymodel.h

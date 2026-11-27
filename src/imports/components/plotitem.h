@@ -44,13 +44,8 @@ public:
 
     // graphs
     QQmlListProperty<GraphItem> graphs();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    static int graphsCount(QQmlListProperty<GraphItem> *list);
-    static GraphItem * graph(QQmlListProperty<GraphItem> *list, int n);
-#else
     static qsizetype graphsCount(QQmlListProperty<GraphItem> *list);
     static GraphItem * graph(QQmlListProperty<GraphItem> *list, qsizetype n);
-#endif
     static void appendGraph(QQmlListProperty<GraphItem> *list, GraphItem *item);
     static void clearGraphs(QQmlListProperty<GraphItem> *list);
 
@@ -65,11 +60,7 @@ public:
     void mouseDoubleClickEvent(QMouseEvent *event);
     void wheelEvent(QWheelEvent *event);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry);
-#else
     void geometryChange(const QRectF &newGeometry, const QRectF &oldGeometry);
-#endif
     void paint( QPainter* painter );
 
 signals:

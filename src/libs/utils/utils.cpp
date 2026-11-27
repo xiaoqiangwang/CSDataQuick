@@ -202,7 +202,6 @@ bool QCSUtils::execute(QString program)
         detached = true;
         program.chop(1);
     }
-#if QT_VERSION >= QT_VERSION_CHECK(5,15,0)
     QStringList args = QProcess::splitCommand(program);
     QProcess process;
     process.setProgram(args.takeFirst());
@@ -216,12 +215,6 @@ bool QCSUtils::execute(QString program)
             return false;
         return process.exitStatus() == QProcess::NormalExit;
     }
-#else
-    if (detached)
-        return QProcess::startDetached(program);
-    else
-        return QProcess::execute(program) == 0;
-#endif
 #else
     return false;
 #endif
